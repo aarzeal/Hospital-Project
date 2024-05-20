@@ -1,0 +1,187 @@
+openapi: 3.0.0
+info:
+  title: Hospital Group API
+  version: 1.0.0
+  description: API documentation for Hospital Group operations
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/v1/hospital/hospital-groups:
+    post:
+      summary: Create a new hospital group
+      tags:
+        - Hospital Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                HospitalGroupName:
+                  type: string
+                LicensedHospitalCount:
+                  type: integer
+                CreatedBy:
+                  type: integer
+              required:
+                - HospitalGroupName
+                - LicensedHospitalCount
+                - CreatedBy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HospitalGroup'
+    get:
+      summary: Get all hospital groups
+      tags:
+        - Hospital Groups
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HospitalGroup'
+  /api/v1/hospital/hospital-groups/{id}:
+    get:
+      summary: Get a hospital group by ID
+      tags:
+        - Hospital Groups
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the hospital group to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HospitalGroup'
+        '404':
+          description: Hospital group not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update a hospital group by ID
+      tags:
+        - Hospital Groups
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the hospital group to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HospitalGroup'
+      responses:
+        '200':
+          description: Hospital group updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  message:
+                    type: string
+        '404':
+          description: Hospital group not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete a hospital group by ID
+      tags:
+        - Hospital Groups
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the hospital group to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Hospital group deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  message:
+                    type: string
+        '404':
+          description: Hospital group not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    HospitalGroup:
+      type: object
+      properties:
+        HospitalGroupID:
+          type: integer
+        HospitalGroupName:
+          type: string
+        LicensedHospitalCount:
+          type: integer
+        CreatedDate:
+          type: string
+        CreatedBy:
+          type: integer
+    Meta:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+    Error:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        error:
+          type: object
+          properties:
+            message:
+              type: string
