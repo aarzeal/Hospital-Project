@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/connection');
-const User = require('./userModel');
+// const User = require('./userModel');
 
 const HospitalGroup = sequelize.define('tblHospitalGroup', {
   HospitalGroupID: {
@@ -21,14 +21,14 @@ const HospitalGroup = sequelize.define('tblHospitalGroup', {
     allowNull: false,
     defaultValue: DataTypes.NOW
   },
-  CreatedBy: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'User',
-      key: 'UserID'
-    }
-  }
+  // CreatedBy: {
+  //   type: DataTypes.INTEGER,
+  //   allowNull: false,
+  //   references: {
+  //     model: 'User',
+  //     key: 'UserID'
+  //   }
+  // }
 }, {
   tableName: 'tblHospitalGroup',
   timestamps: false

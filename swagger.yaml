@@ -1,8 +1,9 @@
+
 openapi: 3.0.0
 info:
-  title: Hospital Group API
+  title: Hospital and Hospital Group API
   version: 1.0.0
-  description: API documentation for Hospital Group operations
+  description: API documentation for Hospital and Hospital Group operations
 servers:
   - url: http://localhost:3000
 paths:
@@ -22,12 +23,12 @@ paths:
                   type: string
                 LicensedHospitalCount:
                   type: integer
-                CreatedBy:
-                  type: integer
+                # CreatedBy:
+                #   type: integer
               required:
                 - HospitalGroupName
                 - LicensedHospitalCount
-                - CreatedBy
+                # - CreatedBy
       responses:
         '200':
           description: OK
@@ -155,6 +156,162 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /api/v1/hospital/hospital:
+    post:
+      summary: Create a new hospital
+      tags:
+        - Hospitals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HospitalInput'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hospital'
+        '400':
+          description: Invalid data provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      summary: Get all hospitals
+      tags:
+        - Hospitals
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hospital'
+        '500':
+          description: Error retrieving hospitals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/hospital/hospital/{id}:
+    get:
+      summary: Get a hospital by ID
+      tags:
+        - Hospitals
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the hospital to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hospital'
+        '404':
+          description: Hospital not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error retrieving hospital
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update a hospital by ID
+      tags:
+        - Hospitals
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the hospital to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HospitalInput'
+      responses:
+        '200':
+          description: Hospital updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  message:
+                    type: string
+        '400':
+          description: Invalid data provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Hospital not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error updating hospital
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete a hospital by ID
+      tags:
+        - Hospitals
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the hospital to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Hospital deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  message:
+                    type: string
+        '404':
+          description: Hospital not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error deleting hospital
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     HospitalGroup:
@@ -168,7 +325,150 @@ components:
           type: integer
         CreatedDate:
           type: string
+          format: date
         CreatedBy:
+          type: integer
+    Hospital:
+      type: object
+      properties:
+        HospitalID:
+          type: integer
+        HospitalName:
+          type: string
+        HospitalCode:
+          type: string
+        ManagingCompany:
+          type: string
+        ManagingCompanyAdd1:
+          type: string
+        ManagingCompanyAdd2:
+          type: string
+        ManagingCompanyAdd3:
+          type: string
+        ManagingCompanyEmail:
+          type: string
+        ManagingCompanyWebsite:
+          type: string
+        City:
+          type: string
+        Province:
+          type: string
+        Region:
+          type: string
+        Country:
+          type: string
+        HospitalOwner:
+          type: string
+        OwnerName:
+          type: string
+        OwnerAdd1:
+          type: string
+        OwnerAdd2:
+          type: string
+        OwnerAdd3:
+          type: string
+        OwnerCity:
+          type: string
+        OwnerProvince:
+          type: string
+        OwnerRegion:
+          type: string
+        OwnerCountry:
+          type: string
+        OwnerEmail:
+          type: string
+        HospitalIDNo:
+          type: string
+        TaxNumber:
+          type: string
+        ServiceNo:
+          type: string
+        RegistrationNo:
+          type: string
+        VATNumber:
+          type: string
+        GSTNo:
+          type: string
+        TINNo:
+          type: string
+        AccBooksBeginFrom:
+          type: string
+          format: date
+        OtherRegNo:
+          type: string
+        HospitalLogo:
+          type: string
+        HospitalGroupIDR:
+          type: integer
+    HospitalInput:
+      type: object
+      properties:
+        HospitalName:
+          type: string
+        HospitalCode:
+          type: string
+        ManagingCompany:
+          type: string
+        ManagingCompanyAdd1:
+          type: string
+        ManagingCompanyAdd2:
+          type: string
+        ManagingCompanyAdd3:
+          type: string
+        ManagingCompanyEmail:
+          type: string
+        ManagingCompanyWebsite:
+          type: string
+        City:
+          type: string
+        Province:
+          type: string
+        Region:
+          type: string
+        Country:
+          type: string
+        HospitalOwner:
+          type: string
+        OwnerName:
+          type: string
+        OwnerAdd1:
+          type: string
+        OwnerAdd2:
+          type: string
+        OwnerAdd3:
+          type: string
+        OwnerCity:
+          type: string
+        OwnerProvince:
+          type: string
+        OwnerRegion:
+          type: string
+        OwnerCountry:
+          type: string
+        OwnerEmail:
+          type: string
+        HospitalIDNo:
+          type: string
+        TaxNumber:
+          type: string
+        ServiceNo:
+          type: string
+        RegistrationNo:
+          type: string
+        VATNumber:
+          type: string
+        GSTNo:
+          type: string
+        TINNo:
+          type: string
+        AccBooksBeginFrom:
+          type: string
+          format: date
+        OtherRegNo:
+          type: string
+        HospitalLogo:
+          type: string
+        HospitalGroupIDR:
           type: integer
     Meta:
       type: object

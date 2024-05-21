@@ -3,37 +3,37 @@
 const express = require('express');
 const router = express.Router();
 
-/**
- * @swagger
- * /v1/hospital/hospital-groups:
- *   post:
- *     summary: Create a new hospital group
- *     tags: [Hospital Groups]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               HospitalGroupName:
- *                 type: string
- *               LicensedHospitalCount:
- *                 type: integer
- *               CreatedBy:
- *                 type: integer
- *             required:
- *               - HospitalGroupName
- *               - LicensedHospitalCount
- *               - CreatedBy
- *     responses:
- *       '200':
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/HospitalGroup'
- */
+// /**
+//  * @swagger
+//  * /v1/hospital/hospital-groups:
+//  *   post:
+//  *     summary: Create a new hospital group
+//  *     tags: [Hospital Groups]
+//  *     requestBody:
+//  *       required: true
+//  *       content:
+//  *         application/json:
+//  *           schema:
+//  *             type: object
+//  *             properties:
+//  *               HospitalGroupName:
+//  *                 type: string
+//  *               LicensedHospitalCount:
+//  *                 type: integer
+//  *               CreatedBy:
+//  *                 type: integer
+//  *             required:
+//  *               - HospitalGroupName
+//  *               - LicensedHospitalCount
+//  *               - CreatedBy
+//  *     responses:
+//  *       '200':
+//  *         description: OK
+//  *         content:
+//  *           application/json:
+//  *             schema:
+//  *               $ref: '#/components/schemas/HospitalGroup'
+//  */
 
 const hospitalGroupController = require('../controllers/hospitalGroupController');
 
