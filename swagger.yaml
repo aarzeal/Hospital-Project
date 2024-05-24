@@ -1,3 +1,255 @@
+# openapi: 3.0.0
+# info:
+#   title: Hospital and Hospital Group API
+#   version: 1.0.0
+#   description: API documentation for Hospital and Hospital Group operations
+# servers:
+#   - url: http://localhost:3000
+
+# components:
+#   securitySchemes:
+#     BearerAuth:
+#       type: http
+#       scheme: bearer
+#       bearerFormat: JWT
+#   schemas:
+#     Error:
+#       type: object
+#       properties:
+#         message:
+#           type: string
+#     HospitalGroup:
+#       type: object
+#       properties:
+#         id:
+#           type: integer
+#         HospitalGroupName:
+#           type: string
+#         LicensedHospitalCount:
+#           type: integer
+
+# paths:
+#   /api/v1/hospital/admin/login:
+#     post:
+#       summary: Authenticate user
+#       tags:
+#         - Authentication
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               type: object
+#               properties:
+#                 SysUserName:
+#                   type: string
+#                 SysUserPwd:
+#                   type: string
+#       responses:
+#         '200':
+#           description: Successful login
+#           content:
+#             application/json:
+#               schema:
+#                 type: object
+#                 properties:
+#                   token:
+#                     type: string
+#         '400':
+#           description: Invalid username or password
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Error'
+#         '500':
+#           description: Internal Server Error
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Error'
+
+#   /api/v1/hospital/hospital-groups:
+#     post:
+#       summary: Create a new hospital group
+#       tags:
+#         - Hospital Groups
+#       security:
+#         - BearerAuth: []
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               type: object
+#               properties:
+#                 HospitalGroupName:
+#                   type: string
+#                 LicensedHospitalCount:
+#                   type: integer
+#               required:
+#                 - HospitalGroupName
+#                 - LicensedHospitalCount
+#       responses:
+#         '200':
+#           description: OK
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/HospitalGroup'
+#         '400':
+#           description: Bad Request
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Error'
+#         '500':
+#           description: Internal Server Error
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Error'
+#     get:
+#       summary: Get all hospital groups
+#       tags:
+#         - Hospital Groups
+#       responses:
+#         '200':
+#           description: OK
+#           content:
+#             application/json:
+#               schema:
+#                 type: array
+#                 items:
+#                   $ref: '#/components/schemas/HospitalGroup'
+
+
+# # components:
+# #   schemas:
+# #     Error:
+# #       type: object
+# #       properties:
+# #         message:
+# #           type: string
+# #     HospitalGroup:
+# #       type: object
+# #       properties:
+# #         id:
+# #           type: integer
+# #         HospitalGroupName:
+# #           type: string
+# #         LicensedHospitalCount:
+# #           type: integer
+        
+
+
+#   /api/v1/hospital/hospital-groups/{id}:
+#     get:
+#       summary: Get a hospital group by ID
+#       tags:
+#         - Hospital Groups
+#       parameters:
+#         - in: path
+#           name: id
+#           required: true
+#           description: ID of the hospital group to retrieve
+#           schema:
+#             type: integer
+#       responses:
+#         '200':
+#           description: OK
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/HospitalGroup'
+#         '404':
+#           description: Hospital group not found
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Error'
+#         '500':
+#           description: Internal Server Error
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Error'
+#     put:
+#       summary: Update a hospital group by ID
+#       tags:
+#         - Hospital Groups
+#       parameters:
+#         - in: path
+#           name: id
+#           required: true
+#           description: ID of the hospital group to update
+#           schema:
+#             type: integer
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/HospitalGroup'
+#       responses:
+#         '200':
+#           description: Hospital group updated successfully
+#           content:
+#             application/json:
+#               schema:
+#                 type: object
+#                 properties:
+#                   meta:
+#                     $ref: '#/components/schemas/Meta'
+#                   message:
+#                     type: string
+#         '404':
+#           description: Hospital group not found
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Error'
+#         '500':
+#           description: Internal Server Error
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Error'
+#     delete:
+#       summary: Delete a hospital group by ID
+#       tags:
+#         - Hospital Groups
+#       parameters:
+#         - in: path
+#           name: id
+#           required: true
+#           description: ID of the hospital group to delete
+#           schema:
+#             type: integer
+#       responses:
+#         '200':
+#           description: Hospital group deleted successfully
+#           content:
+#             application/json:
+#               schema:
+#                 type: object
+#                 properties:
+#                   meta:
+#                     $ref: '#/components/schemas/Meta'
+#                   message:
+#                     type: string
+#         '404':
+#           description: Hospital group not found
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Error'
+#         '500':
+#           description: Internal Server Error
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Error'
+
 
 openapi: 3.0.0
 info:
@@ -6,12 +258,236 @@ info:
   description: API documentation for Hospital and Hospital Group operations
 servers:
   - url: http://localhost:3000
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Error:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+    Meta:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        errorCode:
+          type: integer
+    HospitalGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+        HospitalGroupName:
+          type: string
+        LicensedHospitalCount:
+          type: integer
+    Hospital:
+      type: object
+      properties:
+        HospitalID:
+          type: integer
+        HospitalName:
+          type: string
+        HospitalCode:
+          type: string
+        ManagingCompany:
+          type: string
+        ManagingCompanyAdd1:
+          type: string
+        ManagingCompanyAdd2:
+          type: string
+        ManagingCompanyAdd3:
+          type: string
+        ManagingCompanyEmail:
+          type: string
+        ManagingCompanyWebsite:
+          type: string
+        City:
+          type: string
+        Province:
+          type: string
+        Region:
+          type: string
+        Country:
+          type: string
+        HospitalOwner:
+          type: string
+        OwnerName:
+          type: string
+        OwnerAdd1:
+          type: string
+        OwnerAdd2:
+          type: string
+        OwnerAdd3:
+          type: string
+        OwnerCity:
+          type: string
+        OwnerProvince:
+          type: string
+        OwnerRegion:
+          type: string
+        OwnerCountry:
+          type: string
+        OwnerEmail:
+          type: string
+        HospitalIDNo:
+          type: string
+        TaxNumber:
+          type: string
+        ServiceNo:
+          type: string
+        RegistrationNo:
+          type: string
+        VATNumber:
+          type: string
+        GSTNo:
+          type: string
+        TINNo:
+          type: string
+        AccBooksBeginFrom:
+          type: string
+          format: date
+        OtherRegNo:
+          type: string
+        HospitalLogo:
+          type: string
+        HospitalGroupIDR:
+          type: integer
+    HospitalInput:
+      type: object
+      properties:
+        HospitalName:
+          type: string
+        HospitalCode:
+          type: string
+        ManagingCompany:
+          type: string
+        ManagingCompanyAdd1:
+          type: string
+        ManagingCompanyAdd2:
+          type: string
+        ManagingCompanyAdd3:
+          type: string
+        ManagingCompanyEmail:
+          type: string
+        ManagingCompanyWebsite:
+          type: string
+        City:
+          type: string
+        Province:
+          type: string
+        Region:
+          type: string
+        Country:
+          type: string
+        HospitalOwner:
+          type: string
+        OwnerName:
+          type: string
+        OwnerAdd1:
+          type: string
+        OwnerAdd2:
+          type: string
+        OwnerAdd3:
+          type: string
+        OwnerCity:
+          type: string
+        OwnerProvince:
+          type: string
+        OwnerRegion:
+          type: string
+        OwnerCountry:
+          type: string
+        OwnerEmail:
+          type: string
+        HospitalIDNo:
+          type: string
+        TaxNumber:
+          type: string
+        ServiceNo:
+          type: string
+        RegistrationNo:
+          type: string
+        VATNumber:
+          type: string
+        GSTNo:
+          type: string
+        TINNo:
+          type: string
+        AccBooksBeginFrom:
+          type: string
+          format: date
+        OtherRegNo:
+          type: string
+        HospitalLogo:
+          type: string
+        HospitalGroupIDR:
+          type: integer
+
+        security:
+          - BearerAuth: []
+
 paths:
+  /api/v1/hospital/admin/login:
+    post:
+      summary: Authenticate user
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SysUserName:
+                  type: string
+                SysUserPwd:
+                  type: string
+              required:
+                - SysUserName
+                - SysUserPwd
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '400':
+          description: Invalid username or password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /api/v1/hospital/hospital-groups:
     post:
       summary: Create a new hospital group
       tags:
         - Hospital Groups
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
@@ -23,12 +499,9 @@ paths:
                   type: string
                 LicensedHospitalCount:
                   type: integer
-                # CreatedBy:
-                #   type: integer
               required:
                 - HospitalGroupName
                 - LicensedHospitalCount
-                # - CreatedBy
       responses:
         '200':
           description: OK
@@ -36,10 +509,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HospitalGroup'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     get:
       summary: Get all hospital groups
       tags:
         - Hospital Groups
+        
       responses:
         '200':
           description: OK
@@ -49,6 +535,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/HospitalGroup'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /api/v1/hospital/hospital-groups/{id}:
     get:
       summary: Get a hospital group by ID
@@ -156,6 +649,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
   /api/v1/hospital/hospital:
     post:
       summary: Create a new hospital
@@ -400,6 +894,8 @@ components:
           type: string
         HospitalGroupIDR:
           type: integer
+          HospitalLogo:
+          type: string
     HospitalInput:
       type: object
       properties:
@@ -470,6 +966,8 @@ components:
           type: string
         HospitalGroupIDR:
           type: integer
+          HospitalDatabase:
+          type: string
     Meta:
       type: object
       properties:
@@ -485,3 +983,13 @@ components:
           properties:
             message:
               type: string
+
+
+
+
+
+
+
+
+
+

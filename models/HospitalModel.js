@@ -185,6 +185,10 @@ const Hospital = sequelize.define('tblHospital', {
   Reserve6: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  HospitalDatabase: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 }, {
   tableName: 'tblHospital',

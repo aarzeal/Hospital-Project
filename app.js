@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const app = express();
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');

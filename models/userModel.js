@@ -1,16 +1,33 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../database/connection');
+// const { Sequelize, DataTypes } = require('sequelize');
+// const sequelize = require('../database/connection');
 
-const User = sequelize.define('User', {
-  UserID: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  // other columns can be defined here
-}, {
-  tableName: 'User',
-  timestamps: false
-});
+// const SysUser = sequelize.define('tblSysUser', {
+//   SysUserID: {
+//     type: DataTypes.INTEGER,
+//     primaryKey: true,
+//     autoIncrement: true
+//   },
+//   SysUserName: {
+//     type: DataTypes.STRING(30),
+//     allowNull: false
+//   },
+//   SysUserPwd: {
+//     type: DataTypes.STRING,
+//     allowNull: false
+//   },
+//   UserType: {
+//     type: DataTypes.STRING,
+//     allowNull: false
+//   },
+//   Active: {
+//     type: DataTypes.BOOLEAN,
+//     allowNull: false,
+//     defaultValue: true
+//   }
+// }, {
+//   tableName: 'tblSysUser',
+//   timestamps: false
+// });
 
-module.exports = User;
+// module.exports = SysUser;
+
