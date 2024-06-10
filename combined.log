@@ -1,0 +1,21 @@
+{"level":"error","message":"Error during creating  user rides:","timestamp":"2024-05-31T11:32:33.249Z"}
+{"level":"info","message":"All modules retrieved successfully","timestamp":"2024-05-31T11:38:58.087Z"}
+{"level":"info","message":"Retrieved submodule successfully","timestamp":"2024-05-31T11:42:24.989Z"}
+{"level":"info","message":"Retrieved all submodules successfully","timestamp":"2024-05-31T11:42:34.816Z"}
+{"level":"error","message":"Submodule not found","timestamp":"2024-05-31T11:42:40.366Z"}
+{"level":"error","message":"Error retrieving user rides:","timestamp":"2024-06-01T04:56:00.813Z"}
+{"level":"error","message":"Submodule not found","timestamp":"2024-06-01T04:56:51.831Z"}
+{"level":"info","message":"All user rides retrieved successfully","timestamp":"2024-06-01T05:03:11.892Z"}
+{"level":"info","message":"All user rides retrieved successfully","timestamp":"2024-06-01T05:06:01.681Z"}
+{"level":"error","message":"Error retrieving module and submodule names:","timestamp":"2024-06-01T05:13:10.685Z"}
+{"level":"error","message":"Error retrieving module and submodule names:","timestamp":"2024-06-01T05:13:44.992Z"}
+{"level":"error","message":"Error retrieving module and submodule names:","timestamp":"2024-06-01T05:14:32.938Z"}
+{"level":"error","message":"Error retrieving module and submodule names:","timestamp":"2024-06-01T05:36:52.668Z"}
+{"level":"warn","message":"Hospital with ID 50 not found","timestamp":"2024-06-08T05:24:02.855Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-06-08T10:04:51.181Z"}
+{"level":"warn","message":"Hospital with Username hospital1 not found","timestamp":"2024-06-08T10:05:01.002Z"}
+{"level":"warn","message":"Hospital with Username Hospital1 not found","timestamp":"2024-06-08T10:05:12.294Z"}
+{"level":"info","message":"Hospital with ID 23 logged in successfully","timestamp":"2024-06-08T10:05:33.727Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-06-10T05:04:08.531Z"}
+{"level":"info","message":"Hospital with ID 23 logged in successfully","timestamp":"2024-06-10T05:04:26.131Z"}
+{"level":"info","message":"Hospital with ID 23 logged in successfully","timestamp":"2024-06-10T08:57:34.314Z"}

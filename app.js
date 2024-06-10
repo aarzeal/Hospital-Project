@@ -7,6 +7,11 @@ const swaggerDocument = YAML.load('./swagger.yaml'); // Load your YAML file
 const hospitalGroupRoutes = require('./routes/hospitalGroupRoutes');
 const hospitalRoutes= require('./routes/HospitlRoutes')
 const sequelize = require('./database/connection');
+const userRoutes = require('./routes/userRoutes');
+const patientRoutes = require('./routes/patientRoutes');
+const moduleRoutes = require('./routes/hospitalModulesRoutes');
+const hospitalUserRidesRoutes = require('./routes/hospitalUserRides');
+const submoduleRoutes = require('./routes/submoduleRoutes');
 // Middleware for parsing JSON bodies
 app.use(express.json());
 
@@ -17,6 +22,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/api/v1/hospital', hospitalGroupRoutes);
 app.use('/api/v1/hospital', hospitalRoutes);
+app.use('/api/v1/hospital', userRoutes);
+app.use('/api/v1/hospital/patients', patientRoutes);
+app.use('/api/v1/hospital/module', moduleRoutes);
+app.use('/api/v1/hospital', hospitalUserRidesRoutes);
+app.use('/api/v1/hospital/submodules', submoduleRoutes);
 
 
 sequelize.sync({ force: false }) // Set force to true to drop and recreate the table every time the server starts

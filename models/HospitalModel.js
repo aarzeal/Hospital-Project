@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/connection');
-
+const bcrypt = require('bcrypt');
+const SALT_ROUNDS = 10; 
 const Hospital = sequelize.define('tblHospital', {
   HospitalID: {
     type: DataTypes.INTEGER,
@@ -189,10 +190,34 @@ const Hospital = sequelize.define('tblHospital', {
   HospitalDatabase: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  Username: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+    unique: true
+  },
+  Password: {
+    type: DataTypes.STRING(255),
+    allowNull: false
   }
 }, {
   tableName: 'tblHospital',
-  timestamps: false
+  timestamps: false,
+  hooks: {
+    beforeCreate: async (hospital) => {
+      if (hospital.Password) {
+        const salt = await bcrypt.genSalt(SALT_ROUNDS);
+        hospital.Password = await bcrypt.hash(hospital.Password, salt);
+      }
+    },
+    beforeUpdate: async (hospital) => {
+      if (hospital.Password) {
+        const salt = await bcrypt.genSalt(SALT_ROUNDS);
+        hospital.Password = await bcrypt.hash(hospital.Password, salt);
+      }
+    }
+  }
 });
+
 
 module.exports = Hospital;
