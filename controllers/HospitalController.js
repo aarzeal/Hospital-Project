@@ -179,8 +179,8 @@
 
 
 
-
-
+const express = require('express');
+const router = express.Router();
 
 const { validationResult } = require('express-validator');
 const Hospital = require('../models/HospitalModel');
@@ -191,6 +191,7 @@ const createDynamicConnection = require('../database/dynamicConnection');
 const bcrypt = require('bcrypt');
 const logger = require('../logger');  // Assuming logger is configured properly in '../logger'
 const jwt = require('jsonwebtoken');
+const {  DataTypes } = require('sequelize');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -447,6 +448,100 @@ exports.getHospitalsByHospitalGroupID = async (req, res) => {
 };
 
 // Login
+// exports.login = async (req, res) => {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     logger.warn('Validation errors occurred during login', errors);
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 923
+//       },
+//       error: {
+//         message: 'Validation errors occurred',
+//         details: errors.array().map(err => ({
+//           field: err.param,
+//           message: err.msg
+//         }))
+//       }
+//     });
+//   }
+
+//   const { Username, Password } = req.body;
+
+//   try {
+//     // Check if the hospital exists
+//     const hospital = await Hospital.findOne({ where: { Username } });
+//     if (!hospital) {
+//       logger.warn(`Hospital with Username ${Username} not found`);
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: 404,
+//           errorCode: 924
+//         },
+//         error: {
+//           message: 'Hospital not found'
+//         }
+//       });
+//     }
+
+//     // Compare the password
+//     const passwordMatch = await bcrypt.compare(Password, hospital.Password);
+//     if (!passwordMatch) {
+//       logger.warn(`Incorrect password for hospital with Username ${Username}`);
+//       return res.status(401).json({
+//         meta: {
+//           statusCode: 401,
+//           errorCode: 925
+//         },
+//         error: {
+//           message: 'Incorrect password'
+//         }
+//       });
+//     }
+
+//     // Generate JWT token
+//     const Hospitaltoken = jwt.sign(
+//       { hospitalId: hospital.HospitalID ,
+//         hospitalDatabase: hospital.HospitalDatabase,
+//       },
+//       process.env.JWT_SECRET,
+//       { expiresIn: '1h' }
+//     );
+
+//     // Decode the token to retrieve the hospitalId
+//     const decodedToken = jwt.verify(Hospitaltoken, process.env.JWT_SECRET);
+
+//     logger.info(`Hospital with ID ${decodedToken.hospitalId} logged in successfully`);
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200
+//       },
+//       data: {
+//         Hospitaltoken,
+//         hospital: {
+//           id: decodedToken.hospitalId,
+//           username: hospital.Username,
+//           email: hospital.Email,
+//           hospitalDatabase:hospital.HospitalDatabase
+//         }
+//       }
+//     });
+//   } catch (error) {
+//     logger.error('Error logging in', { error: error.message });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 926
+//       },
+//       error: {
+//         message: 'Error logging in: ' + error.message
+//       }
+//     });
+//   }
+//   };
+const { Sequelize } = require('sequelize');
+
 exports.login = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -469,7 +564,6 @@ exports.login = async (req, res) => {
   const { Username, Password } = req.body;
 
   try {
-    // Check if the hospital exists
     const hospital = await Hospital.findOne({ where: { Username } });
     if (!hospital) {
       logger.warn(`Hospital with Username ${Username} not found`);
@@ -484,7 +578,6 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Compare the password
     const passwordMatch = await bcrypt.compare(Password, hospital.Password);
     if (!passwordMatch) {
       logger.warn(`Incorrect password for hospital with Username ${Username}`);
@@ -499,19 +592,16 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Generate JWT token
     const Hospitaltoken = jwt.sign(
-      { hospitalId: hospital.HospitalID ,
-        hospitalDatabase: hospital.HospitalDatabase,
-      },
+      { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
-    // Decode the token to retrieve the hospitalId
     const decodedToken = jwt.verify(Hospitaltoken, process.env.JWT_SECRET);
 
     logger.info(`Hospital with ID ${decodedToken.hospitalId} logged in successfully`);
+
     res.status(200).json({
       meta: {
         statusCode: 200
@@ -521,8 +611,10 @@ exports.login = async (req, res) => {
         hospital: {
           id: decodedToken.hospitalId,
           username: hospital.Username,
-          email: hospital.Email
-        }
+          email: hospital.Email,
+          hospitalDatabase: hospital.HospitalDatabase
+        },
+        message: 'Login successful and token generated.'
       }
     });
   } catch (error) {
@@ -537,7 +629,350 @@ exports.login = async (req, res) => {
       }
     });
   }
-  };
+};
+
+exports.ensureSequelizeInstance = (req, res, next) => {
+  if (!req.hospitalDatabase) {
+    logger.error('Database connection not established');
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 927
+      },
+      
+      error: {
+        
+        message: 'Database connection not established'
+      }
+    });
+  }
+
+  const sequelize = new Sequelize(
+    req.hospitalDatabase,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
+      host: process.env.DB_HOST,
+      dialect: process.env.DB_DIALECT
+    }
+  );
+
+  req.sequelize = sequelize;
+  logger.info('Sequelize instance created successfully');
+  next();
+};
+
+exports.createUser = async (req, res) => {
+  const { username, password } = req.body;
+  const hospitalId = req.hospitalId;
+
+  try {
+    if (!password) {
+      throw new Error('Password is required');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the number of salt rounds
+    const User = require('../models/user')(req.sequelize);
+
+    // Ensure the table exists
+    await User.sync();
+
+    const user = await User.create({ username, password: hashedPassword,hospitalId  });
+    logger.info(`User created successfully with username: ${username}, hospitalId: ${hospitalId}`);
+
+    res.status(201).json({
+      meta: {
+        statusCode: 200
+      },
+      data: {
+        userId: user.userId,
+        username: user.username
+      }
+    });
+  } catch (error) {
+    logger.error('Error creating user', { error: error.message });
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 928
+      },
+      error: {
+        message: 'Error creating user: ' + error.message
+      }
+    });
+  }
+};
+exports.getUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const User = require('../models/user')(req.sequelize);
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      logger.warn(`User with ID ${id} not found`);
+      return res.status(404).json({
+        meta: {
+          statusCode: 404,
+          errorCode: 937
+        },
+        error: {
+          message: 'User not found'
+        }
+      });
+    }
+
+    logger.info(`User with ID ${id} retrieved successfully`);
+    res.status(200).json({
+      meta: {
+        statusCode: 200
+      },
+      data: {
+        userId: user.userId,
+        username: user.username
+      }
+    });
+  } catch (error) {
+    logger.error('Error retrieving user', { error: error.message });
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 931
+      },
+      error: {
+        message: 'Error retrieving user: ' + error.message
+      }
+    });
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { username, password } = req.body;
+
+  try {
+    const User = require('../models/user')(req.sequelize);
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      logger.warn(`User with ID ${id} not found`);
+      return res.status(404).json({
+        meta: {
+          statusCode: 404,
+          errorCode: 932
+        },
+        error: {
+          message: 'User not found'
+        }
+      });
+    }
+
+    if (username) user.username = username;
+    if (password) user.password = await bcrypt.hash(password, 10);
+
+    await user.save();
+
+    logger.info(`User with ID ${id} updated successfully`);
+    res.status(200).json({
+      meta: {
+        statusCode: 200
+      },
+      data: {
+        userId: user.userId,
+        username: user.username
+      }
+    });
+  } catch (error) {
+    logger.error('Error updating user', { error: error.message });
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 933
+      },
+      error: {
+        message: 'Error updating user: ' + error.message
+      }
+    });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const User = require('../models/user')(req.sequelize);
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      logger.warn(`User with ID ${id} not found`);
+      return res.status(404).json({
+        meta: {
+          statusCode: 404,
+          errorCode: 934
+        },
+        error: {
+          message: 'User not found'
+        }
+      });
+    }
+
+    await user.destroy();
+
+    logger.info(`User with ID ${id} deleted successfully`);
+    res.status(200).json({
+      meta: {
+        statusCode: 200
+      },
+      data: {
+        message: 'User deleted successfully'
+      }
+    });
+  } catch (error) {
+    logger.error('Error deleting user', { error: error.message });
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 935
+      },
+      error: {
+        message: 'Error deleting user: ' + error.message
+      }
+    });
+  }
+};
+exports.getAllUsers = async (req, res) => {
+  try {
+    const User = require('../models/user')(req.sequelize);
+    const users = await User.findAll();
+
+    logger.info(`Retrieved all users successfully`);
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200
+      },
+      data: users
+    });
+  } catch (error) {
+    logger.error('Error retrieving all users', { error: error.message });
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 936
+      },
+      error: {
+        message: 'Error retrieving all users: ' + error.message
+      }
+    });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// exports.createUser = async (req, res,hospital) => {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     logger.warn('Validation errors occurred while creating user', errors);
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 930
+//       },
+//       error: {
+//         message: 'Validation errors occurred',
+//         details: errors.array().map(err => ({
+//           field: err.param,
+//           message: err.msg
+//         }))
+//       }
+//     });
+//   }
+
+//   const { username, email, password } = req.body;
+
+//   try {
+//     // Assuming sequelized is the Sequelize instance established for the hospital's database
+//     const sequelize = new Sequelize(
+//       hospital.HospitalDatabase,
+//       process.env.DB_USER,
+//       process.env.DB_PASSWORD,
+//       {
+//         host: process.env.DB_HOST,
+//         dialect: process.env.DB_DIALECT
+//       }
+//     );
+
+//     // Define the User model using the sequelize instance
+//     const User = sequelize.define('User', {
+//       // Define user attributes here
+//       username: {
+//         type: DataTypes.STRING,
+//         allowNull: false
+//       },
+//       email: {
+//         type: DataTypes.STRING,
+//         allowNull: false,
+//         unique: true
+//       },
+//       password: {
+//         type: DataTypes.STRING,
+//         allowNull: false
+//       }
+//     });
+
+//     // Sync the model with the database
+//     await User.sync();
+
+//     // Create the user
+//     const newUser = await User.create({
+//       username,
+//       email,
+//       password
+//     });
+
+//     logger.info('User created successfully', { userId: newUser.id });
+
+//     res.status(201).json({
+//       meta: {
+//         statusCode: 201
+//       },
+//       data: newUser
+//     });
+//   } catch (error) {
+//     logger.error('Error creating user', { error: error.message });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 931
+//       },
+//       error: {
+//         message: 'Error creating user: ' + error.message
+//       }
+//     });
+//   }
+// };
+  
+
+  
   
 
 

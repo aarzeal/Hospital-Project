@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 const app = express();
 const swaggerUi = require('swagger-ui-express');
@@ -14,6 +15,16 @@ const hospitalUserRidesRoutes = require('./routes/hospitalUserRides');
 const submoduleRoutes = require('./routes/submoduleRoutes');
 // Middleware for parsing JSON bodies
 app.use(express.json());
+app.use(bodyParser.json()); 
+
+const session = require('express-session');
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
+
 
 // Serve Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -27,6 +38,7 @@ app.use('/api/v1/hospital/patients', patientRoutes);
 app.use('/api/v1/hospital/module', moduleRoutes);
 app.use('/api/v1/hospital', hospitalUserRidesRoutes);
 app.use('/api/v1/hospital/submodules', submoduleRoutes);
+
 
 
 sequelize.sync({ force: false }) // Set force to true to drop and recreate the table every time the server starts

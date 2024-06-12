@@ -6,3 +6,29 @@
 {"level":"error","message":"Error retrieving module and submodule names:","timestamp":"2024-06-01T05:13:44.992Z"}
 {"level":"error","message":"Error retrieving module and submodule names:","timestamp":"2024-06-01T05:14:32.938Z"}
 {"level":"error","message":"Error retrieving module and submodule names:","timestamp":"2024-06-01T05:36:52.668Z"}
+{"error":"hospital is not defined","level":"error","message":"Error creating user","timestamp":"2024-06-10T12:18:50.533Z"}
+{"error":"DataTypes is not defined","level":"error","message":"Error creating user","timestamp":"2024-06-10T12:27:18.135Z"}
+{"error":"No database selected","level":"error","message":"Error creating user","timestamp":"2024-06-10T12:29:11.864Z"}
+{"error":"Can't create database 'hospital1'; database exists","level":"error","message":"Error creating hospital","timestamp":"2024-06-11T05:03:56.406Z"}
+{"error":"sequelize.getSequelizeInstance is not a function","level":"error","message":"Error logging in","timestamp":"2024-06-11T06:27:01.716Z"}
+{"error":"sequelize.getSequelizeInstance is not a function","level":"error","message":"Error logging in","timestamp":"2024-06-11T06:28:21.058Z"}
+{"error":"sequelize.getSequelizeInstance is not a function","level":"error","message":"Error logging in","timestamp":"2024-06-11T06:29:14.918Z"}
+{"error":"sequelize.getSequelizeInstance is not a function","level":"error","message":"Error logging in","timestamp":"2024-06-11T06:30:13.132Z"}
+{"error":"sequelize.getSequelizeInstance is not a function","level":"error","message":"Error logging in","timestamp":"2024-06-11T06:31:55.437Z"}
+{"error":"Cannot read properties of undefined (reading 'authenticate')","level":"error","message":"Error logging in","timestamp":"2024-06-11T06:36:07.505Z"}
+{"error":"Converting circular structure to JSON\n    --> starting at object with constructor 'Sequelize'\n    |     property 'dialect' -> object with constructor 'MysqlDialect'\n    --- property 'sequelize' closes the circle","level":"error","message":"Error logging in","timestamp":"2024-06-11T06:37:26.266Z"}
+{"error":"Converting circular structure to JSON\n    --> starting at object with constructor 'Sequelize'\n    |     property 'dialect' -> object with constructor 'MysqlDialect'\n    --- property 'sequelize' closes the circle","level":"error","message":"Error logging in","timestamp":"2024-06-11T06:37:45.496Z"}
+{"error":"No database selected","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:20:07.199Z"}
+{"error":"data and salt arguments required","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:23:11.482Z"}
+{"error":"Password is required","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:24:56.920Z"}
+{"error":"Password is required","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:25:12.530Z"}
+{"error":"data and salt arguments required","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:25:42.893Z"}
+{"error":"Table 'hospital1.users' doesn't exist","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:26:11.273Z"}
+{"error":"Cannot read properties of undefined (reading 'INTEGER')","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:27:46.123Z"}
+{"error":"Table 'hospital1.users' doesn't exist","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:29:13.688Z"}
+{"error":"notNull Violation: User.hospitalId cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:44:52.567Z"}
+{"error":"notNull Violation: User.hospitalId cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:47:01.348Z"}
+{"error":"Password is required","level":"error","message":"Error creating user","timestamp":"2024-06-12T07:38:01.455Z"}
+{"error":"notNull Violation: User.username cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-12T07:38:16.325Z"}
+{"error":"Unknown column 'hospitalId' in 'field list'","level":"error","message":"Error retrieving all users","timestamp":"2024-06-12T07:40:54.177Z"}
+{"error":"Unknown column 'hospitalId' in 'field list'","level":"error","message":"Error retrieving all users","timestamp":"2024-06-12T07:41:34.623Z"}

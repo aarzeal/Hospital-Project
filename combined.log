@@ -19,3 +19,172 @@
 {"level":"info","message":"User Admin logged in successfully","timestamp":"2024-06-10T05:04:08.531Z"}
 {"level":"info","message":"Hospital with ID 23 logged in successfully","timestamp":"2024-06-10T05:04:26.131Z"}
 {"level":"info","message":"Hospital with ID 23 logged in successfully","timestamp":"2024-06-10T08:57:34.314Z"}
+{"level":"warn","message":"Incorrect credentials for Username undefined","timestamp":"2024-06-10T10:02:07.204Z"}
+{"level":"warn","message":"Incorrect credentials for Username undefined","timestamp":"2024-06-10T10:03:13.002Z"}
+{"level":"warn","message":"Incorrect username undefined","timestamp":"2024-06-10T10:06:43.865Z"}
+{"level":"warn","message":"Incorrect username undefined","timestamp":"2024-06-10T10:07:26.633Z"}
+{"level":"info","message":"Received login request for Username: undefined","timestamp":"2024-06-10T10:17:16.773Z"}
+{"level":"warn","message":"Incorrect username undefined","timestamp":"2024-06-10T10:17:16.775Z"}
+{"level":"info","message":"Received login request body: {}","timestamp":"2024-06-10T10:18:27.203Z"}
+{"level":"warn","message":"Username or Password not provided in the request body","timestamp":"2024-06-10T10:18:27.205Z"}
+{"level":"info","message":"Received login request body: {\"Username\":\"Hospital1\",\"Password\":\"Pass@123\"}","timestamp":"2024-06-10T10:24:42.776Z"}
+{"level":"info","message":"Received login request for Username: Hospital1","timestamp":"2024-06-10T10:24:42.778Z"}
+{"level":"info","message":"STATIC_PASSWORD_HASH: $2b$10$2Chluai54ZiXOM.VYxD2x.Qp36FJT/2FEXCSkBE52E3nkEYGEFEXi","timestamp":"2024-06-10T10:24:42.779Z"}
+{"level":"warn","message":"Hospital with Username Hospital1 not found","timestamp":"2024-06-10T10:24:42.867Z"}
+{"level":"info","message":"Received login request body: {\"Username\":\"Hopspital1\",\"Password\":\"Pass@123\"}","timestamp":"2024-06-10T10:26:43.273Z"}
+{"level":"info","message":"Received login request for Username: Hopspital1","timestamp":"2024-06-10T10:26:43.274Z"}
+{"level":"warn","message":"Incorrect username Hopspital1","timestamp":"2024-06-10T10:26:43.274Z"}
+{"level":"info","message":"Received login request body: {\"Username\":\"Hopspital1\",\"Password\":\"Pass@123\"}","timestamp":"2024-06-10T10:26:59.124Z"}
+{"level":"info","message":"Received login request for Username: Hopspital1","timestamp":"2024-06-10T10:26:59.124Z"}
+{"level":"warn","message":"Incorrect username Hopspital1","timestamp":"2024-06-10T10:26:59.125Z"}
+{"level":"info","message":"Received login request body: {\"Username\":\"Hopspital1\",\"Password\":\"Pass@123\"}","timestamp":"2024-06-10T10:27:11.953Z"}
+{"level":"info","message":"Received login request for Username: Hopspital1","timestamp":"2024-06-10T10:27:11.955Z"}
+{"level":"info","message":"STATIC_PASSWORD_HASH: $2b$10$fFvJ9NclAOpGJb3tyWBML.jdPBm3wUPyZVuk9RYM3uDrNTlpZeemm","timestamp":"2024-06-10T10:27:11.955Z"}
+{"level":"info","message":"Hospital with ID 23 logged in successfully","timestamp":"2024-06-10T10:27:12.028Z"}
+{"level":"info","message":"Received login request body: {}","timestamp":"2024-06-10T10:27:17.873Z"}
+{"level":"warn","message":"Username or Password not provided in the request body","timestamp":"2024-06-10T10:27:17.874Z"}
+{"level":"info","message":"Received login request body: {\"Username\":\"Hopspital1\",\"Password\":\"Pass@123\"}","timestamp":"2024-06-10T10:27:26.193Z"}
+{"level":"info","message":"Received login request for Username: Hopspital1","timestamp":"2024-06-10T10:27:26.194Z"}
+{"level":"info","message":"STATIC_PASSWORD_HASH: $2b$10$fFvJ9NclAOpGJb3tyWBML.jdPBm3wUPyZVuk9RYM3uDrNTlpZeemm","timestamp":"2024-06-10T10:27:26.194Z"}
+{"level":"info","message":"Hospital with ID 23 logged in successfully","timestamp":"2024-06-10T10:27:26.262Z"}
+{"level":"info","message":"Received login request body: {\"Username\":\"Hopspital1\",\"Password\":\"Pass@123\"}","timestamp":"2024-06-10T10:27:38.110Z"}
+{"level":"info","message":"Received login request body: {\"Username\":\"Hopspital1\",\"Password\":\"Pass@123\"}","timestamp":"2024-06-10T10:27:57.204Z"}
+{"level":"info","message":"Received login request for Username: undefined","timestamp":"2024-06-10T10:31:07.568Z"}
+{"level":"warn","message":"Incorrect username undefined","timestamp":"2024-06-10T10:31:07.570Z"}
+{"level":"info","message":"Received login request for Username: Hopspital1","timestamp":"2024-06-10T10:31:11.466Z"}
+{"level":"warn","message":"Incorrect username Hopspital1","timestamp":"2024-06-10T10:31:11.466Z"}
+{"level":"info","message":"Received login request for Username: Hopspital1","timestamp":"2024-06-10T10:31:14.145Z"}
+{"level":"warn","message":"Incorrect username Hopspital1","timestamp":"2024-06-10T10:31:14.145Z"}
+{"level":"info","message":"Received login request for Username: undefined","timestamp":"2024-06-10T10:47:36.261Z"}
+{"level":"warn","message":"Incorrect username or password for username undefined","timestamp":"2024-06-10T10:47:36.265Z"}
+{"level":"info","message":"Received login request for Username: undefined","timestamp":"2024-06-10T10:47:41.665Z"}
+{"level":"warn","message":"Incorrect username or password for username undefined","timestamp":"2024-06-10T10:47:41.666Z"}
+{"level":"info","message":"Received login request for Username: undefined","timestamp":"2024-06-10T10:48:18.069Z"}
+{"level":"warn","message":"Incorrect username or password for username undefined","timestamp":"2024-06-10T10:48:18.071Z"}
+{"level":"info","message":"Received login request for Username: undefined","timestamp":"2024-06-10T10:48:43.375Z"}
+{"level":"warn","message":"Incorrect username or password for username undefined","timestamp":"2024-06-10T10:48:43.377Z"}
+{"level":"info","message":"Received login request for Username: undefined","timestamp":"2024-06-10T10:52:02.540Z"}
+{"level":"warn","message":"Incorrect username or password for username undefined","timestamp":"2024-06-10T10:52:02.542Z"}
+{"level":"info","message":"Received login request for Username: undefined","timestamp":"2024-06-10T11:41:01.555Z"}
+{"level":"warn","message":"Incorrect username or password for username undefined","timestamp":"2024-06-10T11:41:01.557Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username Hopspital1","timestamp":"2024-06-10T12:12:19.511Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username Hopspital1","timestamp":"2024-06-10T12:13:05.648Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hopspital1: Pass@123","timestamp":"2024-06-10T12:15:35.455Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username Hopspital1","timestamp":"2024-06-10T12:15:35.457Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hopspital1: Pass@123","timestamp":"2024-06-10T12:16:18.873Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username Hopspital1","timestamp":"2024-06-10T12:16:18.877Z"}
+{"level":"warn","message":"Comparing password for hospital with Username false: Pass@123","timestamp":"2024-06-10T12:16:18.877Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hopspital1: Pass@123","timestamp":"2024-06-10T12:16:50.794Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username Hopspital1","timestamp":"2024-06-10T12:16:50.795Z"}
+{"level":"warn","message":"Comparing password for hospital with Username false: Pass@123","timestamp":"2024-06-10T12:16:50.795Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hopspital1: Pass@123","timestamp":"2024-06-10T12:17:23.571Z"}
+{"level":"info","message":"Hospital with ID 23 logged in successfully","timestamp":"2024-06-10T12:17:23.631Z"}
+{"error":"hospital is not defined","level":"error","message":"Error creating user","timestamp":"2024-06-10T12:18:50.533Z"}
+{"error":"DataTypes is not defined","level":"error","message":"Error creating user","timestamp":"2024-06-10T12:27:18.135Z"}
+{"error":"No database selected","level":"error","message":"Error creating user","timestamp":"2024-06-10T12:29:11.864Z"}
+{"level":"info","message":"Received login request for Username: undefined","timestamp":"2024-06-11T04:51:07.111Z"}
+{"level":"warn","message":"Incorrect username or password for username undefined","timestamp":"2024-06-11T04:51:07.113Z"}
+{"level":"info","message":"Received login request for Username: Hospital1","timestamp":"2024-06-11T05:02:21.503Z"}
+{"level":"warn","message":"Incorrect username or password for username Hospital1","timestamp":"2024-06-11T05:02:21.505Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-06-11T05:02:48.695Z"}
+{"hospitalId":24,"level":"info","message":"Hospital created successfully","timestamp":"2024-06-11T05:03:56.402Z"}
+{"level":"info","message":"Generated database name: hospital1","timestamp":"2024-06-11T05:03:56.403Z"}
+{"error":"Can't create database 'hospital1'; database exists","level":"error","message":"Error creating hospital","timestamp":"2024-06-11T05:03:56.406Z"}
+{"hospitalId":25,"level":"info","message":"Hospital created successfully","timestamp":"2024-06-11T05:04:11.701Z"}
+{"level":"info","message":"Generated database name: hospital2","timestamp":"2024-06-11T05:04:11.702Z"}
+{"level":"info","message":"Database hospital2 created successfully","timestamp":"2024-06-11T05:04:11.705Z"}
+{"level":"info","message":"Connected to database hospital2 successfully","timestamp":"2024-06-11T05:04:11.718Z"}
+{"level":"info","message":"Models synchronized successfully in database hospital2","timestamp":"2024-06-11T05:04:11.727Z"}
+{"level":"info","message":"Received login request for Username: Hospital2","timestamp":"2024-06-11T05:04:56.131Z"}
+{"level":"warn","message":"Incorrect username or password for username Hospital2","timestamp":"2024-06-11T05:04:56.131Z"}
+{"level":"info","message":"Received login request for Username: Hospital2","timestamp":"2024-06-11T05:05:26.843Z"}
+{"level":"warn","message":"Incorrect username or password for username Hospital2","timestamp":"2024-06-11T05:05:26.844Z"}
+{"level":"info","message":"Received login request for Username: Hospital2","timestamp":"2024-06-11T05:07:15.732Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T05:07:15.749Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T05:08:24.007Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T05:08:24.066Z"}
+{"level":"info","message":"Database connection has been established successfully.","timestamp":"2024-06-11T05:08:24.078Z"}
+{"level":"info","message":"Received login request for Username: undefined","timestamp":"2024-06-11T05:09:00.359Z"}
+{"level":"warn","message":"Incorrect username or password for username undefined","timestamp":"2024-06-11T05:09:00.359Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T05:09:09.095Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T05:09:09.153Z"}
+{"level":"info","message":"Database connection has been established successfully.","timestamp":"2024-06-11T05:09:09.161Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T06:27:01.642Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T06:27:01.703Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T06:28:20.996Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T06:28:21.057Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T06:29:14.856Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T06:29:14.917Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T06:30:13.070Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T06:30:13.131Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T06:31:55.374Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T06:31:55.436Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T06:36:07.442Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T06:36:07.504Z"}
+{"error":"Cannot read properties of undefined (reading 'authenticate')","level":"error","message":"Error logging in","timestamp":"2024-06-11T06:36:07.505Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T06:37:26.191Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T06:37:26.252Z"}
+{"level":"info","message":"Database connection has been established successfully.","timestamp":"2024-06-11T06:37:26.263Z"}
+{"error":"Converting circular structure to JSON\n    --> starting at object with constructor 'Sequelize'\n    |     property 'dialect' -> object with constructor 'MysqlDialect'\n    --- property 'sequelize' closes the circle","level":"error","message":"Error logging in","timestamp":"2024-06-11T06:37:26.266Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T06:37:45.427Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T06:37:45.486Z"}
+{"level":"info","message":"Database connection has been established successfully.","timestamp":"2024-06-11T06:37:45.495Z"}
+{"error":"Converting circular structure to JSON\n    --> starting at object with constructor 'Sequelize'\n    |     property 'dialect' -> object with constructor 'MysqlDialect'\n    --- property 'sequelize' closes the circle","level":"error","message":"Error logging in","timestamp":"2024-06-11T06:37:45.496Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T06:38:33.245Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T06:38:33.307Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T10:43:33.544Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T10:43:33.606Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T10:56:39.818Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T10:56:39.882Z"}
+{"level":"info","message":"Comparing password for hospital with Username Hospital2: Pass@1234","timestamp":"2024-06-11T10:56:58.547Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T10:56:58.610Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-11T12:17:42.203Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-12T04:59:13.370Z"}
+{"level":"info","message":"Hospital with ID 24 logged in successfully","timestamp":"2024-06-12T05:19:51.872Z"}
+{"error":"No database selected","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:20:07.199Z"}
+{"error":"data and salt arguments required","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:23:11.482Z"}
+{"error":"Password is required","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:24:56.920Z"}
+{"error":"Password is required","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:25:12.530Z"}
+{"error":"data and salt arguments required","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:25:42.893Z"}
+{"error":"Table 'hospital1.users' doesn't exist","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:26:11.273Z"}
+{"error":"Cannot read properties of undefined (reading 'INTEGER')","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:27:46.123Z"}
+{"error":"Table 'hospital1.users' doesn't exist","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:29:13.688Z"}
+{"level":"warn","message":"Hospital with Username Hospital123 not found","timestamp":"2024-06-12T05:41:51.921Z"}
+{"level":"info","message":"Hospital with ID 25 logged in successfully","timestamp":"2024-06-12T05:41:59.477Z"}
+{"error":"notNull Violation: User.hospitalId cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:44:52.567Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-06-12T05:45:38.823Z"}
+{"hospitalId":26,"level":"info","message":"Hospital created successfully","timestamp":"2024-06-12T05:46:18.289Z"}
+{"level":"info","message":"Generated database name: umc13","timestamp":"2024-06-12T05:46:18.290Z"}
+{"level":"info","message":"Database umc13 created successfully","timestamp":"2024-06-12T05:46:18.293Z"}
+{"level":"info","message":"Connected to database umc13 successfully","timestamp":"2024-06-12T05:46:18.307Z"}
+{"level":"info","message":"Models synchronized successfully in database umc13","timestamp":"2024-06-12T05:46:18.321Z"}
+{"level":"info","message":"Hospital with ID 26 logged in successfully","timestamp":"2024-06-12T05:46:43.611Z"}
+{"error":"notNull Violation: User.hospitalId cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-12T05:47:01.348Z"}
+{"level":"info","message":"Hospital with ID 26 logged in successfully","timestamp":"2024-06-12T07:37:29.804Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-12T07:37:40.335Z"}
+{"level":"info","message":"User created successfully with username: bbbbbbddd, hospitalId: 26","timestamp":"2024-06-12T07:37:40.465Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-12T07:38:01.454Z"}
+{"error":"Password is required","level":"error","message":"Error creating user","timestamp":"2024-06-12T07:38:01.455Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-12T07:38:16.257Z"}
+{"error":"notNull Violation: User.username cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-12T07:38:16.325Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-12T07:38:26.972Z"}
+{"level":"info","message":"User created successfully with username: sudhir, hospitalId: 26","timestamp":"2024-06-12T07:38:27.071Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-12T07:39:44.346Z"}
+{"level":"info","message":"Retrieved all users successfully","timestamp":"2024-06-12T07:39:44.357Z"}
+{"level":"info","message":"Hospital with ID 23 logged in successfully","timestamp":"2024-06-12T07:40:38.831Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-12T07:40:54.166Z"}
+{"error":"Unknown column 'hospitalId' in 'field list'","level":"error","message":"Error retrieving all users","timestamp":"2024-06-12T07:40:54.177Z"}
+{"level":"info","message":"Hospital with ID 25 logged in successfully","timestamp":"2024-06-12T07:41:21.679Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-12T07:41:34.614Z"}
+{"error":"Unknown column 'hospitalId' in 'field list'","level":"error","message":"Error retrieving all users","timestamp":"2024-06-12T07:41:34.623Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-12T08:39:45.699Z"}
+{"level":"info","message":"Retrieved all users successfully","timestamp":"2024-06-12T08:39:45.710Z"}
+{"level":"info","message":"Hospital with ID 25 logged in successfully","timestamp":"2024-06-12T08:53:08.160Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-12T08:54:15.568Z"}
+{"level":"info","message":"User with ID 1 retrieved successfully","timestamp":"2024-06-12T08:54:15.580Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-12T08:54:50.864Z"}
+{"level":"info","message":"User with ID 1 updated successfully","timestamp":"2024-06-12T08:54:50.875Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-12T08:55:27.857Z"}
+{"level":"info","message":"User with ID 1 deleted successfully","timestamp":"2024-06-12T08:55:27.888Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-12T08:55:38.544Z"}
+{"level":"info","message":"Retrieved all users successfully","timestamp":"2024-06-12T08:55:38.556Z"}
