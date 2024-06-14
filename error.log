@@ -32,3 +32,4 @@
 {"error":"notNull Violation: User.username cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-12T07:38:16.325Z"}
 {"error":"Unknown column 'hospitalId' in 'field list'","level":"error","message":"Error retrieving all users","timestamp":"2024-06-12T07:40:54.177Z"}
 {"error":"Unknown column 'hospitalId' in 'field list'","level":"error","message":"Error retrieving all users","timestamp":"2024-06-12T07:41:34.623Z"}
+

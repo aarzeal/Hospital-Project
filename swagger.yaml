@@ -1,953 +1,4 @@
 
-
-# openapi: 3.0.0
-# info:
-#   title: Hospital and Hospital Group API
-#   version: 1.0.0
-#   description: API documentation for Hospital and Hospital Group operations
-# servers:
-#   - url: http://localhost:3000
-
-# components:
-#   securitySchemes:
-#     BearerAuth:
-#       type: http
-#       scheme: bearer
-#       bearerFormat: JWT
-#   schemas:
-#     Error:
-#       type: object
-#       properties:
-#         meta:
-#           $ref: '#/components/schemas/Meta'
-#         error:
-#           type: object
-#           properties:
-#             message:
-#               type: string
-#     Meta:
-#       type: object
-#       properties:
-#         statusCode:
-#           type: integer
-#         errorCode:
-#           type: integer
-#     HospitalGroup:
-#       type: object
-#       properties:
-#         id:
-#           type: integer
-#         HospitalGroupName:
-#           type: string
-#         LicensedHospitalCount:
-#           type: integer
-#     Hospital:
-#       type: object
-#       properties:
-#         HospitalID:
-#           type: integer
-#         HospitalName:
-#           type: string
-#         HospitalCode:
-#           type: string
-#         ManagingCompany:
-#           type: string
-#         ManagingCompanyAdd1:
-#           type: string
-#         ManagingCompanyAdd2:
-#           type: string
-#         ManagingCompanyAdd3:
-#           type: string
-#         ManagingCompanyEmail:
-#           type: string
-#         ManagingCompanyWebsite:
-#           type: string
-#         City:
-#           type: string
-#         Province:
-#           type: string
-#         Region:
-#           type: string
-#         Country:
-#           type: string
-#         HospitalOwner:
-#           type: string
-#         OwnerName:
-#           type: string
-#         OwnerAdd1:
-#           type: string
-#         OwnerAdd2:
-#           type: string
-#         OwnerAdd3:
-#           type: string
-#         OwnerCity:
-#           type: string
-#         OwnerProvince:
-#           type: string
-#         OwnerRegion:
-#           type: string
-#         OwnerCountry:
-#           type: string
-#         OwnerEmail:
-#           type: string
-#         HospitalIDNo:
-#           type: string
-#         TaxNumber:
-#           type: string
-#         ServiceNo:
-#           type: string
-#         RegistrationNo:
-#           type: string
-#         VATNumber:
-#           type: string
-#         GSTNo:
-#           type: string
-#         TINNo:
-#           type: string
-#         AccBooksBeginFrom:
-#           type: string
-#           format: date
-#         OtherRegNo:
-#           type: string
-#         HospitalLogo:
-#           type: string
-#         HospitalGroupIDR:
-#           type: integer
-#     HospitalInput:
-#       type: object
-#       properties:
-#         HospitalName:
-#           type: string
-#         HospitalCode:
-#           type: string
-#         ManagingCompany:
-#           type: string
-#         ManagingCompanyAdd1:
-#           type: string
-#         ManagingCompanyAdd2:
-#           type: string
-#         ManagingCompanyAdd3:
-#           type: string
-#         ManagingCompanyEmail:
-#           type: string
-#         ManagingCompanyWebsite:
-#           type: string
-#         City:
-#           type: string
-#         Province:
-#           type: string
-#         Region:
-#           type: string
-#         Country:
-#           type: string
-#         HospitalOwner:
-#           type: string
-#         OwnerName:
-#           type: string
-#         OwnerAdd1:
-#           type: string
-#         OwnerAdd2:
-#           type: string
-#         OwnerAdd3:
-#           type: string
-#         OwnerCity:
-#           type: string
-#         OwnerProvince:
-#           type: string
-#         OwnerRegion:
-#           type: string
-#         OwnerCountry:
-#           type: string
-#         OwnerEmail:
-#           type: string
-#         HospitalIDNo:
-#           type: string
-#         TaxNumber:
-#           type: string
-#         ServiceNo:
-#           type: string
-#         RegistrationNo:
-#           type: string
-#         VATNumber:
-#           type: string
-#         GSTNo:
-#           type: string
-#         TINNo:
-#           type: string
-#         AccBooksBeginFrom:
-#           type: string
-#           format: date
-#         OtherRegNo:
-#           type: string
-#         HospitalLogo:
-#           type: string
-#         HospitalGroupIDR:
-#           type: integer
-
-#         security:
-#           - BearerAuth: []
-
-# paths:
-#   /api/v1/hospital/admin/login:
-#     post:
-#       summary: Authenticate user
-#       tags:
-#         - Authentication
-#       requestBody:
-#         required: true
-#         content:
-#           application/json:
-#             schema:
-#               type: object
-#               properties:
-#                 SysUserName:
-#                   type: string
-#                 SysUserPwd:
-#                   type: string
-#               required:
-#                 - SysUserName
-#                 - SysUserPwd
-#       responses:
-#         '200':
-#           description: Successful login
-#           content:
-#             application/json:
-#               schema:
-#                 type: object
-#                 properties:
-#                   token:
-#                     type: string
-#         '400':
-#           description: Invalid username or password
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#         '500':
-#           description: Internal Server Error
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-
-#   /api/v1/hospital/hospital-groups:
-#     post:
-#       summary: Create a new hospital group
-#       tags:
-#         - Hospital Groups
-#       security:
-#         - BearerAuth: []
-#       requestBody:
-#         required: true
-#         content:
-#           application/json:
-#             schema:
-#               type: object
-#               properties:
-#                 HospitalGroupName:
-#                   type: string
-#                 LicensedHospitalCount:
-#                   type: integer
-#               required:
-#                 - HospitalGroupName
-#                 - LicensedHospitalCount
-#       responses:
-#         '200':
-#           description: OK
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/HospitalGroup'
-#         '400':
-#           description: Bad Request
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#         '500':
-#           description: Internal Server Error
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#     get:
-#       summary: Get all hospital groups
-#       tags:
-#         - Hospital Groups
-        
-#       responses:
-#         '200':
-#           description: OK
-#           content:
-#             application/json:
-#               schema:
-#                 type: array
-#                 items:
-#                   $ref: '#/components/schemas/HospitalGroup'
-#         '500':
-#           description: Internal Server Error
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-
-#   /api/v1/hospital/hospital-groups/{id}:
-#     get:
-#       summary: Get a hospital group by ID
-#       tags:
-#         - Hospital Groups
-#       parameters:
-#         - in: path
-#           name: id
-#           required: true
-#           description: ID of the hospital group to retrieve
-#           schema:
-#             type: integer
-#       responses:
-#         '200':
-#           description: OK
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/HospitalGroup'
-#         '404':
-#           description: Hospital group not found
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#         '500':
-#           description: Internal Server Error
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#     put:
-#       summary: Update a hospital group by ID
-#       tags:
-#         - Hospital Groups
-#       parameters:
-#         - in: path
-#           name: id
-#           required: true
-#           description: ID of the hospital group to update
-#           schema:
-#             type: integer
-#       requestBody:
-#         required: true
-#         content:
-#           application/json:
-#             schema:
-#               $ref: '#/components/schemas/HospitalGroup'
-#       responses:
-#         '200':
-#           description: Hospital group updated successfully
-#           content:
-#             application/json:
-#               schema:
-#                 type: object
-#                 properties:
-#                   meta:
-#                     $ref: '#/components/schemas/Meta'
-#                   message:
-#                     type: string
-#         '404':
-#           description: Hospital group not found
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#         '500':
-#           description: Internal Server Error
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#     delete:
-#       summary: Delete a hospital group by ID
-#       tags:
-#         - Hospital Groups
-#       parameters:
-#         - in: path
-#           name: id
-#           required: true
-#           description: ID of the hospital group to delete
-#           schema:
-#             type: integer
-#       responses:
-#         '200':
-#           description: Hospital group deleted successfully
-#           content:
-#             application/json:
-#               schema:
-#                 type: object
-#                 properties:
-#                   meta:
-#                     $ref: '#/components/schemas/Meta'
-#                   message:
-#                     type: string
-#         '404':
-#           description: Hospital group not found
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#         '500':
-#           description: Internal Server Error
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-
-#   /api/v1/hospital/hospital:
-#     post:
-#       summary: Create a new hospital
-#       tags:
-#         - Hospitals
-#       requestBody:
-#         required: true
-#         content:
-#           application/json:
-#             schema:
-#               $ref: '#/components/schemas/HospitalInput'
-#       responses:
-#         '200':
-#           description: OK
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Hospital'
-#         '400':
-#           description: Invalid data provided
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#     get:
-#       summary: Get all hospitals
-#       tags:
-#         - Hospitals
-#       responses:
-#         '200':
-#           description: OK
-#           content:
-#             application/json:
-#               schema:
-#                 type: array
-#                 items:
-#                   $ref: '#/components/schemas/Hospital'
-#         '500':
-#           description: Error retrieving hospitals
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#   /api/v1/hospital/hospital/{id}:
-#     get:
-#       summary: Get a hospital by ID
-#       tags:
-#         - Hospitals
-#       parameters:
-#         - in: path
-#           name: id
-#           required: true
-#           description: ID of the hospital to retrieve
-#           schema:
-#             type: integer
-#       responses:
-#         '200':
-#           description: OK
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Hospital'
-#         '404':
-#           description: Hospital not found
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#         '500':
-#           description: Error retrieving hospital
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#     put:
-#       summary: Update a hospital by ID
-#       tags:
-#         - Hospitals
-#       parameters:
-#         - in: path
-#           name: id
-#           required: true
-#           description: ID of the hospital to update
-#           schema:
-#             type: integer
-#       requestBody:
-#         required: true
-#         content:
-#           application/json:
-#             schema:
-#               $ref: '#/components/schemas/HospitalInput'
-#       responses:
-#         '200':
-#           description: Hospital updated successfully
-#           content:
-#             application/json:
-#               schema:
-#                 type: object
-#                 properties:
-#                   meta:
-#                     $ref: '#/components/schemas/Meta'
-#                   message:
-#                     type: string
-#         '400':
-#           description: Invalid data provided
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#         '404':
-#           description: Hospital not found
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#         '500':
-#           description: Error updating hospital
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#     delete:
-#       summary: Delete a hospital by ID
-#       tags:
-#         - Hospitals
-#       parameters:
-#         - in: path
-#           name: id
-#           required: true
-#           description: ID of the hospital to delete
-#           schema:
-#             type: integer
-#       responses:
-#         '200':
-#           description: Hospital deleted successfully
-#           content:
-#             application/json:
-#               schema:
-#                 type: object
-#                 properties:
-#                   meta:
-#                     $ref: '#/components/schemas/Meta'
-#                   message:
-#                     type: string
-#         '404':
-#           description: Hospital not found
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-#         '500':
-#           description: Error deleting hospital
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/Error'
-# components:
-#   schemas:
-#     HospitalGroup:
-#       type: object
-#       properties:
-#         HospitalGroupID:
-#           type: integer
-#         HospitalGroupName:
-#           type: string
-#         LicensedHospitalCount:
-#           type: integer
-#         CreatedDate:
-#           type: string
-#           format: date
-#         CreatedBy:
-#           type: integer
-#     Hospital:
-#       type: object
-#       properties:
-#         HospitalID:
-#           type: integer
-#         HospitalName:
-#           type: string
-#         HospitalCode:
-#           type: string
-#         ManagingCompany:
-#           type: string
-#         ManagingCompanyAdd1:
-#           type: string
-#         ManagingCompanyAdd2:
-#           type: string
-#         ManagingCompanyAdd3:
-#           type: string
-#         ManagingCompanyEmail:
-#           type: string
-#         ManagingCompanyWebsite:
-#           type: string
-#         City:
-#           type: string
-#         Province:
-#           type: string
-#         Region:
-#           type: string
-#         Country:
-#           type: string
-#         HospitalOwner:
-#           type: string
-#         OwnerName:
-#           type: string
-#         OwnerAdd1:
-#           type: string
-#         OwnerAdd2:
-#           type: string
-#         OwnerAdd3:
-#           type: string
-#         OwnerCity:
-#           type: string
-#         OwnerProvince:
-#           type: string
-#         OwnerRegion:
-#           type: string
-#         OwnerCountry:
-#           type: string
-#         OwnerEmail:
-#           type: string
-#         HospitalIDNo:
-#           type: string
-#         TaxNumber:
-#           type: string
-#         ServiceNo:
-#           type: string
-#         RegistrationNo:
-#           type: string
-#         VATNumber:
-#           type: string
-#         GSTNo:
-#           type: string
-#         TINNo:
-#           type: string
-#         AccBooksBeginFrom:
-#           type: string
-#           format: date
-#         OtherRegNo:
-#           type: string
-#         HospitalLogo:
-#           type: string
-#         HospitalGroupIDR:
-#           type: integer
-#           HospitalLogo:
-#           type: string
-#     HospitalInput:
-#       type: object
-#       properties:
-#         HospitalName:
-#           type: string
-#         HospitalCode:
-#           type: string
-#         ManagingCompany:
-#           type: string
-#         ManagingCompanyAdd1:
-#           type: string
-#         ManagingCompanyAdd2:
-#           type: string
-#         ManagingCompanyAdd3:
-#           type: string
-#         ManagingCompanyEmail:
-#           type: string
-#         ManagingCompanyWebsite:
-#           type: string
-#         City:
-#           type: string
-#         Province:
-#           type: string
-#         Region:
-#           type: string
-#         Country:
-#           type: string
-#         HospitalOwner:
-#           type: string
-#         OwnerName:
-#           type: string
-#         OwnerAdd1:
-#           type: string
-#         OwnerAdd2:
-#           type: string
-#         OwnerAdd3:
-#           type: string
-#         OwnerCity:
-#           type: string
-#         OwnerProvince:
-#           type: string
-#         OwnerRegion:
-#           type: string
-#         OwnerCountry:
-#           type: string
-#         OwnerEmail:
-#           type: string
-#         HospitalIDNo:
-#           type: string
-#         TaxNumber:
-#           type: string
-#         ServiceNo:
-#           type: string
-#         RegistrationNo:
-#           type: string
-#         VATNumber:
-#           type: string
-#         GSTNo:
-#           type: string
-#         TINNo:
-#           type: string
-#         AccBooksBeginFrom:
-#           type: string
-#           format: date
-#         OtherRegNo:
-#           type: string
-#         HospitalLogo:
-#           type: string
-#         HospitalGroupIDR:
-#           type: integer
-#           HospitalDatabase:
-#           type: string
-#     Meta:
-#       type: object
-#       properties:
-#         statusCode:
-#           type: integer
-#     Error:
-#       type: object
-#       properties:
-#         meta:
-#           $ref: '#/components/schemas/Meta'
-#         error:
-#           type: object
-#           properties:
-#             message:
-#               type: string
-
-# paths:
-#   /api/v1/hospital/user:
-#     post:
-#       summary: Create a new user
-#       requestBody:
-#         required: true
-#         content:
-#           application/json:
-#             schema:
-#               type: object
-#               properties:
-#                 databaseName:
-#                   type: string
-#                   description: Name of the dynamic database
-#                 userName:
-#                   type: string
-#                   description: Username for the new user
-#                 password:
-#                   type: string
-#                   description: Password for the new user
-#                 hospitalGroupId:
-#                   type: integer
-#                   description: ID of the hospital group the user belongs to
-#       responses:
-#         '201':
-#           description: User created successfully
-#           content:
-#             application/json:
-#               schema:
-#                 type: object
-#                 properties:
-#                   meta:
-#                     type: object
-#                     properties:
-#                       statusCode:
-#                         type: integer
-#                   data:
-#                     $ref: '#/components/schemas/User'
-#         '400':
-#           description: Error creating user
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/ErrorResponse'
-
-#     put:
-#       summary: Update an existing user
-#       requestBody:
-#         required: true
-#         content:
-#           application/json:
-#             schema:
-#               type: object
-#               properties:
-#                 databaseName:
-#                   type: string
-#                   description: Name of the dynamic database
-#                 userId:
-#                   type: integer
-#                   description: ID of the user to update
-#                 userName:
-#                   type: string
-#                   description: Updated username
-#                 password:
-#                   type: string
-#                   description: Updated password
-#                 hospitalGroupId:
-#                   type: integer
-#                   description: Updated hospital group ID
-#       responses:
-#         '200':
-#           description: User updated successfully
-#           content:
-#             application/json:
-#               schema:
-#                 type: object
-#                 properties:
-#                   meta:
-#                     type: object
-#                     properties:
-#                       statusCode:
-#                         type: integer
-#                   data:
-#                     $ref: '#/components/schemas/User'
-#         '400':
-#           description: Error updating user
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/ErrorResponse'
-#         '404':
-#           description: User not found
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/ErrorResponse'
-
-#     delete:
-#       summary: Delete a user
-#       parameters:
-#         - name: databaseName
-#           in: query
-#           required: true
-#           schema:
-#             type: string
-#           description: Name of the dynamic database
-#         - name: userId
-#           in: query
-#           required: true
-#           schema:
-#             type: integer
-#           description: ID of the user to delete
-#       responses:
-#         '200':
-#           description: User deleted successfully
-#           content:
-#             application/json:
-#               schema:
-#                 type: object
-#                 properties:
-#                   meta:
-#                     type: object
-#                     properties:
-#                       statusCode:
-#                         type: integer
-#                   data:
-#                     type: object
-#                     properties:
-#                       message:
-#                         type: string
-#         '400':
-#           description: Error deleting user
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/ErrorResponse'
-#         '404':
-#           description: User not found
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/ErrorResponse'
-
-#   /users:
-#     get:
-#       summary: Get all users
-#       parameters:
-#         - name: databaseName
-#           in: query
-#           required: true
-#           schema:
-#             type: string
-#           description: Name of the dynamic database
-#       responses:
-#         '200':
-#           description: List of users
-#           content:
-#             application/json:
-#               schema:
-#                 type: object
-#                 properties:
-#                   meta:
-#                     type: object
-#                     properties:
-#                       statusCode:
-#                         type: integer
-#                   data:
-#                     type: array
-#                     items:
-#                       $ref: '#/components/schemas/User'
-#         '400':
-#           description: Error retrieving users
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/ErrorResponse'
-
-# components:
-#   schemas:
-#     User:
-#       type: object
-#       properties:
-#         UserID:
-#           type: integer
-#         UserName:
-#           type: string
-#         Password:
-#           type: string
-#         HospitalGroupID:
-#           type: integer
-
-#     ErrorResponse:
-#       type: object
-#       properties:
-#         meta:
-#           type: object
-#           properties:
-#             statusCode:
-#               type: integer
-#             errorCode:
-#               type: integer
-#         error:
-#           type: object
-#           properties:
-#             message:
-#               type: string
-
-
-
-
-
-
-
-
-
 openapi: 3.0.0
 info:
   title: Hospital and Hospital Group API
@@ -1523,7 +574,489 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /api/v1/hospital/user:
+  paths:
+  /api/v1/hospital/create-user:
+    post:
+      summary: Create a new user
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  data:
+                    type: object
+                    properties:
+                      userId:
+                        type: integer
+                      username:
+                        type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/hospital/user/{id}:
+    get:
+      summary: Get a user by ID
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  data:
+                    type: object
+                    properties:
+                      userId:
+                        type: integer
+                      username:
+                        type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      summary: Update a user by ID
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  data:
+                    type: object
+                    properties:
+                      userId:
+                        type: integer
+                      username:
+                        type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete a user by ID
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/hospital/Hospital/login:
+    post:
+      summary: Hospital login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Username:
+                  type: string
+                  description: Username of the hospital
+                Password:
+                  type: string
+                  description: Password of the hospital
+      responses:
+        '200':
+          description: Login successful and token generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  data:
+                    type: object
+                    properties:
+                      Hospitaltoken:
+                        type: string
+                      hospital:
+                        $ref: '#/components/schemas/User'
+                      message:
+                        type: string
+        '400':
+          description: Validation errors occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Incorrect password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Hospital not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error logging in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Meta:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        hospitalDatabase:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT               
+
+  /api/v1/hospital/users:
+    get:
+      summary: Get all users
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Users retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Meta:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+        username:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+  
+  /api/v1/hospital/Hospital/login:
+    post:
+      summary: Hospital login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Username:
+                  type: string
+                  description: Username of the hospital
+                Password:
+                  type: string
+                  description: Password of the hospital
+      responses:
+        '200':
+          description: Login successful and token generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  data:
+                    type: object
+                    properties:
+                      Hospitaltoken:
+                        type: string
+                      hospital:
+                        $ref: '#/components/schemas/User'
+                      message:
+                        type: string
+        '400':
+          description: Validation errors occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Incorrect password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Hospital not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error logging in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Meta:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        hospitalDatabase:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+
+  /api/v1/hospital/create-user:
     post:
       summary: Create a new user
       requestBody:
@@ -1533,9 +1066,6 @@ paths:
             schema:
               type: object
               properties:
-                # databaseName:
-                #   type: string
-                #   description: Name of the dynamic database
                 userName:
                   type: string
                   description: Username for the new user
@@ -1551,23 +1081,41 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  meta:
-                    type: object
-                    properties:
-                      statusCode:
-                        type: integer
-                  data:
-                    $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/User'
         '400':
           description: Error creating user
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-    put:
-      summary: Update an existing user
+      security:
+        - BearerAuth: []
+
+  /api/v1/hospital/user:
+    get:
+      summary: Get all users
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      summary: Create a new user
+      tags:
+        - Users
       requestBody:
         required: true
         content:
@@ -1575,105 +1123,41 @@ paths:
             schema:
               type: object
               properties:
-                databaseName:
+                username:
                   type: string
-                  description: Name of the dynamic database
-                userId:
-                  type: integer
-                  description: ID of the user to update
-                userName:
+                email:
                   type: string
-                  description: Updated username
                 password:
                   type: string
-                  description: Updated password
-                hospitalGroupId:
-                  type: integer
-                  description: Updated hospital group ID
+              required:
+                - username
+                - email
+                - password
       responses:
         '200':
-          description: User
-                  '200':
-          description: User updated successfully
+          description: User created successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  meta:
-                    $ref: '#/components/schemas/Meta'
-                  message:
-                    type: string
+                $ref: '#/components/schemas/User'
         '400':
-          description: Error updating user
+          description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-    delete:
-      summary: Delete a user by ID
-      parameters:
-        - in: query
-          name: userId
-          schema:
-            type: integer
-            description: ID of the user to delete
-          required: true
-      responses:
-        '200':
-          description: User deleted successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  meta:
-                    $ref: '#/components/schemas/Meta'
-                  message:
-                    type: string
-        '400':
-          description: Error deleting user
+        '500':
+          description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
 
   /api/v1/hospital/user/{id}:
-    get:
-      summary: Get a user by ID
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID of the user to retrieve
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: User retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  meta:
-                    $ref: '#/components/schemas/Meta'
-                  data:
-                    $ref: '#/components/schemas/User'
-        '404':
-          description: User not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Error retrieving user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
     put:
       summary: Update a user by ID
+      tags:
+        - Users
       parameters:
         - in: path
           name: id
@@ -1686,25 +1170,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+              required:
+                - username
+                - email
       responses:
         '200':
           description: User updated successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  meta:
-                    $ref: '#/components/schemas/Meta'
-                  message:
-                    type: string
-        '400':
-          description: Error updating user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/User'
         '404':
           description: User not found
           content:
@@ -1712,13 +1193,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '500':
-          description: Error updating user
+          description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
     delete:
       summary: Delete a user by ID
+      tags:
+        - Users
       parameters:
         - in: path
           name: id
@@ -1738,21 +1222,59 @@ paths:
                     $ref: '#/components/schemas/Meta'
                   message:
                     type: string
-        '400':
-          description: Error deleting user
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
 
+components:
+  schemas:
+    Meta:
+      type: object
+      properties:
+        statusCode:
+          type: integer
 
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        hospitalDatabase:
+          type: string
 
-        
-         
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
 
-
-
-
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
 
 
