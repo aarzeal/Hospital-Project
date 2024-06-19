@@ -595,7 +595,7 @@ exports.login = async (req, res) => {
     const Hospitaltoken = jwt.sign(
       { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '24h' }
     );
 
     const decodedToken = jwt.verify(Hospitaltoken, process.env.JWT_SECRET);

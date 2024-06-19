@@ -1,43 +1,39 @@
-const { DataTypes, Model } = require('sequelize');
-const createDynamicConnection = require('../database/dynamicConnection');
-const Module = require('./HospitalModules'); // Import the Module model
 
-const { sequelize } = createDynamicConnection();
+const { DataTypes } = require('sequelize');
 
-class Submodule extends Model {}
-
-Submodule.init({
-  submodule_id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  submodule_name: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  module_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'Modules', // Table name of the Module model
-      key: 'module_id'
+module.exports = (sequelize) => {
+  const UserSubModules = sequelize.define('UserSubModules', {
+    submodule_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    submodule_name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    } ,
+    modules_Id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'userModules', // Table name of the Module model
+        key: 'modules_Id'
+      }
+    },
+    
+    url: {
+      type: DataTypes.STRING,
+     
     }
-  },
-  link: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }
-}, {
-  sequelize,
-  modelName: 'Submodule',
-  tableName: 'submodules', // Set the table name explicitly
-  timestamps: false // Disable timestamps (createdAt, updatedAt)
-});
+    ,
+    hospitalId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
+  }, {
+    tableName: 'usersubmodules',
+    timestamps: false
+  });
 
-// Automatically create the table if it doesn't exist
-Submodule.sync({ alter: true });
-
-
-
-module.exports = Submodule;
+  return UserSubModules;
+};

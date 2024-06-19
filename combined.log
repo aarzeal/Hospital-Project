@@ -202,3 +202,120 @@
 {"level":"info","message":"Hospital with ID 26 logged in successfully","timestamp":"2024-06-14T07:05:34.870Z"}
 {"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-14T07:05:57.045Z"}
 {"level":"info","message":"User with ID 1 retrieved successfully","timestamp":"2024-06-14T07:05:57.057Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-06-18T05:05:27.653Z"}
+{"level":"info","message":"Retrieved hospitals by HospitalGroupIDR: 1 successfully","timestamp":"2024-06-18T05:06:05.946Z"}
+{"level":"info","message":"Retrieved hospitals by HospitalGroupIDR: 5 successfully","timestamp":"2024-06-18T05:06:20.810Z"}
+{"level":"info","message":"Hospital with ID 26 logged in successfully","timestamp":"2024-06-18T06:06:14.498Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:07:01.412Z"}
+{"error":"User is not defined","level":"error","message":"Error creating Modules","timestamp":"2024-06-18T06:07:01.544Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:08:02.171Z"}
+{"error":"notNull Violation: UserModules.modules_name cannot be null","level":"error","message":"Error creating Modules","timestamp":"2024-06-18T06:08:02.187Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:08:39.188Z"}
+{"error":"username is not defined","level":"error","message":"Error creating Modules","timestamp":"2024-06-18T06:08:39.254Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:09:03.627Z"}
+{"level":"info","message":"User created successfully with username: administration, hospitalId: 26","timestamp":"2024-06-18T06:09:03.669Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:36:53.044Z"}
+{"level":"warn","message":"User with ID undefined not found","timestamp":"2024-06-18T06:36:53.047Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:39:35.806Z"}
+{"level":"warn","message":"module with ID undefined not found","timestamp":"2024-06-18T06:39:35.809Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:40:02.108Z"}
+{"level":"warn","message":"module with ID undefined not found","timestamp":"2024-06-18T06:40:02.111Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:40:29.609Z"}
+{"level":"warn","message":"module with ID undefined not found","timestamp":"2024-06-18T06:40:29.612Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:42:29.250Z"}
+{"level":"warn","message":"module with ID undefined not found","timestamp":"2024-06-18T06:42:29.252Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:42:34.523Z"}
+{"level":"warn","message":"module with ID undefined not found","timestamp":"2024-06-18T06:42:34.524Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:42:42.624Z"}
+{"level":"warn","message":"module with ID undefined not found","timestamp":"2024-06-18T06:42:42.625Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:42:51.157Z"}
+{"level":"warn","message":"module with ID undefined not found","timestamp":"2024-06-18T06:42:51.158Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:44:06.173Z"}
+{"level":"warn","message":"User with ID undefined not found","timestamp":"2024-06-18T06:44:06.174Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:50:23.312Z"}
+{"level":"info","message":"User with ID 2 retrieved successfully","timestamp":"2024-06-18T06:50:23.349Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:50:29.051Z"}
+{"level":"warn","message":"module with ID undefined not found","timestamp":"2024-06-18T06:50:29.053Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:50:40.466Z"}
+{"level":"info","message":"User with ID 2 retrieved successfully","timestamp":"2024-06-18T06:50:40.476Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:51:42.248Z"}
+{"level":"info","message":"User with ID 1 retrieved successfully","timestamp":"2024-06-18T06:51:42.266Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T06:52:19.507Z"}
+{"level":"info","message":"User with ID 1 retrieved successfully","timestamp":"2024-06-18T06:52:19.524Z"}
+{"level":"info","message":"Hospital with ID 26 logged in successfully","timestamp":"2024-06-18T07:29:57.360Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T07:30:15.922Z"}
+{"level":"info","message":"User created successfully with username: serviceMaster, hospitalId: 26","timestamp":"2024-06-18T07:30:16.081Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T09:03:17.674Z"}
+{"level":"info","message":"submodule with ID 1 retrieved successfully","timestamp":"2024-06-18T09:03:17.694Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T09:06:08.113Z"}
+{"error":"Unknown column 'url' in 'field list'","level":"error","message":"Error retrieving Modules","timestamp":"2024-06-18T09:06:08.130Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T09:06:42.529Z"}
+{"level":"info","message":"submodule with ID 1 retrieved successfully","timestamp":"2024-06-18T09:06:42.541Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T09:29:11.133Z"}
+{"error":"Cannot find module '../models/hospitalmodule'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\hopsitalSubmoduleControler.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\submoduleRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","level":"error","message":"Error retrieving submodules","timestamp":"2024-06-18T09:29:11.136Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T09:29:44.923Z"}
+{"error":"WHERE parameter \"submodule_id\" has invalid \"undefined\" value","level":"error","message":"Error retrieving submodules","timestamp":"2024-06-18T09:29:44.930Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T09:54:56.842Z"}
+{"error":"Cannot find module '../models/hospitalmodule'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\hopsitalSubmoduleControler.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\submoduleRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","level":"error","message":"Error retrieving submodules","timestamp":"2024-06-18T09:54:56.845Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T09:55:10.942Z"}
+{"error":"WHERE parameter \"module_id\" has invalid \"undefined\" value","level":"error","message":"Error retrieving submodules","timestamp":"2024-06-18T09:55:10.948Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:06:31.930Z"}
+{"level":"info","message":"Received request for submodules with module_id: undefined and hospitalId: 26","timestamp":"2024-06-18T10:06:31.932Z"}
+{"level":"warn","message":"Module ID is missing in the request","timestamp":"2024-06-18T10:06:31.933Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:06:44.233Z"}
+{"level":"info","message":"Received request for submodules with module_id: undefined and hospitalId: 26","timestamp":"2024-06-18T10:06:44.233Z"}
+{"level":"warn","message":"Module ID is missing in the request","timestamp":"2024-06-18T10:06:44.234Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:06:49.659Z"}
+{"level":"info","message":"Received request for submodules with module_id: undefined and hospitalId: 26","timestamp":"2024-06-18T10:06:49.659Z"}
+{"level":"warn","message":"Module ID is missing in the request","timestamp":"2024-06-18T10:06:49.660Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:07:06.477Z"}
+{"level":"info","message":"Received request for submodules with module_id: undefined and hospitalId: 26","timestamp":"2024-06-18T10:07:06.478Z"}
+{"level":"warn","message":"Module ID is missing in the request","timestamp":"2024-06-18T10:07:06.478Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:11:12.127Z"}
+{"level":"info","message":"Received request for submodules with module_id: undefined ","timestamp":"2024-06-18T10:11:12.129Z"}
+{"level":"warn","message":"Module ID is missing in the request","timestamp":"2024-06-18T10:11:12.129Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:11:18.090Z"}
+{"level":"info","message":"Received request for submodules with module_id: undefined ","timestamp":"2024-06-18T10:11:18.090Z"}
+{"level":"warn","message":"Module ID is missing in the request","timestamp":"2024-06-18T10:11:18.091Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:11:59.983Z"}
+{"level":"info","message":"Received request for submodules with module_id: undefined ","timestamp":"2024-06-18T10:11:59.985Z"}
+{"level":"warn","message":"Module ID is missing in the request","timestamp":"2024-06-18T10:11:59.985Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:12:11.769Z"}
+{"level":"info","message":"Received request for submodules with module_id: undefined ","timestamp":"2024-06-18T10:12:11.770Z"}
+{"level":"warn","message":"Module ID is missing in the request","timestamp":"2024-06-18T10:12:11.770Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:12:22.006Z"}
+{"level":"info","message":"Received request for submodules with module_id: undefined ","timestamp":"2024-06-18T10:12:22.007Z"}
+{"level":"warn","message":"Module ID is missing in the request","timestamp":"2024-06-18T10:12:22.007Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:12:38.810Z"}
+{"level":"info","message":"Received request for submodules with module_id: 1 ","timestamp":"2024-06-18T10:12:38.813Z"}
+{"error":"hospitalId is not defined","level":"error","message":"Error retrieving submodules","timestamp":"2024-06-18T10:12:38.830Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:12:57.370Z"}
+{"level":"info","message":"Received request for submodules with module_id: 1 ","timestamp":"2024-06-18T10:12:57.372Z"}
+{"level":"info","message":"Submodules for module ID 1 ","timestamp":"2024-06-18T10:12:57.405Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:14:27.773Z"}
+{"error":"notNull Violation: UserSubModules.url cannot be null","level":"error","message":"Error creating Modules","timestamp":"2024-06-18T10:14:27.789Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:14:51.406Z"}
+{"level":"info","message":"User created successfully with username: cashLessPriceList, hospitalId: 26","timestamp":"2024-06-18T10:14:51.444Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:14:56.407Z"}
+{"level":"info","message":"Received request for submodules with module_id: 1 ","timestamp":"2024-06-18T10:14:56.407Z"}
+{"level":"info","message":"Submodules for module ID 1 ","timestamp":"2024-06-18T10:14:56.426Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:20:48.445Z"}
+{"level":"info","message":"Received request for submodules with module_id: 1 ","timestamp":"2024-06-18T10:20:48.447Z"}
+{"level":"info","message":"Submodules for module ID 1 ","timestamp":"2024-06-18T10:20:48.468Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T10:21:25.030Z"}
+{"level":"info","message":"Received request for submodules with module_id: 1 ","timestamp":"2024-06-18T10:21:25.032Z"}
+{"level":"info","message":"Submodules for module ID 1 ","timestamp":"2024-06-18T10:21:25.050Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T11:58:24.309Z"}
+{"error":"Can't create table `umc13`.`userrides` (errno: 150 \"Foreign key constraint is incorrectly formed\")","level":"error","message":"Error creating Modules","timestamp":"2024-06-18T11:58:24.435Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T11:59:43.521Z"}
+{"error":"Can't create table `umc13`.`userrides` (errno: 150 \"Foreign key constraint is incorrectly formed\")","level":"error","message":"Error creating Modules","timestamp":"2024-06-18T11:59:43.716Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T11:59:52.524Z"}
+{"error":"Can't create table `umc13`.`userrides` (errno: 150 \"Foreign key constraint is incorrectly formed\")","level":"error","message":"Error creating Modules","timestamp":"2024-06-18T11:59:52.643Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T12:02:20.008Z"}
+{"error":"Can't create table `umc13`.`userrides` (errno: 150 \"Foreign key constraint is incorrectly formed\")","level":"error","message":"Error creating Modules","timestamp":"2024-06-18T12:02:20.131Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T12:03:28.603Z"}
+{"error":"Can't create table `umc13`.`userrides` (errno: 150 \"Foreign key constraint is incorrectly formed\")","level":"error","message":"Error creating Modules","timestamp":"2024-06-18T12:03:28.742Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T12:12:56.092Z"}
+{"error":"Can't create table `umc13`.`userrides` (errno: 150 \"Foreign key constraint is incorrectly formed\")","level":"error","message":"Error creating Modules","timestamp":"2024-06-18T12:12:56.224Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-06-18T12:16:52.301Z"}
+{"error":"Can't create table `umc13`.`userrides` (errno: 150 \"Foreign key constraint is incorrectly formed\")","level":"error","message":"Error creating userRides","timestamp":"2024-06-18T12:16:52.449Z"}

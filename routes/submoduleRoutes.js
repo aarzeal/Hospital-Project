@@ -1,25 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const submoduleController = require('../controllers/hopsitalSubmoduleControler');
+const authenticate = require('../validators/authenticate');
+const hospitalController = require('../controllers/HospitalController');
+const submodulesController = require('../controllers/hopsitalSubmoduleControler');
 
 // Routes
 
 // GET all submodules
-router.get('/', submoduleController.getAllSubmodules);
-
-// POST a new submodule
-router.post('/', submoduleController.createSubmodule);
-
-// GET a submodule by ID
-router.get('/:id', submoduleController.getSubmoduleById);
-
-// Update a submodule
-router.put('/:id', submoduleController.updateSubmodule);
-
-// Delete a submodule
-router.delete('/:id', submoduleController.deleteSubmodule);
-
-// GET submodules by module_id
-router.get('/module/:module_id', submoduleController.getSubmodulesByModuleId);
+router.post('/create-submodules', authenticate, hospitalController.ensureSequelizeInstance, submodulesController.creatsubmodules);
+router.get('/submodule', authenticate, hospitalController.ensureSequelizeInstance, submodulesController.getSubModule);
+router.put('/submodule', authenticate, hospitalController.ensureSequelizeInstance, submodulesController.updateSubModule);
+router.get('/submodules/:id', authenticate, hospitalController.ensureSequelizeInstance, submodulesController.getSubModulesByModuleId);
 
 module.exports = router;
