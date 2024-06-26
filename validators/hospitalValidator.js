@@ -1,4 +1,5 @@
 const { body } = require('express-validator');
+// const User = require('../models/user'); 
 
 exports.createHospitalValidationRules = () => {
   return [
@@ -97,5 +98,94 @@ exports.updateHospitalValidationRules = () => {
     body('RegistrationNo')
       .optional()
       .isLength({ max: 50 }).withMessage('Registration No cannot exceed 50 characters'),
+  ];
+};
+
+const User = require('../models/user'); // Adjust the path to your User model
+
+exports.createUserValidationRules = () => {
+  return [
+    body('name')
+      .notEmpty().withMessage('Name is required')
+      .isLength({ max: 255 }).withMessage('Name cannot exceed 255 characters'),
+    body('phone')
+      .notEmpty().withMessage('Phone is required')
+      .isLength({ min: 10, max: 15 }).withMessage('Phone must be between 10 and 15 characters')
+      .matches(/^[0-9]+$/).withMessage('Phone can only contain numbers'),
+    body('username')
+      .notEmpty().withMessage('Username is required')
+      .isLength({ max: 255 }).withMessage('Username cannot exceed 255 characters')
+      .custom(async (value) => {
+        const user = await User.findOne({ where: { username: value } });
+        if (user) {
+          throw new Error('Username is already in use');
+        }
+      }),
+    body('password')
+      .notEmpty().withMessage('Password is required')
+      .isLength({ min: 8, max: 100 }).withMessage('Password must be between 8 and 100 characters'),
+    body('hospitalId')
+      .notEmpty().withMessage('Hospital ID is required')
+      .isInt().withMessage('Hospital ID must be an integer'),
+    body('status')
+      .optional()
+      .isIn(['active', 'inactive', 'suspended']).withMessage('Status must be one of active, inactive, or suspended'),
+    body('is_emailVerify')
+      .optional()
+      .isIn(['yes', 'no']).withMessage('Email verification must be either yes or no'),
+    body('usertype')
+      .optional()
+      .isIn(['admin', 'user', 'guest']).withMessage('User type must be one of admin, user, or guest'),
+    body('lockuser')
+      .optional()
+      .isIn(['yes', 'no']).withMessage('Lock user must be either yes or no'),
+    body('phoneverify')
+      .optional()
+      .isIn(['yes', 'no']).withMessage('Phone verification must be either yes or no'),
+  ];
+};
+
+exports.updateUserValidationRules = () => {
+  return [
+    body('name')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Name cannot exceed 255 characters'),
+    body('phone')
+      .optional()
+      .isLength({ min: 10, max: 15 }).withMessage('Phone must be between 10 and 15 characters')
+      .matches(/^[0-9]+$/).withMessage('Phone can only contain numbers'),
+    body('username')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Username cannot exceed 255 characters')
+      .custom(async (value, { req }) => {
+        if (!value) {
+          return true; // Skip uniqueness check if username is not provided in update
+        }
+        const user = await User.findOne({ where: { username: value } });
+        if (user && user.userId !== parseInt(req.params.id, 10)) {
+          throw new Error('Username is already in use');
+        }
+      }),
+    body('password')
+      .optional()
+      .isLength({ min: 8, max: 100 }).withMessage('Password must be between 8 and 100 characters'),
+    body('hospitalId')
+      .optional()
+      .isInt().withMessage('Hospital ID must be an integer'),
+    body('status')
+      .optional()
+      .isIn(['active', 'inactive', 'suspended']).withMessage('Status must be one of active, inactive, or suspended'),
+    body('is_emailVerify')
+      .optional()
+      .isIn(['yes', 'no']).withMessage('Email verification must be either yes or no'),
+    body('usertype')
+      .optional()
+      .isIn(['admin', 'user', 'guest']).withMessage('User type must be one of admin, user, or guest'),
+    body('lockuser')
+      .optional()
+      .isIn(['yes', 'no']).withMessage('Lock user must be either yes or no'),
+    body('phoneverify')
+      .optional()
+      .isIn(['yes', 'no']).withMessage('Phone verification must be either yes or no'),
   ];
 };

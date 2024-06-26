@@ -199,6 +199,18 @@ const Hospital = sequelize.define('tblHospital', {
   Password: {
     type: DataTypes.STRING(255),
     allowNull: false
+  },
+  UniqueKey: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  ResetToken: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  ResetTokenExpires: {
+    type: DataTypes.DATE,
+    allowNull: true
   }
 }, {
   tableName: 'tblHospital',

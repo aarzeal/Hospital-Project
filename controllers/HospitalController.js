@@ -175,12 +175,13 @@
 //     }
 // };
 
-
-
-
-
+const validateJSONContentType = require('../Middleware/jsonvalidation');
+const { v4: uuidv4 } = require('uuid');
+const sendEmail = require('../Middleware/sendEmail');
+const { Op } = require('sequelize');
 const express = require('express');
 const router = express.Router();
+const { createUserValidationRules } = require('../validators/hospitalValidator');
 
 const { validationResult } = require('express-validator');
 const Hospital = require('../models/HospitalModel');
@@ -192,6 +193,7 @@ const bcrypt = require('bcrypt');
 const logger = require('../logger');  // Assuming logger is configured properly in '../logger'
 const jwt = require('jsonwebtoken');
 const {  DataTypes } = require('sequelize');
+
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -214,8 +216,21 @@ exports.createHospital = async (req, res) => {
             }
         });
     }
+    
 
     try {
+      const existingHospital = await Hospital.findOne({ where: { ManagingCompanyEmail: req.body.ManagingCompanyEmail } });
+    if (existingHospital) {
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 956
+        },
+        error: {
+          message: 'Managing Company Email already exists'
+        }
+      });
+    }
         const hospital = await Hospital.create(req.body);
         logger.info('Hospital created successfully', { hospitalId: hospital.HospitalID });
 
@@ -239,6 +254,15 @@ exports.createHospital = async (req, res) => {
         // Sync all models
         await dynamicDb.sync();
         logger.info(`Models synchronized successfully in database ${databaseName}`);
+
+
+
+        const uniqueKey = uuidv4();
+        logger.info(`Generated unique key: ${uniqueKey}`);
+
+        hospital.UniqueKey = uniqueKey;
+         await hospital.save({ fields: ['UniqueKey'] });
+        logger.info('Unique key stored in hospital record successfully');
 
         res.status(200).json({
             meta: {
@@ -540,7 +564,135 @@ exports.getHospitalsByHospitalGroupID = async (req, res) => {
 //     });
 //   }
 //   };
+
+
+
+
 const { Sequelize } = require('sequelize');
+
+// exports.login = async (req, res) => {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     logger.warn('Validation errors occurred during login', errors);
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 923
+//       },
+//       error: {
+//         message: 'Validation errors occurred',
+//         details: errors.array().map(err => ({
+//           field: err.param,
+//           message: err.msg
+//         }))
+//       }
+//     });
+//   }
+
+//   const { Username, Password } = req.body;
+
+//   const uniqueKey = req.headers['x-unique-key'];
+//   console.log("uniquekey",uniqueKey)
+
+//   try {
+//     const hospital = await Hospital.findOne({ where: { Username } });
+//     if (!hospital) {
+//       logger.warn(`Hospital with Username ${Username} not found`);
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: 404,
+//           errorCode: 924
+//         },
+//         error: {
+//           message: 'Hospital not found'
+//         }
+//       });
+//     }
+//     logger.info(`UniqueKey from request headers: ${uniqueKey}`);
+//     logger.info(`UniqueKey from database: ${hospital.UniqueKey}`);
+//     console.log(hospital.UniqueKey)
+
+
+
+
+//     if (!verifyUniqueKey(uniqueKey, hospital.UniqueKey)) {
+//       logger.warn(`Invalid UniqueKey for hospital with Username ${Username}`);
+//       return res.status(401).json({
+//         meta: {
+//           statusCode: 401,
+//           errorCode: 955
+//         },
+//         error: {
+//           message: 'Unauthorized'
+//         }
+//       });
+//     }
+
+//     const passwordMatch = await bcrypt.compare(Password, hospital.Password);
+//     if (!passwordMatch) {
+//       logger.warn(`Incorrect password for hospital with Username ${Username}`);
+//       return res.status(401).json({
+//         meta: {
+//           statusCode: 401,
+//           errorCode: 925
+//         },
+//         error: {
+//           message: 'Incorrect password'
+//         }
+//       });
+//     }
+
+//     const Hospitaltoken = jwt.sign(
+//       { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase },
+//       process.env.JWT_SECRET,
+//       { expiresIn: '24h' }
+//     );
+
+//     const decodedToken = jwt.verify(Hospitaltoken, process.env.JWT_SECRET);
+
+//     logger.info(`Hospital with ID ${decodedToken.hospitalId} logged in successfully`);
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200
+//       },
+//       data: {
+//         Hospitaltoken,
+//         hospital: {
+//           id: decodedToken.hospitalId,
+//           username: hospital.Username,
+//           email: hospital.Email,
+//           hospitalDatabase: hospital.HospitalDatabase
+//         },
+//         message: 'Login successful and token generated.'
+//       }
+//     });
+//   } catch (error) {
+//     logger.error('Error logging in', { error: error.message });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 926
+//       },
+//       error: {
+//         message: 'Error logging in: ' + error.message
+//       }
+//     });
+//   }
+
+// };const verifyUniqueKey = (providedKey, storedKey) => {
+//   logger.info(`Provided UniqueKey: ${providedKey}`);
+//   logger.info(`Stored UniqueKey: ${storedKey}`);
+//   return providedKey === storedKey;
+// };
+
+
+
+const verifyUniqueKey = (providedKey, storedKey) => {
+  logger.info(`Provided UniqueKey: ${providedKey}`);
+  logger.info(`Stored UniqueKey: ${storedKey}`);
+  return providedKey === storedKey;
+};
 
 exports.login = async (req, res) => {
   const errors = validationResult(req);
@@ -563,6 +715,9 @@ exports.login = async (req, res) => {
 
   const { Username, Password } = req.body;
 
+  const uniqueKey = req.headers['x-unique-key'];
+  console.log("uniquekey", uniqueKey);
+
   try {
     const hospital = await Hospital.findOne({ where: { Username } });
     if (!hospital) {
@@ -577,8 +732,27 @@ exports.login = async (req, res) => {
         }
       });
     }
+    
+    logger.info(`UniqueKey from request headers: ${uniqueKey}`);
+    logger.info(`UniqueKey from database: ${hospital.UniqueKey}`);
+    console.log(hospital.UniqueKey);
+
+    // Highlighted changes: Replaced direct comparison with verifyUniqueKey function
+    if (!verifyUniqueKey(uniqueKey, hospital.UniqueKey)) {
+      logger.warn(`Invalid UniqueKey for hospital with Username ${Username}`);
+      return res.status(401).json({
+        meta: {
+          statusCode: 401,
+          errorCode: 955
+        },
+        error: {
+          message: 'Unauthorized'
+        }
+      });
+    }
 
     const passwordMatch = await bcrypt.compare(Password, hospital.Password);
+    
     if (!passwordMatch) {
       logger.warn(`Incorrect password for hospital with Username ${Username}`);
       return res.status(401).json({
@@ -630,6 +804,363 @@ exports.login = async (req, res) => {
     });
   }
 };
+exports.requestPasswordReset = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    logger.warn('Validation errors occurred during password reset request', errors);
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 957
+      },
+      error: {
+        message: 'Validation errors occurred',
+        details: errors.array().map(err => ({
+          field: err.param,
+          message: err.msg
+        }))
+      }
+    });
+  }
+
+  const uniqueKey = req.headers['x-unique-key'];
+
+  if (!uniqueKey) {
+    logger.error('Missing unique key in request headers');
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 958
+      },
+      error: {
+        message: 'Missing unique key in request headers'
+      }
+    });
+  }
+
+  try {
+    // Find hospital by uniqueKey
+    const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
+    if (!hospital) {
+      logger.warn(`Hospital with UniqueKey ${uniqueKey} not found`);
+      return res.status(404).json({
+        meta: {
+          statusCode: 404,
+          errorCode: 959
+        },
+        error: {
+          message: 'Hospital not found'
+        }
+      });
+    }
+
+    // Ensure managingCompanyEmail is available
+    const managingCompanyEmail = hospital.ManagingCompanyEmail;
+    if (!managingCompanyEmail) {
+      logger.error(`Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail`);
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 960
+        },
+        error: {
+          message: 'Hospital does not have a managing company email'
+        }
+      });
+    }
+    const crypto = require('crypto');
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetTokenExpires = Date.now() + 3600000; // 1 hour from now
+
+    hospital.ResetToken = resetToken;
+    hospital.ResetTokenExpires = resetTokenExpires;
+    await hospital.save({ fields: ['ResetToken', 'ResetTokenExpires'] });
+
+    const resetLink = `http://localhost:3000/api/v1/hospital/reset-password${resetToken}`;
+
+    // Use the sendEmail function
+    const emailResponse = await sendEmail(
+      managingCompanyEmail,
+      'Password Reset Request',
+      `You requested a password reset. Click the link to reset your password: ${resetLink}`
+    );
+
+    if (emailResponse.meta.statusCode !== 200 )
+      {
+        
+
+      throw new Error('Failed to send reset email ');
+    }
+
+    logger.info(`Password reset link sent to ${managingCompanyEmail}`);
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200
+      },
+      data: {
+        message: 'Password reset link sent successfully'
+      }
+    });
+  } catch (error) {
+    logger.error('Error requesting password reset', { error: error.message });
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 960
+      },
+      error: {
+        message: 'Error requesting password reset: ' + error.message
+      }
+    });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  const { token } = req.body;
+  const { newPassword } = req.body;
+
+  try {
+    const hospital = await Hospital.findOne({ where: { ResetToken: token, ResetTokenExpires: { [Op.gt]: Date.now() } } });
+    if (!hospital) {
+      logger.warn(`Invalid or expired reset token`);
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 961
+        },
+        error: {
+          message: 'Invalid or expired reset token'
+        }
+      });
+    }
+
+    // const hashedPassword = await bcrypt.hash(newPassword, 10);
+    // logger.info(`New hashed password: ${hashedPassword}`);
+    // hospital.Password = hashedPassword;
+    // hospital.ResetToken = null;
+    // hospital.ResetTokenExpires = null;
+    // await hospital.save({ fields: ['Password', 'ResetToken', 'ResetTokenExpires'] });
+   
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    logger.info(`New hashed password: ${hashedPassword}`);
+
+    const hashedPasswordString = hashedPassword.toString();
+
+    // Save the new password
+    // hospital.Password = hashedPassword;
+    hospital.Password = hashedPasswordString;
+
+    await hospital.save({ fields: ['Password'] });
+
+    // Log the stored password directly from the hospital instance
+    logger.info(`Password stored in database: ${hospital.Password}`);
+
+
+
+    // Clear reset token and expiration time separately
+    hospital.ResetToken = null;
+    hospital.ResetTokenExpires = null;
+    await hospital.save({ fields: ['ResetToken', 'ResetTokenExpires'] });
+    logger.info(`Reset token and expiration time cleared in the database`);
+
+    logger.info(`Password reset successfully for hospital with email ${hospital.Email}`);
+    
+    res.status(200).json({
+      meta: {
+        statusCode: 200
+      },
+      data: {
+        message: 'Password reset successfully'
+      }
+    });
+  } catch (error) {
+    logger.error('Error resetting password', { error: error.message });
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 962
+      },
+      error: {
+        message: 'Error resetting password: ' + error.message
+      }
+    });
+  }
+};
+
+
+
+exports.changePassword = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      logger.info('Validation errors occurred', errors);
+      return res.status(400).json({
+          meta: {
+              statusCode: 400,
+              errorCode: 963
+          },
+          error: {
+              message: 'Validation errors occurred',
+              details: errors.array().map(err => ({
+                  field: err.param,
+                  message: err.msg
+              }))
+          }
+      });
+  }
+
+  const { currentPassword, newPassword } = req.body;
+  const uniqueKey = req.headers['x-unique-key'];
+
+  try {
+      const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
+      if (!hospital) {
+          logger.warn('Hospital not found with provided unique key');
+          return res.status(404).json({
+              meta: {
+                  statusCode: 404,
+                  errorCode: 964
+              },
+              error: {
+                  message: 'Hospital not found'
+              }
+          });
+      }
+
+      // Uncomment this section if you want to verify the current password
+      /*
+      const passwordMatch = await bcrypt.compare(currentPassword, hospital.Password);
+      if (!passwordMatch) {
+          logger.warn('Current password is incorrect');
+          return res.status(400).json({
+              meta: {
+                  statusCode: 400,
+                  errorCode: 965
+              },
+              error: {
+                  message: 'Current password is incorrect'
+              }
+          });
+      }
+      */
+
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      logger.info(`New password hashed: ${hashedNewPassword}`);
+
+      hospital.Password = hashedNewPassword;
+
+      // Save the new password to the database
+      await hospital.save({ fields: ['Password'] });
+
+      // Log the password after it has been saved to the database
+      const updatedHospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
+      logger.info(`New password stored in database: ${updatedHospital.Password}`);
+
+      logger.info(`Password changed successfully for hospital with email ${hospital.ManagingCompanyEmail}`);
+      
+      res.status(200).json({
+          meta: {
+              statusCode: 200
+          },
+          data: {
+              message: 'Password changed successfully'
+          }
+      });
+  } catch (error) {
+      logger.error('Error changing password', { error: error.message });
+      res.status(500).json({
+          meta: {
+              statusCode: 500,
+              errorCode: 966
+          },
+          error: {
+              message: 'Error changing password: ' + error.message
+          }
+      });
+  }
+};
+
+
+exports.changeEmail = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    logger.info('Validation errors occurred', errors);
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 967
+      },
+      error: {
+        message: 'Validation errors occurred',
+        details: errors.array().map(err => ({
+          field: err.param,
+          message: err.msg
+        }))
+      }
+    });
+  }
+
+  const { ManagingCompanyEmail } = req.body;
+  const uniqueKey = req.headers['x-unique-key'];
+
+  try {
+    const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
+    if (!hospital) {
+      logger.warn('Hospital not found with provided unique key');
+      return res.status(404).json({
+        meta: {
+          statusCode: 404,
+          errorCode: 968
+        },
+        error: {
+          message: 'Hospital not found'
+        }
+      });
+    }
+
+    // Update hospital's email
+    hospital.ManagingCompanyEmail = ManagingCompanyEmail;
+    await hospital.save({ fields: ['ManagingCompanyEmail'] });
+    logger.info(`Email updated successfully for hospital with unique key ${uniqueKey}`);
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200
+      },
+      data: {
+        message: 'Email changed successfully'
+      }
+    });
+  } catch (error) {
+    logger.error('Error changing email', { error: error.message });
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 969
+      },
+      error: {
+        message: 'Error changing email: ' + error.message
+      }
+    });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 exports.ensureSequelizeInstance = (req, res, next) => {
   if (!req.hospitalDatabase) {
@@ -662,8 +1193,60 @@ exports.ensureSequelizeInstance = (req, res, next) => {
   next();
 };
 
+// exports.createUser =async (req, res) => {
+
+ 
+//   const { name, username,phone,email,password,empid } = req.body;
+//   const hospitalId = req.hospitalId;
+
+//   try {
+//     if (!password) {
+//       throw new Error('Password is required');
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the number of salt rounds
+//     const User = require('../models/user')(req.sequelize);
+//     const verificationToken = uuidv4();
+
+//     // Ensure the table exists
+//     await User.sync();
+
+//     const user = await User.create({ username, password: hashedPassword,hospitalId ,name,phone ,email,empid, emailtoken: verificationToken});
+//     logger.info(`User created successfully with username: ${username}, hospitalId: ${hospitalId}`);
+
+
+
+//     const verificationLink = `https://example.com/verify/${verificationToken}`; // Replace with your actual verification link
+
+//     await sendEmail(User.email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
+
+//     res.status(201).json({
+//       meta: {
+//         statusCode: 200
+//       },
+//       data: {
+//         userId: user.userId,
+//         username: user.username
+//       }
+//     });
+//   } catch (error) {
+//     logger.error('Error creating user', { error: error.message });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 928
+//       },
+//       error: {
+//         message: 'Error creating user: ' + error.message
+//       }
+//     });
+//   }
+// };
+
+
+
 exports.createUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { name, username, phone, email, password, empid ,usertype} = req.body;
   const hospitalId = req.hospitalId;
 
   try {
@@ -672,13 +1255,31 @@ exports.createUser = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the number of salt rounds
-    const User = require('../models/user')(req.sequelize);
+    const verificationToken = uuidv4();
+    const tokenExpiration = new Date();
+    tokenExpiration.setMinutes(tokenExpiration.getMinutes() + 10); 
+    const User = require('../models/user')(req.sequelize)
 
     // Ensure the table exists
     await User.sync();
 
-    const user = await User.create({ username, password: hashedPassword,hospitalId  });
+    const user = await User.create({
+      username,
+      password: hashedPassword,
+      hospitalId,
+      name,
+      phone,
+      email,
+      empid,
+      usertype,
+      emailtoken: verificationToken,
+      createdBy: hospitalId
+    });
     logger.info(`User created successfully with username: ${username}, hospitalId: ${hospitalId}`);
+
+    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${verificationToken}`; // Replace with your actual verification link
+    
+    await sendEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
 
     res.status(201).json({
       meta: {
@@ -702,6 +1303,155 @@ exports.createUser = async (req, res) => {
     });
   }
 };
+
+exports.verifyEmail = async (req, res) => {
+  const { token } = req.params;
+  const User = require('../models/user');
+
+  try {
+    // Find user by email token
+    const user = await User(req.sequelize).findOne({ where: { emailtoken: token } });
+
+    if (!user) {
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 952
+        },
+        error: {
+          message: 'Invalid or expired verification token'
+        }
+      });
+    }
+
+    // Update user's email verification status
+    user.is_emailVerify = true; // Ensure correct field name as per your model definition
+    user.emailtoken = null; // Clear the token after verification
+    await user.save();
+
+    logger.info(`User email verified successfully with username: ${user.username}`);
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200
+      },
+      data: {
+        message: 'Email verified successfully'
+      }
+    });
+  } catch (error) {
+    logger.error('Error verifying email', { error: error.message });
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 953
+      },
+      error: {
+        message: 'Error verifying email: ' + error.message
+      }
+    });
+  }
+};
+
+
+// exports.verifyEmail = async (req, res) => {
+//   const { token } = req.params;
+//   const User = require('../models/user')(req.sequelize);
+
+//   try {
+//     const user = await User.findOne({ where: { emailtoken: token } });
+
+//     if (!user) {
+//       return res.status(400).json({
+//         meta: {
+//           statusCode: 400,
+//           errorCode: 929
+//         },
+//         error: {
+//           message: 'Invalid or expired token'
+//         }
+//       });
+//     }
+
+//     user.emailVerified = true;
+//     user.emailtoken = null;
+//     await user.save();
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200
+//       },
+//       data: {
+//         message: 'Email verified successfully'
+//       }
+//     });
+//   } catch (error) {
+//     logger.error('Error verifying email', { error: error.message });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 930
+//       },
+//       error: {
+//         message: 'Error verifying email: ' + error.message
+//       }
+//     });
+//   }
+// };
+
+// exports.verifyEmail = async (req, res) => {
+//   const token = req.params.token;
+
+//   try {
+//     // Verify the token
+//     const decoded = jwt.verify(token, 'your_secret_key'); // Replace 'your_secret_key' with your actual JWT secret key
+
+//     console.log('Decoded token:', decoded);
+
+//     // Extract the email from the decoded token
+//     const email = decoded.email;
+//     console.log('Email extracted from token:', email);
+
+//     // Update the user's verification status in the database based on email
+//     const [updatedRowsCount] = await User.update({ is_emailVerify: true }, { where: { email } });
+
+//     // Check if any rows were updated
+//     if (updatedRowsCount === 0) {
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: 404
+//         },
+//         data: {
+//           message: 'User not found or already verified'
+//         }
+//       });
+//     }
+
+//     // Send a success response
+//     logger.info({ message: 'Email verified successfully.' });
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200
+//       },
+//       data: {
+//         message: 'Email verified successfully.'
+//       }
+//     });
+//   } catch (error) {
+//     // Handle token verification errors
+//     console.error('Failed to verify email:', error);
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500
+//       },
+//       error: {
+//         message: 'Failed to verify email',
+//         error: error.message
+//       }
+//     });
+//   }
+// };
+
 exports.getUser = async (req, res) => {
   const { id } = req.params;
 
@@ -729,7 +1479,10 @@ exports.getUser = async (req, res) => {
       },
       data: {
         userId: user.userId,
-        username: user.username
+        username: user.username,
+        name:user.name,
+        phone:user.phone
+
       }
     });
   } catch (error) {

@@ -50,3 +50,87 @@
 {"error":"Can't create table `umc13`.`userrides` (errno: 150 \"Foreign key constraint is incorrectly formed\")","level":"error","message":"Error creating Modules","timestamp":"2024-06-18T12:03:28.742Z"}
 {"error":"Can't create table `umc13`.`userrides` (errno: 150 \"Foreign key constraint is incorrectly formed\")","level":"error","message":"Error creating Modules","timestamp":"2024-06-18T12:12:56.224Z"}
 {"error":"Can't create table `umc13`.`userrides` (errno: 150 \"Foreign key constraint is incorrectly formed\")","level":"error","message":"Error creating userRides","timestamp":"2024-06-18T12:16:52.449Z"}
+{"error":"notNull Violation: User.usertype cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-19T12:21:26.791Z"}
+{"error":"notNull Violation: User.usertype cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-19T12:21:52.571Z"}
+{"error":"Unknown column 'name' in 'field list'","level":"error","message":"Error creating user","timestamp":"2024-06-19T12:22:07.723Z"}
+{"error":"Can't create table `generalhospitaldb`.`users` (errno: 150 \"Foreign key constraint is incorrectly formed\")","level":"error","message":"Error creating user","timestamp":"2024-06-19T12:29:27.518Z"}
+{"error":"WHERE parameter \"Username\" has invalid \"undefined\" value","level":"error","message":"Error logging in","timestamp":"2024-06-20T03:57:28.044Z"}
+{"error":"data and hash arguments required","level":"error","message":"Error logging in","timestamp":"2024-06-20T04:02:33.637Z"}
+{"error":"Password is required","level":"error","message":"Error creating user","timestamp":"2024-06-20T04:25:15.423Z"}
+{"error":"Password is required","level":"error","message":"Error creating user","timestamp":"2024-06-20T05:37:53.231Z"}
+{"error":"notNull Violation: User.username cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-20T05:52:39.672Z"}
+{"error":"notNull Violation: User.phone cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-20T05:53:01.133Z"}
+{"error":"notNull Violation: User.phone cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-20T05:56:17.354Z"}
+{"error":"Validation error: Username is required,\nValidation error: Username must be between 1 and 255 characters","level":"error","message":"Error creating user","timestamp":"2024-06-20T06:32:32.020Z"}
+{"error":"User is not defined","level":"error","message":"Error creating user","timestamp":"2024-06-20T06:48:03.140Z"}
+{"error":"User is not defined","level":"error","message":"Error creating user","timestamp":"2024-06-20T06:49:15.197Z"}
+{"error":"User is not defined","level":"error","message":"Error creating user","timestamp":"2024-06-20T06:50:14.333Z"}
+{"error":"Validation error: Invalid email address","level":"error","message":"Error creating user","timestamp":"2024-06-20T06:52:39.524Z"}
+{"error":"Username is already in use","level":"error","message":"Error creating user","timestamp":"2024-06-20T06:52:47.517Z"}
+{"error":"notNull Violation: User.username cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-20T06:53:01.560Z"}
+{"error":"notNull Violation: User.phone cannot be null","level":"error","message":"Error creating user","timestamp":"2024-06-20T06:53:14.269Z"}
+{"error":"Validation error: Phone must be between 10 and 15 characters","level":"error","message":"Error creating user","timestamp":"2024-06-20T06:53:24.948Z"}
+{"error":"Unknown column 'emailtoken' in 'field list'","level":"error","message":"Error creating user","timestamp":"2024-06-20T07:42:02.673Z"}
+{"error":"newUser is not defined","level":"error","message":"Error creating user","timestamp":"2024-06-20T08:41:56.406Z"}
+{"error":"Username is already in use","level":"error","message":"Error creating user","timestamp":"2024-06-20T08:42:35.172Z"}
+{"error":"Failed to send email","level":"error","message":"Error creating user","timestamp":"2024-06-20T08:42:47.084Z"}
+{"error":"Failed to send email","level":"error","message":"Error creating user","timestamp":"2024-06-20T08:43:09.550Z"}
+{"error":"Username is already in use","level":"error","message":"Error creating user","timestamp":"2024-06-20T08:44:53.692Z"}
+{"error":"Failed to send email","level":"error","message":"Error creating user","timestamp":"2024-06-20T08:45:00.513Z"}
+{"error":"Username is already in use","level":"error","message":"Error creating user","timestamp":"2024-06-20T09:28:47.084Z"}
+{"error":"Username is already in use","level":"error","message":"Error creating user","timestamp":"2024-06-20T09:36:37.845Z"}
+{"error":"Username is already in use","level":"error","message":"Error creating user","timestamp":"2024-06-20T09:37:04.108Z"}
+{"error":"Failed to send email","level":"error","message":"Error creating user","timestamp":"2024-06-20T09:37:09.507Z"}
+{"error":"User is not defined","level":"error","message":"Error creating user","timestamp":"2024-06-21T05:50:12.448Z"}
+{"error":"User.sync is not a function","level":"error","message":"Error creating user","timestamp":"2024-06-21T05:51:12.387Z"}
+{"error":"Username is already in use","level":"error","message":"Error creating user","timestamp":"2024-06-21T05:51:41.460Z"}
+{"error":"Username is already in use","level":"error","message":"Error creating user","timestamp":"2024-06-21T05:51:48.858Z"}
+{"error":"Username is already in use","level":"error","message":"Error creating user","timestamp":"2024-06-21T06:09:55.791Z"}
+{"error":"User.findOne is not a function","level":"error","message":"Error verifying email","timestamp":"2024-06-21T06:15:10.421Z"}
+{"level":"error","message":"Database connection not established","timestamp":"2024-06-21T06:16:44.675Z"}
+{"error":"Username is already in use","level":"error","message":"Error creating user","timestamp":"2024-06-21T06:17:04.815Z"}
+{"error":"User.findOne is not a function","level":"error","message":"Error verifying email","timestamp":"2024-06-21T06:17:19.787Z"}
+{"error":"User.findOne is not a function","level":"error","message":"Error verifying email","timestamp":"2024-06-21T06:55:57.380Z"}
+{"error":"User.findOne is not a function","level":"error","message":"Error verifying email","timestamp":"2024-06-21T06:57:51.369Z"}
+{"error":"User.findOne is not a function","level":"error","message":"Error verifying email","timestamp":"2024-06-21T06:58:13.295Z"}
+{"error":"User.findOne is not a function","level":"error","message":"Error verifying email","timestamp":"2024-06-21T07:03:42.814Z"}
+{"error":"User.findOne is not a function","level":"error","message":"Error verifying email","timestamp":"2024-06-21T07:09:46.803Z"}
+{"error":"User.findOne is not a function","level":"error","message":"Error verifying email","timestamp":"2024-06-21T07:10:04.680Z"}
+{"error":"User.findOne is not a function","level":"error","message":"Error verifying email","timestamp":"2024-06-21T07:11:32.946Z"}
+{"error":"User.findOne is not a function","level":"error","message":"Error verifying email","timestamp":"2024-06-21T07:11:51.551Z"}
+{"level":"error","message":"Database connection not established","timestamp":"2024-06-21T07:12:07.333Z"}
+{"error":"User.findOne is not a function","level":"error","message":"Error verifying email","timestamp":"2024-06-21T07:14:46.522Z"}
+{"error":"User is not defined","level":"error","message":"Error verifying email","timestamp":"2024-06-21T07:33:12.533Z"}
+{"level":"error","message":"Database connection not established","timestamp":"2024-06-21T09:14:17.540Z"}
+{"error":"Can't create database 'hospital1'; database exists","level":"error","message":"Error creating hospital","timestamp":"2024-06-22T06:13:16.417Z"}
+{"error":"Query was empty","level":"error","message":"Error creating hospital","timestamp":"2024-06-22T06:23:41.390Z"}
+{"error":"Can't create database 'hospital13s'; database exists","level":"error","message":"Error creating hospital","timestamp":"2024-06-22T06:24:13.921Z"}
+{"error":"Query was empty","level":"error","message":"Error creating hospital","timestamp":"2024-06-22T06:25:07.193Z"}
+{"error":"Can't create database 'hospital13sas'; database exists","level":"error","message":"Error creating hospital","timestamp":"2024-06-22T06:25:43.835Z"}
+{"error":"verifyUniqueKey is not defined","level":"error","message":"Error logging in","timestamp":"2024-06-24T05:32:29.668Z"}
+{"error":"WHERE parameter \"Email\" has invalid \"undefined\" value","level":"error","message":"Error requesting password reset","timestamp":"2024-06-24T08:51:28.351Z"}
+{"error":"Can't create database 'hos'; database exists","level":"error","message":"Error creating hospital","timestamp":"2024-06-24T08:54:43.940Z"}
+{"error":"WHERE parameter \"Email\" has invalid \"undefined\" value","level":"error","message":"Error requesting password reset","timestamp":"2024-06-24T08:56:50.968Z"}
+{"error":"ManagingCompanyEmail is not defined","level":"error","message":"Error requesting password reset","timestamp":"2024-06-24T09:00:42.892Z"}
+{"error":"WHERE parameter \"ManagingCompanyEmail\" has invalid \"undefined\" value","level":"error","message":"Error requesting password reset","timestamp":"2024-06-24T09:01:15.965Z"}
+{"level":"error","message":"Missing unique key or email in request headers","timestamp":"2024-06-24T09:05:43.547Z"}
+{"error":"ManagingCompanyEmail is not defined","level":"error","message":"Error requesting password reset","timestamp":"2024-06-24T09:06:27.612Z"}
+{"error":"ManagingCompanyEmail is not defined","level":"error","message":"Error requesting password reset","timestamp":"2024-06-24T09:06:34.513Z"}
+{"level":"error","message":"Missing unique key or email in request headers","timestamp":"2024-06-24T09:09:20.851Z"}
+{"error":"crypto.randomBytes is not a function","level":"error","message":"Error requesting password reset","timestamp":"2024-06-24T09:12:12.162Z"}
+{"error":"crypto.randomBytes is not a function","level":"error","message":"Error requesting password reset","timestamp":"2024-06-24T09:13:14.834Z"}
+{"error":"crypto.randomBytes is not a function","level":"error","message":"Error requesting password reset","timestamp":"2024-06-24T09:13:16.623Z"}
+{"error":"WHERE parameter \"ResetToken\" has invalid \"undefined\" value","level":"error","message":"Error resetting password","timestamp":"2024-06-24T09:18:51.357Z"}
+{"error":"WHERE parameter \"ResetToken\" has invalid \"undefined\" value","level":"error","message":"Error resetting password","timestamp":"2024-06-24T09:27:01.173Z"}
+{"error":"WHERE parameter \"ResetToken\" has invalid \"undefined\" value","level":"error","message":"Error resetting password","timestamp":"2024-06-24T09:28:30.914Z"}
+{"error":"WHERE parameter \"ResetToken\" has invalid \"undefined\" value","level":"error","message":"Error resetting password","timestamp":"2024-06-24T09:28:37.539Z"}
+{"error":"WHERE parameter \"ResetToken\" has invalid \"undefined\" value","level":"error","message":"Error resetting password","timestamp":"2024-06-24T09:30:03.928Z"}
+{"error":"data and salt arguments required","level":"error","message":"Error changing password","timestamp":"2024-06-25T05:56:08.624Z"}
+{"error":"data and salt arguments required","level":"error","message":"Error changing password","timestamp":"2024-06-25T05:56:16.905Z"}
+{"error":"Password is not defined","level":"error","message":"Error changing password","timestamp":"2024-06-25T07:31:46.122Z"}
+{"error":"Query was empty","level":"error","message":"Error changing password","timestamp":"2024-06-25T07:36:30.603Z"}
+{"error":"Assignment to constant variable.","level":"error","message":"Error changing password","timestamp":"2024-06-25T07:40:31.671Z"}
+{"error":"Password is not defined","level":"error","message":"Error changing password","timestamp":"2024-06-25T07:41:04.052Z"}
+{"error":"Query was empty","level":"error","message":"Error changing email","timestamp":"2024-06-25T11:07:20.131Z"}
+{"error":"crypto.randomBytes is not a function","level":"error","message":"Error requesting password reset","timestamp":"2024-06-26T06:12:32.353Z"}
+{"error":"hashedPassword is not defined","level":"error","message":"Error resetting password","timestamp":"2024-06-26T06:37:38.687Z"}
