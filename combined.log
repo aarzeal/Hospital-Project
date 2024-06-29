@@ -1073,3 +1073,404 @@
 {"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-26T11:16:38.216Z"}
 {"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-26T11:16:38.217Z"}
 {"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-26T11:16:38.274Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:21:43.318Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:21:43.320Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:21:43.321Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:21:43.322Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T05:21:43.438Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-06-27T05:23:02.683Z"}
+{"hospitalId":48,"level":"info","message":"Hospital created successfully","timestamp":"2024-06-27T05:24:37.978Z"}
+{"level":"info","message":"Generated database name: a4","timestamp":"2024-06-27T05:24:37.978Z"}
+{"level":"info","message":"Database a4 created successfully","timestamp":"2024-06-27T05:24:37.981Z"}
+{"level":"info","message":"Connected to database a4 successfully","timestamp":"2024-06-27T05:24:37.997Z"}
+{"level":"info","message":"Models synchronized successfully in database a4","timestamp":"2024-06-27T05:24:38.003Z"}
+{"level":"info","message":"Generated unique key: 70036bdd-6e8a-415b-8efe-289d2a911470","timestamp":"2024-06-27T05:24:38.004Z"}
+{"level":"info","message":"Unique key stored in hospital record successfully","timestamp":"2024-06-27T05:24:38.094Z"}
+{"level":"info","message":"UniqueKey from request headers: 70036bdd-6e8a-415b-8efe-289d2a911470","timestamp":"2024-06-27T05:26:36.666Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:26:36.667Z"}
+{"level":"info","message":"Provided UniqueKey: 70036bdd-6e8a-415b-8efe-289d2a911470","timestamp":"2024-06-27T05:26:36.667Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:26:36.667Z"}
+{"level":"warn","message":"Invalid UniqueKey for hospital with Username sudhir","timestamp":"2024-06-27T05:26:36.667Z"}
+{"level":"info","message":"UniqueKey from request headers: 70036bdd-6e8a-415b-8efe-289d2a911470","timestamp":"2024-06-27T05:26:51.312Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:26:51.313Z"}
+{"level":"info","message":"Provided UniqueKey: 70036bdd-6e8a-415b-8efe-289d2a911470","timestamp":"2024-06-27T05:26:51.313Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:26:51.314Z"}
+{"level":"warn","message":"Invalid UniqueKey for hospital with Username sudhir","timestamp":"2024-06-27T05:26:51.314Z"}
+{"level":"info","message":"UniqueKey from request headers: 70036bdd-6e8a-415b-8efe-289d2a911470","timestamp":"2024-06-27T05:26:59.008Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:26:59.009Z"}
+{"level":"info","message":"Provided UniqueKey: 70036bdd-6e8a-415b-8efe-289d2a911470","timestamp":"2024-06-27T05:26:59.009Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:26:59.009Z"}
+{"level":"warn","message":"Invalid UniqueKey for hospital with Username sudhir","timestamp":"2024-06-27T05:26:59.009Z"}
+{"level":"info","message":"UniqueKey from request headers: 70036bdd-6e8a-415b-8efe-289d2a911470","timestamp":"2024-06-27T05:27:43.124Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:27:43.126Z"}
+{"level":"info","message":"Provided UniqueKey: 70036bdd-6e8a-415b-8efe-289d2a911470","timestamp":"2024-06-27T05:27:43.127Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:27:43.127Z"}
+{"level":"warn","message":"Invalid UniqueKey for hospital with Username sudhir","timestamp":"2024-06-27T05:27:43.128Z"}
+{"level":"info","message":"UniqueKey from request headers: 70036bdd-6e8a-415b-8efe-289d2a911470","timestamp":"2024-06-27T05:28:19.482Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:28:19.482Z"}
+{"level":"info","message":"Provided UniqueKey: 70036bdd-6e8a-415b-8efe-289d2a911470","timestamp":"2024-06-27T05:28:19.483Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:28:19.483Z"}
+{"level":"warn","message":"Invalid UniqueKey for hospital with Username sudhir","timestamp":"2024-06-27T05:28:19.484Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:28:33.774Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:28:33.774Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:28:33.775Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T05:28:33.775Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T05:28:33.833Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1719466140 d2e1a72fcca58-706b4a589d6sm419336b3a.189 - gsmtp","timestamp":"2024-06-27T05:29:00.666Z"}
+{"level":"info","message":"Password reset link sent to sudhiR@gmail.com","timestamp":"2024-06-27T05:29:00.667Z"}
+{"level":"info","message":"New hashed password: $2b$10$a1y5wnDGq470nQibodaUaO6033nXfp1ubZBfC16mzllShM0K.5eWW","timestamp":"2024-06-27T05:29:26.931Z"}
+{"level":"info","message":"Password stored in database: $2b$10$5RS5A7iHzGm/ZShHxcE4CuQPKz6k3xdFiwT3LJuaFAEndqMqQtADq","timestamp":"2024-06-27T05:29:27.018Z"}
+{"level":"error","message":"Password mismatch: stored password does not match hashed password","timestamp":"2024-06-27T05:29:27.074Z"}
+{"level":"info","message":"New hashed password: $2b$10$Y2IGN/QelNaz365UIrDGneaRb1T3D2M/UueTXYnNHUwCpWk9BLacy","timestamp":"2024-06-27T05:33:40.941Z"}
+{"level":"info","message":"Password stored in database: $2b$10$z0QUKAE03JRcN3zCOLUTdev2kH2S1sapnLYSCkuhvRoXcc.zxVAii","timestamp":"2024-06-27T05:33:41.034Z"}
+{"level":"error","message":"Password mismatch: hashed password does not match stored password","timestamp":"2024-06-27T05:33:41.091Z"}
+{"level":"error","message":"New password: sudhir1234","timestamp":"2024-06-27T05:33:41.092Z"}
+{"level":"error","message":"Hashed password: $2b$10$Y2IGN/QelNaz365UIrDGneaRb1T3D2M/UueTXYnNHUwCpWk9BLacy","timestamp":"2024-06-27T05:33:41.092Z"}
+{"level":"error","message":"Stored password: $2b$10$z0QUKAE03JRcN3zCOLUTdev2kH2S1sapnLYSCkuhvRoXcc.zxVAii","timestamp":"2024-06-27T05:33:41.092Z"}
+{"level":"info","message":"Password stored in database: $2b$10$.hyvvOhiYygW0QwZxcDADO351lE2YizL3oyOs.pAjOpN7xX334tWK","timestamp":"2024-06-27T05:40:53.393Z"}
+{"level":"error","message":"Password mismatch: hashed password does not match stored password","timestamp":"2024-06-27T05:40:53.452Z"}
+{"level":"error","message":"New password: sudhir1234","timestamp":"2024-06-27T05:40:53.452Z"}
+{"level":"error","message":"Hashed password: $2b$10$tzoFrJvldp5/hp3aOHXNG.MKCstZ2ZiWjaocrEy9UkQcEd1YFZJre","timestamp":"2024-06-27T05:40:53.453Z"}
+{"level":"error","message":"Stored password: $2b$10$.hyvvOhiYygW0QwZxcDADO351lE2YizL3oyOs.pAjOpN7xX334tWK","timestamp":"2024-06-27T05:40:53.453Z"}
+{"level":"info","message":"New hashed password: $2b$10$3NKwFy0PlTnarc1TbOQZcO5RR8rWC0RkZICg/iXKrPexftqvbJ/qC","timestamp":"2024-06-27T05:43:30.650Z"}
+{"level":"info","message":"Password updated in the database","timestamp":"2024-06-27T05:43:30.740Z"}
+{"level":"info","message":"Password stored in database: $2b$10$qAbL8KXOTO4k4NkfT/3S4uwO7k1vTBfqHyxAH0/nY/kOQ0KZEC2Re","timestamp":"2024-06-27T05:43:30.746Z"}
+{"level":"info","message":"Passwords match: false","timestamp":"2024-06-27T05:43:30.803Z"}
+{"level":"error","message":"Password mismatch: hashed password does not match stored password","timestamp":"2024-06-27T05:43:30.804Z"}
+{"level":"error","message":"New password: sudhir1234","timestamp":"2024-06-27T05:43:30.804Z"}
+{"level":"error","message":"Hashed password: $2b$10$3NKwFy0PlTnarc1TbOQZcO5RR8rWC0RkZICg/iXKrPexftqvbJ/qC","timestamp":"2024-06-27T05:43:30.805Z"}
+{"level":"error","message":"Stored password: $2b$10$qAbL8KXOTO4k4NkfT/3S4uwO7k1vTBfqHyxAH0/nY/kOQ0KZEC2Re","timestamp":"2024-06-27T05:43:30.805Z"}
+{"level":"info","message":"New hashed password: $2b$10$BQVOvNaur0F22aQhER/aJ.WLbZMKIF8oJFFQqdLCDz6jB/8N9jtaG","timestamp":"2024-06-27T05:43:33.427Z"}
+{"level":"info","message":"Password updated in the database","timestamp":"2024-06-27T05:43:33.507Z"}
+{"level":"info","message":"Password stored in database: $2b$10$nmWxCho2YvzGvfjHqKr1Vef518XvO6YDBikRTEeDE3oeCHy2g88fm","timestamp":"2024-06-27T05:43:33.511Z"}
+{"level":"info","message":"Passwords match: false","timestamp":"2024-06-27T05:43:33.568Z"}
+{"level":"error","message":"Password mismatch: hashed password does not match stored password","timestamp":"2024-06-27T05:43:33.568Z"}
+{"level":"error","message":"New password: sudhir1234","timestamp":"2024-06-27T05:43:33.569Z"}
+{"level":"error","message":"Hashed password: $2b$10$BQVOvNaur0F22aQhER/aJ.WLbZMKIF8oJFFQqdLCDz6jB/8N9jtaG","timestamp":"2024-06-27T05:43:33.569Z"}
+{"level":"error","message":"Stored password: $2b$10$nmWxCho2YvzGvfjHqKr1Vef518XvO6YDBikRTEeDE3oeCHy2g88fm","timestamp":"2024-06-27T05:43:33.569Z"}
+{"level":"info","message":"New hashed password: $2b$10$rDXQ4Mom5LVDvrWRJQlIPeqz3a2dVu9dYRB7ZVvakTh9T76CNgHtK","timestamp":"2024-06-27T05:45:50.531Z"}
+{"level":"info","message":"Password stored in database: $2b$10$kxx/1t8s3p0iy3/YtJiqj.C6cdusfrZrFgniXUl3NQfheRrNLklkG","timestamp":"2024-06-27T05:45:50.619Z"}
+{"level":"info","message":"Reloaded password from database: $2b$10$kxx/1t8s3p0iy3/YtJiqj.C6cdusfrZrFgniXUl3NQfheRrNLklkG","timestamp":"2024-06-27T05:45:50.625Z"}
+{"level":"info","message":"Passwords match: false","timestamp":"2024-06-27T05:45:50.682Z"}
+{"level":"error","message":"Password mismatch: hashed password does not match stored password","timestamp":"2024-06-27T05:45:50.682Z"}
+{"level":"error","message":"New password: sudhir1234","timestamp":"2024-06-27T05:45:50.683Z"}
+{"level":"error","message":"Hashed password: $2b$10$rDXQ4Mom5LVDvrWRJQlIPeqz3a2dVu9dYRB7ZVvakTh9T76CNgHtK","timestamp":"2024-06-27T05:45:50.683Z"}
+{"level":"error","message":"Stored password: $2b$10$kxx/1t8s3p0iy3/YtJiqj.C6cdusfrZrFgniXUl3NQfheRrNLklkG","timestamp":"2024-06-27T05:45:50.684Z"}
+{"level":"info","message":"New hashed password: $2b$10$9ozD/sTk1plBHQi5owgyi.gEcJ4F75x.b1Ka8/9Yw.wJyBHC60Wo6","timestamp":"2024-06-27T05:47:40.200Z"}
+{"level":"info","message":"Password stored in database: $2b$10$YQrdxM3KHoU4D4il7hwz8On7Ba3gAw4QNIs2QMCJt3C4uxBFuLVOi","timestamp":"2024-06-27T05:47:40.298Z"}
+{"level":"info","message":"Reloaded password from database: $2b$10$YQrdxM3KHoU4D4il7hwz8On7Ba3gAw4QNIs2QMCJt3C4uxBFuLVOi","timestamp":"2024-06-27T05:47:40.302Z"}
+{"level":"info","message":"Passwords match: false","timestamp":"2024-06-27T05:47:40.359Z"}
+{"level":"error","message":"Password mismatch: hashed password does not match stored password","timestamp":"2024-06-27T05:47:40.360Z"}
+{"level":"error","message":"New password: sudhir1234","timestamp":"2024-06-27T05:47:40.360Z"}
+{"level":"error","message":"Hashed password: $2b$10$9ozD/sTk1plBHQi5owgyi.gEcJ4F75x.b1Ka8/9Yw.wJyBHC60Wo6","timestamp":"2024-06-27T05:47:40.360Z"}
+{"level":"error","message":"Stored password: $2b$10$YQrdxM3KHoU4D4il7hwz8On7Ba3gAw4QNIs2QMCJt3C4uxBFuLVOi","timestamp":"2024-06-27T05:47:40.361Z"}
+{"level":"info","message":"New hashed password: $2b$10$QkoPmcsCXnT4hZgql641C.Uzck.ur3rZKhcSwo5ebQ5RFWs/0gLYS","timestamp":"2024-06-27T06:06:31.025Z"}
+{"level":"info","message":"Password stored in database: $2b$10$mrWNMi5DmmRqrWEouIO2gOZH6lHNoHMhTxW9K3BRo.1lgpFbA/n.q","timestamp":"2024-06-27T06:06:31.145Z"}
+{"level":"info","message":"Reloaded password from database: $2b$10$mrWNMi5DmmRqrWEouIO2gOZH6lHNoHMhTxW9K3BRo.1lgpFbA/n.q","timestamp":"2024-06-27T06:06:31.159Z"}
+{"level":"info","message":"Passwords match: false","timestamp":"2024-06-27T06:06:31.225Z"}
+{"level":"error","message":"Password mismatch: hashed password does not match stored password","timestamp":"2024-06-27T06:06:31.226Z"}
+{"level":"error","message":"New password: sudhir1234","timestamp":"2024-06-27T06:06:31.226Z"}
+{"level":"error","message":"Hashed password: $2b$10$QkoPmcsCXnT4hZgql641C.Uzck.ur3rZKhcSwo5ebQ5RFWs/0gLYS","timestamp":"2024-06-27T06:06:31.227Z"}
+{"level":"error","message":"Stored password: $2b$10$mrWNMi5DmmRqrWEouIO2gOZH6lHNoHMhTxW9K3BRo.1lgpFbA/n.q","timestamp":"2024-06-27T06:06:31.227Z"}
+{"level":"info","message":"New password hashed: $2b$10$tNmsy95VZJ5wsN2c1odevOcxP/KCquAgvGchFwV/vOSpnRAp.XZH.","timestamp":"2024-06-27T06:19:21.823Z"}
+{"error":"hashedPassword is not defined","level":"error","message":"Error resetting password","timestamp":"2024-06-27T06:19:21.826Z"}
+{"level":"info","message":"New password hashed: $2b$10$eatDYhrupOsVEcHk3UCjUuRFJktXhAsnIEvBytL1MCbKgcdTYUh56","timestamp":"2024-06-27T06:21:12.277Z"}
+{"level":"info","message":"Password stored in database: $2b$10$msTIudFKd110FZDZZ/XqK.omeuEcqcmmsnIXsdIbK7tzzTAC.liXu","timestamp":"2024-06-27T06:21:12.374Z"}
+{"level":"info","message":"Reloaded password from database: $2b$10$msTIudFKd110FZDZZ/XqK.omeuEcqcmmsnIXsdIbK7tzzTAC.liXu","timestamp":"2024-06-27T06:21:12.385Z"}
+{"level":"info","message":"Passwords match: false","timestamp":"2024-06-27T06:21:12.442Z"}
+{"level":"error","message":"Password mismatch: hashed password does not match stored password","timestamp":"2024-06-27T06:21:12.443Z"}
+{"level":"error","message":"New password: sudhir1234","timestamp":"2024-06-27T06:21:12.444Z"}
+{"level":"error","message":"Hashed password: $2b$10$eatDYhrupOsVEcHk3UCjUuRFJktXhAsnIEvBytL1MCbKgcdTYUh56","timestamp":"2024-06-27T06:21:12.444Z"}
+{"level":"error","message":"Stored password: $2b$10$msTIudFKd110FZDZZ/XqK.omeuEcqcmmsnIXsdIbK7tzzTAC.liXu","timestamp":"2024-06-27T06:21:12.444Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:32:40.915Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:32:40.916Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:32:40.916Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:32:40.916Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T06:32:40.973Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:32:57.444Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:32:57.446Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:32:57.447Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:32:57.447Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T06:32:57.504Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:33:10.501Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:33:10.505Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:33:10.506Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:33:10.507Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T06:33:10.563Z"}
+{"level":"warn","message":"Invalid or expired reset token","timestamp":"2024-06-27T06:33:21.896Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1719470012 d2e1a72fcca58-706b4a0717dsm541814b3a.112 - gsmtp","timestamp":"2024-06-27T06:33:32.629Z"}
+{"level":"info","message":"Password reset link sent to sudhiR@gmail.com","timestamp":"2024-06-27T06:33:32.630Z"}
+{"level":"info","message":"New password hashed: $2b$10$YLtV9fS7D/XAiQCeh1OCZ.1E1g2gyDYdGJhKmL6WTRny2uTkNUSxe","timestamp":"2024-06-27T06:33:46.501Z"}
+{"level":"info","message":"Password stored in database: $2b$10$OcizTa7UV7DsjGpC5oBI6.Sah36aYYKyJ.ZlWRAPIbVgeSxoQTrdK","timestamp":"2024-06-27T06:33:46.581Z"}
+{"level":"info","message":"Reloaded password from database: $2b$10$OcizTa7UV7DsjGpC5oBI6.Sah36aYYKyJ.ZlWRAPIbVgeSxoQTrdK","timestamp":"2024-06-27T06:33:46.586Z"}
+{"level":"info","message":"Reset token and expiration time cleared in the database","timestamp":"2024-06-27T06:33:46.664Z"}
+{"level":"info","message":"Password reset successfully for hospital with email undefined","timestamp":"2024-06-27T06:33:46.665Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:34:52.386Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:34:52.387Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:34:52.387Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:34:52.388Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T06:34:52.446Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:35:09.178Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:35:09.178Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:35:09.179Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:35:09.179Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T06:35:09.236Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:35:20.096Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:35:20.098Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:35:20.099Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:35:20.099Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T06:35:20.156Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:36:00.525Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:36:00.525Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:36:00.526Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:36:00.526Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T06:36:00.583Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1719470918 d2e1a72fcca58-706b4a58c8fsm571095b3a.192 - gsmtp","timestamp":"2024-06-27T06:48:37.949Z"}
+{"level":"info","message":"Password reset link sent to sudhiR@gmail.com","timestamp":"2024-06-27T06:48:37.952Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1719471181 d9443c01a7336-1faac9978f1sm5804555ad.184 - gsmtp","timestamp":"2024-06-27T06:53:01.248Z"}
+{"level":"info","message":"Password reset link sent to sudhiR@gmail.com","timestamp":"2024-06-27T06:53:01.256Z"}
+{"level":"error","message":"Error resetting password: WHERE parameter \"ResetToken\" has invalid \"undefined\" value","stack":"Error: WHERE parameter \"ResetToken\" has invalid \"undefined\" value\n    at MySQLQueryGenerator.whereItemQuery (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-generator.js:1743:13)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-generator.js:1734:25\n    at Array.forEach (<anonymous>)\n    at MySQLQueryGenerator.whereItemsQuery (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-generator.js:1732:35)\n    at MySQLQueryGenerator.getWhereConditions (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-generator.js:2075:19)\n    at MySQLQueryGenerator.selectQuery (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-generator.js:988:28)\n    at MySQLQueryInterface.select (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:407:59)\n    at tblHospital.findAll (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\model.js:1140:47)\n    at async tblHospital.findOne (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\model.js:1240:12)\n    at async exports.resetPassword (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:1017:22)","timestamp":"2024-06-27T06:55:51.339Z"}
+{"level":"error","message":"Error resetting password: WHERE parameter \"ResetToken\" has invalid \"undefined\" value","stack":"Error: WHERE parameter \"ResetToken\" has invalid \"undefined\" value\n    at MySQLQueryGenerator.whereItemQuery (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-generator.js:1743:13)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-generator.js:1734:25\n    at Array.forEach (<anonymous>)\n    at MySQLQueryGenerator.whereItemsQuery (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-generator.js:1732:35)\n    at MySQLQueryGenerator.getWhereConditions (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-generator.js:2075:19)\n    at MySQLQueryGenerator.selectQuery (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-generator.js:988:28)\n    at MySQLQueryInterface.select (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:407:59)\n    at tblHospital.findAll (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\model.js:1140:47)\n    at async tblHospital.findOne (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\sequelize\\lib\\model.js:1240:12)\n    at async exports.resetPassword (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:1017:22)","timestamp":"2024-06-27T06:56:14.341Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:58:16.133Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:58:16.135Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:58:16.136Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:58:16.136Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T06:58:16.193Z"}
+{"hospitalId":49,"level":"info","message":"Hospital created successfully","timestamp":"2024-06-27T06:59:21.739Z"}
+{"level":"info","message":"Generated database name: a5","timestamp":"2024-06-27T06:59:21.739Z"}
+{"level":"info","message":"Database a5 created successfully","timestamp":"2024-06-27T06:59:21.742Z"}
+{"level":"info","message":"Connected to database a5 successfully","timestamp":"2024-06-27T06:59:21.757Z"}
+{"level":"info","message":"Models synchronized successfully in database a5","timestamp":"2024-06-27T06:59:21.764Z"}
+{"level":"info","message":"Generated unique key: e7bbe745-d249-431e-866f-ab073364bf50","timestamp":"2024-06-27T06:59:21.765Z"}
+{"level":"info","message":"Unique key stored in hospital record successfully","timestamp":"2024-06-27T06:59:21.838Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:59:37.649Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:59:37.649Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:59:37.650Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:59:37.650Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T06:59:37.707Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:59:50.400Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:59:50.401Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:59:50.401Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T06:59:50.401Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T06:59:50.458Z"}
+{"level":"info","message":"UniqueKey from request headers: e7bbe745-d249-431e-866f-ab073364bf50","timestamp":"2024-06-27T07:00:14.516Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T07:00:14.517Z"}
+{"level":"info","message":"Provided UniqueKey: e7bbe745-d249-431e-866f-ab073364bf50","timestamp":"2024-06-27T07:00:14.517Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T07:00:14.517Z"}
+{"level":"warn","message":"Invalid UniqueKey for hospital with Username sudhir","timestamp":"2024-06-27T07:00:14.517Z"}
+{"hospitalId":50,"level":"info","message":"Hospital created successfully","timestamp":"2024-06-27T07:00:59.419Z"}
+{"level":"info","message":"Generated database name: a6","timestamp":"2024-06-27T07:00:59.419Z"}
+{"level":"info","message":"Database a6 created successfully","timestamp":"2024-06-27T07:00:59.430Z"}
+{"level":"info","message":"Connected to database a6 successfully","timestamp":"2024-06-27T07:00:59.443Z"}
+{"level":"info","message":"Models synchronized successfully in database a6","timestamp":"2024-06-27T07:00:59.448Z"}
+{"level":"info","message":"Generated unique key: 1383d989-a4f8-4ae3-babb-81a698aa0c99","timestamp":"2024-06-27T07:00:59.448Z"}
+{"level":"info","message":"Unique key stored in hospital record successfully","timestamp":"2024-06-27T07:00:59.536Z"}
+{"level":"info","message":"UniqueKey from request headers: 1383d989-a4f8-4ae3-babb-81a698aa0c99","timestamp":"2024-06-27T07:01:35.194Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T07:01:35.194Z"}
+{"level":"info","message":"Provided UniqueKey: 1383d989-a4f8-4ae3-babb-81a698aa0c99","timestamp":"2024-06-27T07:01:35.194Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T07:01:35.195Z"}
+{"level":"warn","message":"Invalid UniqueKey for hospital with Username sudhir","timestamp":"2024-06-27T07:01:35.195Z"}
+{"level":"info","message":"UniqueKey from request headers: 1383d989-a4f8-4ae3-babb-81a698aa0c99","timestamp":"2024-06-27T07:01:37.603Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T07:01:37.603Z"}
+{"level":"info","message":"Provided UniqueKey: 1383d989-a4f8-4ae3-babb-81a698aa0c99","timestamp":"2024-06-27T07:01:37.604Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T07:01:37.604Z"}
+{"level":"warn","message":"Invalid UniqueKey for hospital with Username sudhir","timestamp":"2024-06-27T07:01:37.604Z"}
+{"level":"info","message":"UniqueKey from request headers: 1383d989-a4f8-4ae3-babb-81a698aa0c99","timestamp":"2024-06-27T07:02:14.361Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T07:02:14.362Z"}
+{"level":"info","message":"Provided UniqueKey: 1383d989-a4f8-4ae3-babb-81a698aa0c99","timestamp":"2024-06-27T07:02:14.362Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T07:02:14.362Z"}
+{"level":"warn","message":"Invalid UniqueKey for hospital with Username sudhir","timestamp":"2024-06-27T07:02:14.362Z"}
+{"level":"info","message":"UniqueKey from request headers: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T07:02:26.132Z"}
+{"level":"info","message":"UniqueKey from database: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T07:02:26.133Z"}
+{"level":"info","message":"Provided UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T07:02:26.133Z"}
+{"level":"info","message":"Stored UniqueKey: 446183fb-eb5e-4ae6-a95b-c65fe7b51dff","timestamp":"2024-06-27T07:02:26.133Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhir","timestamp":"2024-06-27T07:02:26.190Z"}
+{"hospitalId":51,"level":"info","message":"Hospital created successfully","timestamp":"2024-06-27T07:02:56.956Z"}
+{"level":"info","message":"Generated database name: a7","timestamp":"2024-06-27T07:02:56.957Z"}
+{"level":"info","message":"Database a7 created successfully","timestamp":"2024-06-27T07:02:56.959Z"}
+{"level":"info","message":"Connected to database a7 successfully","timestamp":"2024-06-27T07:02:56.970Z"}
+{"level":"info","message":"Models synchronized successfully in database a7","timestamp":"2024-06-27T07:02:56.976Z"}
+{"level":"info","message":"Generated unique key: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:02:56.976Z"}
+{"level":"info","message":"Unique key stored in hospital record successfully","timestamp":"2024-06-27T07:02:57.066Z"}
+{"level":"info","message":"UniqueKey from request headers: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:03:31.422Z"}
+{"level":"info","message":"UniqueKey from database: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:03:31.423Z"}
+{"level":"info","message":"Provided UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:03:31.423Z"}
+{"level":"info","message":"Stored UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:03:31.423Z"}
+{"level":"info","message":"Hospital with ID 51 logged in successfully","timestamp":"2024-06-27T07:03:31.482Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1719472133 d2e1a72fcca58-706b4a34d07sm612668b3a.165 - gsmtp","timestamp":"2024-06-27T07:08:53.069Z"}
+{"level":"info","message":"Password reset link sent to sbk@gmail.com","timestamp":"2024-06-27T07:08:53.070Z"}
+{"level":"info","message":"UniqueKey from request headers: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:09:44.963Z"}
+{"level":"info","message":"UniqueKey from database: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:09:44.963Z"}
+{"level":"info","message":"Provided UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:09:44.964Z"}
+{"level":"info","message":"Stored UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:09:44.964Z"}
+{"level":"info","message":"Hospital with ID 51 logged in successfully","timestamp":"2024-06-27T07:09:45.023Z"}
+{"level":"info","message":"UniqueKey from request headers: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:09:50.701Z"}
+{"level":"info","message":"UniqueKey from database: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:09:50.702Z"}
+{"level":"info","message":"Provided UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:09:50.702Z"}
+{"level":"info","message":"Stored UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:09:50.702Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhirkale","timestamp":"2024-06-27T07:09:50.759Z"}
+{"level":"info","message":"UniqueKey from request headers: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:09:58.616Z"}
+{"level":"info","message":"UniqueKey from database: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:09:58.616Z"}
+{"level":"info","message":"Provided UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:09:58.617Z"}
+{"level":"info","message":"Stored UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T07:09:58.617Z"}
+{"level":"info","message":"Hospital with ID 51 logged in successfully","timestamp":"2024-06-27T07:09:58.678Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1719477441 d9443c01a7336-1faac8df7a2sm8029825ad.5 - gsmtp","timestamp":"2024-06-27T08:37:21.094Z"}
+{"level":"info","message":"Password reset link sent to sbk@gmail.com","timestamp":"2024-06-27T08:37:21.096Z"}
+{"level":"info","message":"UniqueKey from request headers: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:38:17.526Z"}
+{"level":"info","message":"UniqueKey from database: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:38:17.526Z"}
+{"level":"info","message":"Provided UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:38:17.527Z"}
+{"level":"info","message":"Stored UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:38:17.527Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhirkale","timestamp":"2024-06-27T08:38:17.584Z"}
+{"level":"info","message":"UniqueKey from request headers: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:38:25.407Z"}
+{"level":"info","message":"UniqueKey from database: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:38:25.408Z"}
+{"level":"info","message":"Provided UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:38:25.408Z"}
+{"level":"info","message":"Stored UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:38:25.408Z"}
+{"level":"info","message":"Hospital with ID 51 logged in successfully","timestamp":"2024-06-27T08:38:25.467Z"}
+{"level":"info","message":"UniqueKey from request headers: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:58:39.131Z"}
+{"level":"info","message":"UniqueKey from database: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:58:39.133Z"}
+{"level":"info","message":"Provided UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:58:39.133Z"}
+{"level":"info","message":"Stored UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:58:39.134Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhirkale","timestamp":"2024-06-27T08:58:39.191Z"}
+{"level":"info","message":"UniqueKey from request headers: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:58:43.557Z"}
+{"level":"info","message":"UniqueKey from database: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:58:43.558Z"}
+{"level":"info","message":"Provided UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:58:43.558Z"}
+{"level":"info","message":"Stored UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:58:43.558Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhirkale","timestamp":"2024-06-27T08:58:43.615Z"}
+{"level":"info","message":"UniqueKey from request headers: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:59:13.961Z"}
+{"level":"info","message":"UniqueKey from database: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:59:13.961Z"}
+{"level":"info","message":"Provided UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:59:13.962Z"}
+{"level":"info","message":"Stored UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:59:13.962Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhirkale","timestamp":"2024-06-27T08:59:14.019Z"}
+{"level":"info","message":"UniqueKey from request headers: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:59:57.622Z"}
+{"level":"info","message":"UniqueKey from database: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:59:57.622Z"}
+{"level":"info","message":"Provided UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:59:57.623Z"}
+{"level":"info","message":"Stored UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T08:59:57.623Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhirkale","timestamp":"2024-06-27T08:59:57.680Z"}
+{"hospitalId":52,"level":"info","message":"Hospital created successfully","timestamp":"2024-06-27T09:02:43.489Z"}
+{"level":"info","message":"Generated database name: a8","timestamp":"2024-06-27T09:02:43.491Z"}
+{"level":"info","message":"Database a8 created successfully","timestamp":"2024-06-27T09:02:43.493Z"}
+{"level":"info","message":"Connected to database a8 successfully","timestamp":"2024-06-27T09:02:43.505Z"}
+{"level":"info","message":"Models synchronized successfully in database a8","timestamp":"2024-06-27T09:02:43.522Z"}
+{"level":"info","message":"Generated unique key: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:02:43.522Z"}
+{"level":"info","message":"Unique key stored in hospital record successfully","timestamp":"2024-06-27T09:02:43.596Z"}
+{"level":"info","message":"UniqueKey from request headers: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T09:03:00.422Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:03:00.422Z"}
+{"level":"info","message":"Provided UniqueKey: 1aa08ab7-eac0-4ce9-8ca5-e1ed527655ec","timestamp":"2024-06-27T09:03:00.423Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:03:00.423Z"}
+{"level":"warn","message":"Invalid UniqueKey for hospital with Username sudhirkale123","timestamp":"2024-06-27T09:03:00.424Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:03:26.226Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:03:26.227Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:03:26.227Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:03:26.228Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully","timestamp":"2024-06-27T09:03:26.287Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:10:33.287Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:10:33.288Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:10:33.288Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:10:33.289Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully","timestamp":"2024-06-27T09:10:33.348Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:11:15.780Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:11:15.781Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:11:15.781Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:11:15.781Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhirkale123","timestamp":"2024-06-27T09:11:15.838Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:11:20.482Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:11:20.482Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:11:20.483Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:11:20.483Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully","timestamp":"2024-06-27T09:11:20.542Z"}
+{"error":"hashedNewPassword is not defined","level":"error","message":"Error changing password","timestamp":"2024-06-27T09:13:20.881Z"}
+{"level":"info","message":"New password stored in database: $2b$10$KPaUGtMJUKtXU.3EKbi5Vu4m2niuBpYkIwQpckHeVEkoT5u3ENKlq","timestamp":"2024-06-27T09:13:36.754Z"}
+{"level":"info","message":"Password changed successfully for hospital with email sbkk@gmail.com","timestamp":"2024-06-27T09:13:36.756Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:13:44.006Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:13:44.007Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:13:44.007Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:13:44.008Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhirkale123","timestamp":"2024-06-27T09:13:44.065Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:13:49.125Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:13:49.125Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:13:49.126Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:13:49.126Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully","timestamp":"2024-06-27T09:13:49.187Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1719479709 d2e1a72fcca58-706b4a3438bsm843435b3a.151 - gsmtp","timestamp":"2024-06-27T09:15:09.015Z"}
+{"level":"info","message":"Password reset link sent to sbkk@gmail.com","timestamp":"2024-06-27T09:15:09.017Z"}
+{"level":"info","message":"Password stored in database: $2b$10$eehK9g3rZXx6UGpeYOmcSuQr8t7.Zl4j2XlXQZQ77AaESnVbpFMQO","timestamp":"2024-06-27T09:15:27.879Z"}
+{"level":"info","message":"Reloaded password from database: $2b$10$eehK9g3rZXx6UGpeYOmcSuQr8t7.Zl4j2XlXQZQ77AaESnVbpFMQO","timestamp":"2024-06-27T09:15:27.884Z"}
+{"level":"info","message":"Reset token and expiration time cleared in the database","timestamp":"2024-06-27T09:15:27.963Z"}
+{"level":"info","message":"Password reset successfully for hospital with email undefined","timestamp":"2024-06-27T09:15:27.963Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:15:34.208Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:15:34.208Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:15:34.209Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:15:34.209Z"}
+{"level":"warn","message":"Incorrect password for hospital with Username sudhirkale123","timestamp":"2024-06-27T09:15:34.266Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:15:41.307Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:15:41.307Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:15:41.308Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-06-27T09:15:41.308Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully","timestamp":"2024-06-27T09:15:41.369Z"}
+{"hospitalId":53,"level":"info","message":"Hospital created successfully","timestamp":"2024-06-27T09:45:13.687Z"}
+{"level":"info","message":"Generated database name: samplehospitaldb","timestamp":"2024-06-27T09:45:13.689Z"}
+{"level":"info","message":"Database samplehospitaldb created successfully","timestamp":"2024-06-27T09:45:13.691Z"}
+{"level":"info","message":"Connected to database samplehospitaldb successfully","timestamp":"2024-06-27T09:45:13.702Z"}
+{"level":"info","message":"Models synchronized successfully in database samplehospitaldb","timestamp":"2024-06-27T09:45:13.738Z"}
+{"level":"info","message":"Generated unique key: 49087c0a-4f53-4362-99ab-ec74e3a8af95","timestamp":"2024-06-27T09:45:13.738Z"}
+{"level":"info","message":"Unique key stored in hospital record successfully","timestamp":"2024-06-27T09:45:13.838Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","level":"error","message":"Error creating patient","timestamp":"2024-06-28T06:36:38.857Z"}
+{"error":"PatientMaster.create is not a function","level":"error","message":"Error creating patient","timestamp":"2024-06-28T10:02:25.887Z"}
+{"error":"Validation error: Validation is on Phone failed,\nValidation error: Validation is on WhatsappNumber failed,\nValidation error: Validation is on EmergencyContactPhone failed","level":"error","message":"Error creating patient","timestamp":"2024-06-28T10:30:06.828Z"}
+{"error":"Validation error: Validation is on Phone failed","level":"error","message":"Error creating patient","timestamp":"2024-06-28T10:30:40.971Z"}
+{"level":"info","message":"Created new patient with ID 1","timestamp":"2024-06-28T10:30:52.113Z"}
+{"error":"Unknown column 'tblHospitals.HospitalGroupID' in 'field list'","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-06-28T10:42:53.930Z"}
+{"error":"Unknown column 'tblHospitals.HospitalGroupID' in 'field list'","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-06-28T10:44:01.718Z"}
+{"error":"Unknown column 'tblHospitals.HospitalGroupID' in 'field list'","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-06-28T12:22:20.556Z"}
+{"error":"Unknown column 'tblHospitals.HospitalGroupID' in 'field list'","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-06-28T12:23:09.564Z"}
+{"error":"tblHospital is not associated to tblHospitalGroup!","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-06-29T05:25:17.933Z"}
+{"error":"Unknown column 'HospitalGroupID' in 'field list'","level":"error","message":"Error retrieving patients","timestamp":"2024-06-29T05:31:44.619Z"}
+{"error":"Unknown column 'DOB' in 'field list'","level":"error","message":"Error retrieving patients","timestamp":"2024-06-29T05:32:22.840Z"}
+{"level":"info","message":"Retrieved all patients successfully","timestamp":"2024-06-29T05:32:40.161Z"}
+{"error":"Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`patient_master`, CONSTRAINT `patient_master_ibfk_1` FOREIGN KEY (`HospitalGroupID`) REFERENCES `tblhospital` (`HospitalID`) ON DELETE CASCADE ON UPDATE CASCADE)","level":"error","message":"Error creating patient","timestamp":"2024-06-29T05:33:21.646Z"}
+{"level":"info","message":"Retrieved all patients successfully","timestamp":"2024-06-29T05:33:49.338Z"}
+{"error":"Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`patient_master`, CONSTRAINT `patient_master_ibfk_1` FOREIGN KEY (`HospitalGroupID`) REFERENCES `tblhospital` (`HospitalID`) ON DELETE CASCADE ON UPDATE CASCADE)","level":"error","message":"Error creating patient","timestamp":"2024-06-29T05:33:53.211Z"}
+{"level":"info","message":"Created new patient with ID 1","timestamp":"2024-06-29T05:35:01.762Z"}
+{"error":"notNull Violation: Patient_master.createdBy cannot be null","level":"error","message":"Error creating patient","timestamp":"2024-06-29T05:36:59.585Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-06-29T05:37:33.799Z"}
+{"error":"Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`patient_master`, CONSTRAINT `patient_master_ibfk_1` FOREIGN KEY (`HospitalGroupID`) REFERENCES `tblhospitalgroup` (`HospitalGroupID`) ON DELETE SET NULL ON UPDATE CASCADE)","level":"error","message":"Error creating patient","timestamp":"2024-06-29T05:38:46.303Z"}
+{"error":"Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`patient_master`, CONSTRAINT `patient_master_ibfk_1` FOREIGN KEY (`HospitalGroupID`) REFERENCES `tblhospitalgroup` (`HospitalGroupID`) ON DELETE SET NULL ON UPDATE CASCADE)","level":"error","message":"Error creating patient","timestamp":"2024-06-29T05:41:07.840Z"}
+{"error":"Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`patient_master`, CONSTRAINT `patient_master_ibfk_1` FOREIGN KEY (`HospitalGroupID`) REFERENCES `tblhospitalgroup` (`HospitalGroupID`) ON DELETE SET NULL ON UPDATE CASCADE)","level":"error","message":"Error creating patient","timestamp":"2024-06-29T05:41:33.006Z"}
+{"error":"Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`patient_master`, CONSTRAINT `patient_master_ibfk_1` FOREIGN KEY (`HospitalGroupID`) REFERENCES `tblhospitalgroup` (`HospitalGroupID`) ON DELETE SET NULL ON UPDATE CASCADE)","level":"error","message":"Error creating patient","timestamp":"2024-06-29T05:41:57.346Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-06-29T05:42:24.688Z"}
+{"level":"info","message":"Created new patient with ID 8","timestamp":"2024-06-29T05:43:18.934Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-06-29T05:43:48.241Z"}
+{"level":"info","message":"Created new patient with ID 10","timestamp":"2024-06-29T05:43:57.624Z"}
+{"error":"Unknown column 'createdBy' in 'field list'","level":"error","message":"Error retrieving patients","timestamp":"2024-06-29T05:44:11.197Z"}
+{"error":"Unknown column 'createdBy' in 'field list'","level":"error","message":"Error retrieving patients","timestamp":"2024-06-29T05:52:10.672Z"}
+{"error":"Unknown column 'createdBy' in 'field list'","level":"error","message":"Error retrieving patients","timestamp":"2024-06-29T05:57:40.098Z"}
+{"error":"Unknown column 'createdBy' in 'field list'","level":"error","message":"Error creating patient","timestamp":"2024-06-29T05:58:32.871Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-06-29T05:58:58.398Z"}
+{"level":"info","message":"Created new patient with ID 12","timestamp":"2024-06-29T05:59:07.429Z"}
+{"level":"info","message":"Retrieved all patients successfully","timestamp":"2024-06-29T05:59:13.281Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-06-29T06:00:54.975Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-06-29T06:01:00.533Z"}
+{"level":"info","message":"Created new patient with ID 15","timestamp":"2024-06-29T06:01:10.548Z"}
+{"level":"info","message":"Retrieved all patients successfully","timestamp":"2024-06-29T06:01:41.611Z"}
+{"level":"info","message":"Retrieved patients for page 1 with limit 10 successfully","timestamp":"2024-06-29T06:28:17.178Z"}
+{"level":"info","message":"Retrieved patients for page 10 with limit 15 successfully","timestamp":"2024-06-29T06:28:58.730Z"}
+{"level":"info","message":"Retrieved patients for page 1 with limit 2 successfully","timestamp":"2024-06-29T06:29:23.404Z"}
+{"level":"info","message":"Retrieved patients for page 1 with limit 5 successfully","timestamp":"2024-06-29T06:30:02.095Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-06-29T06:34:31.042Z"}
+{"level":"info","message":"Created new patient with ID 17","timestamp":"2024-06-29T06:34:35.123Z"}
+{"level":"info","message":"Created new patient with ID 18","timestamp":"2024-06-29T06:34:39.981Z"}
+{"level":"info","message":"Created new patient with ID 19","timestamp":"2024-06-29T06:34:47.539Z"}
+{"level":"info","message":"Created new patient with ID 20","timestamp":"2024-06-29T06:34:53.981Z"}
+{"level":"info","message":"Retrieved patients for page 1 with limit 5 successfully","timestamp":"2024-06-29T06:35:07.419Z"}
+{"level":"info","message":"Retrieved patients for page 1 with limit 5 successfully","timestamp":"2024-06-29T06:37:20.750Z"}
+{"level":"info","message":"Retrieved patients for page 2 with limit 5 successfully","timestamp":"2024-06-29T06:40:45.601Z"}
+{"level":"info","message":"Retrieved patients for page 1 with limit 5 successfully","timestamp":"2024-06-29T06:40:55.450Z"}
+{"level":"info","message":"Retrieved patients for page 2 with limit 5 successfully","timestamp":"2024-06-29T06:41:50.417Z"}
+{"level":"info","message":"Retrieved patient with ID 1 successfully","timestamp":"2024-06-29T06:52:58.797Z"}
+{"level":"warn","message":"Patient with ID 2 not found","timestamp":"2024-06-29T06:53:03.885Z"}
+{"level":"info","message":"Retrieved all patients successfully","timestamp":"2024-06-29T09:12:07.014Z"}
+{"error":"Validation error: Validation notEmpty on PatientFirstName failed","level":"error","message":"Error creating patient","timestamp":"2024-06-29T10:54:09.472Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-06-29T10:55:00.049Z"}
+{"level":"info","message":"Created new patient with ID 22","timestamp":"2024-06-29T10:55:39.765Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-06-29T10:59:03.368Z"}
+{"errors":[{"location":"body","msg":"Hospital Name can only contain letters, numbers, spaces, hyphens, periods, and commas","path":"HospitalName","type":"field","value":"<a href='https://www.bugcrowd.com/'>bugcr</a>"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-06-29T11:00:05.613Z"}

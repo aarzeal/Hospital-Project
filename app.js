@@ -34,7 +34,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/v1/hospital', hospitalGroupRoutes);
 app.use('/api/v1/hospital', hospitalRoutes);
 app.use('/api/v1/hospital', userRoutes);
-app.use('/api/v1/hospital/patients', patientRoutes);
+app.use('/api/v1/patient/', patientRoutes);
 app.use('/api/v1/hospital/module', moduleRoutes);
 app.use('/api/v1/hospital', hospitalUserRidesRoutes);
 app.use('/api/v1/hospital/submodules', submoduleRoutes);

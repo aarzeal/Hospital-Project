@@ -58,6 +58,7 @@ exports.updateHospitalValidationRules = () => {
       .isLength({ max: 255 }).withMessage('Hospital Name cannot exceed 255 characters')
       .matches(/^[a-zA-Z0-9\s\-.,]+$/).withMessage('Hospital Name can only contain letters, numbers, spaces, hyphens, periods, and commas'),
     body('HospitalCode')
+    
       .optional()
       .isLength({ max: 50 }).withMessage('Hospital Code cannot exceed 50 characters'),
     body('ManagingCompany')

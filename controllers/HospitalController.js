@@ -187,7 +187,7 @@ const { validationResult } = require('express-validator');
 const Hospital = require('../models/HospitalModel');
 const sequelize = require('../database/connection');
 const createUserMasterModel = require('../models/userMaster');
-const createPatientMasterModel = require('../models/paitentMaster');
+const createPatientMasterModel = require('../models/PatientMaster');
 const createDynamicConnection = require('../database/dynamicConnection');
 const bcrypt = require('bcrypt');
 const logger = require('../logger');  // Assuming logger is configured properly in '../logger'
@@ -733,6 +733,20 @@ exports.login = async (req, res) => {
       });
     }
     
+    // if (hospital.isEmailVerified !== 1) {
+    //   logger.warn(`Email not verified for hospital with Username ${Username}`);
+    //   return res.status(401).json({
+    //     meta: {
+    //       statusCode: 401,
+    //       errorCode: 927
+    //     },
+    //     error: {
+    //       message: 'Please verify your email before logging in'
+    //     }
+    //   });
+    // }
+    
+    
     logger.info(`UniqueKey from request headers: ${uniqueKey}`);
     logger.info(`UniqueKey from database: ${hospital.UniqueKey}`);
     console.log(hospital.UniqueKey);
@@ -918,13 +932,18 @@ exports.requestPasswordReset = async (req, res) => {
 };
 
 exports.resetPassword = async (req, res) => {
-  const { token } = req.body;
-  const { newPassword } = req.body;
+  const { token, newPassword } = req.body;
 
   try {
-    const hospital = await Hospital.findOne({ where: { ResetToken: token, ResetTokenExpires: { [Op.gt]: Date.now() } } });
+    const hospital = await Hospital.findOne({
+      where: {
+        ResetToken: token,
+        ResetTokenExpires: { [Op.gt]: Date.now() }
+      }
+    });
+
     if (!hospital) {
-      logger.warn(`Invalid or expired reset token`);
+      logger.warn('Invalid or expired reset token');
       return res.status(400).json({
         meta: {
           statusCode: 400,
@@ -936,35 +955,48 @@ exports.resetPassword = async (req, res) => {
       });
     }
 
-    // const hashedPassword = await bcrypt.hash(newPassword, 10);
-    // logger.info(`New hashed password: ${hashedPassword}`);
-    // hospital.Password = hashedPassword;
-    // hospital.ResetToken = null;
-    // hospital.ResetTokenExpires = null;
-    // await hospital.save({ fields: ['Password', 'ResetToken', 'ResetTokenExpires'] });
-   
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    logger.info(`New hashed password: ${hashedPassword}`);
-
-    const hashedPasswordString = hashedPassword.toString();
+    // Hash the new password
+    // const SALT_ROUNDS = 10;
+    // const salt = await bcrypt.genSalt(SALT_ROUNDS);
+    // const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+    // logger.info(`New password hashed: ${hashedNewPassword}`);
 
     // Save the new password
-    // hospital.Password = hashedPassword;
-    hospital.Password = hashedPasswordString;
-
+    hospital.Password = newPassword;
     await hospital.save({ fields: ['Password'] });
 
-    // Log the stored password directly from the hospital instance
-    logger.info(`Password stored in database: ${hospital.Password}`);
+    // Log the password stored in the database
+    const storedPassword = hospital.Password;
+    logger.info(`Password stored in database: ${storedPassword}`);
 
+    // Reload the hospital instance from the database to ensure the password was saved correctly
+    await hospital.reload();
+    logger.info(`Reloaded password from database: ${hospital.Password}`);
 
+    // Verify that the saved password matches the hashed password
+    // const isMatch = await bcrypt.compare(newPassword, hospital.Password);
+    // logger.info(`Passwords match: ${isMatch}`);
+    // if (!isMatch) {
+    //   logger.error('Password mismatch: hashed password does not match stored password');
+    //   logger.error(`New password: ${newPassword}`);
+    //   logger.error(`Hashed password: ${hashedNewPassword}`);
+    //   logger.error(`Stored password: ${hospital.Password}`);
+    //   return res.status(500).json({
+    //     meta: {
+    //       statusCode: 500,
+    //       errorCode: 962
+    //     },
+    //     error: {
+    //       message: 'Error resetting password: password mismatch'
+    //     }
+    //   });
+    // }
 
-    // Clear reset token and expiration time separately
+    // Clear reset token and expiration time
     hospital.ResetToken = null;
     hospital.ResetTokenExpires = null;
     await hospital.save({ fields: ['ResetToken', 'ResetTokenExpires'] });
-    logger.info(`Reset token and expiration time cleared in the database`);
+    logger.info('Reset token and expiration time cleared in the database');
 
     logger.info(`Password reset successfully for hospital with email ${hospital.Email}`);
     
@@ -989,7 +1021,6 @@ exports.resetPassword = async (req, res) => {
     });
   }
 };
-
 
 
 exports.changePassword = async (req, res) => {
@@ -1030,7 +1061,7 @@ exports.changePassword = async (req, res) => {
       }
 
       // Uncomment this section if you want to verify the current password
-      /*
+      
       const passwordMatch = await bcrypt.compare(currentPassword, hospital.Password);
       if (!passwordMatch) {
           logger.warn('Current password is incorrect');
@@ -1044,12 +1075,12 @@ exports.changePassword = async (req, res) => {
               }
           });
       }
-      */
+      
 
-      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-      logger.info(`New password hashed: ${hashedNewPassword}`);
+      // const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      // logger.info(`New password hashed: ${hashedNewPassword}`);
 
-      hospital.Password = hashedNewPassword;
+      hospital.Password = newPassword;
 
       // Save the new password to the database
       await hospital.save({ fields: ['Password'] });
@@ -1619,6 +1650,7 @@ exports.getAllUsers = async (req, res) => {
     });
   }
 };
+
 
 
 
