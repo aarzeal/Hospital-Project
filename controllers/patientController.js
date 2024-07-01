@@ -3,6 +3,7 @@ const HospitalGroup = require('../models/HospitalGroup');
 const Hospital = require('../models/HospitalModel');
 const logger = require('../logger');
 
+const { validationResult } = require('express-validator');
 // Get all patients
 exports.getAllPatients = async (req, res) => {
   try {
@@ -68,6 +69,24 @@ exports.getPatientById = async (req, res) => {
 
 // Create a new patient
 exports.createPatient = async (req, res) => {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      logger.info('Validation errors occurred', errors);
+      return res.status(400).json({
+          meta: {
+              statusCode: 400,
+              errorCode: 912
+          },
+          error: {
+              message: 'Validation errors occurred',
+              details: errors.array().map(err => ({
+                  field: err.param,
+                  message: err.msg
+              }))
+          }
+      });
+  }
   const {
     PatientName,
     EMRNumber,
@@ -102,6 +121,7 @@ exports.createPatient = async (req, res) => {
     const newPatient = await PatientMaster.create({
       PatientName,
       EMRNumber,
+      // EMRNumber: generateEMRNumber(HospitalGroupID),
       HospitalGroupID,
       PatientFirstName,
       PatientLastName,
@@ -149,6 +169,18 @@ exports.createPatient = async (req, res) => {
     });
   }
 };
+// function generateEMRNumber(hospitalGroupId) {
+//   // Generate a timestamp-based component
+//   const timestampPart = Date.now().toString().slice(-6); // Last 6 digits of current timestamp
+
+//   // Generate a random sequence part
+//   const randomPart = Math.floor(1000 + Math.random() * 9000).toString(); // Random 4-digit number
+
+//   // Combine hospital group ID, timestamp, and random part
+//   const emrNumber = `${hospitalGroupId}-${timestampPart}-${randomPart}`;
+
+//   return emrNumber;
+// }
 
 // Update an existing patient
 exports.updatePatient = async (req, res) => {
@@ -233,43 +265,101 @@ exports.deletePatient = async (req, res) => {
   }
 };
 
-// Get patients by HospitalGroup ID
+// // Get patients by HospitalGroup ID
+// exports.getPatientsByHospitalGroupID = async (req, res) => {
+//   const { id } = req.params;
+
+//   try {
+//     const hospitalGroup = await HospitalGroup.findByPk(id, {
+//       include: {
+//         model: Hospital,
+//         include: {
+//           model: PatientMaster
+//         }
+//       }
+//     });
+
+//     if (!hospitalGroup) {
+//       logger.warn(`HospitalGroup with ID ${id} not found`);
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: 404,
+//           errorCode: 979
+//         },
+//         error: {
+//           message: 'HospitalGroup not found'
+//         }
+//       });
+//     }
+
+//     const patients = hospitalGroup.Hospitals.flatMap(hospital => hospital.Patient_masters);
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200
+//       },
+//       data: patients
+//     });
+//   } catch (error) {
+//     logger.error('Error fetching patients by HospitalGroupID', { error: error.message });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 980
+//       },
+//       error: {
+//         message: 'Error fetching patients: ' + error.message
+//       }
+//     });
+//   }
+// };
+
+// controllers/patientController.js
+ // Adjust the path as per your project structure
+
+// Controller function to fetch patients by HospitalGroupID with pagination
 exports.getPatientsByHospitalGroupID = async (req, res) => {
   const { id } = req.params;
+  let { page, pageSize } = req.query;
+
+  // Default values for pagination
+  page = page ? parseInt(page, 10) : 1;
+  pageSize = pageSize ? parseInt(pageSize, 10) : 2; // Default pageSize is 2
 
   try {
-    const hospitalGroup = await HospitalGroup.findByPk(id, {
-      include: {
-        model: Hospital,
-        include: {
-          model: PatientMaster
-        }
-      }
+    // Calculate offset based on page number and pageSize
+    const offset = (page - 1) * pageSize;
+
+    // Find patients by HospitalGroupID with pagination
+    const patients = await PatientMaster.findAll({
+      where: { HospitalGroupID: id },
+      limit: pageSize,
+      offset: offset
     });
 
-    if (!hospitalGroup) {
-      logger.warn(`HospitalGroup with ID ${id} not found`);
-      return res.status(404).json({
+    // Check if patients array is empty
+    if (!patients || patients.length === 0) {
+      return res.status(200).json({
         meta: {
-          statusCode: 404,
-          errorCode: 979
+          statusCode: 200,
+          page: page,
+          pageSize: pageSize
         },
-        error: {
-          message: 'HospitalGroup not found'
-        }
+        data: [] // Return empty array when no patients are found
       });
     }
 
-    const patients = hospitalGroup.Hospitals.flatMap(hospital => hospital.Patient_masters);
-
+    // Return patients with pagination metadata
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+        page: page,
+        pageSize: pageSize
       },
       data: patients
     });
   } catch (error) {
-    logger.error('Error fetching patients by HospitalGroupID', { error: error.message });
+    console.error('Error fetching patients by HospitalGroupID', error);
     res.status(500).json({
       meta: {
         statusCode: 500,

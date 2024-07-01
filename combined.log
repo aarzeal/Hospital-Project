@@ -1474,3 +1474,20 @@
 {"level":"info","message":"Created new patient with ID 22","timestamp":"2024-06-29T10:55:39.765Z"}
 {"level":"info","message":"User Admin logged in successfully","timestamp":"2024-06-29T10:59:03.368Z"}
 {"errors":[{"location":"body","msg":"Hospital Name can only contain letters, numbers, spaces, hyphens, periods, and commas","path":"HospitalName","type":"field","value":"<a href='https://www.bugcrowd.com/'>bugcr</a>"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-06-29T11:00:05.613Z"}
+{"level":"info","message":"Created new patient with ID 23","timestamp":"2024-07-01T05:08:29.322Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-07-01T05:09:42.445Z"}
+{"level":"info","message":"Created new patient with ID 25","timestamp":"2024-07-01T05:09:47.828Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-07-01T05:10:12.537Z"}
+{"level":"info","message":"Created new patient with ID 27","timestamp":"2024-07-01T05:10:16.836Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-07-01T05:13:02.315Z"}
+{"level":"info","message":"Created new patient with ID 29","timestamp":"2024-07-01T05:13:09.654Z"}
+{"errors":[{"location":"body","msg":"Hospital Group ID must be an integer","path":"HospitalGroupID","type":"field","value":null},{"location":"body","msg":"Patient First Name can only contain letters and spaces","path":"PatientFirstName","type":"field","value":"<a href='https://www.bugcrowd.com/'>bugcr</a>"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-01T05:29:49.219Z"}
+{"errors":[{"location":"body","msg":"Patient First Name can only contain letters and spaces","path":"PatientFirstName","type":"field","value":"<a href='https://www.bugcrowd.com/'>bugcr</a>"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-01T05:30:09.079Z"}
+{"level":"warn","message":"Patient with ID 2 not found","timestamp":"2024-07-01T05:52:15.261Z"}
+{"level":"info","message":"Retrieved patient with ID 1 successfully","timestamp":"2024-07-01T05:52:22.221Z"}
+{"error":"tblHospital is not associated to tblHospitalGroup!","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-07-01T05:53:46.065Z"}
+{"error":"Cannot access 'HospitalGroupID' before initialization","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-07-01T05:55:04.219Z"}
+{"error":"tblHospital is not associated to tblHospitalGroup!","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-07-01T06:03:35.993Z"}
+{"error":"tblHospital is not associated to tblHospitalGroup!","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-07-01T06:08:44.843Z"}
+{"error":"tblHospital is not associated to tblHospitalGroup!","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-07-01T06:22:48.526Z"}
+{"errors":[{"location":"body","msg":"Patient First Name can only contain letters and spaces","path":"PatientFirstName","type":"field","value":"<a href='https://www.bugcrowd.com/'>bugcr</a>"},{"location":"body","msg":"Date of Birth must be a valid date","path":"DOB","type":"field","value":"1993-32-32"},{"location":"body","msg":"WhatsApp Number must be a valid 10-digit number","path":"WhatsappNumber","type":"field","value":"0987654a21"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-01T08:45:47.811Z"}

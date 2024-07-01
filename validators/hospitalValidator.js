@@ -1,5 +1,6 @@
 const { body } = require('express-validator');
 // const User = require('../models/user'); 
+// const PatientMaster = require('../models/PatientMaster');
 
 exports.createHospitalValidationRules = () => {
   return [
@@ -188,5 +189,178 @@ exports.updateUserValidationRules = () => {
     body('phoneverify')
       .optional()
       .isIn(['yes', 'no']).withMessage('Phone verification must be either yes or no'),
+  ];
+};
+exports.createPatientValidationRules = () => {
+  return [
+   
+    body('EMRNumber')
+      .notEmpty().withMessage('EMR Number is required')
+      .isLength({ max: 50 }).withMessage('EMR Number cannot exceed 50 characters'),
+    body('HospitalGroupID')
+      .optional()
+      .isInt().withMessage('Hospital Group ID must be an integer'),
+    body('PatientFirstName')
+      .notEmpty().withMessage('Patient First Name is required')
+      .isLength({ max: 255 }).withMessage('Patient First Name cannot exceed 255 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Patient First Name can only contain letters and spaces'),
+    body('PatientLastName')
+      .notEmpty().withMessage('Patient Last Name is required')
+      .isLength({ max: 255 }).withMessage('Patient Last Name cannot exceed 255 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Patient Last Name can only contain letters and spaces'),
+    body('Age')
+      .notEmpty().withMessage('Age is required')
+      .isInt({ min: 0 }).withMessage('Age must be a non-negative integer'),
+    body('DOB')
+      .notEmpty().withMessage('Date of Birth is required')
+      .isDate().withMessage('Date of Birth must be a valid date'),
+    body('BloodGroup')
+      .notEmpty().withMessage('Blood Group is required')
+      .isIn(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).withMessage('Blood Group must be a valid type'),
+    body('Gender')
+      .notEmpty().withMessage('Gender is required')
+      .isIn(['Male', 'Female', 'Other']).withMessage('Gender must be Male, Female, or Other'),
+    body('Phone')
+      .notEmpty().withMessage('Phone is required')
+      .matches(/^[0-9]{10}$/).withMessage('Phone must be a valid 10-digit number'),
+    body('WhatsappNumber')
+      .optional()
+      .matches(/^[0-9]{10}$/).withMessage('WhatsApp Number must be a valid 10-digit number'),
+    body('Email')
+      .notEmpty().withMessage('Email is required')
+      .isEmail().withMessage('Email must be a valid email address')
+      .isLength({ max: 255 }).withMessage('Email cannot exceed 255 characters'),
+    body('AcceptedPolicy')
+      .notEmpty().withMessage('Accepted Policy is required')
+      .isBoolean().withMessage('Accepted Policy must be a boolean value'),
+    body('IsCommunicationAllowed')
+      .notEmpty().withMessage('Is Communication Allowed is required')
+      .isBoolean().withMessage('Is Communication Allowed must be a boolean value'),
+    body('PatientAddress')
+      .notEmpty().withMessage('Patient Address is required')
+      .isLength({ max: 255 }).withMessage('Patient Address cannot exceed 255 characters'),
+    body('EmergencyContactName')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Emergency Contact Name cannot exceed 255 characters')
+      .matches(/^[a-zA-Z\s\-.,]+$/).withMessage('Emergency Contact Name can only contain letters, spaces, hyphens, periods, and commas'),
+    body('EmergencyContactPhone')
+      .optional()
+      .matches(/^[0-9]{10}$/).withMessage('Emergency Contact Phone must be a valid 10-digit number'),
+    body('InsuranceProvider')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Insurance Provider cannot exceed 255 characters'),
+    body('InsurancePolicyNumber')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Insurance Policy Number cannot exceed 255 characters'),
+    body('MedicalHistory')
+      .optional()
+      .isLength({ max: 5000 }).withMessage('Medical History cannot exceed 5000 characters'),
+    body('CurrentMedications')
+      .optional()
+      .isLength({ max: 5000 }).withMessage('Current Medications cannot exceed 5000 characters'),
+    body('Allergies')
+      .optional()
+      .isLength({ max: 5000 }).withMessage('Allergies cannot exceed 5000 characters'),
+    body('MaritalStatus')
+      .optional()
+      .isIn(['Single', 'Married', 'Divorced', 'Widowed']).withMessage('Marital Status must be Single, Married, Divorced, or Widowed'),
+    body('Occupation')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Occupation cannot exceed 255 characters'),
+    body('Nationality')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Nationality cannot exceed 255 characters'),
+    body('Language')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Language cannot exceed 255 characters'),
+    body('createdBy')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Created By cannot exceed 255 characters'),
+  ];
+};
+
+exports.updatePatientValidationRules = () => {
+  return [
+   
+  
+    body('HospitalGroupID')
+      .optional()
+      .isInt().withMessage('Hospital Group ID must be an integer'),
+    body('PatientFirstName')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Patient First Name cannot exceed 255 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Patient First Name can only contain letters and spaces'),
+    body('PatientLastName')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Patient Last Name cannot exceed 255 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Patient Last Name can only contain letters and spaces'),
+    body('Age')
+      .optional()
+      .isInt({ min: 0 }).withMessage('Age must be a non-negative integer'),
+    body('DOB')
+      .optional()
+      .isDate().withMessage('Date of Birth must be a valid date'),
+    body('BloodGroup')
+      .optional()
+      .isIn(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).withMessage('Blood Group must be a valid type'),
+    body('Gender')
+      .optional()
+      .isIn(['Male', 'Female', 'Other']).withMessage('Gender must be Male, Female, or Other'),
+    body('Phone')
+      .optional()
+      .matches(/^[0-9]{10}$/).withMessage('Phone must be a valid 10-digit number'),
+    body('WhatsappNumber')
+      .optional()
+      .matches(/^[0-9]{10}$/).withMessage('WhatsApp Number must be a valid 10-digit number'),
+    body('Email')
+      .optional()
+      .isEmail().withMessage('Email must be a valid email address')
+      .isLength({ max: 255 }).withMessage('Email cannot exceed 255 characters'),
+    body('AcceptedPolicy')
+      .optional()
+      .isBoolean().withMessage('Accepted Policy must be a boolean value'),
+    body('IsCommunicationAllowed')
+      .optional()
+      .isBoolean().withMessage('Is Communication Allowed must be a boolean value'),
+    body('PatientAddress')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Patient Address cannot exceed 255 characters'),
+    body('EmergencyContactName')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Emergency Contact Name cannot exceed 255 characters')
+      .matches(/^[a-zA-Z\s\-.,]+$/).withMessage('Emergency Contact Name can only contain letters, spaces, hyphens, periods, and commas'),
+    body('EmergencyContactPhone')
+      .optional()
+      .matches(/^[0-9]{10}$/).withMessage('Emergency Contact Phone must be a valid 10-digit number'),
+    body('InsuranceProvider')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Insurance Provider cannot exceed 255 characters'),
+    body('InsurancePolicyNumber')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Insurance Policy Number cannot exceed 255 characters'),
+    body('MedicalHistory')
+      .optional()
+      .isLength({ max: 5000 }).withMessage('Medical History cannot exceed 5000 characters'),
+    body('CurrentMedications')
+      .optional()
+      .isLength({ max: 5000 }).withMessage('Current Medications cannot exceed 5000 characters'),
+    body('Allergies')
+      .optional()
+      .isLength({ max: 5000 }).withMessage('Allergies cannot exceed 5000 characters'),
+    body('MaritalStatus')
+      .optional()
+      .isIn(['Single', 'Married', 'Divorced', 'Widowed']).withMessage('Marital Status must be Single, Married, Divorced, or Widowed'),
+    body('Occupation')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Occupation cannot exceed 255 characters'),
+    body('Nationality')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Nationality cannot exceed 255 characters'),
+    body('Language')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Language cannot exceed 255 characters'),
+    body('updatedBy')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Updated By cannot exceed 255 characters'),
   ];
 };

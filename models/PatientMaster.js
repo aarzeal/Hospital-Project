@@ -168,7 +168,20 @@ const PatientMaster = sequelize.define('Patient_master', {
   createdBy: {
     type: DataTypes.STRING,
     allowNull: true // Allow createdBy to be nullable
-  }
+  },
+  
+    // sequelize,
+    // modelName: 'PatientMaster',
+    // tableName: 'Patient_master',
+    // timestamps: true,
+    // hooks: {
+    //   beforeValidate: (patient, options) => {
+    //     // Generate EMRNumber if not provided
+    //     if (!patient.EMRNumber) {
+    //       patient.EMRNumber = generateEMRNumber(patient.HospitalGroupID);
+    //     }
+    //   }
+    // }
 }, {
   tableName: 'Patient_master', // Specify the table name if different from the model name
   timestamps: true // Enable timestamps (createdAt, updatedAt)
@@ -185,7 +198,9 @@ syncDatabase().then(() => {
   console.log('Database synced');
 }).catch(err => {
   console.error('Failed to sync database:', err);
-});
+}
+);
+
 
 module.exports = PatientMaster;
 

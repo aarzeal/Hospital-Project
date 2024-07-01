@@ -202,3 +202,11 @@
 {"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-06-29T06:34:31.042Z"}
 {"error":"Validation error: Validation notEmpty on PatientFirstName failed","level":"error","message":"Error creating patient","timestamp":"2024-06-29T10:54:09.472Z"}
 {"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-06-29T10:55:00.049Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-07-01T05:09:42.445Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-07-01T05:10:12.537Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-07-01T05:13:02.315Z"}
+{"error":"tblHospital is not associated to tblHospitalGroup!","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-07-01T05:53:46.065Z"}
+{"error":"Cannot access 'HospitalGroupID' before initialization","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-07-01T05:55:04.219Z"}
+{"error":"tblHospital is not associated to tblHospitalGroup!","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-07-01T06:03:35.993Z"}
+{"error":"tblHospital is not associated to tblHospitalGroup!","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-07-01T06:08:44.843Z"}
+{"error":"tblHospital is not associated to tblHospitalGroup!","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-07-01T06:22:48.526Z"}
