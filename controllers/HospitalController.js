@@ -199,13 +199,16 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 exports.createHospital = async (req, res) => {
+  const start = Date.now(); 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      const end = Date.now(); 
         logger.info('Validation errors occurred', errors);
         return res.status(400).json({
             meta: {
                 statusCode: 400,
-                errorCode: 912
+                errorCode: 912,
+                executionTime: `${end - start}ms`
             },
             error: {
                 message: 'Validation errors occurred',
@@ -221,10 +224,12 @@ exports.createHospital = async (req, res) => {
     try {
       const existingHospital = await Hospital.findOne({ where: { ManagingCompanyEmail: req.body.ManagingCompanyEmail } });
     if (existingHospital) {
+      const end = Date.now();
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 956
+          errorCode: 956,
+                   executionTime: `${end - start}ms`
         },
         error: {
           message: 'Managing Company Email already exists'
@@ -263,19 +268,22 @@ exports.createHospital = async (req, res) => {
         hospital.UniqueKey = uniqueKey;
          await hospital.save({ fields: ['UniqueKey'] });
         logger.info('Unique key stored in hospital record successfully');
-
+        const end = Date.now();
         res.status(200).json({
             meta: {
-                statusCode: 200
+                statusCode: 200,
+                    executionTime: `${end - start}ms`
             },
             data: hospital
         });
     } catch (error) {
+      const end = Date.now(); 
         logger.error('Error creating hospital', { error: error.message });
         res.status(400).json({
             meta: {
                 statusCode: 400,
-                errorCode: 913
+                errorCode: 913,
+                          executionTime: `${end - start}ms`
             },
             error: {
                 message: 'Error creating hospital: ' + error.message
@@ -285,21 +293,26 @@ exports.createHospital = async (req, res) => {
 };
 
 exports.getAllHospitals = async (req, res) => {
+  const start = Date.now();
   try {
     const hospitals = await Hospital.findAll();
     logger.info('Retrieved all hospitals successfully');
+    const end = Date.now();
     res.json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+        executionTime: `${end - start}ms`
       },
       data: hospitals
     });
   } catch (error) {
+    const end = Date.now();
     logger.error('Error retrieving hospitals', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 914
+        errorCode: 914,
+          executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error retrieving hospitals: ' + error.message
@@ -310,35 +323,44 @@ exports.getAllHospitals = async (req, res) => {
 
 // Get hospital by ID
 exports.getHospitalById = async (req, res) => {
+  const start = Date.now(); 
   const id = req.params.id;
   try {
     const hospital = await Hospital.findByPk(id);
     if (!hospital) {
+      
       logger.warn(`Hospital with ID ${id} not found`);
+      const end = Date.now(); 
       res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 915
+          errorCode: 915,
+            executionTime: `${end - start}ms`
         },
         error: {
           message: 'Hospital not found'
         }
       });
     } else {
+      const end = Date.now();
       logger.info(`Retrieved hospital with ID ${id} successfully`);
       res.json({
         meta: {
-          statusCode: 200
+          statusCode: 200,
+          executionTime: `${end - start}ms`
+          
         },
         data: hospital
       });
     }
   } catch (error) {
+    const end = Date.now();
     logger.error('Error retrieving hospital', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 916
+        errorCode: 916,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error retrieving hospital: ' + error.message
@@ -349,13 +371,16 @@ exports.getHospitalById = async (req, res) => {
 
 // Update hospital
 exports.updateHospital = async (req, res) => {
+  const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     logger.warn('Validation errors occurred while updating hospital', errors);
+    const end = Date.now();
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 917
+        errorCode: 917,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: errors.array().map(err => err.msg).join(', ')
@@ -370,10 +395,12 @@ exports.updateHospital = async (req, res) => {
     });
     if (updatedRows === 0) {
       logger.warn(`Hospital with ID ${id} not found for update`);
+      const end = Date.now();
       res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 918
+          errorCode: 918,
+          executionTime: `${end - start}ms`
         },
         error: {
           message: 'Hospital not found'
@@ -381,19 +408,23 @@ exports.updateHospital = async (req, res) => {
       });
     } else {
       logger.info(`Hospital with ID ${id} updated successfully`);
+      const end = Date.now();
       res.json({
         meta: {
-          statusCode: 200
+          statusCode: 200,
+           executionTime: `${end - start}ms`
         },
         message: 'Hospital updated successfully'
       });
     }
   } catch (error) {
+    const end = Date.now();
     logger.error('Error updating hospital', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 919
+        errorCode: 919,
+         executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error updating hospital: ' + error.message
@@ -404,6 +435,7 @@ exports.updateHospital = async (req, res) => {
 
 // Delete hospital
 exports.deleteHospital = async (req, res) => {
+  const start = Date.now();
   const id = req.params.id;
   try {
     const deletedRows = await Hospital.destroy({
@@ -411,10 +443,12 @@ exports.deleteHospital = async (req, res) => {
     });
     if (deletedRows === 0) {
       logger.warn(`Hospital with ID ${id} not found for deletion`);
+      const end = Date.now();
       res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 920
+          errorCode: 920,
+           executionTime: `${end - start}ms`
         },
         error: {
           message: 'Hospital not found'
@@ -422,15 +456,18 @@ exports.deleteHospital = async (req, res) => {
       });
     } else {
       logger.info(`Hospital with ID ${id} deleted successfully`);
+      const end = Date.now();
       res.json({
         meta: {
-          statusCode: 200
+          statusCode: 200,
+          executionTime: `${end - start}ms`
         },
         message: 'Hospital deleted successfully'
       });
     }
   } catch (error) {
-    logger.error('Error deleting hospital', { error: error.message });
+    const end = Date.now();
+    logger.error('Error deleting hospital', { error: error.message, executionTime: `${end - start}ms` });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -445,27 +482,79 @@ exports.deleteHospital = async (req, res) => {
 
 // Get hospitals by HospitalGroupID
 exports.getHospitalsByHospitalGroupID = async (req, res) => {
+  const start = Date.now(); 
   const { HospitalGroupIDR } = req.params;
   try {
     const hospitals = await Hospital.findAll({
       where: { HospitalGroupIDR }
     });
     logger.info(`Retrieved hospitals by HospitalGroupIDR: ${HospitalGroupIDR} successfully`);
+    const end = Date.now();
     res.json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+        executionTime: `${end - start}ms`
       },
       data: hospitals
     });
   } catch (error) {
-    logger.error('Error retrieving hospitals by HospitalGroupIDR', { error: error.message });
+    const end = Date.now();
+    logger.error('Error retrieving hospitals by HospitalGroupIDR', { error: error.message, executionTime: `${end - start}ms` });
+    
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 922
+        errorCode: 922,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error retrieving hospitals by HospitalGroupIDR: ' + error.message
+      }
+    });
+  }
+};
+
+
+exports.getAllHospitalsByPagination = async (req, res) => {
+  const start = Date.now();
+  let { page, limit } = req.query;
+  page = parseInt(page) || 1;
+  limit = parseInt(limit) || 5; // Default limit is 5, adjust as per your requirement
+
+  const offset = (page - 1) * limit;
+
+  try {
+    const totalCount = await Hospital.count();
+    const hospitals = await Hospital.findAll({
+      offset,
+      limit,
+      // order: [[ 'ASC']] // Example ordering by createdAt, adjust as per your requirement
+    });
+
+    const end = Date.now();
+    logger.info(`Retrieved hospitals for page ${page} with limit ${limit} successfully`);
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        totalCount,
+        page,
+        limit,
+        executionTime: `${end - start}ms`
+      },
+      data: hospitals
+    });
+  } catch (error) {
+    const end = Date.now();
+    logger.error('Error retrieving hospitals with pagination', { error: error.message });
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 923,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error retrieving hospitals with pagination: ' + error.message
       }
     });
   }
@@ -695,13 +784,16 @@ const verifyUniqueKey = (providedKey, storedKey) => {
 };
 
 exports.login = async (req, res) => {
+  const start = Date.now(); 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    const end = Date.now();
     logger.warn('Validation errors occurred during login', errors);
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 923
+        errorCode: 923,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Validation errors occurred',
@@ -721,11 +813,13 @@ exports.login = async (req, res) => {
   try {
     const hospital = await Hospital.findOne({ where: { Username } });
     if (!hospital) {
+      const end = Date.now();
       logger.warn(`Hospital with Username ${Username} not found`);
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 924
+          errorCode: 924,
+          executionTime: `${end - start}ms`
         },
         error: {
           message: 'Hospital not found'
@@ -753,11 +847,13 @@ exports.login = async (req, res) => {
 
     // Highlighted changes: Replaced direct comparison with verifyUniqueKey function
     if (!verifyUniqueKey(uniqueKey, hospital.UniqueKey)) {
+      const end = Date.now();
       logger.warn(`Invalid UniqueKey for hospital with Username ${Username}`);
       return res.status(401).json({
         meta: {
           statusCode: 401,
-          errorCode: 955
+          errorCode: 955,
+              executionTime: `${end - start}ms`
         },
         error: {
           message: 'Unauthorized'
@@ -768,11 +864,13 @@ exports.login = async (req, res) => {
     const passwordMatch = await bcrypt.compare(Password, hospital.Password);
     
     if (!passwordMatch) {
+      const end = Date.now();
       logger.warn(`Incorrect password for hospital with Username ${Username}`);
       return res.status(401).json({
         meta: {
           statusCode: 401,
-          errorCode: 925
+          errorCode: 925,
+             executionTime: `${end - start}ms`
         },
         error: {
           message: 'Incorrect password'
@@ -789,10 +887,13 @@ exports.login = async (req, res) => {
     const decodedToken = jwt.verify(Hospitaltoken, process.env.JWT_SECRET);
 
     logger.info(`Hospital with ID ${decodedToken.hospitalId} logged in successfully`);
+    const end = Date.now();
+
 
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+         executionTime: `${end - start}ms`
       },
       data: {
         Hospitaltoken,
@@ -806,11 +907,13 @@ exports.login = async (req, res) => {
       }
     });
   } catch (error) {
+    const end = Date.now();
     logger.error('Error logging in', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 926
+        errorCode: 926,
+                executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error logging in: ' + error.message
@@ -819,13 +922,16 @@ exports.login = async (req, res) => {
   }
 };
 exports.requestPasswordReset = async (req, res) => {
+  const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    const end = Date.now();
     logger.warn('Validation errors occurred during password reset request', errors);
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 957
+        errorCode: 957,
+         executionTime: `${end - start}ms`
       },
       error: {
         message: 'Validation errors occurred',
@@ -840,11 +946,13 @@ exports.requestPasswordReset = async (req, res) => {
   const uniqueKey = req.headers['x-unique-key'];
 
   if (!uniqueKey) {
+    const end = Date.now();
     logger.error('Missing unique key in request headers');
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 958
+        errorCode: 958,
+         executionTime: `${end - start}ms`
       },
       error: {
         message: 'Missing unique key in request headers'
@@ -856,11 +964,14 @@ exports.requestPasswordReset = async (req, res) => {
     // Find hospital by uniqueKey
     const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
     if (!hospital) {
+      const end = Date.now();
       logger.warn(`Hospital with UniqueKey ${uniqueKey} not found`);
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 959
+          errorCode: 959,
+          executionTime: `${end - start}ms`
+
         },
         error: {
           message: 'Hospital not found'
@@ -871,11 +982,13 @@ exports.requestPasswordReset = async (req, res) => {
     // Ensure managingCompanyEmail is available
     const managingCompanyEmail = hospital.ManagingCompanyEmail;
     if (!managingCompanyEmail) {
+      const end = Date.now();
       logger.error(`Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail`);
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 960
+          errorCode: 960,
+            executionTime: `${end - start}ms`
         },
         error: {
           message: 'Hospital does not have a managing company email'
@@ -906,23 +1019,26 @@ exports.requestPasswordReset = async (req, res) => {
 
       throw new Error('Failed to send reset email ');
     }
-
+    const end = Date.now(); 
     logger.info(`Password reset link sent to ${managingCompanyEmail}`);
 
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+         executionTime: `${end - start}ms`
       },
       data: {
         message: 'Password reset link sent successfully'
       }
     });
   } catch (error) {
+    const end = Date.now();
     logger.error('Error requesting password reset', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 960
+        errorCode: 960,
+           executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error requesting password reset: ' + error.message
@@ -932,6 +1048,7 @@ exports.requestPasswordReset = async (req, res) => {
 };
 
 exports.resetPassword = async (req, res) => {
+  const start = Date.now();
   const { token, newPassword } = req.body;
 
   try {
@@ -943,6 +1060,8 @@ exports.resetPassword = async (req, res) => {
     });
 
     if (!hospital) {
+      
+      const end = Date.now(); 
       logger.warn('Invalid or expired reset token');
       return res.status(400).json({
         meta: {
@@ -997,23 +1116,26 @@ exports.resetPassword = async (req, res) => {
     hospital.ResetTokenExpires = null;
     await hospital.save({ fields: ['ResetToken', 'ResetTokenExpires'] });
     logger.info('Reset token and expiration time cleared in the database');
-
+    const end = Date.now();
     logger.info(`Password reset successfully for hospital with email ${hospital.Email}`);
     
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+         executionTime: `${end - start}ms`
       },
       data: {
         message: 'Password reset successfully'
       }
     });
   } catch (error) {
+    const end = Date.now();
     logger.error('Error resetting password', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 962
+        errorCode: 962,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error resetting password: ' + error.message
@@ -1024,13 +1146,16 @@ exports.resetPassword = async (req, res) => {
 
 
 exports.changePassword = async (req, res) => {
+  const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    const end = Date.now(); 
       logger.info('Validation errors occurred', errors);
       return res.status(400).json({
           meta: {
               statusCode: 400,
-              errorCode: 963
+              errorCode: 963,
+                executionTime: `${end - start}ms`
           },
           error: {
               message: 'Validation errors occurred',
@@ -1048,11 +1173,13 @@ exports.changePassword = async (req, res) => {
   try {
       const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
       if (!hospital) {
+        const end = Date.now(); 
           logger.warn('Hospital not found with provided unique key');
           return res.status(404).json({
               meta: {
                   statusCode: 404,
-                  errorCode: 964
+                  errorCode: 964,
+                    executionTime: `${end - start}ms`
               },
               error: {
                   message: 'Hospital not found'
@@ -1064,11 +1191,13 @@ exports.changePassword = async (req, res) => {
       
       const passwordMatch = await bcrypt.compare(currentPassword, hospital.Password);
       if (!passwordMatch) {
+        const end = Date.now(); 
           logger.warn('Current password is incorrect');
           return res.status(400).json({
               meta: {
                   statusCode: 400,
-                  errorCode: 965
+                  errorCode: 965,
+                  executionTime: `${end - start}ms`
               },
               error: {
                   message: 'Current password is incorrect'
@@ -1089,6 +1218,7 @@ exports.changePassword = async (req, res) => {
       const updatedHospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
       logger.info(`New password stored in database: ${updatedHospital.Password}`);
 
+      const end = Date.now();
       logger.info(`Password changed successfully for hospital with email ${hospital.ManagingCompanyEmail}`);
       
       res.status(200).json({
@@ -1104,7 +1234,8 @@ exports.changePassword = async (req, res) => {
       res.status(500).json({
           meta: {
               statusCode: 500,
-              errorCode: 966
+              errorCode: 966,
+              executionTime: `${end - start}ms`
           },
           error: {
               message: 'Error changing password: ' + error.message
@@ -1115,13 +1246,16 @@ exports.changePassword = async (req, res) => {
 
 
 exports.changeEmail = async (req, res) => {
+  const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    const end = Date.now();
     logger.info('Validation errors occurred', errors);
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 967
+        errorCode: 967,
+         executionTime: `${end - start}ms`
       },
       error: {
         message: 'Validation errors occurred',
@@ -1139,11 +1273,13 @@ exports.changeEmail = async (req, res) => {
   try {
     const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
     if (!hospital) {
+      const end = Date.now();
       logger.warn('Hospital not found with provided unique key');
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 968
+          errorCode: 968,
+           executionTime: `${end - start}ms`
         },
         error: {
           message: 'Hospital not found'
@@ -1154,11 +1290,13 @@ exports.changeEmail = async (req, res) => {
     // Update hospital's email
     hospital.ManagingCompanyEmail = ManagingCompanyEmail;
     await hospital.save({ fields: ['ManagingCompanyEmail'] });
+    const end = Date.now();
     logger.info(`Email updated successfully for hospital with unique key ${uniqueKey}`);
 
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+         executionTime: `${end - start}ms`
       },
       data: {
         message: 'Email changed successfully'
@@ -1194,12 +1332,17 @@ exports.changeEmail = async (req, res) => {
 
 
 exports.ensureSequelizeInstance = (req, res, next) => {
+  const start = Date.now();
   if (!req.hospitalDatabase) {
+   
+    const end = Date.now();
+
     logger.error('Database connection not established');
     return res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 927
+        errorCode: 927,
+        executionTime: `${end - start}ms`
       },
       
       error: {
@@ -1277,11 +1420,13 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 
 
 exports.createUser = async (req, res) => {
+  const start = Date.now();
   const { name, username, phone, email, password, empid ,usertype} = req.body;
   const hospitalId = req.hospitalId;
 
   try {
     if (!password) {
+      const end = Date.now();
       throw new Error('Password is required');
     }
 
@@ -1311,10 +1456,11 @@ exports.createUser = async (req, res) => {
     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${verificationToken}`; // Replace with your actual verification link
     
     await sendEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
-
+    const end = Date.now();
     res.status(201).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+        executionTime: `${end - start}ms`
       },
       data: {
         userId: user.userId,
@@ -1322,11 +1468,13 @@ exports.createUser = async (req, res) => {
       }
     });
   } catch (error) {
+    const end = Date.now();
     logger.error('Error creating user', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 928
+        errorCode: 928,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error creating user: ' + error.message
@@ -1336,6 +1484,7 @@ exports.createUser = async (req, res) => {
 };
 
 exports.verifyEmail = async (req, res) => {
+  const start = Date.now();
   const { token } = req.params;
   const User = require('../models/user');
 
@@ -1344,10 +1493,13 @@ exports.verifyEmail = async (req, res) => {
     const user = await User(req.sequelize).findOne({ where: { emailtoken: token } });
 
     if (!user) {
+      const end = Date.now();
       return res.status(400).json({
         meta: {
           statusCode: 400,
           errorCode: 952
+          ,
+        executionTime: `${end - start}ms`
         },
         error: {
           message: 'Invalid or expired verification token'
@@ -1359,12 +1511,13 @@ exports.verifyEmail = async (req, res) => {
     user.is_emailVerify = true; // Ensure correct field name as per your model definition
     user.emailtoken = null; // Clear the token after verification
     await user.save();
-
+    const end = Date.now();
     logger.info(`User email verified successfully with username: ${user.username}`);
 
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+        executionTime: `${end - start}ms`
       },
       data: {
         message: 'Email verified successfully'
@@ -1375,7 +1528,8 @@ exports.verifyEmail = async (req, res) => {
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 953
+        errorCode: 953,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error verifying email: ' + error.message
@@ -1484,18 +1638,22 @@ exports.verifyEmail = async (req, res) => {
 // };
 
 exports.getUser = async (req, res) => {
+  const start = Date.now();
   const { id } = req.params;
 
   try {
+
     const User = require('../models/user')(req.sequelize);
     const user = await User.findByPk(id);
 
     if (!user) {
+      const end = Date.now();
       logger.warn(`User with ID ${id} not found`);
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 937
+          errorCode: 937,
+        executionTime: `${end - start}ms`
         },
         error: {
           message: 'User not found'
@@ -1503,10 +1661,12 @@ exports.getUser = async (req, res) => {
       });
     }
 
+    const end = Date.now();
     logger.info(`User with ID ${id} retrieved successfully`);
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+        executionTime: `${end - start}ms`
       },
       data: {
         userId: user.userId,
@@ -1517,11 +1677,13 @@ exports.getUser = async (req, res) => {
       }
     });
   } catch (error) {
+    const end = Date.now();
     logger.error('Error retrieving user', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 931
+        errorCode: 931,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error retrieving user: ' + error.message
@@ -1531,19 +1693,23 @@ exports.getUser = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
+  const start = Date.now();
   const { id } = req.params;
   const { username, password } = req.body;
 
   try {
+
     const User = require('../models/user')(req.sequelize);
     const user = await User.findByPk(id);
 
     if (!user) {
+      const end = Date.now();
       logger.warn(`User with ID ${id} not found`);
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 932
+          errorCode: 932,
+        executionTime: `${end - start}ms`
         },
         error: {
           message: 'User not found'
@@ -1555,11 +1721,12 @@ exports.updateUser = async (req, res) => {
     if (password) user.password = await bcrypt.hash(password, 10);
 
     await user.save();
-
+    const end = Date.now();
     logger.info(`User with ID ${id} updated successfully`);
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+        executionTime: `${end - start}ms`
       },
       data: {
         userId: user.userId,
@@ -1567,11 +1734,13 @@ exports.updateUser = async (req, res) => {
       }
     });
   } catch (error) {
+    const end = Date.now();
     logger.error('Error updating user', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 933
+        errorCode: 933,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error updating user: ' + error.message
@@ -1581,6 +1750,7 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
+  const start = Date.now();
   const { id } = req.params;
 
   try {
@@ -1588,11 +1758,13 @@ exports.deleteUser = async (req, res) => {
     const user = await User.findByPk(id);
 
     if (!user) {
+      const end = Date.now();
       logger.warn(`User with ID ${id} not found`);
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 934
+          errorCode: 934,
+        executionTime: `${end - start}ms`
         },
         error: {
           message: 'User not found'
@@ -1602,21 +1774,25 @@ exports.deleteUser = async (req, res) => {
 
     await user.destroy();
 
+    const end = Date.now();
     logger.info(`User with ID ${id} deleted successfully`);
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+        executionTime: `${end - start}ms`
       },
       data: {
         message: 'User deleted successfully'
       }
     });
   } catch (error) {
+    const end = Date.now();
     logger.error('Error deleting user', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 935
+        errorCode: 935,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error deleting user: ' + error.message
@@ -1625,24 +1801,29 @@ exports.deleteUser = async (req, res) => {
   }
 };
 exports.getAllUsers = async (req, res) => {
+  const start = Date.now();
   try {
     const User = require('../models/user')(req.sequelize);
     const users = await User.findAll();
 
+    const end = Date.now();
     logger.info(`Retrieved all users successfully`);
 
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+        executionTime: `${end - start}ms`
       },
       data: users
     });
   } catch (error) {
+    const end = Date.now();
     logger.error('Error retrieving all users', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 936
+        errorCode: 936,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error retrieving all users: ' + error.message
@@ -1650,6 +1831,52 @@ exports.getAllUsers = async (req, res) => {
     });
   }
 };
+exports.getAllUsersByPagination = async (req, res) => {
+  const start = Date.now();
+  let { page, limit } = req.query;
+  page = parseInt(page) || 1;
+  limit = parseInt(limit) || 5; // Default limit is 5, adjust as per your requirement
+
+  const offset = (page - 1) * limit;
+
+  try {
+    const totalCount = await User(req.sequelize).count();
+    const users = await User(req.sequelize).findAll({
+      offset,
+      limit,
+      order: [['createdAt', 'ASC']] // Example ordering by createdAt, adjust as per your requirement
+    });
+
+    const end = Date.now();
+    logger.info(`Retrieved users for page ${page} with limit ${limit} successfully`);
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        totalCount,
+        page,
+        limit,
+        executionTime: `${end - start}ms`
+      },
+      data: users
+    });
+  } catch (error) {
+    const end = Date.now();
+    logger.error('Error retrieving users with pagination', { error: error.message });
+
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 937,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error retrieving users with pagination: ' + error.message
+      }
+    });
+  }
+};
+
 
 
 

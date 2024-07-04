@@ -25,6 +25,10 @@ const PatientMaster = sequelize.define('Patient_master', {
       key: 'HospitalGroupID'
     }
   },
+  HospitalID: {
+    type: DataTypes.INTEGER,
+    allowNull: false // Ensure this field is not null
+  },
   PatientFirstName: {
     type: DataTypes.STRING,
     allowNull: false,

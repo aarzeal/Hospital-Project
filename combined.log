@@ -1491,3 +1491,81 @@
 {"error":"tblHospital is not associated to tblHospitalGroup!","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-07-01T06:08:44.843Z"}
 {"error":"tblHospital is not associated to tblHospitalGroup!","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-07-01T06:22:48.526Z"}
 {"errors":[{"location":"body","msg":"Patient First Name can only contain letters and spaces","path":"PatientFirstName","type":"field","value":"<a href='https://www.bugcrowd.com/'>bugcr</a>"},{"location":"body","msg":"Date of Birth must be a valid date","path":"DOB","type":"field","value":"1993-32-32"},{"location":"body","msg":"WhatsApp Number must be a valid 10-digit number","path":"WhatsappNumber","type":"field","value":"0987654a21"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-01T08:45:47.811Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-07-01T11:31:08.892Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-01T11:31:42.763Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-01T11:31:42.764Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-01T11:31:42.764Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-01T11:31:42.765Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully","timestamp":"2024-07-01T11:31:42.825Z"}
+{"error":"notNull Violation: Patient_master.PatientName cannot be null,\nnotNull Violation: Patient_master.HospitalID cannot be null","level":"error","message":"Error creating patient","timestamp":"2024-07-01T11:32:45.919Z"}
+{"error":"notNull Violation: Patient_master.HospitalID cannot be null","level":"error","message":"Error creating patient","timestamp":"2024-07-01T11:32:57.713Z"}
+{"error":"notNull Violation: Patient_master.HospitalID cannot be null","level":"error","message":"Error creating patient","timestamp":"2024-07-01T11:34:25.998Z"}
+{"error":"notNull Violation: Patient_master.HospitalID cannot be null","level":"error","message":"Error creating patient","timestamp":"2024-07-01T11:34:50.944Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-01T11:36:53.721Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-01T11:36:53.723Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-01T11:36:53.724Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-01T11:36:53.724Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully","timestamp":"2024-07-01T11:36:53.786Z"}
+{"error":"notNull Violation: Patient_master.HospitalID cannot be null","level":"error","message":"Error creating patient","timestamp":"2024-07-01T11:37:01.941Z"}
+{"error":"notNull Violation: Patient_master.HospitalID cannot be null","level":"error","message":"Error creating patient","timestamp":"2024-07-01T11:37:18.959Z"}
+{"error":"notNull Violation: Patient_master.HospitalID cannot be null","level":"error","message":"Error creating patient","timestamp":"2024-07-01T11:41:03.156Z"}
+{"error":"notNull Violation: Patient_master.HospitalID cannot be null","level":"error","message":"Error creating patient","timestamp":"2024-07-01T11:43:29.085Z"}
+{"error":"notNull Violation: Patient_master.HospitalID cannot be null","level":"error","message":"Error creating patient","timestamp":"2024-07-01T11:44:40.472Z"}
+{"level":"info","message":"Created new patient with ID 30","timestamp":"2024-07-01T11:59:22.447Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-07-01T12:03:56.119Z"}
+{"hospitalId":54,"level":"info","message":"Hospital created successfully","timestamp":"2024-07-01T12:05:19.143Z"}
+{"level":"info","message":"Generated database name: sampledb","timestamp":"2024-07-01T12:05:19.144Z"}
+{"level":"info","message":"Database sampledb created successfully","timestamp":"2024-07-01T12:05:19.147Z"}
+{"level":"info","message":"Connected to database sampledb successfully","timestamp":"2024-07-01T12:05:19.160Z"}
+{"level":"info","message":"Models synchronized successfully in database sampledb","timestamp":"2024-07-01T12:05:19.165Z"}
+{"level":"info","message":"Generated unique key: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-01T12:05:19.166Z"}
+{"level":"info","message":"Unique key stored in hospital record successfully","timestamp":"2024-07-01T12:05:19.243Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-01T12:06:09.767Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-01T12:06:09.768Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-01T12:06:09.769Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-01T12:06:09.769Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully","timestamp":"2024-07-01T12:06:09.828Z"}
+{"level":"info","message":"Retrieved patients for HospitalGroupID 1 with pagination in 8ms","timestamp":"2024-07-01T12:21:45.787Z"}
+{"level":"info","message":"Retrieved patients for HospitalGroupID 1 with pagination in 9ms","timestamp":"2024-07-01T12:30:40.932Z"}
+{"level":"info","message":"Created new patient with ID 31 in 51ms","timestamp":"2024-07-01T12:31:09.444Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-07-03T06:23:51.810Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-03T06:24:32.904Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-03T06:24:32.904Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-03T06:24:32.905Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-03T06:24:32.905Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully","timestamp":"2024-07-03T06:24:32.965Z"}
+{"level":"info","message":"Retrieved all hospitals successfully","timestamp":"2024-07-03T06:26:08.478Z"}
+{"level":"info","message":"Retrieved all hospital groups successfully","timestamp":"2024-07-03T06:36:10.795Z"}
+{"level":"info","message":"Retrieved hospital group with ID 1 successfully","timestamp":"2024-07-03T07:00:24.658Z"}
+{"level":"warn","message":"Hospital group with ID pagination not found","timestamp":"2024-07-03T07:00:32.496Z"}
+{"level":"warn","message":"Hospital group with ID pagination not found","timestamp":"2024-07-03T07:01:15.177Z"}
+{"level":"warn","message":"Hospital group with ID pagination not found","timestamp":"2024-07-03T07:01:18.592Z"}
+{"level":"warn","message":"Hospital group with ID pagination not found","timestamp":"2024-07-03T07:01:23.561Z"}
+{"level":"warn","message":"Hospital group with ID pagination not found","timestamp":"2024-07-03T07:01:25.195Z"}
+{"level":"warn","message":"Hospital group with ID pagination not found","timestamp":"2024-07-03T07:01:26.683Z"}
+{"level":"warn","message":"Hospital group with ID pagination not found","timestamp":"2024-07-03T07:01:27.656Z"}
+{"level":"warn","message":"Hospital group with ID pagination not found","timestamp":"2024-07-03T07:11:19.118Z"}
+{"error":"Unknown column 'tblHospital.createdAt' in 'order clause'","level":"error","message":"Error retrieving hospitals with pagination","timestamp":"2024-07-03T09:04:44.129Z"}
+{"error":"Unknown column 'tblHospital.ASC' in 'order clause'","level":"error","message":"Error retrieving hospitals with pagination","timestamp":"2024-07-03T09:05:43.776Z"}
+{"level":"info","message":"Retrieved hospitals for page 1 with limit 5 successfully","timestamp":"2024-07-03T09:06:05.323Z"}
+{"level":"info","message":"Retrieved hospitals for page 1 with limit 5 successfully","timestamp":"2024-07-03T09:09:14.457Z"}
+{"level":"info","message":"Retrieved hospitals for page 2 with limit 5 successfully","timestamp":"2024-07-03T09:09:19.507Z"}
+{"error":"User is not defined","level":"error","message":"Error retrieving users with pagination","timestamp":"2024-07-03T09:25:10.641Z"}
+{"error":"User.count is not a function","level":"error","message":"Error retrieving users with pagination","timestamp":"2024-07-03T09:26:39.629Z"}
+{"error":"User is not defined","level":"error","message":"Error retrieving users with pagination","timestamp":"2024-07-03T09:32:52.573Z"}
+{"error":"Cannot read properties of undefined (reading 'define')","level":"error","message":"Error retrieving users with pagination","timestamp":"2024-07-03T09:36:31.076Z"}
+{"error":"User.count is not a function","level":"error","message":"Error retrieving users with pagination","timestamp":"2024-07-03T09:37:30.739Z"}
+{"error":"User.count is not a function","level":"error","message":"Error retrieving users with pagination","timestamp":"2024-07-03T09:38:20.902Z"}
+{"level":"info","message":"Retrieved all hospitals successfully","timestamp":"2024-07-03T10:09:31.628Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-03T10:12:12.568Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-03T10:12:12.569Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-03T10:12:12.570Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-03T10:12:12.570Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully","timestamp":"2024-07-03T10:12:12.629Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-03T10:22:20.243Z"}
+{"error":"Table 'sampledb.users' doesn't exist","level":"error","message":"Error retrieving all users","timestamp":"2024-07-03T10:22:20.258Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-03T10:22:53.177Z"}
+{"level":"info","message":"User created successfully with username: user63, hospitalId: 54","timestamp":"2024-07-03T10:22:53.408Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1720002177 41be03b00d2f7-72c6b6810a5sm7868314a12.56 - gsmtp","timestamp":"2024-07-03T10:22:57.465Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-03T10:23:14.142Z"}
+{"level":"info","message":"Retrieved all users successfully","timestamp":"2024-07-03T10:23:14.155Z"}

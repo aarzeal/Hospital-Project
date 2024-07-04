@@ -6,16 +6,21 @@ const logger = require('../logger');
 const { validationResult } = require('express-validator');
 // Get all patients
 exports.getAllPatients = async (req, res) => {
+  const start = Date.now();
   try {
     const patients = await PatientMaster.findAll();
+    const end = Date.now(); 
     logger.info('Retrieved all patients successfully');
+    logger.error('Error retrieving patients', { error: error.message, executionTime: `${end - start}ms` });
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+          executionTime: `${end - start}ms`
       },
       data: patients
     });
   } catch (error) {
+    const end = Date.now(); 
     logger.error('Error retrieving patients', { error: error.message });
     res.status(500).json({
       meta: {
@@ -31,34 +36,42 @@ exports.getAllPatients = async (req, res) => {
 
 // Get patient by ID
 exports.getPatientById = async (req, res) => {
+  const start = Date.now();
   const { id } = req.params;
   try {
     const patient = await PatientMaster.findByPk(id);
     if (!patient) {
-      logger.warn(`Patient with ID ${id} not found`);
+      const end = Date.now(); 
+      logger.warn(`Patient with ID ${id} not found`, { executionTime: `${end - start}ms` });
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 972
+          errorCode: 972,
+          executionTime: `${end - start}ms`
         },
         error: {
           message: 'Patient not found'
         }
       });
     }
+    const end = Date.now();
     logger.info(`Retrieved patient with ID ${id} successfully`);
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+        executionTime: `${end - start}ms`
       },
       data: patient
     });
   } catch (error) {
-    logger.error('Error retrieving patient', { error: error.message });
+    const end = Date.now();
+    logger.error('Error retrieving patient', { error: error.message, executionTime: `${end - start}ms`  });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 973
+        errorCode: 973,
+        executionTime: `${end - start}ms`
+
       },
       error: {
         message: 'Error retrieving patient: ' + error.message
@@ -68,25 +81,132 @@ exports.getPatientById = async (req, res) => {
 };
 
 // Create a new patient
-exports.createPatient = async (req, res) => {
+// exports.createPatient = async (req, res) => {
 
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//       logger.info('Validation errors occurred', errors);
+//       return res.status(400).json({
+//           meta: {
+//               statusCode: 400,
+//               errorCode: 912
+//           },
+//           error: {
+//               message: 'Validation errors occurred',
+//               details: errors.array().map(err => ({
+//                   field: err.param,
+//                   message: err.msg
+//               }))
+//           }
+//       });
+//   }
+//   const {
+//     PatientName,
+//     EMRNumber,
+//     HospitalGroupID,
+//     PatientFirstName,
+//     PatientLastName,
+//     Age,
+//     DOB,
+//     BloodGroup,
+//     Gender,
+//     Phone,
+//     WhatsappNumber,
+//     Email,
+//     AcceptedPolicy,
+//     IsCommunicationAllowed,
+//     PatientAddress,
+//     EmergencyContactName,
+//     EmergencyContactPhone,
+//     InsuranceProvider,
+//     InsurancePolicyNumber,
+//     MedicalHistory,
+//     CurrentMedications,
+//     Allergies,
+//     MaritalStatus,
+//     Occupation,
+//     Nationality,
+//     Language,
+//     createdBy
+//   } = req.body;
+//   console.log('HospitalID in request:', req.HospitalID);
+//   try {
+//     const newPatient = await PatientMaster.create({
+//       PatientName,
+//       EMRNumber,
+//       // EMRNumber: generateEMRNumber(HospitalGroupID),
+//       HospitalID: req.HospitalID,
+//       HospitalGroupID,
+//       PatientFirstName,
+//       PatientLastName,
+//       Age,
+//       DOB,
+//       BloodGroup,
+//       Gender,
+//       Phone,
+//       WhatsappNumber,
+//       Email,
+//       AcceptedPolicy,
+//       IsCommunicationAllowed,
+//       PatientAddress,
+//       EmergencyContactName,
+//       EmergencyContactPhone,
+//       InsuranceProvider,
+//       InsurancePolicyNumber,
+//       MedicalHistory,
+//       CurrentMedications,
+//       Allergies,
+//       MaritalStatus,
+//       Occupation,
+//       Nationality,
+//       Language,
+//       createdBy
+//     });
+
+//     logger.info(`Created new patient with ID ${newPatient.PatientID}`);
+//     res.status(201).json({
+//       meta: {
+//         statusCode: 201
+//       },
+//       data: newPatient
+//     });
+//   } catch (error) {
+//     logger.error('Error creating patient', { error: error.message });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 974
+//       },
+//       error: {
+//         message: 'Error creating patient: ' + error.message
+//       }
+//     });
+//   }
+// };
+
+
+
+exports.createPatient = async (req, res) => {
+  const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-      logger.info('Validation errors occurred', errors);
-      return res.status(400).json({
-          meta: {
-              statusCode: 400,
-              errorCode: 912
-          },
-          error: {
-              message: 'Validation errors occurred',
-              details: errors.array().map(err => ({
-                  field: err.param,
-                  message: err.msg
-              }))
-          }
-      });
+    const end = Date.now(); // Capture end time
+    logger.info('Validation errors occurred', { errors, executionTime: `${end - start}ms` });
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 912
+      },
+      error: {
+        message: 'Validation errors occurred',
+        details: errors.array().map(err => ({
+          field: err.param,
+          message: err.msg
+        }))
+      }
+    });
   }
+
   const {
     PatientName,
     EMRNumber,
@@ -117,11 +237,13 @@ exports.createPatient = async (req, res) => {
     createdBy
   } = req.body;
 
+  console.log('HospitalID in request:', req.hospitalId);
+
   try {
     const newPatient = await PatientMaster.create({
       PatientName,
       EMRNumber,
-      // EMRNumber: generateEMRNumber(HospitalGroupID),
+      HospitalID: req.hospitalId, // Correctly set HospitalID
       HospitalGroupID,
       PatientFirstName,
       PatientLastName,
@@ -148,11 +270,13 @@ exports.createPatient = async (req, res) => {
       Language,
       createdBy
     });
-
-    logger.info(`Created new patient with ID ${newPatient.PatientID}`);
+    const end = Date.now(); // Capture end time
+    logger.info(`Created new patient with ID ${newPatient.PatientID} in ${end - start}ms`);
+    // logger.info(`Created new patient with ID ${newPatient.PatientID}`);
     res.status(201).json({
       meta: {
-        statusCode: 201
+        statusCode: 201,
+          executionTime: `${end - start}ms`
       },
       data: newPatient
     });
@@ -161,7 +285,8 @@ exports.createPatient = async (req, res) => {
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 974
+        errorCode: 974,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error creating patient: ' + error.message
@@ -184,12 +309,16 @@ exports.createPatient = async (req, res) => {
 
 // Update an existing patient
 exports.updatePatient = async (req, res) => {
+  const start = Date.now(); 
   const { id } = req.params;
   const updates = req.body;
 
   try {
     const patient = await PatientMaster.findByPk(id);
     if (!patient) {
+      const end = Date.now(); // Capture end time
+      logger.warn(`Patient with ID ${id} not found`, { executionTime: `${end - start}ms` });
+
       logger.warn(`Patient with ID ${id} not found`);
       return res.status(404).json({
         meta: {
@@ -204,6 +333,7 @@ exports.updatePatient = async (req, res) => {
 
     await PatientMaster.update(updates, { where: { PatientID: id } });
     const updatedPatient = await PatientMaster.findByPk(id);
+    const end = Date.now(); 
     logger.info(`Updated patient with ID ${id} successfully`);
     res.status(200).json({
       meta: {
@@ -227,15 +357,18 @@ exports.updatePatient = async (req, res) => {
 
 // Delete a patient
 exports.deletePatient = async (req, res) => {
+  const start = Date.now();
   const { id } = req.params;
   try {
     const patient = await PatientMaster.findByPk(id);
     if (!patient) {
-      logger.warn(`Patient with ID ${id} not found`);
+      const end = Date.now();
+      logger.warn(`Patient with ID ${id} not found`, { executionTime: `${end - start}ms` });
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 977
+          errorCode: 977,
+          executionTime: `${end - start}ms`
         },
         error: {
           message: 'Patient not found'
@@ -244,19 +377,23 @@ exports.deletePatient = async (req, res) => {
     }
 
     await PatientMaster.destroy({ where: { PatientID: id } });
+    const end = Date.now();
     logger.info(`Deleted patient with ID ${id} successfully`);
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
+          executionTime: `${end - start}ms`
       },
       data: { message: 'Patient deleted successfully' }
     });
   } catch (error) {
+    const end = Date.now();
     logger.error('Error deleting patient', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 978
+        errorCode: 978,
+            executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error deleting patient: ' + error.message
@@ -319,6 +456,7 @@ exports.deletePatient = async (req, res) => {
 
 // Controller function to fetch patients by HospitalGroupID with pagination
 exports.getPatientsByHospitalGroupID = async (req, res) => {
+  const start = Date.now();
   const { id } = req.params;
   let { page, pageSize } = req.query;
 
@@ -339,6 +477,7 @@ exports.getPatientsByHospitalGroupID = async (req, res) => {
 
     // Check if patients array is empty
     if (!patients || patients.length === 0) {
+      const end = Date.now();
       return res.status(200).json({
         meta: {
           statusCode: 200,
@@ -348,22 +487,27 @@ exports.getPatientsByHospitalGroupID = async (req, res) => {
         data: [] // Return empty array when no patients are found
       });
     }
-
+    const end = Date.now(); // Capture end time
+    logger.info(`Retrieved patients for HospitalGroupID ${id} with pagination in ${end - start}ms`);
     // Return patients with pagination metadata
     res.status(200).json({
       meta: {
         statusCode: 200,
         page: page,
-        pageSize: pageSize
+        pageSize: pageSize,
+          executionTime: `${end - start}ms`
       },
       data: patients
     });
   } catch (error) {
+    const end = Date.now(); // Capture end time
+    logger.error('Error fetching patients by HospitalGroupID', { error: error.message, executionTime: `${end - start}ms` });
     console.error('Error fetching patients by HospitalGroupID', error);
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 980
+        errorCode: 980,
+         executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error fetching patients: ' + error.message
@@ -373,6 +517,7 @@ exports.getPatientsByHospitalGroupID = async (req, res) => {
 };
 
 exports.getAllPatientsByPagination = async (req, res) => {
+  const start = Date.now();
   let { page, limit } = req.query;
   page = parseInt(page) || 1;
   limit = parseInt(limit) || 5; // Default limit is 10
@@ -386,7 +531,7 @@ exports.getAllPatientsByPagination = async (req, res) => {
       limit,
       order: [['createdAt', 'ASC']] // Example ordering by createdAt, adjust as per your requirement
     });
-
+    const end = Date.now(); 
     logger.info(`Retrieved patients for page ${page} with limit ${limit} successfully`);
 
     res.status(200).json({
@@ -394,16 +539,19 @@ exports.getAllPatientsByPagination = async (req, res) => {
         statusCode: 200,
         totalCount,
         page,
-        limit
+        limit,
+         executionTime: `${end - start}ms`
       },
       data: patients
     });
   } catch (error) {
+    const end = Date.now();
     logger.error('Error retrieving patients with pagination', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 981
+        errorCode: 981,
+           executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error retrieving patients with pagination: ' + error.message

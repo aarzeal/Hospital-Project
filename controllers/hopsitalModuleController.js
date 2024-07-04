@@ -8,6 +8,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 exports.creatmodules = async (req, res) => {
+  const start = Date.now();
     const { modules_name } = req.body;
     const hospitalId = req.hospitalId;
   
@@ -20,11 +21,13 @@ exports.creatmodules = async (req, res) => {
       await UserModules.sync();
   
       const userModules = await UserModules.create({ modules_name,hospitalId  });
-      logger.info(`User created successfully with username: ${modules_name}, hospitalId: ${hospitalId}`);
+      const end = Date.now();
+      logger.info(`User created successfully with username: ${modules_name}, hospitalId: ${hospitalId}, executionTime: ${end - start}ms`);
   
       res.status(201).json({
         meta: {
-          statusCode: 200
+          statusCode: 200,
+          executionTime: `${end - start}ms`
         },
         data: {
             modules_Id: userModules.modules_Id,
@@ -32,11 +35,13 @@ exports.creatmodules = async (req, res) => {
         }
       });
     } catch (error) {
-      logger.error('Error creating Modules', { error: error.message });
+      const end = Date.now();
+      logger.error('Error creating Modules', { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
         meta: {
           statusCode: 500,
-          errorCode: 938
+          errorCode: 938,
+          executionTime: `${end - start}ms`
         },
         error: {
           message: 'Error creating modules: ' + error.message
@@ -45,6 +50,7 @@ exports.creatmodules = async (req, res) => {
     }
   };
  exports.getModule = async (req, res) => {
+  const start = Date.now();
     const { modules_Id } = req.body;
     console.log(modules_Id)
   
@@ -54,11 +60,13 @@ exports.creatmodules = async (req, res) => {
       const userModules = await UserModules.findByPk(modules_Id);
   
       if (!userModules) {
-        logger.warn(`module with ID ${modules_Id} not found`);
+        const end = Date.now();
+        logger.warn(`module with ID ${modules_Id} not found, executionTime: ${end - start}ms`);
         return res.status(404).json({
           meta: {
             statusCode: 404,
-            errorCode: 939
+            errorCode: 939,
+            executionTime: `${end - start}ms`
           },
           error: {
             message: 'module not found'
@@ -67,11 +75,13 @@ exports.creatmodules = async (req, res) => {
         });
       }
   
-      logger.info(`User with ID ${modules_Id} retrieved successfully`);
+      const end = Date.now();
+      logger.info(`User with ID ${modules_Id} retrieved successfully,executionTime: ${end - start}ms`);
       
       res.status(200).json({
         meta: {
-          statusCode: 200
+          statusCode: 200,
+          executionTime: `${end - start}ms`
         },
         data: {
             modules_Id: userModules.modules_Id,
@@ -79,11 +89,13 @@ exports.creatmodules = async (req, res) => {
         }
       });
     } catch (error) {
-      logger.error('Error retrieving Modules', { error: error.message });
+      const end = Date.now();
+      logger.error('Error retrieving Modules', { error: error.message , executionTime: `${end - start}ms`});
       res.status(500).json({
         meta: {
           statusCode: 500,
-          errorCode: 940
+          errorCode: 940,
+          executionTime: `${end - start}ms`
         },
         error: {
           message: 'Error retrieving Modules: ' + error.message
@@ -93,6 +105,7 @@ exports.creatmodules = async (req, res) => {
   };
   
   exports.updateModule = async (req, res) => {
+    const start = Date.now();
     const { modules_Id } = req.body;
     const { modules_name } = req.body;
   
@@ -101,11 +114,13 @@ exports.creatmodules = async (req, res) => {
       const userModules = await UserModules.findByPk(modules_Id);
   
       if (!userModules) {
-        logger.warn(`User with ID ${modules_Id} not found`);
+        const end = Date.now();
+        logger.warn(`User with ID ${modules_Id} not found, executionTime: ${end - start}ms`);
         return res.status(404).json({
           meta: {
             statusCode: 404,
-            errorCode: 941
+            errorCode: 941,
+            executionTime: `${end - start}ms`
           },
           error: {
             message: 'Module not found'
@@ -117,11 +132,12 @@ exports.creatmodules = async (req, res) => {
       
   
       await userModules.save();
-  
-      logger.info(`User with ID ${modules_Id} updated successfully`);
+      const end = Date.now();
+      logger.info(`User with ID ${modules_Id} updated successfully, executionTime: ${end - start}ms`);
       res.status(200).json({
         meta: {
-          statusCode: 200
+          statusCode: 200,
+          executionTime: `${end - start}ms`
         },
         data: {
             modules_Id: userModules.modules_Id,
@@ -129,11 +145,13 @@ exports.creatmodules = async (req, res) => {
         }
       });
     } catch (error) {
-      logger.error('Error updating user', { error: error.message });
+      const end = Date.now();
+      logger.error('Error updating user', { error: error.message , executionTime: `${end - start}ms`});
       res.status(500).json({
         meta: {
           statusCode: 500,
-          errorCode: 942
+          errorCode: 942,
+          executionTime: `${end - start}ms`
         },
         error: {
           message: 'Error updating user: ' + error.message

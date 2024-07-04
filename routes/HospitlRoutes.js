@@ -21,6 +21,10 @@ router.get('/hospital/:id', verifyToken(['admin']),  validateJSONContentType,hos
 router.get('/hospital/group/:HospitalGroupIDR', verifyToken(['admin']),  validateJSONContentType,hospitalController.getHospitalsByHospitalGroupID);
 router.put('/hospital/:id', verifyToken(['admin']),updateHospitalValidationRules(),  validateJSONContentType, hospitalController.updateHospital);
 router.delete('/hospital/:id',verifyToken(['admin']),  validateJSONContentType, hospitalController.deleteHospital);
+router.get('/hospitals', hospitalController.getAllHospitalsByPagination);
+
+
+
 router.post('/hospital/login', hospitalController.login);
 
 router.post('/request-password-reset', hospitalController.requestPasswordReset);
@@ -34,12 +38,13 @@ router.post('/hospital/user', hospitalController.createUser);
 
 
   router.post('/create-user', authenticate,createUserValidationRules(), validateJSONContentType,  hospitalController.ensureSequelizeInstance, hospitalController.createUser);
-  router.get('/user/:id', authenticate,  validateJSONContentType, hospitalController.ensureSequelizeInstance, hospitalController.getUser);
+  router.get('/user/:id', authenticate,  hospitalController.ensureSequelizeInstance, hospitalController.getUser);
 router.put('/user/:id', createUserValidationRules(),authenticate,   validateJSONContentType,hospitalController.ensureSequelizeInstance, hospitalController.updateUser);
-router.delete('/user/:id', authenticate,  validateJSONContentType, hospitalController.ensureSequelizeInstance, hospitalController.deleteUser);
-router.get('/users', authenticate,   validateJSONContentType,hospitalController.ensureSequelizeInstance, hospitalController.getAllUsers);
+router.delete('/user/:id', authenticate,  hospitalController.ensureSequelizeInstance, hospitalController.deleteUser);
+router.get('/users', authenticate,hospitalController.ensureSequelizeInstance, hospitalController.getAllUsers);
 //   router.post('/create-user', hospitalController.ensureSequelizeInstance, hospitalController.createUser);
 router.get('/verify/:token',authenticate, hospitalController.ensureSequelizeInstance,hospitalController.verifyEmail);
+router.get('/users/pagination',authenticate, hospitalController.getAllUsersByPagination);
   
 
 

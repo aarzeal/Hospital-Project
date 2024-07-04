@@ -4,7 +4,7 @@ const validateJSONContentType = (req, res, next) => {
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 4001
+          errorCode: 983
         },
         error: {
           message: 'Bad request'
