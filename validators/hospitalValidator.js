@@ -364,3 +364,343 @@ exports.updatePatientValidationRules = () => {
       .isLength({ max: 255 }).withMessage('Updated By cannot exceed 255 characters'),
   ];
 };
+
+
+
+exports.createDoctorValidationRules = () => {
+  return [
+    body('FirstName')
+      .notEmpty().withMessage('First Name is required')
+      .isLength({ max: 50 }).withMessage('First Name cannot exceed 50 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('First Name can only contain letters and spaces'),
+    body('MiddleName')
+      .optional()
+      .isLength({ max: 50 }).withMessage('Middle Name cannot exceed 50 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Middle Name can only contain letters and spaces'),
+    body('LastName')
+      .notEmpty().withMessage('Last Name is required')
+      .isLength({ max: 50 }).withMessage('Last Name cannot exceed 50 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Last Name can only contain letters and spaces'),
+    body('Qualification')
+      .notEmpty().withMessage('Qualification is required')
+      .isLength({ max: 100 }).withMessage('Qualification cannot exceed 100 characters'),
+    body('Specialization')
+      .notEmpty().withMessage('Specialization is required')
+      .isLength({ max: 100 }).withMessage('Specialization cannot exceed 100 characters'),
+    body('Email')
+      .notEmpty().withMessage('Email is required')
+      .isEmail().withMessage('Email must be a valid email address')
+      .isLength({ max: 100 }).withMessage('Email cannot exceed 100 characters'),
+    body('Address')
+      .notEmpty().withMessage('Address is required')
+      .isLength({ max: 255 }).withMessage('Address cannot exceed 255 characters'),
+    body('WhatsAppNumber')
+      .optional()
+      .matches(/^[0-9]{10}$/).withMessage('WhatsApp Number must be a valid 10-digit number'),
+    body('MobileNumber')
+      .notEmpty().withMessage('Mobile Number is required')
+      .matches(/^[0-9]{10}$/).withMessage('Mobile Number must be a valid 10-digit number'),
+    body('HospitalID')
+      .notEmpty().withMessage('Hospital ID is required')
+      .isInt().withMessage('Hospital ID must be an integer'),
+    body('DateOfBirth')
+      .optional()
+      .isDate().withMessage('Date of Birth must be a valid date'),
+    body('Gender')
+      .optional()
+      .isIn(['Male', 'Female', 'Other']).withMessage('Gender must be Male, Female, or Other'),
+    body('LicenseNumber')
+      .notEmpty().withMessage('License Number is required')
+      .isLength({ max: 50 }).withMessage('License Number cannot exceed 50 characters'),
+    body('YearsOfExperience')
+      .optional()
+      .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
+  ];
+};
+
+exports.updateDoctorValidationRules = () => {
+  return [
+    body('FirstName')
+      .optional()
+      .isLength({ max: 50 }).withMessage('First Name cannot exceed 50 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('First Name can only contain letters and spaces'),
+    body('MiddleName')
+      .optional()
+      .isLength({ max: 50 }).withMessage('Middle Name cannot exceed 50 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Middle Name can only contain letters and spaces'),
+    body('LastName')
+      .optional()
+      .isLength({ max: 50 }).withMessage('Last Name cannot exceed 50 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Last Name can only contain letters and spaces'),
+    body('Qualification')
+      .optional()
+      .isLength({ max: 100 }).withMessage('Qualification cannot exceed 100 characters'),
+    body('Specialization')
+      .optional()
+      .isLength({ max: 100 }).withMessage('Specialization cannot exceed 100 characters'),
+    body('Email')
+      .optional()
+      .isEmail().withMessage('Email must be a valid email address')
+      .isLength({ max: 100 }).withMessage('Email cannot exceed 100 characters'),
+    body('Address')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Address cannot exceed 255 characters'),
+    body('WhatsAppNumber')
+      .optional()
+      .matches(/^[0-9]{10}$/).withMessage('WhatsApp Number must be a valid 10-digit number'),
+    body('MobileNumber')
+      .optional()
+      .matches(/^[0-9]{10}$/).withMessage('Mobile Number must be a valid 10-digit number'),
+    body('HospitalID')
+      .optional()
+      .isInt().withMessage('Hospital ID must be an integer'),
+    body('DateOfBirth')
+      .optional()
+      .isDate().withMessage('Date of Birth must be a valid date'),
+    body('Gender')
+      .optional()
+      .isIn(['Male', 'Female', 'Other']).withMessage('Gender must be Male, Female, or Other'),
+    body('LicenseNumber')
+      .optional()
+      .isLength({ max: 50 }).withMessage('License Number cannot exceed 50 characters'),
+    body('YearsOfExperience')
+      .optional()
+      .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
+  ];
+};
+
+
+exports.createStaffValidationRules = () => {
+  return [
+    body('FirstName')
+      .notEmpty().withMessage('First Name is required')
+      .isLength({ max: 50 }).withMessage('First Name cannot exceed 50 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('First Name can only contain letters and spaces'),
+    body('MiddleName')
+      .optional()
+      .isLength({ max: 50 }).withMessage('Middle Name cannot exceed 50 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Middle Name can only contain letters and spaces'),
+    body('LastName')
+      .notEmpty().withMessage('Last Name is required')
+      .isLength({ max: 50 }).withMessage('Last Name cannot exceed 50 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Last Name can only contain letters and spaces'),
+    body('Email')
+      .notEmpty().withMessage('Email is required')
+      .isEmail().withMessage('Email must be a valid email address')
+      .isLength({ max: 100 }).withMessage('Email cannot exceed 100 characters'),
+    body('Address')
+      .notEmpty().withMessage('Address is required')
+      .isLength({ max: 255 }).withMessage('Address cannot exceed 255 characters'),
+    body('MobileNumber')
+      .notEmpty().withMessage('Mobile Number is required')
+      .matches(/^[0-9]{10}$/).withMessage('Mobile Number must be a valid 10-digit number'),
+    body('Qualification')
+      .notEmpty().withMessage('Qualification is required')
+      .isLength({ max: 100 }).withMessage('Qualification cannot exceed 100 characters'),
+    body('Experience')
+      .optional()
+      .isInt({ min: 0 }).withMessage('Experience must be a non-negative integer'),
+    body('Specialization')
+      .optional()
+      .isLength({ max: 100 }).withMessage('Specialization cannot exceed 100 characters'),
+    body('WhatsAppNumber')
+      .optional()
+      .matches(/^[0-9]{10}$/).withMessage('WhatsApp Number must be a valid 10-digit number'),
+    // body('HospitalID')
+      // .notEmpty().withMessage('Hospital ID is required')
+      // .isInt().withMessage('Hospital ID must be an integer'),
+  ];
+};
+
+exports.updateStaffValidationRules = () => {
+  return [
+    body('FirstName')
+      .optional()
+      .isLength({ max: 50 }).withMessage('First Name cannot exceed 50 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('First Name can only contain letters and spaces'),
+    body('MiddleName')
+      .optional()
+      .isLength({ max: 50 }).withMessage('Middle Name cannot exceed 50 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Middle Name can only contain letters and spaces'),
+    body('LastName')
+      .optional()
+      .isLength({ max: 50 }).withMessage('Last Name cannot exceed 50 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Last Name can only contain letters and spaces'),
+    body('Email')
+      .optional()
+      .isEmail().withMessage('Email must be a valid email address')
+      .isLength({ max: 100 }).withMessage('Email cannot exceed 100 characters'),
+    body('Address')
+      .optional()
+      .isLength({ max: 255 }).withMessage('Address cannot exceed 255 characters'),
+    body('MobileNumber')
+      .optional()
+      .matches(/^[0-9]{10}$/).withMessage('Mobile Number must be a valid 10-digit number'),
+    body('Qualification')
+      .optional()
+      .isLength({ max: 100 }).withMessage('Qualification cannot exceed 100 characters'),
+    body('Experience')
+      .optional()
+      .isInt({ min: 0 }).withMessage('Experience must be a non-negative integer'),
+    body('Specialization')
+      .optional()
+      .isLength({ max: 100 }).withMessage('Specialization cannot exceed 100 characters'),
+    body('WhatsAppNumber')
+      .optional()
+      .matches(/^[0-9]{10}$/).withMessage('WhatsApp Number must be a valid 10-digit number'),
+    body('HospitalID')
+      .optional()
+      .isInt().withMessage('Hospital ID must be an integer'),
+  ];
+};
+
+
+
+exports.createStaffValidationRules = () => {
+  return [
+    body('SkillName')
+      .notEmpty().withMessage('SkillName is required')
+      .isLength({ max: 40 }).withMessage('SkillName cannot exceed 40 characters'),
+    body('IsClinicalSkill')
+      .notEmpty().withMessage('IsClinicalSkill is required')
+      .isBoolean().withMessage('IsClinicalSkill must be a boolean value'),
+    body('IsActive')
+      .optional()
+      .isBoolean().withMessage('IsActive must be a boolean value'),
+  
+  ];
+};
+
+exports.updateStaffValidationRules = () => {
+  return [
+    body('SkillName')
+      .optional()
+      .isLength({ max: 40 }).withMessage('SkillName cannot exceed 40 characters'),
+    body('IsClinicalSkill')
+      .optional()
+      .isBoolean().withMessage('IsClinicalSkill must be a boolean value'),
+    body('IsActive')
+      .optional()
+      .isBoolean().withMessage('IsActive must be a boolean value'),
+    body('CreatedBy')
+      .optional(),
+    
+  ];
+};
+
+
+exports.createDoctorValidationRules = () => {
+  return [
+    body('FirstName')
+      .notEmpty().withMessage('First Name is required')
+      .isLength({ max: 40 }).withMessage('First Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('First Name can only contain letters and spaces'),
+    body('MiddleName')
+      .optional()
+      .isLength({ max: 40 }).withMessage('Middle Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Middle Name can only contain letters and spaces'),
+    body('LastName')
+      .notEmpty().withMessage('Last Name is required')
+      .isLength({ max: 40 }).withMessage('Last Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Last Name can only contain letters and spaces'),
+    body('Qualification')
+      .notEmpty().withMessage('Qualification is required'),
+    body('Specialization')
+      .notEmpty().withMessage('Specialization is required'),
+    body('Email')
+      .notEmpty().withMessage('Email is required')
+      .isEmail().withMessage('Email must be a valid email address')
+      .isLength({ max: 255 }).withMessage('Email cannot exceed 255 characters'),
+    body('Address')
+      .notEmpty().withMessage('Address is required'),
+    body('WhatsAppNumber')
+      .optional()
+      .matches(/^[0-9]{0,10}$/).withMessage('WhatsApp Number must be a valid 10-digit number'),
+    body('MobileNumber')
+      .notEmpty().withMessage('Mobile Number is required')
+      .matches(/^[0-9]{10}$/).withMessage('Mobile Number must be a valid 10-digit number'),
+    body('HospitalID')
+      .notEmpty().withMessage('Hospital ID is required')
+      .isInt().withMessage('Hospital ID must be an integer'),
+    body('DateOfBirth')
+      .notEmpty().withMessage('Date of Birth is required')
+      .isISO8601().withMessage('Date of Birth must be a valid date'),
+    body('Gender')
+      .notEmpty().withMessage('Gender is required')
+      .isIn(['Male', 'Female', 'Other']).withMessage('Gender must be one of "Male", "Female", or "Other"'),
+    body('LicenseNumber')
+      .notEmpty().withMessage('License Number is required'),
+    body('YearsOfExperience')
+      .notEmpty().withMessage('Years of Experience is required')
+      .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
+    body('HospitalGroupIDR')
+      .notEmpty().withMessage('Hospital Group IDR is required')
+      .isInt().withMessage('Hospital Group IDR must be an integer'),
+    body('IsActive')
+      .optional()
+      .isBoolean().withMessage('IsActive must be a boolean value'),
+    body('CreatedBy')
+      .notEmpty().withMessage('CreatedBy is required')
+      .isInt().withMessage('CreatedBy must be an integer')
+  ];
+};
+
+exports.updateDoctorValidationRules = () => {
+  return [
+    body('FirstName')
+      .optional()
+      .isLength({ max: 40 }).withMessage('First Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('First Name can only contain letters and spaces'),
+    body('MiddleName')
+      .optional()
+      .isLength({ max: 40 }).withMessage('Middle Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Middle Name can only contain letters and spaces'),
+    body('LastName')
+      .optional()
+      .isLength({ max: 40 }).withMessage('Last Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Last Name can only contain letters and spaces'),
+    body('Qualification')
+      .optional()
+      .notEmpty().withMessage('Qualification is required'),
+    body('Specialization')
+      .optional()
+      .notEmpty().withMessage('Specialization is required'),
+    body('Email')
+      .optional()
+      .isEmail().withMessage('Email must be a valid email address')
+      .isLength({ max: 255 }).withMessage('Email cannot exceed 255 characters'),
+    body('Address')
+      .optional()
+      .notEmpty().withMessage('Address is required'),
+    body('WhatsAppNumber')
+      .optional()
+      .matches(/^[0-9]{0,10}$/).withMessage('WhatsApp Number must be a valid 10-digit number'),
+    body('MobileNumber')
+      .optional()
+      .matches(/^[0-9]{10}$/).withMessage('Mobile Number must be a valid 10-digit number'),
+    body('HospitalID')
+      .optional()
+      .isInt().withMessage('Hospital ID must be an integer'),
+    body('DateOfBirth')
+      .optional()
+      .isISO8601().withMessage('Date of Birth must be a valid date'),
+    body('Gender')
+      .optional()
+      .isIn(['Male', 'Female', 'Other']).withMessage('Gender must be one of "Male", "Female", or "Other"'),
+    body('LicenseNumber')
+      .optional()
+      .notEmpty().withMessage('License Number is required'),
+    body('YearsOfExperience')
+      .optional()
+      .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
+    body('HospitalGroupIDR')
+      .optional()
+      .isInt().withMessage('Hospital Group IDR must be an integer'),
+    body('IsActive')
+      .optional()
+      .isBoolean().withMessage('IsActive must be a boolean value'),
+    body('CreatedBy')
+      .optional()
+      .isInt().withMessage('CreatedBy must be an integer')
+  ];
+};

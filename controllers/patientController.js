@@ -2,6 +2,7 @@ const PatientMaster = require('../models/PatientMaster');
 const HospitalGroup = require('../models/HospitalGroup');
 const Hospital = require('../models/HospitalModel');
 const logger = require('../logger');
+const jwt = require('jsonwebtoken');
 
 const { validationResult } = require('express-validator');
 // Get all patients
@@ -186,16 +187,128 @@ exports.getPatientById = async (req, res) => {
 
 
 
+// exports.createPatient = async (req, res) => {
+//   const start = Date.now();
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     const end = Date.now(); // Capture end time
+//     logger.info('Validation errors occurred', { errors, executionTime: `${end - start}ms` });
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 912
+//       },
+//       error: {
+//         message: 'Validation errors occurred',
+//         details: errors.array().map(err => ({
+//           field: err.param,
+//           message: err.msg
+//         }))
+//       }
+//     });
+//   }
+
+//   const {
+//     PatientName,
+//     EMRNumber,
+//     // HospitalGroupID,
+//     PatientFirstName,
+//     PatientLastName,
+//     Age,
+//     DOB,
+//     BloodGroup,
+//     Gender,
+//     Phone,
+//     WhatsappNumber,
+//     Email,
+//     AcceptedPolicy,
+//     IsCommunicationAllowed,
+//     PatientAddress,
+//     EmergencyContactName,
+//     EmergencyContactPhone,
+//     InsuranceProvider,
+//     InsurancePolicyNumber,
+//     MedicalHistory,
+//     CurrentMedications,
+//     Allergies,
+//     MaritalStatus,
+//     Occupation,
+//     Nationality,
+//     Language,
+//     createdBy
+//   } = req.body;
+
+//   console.log('HospitalID in request:', req.hospitalId);
+//   console.log('HospitalGroupId in request:', req.HospitalGroupID);
+
+//   try {
+//     const newPatient = await PatientMaster.create({
+//       PatientName,
+//       EMRNumber,
+//       HospitalID: req.hospitalId, // Correctly set HospitalID
+//       HospitalGroupID: req.HospitalGroupID,
+//       PatientFirstName,
+//       PatientLastName,
+//       Age,
+//       DOB,
+//       BloodGroup,
+//       Gender,
+//       Phone,
+//       WhatsappNumber,
+//       Email,
+//       AcceptedPolicy,
+//       IsCommunicationAllowed,
+//       PatientAddress,
+//       EmergencyContactName,
+//       EmergencyContactPhone,
+//       InsuranceProvider,
+//       InsurancePolicyNumber,
+//       MedicalHistory,
+//       CurrentMedications,
+//       Allergies,
+//       MaritalStatus,
+//       Occupation,
+//       Nationality,
+//       Language,
+//       createdBy
+//     });
+//     const end = Date.now(); // Capture end time
+//     logger.info(`Created new patient with ID ${newPatient.PatientID} in ${end - start}ms`);
+//     // logger.info(`Created new patient with ID ${newPatient.PatientID}`);
+//     res.status(201).json({
+//       meta: {
+//         statusCode: 201,
+//           executionTime: `${end - start}ms`
+//       },
+//       data: newPatient
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     logger.error('Error creating patient', { error: error.message });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 974,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error creating patient: ' + error.message
+//       }
+//     });
+//   }
+// };
+
 exports.createPatient = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const end = Date.now(); // Capture end time
+    const end = Date.now();
     logger.info('Validation errors occurred', { errors, executionTime: `${end - start}ms` });
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 912
+        errorCode: 912,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Validation errors occurred',
@@ -210,9 +323,9 @@ exports.createPatient = async (req, res) => {
   const {
     PatientName,
     EMRNumber,
-    HospitalGroupID,
     PatientFirstName,
     PatientLastName,
+    HospitalGroupIDR,
     Age,
     DOB,
     BloodGroup,
@@ -237,14 +350,12 @@ exports.createPatient = async (req, res) => {
     createdBy
   } = req.body;
 
-  console.log('HospitalID in request:', req.hospitalId);
-
   try {
     const newPatient = await PatientMaster.create({
       PatientName,
       EMRNumber,
-      HospitalID: req.hospitalId, // Correctly set HospitalID
-      HospitalGroupID,
+      HospitalID: req.hospitalId,
+      HospitalGroupIDR, // Ensure this is correctly set from the middleware
       PatientFirstName,
       PatientLastName,
       Age,
@@ -270,18 +381,19 @@ exports.createPatient = async (req, res) => {
       Language,
       createdBy
     });
-    const end = Date.now(); // Capture end time
+
+    const end = Date.now();
     logger.info(`Created new patient with ID ${newPatient.PatientID} in ${end - start}ms`);
-    // logger.info(`Created new patient with ID ${newPatient.PatientID}`);
     res.status(201).json({
       meta: {
         statusCode: 201,
-          executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`
       },
       data: newPatient
     });
   } catch (error) {
-    logger.error('Error creating patient', { error: error.message });
+    const end = Date.now();
+    logger.error('Error creating patient', { error: error.message, executionTime: `${end - start}ms` });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -294,6 +406,9 @@ exports.createPatient = async (req, res) => {
     });
   }
 };
+
+
+
 // function generateEMRNumber(hospitalGroupId) {
 //   // Generate a timestamp-based component
 //   const timestampPart = Date.now().toString().slice(-6); // Last 6 digits of current timestamp

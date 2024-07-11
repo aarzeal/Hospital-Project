@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const authenticate = require('../Middleware/verifyAccesstoken');
-// const  authenticate  = require('../validators/authenticate');
+// const authenticate = require('../Middleware/verifyAccesstoken');
+const  authenticate  = require('../validators/authenticate');
 const patientController = require('../controllers/patientController');
 const { createPatientValidationRules, updatePatientValidationRules } = require('../validators/hospitalValidator');
 

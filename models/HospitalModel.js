@@ -215,6 +215,9 @@ const Hospital = sequelize.define('tblHospital', {
 }, {
   tableName: 'tblHospital',
   timestamps: false,
+
+
+
   hooks: {
     beforeCreate: async (hospital) => {
       if (hospital.Password) {
@@ -231,5 +234,10 @@ const Hospital = sequelize.define('tblHospital', {
   }
 });
 
+// Hospital.associate = function(models) {
+//   // Define associations here
+//   Hospital.hasMany(models.Department);
+//   // Hospital.hasMany(models.Designation);
+// };
 
 module.exports = Hospital;

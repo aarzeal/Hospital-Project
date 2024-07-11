@@ -13,6 +13,11 @@ const patientRoutes = require('./routes/patientRoutes');
 const moduleRoutes = require('./routes/hospitalModulesRoutes');
 const hospitalUserRidesRoutes = require('./routes/hospitalUserRides');
 const submoduleRoutes = require('./routes/submoduleRoutes');
+const staffRoutes = require('./routes/staffMasterRoutes');
+const doctorRoutes = require('./routes/doctorRoutes');
+const skillRoutes = require('./routes/skillRoutes');
+const designationRoutes = require('./routes/designationRoutes');
+const departmentRoutes = require('./routes/departmentRoutes');
 // Middleware for parsing JSON bodies
 app.use(express.json());
 app.use(bodyParser.json()); 
@@ -38,6 +43,11 @@ app.use('/api/v1/patient/', patientRoutes);
 app.use('/api/v1/hospital/module', moduleRoutes);
 app.use('/api/v1/hospital', hospitalUserRidesRoutes);
 app.use('/api/v1/hospital/submodules', submoduleRoutes);
+app.use('/api/v1/hospital/staff', staffRoutes);
+app.use('/api/v1/doctors', doctorRoutes);
+app.use('/api/v1', skillRoutes);
+app.use('/api/v1', designationRoutes);
+app.use('/api/v1/hospital', departmentRoutes);
 
 
 

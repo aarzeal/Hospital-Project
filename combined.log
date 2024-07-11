@@ -1569,3 +1569,360 @@
 {"level":"info","message":"Email sent: 250 2.0.0 OK  1720002177 41be03b00d2f7-72c6b6810a5sm7868314a12.56 - gsmtp","timestamp":"2024-07-03T10:22:57.465Z"}
 {"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-03T10:23:14.142Z"}
 {"level":"info","message":"Retrieved all users successfully","timestamp":"2024-07-03T10:23:14.155Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-05T10:25:42.030Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-05T10:25:42.032Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-05T10:25:42.032Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-05T10:25:42.033Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 80ms","timestamp":"2024-07-05T10:25:42.094Z"}
+{"errors":{"errors":[{"location":"body","msg":"Hospital ID is required","path":"HospitalID","type":"field"},{"location":"body","msg":"Hospital ID must be an integer","path":"HospitalID","type":"field"}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-05T10:25:55.742Z"}
+{"errors":{"errors":[{"location":"body","msg":"Hospital ID is required","path":"HospitalID","type":"field"},{"location":"body","msg":"Hospital ID must be an integer","path":"HospitalID","type":"field"}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-05T10:29:40.387Z"}
+{"errors":{"errors":[{"location":"body","msg":"Hospital ID is required","path":"HospitalID","type":"field"},{"location":"body","msg":"Hospital ID must be an integer","path":"HospitalID","type":"field"}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-05T10:30:06.767Z"}
+{"errors":{"errors":[{"location":"body","msg":"Hospital ID must be an integer","path":"HospitalID","type":"field"}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-05T10:30:44.520Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-05T10:30:55.688Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-05T10:31:08.527Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"1ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-05T10:45:02.733Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-05T10:46:28.568Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-06T04:53:32.537Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"1ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-06T04:53:47.372Z"}
+{"error":"Hospital ID or Hospital Group ID is missing","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-06T04:55:08.727Z"}
+{"error":"Hospital ID or Hospital Group ID is missing","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-06T04:56:57.652Z"}
+{"error":"Hospital ID or Hospital Group ID is missing","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-06T05:02:12.964Z"}
+{"error":"Hospital ID or Hospital Group ID is missing","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-06T05:02:19.154Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-06T05:03:41.889Z"}
+{"error":"Hospital ID or Hospital Group ID is missing","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-06T05:05:54.297Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T05:06:17.376Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T05:06:17.377Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T05:06:17.378Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T05:06:17.378Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 77ms","timestamp":"2024-07-06T05:06:17.438Z"}
+{"error":"Hospital ID or Hospital Group ID is missing","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-06T05:06:51.384Z"}
+{"error":"Hospital ID or Hospital Group ID is missing","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-06T05:07:51.808Z"}
+{"error":"Hospital ID or Hospital Group ID is missing","executionTime":"1ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-06T05:14:09.209Z"}
+{"error":"Hospital ID or Hospital Group ID is missing","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-06T05:14:47.541Z"}
+{"level":"info","message":"Created new patient with ID 32 in 99ms","timestamp":"2024-07-06T05:18:05.196Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-07-06T05:29:35.542Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-07-06T05:30:29.177Z"}
+{"level":"info","message":"Created new patient with ID 35 in 39ms","timestamp":"2024-07-06T05:32:45.735Z"}
+{"level":"info","message":"Created new patient with ID 36 in 54ms","timestamp":"2024-07-06T05:35:48.254Z"}
+{"level":"info","message":"Created new patient with ID 37 in 34ms","timestamp":"2024-07-06T05:37:15.436Z"}
+{"level":"info","message":"Created new patient with ID 38 in 42ms","timestamp":"2024-07-06T05:40:24.154Z"}
+{"level":"info","message":"Created new patient with ID 39 in 33ms","timestamp":"2024-07-06T05:45:51.877Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T05:48:20.717Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T05:48:20.721Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T05:48:20.722Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T05:48:20.722Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 77ms","timestamp":"2024-07-06T05:48:20.784Z"}
+{"level":"info","message":"Created new patient with ID 40 in 34ms","timestamp":"2024-07-06T05:48:49.587Z"}
+{"level":"info","message":"Created new patient with ID 41 in 36ms","timestamp":"2024-07-06T05:51:16.908Z"}
+{"level":"info","message":"Created new patient with ID 42 in 29ms","timestamp":"2024-07-06T05:53:59.137Z"}
+{"level":"info","message":"Created new patient with ID 43 in 40ms","timestamp":"2024-07-06T05:59:32.936Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T06:03:33.144Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T06:03:33.145Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T06:03:33.146Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T06:03:33.146Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 77ms","timestamp":"2024-07-06T06:03:33.207Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T06:03:57.339Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T06:03:57.341Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T06:03:57.342Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T06:03:57.342Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 76ms","timestamp":"2024-07-06T06:03:57.405Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T06:11:11.149Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T06:11:11.151Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T06:11:11.152Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-06T06:11:11.153Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 78ms","timestamp":"2024-07-06T06:11:11.214Z"}
+{"level":"info","message":"Created new patient with ID 44 in 49ms","timestamp":"2024-07-06T06:11:34.702Z"}
+{"level":"info","message":"Created new patient with ID 45 in 25ms","timestamp":"2024-07-06T06:13:43.515Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-07-06T06:14:07.907Z"}
+{"level":"info","message":"Created new patient with ID 47 in 29ms","timestamp":"2024-07-06T06:14:13.997Z"}
+{"level":"info","message":"Created new patient with ID 48 in 40ms","timestamp":"2024-07-06T06:23:44.412Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-07-06T06:24:06.420Z"}
+{"level":"info","message":"Created new patient with ID 50 in 29ms","timestamp":"2024-07-06T06:24:14.768Z"}
+{"level":"info","message":"Created new patient with ID 51 in 27ms","timestamp":"2024-07-06T06:24:32.734Z"}
+{"level":"info","message":"Created new patient with ID 52 in 47ms","timestamp":"2024-07-06T06:26:18.298Z"}
+{"error":"Validation error","level":"error","message":"Error creating patient","timestamp":"2024-07-06T06:27:04.131Z"}
+{"level":"info","message":"Created new patient with ID 54 in 39ms","timestamp":"2024-07-06T06:27:08.721Z"}
+{"level":"info","message":"Created new patient with ID 55 in 30ms","timestamp":"2024-07-06T06:27:55.853Z"}
+{"level":"info","message":"Created new patient with ID 56 in 42ms","timestamp":"2024-07-06T07:03:01.641Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-08T04:57:37.682Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-08T04:57:37.684Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-08T04:57:37.685Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-08T04:57:37.685Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 86ms","timestamp":"2024-07-08T04:57:37.744Z"}
+{"error":"Validation error","executionTime":"61ms","level":"error","message":"Error creating patient","timestamp":"2024-07-08T04:58:09.085Z"}
+{"level":"info","message":"Created new patient with ID 58 in 65ms","timestamp":"2024-07-08T04:58:24.801Z"}
+{"level":"info","message":"Created new patient with ID 59 in 33ms","timestamp":"2024-07-08T05:10:13.734Z"}
+{"error":"Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`patient_master`, CONSTRAINT `patient_master_ibfk_1` FOREIGN KEY (`HospitalGroupIDR`) REFERENCES `tblhospitalgroup` (`HospitalGroupID`) ON DELETE SET NULL ON UPDATE CASCADE)","executionTime":"41ms","level":"error","message":"Error creating patient","timestamp":"2024-07-08T05:11:09.949Z"}
+{"level":"info","message":"Created new patient with ID 61 in 28ms","timestamp":"2024-07-08T05:12:21.071Z"}
+{"level":"info","message":"Created new patient with ID 62 in 34ms","timestamp":"2024-07-08T05:14:11.244Z"}
+{"level":"info","message":"Created new patient with ID 63 in 29ms","timestamp":"2024-07-08T05:15:51.414Z"}
+{"level":"info","message":"Created new patient with ID 64 in 56ms","timestamp":"2024-07-08T05:58:29.524Z"}
+{"error":"Validation error","executionTime":"30ms","level":"error","message":"Error creating patient","timestamp":"2024-07-08T06:04:37.839Z"}
+{"level":"info","message":"Created new patient with ID 66 in 39ms","timestamp":"2024-07-08T06:04:41.771Z"}
+{"level":"info","message":"Created new patient with ID 70 in 57ms","timestamp":"2024-07-08T06:15:12.683Z"}
+{"error":"Hospital ID or Hospital Group ID is missing","executionTime":"1ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-08T06:25:47.173Z"}
+{"error":"Hospital ID or Hospital Group ID is missing","executionTime":"0ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-08T06:25:59.713Z"}
+{"error":"Hospital ID or Hospital Group ID is missing","executionTime":"1ms","level":"error","message":"Error creating staff member","timestamp":"2024-07-08T06:26:34.655Z"}
+{"error":"Cannot read properties of undefined (reading 'findByPk')","executionTime":"0ms","level":"error","message":"Error retrieving staff member","timestamp":"2024-07-08T06:27:39.627Z"}
+{"error":"PatientMaster is not defined","executionTime":"0ms","level":"error","message":"Error creating patient","timestamp":"2024-07-08T07:08:43.401Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"0ms","level":"error","message":"Error creating patient","timestamp":"2024-07-08T07:10:11.681Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"0ms","level":"error","message":"Error creating Staff","timestamp":"2024-07-08T07:17:58.698Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"0ms","level":"error","message":"Error creating Staff","timestamp":"2024-07-08T07:21:01.581Z"}
+{"errors":{"errors":[{"location":"body","msg":"First Name is required","path":"FirstName","type":"field"},{"location":"body","msg":"First Name can only contain letters and spaces","path":"FirstName","type":"field"},{"location":"body","msg":"Last Name is required","path":"LastName","type":"field"},{"location":"body","msg":"Last Name can only contain letters and spaces","path":"LastName","type":"field"},{"location":"body","msg":"Address is required","path":"Address","type":"field"},{"location":"body","msg":"Mobile Number is required","path":"MobileNumber","type":"field"},{"location":"body","msg":"Mobile Number must be a valid 10-digit number","path":"MobileNumber","type":"field"},{"location":"body","msg":"Qualification is required","path":"Qualification","type":"field"}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-08T07:24:12.297Z"}
+{"errors":{"errors":[{"location":"body","msg":"First Name is required","path":"FirstName","type":"field"},{"location":"body","msg":"First Name can only contain letters and spaces","path":"FirstName","type":"field"},{"location":"body","msg":"Last Name is required","path":"LastName","type":"field"},{"location":"body","msg":"Last Name can only contain letters and spaces","path":"LastName","type":"field"},{"location":"body","msg":"Address is required","path":"Address","type":"field"},{"location":"body","msg":"Mobile Number is required","path":"MobileNumber","type":"field"},{"location":"body","msg":"Mobile Number must be a valid 10-digit number","path":"MobileNumber","type":"field"},{"location":"body","msg":"Qualification is required","path":"Qualification","type":"field"}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-08T07:24:38.125Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"0ms","level":"error","message":"Error creating staff","timestamp":"2024-07-08T07:24:57.913Z"}
+{"errors":{"errors":[{"location":"body","msg":"Address is required","path":"Address","type":"field"},{"location":"body","msg":"Mobile Number is required","path":"MobileNumber","type":"field"},{"location":"body","msg":"Mobile Number must be a valid 10-digit number","path":"MobileNumber","type":"field"},{"location":"body","msg":"Qualification is required","path":"Qualification","type":"field"}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-08T07:27:52.863Z"}
+{"errors":{"errors":[{"location":"body","msg":"Mobile Number is required","path":"MobileNumber","type":"field"},{"location":"body","msg":"Mobile Number must be a valid 10-digit number","path":"MobileNumber","type":"field"}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-08T07:29:33.479Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"1ms","level":"error","message":"Error creating staff","timestamp":"2024-07-08T07:29:51.758Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"1ms","level":"error","message":"Error creating staff","timestamp":"2024-07-08T07:30:16.271Z"}
+{"error":"Cannot read properties of undefined (reading 'findAll')","executionTime":"1ms","level":"error","message":"Error retrieving doctors","timestamp":"2024-07-08T09:03:57.882Z"}
+{"errors":{"errors":[{"location":"body","msg":"First name is required","path":"FirstName","type":"field"},{"location":"body","msg":"Last name is required","path":"LastName","type":"field"},{"location":"body","msg":"Qualification is required","path":"Qualification","type":"field"},{"location":"body","msg":"Specialization is required","path":"Specialization","type":"field"},{"location":"body","msg":"Please include a valid email","path":"Email","type":"field"},{"location":"body","msg":"Address is required","path":"Address","type":"field"},{"location":"body","msg":"Please include a valid mobile number","path":"MobileNumber","type":"field"},{"location":"body","msg":"Hospital ID is required","path":"HospitalID","type":"field"},{"location":"body","msg":"Hospital ID is required","path":"HospitalID","type":"field"}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-08T09:04:15.144Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"0ms","level":"error","message":"Error creating doctor","timestamp":"2024-07-08T09:04:27.571Z"}
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"0ms","level":"error","message":"Error creating doctor","timestamp":"2024-07-08T09:05:59.672Z"}
+{"level":"info","message":"Created new skill successfully","timestamp":"2024-07-08T10:37:07.642Z"}
+{"level":"warn","message":"Skill with ID 2 not found","timestamp":"2024-07-08T10:56:15.637Z"}
+
+{"error":"Cannot read properties of undefined (reading 'create')","executionTime":"0ms","level":"error","message":"Error creating staff","timestamp":"2024-07-08T11:54:13.219Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-09T06:19:15.143Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-09T06:19:15.145Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-09T06:19:15.146Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-09T06:19:15.146Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 80ms","timestamp":"2024-07-09T06:19:15.208Z"}
+{"level":"info","message":"Created new staff successfully","timestamp":"2024-07-09T06:20:26.483Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-09T06:23:02.637Z"}
+{"level":"info","message":"Created new staff successfully","timestamp":"2024-07-09T06:24:36.590Z"}
+{"level":"info","message":"Created new staff successfully","timestamp":"2024-07-09T06:31:34.443Z"}
+{"level":"info","message":"Fetched staff with ID 1 successfully","timestamp":"2024-07-09T06:33:41.918Z"}
+{"level":"warn","message":"Staff with ID 54 not found","timestamp":"2024-07-09T06:44:48.067Z"}
+{"level":"warn","message":"Staff with ID 54 not found","timestamp":"2024-07-09T06:46:31.485Z"}
+{"level":"warn","message":"Staff with ID 54 not found","timestamp":"2024-07-09T06:48:29.563Z"}
+{"level":"error","message":"Error fetching staff for HospitalIDR undefined: WHERE parameter \"HospitalIDR\" has invalid \"undefined\" value","timestamp":"2024-07-09T06:49:16.855Z"}
+{"level":"info","message":"Fetched staff for HospitalIDR 54 successfully","timestamp":"2024-07-09T06:50:14.304Z"}
+{"level":"warn","message":"No staff found for HospitalGroupIDR 1","timestamp":"2024-07-09T06:56:32.273Z"}
+{"level":"info","message":"Fetched staff for HospitalGroupIDR 1 successfully","timestamp":"2024-07-09T06:56:51.951Z"}
+{"level":"error","message":"Error creating doctor: notNull Violation: DoctorMaster.HospitalGroupIDR cannot be null","timestamp":"2024-07-09T07:20:43.401Z"}
+{"level":"error","message":"Error creating doctor: notNull Violation: DoctorMaster.HospitalGroupIDR cannot be null","timestamp":"2024-07-09T07:21:08.940Z"}
+{"level":"error","message":"Error creating doctor: notNull Violation: DoctorMaster.HospitalGroupIDR cannot be null","timestamp":"2024-07-09T07:21:49.836Z"}
+{"level":"error","message":"Error creating doctor: notNull Violation: DoctorMaster.HospitalGroupIDR cannot be null","timestamp":"2024-07-09T07:22:02.300Z"}
+{"level":"error","message":"Error creating doctor: Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`tbldoctormaster`, CONSTRAINT `tbldoctormaster_ibfk_2` FOREIGN KEY (`HospitalGroupIDR`) REFERENCES `tblhospital` (`HospitalGroupIDR`))","timestamp":"2024-07-09T07:23:02.082Z"}
+{"level":"error","message":"Error creating doctor: Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`tbldoctormaster`, CONSTRAINT `tbldoctormaster_ibfk_2` FOREIGN KEY (`HospitalGroupIDR`) REFERENCES `tblhospital` (`HospitalGroupIDR`))","timestamp":"2024-07-09T07:23:37.065Z"}
+{"level":"error","message":"Error creating doctor: Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`tbldoctormaster`, CONSTRAINT `tbldoctormaster_ibfk_2` FOREIGN KEY (`HospitalGroupIDR`) REFERENCES `tblhospital` (`HospitalGroupIDR`))","timestamp":"2024-07-09T07:24:54.404Z"}
+{"level":"error","message":"Error creating doctor: Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`tbldoctormaster`, CONSTRAINT `tbldoctormaster_ibfk_2` FOREIGN KEY (`HospitalGroupIDR`) REFERENCES `tblhospital` (`HospitalGroupIDR`))","timestamp":"2024-07-09T07:25:09.078Z"}
+{"level":"error","message":"Error creating doctor: Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`tbldoctormaster`, CONSTRAINT `tbldoctormaster_ibfk_2` FOREIGN KEY (`HospitalGroupIDR`) REFERENCES `tblhospital` (`HospitalGroupIDR`))","timestamp":"2024-07-09T07:26:30.650Z"}
+{"level":"info","message":"Created new doctor successfully","timestamp":"2024-07-09T07:27:21.598Z"}
+{"level":"info","message":"Fetched all doctors successfully","timestamp":"2024-07-09T07:29:13.916Z"}
+{"level":"info","message":"Fetched doctors for HospitalGroupIDR :hospitalGroupId successfully","timestamp":"2024-07-09T08:53:58.472Z"}
+{"level":"warn","message":"No doctors found for HospitalGroupIDR 1","timestamp":"2024-07-09T08:54:04.876Z"}
+{"level":"info","message":"Fetched doctors for HospitalGroupIDR 0 successfully","timestamp":"2024-07-09T08:54:09.570Z"}
+{"level":"warn","message":"No doctors found for HospitalID 1","timestamp":"2024-07-09T09:00:03.290Z"}
+{"level":"info","message":"Fetched doctors for HospitalID 54 successfully","timestamp":"2024-07-09T09:00:08.236Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-10T04:34:37.707Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-10T04:34:37.709Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-10T04:34:37.710Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-10T04:34:37.710Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 79ms","timestamp":"2024-07-10T04:34:37.770Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T04:34:57.357Z"}
+{"level":"error","message":"Error creating skill: Skill.create is not a function","timestamp":"2024-07-10T04:34:57.358Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T04:35:15.640Z"}
+{"level":"error","message":"Error creating skill: Skill.create is not a function","timestamp":"2024-07-10T04:35:15.641Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T04:40:14.262Z"}
+{"level":"error","message":"Error creating skill: Skill.create is not a function","timestamp":"2024-07-10T04:40:14.264Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T04:40:53.684Z"}
+{"level":"error","message":"Error creating skill: Skill.create is not a function","timestamp":"2024-07-10T04:40:53.686Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T04:41:15.038Z"}
+{"level":"error","message":"Error creating skill: Skill.create is not a function","timestamp":"2024-07-10T04:41:15.040Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:14:39.111Z"}
+{"error":"Can't create table `sampledb`.`tblskill` (errno: 150 \"Foreign key constraint is incorrectly formed\")","executionTime":"109ms","level":"error","message":"Error creating Skill","timestamp":"2024-07-10T05:14:39.222Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:15:37.752Z"}
+{"error":"notNull Violation: tblSkill.HospitalIDR cannot be null","executionTime":"153ms","level":"error","message":"Error creating Skill","timestamp":"2024-07-10T05:15:37.907Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:17:08.224Z"}
+{"error":"notNull Violation: tblSkill.HospitalIDR cannot be null","executionTime":"13ms","level":"error","message":"Error creating Skill","timestamp":"2024-07-10T05:17:08.240Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:18:28.180Z"}
+{"error":"notNull Violation: tblSkill.HospitalIDR cannot be null","executionTime":"15ms","level":"error","message":"Error creating Skill","timestamp":"2024-07-10T05:18:28.197Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:19:01.824Z"}
+{"error":"notNull Violation: tblSkill.HospitalIDR cannot be null","executionTime":"17ms","level":"error","message":"Error creating Skill","timestamp":"2024-07-10T05:19:01.843Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:19:42.852Z"}
+{"error":"notNull Violation: tblSkill.HospitalIDR cannot be null","executionTime":"16ms","level":"error","message":"Error creating Skill","timestamp":"2024-07-10T05:19:42.871Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:20:45.995Z"}
+{"error":"hospitalIDR is not defined","executionTime":"13ms","level":"error","message":"Error creating Skill","timestamp":"2024-07-10T05:20:46.010Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:21:56.208Z"}
+{"error":"notNull Violation: tblSkill.HospitalIDR cannot be null","executionTime":"14ms","level":"error","message":"Error creating Skill","timestamp":"2024-07-10T05:21:56.224Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:22:11.801Z"}
+{"error":"notNull Violation: tblSkill.HospitalIDR cannot be null","executionTime":"13ms","level":"error","message":"Error creating Skill","timestamp":"2024-07-10T05:22:11.815Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:23:32.919Z"}
+{"level":"info","message":"Skill created successfully","timestamp":"2024-07-10T05:23:32.979Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:40:50.486Z"}
+{"level":"info","message":"Created new skill successfully","timestamp":"2024-07-10T05:40:50.561Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:47:42.634Z"}
+{"level":"error","message":"Error creating skill: Skill.sync is not a function","timestamp":"2024-07-10T05:47:42.636Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:50:47.340Z"}
+{"level":"error","message":"Error creating skill: Skill.sync is not a function","timestamp":"2024-07-10T05:50:47.342Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:57:49.635Z"}
+{"level":"error","message":"Error creating skill: Skill.sync is not a function","timestamp":"2024-07-10T05:57:49.637Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T05:58:11.370Z"}
+{"level":"info","message":"Created new skill successfully","timestamp":"2024-07-10T05:58:11.421Z"}
+{"level":"error","message":"Error fetching skill with ID 2: Cannot read properties of undefined (reading 'define')","timestamp":"2024-07-10T05:58:53.925Z"}
+{"level":"error","message":"Error fetching skills: Cannot read properties of undefined (reading 'define')","timestamp":"2024-07-10T05:59:20.389Z"}
+{"level":"error","message":"Error fetching skill with ID undefined: Cannot read properties of undefined (reading 'define')","timestamp":"2024-07-10T06:01:30.064Z"}
+{"level":"error","message":"Error fetching skill with ID undefined: Cannot read properties of undefined (reading 'define')","timestamp":"2024-07-10T06:02:05.385Z"}
+{"level":"error","message":"Error fetching skill with ID undefined: Cannot read properties of undefined (reading 'define')","timestamp":"2024-07-10T06:04:01.062Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:04:08.928Z"}
+{"level":"warn","message":"Skill with ID undefined not found","timestamp":"2024-07-10T06:04:08.931Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:05:31.684Z"}
+{"level":"info","message":"Fetched all skills successfully","timestamp":"2024-07-10T06:05:31.700Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:05:38.950Z"}
+{"level":"warn","message":"Skill with ID undefined not found","timestamp":"2024-07-10T06:05:38.951Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:05:59.326Z"}
+{"level":"warn","message":"Skill with ID undefined not found","timestamp":"2024-07-10T06:05:59.328Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:06:17.905Z"}
+{"level":"warn","message":"Skill with ID undefined not found","timestamp":"2024-07-10T06:06:17.906Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:08:22.804Z"}
+{"level":"error","message":"Error deleting skill with ID 3: Skill.findByPk is not a function","timestamp":"2024-07-10T06:08:22.806Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:09:03.035Z"}
+{"level":"info","message":"Deleted skill with ID 3 successfully","timestamp":"2024-07-10T06:09:03.066Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:09:54.192Z"}
+{"level":"info","message":"Fetched skill with ID 1 successfully","timestamp":"2024-07-10T06:09:54.210Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:11:01.953Z"}
+{"level":"warn","message":"Skill with ID 2 not found","timestamp":"2024-07-10T06:11:01.969Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:11:57.100Z"}
+{"level":"warn","message":"Skill with ID 2 not found","timestamp":"2024-07-10T06:11:57.119Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:12:01.082Z"}
+{"level":"error","message":"Error updating skill with ID 1: Assignment to constant variable.","timestamp":"2024-07-10T06:12:01.096Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:12:39.812Z"}
+{"level":"error","message":"Error updating skill with ID 1: Assignment to constant variable.","timestamp":"2024-07-10T06:12:39.825Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:22:33.808Z"}
+{"level":"info","message":"Updated skill with ID 1 successfully","timestamp":"2024-07-10T06:22:33.855Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:35:53.319Z"}
+{"level":"warn","message":"Skill with ID paginated not found","timestamp":"2024-07-10T06:35:53.337Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:36:05.277Z"}
+{"level":"warn","message":"Skill with ID paginated not found","timestamp":"2024-07-10T06:36:05.293Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:36:47.796Z"}
+{"level":"warn","message":"Skill with ID paginated not found","timestamp":"2024-07-10T06:36:47.808Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:37:14.612Z"}
+{"level":"warn","message":"Skill with ID paginated not found","timestamp":"2024-07-10T06:37:14.624Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:38:10.256Z"}
+{"level":"info","message":"Fetched skills with pagination successfully","timestamp":"2024-07-10T06:38:10.273Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T06:38:18.635Z"}
+{"level":"info","message":"Fetched skills with pagination successfully","timestamp":"2024-07-10T06:38:18.650Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T07:06:19.226Z"}
+{"level":"info","message":"Created new skill successfully","timestamp":"2024-07-10T07:06:19.288Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T07:13:06.640Z"}
+{"level":"error","message":"Error creating staff: Can't create table `sampledb`.`tblstaffmaster` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-10T07:13:06.784Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T07:14:50.131Z"}
+{"level":"error","message":"Error creating staff: Can't create table `sampledb`.`tblstaffmaster` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-10T07:14:50.271Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T07:21:50.485Z"}
+{"level":"error","message":"Error creating staff: Can't create table `sampledb`.`tblstaffmaster` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-10T07:21:50.617Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T07:23:25.762Z"}
+{"level":"error","message":"Error creating staff: Cannot read properties of undefined (reading 'INTEGER')","timestamp":"2024-07-10T07:23:25.764Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T07:24:15.588Z"}
+{"level":"error","message":"Error creating staff: Cannot read properties of undefined (reading 'NOW')","timestamp":"2024-07-10T07:24:15.590Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T07:24:44.347Z"}
+{"level":"error","message":"Error creating staff: Can't create table `sampledb`.`tblstaffmaster` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-10T07:24:44.486Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T07:25:40.972Z"}
+{"level":"error","message":"Error creating staff: Can't create table `sampledb`.`tblstaffmaster` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-10T07:25:41.113Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T07:26:28.990Z"}
+{"level":"error","message":"Error creating staff: Can't create table `sampledb`.`tblstaffmaster` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-10T07:26:29.128Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T07:26:49.268Z"}
+{"0":{"instance":{"Address":"123 Main St, City, Country","Age":30,"BloodGroup":"O+","CreatedBy":"admin@example.com","DOB":"1994-05-15","Email":"john.smith@example.com","EmergencyContactName":"Jane Doe","EmergencyContactPhone":"1234567890","Experience":5,"FirstName":"John","Gender":"Male","HospitalIDR":54,"Id":null,"IsActive":true,"Language":"English","LastName":"Smith","MaritalStatus":"Single","MiddleName":"Doe","MobileNumber":"9876543210","Nationality":"American","Qualification":"Medical Doctor","Specialization":"Cardiology","WhatsAppNumber":"9876543210"},"message":"StaffMaster.CreatedAt cannot be null","origin":"CORE","path":"CreatedAt","type":"notNull Violation","validatorArgs":[],"validatorKey":"is_null","validatorName":null,"value":null},"level":"error","message":"Validation error creating staff:","timestamp":"2024-07-10T07:26:49.430Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T07:27:40.083Z"}
+{"level":"info","message":"Created new staff successfully","timestamp":"2024-07-10T07:27:40.130Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T08:47:55.920Z"}
+{"level":"info","message":"Fetched staff with ID 1 successfully","timestamp":"2024-07-10T08:47:55.941Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T08:49:39.185Z"}
+{"level":"info","message":"Fetched staff for HospitalIDR 54 successfully","timestamp":"2024-07-10T08:49:39.205Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T08:51:34.143Z"}
+{"level":"warn","message":"Staff with ID 2 not found","timestamp":"2024-07-10T08:51:34.164Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T08:55:53.631Z"}
+{"level":"warn","message":"Staff with ID 2 not found","timestamp":"2024-07-10T08:55:53.644Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T08:56:41.470Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-10T08:56:41.556Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T08:57:02.866Z"}
+{"level":"info","message":"Created new staff successfully","timestamp":"2024-07-10T08:57:02.904Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T08:57:41.748Z"}
+{"level":"warn","message":"Staff with ID 2 not found","timestamp":"2024-07-10T08:57:41.765Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T08:57:46.609Z"}
+{"level":"info","message":"Deleted staff with ID 3 successfully","timestamp":"2024-07-10T08:57:46.678Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T08:59:01.370Z"}
+{"level":"info","message":"Updated staff with ID 1 successfully","timestamp":"2024-07-10T08:59:01.417Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T09:33:22.316Z"}
+{"level":"error","message":"Error creating doctor: HospitalGroupIDR is not defined","timestamp":"2024-07-10T09:33:22.319Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T09:33:54.481Z"}
+{"level":"error","message":"Error creating doctor: Table 'sampledb.tbldoctormaster' doesn't exist","timestamp":"2024-07-10T09:33:54.501Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T09:35:07.263Z"}
+{"level":"error","message":"Error creating doctor: Can't create table `sampledb`.`tbldoctormaster` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-10T09:35:07.423Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T09:35:38.213Z"}
+{"level":"info","message":"Created new doctor successfully","timestamp":"2024-07-10T09:35:38.420Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:14:23.204Z"}
+{"level":"info","message":"Fetched all doctors successfully","timestamp":"2024-07-10T10:14:23.223Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:20:01.512Z"}
+{"level":"info","message":"Fetched page 2 of doctors successfully","timestamp":"2024-07-10T10:20:01.531Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:20:10.598Z"}
+{"level":"info","message":"Fetched page 1 of doctors successfully","timestamp":"2024-07-10T10:20:10.613Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:37:20.373Z"}
+{"level":"error","message":"Error fetching designations: Table 'sampledb.tbldesignation' doesn't exist","timestamp":"2024-07-10T10:37:20.391Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:38:07.920Z"}
+{"level":"error","message":"Error fetching designations: Table 'sampledb.tbldesignation' doesn't exist","timestamp":"2024-07-10T10:38:07.935Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:47:32.112Z"}
+{"level":"error","message":"Error fetching designations: Table 'sampledb.tbldesignation' doesn't exist","timestamp":"2024-07-10T10:47:32.130Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:49:25.278Z"}
+{"level":"error","message":"Error fetching designations: Table 'sampledb.tbldesignation' doesn't exist","timestamp":"2024-07-10T10:49:25.292Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:49:47.871Z"}
+{"level":"error","message":"Error fetching designations: Table 'sampledb.tbldesignation' doesn't exist","timestamp":"2024-07-10T10:49:47.887Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:51:25.372Z"}
+{"level":"error","message":"Error fetching designations: Table 'sampledb.tbldesignation' doesn't exist","timestamp":"2024-07-10T10:51:25.388Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:54:05.569Z"}
+{"level":"error","message":"Error fetching designations: Table 'sampledb.tbldesignation' doesn't exist","timestamp":"2024-07-10T10:54:05.585Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:54:18.022Z"}
+{"level":"error","message":"Error fetching designations: Table 'sampledb.tbldesignation' doesn't exist","timestamp":"2024-07-10T10:54:18.036Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:54:33.461Z"}
+{"level":"error","message":"Error creating designation: Table 'sampledb.tbldesignation' doesn't exist","timestamp":"2024-07-10T10:54:33.478Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:55:20.493Z"}
+{"level":"info","message":"Created new designation successfully","timestamp":"2024-07-10T10:55:20.668Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:56:41.077Z"}
+{"level":"info","message":"Fetched all designations successfully","timestamp":"2024-07-10T10:56:41.093Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T10:59:23.146Z"}
+{"level":"info","message":"Fetched designation with ID 1 successfully","timestamp":"2024-07-10T10:59:23.165Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T11:00:52.020Z"}
+{"level":"info","message":"Updated designation with ID 1 successfully","timestamp":"2024-07-10T11:00:52.066Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T11:01:52.639Z"}
+{"level":"info","message":"Fetched designation with ID 1 successfully","timestamp":"2024-07-10T11:01:52.654Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T11:03:56.822Z"}
+{"level":"warn","message":"Designation with ID paginated not found","timestamp":"2024-07-10T11:03:56.833Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T11:04:45.744Z"}
+{"level":"info","message":"Fetched skills with pagination successfully","timestamp":"2024-07-10T11:04:45.762Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T11:05:00.081Z"}
+{"level":"info","message":"Fetched skills with pagination successfully","timestamp":"2024-07-10T11:05:00.095Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-10T11:05:09.232Z"}
+{"level":"info","message":"Fetched skills with pagination successfully","timestamp":"2024-07-10T11:05:09.245Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-11T05:11:51.745Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-11T05:11:51.747Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-11T05:11:51.747Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-11T05:11:51.748Z"}
+{"level":"warn","message":"Invalid UniqueKey for hospital with Username sudhirkale123, executionTime: 19ms","timestamp":"2024-07-11T05:11:51.748Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-11T05:12:24.523Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-11T05:12:24.523Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-11T05:12:24.524Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-11T05:12:24.524Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully, executionTime: 72ms","timestamp":"2024-07-11T05:12:24.587Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-11T05:14:17.907Z"}
+{"level":"error","message":"Error creating department: Class constructor model cannot be invoked without 'new'","timestamp":"2024-07-11T05:14:17.909Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-11T05:36:37.393Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tbldepartment` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-11T05:36:37.535Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-11T05:45:31.531Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tbldepartment` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-11T05:45:31.655Z"}
+{"error":{},"executionTime":"0ms","level":"error","message":"Error syncing database","timestamp":"2024-07-11T06:56:12.339Z"}
+{"error":"Class constructor model cannot be invoked without 'new'","executionTime":"0ms","level":"error","message":"Error syncing database","stack":"TypeError: Class constructor model cannot be invoked without 'new'\n    at exports.ensureSequelizeInstance (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:1490:56)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at authenticate (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\middleware\\verifyAccesstoken.js:87:5)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:346:12)","timestamp":"2024-07-11T07:00:12.067Z"}
+{"error":"Class constructor model cannot be invoked without 'new'","executionTime":"0ms","level":"error","message":"Error syncing database","stack":"TypeError: Class constructor model cannot be invoked without 'new'\n    at exports.ensureSequelizeInstance (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:1490:56)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at authenticate (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\middleware\\verifyAccesstoken.js:87:5)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:346:12)","timestamp":"2024-07-11T07:11:15.961Z"}
+{"error":"Class constructor model cannot be invoked without 'new'","executionTime":"0ms","level":"error","message":"Error syncing database","stack":"TypeError: Class constructor model cannot be invoked without 'new'\n    at exports.ensureSequelizeInstance (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:1491:56)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at authenticate (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\middleware\\verifyAccesstoken.js:87:5)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:346:12)","timestamp":"2024-07-11T07:11:50.766Z"}
+{"error":"Class constructor model cannot be invoked without 'new'","executionTime":"0ms","level":"error","message":"Error syncing database","stack":"TypeError: Class constructor model cannot be invoked without 'new'\n    at exports.ensureSequelizeInstance (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:1489:56)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at authenticate (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\middleware\\verifyAccesstoken.js:87:5)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:346:12)","timestamp":"2024-07-11T07:15:37.950Z"}
+{"error":"Class constructor model cannot be invoked without 'new'","executionTime":"0ms","level":"error","message":"Error syncing database","stack":"TypeError: Class constructor model cannot be invoked without 'new'\n    at exports.ensureSequelizeInstance (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:1489:56)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at authenticate (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\middleware\\verifyAccesstoken.js:87:5)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:346:12)","timestamp":"2024-07-11T07:22:41.470Z"}
+{"error":"Class constructor model cannot be invoked without 'new'","executionTime":"0ms","level":"error","message":"Error syncing database","stack":"TypeError: Class constructor model cannot be invoked without 'new'\n    at exports.ensureSequelizeInstance (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:1489:56)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at authenticate (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\middleware\\verifyAccesstoken.js:87:5)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:346:12)","timestamp":"2024-07-11T07:22:53.520Z"}
+{"error":"Class constructor model cannot be invoked without 'new'","executionTime":"0ms","level":"error","message":"Error syncing database","stack":"TypeError: Class constructor model cannot be invoked without 'new'\n    at exports.ensureSequelizeInstance (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:1489:56)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at authenticate (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\middleware\\verifyAccesstoken.js:87:5)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:346:12)","timestamp":"2024-07-11T07:23:53.633Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-11T07:24:34.681Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-11T07:24:34.849Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-11T07:32:52.796Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-11T07:32:52.858Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-11T07:32:54.474Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-11T07:32:54.516Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-11T10:03:44.138Z"}
+{"level":"info","message":"Fetched all departments successfully","timestamp":"2024-07-11T10:03:44.159Z"}

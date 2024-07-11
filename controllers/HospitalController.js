@@ -237,7 +237,10 @@ exports.createHospital = async (req, res) => {
       });
     }
         const hospital = await Hospital.create(req.body);
-        logger.info('Hospital created successfully', { hospitalId: hospital.HospitalID });
+        logger.info('Hospital created successfully', {
+          hospitalId: hospital.HospitalID,
+          executionTime: `${end - start}ms`
+        });
 
         // Generate database name (e.g., from HospitalDatabase field)
         const databaseName = hospital.HospitalDatabase.replace(/\s+/g, '_').toLowerCase();
@@ -258,7 +261,7 @@ exports.createHospital = async (req, res) => {
 
         // Sync all models
         await dynamicDb.sync();
-        logger.info(`Models synchronized successfully in database ${databaseName}`);
+        logger.info(`Models synchronized successfully in database ${databaseName}, executionTime: ${end - start}ms`);
 
 
 
@@ -267,7 +270,8 @@ exports.createHospital = async (req, res) => {
 
         hospital.UniqueKey = uniqueKey;
          await hospital.save({ fields: ['UniqueKey'] });
-        logger.info('Unique key stored in hospital record successfully');
+        
+        logger.info(`Unique key stored in hospital record successfully, executionTime: ${end - start}ms`);
         const end = Date.now();
         res.status(200).json({
             meta: {
@@ -394,8 +398,10 @@ exports.updateHospital = async (req, res) => {
       where: { HospitalID: id }
     });
     if (updatedRows === 0) {
-      logger.warn(`Hospital with ID ${id} not found for update`);
       const end = Date.now();
+logger.warn(`Hospital with ID ${id} not found for update, executionTime: ${end - start}ms`);
+
+     
       res.status(404).json({
         meta: {
           statusCode: 404,
@@ -407,8 +413,9 @@ exports.updateHospital = async (req, res) => {
         }
       });
     } else {
-      logger.info(`Hospital with ID ${id} updated successfully`);
       const end = Date.now();
+      logger.info(`Hospital with ID ${id} updated successfully, executionTime: ${end - start}ms`);
+      
       res.json({
         meta: {
           statusCode: 200,
@@ -419,7 +426,8 @@ exports.updateHospital = async (req, res) => {
     }
   } catch (error) {
     const end = Date.now();
-    logger.error('Error updating hospital', { error: error.message });
+    logger.error(`Error updating hospital, executionTime: ${end - start}ms`, { error: error.message });
+    
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -442,8 +450,10 @@ exports.deleteHospital = async (req, res) => {
       where: { HospitalID: id }
     });
     if (deletedRows === 0) {
-      logger.warn(`Hospital with ID ${id} not found for deletion`);
       const end = Date.now();
+logger.warn(`Hospital with ID ${id} not found for deletion, executionTime: ${end - start}ms`);
+
+    
       res.status(404).json({
         meta: {
           statusCode: 404,
@@ -455,8 +465,10 @@ exports.deleteHospital = async (req, res) => {
         }
       });
     } else {
-      logger.info(`Hospital with ID ${id} deleted successfully`);
       const end = Date.now();
+logger.info(`Hospital with ID ${id} deleted successfully, executionTime: ${end - start}ms`);
+
+  
       res.json({
         meta: {
           statusCode: 200,
@@ -488,8 +500,10 @@ exports.getHospitalsByHospitalGroupID = async (req, res) => {
     const hospitals = await Hospital.findAll({
       where: { HospitalGroupIDR }
     });
-    logger.info(`Retrieved hospitals by HospitalGroupIDR: ${HospitalGroupIDR} successfully`);
     const end = Date.now();
+    logger.info(`Retrieved hospitals by HospitalGroupIDR: ${HospitalGroupIDR} successfully, executionTime: ${end - start}ms`);
+    
+ 
     res.json({
       meta: {
         statusCode: 200,
@@ -532,8 +546,8 @@ exports.getAllHospitalsByPagination = async (req, res) => {
     });
 
     const end = Date.now();
-    logger.info(`Retrieved hospitals for page ${page} with limit ${limit} successfully`);
-
+    logger.info(`Retrieved hospitals for page ${page} with limit ${limit} successfully, executionTime: ${end - start}ms`);
+    
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -546,7 +560,8 @@ exports.getAllHospitalsByPagination = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error retrieving hospitals with pagination', { error: error.message });
+    logger.error(`Error retrieving hospitals with pagination, executionTime: ${end - start}ms`, { error: error.message });
+    
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -788,7 +803,8 @@ exports.login = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const end = Date.now();
-    logger.warn('Validation errors occurred during login', errors);
+    logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
+    
     return res.status(400).json({
       meta: {
         statusCode: 400,
@@ -814,7 +830,8 @@ exports.login = async (req, res) => {
     const hospital = await Hospital.findOne({ where: { Username } });
     if (!hospital) {
       const end = Date.now();
-      logger.warn(`Hospital with Username ${Username} not found`);
+logger.warn(`Hospital with Username ${Username} not found, executionTime: ${end - start}ms`);
+
       return res.status(404).json({
         meta: {
           statusCode: 404,
@@ -848,7 +865,8 @@ exports.login = async (req, res) => {
     // Highlighted changes: Replaced direct comparison with verifyUniqueKey function
     if (!verifyUniqueKey(uniqueKey, hospital.UniqueKey)) {
       const end = Date.now();
-      logger.warn(`Invalid UniqueKey for hospital with Username ${Username}`);
+logger.warn(`Invalid UniqueKey for hospital with Username ${Username}, executionTime: ${end - start}ms`);
+
       return res.status(401).json({
         meta: {
           statusCode: 401,
@@ -865,7 +883,8 @@ exports.login = async (req, res) => {
     
     if (!passwordMatch) {
       const end = Date.now();
-      logger.warn(`Incorrect password for hospital with Username ${Username}`);
+logger.warn(`Incorrect password for hospital with Username ${Username}, executionTime: ${end - start}ms`);
+
       return res.status(401).json({
         meta: {
           statusCode: 401,
@@ -879,16 +898,15 @@ exports.login = async (req, res) => {
     }
 
     const Hospitaltoken = jwt.sign(
-      { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase },
+      { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase,hospitalGroupIDR:hospital.HospitalGroupIDR },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 
     const decodedToken = jwt.verify(Hospitaltoken, process.env.JWT_SECRET);
-
-    logger.info(`Hospital with ID ${decodedToken.hospitalId} logged in successfully`);
     const end = Date.now();
-
+    logger.info(`Hospital with ID ${decodedToken.hospitalId} logged in successfully, executionTime: ${end - start}ms`);
+    
 
     res.status(200).json({
       meta: {
@@ -901,14 +919,16 @@ exports.login = async (req, res) => {
           id: decodedToken.hospitalId,
           username: hospital.Username,
           email: hospital.Email,
-          hospitalDatabase: hospital.HospitalDatabase
+          hospitalDatabase: hospital.HospitalDatabase,
+          HospitalGroupIDR:hospital.HospitalGroupIDR
         },
         message: 'Login successful and token generated.'
       }
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error logging in', { error: error.message });
+    logger.error('Error logging in', { error: error.message, executionTime: `${end - start}ms` });
+    
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -926,7 +946,8 @@ exports.requestPasswordReset = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const end = Date.now();
-    logger.warn('Validation errors occurred during password reset request', errors);
+    logger.warn('Validation errors occurred during password reset request', { errors, executionTime: `${end - start}ms` });
+    
     return res.status(400).json({
       meta: {
         statusCode: 400,
@@ -947,7 +968,8 @@ exports.requestPasswordReset = async (req, res) => {
 
   if (!uniqueKey) {
     const end = Date.now();
-    logger.error('Missing unique key in request headers');
+    logger.error('Missing unique key in request headers', { executionTime: `${end - start}ms` });
+    
     return res.status(400).json({
       meta: {
         statusCode: 400,
@@ -965,7 +987,8 @@ exports.requestPasswordReset = async (req, res) => {
     const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
     if (!hospital) {
       const end = Date.now();
-      logger.warn(`Hospital with UniqueKey ${uniqueKey} not found`);
+      logger.warn(`Hospital with UniqueKey ${uniqueKey} not found`, { executionTime: `${end - start}ms` });
+      
       return res.status(404).json({
         meta: {
           statusCode: 404,
@@ -983,7 +1006,8 @@ exports.requestPasswordReset = async (req, res) => {
     const managingCompanyEmail = hospital.ManagingCompanyEmail;
     if (!managingCompanyEmail) {
       const end = Date.now();
-      logger.error(`Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail`);
+logger.error(`Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail`, { executionTime: `${end - start}ms` });
+
       return res.status(400).json({
         meta: {
           statusCode: 400,
@@ -1019,8 +1043,9 @@ exports.requestPasswordReset = async (req, res) => {
 
       throw new Error('Failed to send reset email ');
     }
-    const end = Date.now(); 
-    logger.info(`Password reset link sent to ${managingCompanyEmail}`);
+    const end = Date.now();
+logger.info(`Password reset link sent to ${managingCompanyEmail}`, { executionTime: `${end - start}ms` });
+
 
     res.status(200).json({
       meta: {
@@ -1033,7 +1058,8 @@ exports.requestPasswordReset = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error requesting password reset', { error: error.message });
+    logger.error('Error requesting password reset', { error: error.message, executionTime: `${end - start}ms` });
+    
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1061,8 +1087,9 @@ exports.resetPassword = async (req, res) => {
 
     if (!hospital) {
       
-      const end = Date.now(); 
-      logger.warn('Invalid or expired reset token');
+      const end = Date.now();
+      logger.warn('Invalid or expired reset token', { executionTime: `${end - start}ms` });
+      
       return res.status(400).json({
         meta: {
           statusCode: 400,
@@ -1117,8 +1144,8 @@ exports.resetPassword = async (req, res) => {
     await hospital.save({ fields: ['ResetToken', 'ResetTokenExpires'] });
     logger.info('Reset token and expiration time cleared in the database');
     const end = Date.now();
-    logger.info(`Password reset successfully for hospital with email ${hospital.Email}`);
-    
+logger.info(`Password reset successfully for hospital with email ${hospital.Email}`, { executionTime: `${end - start}ms` });
+
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -1130,7 +1157,8 @@ exports.resetPassword = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error resetting password', { error: error.message });
+    logger.error('Error resetting password', { error: error.message, executionTime: `${end - start}ms` });
+    
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1149,8 +1177,9 @@ exports.changePassword = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const end = Date.now(); 
-      logger.info('Validation errors occurred', errors);
+    const end = Date.now();
+    logger.info('Validation errors occurred', { errors, executionTime: `${end - start}ms` });
+    
       return res.status(400).json({
           meta: {
               statusCode: 400,
@@ -1173,8 +1202,9 @@ exports.changePassword = async (req, res) => {
   try {
       const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
       if (!hospital) {
-        const end = Date.now(); 
-          logger.warn('Hospital not found with provided unique key');
+        const end = Date.now();
+        logger.warn('Hospital not found with provided unique key', { uniqueKey, executionTime: `${end - start}ms` });
+        
           return res.status(404).json({
               meta: {
                   statusCode: 404,
@@ -1191,8 +1221,9 @@ exports.changePassword = async (req, res) => {
       
       const passwordMatch = await bcrypt.compare(currentPassword, hospital.Password);
       if (!passwordMatch) {
-        const end = Date.now(); 
-          logger.warn('Current password is incorrect');
+        const end = Date.now();
+        logger.warn('Current password is incorrect', { executionTime: `${end - start}ms` });
+        
           return res.status(400).json({
               meta: {
                   statusCode: 400,
@@ -1219,7 +1250,8 @@ exports.changePassword = async (req, res) => {
       logger.info(`New password stored in database: ${updatedHospital.Password}`);
 
       const end = Date.now();
-      logger.info(`Password changed successfully for hospital with email ${hospital.ManagingCompanyEmail}`);
+      logger.info(`Password changed successfully for hospital with email ${hospital.ManagingCompanyEmail}`, { executionTime: `${end - start}ms` });
+      
       
       res.status(200).json({
           meta: {
@@ -1230,7 +1262,9 @@ exports.changePassword = async (req, res) => {
           }
       });
   } catch (error) {
-      logger.error('Error changing password', { error: error.message });
+    const end = Date.now();
+logger.error('Error changing password', { error: error.message, executionTime: `${end - start}ms` });
+
       res.status(500).json({
           meta: {
               statusCode: 500,
@@ -1274,7 +1308,8 @@ exports.changeEmail = async (req, res) => {
     const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
     if (!hospital) {
       const end = Date.now();
-      logger.warn('Hospital not found with provided unique key');
+logger.warn('Hospital not found with provided unique key', { uniqueKey: providedUniqueKey, executionTime: `${end - start}ms` });
+
       return res.status(404).json({
         meta: {
           statusCode: 404,
@@ -1291,7 +1326,8 @@ exports.changeEmail = async (req, res) => {
     hospital.ManagingCompanyEmail = ManagingCompanyEmail;
     await hospital.save({ fields: ['ManagingCompanyEmail'] });
     const end = Date.now();
-    logger.info(`Email updated successfully for hospital with unique key ${uniqueKey}`);
+logger.info(`Email updated successfully for hospital with unique key ${uniqueKey}`, { uniqueKey, executionTime: `${end - start}ms` });
+
 
     res.status(200).json({
       meta: {
@@ -1303,7 +1339,9 @@ exports.changeEmail = async (req, res) => {
       }
     });
   } catch (error) {
-    logger.error('Error changing email', { error: error.message });
+    const end = Date.now();
+logger.error('Error changing email', { error: error.message, executionTime: `${end - start}ms` });
+
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1336,8 +1374,8 @@ exports.ensureSequelizeInstance = (req, res, next) => {
   if (!req.hospitalDatabase) {
    
     const end = Date.now();
-
-    logger.error('Database connection not established');
+    logger.error('Database connection not established', { executionTime: `${end - start}ms` });
+    
     return res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1361,7 +1399,7 @@ exports.ensureSequelizeInstance = (req, res, next) => {
       dialect: process.env.DB_DIALECT
     }
   );
-
+  
   req.sequelize = sequelize;
   logger.info('Sequelize instance created successfully');
   next();
@@ -1418,6 +1456,78 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 // };
 
 
+// exports.ensureSequelizeInstance = async (req, res, next) => {
+//   const start = Date.now();
+//   if (!req.hospitalDatabase) {
+//     const end = Date.now();
+//     logger.error('Database connection not established', { executionTime: `${end - start}ms` });
+    
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 927,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Database connection not established'
+//       }
+//     });
+//   }
+
+//   try {
+//     const sequelize = new Sequelize(
+//       req.hospitalDatabase,
+//       process.env.DB_USER,
+//       process.env.DB_PASSWORD,
+//       {
+//         host: process.env.DB_HOST,
+//         dialect: process.env.DB_DIALECT
+//       }
+//     );
+
+//     // Import models
+//     const Hospital = require('../models/HospitalModel')(sequelize, DataTypes);
+//     const Department = require('../models/DepartmentModel')(sequelize, DataTypes);
+//     // const Designation = require('../models/DesignationModel')(sequelize, DataTypes);
+
+//     // Define associations
+//     if (typeof Hospital.associate === 'function') {
+//       Hospital.associate({ Department/*, Designation*/  });
+//     }
+//     if (typeof Department.associate === 'function') {
+//       Department.associate({ Hospital });
+//     }
+//     // if (typeof Designation.associate === 'function') {
+//     //   Designation.associate({ Hospital });
+//     // }
+
+//     await sequelize.sync({ force: true }); // Use force: true to recreate the table if it exists
+
+//     console.log('Database & tables created!');
+//     req.sequelize = sequelize;
+//     logger.info('Sequelize instance created successfully');
+//     next();
+//   } catch (error) {
+//     const end = Date.now();
+//     logger.error('Error syncing database', {
+//       executionTime: `${end - start}ms`,
+//       error: error.message,
+//       stack: error.stack
+//     });
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 928,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error syncing database',
+//         details: error.message
+//       }
+//     });
+//   }
+// };
+
 
 exports.createUser = async (req, res) => {
   const start = Date.now();
@@ -1469,7 +1579,8 @@ exports.createUser = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error creating user', { error: error.message });
+    logger.error('Error creating user', { error: error.message, executionTime: `${end - start}ms` });
+    
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1512,7 +1623,8 @@ exports.verifyEmail = async (req, res) => {
     user.emailtoken = null; // Clear the token after verification
     await user.save();
     const end = Date.now();
-    logger.info(`User email verified successfully with username: ${user.username}`);
+logger.info(`User email verified successfully with username: ${user.username}`, { executionTime: `${end - start}ms` });
+
 
     res.status(200).json({
       meta: {
@@ -1524,7 +1636,9 @@ exports.verifyEmail = async (req, res) => {
       }
     });
   } catch (error) {
-    logger.error('Error verifying email', { error: error.message });
+    const end = Date.now();
+    logger.error('Error verifying email', { error: error.message, executionTime: `${end - start}ms` });
+    
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1648,7 +1762,8 @@ exports.getUser = async (req, res) => {
 
     if (!user) {
       const end = Date.now();
-      logger.warn(`User with ID ${id} not found`);
+      logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
+      
       return res.status(404).json({
         meta: {
           statusCode: 404,
@@ -1662,7 +1777,8 @@ exports.getUser = async (req, res) => {
     }
 
     const end = Date.now();
-    logger.info(`User with ID ${id} retrieved successfully`);
+    logger.info(`User with ID ${id} retrieved successfully`, { executionTime: `${end - start}ms` });
+    
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -1678,7 +1794,8 @@ exports.getUser = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error retrieving user', { error: error.message });
+    logger.error('Error retrieving user', { error: error.message, executionTime: `${end - start}ms` });
+    
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1704,7 +1821,8 @@ exports.updateUser = async (req, res) => {
 
     if (!user) {
       const end = Date.now();
-      logger.warn(`User with ID ${id} not found`);
+logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
+
       return res.status(404).json({
         meta: {
           statusCode: 404,
@@ -1722,7 +1840,8 @@ exports.updateUser = async (req, res) => {
 
     await user.save();
     const end = Date.now();
-    logger.info(`User with ID ${id} updated successfully`);
+logger.info(`User with ID ${id} updated successfully`, { executionTime: `${end - start}ms` });
+
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -1735,7 +1854,8 @@ exports.updateUser = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error updating user', { error: error.message });
+    logger.error('Error updating user', { error: error.message, executionTime: `${end - start}ms` });
+    
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1759,7 +1879,8 @@ exports.deleteUser = async (req, res) => {
 
     if (!user) {
       const end = Date.now();
-      logger.warn(`User with ID ${id} not found`);
+      logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
+      
       return res.status(404).json({
         meta: {
           statusCode: 404,
@@ -1775,7 +1896,8 @@ exports.deleteUser = async (req, res) => {
     await user.destroy();
 
     const end = Date.now();
-    logger.info(`User with ID ${id} deleted successfully`);
+    logger.info(`User with ID ${id} deleted successfully`, { executionTime: `${end - start}ms` });
+    
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -1787,7 +1909,8 @@ exports.deleteUser = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error deleting user', { error: error.message });
+logger.error('Error deleting user', { error: error.message, executionTime: `${end - start}ms` });
+
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1807,7 +1930,8 @@ exports.getAllUsers = async (req, res) => {
     const users = await User.findAll();
 
     const end = Date.now();
-    logger.info(`Retrieved all users successfully`);
+logger.info(`Retrieved all users successfully`, { executionTime: `${end - start}ms` });
+
 
     res.status(200).json({
       meta: {
@@ -1818,7 +1942,8 @@ exports.getAllUsers = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error retrieving all users', { error: error.message });
+    logger.error('Error retrieving all users', { error: error.message, executionTime: `${end - start}ms` });
+    
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1846,9 +1971,9 @@ exports.getAllUsersByPagination = async (req, res) => {
       limit,
       order: [['createdAt', 'ASC']] // Example ordering by createdAt, adjust as per your requirement
     });
-
     const end = Date.now();
-    logger.info(`Retrieved users for page ${page} with limit ${limit} successfully`);
+    logger.info(`Retrieved users for page ${page} with limit ${limit} successfully`, { executionTime: `${end - start}ms` });
+    
 
     res.status(200).json({
       meta: {
@@ -1862,7 +1987,8 @@ exports.getAllUsersByPagination = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error retrieving users with pagination', { error: error.message });
+logger.error('Error retrieving users with pagination', { error: error.message, executionTime: `${end - start}ms` });
+
 
     res.status(500).json({
       meta: {
@@ -1880,205 +2006,6 @@ exports.getAllUsersByPagination = async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// exports.createUser = async (req, res,hospital) => {
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     logger.warn('Validation errors occurred while creating user', errors);
-//     return res.status(400).json({
-//       meta: {
-//         statusCode: 400,
-//         errorCode: 930
-//       },
-//       error: {
-//         message: 'Validation errors occurred',
-//         details: errors.array().map(err => ({
-//           field: err.param,
-//           message: err.msg
-//         }))
-//       }
-//     });
-//   }
-
-//   const { username, email, password } = req.body;
-
-//   try {
-//     // Assuming sequelized is the Sequelize instance established for the hospital's database
-//     const sequelize = new Sequelize(
-//       hospital.HospitalDatabase,
-//       process.env.DB_USER,
-//       process.env.DB_PASSWORD,
-//       {
-//         host: process.env.DB_HOST,
-//         dialect: process.env.DB_DIALECT
-//       }
-//     );
-
-//     // Define the User model using the sequelize instance
-//     const User = sequelize.define('User', {
-//       // Define user attributes here
-//       username: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//       },
-//       email: {
-//         type: DataTypes.STRING,
-//         allowNull: false,
-//         unique: true
-//       },
-//       password: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//       }
-//     });
-
-//     // Sync the model with the database
-//     await User.sync();
-
-//     // Create the user
-//     const newUser = await User.create({
-//       username,
-//       email,
-//       password
-//     });
-
-//     logger.info('User created successfully', { userId: newUser.id });
-
-//     res.status(201).json({
-//       meta: {
-//         statusCode: 201
-//       },
-//       data: newUser
-//     });
-//   } catch (error) {
-//     logger.error('Error creating user', { error: error.message });
-//     res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 931
-//       },
-//       error: {
-//         message: 'Error creating user: ' + error.message
-//       }
-//     });
-//   }
-// };
-  
-
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// exports.login = async (req, res) => {
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     return res.status(400).json({
-//       meta: {
-//         statusCode: 400,
-//         errorCode: 920,
-//       },
-//       error: {
-//         message: 'Validation errors occurred',
-//         details: errors.array().map((err) => ({
-//           field: err.param,
-//           message: err.msg,
-//         })),
-//       },
-//     });
-//   }
-
-//   const { Username, Password } = req.body;
-
-//   try {
-//     const hospital = await Hospital.findOne({ where: { Username } });
-
-//     if (!hospital) {
-//       return res.status(404).json({
-//         meta: {
-//           statusCode: 404,
-//           errorCode: 921,
-//         },
-//         error: {
-//           message: 'Hospital not found',
-//         },
-//       });
-//     }
-
-//     const isPasswordValid = await bcrypt.compare(Password, hospital.Password);
-
-//     if (!isPasswordValid) {
-//       return res.status(401).json({
-//         meta: {
-//           statusCode: 401,
-//           errorCode: 922,
-//         },
-//         error: {
-//           message: 'Invalid password',
-//         },
-//       });
-//     }
-
-//     const token = jwt.sign(
-//       { HospitalID: hospital.HospitalID, Username: hospital.Username },
-//       JWT_SECRET,
-//       { expiresIn: '1h' }
-//     );
-
-//     res.status(200).json({
-//       meta: {
-//         statusCode: 200,
-//       },
-//       data: {
-//         token,
-//       },
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 923,
-//       },
-//       error: {
-//         message: 'Error logging in: ' + error.message,
-//       },
-//     });
-//   }
-// };
 
 
 

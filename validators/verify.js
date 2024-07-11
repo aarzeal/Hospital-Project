@@ -23,6 +23,7 @@ const verifyToken = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.hospitalId = decoded.hospitalId; // Ensure this field is available in the token
     req.hospitalDatabase = decoded.hospitalDatabase;
+    // req.hospitalGroupIDR = decoded.HospitalGroupIDR;
     next();
   } catch (error) {
     return res.status(401).json({

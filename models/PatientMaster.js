@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/connection');
-const HospitalGroup = require('./HospitalGroup'); // Import the HospitalGroup model
+const tblHospital = require('./HospitalModel'); // Import the HospitalGroup model
 
 const PatientMaster = sequelize.define('Patient_master', {
   PatientID: {
@@ -17,17 +17,21 @@ const PatientMaster = sequelize.define('Patient_master', {
     allowNull: false,
     unique: true // Ensure EMRNumber is unique
   },
-  HospitalGroupID: {
+  HospitalGroupIDR: {
     type: DataTypes.INTEGER,
     allowNull: true,
     references: {
-      model: HospitalGroup, // Reference to the HospitalGroup model
-      key: 'HospitalGroupID'
+      model: tblHospital,
+      key: 'HospitalGroupIDR'
     }
   },
   HospitalID: {
     type: DataTypes.INTEGER,
-    allowNull: false // Ensure this field is not null
+    allowNull: false,
+    references: {
+      model: tblHospital,
+      key: 'HospitalID'
+    }
   },
   PatientFirstName: {
     type: DataTypes.STRING,
@@ -191,8 +195,12 @@ const PatientMaster = sequelize.define('Patient_master', {
   timestamps: true // Enable timestamps (createdAt, updatedAt)
 });
 
-HospitalGroup.hasMany(PatientMaster, { foreignKey: 'HospitalGroupID' });
-PatientMaster.belongsTo(HospitalGroup, { foreignKey: 'HospitalGroupID' });
+
+tblHospital.hasMany(PatientMaster, { foreignKey: 'HospitalGroupIDR' });
+PatientMaster.belongsTo(tblHospital, { foreignKey: 'HospitalGroupIDR' });
+
+tblHospital.hasMany(PatientMaster, { foreignKey: 'HospitalID' });
+PatientMaster.belongsTo(tblHospital, { foreignKey: 'HospitalID' });
 
 async function syncDatabase() {
   await sequelize.sync(); // Ensure the tables are created

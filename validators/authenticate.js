@@ -19,6 +19,8 @@ const authenticate = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.hospitalId = decoded.hospitalId;
     req.hospitalDatabase = decoded.hospitalDatabase; // Add database details to the request object
+    // req.hospitalGroupIDR = decoded.HospitalGroupIDR;// Corrected typo
+    // console.log(req.hospitalGroupIDR);
     next();
   } catch (error) {
     return res.status(401).json({
