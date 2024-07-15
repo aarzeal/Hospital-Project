@@ -2157,3 +2157,122 @@
 {"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T12:25:18.590Z"}
 {"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:25:37.555Z"}
 {"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:26:21.650Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-15T05:13:34.186Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-15T05:13:34.189Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-15T05:13:34.189Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-15T05:13:34.190Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 81ms","timestamp":"2024-07-15T05:13:34.251Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T05:15:57.328Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T05:17:00.188Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T05:17:14.816Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T05:18:47.441Z"}
+{"level":"info","message":"Deleted employee successfully","timestamp":"2024-07-15T05:18:47.493Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T05:21:46.619Z"}
+{"level":"info","message":"Deleted employee successfully","timestamp":"2024-07-15T05:21:46.672Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T05:22:49.957Z"}
+{"level":"info","message":"Fetched Employee Categories successfully","timestamp":"2024-07-15T05:22:49.972Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T05:32:48.133Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T05:37:48.113Z"}
+{"level":"error","message":"Error updating employee: Validation error: Invalid gender value: 5. Valid values are: 1, 2, 3","timestamp":"2024-07-15T05:37:48.144Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T05:38:10.842Z"}
+{"level":"info","message":"Updated employee successfully","timestamp":"2024-07-15T05:38:10.899Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-15T05:59:19.052Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-15T05:59:19.054Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-15T05:59:19.055Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-15T05:59:19.055Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 78ms","timestamp":"2024-07-15T05:59:19.115Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T05:59:34.648Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T05:59:34.706Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-15T06:02:59.125Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-15T06:02:59.126Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-15T06:02:59.126Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-15T06:02:59.126Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully, executionTime: 68ms","timestamp":"2024-07-15T06:02:59.185Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-07-15T06:04:31.603Z"}
+{"error":"Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`tblhospital`, CONSTRAINT `tblhospital_ibfk_1` FOREIGN KEY (`HospitalGroupIDR`) REFERENCES `tblhospitalgroup` (`HospitalGroupID`))","level":"error","message":"Error updating hospital, executionTime: 36ms","timestamp":"2024-07-15T06:06:28.086Z"}
+{"level":"info","message":"Hospital with ID 52 updated successfully, executionTime: 38ms","timestamp":"2024-07-15T06:07:02.809Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-15T06:12:24.844Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-15T06:12:24.845Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-15T06:12:24.845Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-15T06:12:24.846Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully, executionTime: 69ms","timestamp":"2024-07-15T06:12:24.904Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T06:12:55.193Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T06:12:55.331Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T06:29:09.502Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T06:29:09.645Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T06:30:10.360Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T06:30:10.479Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T06:32:27.372Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T06:32:27.492Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T06:36:25.662Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T06:36:25.772Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T06:38:26.298Z"}
+{"level":"error","message":"Error creating department: Skill is not defined","timestamp":"2024-07-15T06:38:26.301Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T06:41:18.642Z"}
+{"level":"error","message":"Error creating department: Employee.belongsTo called with something that's not a subclass of Sequelize.Model","timestamp":"2024-07-15T06:41:18.646Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T07:30:13.016Z"}
+{"level":"error","message":"Error creating department: Employee.belongsTo called with something that's not a subclass of Sequelize.Model","timestamp":"2024-07-15T07:30:13.020Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T07:30:51.117Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T07:30:51.231Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T07:32:41.932Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T07:32:42.102Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T07:34:06.135Z"}
+{"level":"error","message":"Error creating skill: Can't create table `a8`.`tblskill` (errno: 150 \"Foreign key constraint is incorrectly formed\") in 105ms","timestamp":"2024-07-15T07:34:06.242Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T07:34:24.456Z"}
+{"level":"info","message":"Created new skill successfully in 174ms","timestamp":"2024-07-15T07:34:24.632Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T07:35:01.138Z"}
+{"level":"error","message":"Error creating department: Cannot add or update a child row: a foreign key constraint fails (`a8`.`tblemployee`, CONSTRAINT `tblemployee_ibfk_1` FOREIGN KEY (`SkillSetIDR`) REFERENCES `tblskill` (`SkillId`))","timestamp":"2024-07-15T07:35:01.382Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T07:35:32.576Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T07:35:32.613Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T08:47:41.986Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T08:47:42.040Z"}
+{"level":"info","message":"createDepartment executed in 61ms","timestamp":"2024-07-15T08:47:42.049Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T08:48:10.706Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T08:48:10.771Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T08:48:42.059Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T08:48:42.112Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T08:48:48.920Z"}
+{"level":"error","message":"Error creating department: Cannot add or update a child row: a foreign key constraint fails (`a8`.`tblemployee`, CONSTRAINT `tblemployee_ibfk_1` FOREIGN KEY (`SkillSetIDR`) REFERENCES `tblskill` (`SkillId`))","timestamp":"2024-07-15T08:48:48.954Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T08:49:29.863Z"}
+{"level":"error","message":"Error creating department: Cannot add or update a child row: a foreign key constraint fails (`a8`.`tblemployee`, CONSTRAINT `tblemployee_ibfk_1` FOREIGN KEY (`SkillSetIDR`) REFERENCES `tblskill` (`SkillId`))","timestamp":"2024-07-15T08:49:29.904Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T08:49:35.959Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T08:49:36.004Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T08:51:37.511Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T08:51:37.564Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T08:53:16.756Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T08:53:16.812Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T08:56:06.676Z"}
+{"level":"error","message":"Error creating department: Cannot add or update a child row: a foreign key constraint fails (`a8`.`tblemployee`, CONSTRAINT `tblemployee_ibfk_2` FOREIGN KEY (`DepartmentIDR`) REFERENCES `tbldepartment` (`DepartmentId`))","timestamp":"2024-07-15T08:56:06.882Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T08:56:11.702Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T08:56:11.790Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T09:00:36.854Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T09:00:36.972Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T09:01:10.874Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T09:01:11.006Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T09:02:16.508Z"}
+{"level":"info","message":"Created new EmpCategory successfully in 3167ms","timestamp":"2024-07-15T09:02:19.676Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T09:02:53.697Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T09:02:53.859Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T09:03:31.902Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T09:03:31.974Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T09:03:55.711Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T09:03:55.849Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T09:25:25.265Z"}
+{"level":"error","message":"Error fetching all employees: Cannot read properties of undefined (reading 'findAll')","timestamp":"2024-07-15T09:25:25.268Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T09:26:31.013Z"}
+{"level":"error","message":"Error fetching all employees: Table 'a8.tblemployee' doesn't exist","timestamp":"2024-07-15T09:26:31.030Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T09:27:08.776Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T09:27:09.101Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T09:27:17.769Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T10:09:57.778Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T10:09:57.856Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T10:10:04.330Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T10:10:04.372Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T10:10:44.900Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-15T10:10:44.954Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T10:13:03.410Z"}
+{"errors":[{"location":"body","msg":"First Name is required","path":"FName","type":"field","value":""},{"location":"body","msg":"First Name can only contain letters and spaces","path":"FName","type":"field","value":""}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-15T10:13:03.413Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T10:15:15.211Z"}
+{"errors":[{"location":"body","msg":"First Name can only contain letters and spaces","path":"FName","type":"field","value":"@"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-15T10:15:15.212Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T10:23:03.687Z"}
+{"errors":[{"location":"body","msg":"First Name can only contain letters and spaces","path":"FName","type":"field","value":"@"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-15T10:23:03.689Z"}

@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/connection');
+
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10; 
 const Hospital = sequelize.define('tblHospital', {

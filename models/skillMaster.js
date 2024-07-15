@@ -62,7 +62,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const User = sequelize.define('tblSkill', {
+  const Skill = sequelize.define('tblSkill', {
     SkillId: {
           type: DataTypes.INTEGER,
           primaryKey: true,
@@ -100,10 +100,10 @@ module.exports = (sequelize) => {
         },
         HospitalIDR: {
           type: DataTypes.INTEGER,
-          references: {
-            model: 'tblhospital', // Name of the referenced table
-            key: 'HospitalID' // Primary key in the referenced table
-          },
+          // references: {
+          //   model: 'tblhospital', // Name of the referenced table
+          //   key: 'HospitalID' // Primary key in the referenced table
+          // },
           allowNull: false
         }
       }, {
@@ -111,5 +111,57 @@ module.exports = (sequelize) => {
     timestamps: false
   });
 
-  return User;
+  return Skill;
 };
+
+
+
+
+
+// const { DataTypes } = require('sequelize');
+// const sequelize = require('../database/dynamicConnection'); // Adjust path as per your project structure
+
+// const Skill = sequelize.define('Skill', {
+//   SkillId: {
+//     type: DataTypes.INTEGER,
+//     primaryKey: true,
+//     autoIncrement: true
+//   },
+//   SkillName: {
+//     type: DataTypes.STRING(40),
+//     allowNull: false
+//   },
+//   IsClinicalSkill: {
+//     type: DataTypes.BOOLEAN,
+//     allowNull: false
+//   },
+//   IsActive: {
+//     type: DataTypes.BOOLEAN,
+//     allowNull: false,
+//     defaultValue: true // Assuming default is active
+//   },
+//   CreatedBy: {
+//     type: DataTypes.STRING, // Adjust data type as per your requirements
+//     allowNull: false
+//   },
+//   CreatedAt: {
+//     type: DataTypes.DATE,
+//     allowNull: false,
+//     defaultValue: DataTypes.NOW
+//   },
+//   EditedBy: {
+//     type: DataTypes.STRING, // Adjust data type as per your requirements
+//     allowNull: true
+//   },
+//   EditedAt: {
+//     type: DataTypes.DATE,
+//     allowNull: true
+//   }
+// }, {
+//   sequelize,
+//   modelName: 'Skill',
+//   tableName: 'tblskill', // Ensure this matches your actual table name
+//   timestamps: false // Adjust as needed (true for createdAt and updatedAt columns)
+// });
+
+// module.exports = Skill;

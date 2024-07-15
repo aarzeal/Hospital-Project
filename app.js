@@ -51,7 +51,7 @@ app.use('/api/v1', skillRoutes);
 app.use('/api/v1', designationRoutes);
 app.use('/api/v1/hospital', departmentRoutes);
 app.use('/api/v1/', empCategoryRoutes);
-app.use('/api/v1/', employeeRoutes);
+app.use('/api/v1/employee', employeeRoutes);
 
 
 

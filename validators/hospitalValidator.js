@@ -704,3 +704,148 @@ exports.updateDoctorValidationRules = () => {
       .isInt().withMessage('CreatedBy must be an integer')
   ];
 };
+
+
+
+
+
+
+
+
+const path = require('path');
+const fs = require('fs');
+
+let config;
+
+try {
+  const configPath = path.join(__dirname, '../config/employeeConfig.json');
+  const configFile = fs.readFileSync(configPath, 'utf8');
+  config = JSON.parse(configFile);
+} catch (error) {
+  console.error('Error loading employeeConfig.json:', error);
+  throw error;
+}
+
+exports.createEmployeeValidationRules = () => {
+  return [
+    body('FName')
+      .notEmpty().withMessage('First Name is required')
+      .isLength({ max: 40 }).withMessage('First Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('First Name can only contain letters and spaces'),
+    body('MName')
+      .optional()
+      .isLength({ max: 40 }).withMessage('Middle Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Middle Name can only contain letters and spaces'),
+    body('LName')
+      .notEmpty().withMessage('Last Name is required')
+      .isLength({ max: 40 }).withMessage('Last Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Last Name can only contain letters and spaces'),
+    body('SkillSetIDR')
+      .notEmpty().withMessage('SkillSet ID is required')
+      .isInt().withMessage('SkillSet ID must be an integer'),
+    body('Gender')
+      .notEmpty().withMessage('Gender is required')
+      .isIn(Object.keys(config.Gender).map(Number)).withMessage(`Gender must be one of ${Object.keys(config.Gender).map(Number).join(', ')}`),
+    body('BloodGroupIDR')
+      .notEmpty().withMessage('Blood Group ID is required')
+      .isIn(Object.keys(config.BloodGroup).map(Number)).withMessage(`Blood Group must be one of ${Object.keys(config.BloodGroup).map(Number).join(', ')}`),
+    body('DepartmentIDR')
+      .notEmpty().withMessage('Department ID is required')
+      .isInt().withMessage('Department ID must be an integer'),
+    body('DesignationIDR')
+      .notEmpty().withMessage('Designation ID is required')
+      .isInt().withMessage('Designation ID must be an integer'),
+    body('NationalityIDR')
+      .notEmpty().withMessage('Nationality is required')
+      .isIn(Object.keys(config.Nationality).map(Number)).withMessage(`Nationality must be one of ${Object.keys(config.Nationality).map(Number).join(', ')}`),
+    body('ReligionIDR')
+      .notEmpty().withMessage('Religion is required')
+      .isIn(Object.keys(config.Religion).map(Number)).withMessage(`Religion must be one of ${Object.keys(config.Religion).map(Number).join(', ')}`),
+    body('CastIDF')
+      .notEmpty().withMessage('Cast is required')
+      .isIn(Object.keys(config.Cast).map(Number)).withMessage(`Cast must be one of ${Object.keys(config.Cast).map(Number).join(', ')}`),
+    body('QualificationIDR')
+      .notEmpty().withMessage('Qualification is required')
+      .isIn(Object.keys(config.Qualification).map(Number)).withMessage(`Qualification must be one of ${Object.keys(config.Qualification).map(Number).join(', ')}`),
+    body('EmployeeCategoryIDR')
+      .notEmpty().withMessage('Employee Category ID is required')
+      .isInt().withMessage('Employee Category ID must be an integer'),
+    body('EmployeeCode')
+      .notEmpty().withMessage('Employee Code is required')
+      .isLength({ max: 20 }).withMessage('Employee Code cannot exceed 20 characters'),
+    body('UniqueTAXNo')
+      .notEmpty().withMessage('Unique TAX Number is required')
+      .isLength({ max: 20 }).withMessage('Unique TAX Number cannot exceed 20 characters'),
+    body('DateOfBirth')
+      .notEmpty().withMessage('Date of Birth is required')
+      .isISO8601().withMessage('Date of Birth must be a valid date'),
+    body('DateOfJoining')
+      .notEmpty().withMessage('Date of Joining is required')
+      .isISO8601().withMessage('Date of Joining must be a valid date'),
+    body('MaritalStatus')
+      .notEmpty().withMessage('Marital Status is required')
+      .isIn(Object.keys(config.MaritalStatus).map(Number)).withMessage(`Marital Status must be one of ${Object.keys(config.MaritalStatus).map(Number).join(', ')}`)
+  ];
+};
+
+exports.updateEmployeeValidationRules = () => {
+  return [
+    body('FName')
+      .optional()
+      .isLength({ max: 40 }).withMessage('First Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('First Name can only contain letters and spaces'),
+    body('MName')
+      .optional()
+      .isLength({ max: 40 }).withMessage('Middle Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Middle Name can only contain letters and spaces'),
+    body('LName')
+      .optional()
+      .isLength({ max: 40 }).withMessage('Last Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Last Name can only contain letters and spaces'),
+    body('SkillSetIDR')
+      .optional()
+      .isInt().withMessage('SkillSet ID must be an integer'),
+    body('Gender')
+      .optional()
+      .isIn(Object.keys(config.Gender).map(Number)).withMessage(`Gender must be one of ${Object.keys(config.Gender).map(Number).join(', ')}`),
+    body('BloodGroupIDR')
+      .optional()
+      .isIn(Object.keys(config.BloodGroup).map(Number)).withMessage(`Blood Group must be one of ${Object.keys(config.BloodGroup).map(Number).join(', ')}`),
+    body('DepartmentIDR')
+      .optional()
+      .isInt().withMessage('Department ID must be an integer'),
+    body('DesignationIDR')
+      .optional()
+      .isInt().withMessage('Designation ID must be an integer'),
+    body('NationalityIDR')
+      .optional()
+      .isIn(Object.keys(config.Nationality).map(Number)).withMessage(`Nationality must be one of ${Object.keys(config.Nationality).map(Number).join(', ')}`),
+    body('ReligionIDR')
+      .optional()
+      .isIn(Object.keys(config.Religion).map(Number)).withMessage(`Religion must be one of ${Object.keys(config.Religion).map(Number).join(', ')}`),
+    body('CastIDF')
+      .optional()
+      .isIn(Object.keys(config.Cast).map(Number)).withMessage(`Cast must be one of ${Object.keys(config.Cast).map(Number).join(', ')}`),
+    body('QualificationIDR')
+      .optional()
+      .isIn(Object.keys(config.Qualification).map(Number)).withMessage(`Qualification must be one of ${Object.keys(config.Qualification).map(Number).join(', ')}`),
+    body('EmployeeCategoryIDR')
+      .optional()
+      .isInt().withMessage('Employee Category ID must be an integer'),
+    body('EmployeeCode')
+      .optional()
+      .isLength({ max: 20 }).withMessage('Employee Code cannot exceed 20 characters'),
+    body('UniqueTAXNo')
+      .optional()
+      .isLength({ max: 20 }).withMessage('Unique TAX Number cannot exceed 20 characters'),
+    body('DateOfBirth')
+      .optional()
+      .isISO8601().withMessage('Date of Birth must be a valid date'),
+    body('DateOfJoining')
+      .optional()
+      .isISO8601().withMessage('Date of Joining must be a valid date'),
+    body('MaritalStatus')
+      .optional()
+      .isIn(Object.keys(config.MaritalStatus).map(Number)).withMessage(`Marital Status must be one of ${Object.keys(config.MaritalStatus).map(Number).join(', ')}`)
+  ];
+};

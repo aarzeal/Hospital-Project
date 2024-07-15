@@ -13,14 +13,17 @@ exports.getAllDepartments = async (req, res) => {
     const Department = require('../models/DepartmentModel')(req.sequelize);
     const departments = await Department.findAll();
     logger.info('Fetched all departments successfully');
+    const end = Date.now(); 
     res.json({
       meta: { statusCode: 200 },
-      data: departments
+      data: departments,
+       executionTime: `${end - start}ms`
     });
   } catch (error) {
     logger.error(`Error fetching departments: ${error.message}`);
+    const end = Date.now(); 
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1000 },
+      meta: { statusCode: 500, errorCode: 1015 , executionTime: `${end - start}ms` },
       error: { message: 'Failed to fetch departments due to a server error. Please try again later.' }
     });
   } finally {
@@ -37,20 +40,23 @@ exports.getDepartmentById = async (req, res) => {
     const department = await Department.findByPk(id);
     if (!department) {
       logger.warn(`Department with ID ${id} not found`);
+      const end = Date.now(); 
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1001 },
+        meta: { statusCode: 404, errorCode: 1016, executionTime: `${end - start}ms`  },
         error: { message: `Department with ID ${id} not found. Please check the ID and try again.` }
       });
     }
     logger.info(`Fetched department with ID ${id} successfully`);
+    const end = Date.now(); 
     res.json({
-      meta: { statusCode: 200 },
+      meta: { statusCode: 200, executionTime: `${end - start}ms`  },
       data: department
     });
   } catch (error) {
     logger.error(`Error fetching department with ID ${id}: ${error.message}`);
+    const end = Date.now(); 
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1002 },
+      meta: { statusCode: 500, errorCode: 1017, executionTime: `${end - start}ms`  },
       error: { message: `Failed to fetch department with ID ${id} due to a server error. Please try again later.` }
     });
   } finally {
@@ -76,14 +82,16 @@ exports.createDepartment = async (req, res) => {
       HospitalIDR
     });
     logger.info('Created new department successfully');
-    res.status(201).json({
-      meta: { statusCode: 201 },
-      data: newDepartment
+    const end = Date.now(); 
+    res.status(200).json({
+      meta: { statusCode: 200 },
+      data: newDepartment,
+       executionTime: `${end - start}ms` 
     });
   } catch (error) {
     logger.error(`Error creating department: ${error.message}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1003 },
+      meta: { statusCode: 500, errorCode: 1018 },
       error: { message: 'Failed to create department due to a server error. Please ensure all fields are correctly filled and try again.' }
     });
   } finally {
@@ -102,8 +110,9 @@ exports.updateDepartment = async (req, res) => {
     let department = await Department.findByPk(id);
     if (!department) {
       logger.warn(`Department with ID ${id} not found`);
+      const end = Date.now(); 
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1004 },
+        meta: { statusCode: 404, errorCode: 1019, executionTime: `${end - start}ms`  },
         error: { message: `Department with ID ${id} not found. Please check the ID and try again.` }
       });
     }
@@ -115,14 +124,16 @@ exports.updateDepartment = async (req, res) => {
       EditedBy
     });
     logger.info(`Updated department with ID ${id} successfully`);
+    const end = Date.now(); 
     res.json({
       meta: { statusCode: 200 },
       data: department
     });
   } catch (error) {
     logger.error(`Error updating department with ID ${id}: ${error.message}`);
+    const end = Date.now(); 
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1005 },
+      meta: { statusCode: 500, errorCode: 1020 , executionTime: `${end - start}ms` },
       error: { message: `Failed to update department with ID ${id} due to a server error. Please try again later.` }
     });
   } finally {
@@ -140,21 +151,24 @@ exports.deleteDepartment = async (req, res) => {
     const department = await Department.findByPk(id);
     if (!department) {
       logger.warn(`Department with ID ${id} not found`);
+      const end = Date.now(); 
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1006 },
+        meta: { statusCode: 404, errorCode: 1021 , executionTime: `${end - start}ms` },
         error: { message: `Department with ID ${id} not found. Please check the ID and try again.` }
       });
     }
     await department.destroy();
     logger.info(`Deleted department with ID ${id} successfully`);
+    const end = Date.now(); 
     res.json({
       meta: { statusCode: 200 },
       message: 'Department deleted successfully'
     });
   } catch (error) {
     logger.error(`Error deleting department with ID ${id}: ${error.message}`);
+    const end = Date.now(); 
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1007 },
+      meta: { statusCode: 500, errorCode: 1022, executionTime: `${end - start}ms`  },
       error: { message: `Failed to delete department with ID ${id} due to a server error. Please try again later.` }
     });
   } finally {
@@ -173,14 +187,16 @@ exports.getDepartmentsByHospitalId = async (req, res) => {
       where: { HospitalIDR: hospitalId },
     });
     logger.info(`Fetched departments for Hospital ID ${hospitalId} successfully`);
+    const end = Date.now(); 
     res.json({
-      meta: { statusCode: 200 },
+      meta: { statusCode: 200 , executionTime: `${end - start}ms` },
       data: departments,
     });
   } catch (error) {
     logger.error(`Error fetching departments for Hospital ID ${hospitalId}: ${error.message}`);
+    const end = Date.now(); 
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1008 },
+      meta: { statusCode: 500, errorCode: 1023, executionTime: `${end - start}ms`  },
       error: {
         message: `Failed to fetch departments for Hospital ID ${hospitalId} due to a server error. Please try again later.`,
       },
@@ -203,8 +219,9 @@ exports.getDepartmentsWithPagination = async (req, res) => {
       limit: parseInt(limit),
     });
     logger.info('Fetched all departments successfully');
+    const end = Date.now(); 
     res.json({
-      meta: { statusCode: 200 },
+      meta: { statusCode: 200 , executionTime: `${end - start}ms` },
       data: {
         departments: rows,
         totalItems: count,
@@ -214,8 +231,9 @@ exports.getDepartmentsWithPagination = async (req, res) => {
     });
   } catch (error) {
     logger.error(`Error fetching departments: ${error.message}`);
+    const end = Date.now(); 
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1000 },
+      meta: { statusCode: 500, errorCode: 1024 , executionTime: `${end - start}ms` },
       error: {
         message: 'Failed to fetch departments due to a server error. Please try again later.',
       },

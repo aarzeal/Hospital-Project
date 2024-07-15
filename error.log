@@ -392,3 +392,24 @@
 {"level":"error","message":"Error creating department: Validation error: Invalid gender value: 200. Valid values are: 3, 200, 2000","timestamp":"2024-07-13T10:37:33.121Z"}
 {"level":"error","message":"Error creating department: Validation error: Invalid gender value: 120. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8","timestamp":"2024-07-13T10:49:47.146Z"}
 {"level":"error","message":"Error fetching employee: config is not defined","timestamp":"2024-07-13T11:55:22.028Z"}
+{"level":"error","message":"Error updating employee: Validation error: Invalid gender value: 5. Valid values are: 1, 2, 3","timestamp":"2024-07-15T05:37:48.144Z"}
+{"error":"Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`tblhospital`, CONSTRAINT `tblhospital_ibfk_1` FOREIGN KEY (`HospitalGroupIDR`) REFERENCES `tblhospitalgroup` (`HospitalGroupID`))","level":"error","message":"Error updating hospital, executionTime: 36ms","timestamp":"2024-07-15T06:06:28.086Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T06:12:55.331Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T06:29:09.645Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T06:30:10.479Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T06:32:27.492Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T06:36:25.772Z"}
+{"level":"error","message":"Error creating department: Skill is not defined","timestamp":"2024-07-15T06:38:26.301Z"}
+{"level":"error","message":"Error creating department: Employee.belongsTo called with something that's not a subclass of Sequelize.Model","timestamp":"2024-07-15T06:41:18.646Z"}
+{"level":"error","message":"Error creating department: Employee.belongsTo called with something that's not a subclass of Sequelize.Model","timestamp":"2024-07-15T07:30:13.020Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T07:30:51.231Z"}
+{"level":"error","message":"Error creating skill: Can't create table `a8`.`tblskill` (errno: 150 \"Foreign key constraint is incorrectly formed\") in 105ms","timestamp":"2024-07-15T07:34:06.242Z"}
+{"level":"error","message":"Error creating department: Cannot add or update a child row: a foreign key constraint fails (`a8`.`tblemployee`, CONSTRAINT `tblemployee_ibfk_1` FOREIGN KEY (`SkillSetIDR`) REFERENCES `tblskill` (`SkillId`))","timestamp":"2024-07-15T07:35:01.382Z"}
+{"level":"error","message":"Error creating department: Cannot add or update a child row: a foreign key constraint fails (`a8`.`tblemployee`, CONSTRAINT `tblemployee_ibfk_1` FOREIGN KEY (`SkillSetIDR`) REFERENCES `tblskill` (`SkillId`))","timestamp":"2024-07-15T08:48:48.954Z"}
+{"level":"error","message":"Error creating department: Cannot add or update a child row: a foreign key constraint fails (`a8`.`tblemployee`, CONSTRAINT `tblemployee_ibfk_1` FOREIGN KEY (`SkillSetIDR`) REFERENCES `tblskill` (`SkillId`))","timestamp":"2024-07-15T08:49:29.904Z"}
+{"level":"error","message":"Error creating department: Cannot add or update a child row: a foreign key constraint fails (`a8`.`tblemployee`, CONSTRAINT `tblemployee_ibfk_2` FOREIGN KEY (`DepartmentIDR`) REFERENCES `tbldepartment` (`DepartmentId`))","timestamp":"2024-07-15T08:56:06.882Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T09:00:36.972Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T09:01:11.006Z"}
+{"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T09:03:55.849Z"}
+{"level":"error","message":"Error fetching all employees: Cannot read properties of undefined (reading 'findAll')","timestamp":"2024-07-15T09:25:25.268Z"}
+{"level":"error","message":"Error fetching all employees: Table 'a8.tblemployee' doesn't exist","timestamp":"2024-07-15T09:26:31.030Z"}

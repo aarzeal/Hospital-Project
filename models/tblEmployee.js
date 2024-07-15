@@ -3,6 +3,7 @@
 const { DataTypes } = require('sequelize');
 const path = require('path');
 const fs = require('fs');
+const Skill = require('./skillMaster');
 
 let config;
 
@@ -37,16 +38,21 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(40),
       allowNull: false
     },
-    SkillSetIDF: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-      // Add reference to Skill model if needed
-    },
-    // Gender: {
-    //   type: DataTypes.TINYINT,
+    // SkillSetIDR: {
+    //   type: DataTypes.INTEGER,
     //   allowNull: false
-    //   // Assuming Gender is a TINYINT with predefined values in your application
+    //   // Add reference to Skill model if needed
     // },
+    SkillSetIDR: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'tblskill', // Adjusted to match your actual table name
+        key: 'SkillId',
+        onDelete: 'CASCADE', // or other appropriate action
+  onUpdate: 'CASCADE' // or other appropriate action
+      }
+    },
    
     Gender: {
       type: DataTypes.TINYINT,
@@ -86,9 +92,13 @@ module.exports = (sequelize) => {
     },
     DepartmentIDR: {
       type: DataTypes.INTEGER,
-      allowNull: false
-      // Add reference to Department model if needed
+      allowNull: false,
+      references: {
+        model: 'tbldepartment', // Replace with your actual table name
+        key: 'DepartmentId',   // Replace with your actual primary key column name in tbldepartment
+      }
     },
+    
     DesignationIDR: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -157,8 +167,11 @@ module.exports = (sequelize) => {
     },
     EmployeeCategoryIDR: {
       type: DataTypes.INTEGER,
-      allowNull: false
-      // Add reference to EmployeeCategory model if needed
+      allowNull: false,
+      references: {
+        model: 'tblempcategory', // Replace with your actual table name
+        key: 'EmployeeCategoryID',   // Replace with your actual primary key column name in tbldepartment
+      }
     },
     EmployeeCode: {
       type: DataTypes.STRING(20),
@@ -298,7 +311,11 @@ module.exports = (sequelize) => {
     },
     HospitalIDR: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      // references: {
+      //   model: 'tblhospital', // Replace with your actual table name
+      //   key: 'HospitalID',   // Replace with your actual primary key column name in tbldepartment
+      // }
       // Add reference to Hospital model if needed
     },
     RelationWithMName: {
@@ -326,6 +343,6 @@ module.exports = (sequelize) => {
     tableName: 'tblEmployee',
     timestamps: false
   });
-
+  // Employee.belongsTo(Skill, { foreignKey: 'SkillSetIDR' });
   return Employee;
 };

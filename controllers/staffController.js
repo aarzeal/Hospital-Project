@@ -315,14 +315,16 @@ exports.getAllStaff = async (req, res) => {
     const StaffMaster = require('../models/staffMaster')(req.sequelize);
     const staff = await StaffMaster.findAll();
     logger.info('Fetched all staff successfully');
+    const end = Date.now(); 
     res.json({
-      meta: { statusCode: 200 },
+      meta: { statusCode: 200, executionTime: `${end - start}ms` },
       data: staff
     });
   } catch (error) {
     logger.error(`Error fetching staff: ${error.message}`);
+    const end = Date.now(); 
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1001 },
+      meta: { statusCode: 500, errorCode: 1001, executionTime: `${end - start}ms` },
       error: { message: 'Failed to fetch staff due to a server error. Please try again later.' }
     });
   } finally {
@@ -339,20 +341,23 @@ exports.getStaffById = async (req, res) => {
     const staff = await StaffMaster.findByPk(id);
     if (!staff) {
       logger.warn(`Staff with ID ${id} not found`);
+      const end = Date.now(); 
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1002 },
+        meta: { statusCode: 404, errorCode: 1002 , executionTime: `${end - start}ms`},
         error: { message: `Staff with ID ${id} not found. Please check the ID and try again.` }
       });
     }
     logger.info(`Fetched staff with ID ${id} successfully`);
+    const end = Date.now(); 
     res.json({
       meta: { statusCode: 200 },
       data: staff
     });
   } catch (error) {
     logger.error(`Error fetching staff with ID ${id}: ${error.message}`);
+    const end = Date.now(); 
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1003
+      meta: { statusCode: 500, errorCode: 1003, executionTime: `${end - start}ms`
 
        },
       error: { message: `Failed to fetch staff with ID ${id} due to a server error. Please try again later.` }
@@ -365,6 +370,7 @@ exports.getStaffById = async (req, res) => {
 // POST create a new staff
 exports.createStaff = async (req, res) => {
   const start = Date.now();
+  
   const { FirstName, MiddleName, LastName, Email, Address, Age, DOB, BloodGroup, Gender, EmergencyContactName, EmergencyContactPhone, MaritalStatus, Nationality, Language, MobileNumber, Qualification, Experience, Specialization, WhatsAppNumber, CreatedBy } = req.body;
   const HospitalIDR = req.hospitalId;
 
@@ -400,23 +406,26 @@ exports.createStaff = async (req, res) => {
     });
 
     logger.info('Created new staff successfully');
-    res.status(201).json({
-      meta: { statusCode: 201 },
+    const end = Date.now(); 
+    res.status(200).json({
+      meta: { statusCode: 200, executionTime: `${end - start}ms` },
       data: newStaff
     });
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
       // Handle validation errors
       logger.error('Validation error creating staff:', error.errors);
+      const end = Date.now(); 
       res.status(400).json({
-        meta: { statusCode: 400, errorCode: 1004 },
+        meta: { statusCode: 400, errorCode: 1004, executionTime: `${end - start}ms`},
         error: { message: error.message }
       });
     } else {
       // Handle other Sequelize errors or generic server errors
       logger.error(`Error creating staff: ${error.message}`);
+      const end = Date.now(); 
       res.status(500).json({
-        meta: { statusCode: 500, errorCode: 1005 },
+        meta: { statusCode: 500, errorCode: 1005, executionTime: `${end - start}ms` },
         error: { message: 'Failed to create staff due to a server error. Please try again later.' }
       });
     }
@@ -435,9 +444,10 @@ exports.updateStaff = async (req, res) => {
     const StaffMaster = require('../models/staffMaster')(req.sequelize);
     let staff = await StaffMaster.findByPk(id);
     if (!staff) {
+      const end = Date.now(); 
       logger.warn(`Staff with ID ${id} not found`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1006 },
+        meta: { statusCode: 404, errorCode: 1006 , executionTime: `${end - start}ms`},
         error: { message: `Staff with ID ${id} not found. Please check the ID and try again.` }
       });
     }
@@ -468,13 +478,14 @@ exports.updateStaff = async (req, res) => {
     });
     logger.info(`Updated staff with ID ${id} successfully`);
     res.json({
-      meta: { statusCode: 200 },
+      meta: { statusCode: 200 , executionTime: `${end - start}ms`},
       data: staff
     });
   } catch (error) {
+    const end = Date.now(); 
     logger.error(`Error updating staff with ID ${id}: ${error.message}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1007 },
+      meta: { statusCode: 500, errorCode: 1007, executionTime: `${end - start}ms` },
       error: { message: `Failed to update staff with ID ${id} due to a server error. Please try again later.` }
     });
   } finally {
@@ -491,22 +502,24 @@ exports.deleteStaff = async (req, res) => {
     const StaffMaster = require('../models/staffMaster')(req.sequelize);
     const staff = await StaffMaster.findByPk(id);
     if (!staff) {
+      const end = Date.now(); 
       logger.warn(`Staff with ID ${id} not found`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1008 },
+        meta: { statusCode: 404, errorCode: 1008, executionTime: `${end - start}ms` },
         error: { message: `Staff with ID ${id} not found. Please check the ID and try again.` }
       });
     }
     await staff.destroy();
     logger.info(`Deleted staff with ID ${id} successfully`);
+    const end = Date.now(); 
     res.json({
-      meta: { statusCode: 200 },
+      meta: { statusCode: 200 , executionTime: `${end - start}ms`},
       message: 'Staff deleted successfully'
     });
   } catch (error) {
     logger.error(`Error deleting staff with ID ${id}: ${error.message}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1009 },
+      meta: { statusCode: 500, errorCode: 1009 , executionTime: `${end - start}ms`},
       error: { message: `Failed to delete staff with ID ${id} due to a server error. Please try again later.` }
     });
   } finally {
@@ -519,24 +532,27 @@ exports.getStaffByHospitalIDR = async (req, res) => {
   const start = Date.now();
   const { hospitalId } = req.params;
   try {
+
     const StaffMaster = require('../models/staffMaster')(req.sequelize);
     const staff = await StaffMaster.findAll({ where: { HospitalIDR: hospitalId } });
     if (!staff.length) {
+      const end = Date.now(); 
       logger.warn(`No staff found for HospitalIDR ${hospitalId}`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1010 },
+        meta: { statusCode: 404, errorCode: 1010 , executionTime: `${end - start}ms`},
         error: { message: `No staff found for HospitalIDR ${hospitalId}. Please check the ID and try again.` }
       });
     }
     logger.info(`Fetched staff for HospitalIDR ${hospitalId} successfully`);
     res.json({
-      meta: { statusCode: 200 },
+      meta: { statusCode: 200, executionTime: `${end - start}ms` },
       data: staff
     });
   } catch (error) {
     logger.error(`Error fetching staff for HospitalIDR ${hospitalId}: ${error.message}`);
+    const end = Date.now(); 
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1011 },
+      meta: { statusCode: 500, errorCode: 1011, executionTime: `${end - start}ms` },
       error: { message: `Failed to fetch staff for HospitalIDR ${hospitalId} due to a server error. Please try again later.` }
     });
   } finally {
@@ -560,14 +576,16 @@ exports.getPaginatedStaff = async (req, res) => {
     });
 
     if (!staff.length) {
+      const end = Date.now(); 
       logger.warn('No staff found for the given page and page size');
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1013 },
+        meta: { statusCode: 404, errorCode: 1013, executionTime: `${end - start}ms` },
         error: { message: 'No staff found for the given page and page size. Please adjust your parameters and try again.' }
       });
     }
 
     logger.info(`Fetched staff for page ${page} with pageSize ${pageSize} successfully`);
+    const end = Date.now(); 
     res.json({
       meta: { statusCode: 200 },
       data: {
@@ -583,7 +601,7 @@ exports.getPaginatedStaff = async (req, res) => {
   } catch (error) {
     logger.error(`Error fetching staff for page ${page} with pageSize ${pageSize}: ${error.message}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1014 },
+      meta: { statusCode: 500, errorCode: 1014, executionTime: `${end - start}ms` },
       error: { message: 'Failed to fetch staff due to a server error. Please try again later.' }
     });
   } finally {
