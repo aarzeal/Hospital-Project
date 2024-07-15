@@ -1,7 +1,14 @@
 const logger = require('../logger'); // Assuming you have a logger module
 
+// Helper function to log execution time
+const logExecutionTime = (start, end, methodName) => {
+  const duration = end - start;
+  logger.info(`${methodName} executed in ${duration}ms`);
+};
+
 // GET all departments
 exports.getAllDepartments = async (req, res) => {
+  const start = Date.now();
   try {
     const Department = require('../models/DepartmentModel')(req.sequelize);
     const departments = await Department.findAll();
@@ -16,11 +23,14 @@ exports.getAllDepartments = async (req, res) => {
       meta: { statusCode: 500, errorCode: 1000 },
       error: { message: 'Failed to fetch departments due to a server error. Please try again later.' }
     });
+  } finally {
+    logExecutionTime(start, Date.now(), 'getAllDepartments');
   }
 };
 
 // GET single department by ID
 exports.getDepartmentById = async (req, res) => {
+  const start = Date.now();
   const { id } = req.params;
   try {
     const Department = require('../models/DepartmentModel')(req.sequelize);
@@ -43,11 +53,14 @@ exports.getDepartmentById = async (req, res) => {
       meta: { statusCode: 500, errorCode: 1002 },
       error: { message: `Failed to fetch department with ID ${id} due to a server error. Please try again later.` }
     });
+  } finally {
+    logExecutionTime(start, Date.now(), 'getDepartmentById');
   }
 };
 
 // POST create a new department
 exports.createDepartment = async (req, res) => {
+  const start = Date.now();
   const { DepartmentName, DeptCode, IsClinical, CreatedBy } = req.body;
   const HospitalIDR = req.hospitalId;
 
@@ -73,11 +86,14 @@ exports.createDepartment = async (req, res) => {
       meta: { statusCode: 500, errorCode: 1003 },
       error: { message: 'Failed to create department due to a server error. Please ensure all fields are correctly filled and try again.' }
     });
+  } finally {
+    logExecutionTime(start, Date.now(), 'createDepartment');
   }
 };
 
 // PUT update an existing department
 exports.updateDepartment = async (req, res) => {
+  const start = Date.now();
   const { id } = req.params;
   const { DepartmentName, DeptCode, IsClinical, EditedBy, IsActive } = req.body;
 
@@ -109,11 +125,14 @@ exports.updateDepartment = async (req, res) => {
       meta: { statusCode: 500, errorCode: 1005 },
       error: { message: `Failed to update department with ID ${id} due to a server error. Please try again later.` }
     });
+  } finally {
+    logExecutionTime(start, Date.now(), 'updateDepartment');
   }
 };
 
 // DELETE delete a department
 exports.deleteDepartment = async (req, res) => {
+  const start = Date.now();
   const { id } = req.params;
 
   try {
@@ -138,10 +157,14 @@ exports.deleteDepartment = async (req, res) => {
       meta: { statusCode: 500, errorCode: 1007 },
       error: { message: `Failed to delete department with ID ${id} due to a server error. Please try again later.` }
     });
+  } finally {
+    logExecutionTime(start, Date.now(), 'deleteDepartment');
   }
 };
 
+// GET departments by Hospital ID
 exports.getDepartmentsByHospitalId = async (req, res) => {
+  const start = Date.now();
   const { hospitalId } = req.params;
 
   try {
@@ -159,14 +182,17 @@ exports.getDepartmentsByHospitalId = async (req, res) => {
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1008 },
       error: {
-        message:
-          `Failed to fetch departments for Hospital ID ${hospitalId} due to a server error. Please try again later.`,
+        message: `Failed to fetch departments for Hospital ID ${hospitalId} due to a server error. Please try again later.`,
       },
     });
+  } finally {
+    logExecutionTime(start, Date.now(), 'getDepartmentsByHospitalId');
   }
 };
 
-exports.getAllDepartments = async (req, res) => {
+// GET all departments with pagination
+exports.getDepartmentsWithPagination = async (req, res) => {
+  const start = Date.now();
   const { page = 1, limit = 10 } = req.query;
   const offset = (page - 1) * limit;
 
@@ -183,7 +209,7 @@ exports.getAllDepartments = async (req, res) => {
         departments: rows,
         totalItems: count,
         totalPages: Math.ceil(count / limit),
-        currentPage: page,
+        currentPage: parseInt(page),
       },
     });
   } catch (error) {
@@ -191,9 +217,10 @@ exports.getAllDepartments = async (req, res) => {
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1000 },
       error: {
-        message:
-          'Failed to fetch departments due to a server error. Please try again later.',
+        message: 'Failed to fetch departments due to a server error. Please try again later.',
       },
     });
+  } finally {
+    logExecutionTime(start, Date.now(), 'getDepartmentsWithPagination');
   }
 };

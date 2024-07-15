@@ -1926,3 +1926,234 @@
 {"level":"info","message":"Created new department successfully","timestamp":"2024-07-11T07:32:54.516Z"}
 {"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-11T10:03:44.138Z"}
 {"level":"info","message":"Fetched all departments successfully","timestamp":"2024-07-11T10:03:44.159Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-11T10:26:13.028Z"}
+{"level":"info","message":"Fetched all departments successfully","timestamp":"2024-07-11T10:26:13.045Z"}
+{"level":"info","message":"getAllDepartments executed in 21ms","timestamp":"2024-07-11T10:26:13.051Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-12T04:21:09.616Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-12T04:21:09.618Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-12T04:21:09.620Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-12T04:21:09.620Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 82ms","timestamp":"2024-07-12T04:21:09.682Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T04:22:51.942Z"}
+{"level":"info","message":"Fetched staff for page 1 with pageSize 10 successfully","timestamp":"2024-07-12T04:22:51.970Z"}
+{"level":"info","message":"getPaginatedStaff executed in 29ms","timestamp":"2024-07-12T04:22:51.972Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T04:23:36.690Z"}
+{"level":"warn","message":"Staff with ID pagination not found","timestamp":"2024-07-12T04:23:36.708Z"}
+{"level":"info","message":"getStaffById executed in 19ms","timestamp":"2024-07-12T04:23:36.711Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T04:23:41.130Z"}
+{"level":"warn","message":"Staff with ID pagination not found","timestamp":"2024-07-12T04:23:41.142Z"}
+{"level":"info","message":"getStaffById executed in 13ms","timestamp":"2024-07-12T04:23:41.143Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T04:24:12.161Z"}
+{"level":"warn","message":"Staff with ID pagination not found","timestamp":"2024-07-12T04:24:12.180Z"}
+{"level":"info","message":"getStaffById executed in 20ms","timestamp":"2024-07-12T04:24:12.183Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T04:24:19.336Z"}
+{"level":"info","message":"Fetched staff for page 1 with pageSize 10 successfully","timestamp":"2024-07-12T04:24:19.355Z"}
+{"level":"info","message":"getPaginatedStaff executed in 20ms","timestamp":"2024-07-12T04:24:19.356Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T06:29:58.249Z"}
+{"level":"info","message":"Fetched staff for page 1 with pageSize 10 successfully","timestamp":"2024-07-12T06:29:58.268Z"}
+{"level":"info","message":"getPaginatedStaff executed in 23ms","timestamp":"2024-07-12T06:29:58.274Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T06:32:53.957Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T06:39:42.132Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T06:40:00.554Z"}
+{"level":"error","message":"Error creating Employee Category: EmpCategory.create is not a function","timestamp":"2024-07-12T06:40:00.557Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T06:41:37.383Z"}
+{"level":"error","message":"Error creating Employee Category: EmpCategory.create is not a function","timestamp":"2024-07-12T06:41:37.385Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T07:13:01.269Z"}
+{"level":"error","message":"Error creating Employee Category: EmpCategory.create is not a function","timestamp":"2024-07-12T07:13:01.271Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T08:53:25.791Z"}
+{"level":"error","message":"Error creating Employee Category: EmpCategory.create is not a function","timestamp":"2024-07-12T08:53:25.794Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T09:06:17.231Z"}
+{"level":"info","message":"Created new EmpCategory successfully in 182ms","timestamp":"2024-07-12T09:06:17.415Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-12T09:08:28.342Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-12T09:08:28.344Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-12T09:08:28.345Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-12T09:08:28.346Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 75ms","timestamp":"2024-07-12T09:08:28.407Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T09:08:49.685Z"}
+{"level":"info","message":"Created new EmpCategory successfully in 40ms","timestamp":"2024-07-12T09:08:49.726Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T09:09:20.717Z"}
+{"level":"info","message":"Created new EmpCategory successfully in 40ms","timestamp":"2024-07-12T09:09:20.759Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T09:10:31.758Z"}
+{"level":"info","message":"Created new EmpCategory successfully in 55ms","timestamp":"2024-07-12T09:10:31.815Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T09:20:21.729Z"}
+{"level":"info","message":"Fetched Employee Category with ID 2 successfully","timestamp":"2024-07-12T09:20:21.750Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T09:20:44.700Z"}
+{"level":"info","message":"Fetched Employee Category with ID 2 successfully","timestamp":"2024-07-12T09:20:44.719Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T09:23:15.611Z"}
+{"level":"info","message":"Fetched Employee Categories successfully","timestamp":"2024-07-12T09:23:15.632Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T09:23:48.417Z"}
+{"level":"info","message":"Fetched Employee Categories successfully","timestamp":"2024-07-12T09:23:48.436Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T09:26:24.232Z"}
+{"level":"info","message":"Fetched Employee Categories successfully","timestamp":"2024-07-12T09:26:24.249Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T09:26:35.634Z"}
+{"level":"info","message":"Fetched Employee Category with ID 2 successfully","timestamp":"2024-07-12T09:26:35.656Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T09:26:57.935Z"}
+{"level":"info","message":"Fetched Employee Category with ID 2 successfully","timestamp":"2024-07-12T09:26:57.946Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T09:32:41.066Z"}
+{"level":"info","message":"Deleted Employee Category with ID 2 successfully in 48ms","timestamp":"2024-07-12T09:32:41.114Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T10:09:23.852Z"}
+{"level":"info","message":"Deleted Employee Category with ID 3 successfully in 43ms","timestamp":"2024-07-12T10:09:23.897Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T11:19:07.889Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T11:26:21.471Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T12:17:25.419Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T12:18:02.124Z"}
+{"level":"error","message":"Error creating employee: Cannot find module '../employeeConfig.json'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\models\\tblEmployee.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\createEmployeecontroller.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\employeeRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js in 1ms","timestamp":"2024-07-12T12:18:02.127Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T12:19:07.454Z"}
+{"level":"error","message":"Error creating employee: Cannot find module '../employeeConfig.json'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\models\\tblEmployee.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\createEmployeecontroller.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\employeeRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js in 2ms","timestamp":"2024-07-12T12:19:07.459Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T12:19:25.415Z"}
+{"level":"error","message":"Error creating employee: Validation error: Invalid gender value,\nValidation error: Invalid blood group value,\nValidation error: Invalid nationality value,\nValidation error: Invalid religion value,\nValidation error: Invalid caste value,\nValidation error: Invalid qualification value,\nValidation error: Invalid marital status value in 155ms","timestamp":"2024-07-12T12:19:25.572Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T12:29:45.938Z"}
+{"level":"error","message":"Error creating employee: Validation error: config is not defined,\nValidation error: config is not defined,\nValidation error: config is not defined,\nValidation error: config is not defined,\nValidation error: config is not defined,\nValidation error: config is not defined,\nValidation error: config is not defined in 22ms","timestamp":"2024-07-12T12:29:45.963Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T12:30:38.483Z"}
+{"level":"error","message":"Error creating employee: Validation error: Invalid gender value,\nValidation error: Invalid blood group value,\nValidation error: Invalid nationality value,\nValidation error: Invalid religion value,\nValidation error: Invalid cast value,\nValidation error: Invalid qualification value,\nValidation error: Invalid marital status value in 21ms","timestamp":"2024-07-12T12:30:38.508Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T12:31:33.698Z"}
+{"level":"error","message":"Error creating employee: Validation error: Invalid gender value,\nValidation error: Invalid blood group value,\nValidation error: Invalid nationality value,\nValidation error: Invalid religion value,\nValidation error: Invalid cast value,\nValidation error: Invalid qualification value,\nValidation error: Invalid marital status value in 18ms","timestamp":"2024-07-12T12:31:33.716Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-12T12:33:07.573Z"}
+{"level":"error","message":"Error creating employee: Validation error: Invalid gender value,\nValidation error: Invalid blood group value,\nValidation error: Invalid nationality value,\nValidation error: Invalid religion value,\nValidation error: Invalid cast value,\nValidation error: Invalid qualification value,\nValidation error: Invalid marital status value in 21ms","timestamp":"2024-07-12T12:33:07.597Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-13T05:22:24.538Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-13T05:22:24.540Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-13T05:22:24.541Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-13T05:22:24.542Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 82ms","timestamp":"2024-07-13T05:22:24.604Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T05:23:08.962Z"}
+{"level":"error","message":"Validation error creating employee: Invalid gender value,\nInvalid blood group value,\nInvalid nationality value,\nInvalid religion value,\nInvalid cast value,\nInvalid qualification value,\nInvalid marital status value in 22ms","timestamp":"2024-07-13T05:23:08.984Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T05:44:21.657Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T05:45:44.875Z"}
+{"level":"error","message":"Error creating employee: Employee.sync is not a function in 1ms","timestamp":"2024-07-13T05:45:44.878Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T05:57:03.698Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading 'sync') in 0ms","timestamp":"2024-07-13T05:57:03.701Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T06:33:32.842Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 16ms","timestamp":"2024-07-13T06:33:32.861Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T06:38:12.970Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 15ms","timestamp":"2024-07-13T06:38:12.987Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T06:40:25.586Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 14ms","timestamp":"2024-07-13T06:40:25.602Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T06:44:38.662Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading 'sync') in 0ms","timestamp":"2024-07-13T06:44:38.665Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T06:46:08.372Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading 'sync') in 0ms","timestamp":"2024-07-13T06:46:08.374Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T06:51:16.291Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 14ms","timestamp":"2024-07-13T06:51:16.308Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T06:52:30.951Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 15ms","timestamp":"2024-07-13T06:52:30.969Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T06:53:17.323Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 13ms","timestamp":"2024-07-13T06:53:17.338Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T06:55:34.846Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 13ms","timestamp":"2024-07-13T06:55:34.861Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T06:57:01.983Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 13ms","timestamp":"2024-07-13T06:57:01.998Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T06:57:42.707Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 14ms","timestamp":"2024-07-13T06:57:42.723Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T07:13:13.480Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 18ms","timestamp":"2024-07-13T07:13:13.498Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T07:13:51.157Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 14ms","timestamp":"2024-07-13T07:13:51.172Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T07:14:02.974Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 13ms","timestamp":"2024-07-13T07:14:02.990Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T07:14:19.554Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 17ms","timestamp":"2024-07-13T07:14:19.572Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T07:15:14.878Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 17ms","timestamp":"2024-07-13T07:15:14.895Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T07:36:14.992Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading '1') in 15ms","timestamp":"2024-07-13T07:36:15.009Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T07:36:32.178Z"}
+{"level":"error","message":"Error creating employee: require(...) is not a function in 0ms","timestamp":"2024-07-13T07:36:32.180Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T07:37:05.567Z"}
+{"level":"error","message":"Error creating employee: require(...) is not a function in 0ms","timestamp":"2024-07-13T07:37:05.569Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T07:37:26.234Z"}
+{"level":"error","message":"Error creating employee: require(...) is not a function in 1ms","timestamp":"2024-07-13T07:37:26.237Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T07:42:50.989Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading 'create') in 0ms","timestamp":"2024-07-13T07:42:50.991Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:11:26.822Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading 'create') in 0ms","timestamp":"2024-07-13T09:11:26.823Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:13:08.032Z"}
+{"level":"error","message":"Error creating employee: Cannot read properties of undefined (reading 'create') in 0ms","timestamp":"2024-07-13T09:13:08.033Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:21:36.029Z"}
+{"level":"error","message":"Error creating department: notNull Violation: Department.DepartmentName cannot be null,\nnotNull Violation: Department.DeptCode cannot be null,\nnotNull Violation: Department.CreatedBy cannot be null","timestamp":"2024-07-13T09:21:36.190Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:21:45.387Z"}
+{"level":"error","message":"Error creating department: notNull Violation: Department.DepartmentName cannot be null,\nnotNull Violation: Department.DeptCode cannot be null,\nnotNull Violation: Department.CreatedBy cannot be null","timestamp":"2024-07-13T09:21:45.408Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:23:19.556Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T09:23:19.610Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:33:26.726Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T09:33:26.774Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:33:36.785Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T09:33:36.824Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:38:33.273Z"}
+{"level":"error","message":"Error creating department: Validation error: config is not defined","timestamp":"2024-07-13T09:38:33.295Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:39:20.476Z"}
+{"level":"error","message":"Error creating department: Validation error: config is not defined","timestamp":"2024-07-13T09:39:20.497Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:41:32.562Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T09:41:32.635Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:42:21.815Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T09:42:21.901Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:51:10.819Z"}
+{"level":"error","message":"Error creating department: notNull Violation: Employee.Gender cannot be null","timestamp":"2024-07-13T09:51:10.843Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:53:09.933Z"}
+{"level":"error","message":"Error creating department: notNull Violation: Employee.Gender cannot be null","timestamp":"2024-07-13T09:53:09.950Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:57:23.360Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T09:57:23.414Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:59:27.959Z"}
+{"level":"error","message":"Error creating department: notNull Violation: Employee.Gender cannot be null","timestamp":"2024-07-13T09:59:27.981Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T09:59:56.255Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T09:59:56.302Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:00:48.071Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T10:00:48.125Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:03:13.005Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T10:03:13.069Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:03:28.370Z"}
+{"level":"error","message":"Error creating department: notNull Violation: Employee.Gender cannot be null","timestamp":"2024-07-13T10:03:28.391Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:03:34.522Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T10:03:34.560Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:04:17.763Z"}
+{"level":"error","message":"Error creating department: Cannot convert undefined or null to object","timestamp":"2024-07-13T10:04:17.780Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:04:34.668Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T10:04:34.726Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:24:52.423Z"}
+{"level":"error","message":"Error creating department: notNull Violation: Employee.Gender cannot be null","timestamp":"2024-07-13T10:24:52.449Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:31:59.703Z"}
+{"level":"error","message":"Error creating department: key is not defined","timestamp":"2024-07-13T10:31:59.720Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:32:14.384Z"}
+{"level":"error","message":"Error creating department: notNull Violation: Employee.Gender cannot be null","timestamp":"2024-07-13T10:32:14.409Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:34:08.223Z"}
+{"level":"error","message":"Error creating department: Validation error: Invalid gender value","timestamp":"2024-07-13T10:34:08.245Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:34:25.487Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T10:34:25.544Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:34:50.900Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T10:34:50.952Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:37:06.513Z"}
+{"level":"error","message":"Error creating department: Validation error: Invalid gender value: 1000. Valid values are: 3, 200, 2000","timestamp":"2024-07-13T10:37:06.536Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:37:33.101Z"}
+{"level":"error","message":"Error creating department: Validation error: Invalid gender value: 200. Valid values are: 3, 200, 2000","timestamp":"2024-07-13T10:37:33.121Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:37:51.645Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T10:37:51.695Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:49:34.024Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T10:49:34.076Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T10:49:47.128Z"}
+{"level":"error","message":"Error creating department: Validation error: Invalid gender value: 120. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8","timestamp":"2024-07-13T10:49:47.146Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T11:50:28.237Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T11:51:12.325Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T11:54:04.013Z"}
+{"level":"warn","message":"Employee with ID undefined not found","timestamp":"2024-07-13T11:54:04.017Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T11:54:26.459Z"}
+{"level":"warn","message":"Employee with ID undefined not found","timestamp":"2024-07-13T11:54:26.463Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T11:55:22.005Z"}
+{"level":"error","message":"Error fetching employee: config is not defined","timestamp":"2024-07-13T11:55:22.028Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T11:56:37.859Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T11:59:16.003Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T11:59:21.349Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T11:59:52.801Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:07:30.198Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:10:55.051Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:13:30.774Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:13:47.152Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:15:29.195Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:17:21.402Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:18:06.043Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:18:36.268Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T12:18:36.320Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:21:27.045Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T12:21:27.080Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:25:18.531Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-13T12:25:18.590Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:25:37.555Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-13T12:26:21.650Z"}

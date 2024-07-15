@@ -1,0 +1,49 @@
+{
+  "Gender": {
+    "1": "Male",
+    "2": "Female",
+    "3": "Other"
+  },
+  "BloodGroup": {
+    "1": "A+",
+    "2": "A-",
+    "3": "B+",
+    "4": "B-",
+    "5": "AB+",
+    "6": "AB-",
+    "7": "O+",
+    "8": "O-"
+  },
+  "Nationality": {
+    "1": "American",
+    "2": "Canadian",
+    "3": "British",
+    "4": "Indian"
+  },
+  "Religion": {
+    "1": "Christianity",
+    "2": "Islam",
+    "3": "Hinduism",
+    "4": "Buddhism",
+    "5": "Judaism",
+    "6": "Sikhism"
+  },
+  "Cast": {
+    "1": "General",
+    "2": "OBC",
+    "3": "SC",
+    "4": "ST"
+  },
+  "Qualification": {
+    "1": "High School",
+    "2": "Bachelor's",
+    "3": "Master's",
+    "4": "PhD"
+  },
+  "MaritalStatus": {
+    "1": "Single",
+    "2": "Married",
+    "3": "Divorced",
+    "4": "Widowed"
+  }
+}

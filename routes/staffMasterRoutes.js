@@ -18,7 +18,7 @@ router.delete('/staff/:id', authenticate,hospitalController.ensureSequelizeInsta
 // router.get('/staff/hospitalGroup/:hospitalGroupID',authenticate, staffController.getStaffMembersByHospitalGroupID);
 router.get('/staff/',authenticate, hospitalController.ensureSequelizeInstance,staffController.getAllStaff);
 router.get('/hospitalId/:hospitalId', authenticate,hospitalController.ensureSequelizeInstance, staffController.getStaffByHospitalIDR);
-// router.get('/hospital-group/:hospitalGroupId', authenticate, hospitalController.ensureSequelizeInstance,staffController.getStaffByHospitalGroupId);
+ router.get('/hospital/staff', authenticate, hospitalController.ensureSequelizeInstance,staffController.getPaginatedStaff);
 
 
 module.exports = router;
