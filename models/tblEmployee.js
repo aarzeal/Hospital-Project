@@ -43,12 +43,12 @@ module.exports = (sequelize) => {
     //   allowNull: false
     //   // Add reference to Skill model if needed
     // },
-    SkillSetIDR: {
+    SpecialtyIDR: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'tblskill', // Adjusted to match your actual table name
-        key: 'SkillId',
+        model: 'tblspecialty', // Adjusted to match your actual table name
+        key: 'SpecialtyId',
         onDelete: 'CASCADE', // or other appropriate action
   onUpdate: 'CASCADE' // or other appropriate action
       }
@@ -338,8 +338,35 @@ module.exports = (sequelize) => {
     PracticeNumber: {
       type: DataTypes.STRING(30),
       allowNull: false
+    },
+    Reserve1 : {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve2: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve3: {
+      type: DataTypes.STRING(30),
+      allowNull: true
+    },
+    Reserve4: {
+      type: DataTypes.STRING(30),
+      allowNull: true
     }
-  }, {
+
+
+
+
+
+
+
+
+
+  }, 
+  
+  {
     tableName: 'tblEmployee',
     timestamps: false
   });

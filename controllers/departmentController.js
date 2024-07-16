@@ -67,7 +67,7 @@ exports.getDepartmentById = async (req, res) => {
 // POST create a new department
 exports.createDepartment = async (req, res) => {
   const start = Date.now();
-  const { DepartmentName, DeptCode, IsClinical, CreatedBy } = req.body;
+  const { DepartmentName, DeptCode, IsClinical, CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
   const HospitalIDR = req.hospitalId;
 
   try {
@@ -79,7 +79,7 @@ exports.createDepartment = async (req, res) => {
       IsClinical,
       IsActive: true,
       CreatedBy,
-      HospitalIDR
+      HospitalIDR, Reserve1, Reserve2, Reserve3, Reserve4
     });
     logger.info('Created new department successfully');
     const end = Date.now(); 

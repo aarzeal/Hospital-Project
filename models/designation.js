@@ -46,6 +46,23 @@ module.exports = (sequelize) => {
       //   key: 'HospitalID'
       // }
     }
+    ,
+    Reserve1 : {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve2: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve3: {
+      type: DataTypes.STRING(250),
+      allowNull: true
+    },
+    Reserve4: {
+      type: DataTypes.STRING(250),
+      allowNull: true
+    }
   }, {
     tableName: 'tbldesignation',
     timestamps: false

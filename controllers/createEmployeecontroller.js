@@ -50,7 +50,7 @@ exports.createEmployee = async (req, res) => {
         SalaryPlanIDF, RulePlanIDF, BankLedgerIDF, HoursPerDay, BankAcNo, SSFApplicable,
         SSFNo, NoOfChildren, NoOfDependant, IsEmployeeRetire, IsSalaryOnHold, HealthCardNo,
         PassPortNo, PassPortExpDate, EmployeeType, DutyScheduleType, RelationWithMName,
-        ReasonOfLeaving, EmpBankIDR, GovernmentPlan, PracticeNumber } = req.body;
+        ReasonOfLeaving, EmpBankIDR, GovernmentPlan, PracticeNumber, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
   const HospitalIDR = req.hospitalId;
 
   try {
@@ -106,7 +106,7 @@ exports.createEmployee = async (req, res) => {
             ReasonOfLeaving,
             EmpBankIDR,
             GovernmentPlan,
-            PracticeNumber
+            PracticeNumber, Reserve1, Reserve2, Reserve3, Reserve4
     });
     logger.info('Created new department successfully');
     const end = Date.now(); 
@@ -242,6 +242,7 @@ exports.deleteEmployee = async (req, res) => {
     });
   }
 };
+
 
 
 exports.getEmployeeWithPagination = async (req, res) => {

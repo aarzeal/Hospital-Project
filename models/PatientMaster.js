@@ -176,7 +176,24 @@ const PatientMaster = sequelize.define('Patient_master', {
   createdBy: {
     type: DataTypes.STRING,
     allowNull: true // Allow createdBy to be nullable
-  },
+  }
+  ,
+    Reserve1 : {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve2: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve3: {
+      type: DataTypes.STRING(30),
+      allowNull: true
+    },
+    Reserve4: {
+      type: DataTypes.STRING(30),
+      allowNull: true
+    }
   
     // sequelize,
     // modelName: 'PatientMaster',

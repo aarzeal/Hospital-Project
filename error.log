@@ -413,3 +413,24 @@
 {"level":"error","message":"Error creating department: Can't create table `a8`.`tblemployee` (errno: 150 \"Foreign key constraint is incorrectly formed\")","timestamp":"2024-07-15T09:03:55.849Z"}
 {"level":"error","message":"Error fetching all employees: Cannot read properties of undefined (reading 'findAll')","timestamp":"2024-07-15T09:25:25.268Z"}
 {"level":"error","message":"Error fetching all employees: Table 'a8.tblemployee' doesn't exist","timestamp":"2024-07-15T09:26:31.030Z"}
+{"level":"error","message":"Error creating skill: start is not defined in 182ms","timestamp":"2024-07-15T12:19:03.428Z"}
+{"level":"error","message":"Error creating skill: start is not defined ","timestamp":"2024-07-15T12:20:45.934Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:48:25.838Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:49:42.815Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:51:48.293Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:53:13.532Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:53:25.553Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:53:47.912Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:54:03.369Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:54:49.227Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:56:31.689Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:57:06.739Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:57:35.963Z"}
+{"0":{"instance":{"Address":"123 Main St, City, Country","Age":30,"BloodGroup":"O+","CreatedBy":"admin@example.com","DOB":"1994-05-15","Email":"john.smitshxample.com","EmergencyContactName":"Jane Doe","EmergencyContactPhone":"1234567890","Experience":5,"FirstName":"vdfvdd","Gender":"Male","HospitalIDR":52,"Id":null,"IsActive":true,"Language":"English","LastName":"Smitsh","MaritalStatus":"Single","MiddleName":"Dsoe","MobileNumber":"9876543210","Nationality":"American","Qualification":"Medical Doctor","Specialization":"Cardiology","WhatsAppNumber":"9876543210"},"message":"Validation isEmail on Email failed","origin":"FUNCTION","original":{"validatorArgs":[{"allow_display_name":false,"allow_underscores":false,"allow_utf8_local_part":true,"blacklisted_chars":"","host_blacklist":[],"host_whitelist":[],"ignore_max_length":false,"require_display_name":false,"require_tld":true}],"validatorName":"isEmail"},"path":"Email","type":"Validation error","validatorArgs":[{"allow_display_name":false,"allow_underscores":false,"allow_utf8_local_part":true,"blacklisted_chars":"","host_blacklist":[],"host_whitelist":[],"ignore_max_length":false,"require_display_name":false,"require_tld":true}],"validatorKey":"isEmail","validatorName":"isEmail","value":"john.smitshxample.com"},"level":"error","message":"Validation error creating staff:","timestamp":"2024-07-16T08:58:00.246Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:59:25.166Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T09:09:16.417Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T09:32:24.958Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T09:32:42.558Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T11:12:40.859Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T11:36:32.596Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T11:36:51.098Z"}

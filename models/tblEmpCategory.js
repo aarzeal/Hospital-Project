@@ -76,6 +76,22 @@ module.exports = (sequelize) => {
     HospitalGroupIDR: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    Reserve1 : {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve2: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve3: {
+      type: DataTypes.STRING(250),
+      allowNull: true
+    },
+    Reserve4: {
+      type: DataTypes.STRING(250),
+      allowNull: true
     }
   }, {
     tableName: 'tblEmpCategory',

@@ -1,4 +1,5 @@
 const { body } = require('express-validator');
+const StaffMaster = require('../models/staffMaster');
 // const User = require('../models/user'); 
 // const PatientMaster = require('../models/PatientMaster');
 
@@ -484,10 +485,16 @@ exports.createStaffValidationRules = () => {
       .notEmpty().withMessage('Last Name is required')
       .isLength({ max: 50 }).withMessage('Last Name cannot exceed 50 characters')
       .matches(/^[a-zA-Z\s]+$/).withMessage('Last Name can only contain letters and spaces'),
-    body('Email')
-      .notEmpty().withMessage('Email is required')
+      body('Email')
+      .optional()
       .isEmail().withMessage('Email must be a valid email address')
       .isLength({ max: 100 }).withMessage('Email cannot exceed 100 characters'),
+      // .custom(async (value, { req }) => {
+      //   const staff = await StaffMaster.findOne({ where: { Email: value } });
+      //   if (staff && staff.Id !== req.params.id) {
+      //     return Promise.reject('Email is already registered');
+      //   }
+      // }),
     body('Address')
       .notEmpty().withMessage('Address is required')
       .isLength({ max: 255 }).withMessage('Address cannot exceed 255 characters'),
@@ -556,7 +563,7 @@ exports.updateStaffValidationRules = () => {
 
 
 
-exports.createStaffValidationRules = () => {
+exports.createSkillValidationRules = () => {
   return [
     body('SkillName')
       .notEmpty().withMessage('SkillName is required')
@@ -571,7 +578,7 @@ exports.createStaffValidationRules = () => {
   ];
 };
 
-exports.updateStaffValidationRules = () => {
+exports.updateSkillValidationRules = () => {
   return [
     body('SkillName')
       .optional()
@@ -847,5 +854,89 @@ exports.updateEmployeeValidationRules = () => {
     body('MaritalStatus')
       .optional()
       .isIn(Object.keys(config.MaritalStatus).map(Number)).withMessage(`Marital Status must be one of ${Object.keys(config.MaritalStatus).map(Number).join(', ')}`)
+  ];
+};
+
+exports.createSkillValidationRules = () => {
+  return [
+    body('SkillName')
+      .notEmpty().withMessage('Skill Name is required')
+      .isLength({ max: 40 }).withMessage('Skill Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('SkillName can only contain letters'),
+    body('IsClinicalSkill')
+      .notEmpty().withMessage('Is Clinical Skill is required')
+      .isBoolean().withMessage('Is Clinical Skill must be a boolean value'),
+    body('IsActive')
+      .optional()
+      .isBoolean().withMessage('IsActive must be a boolean value'),
+    body('CreatedBy')
+      .notEmpty().withMessage('Created By is required')
+      .isString().withMessage('Created By must be a string'),
+    body('CreatedAt')
+      .optional()
+      .isISO8601().withMessage('Created At must be a valid date'),
+    body('EditedBy')
+      .optional()
+      .isString().withMessage('Edited By must be a string'),
+    body('EditedAt')
+      .optional()
+      .isISO8601().withMessage('Edited At must be a valid date'),
+    body('HospitalIDR')
+      .notEmpty().withMessage('Hospital IDR is required')
+      .isInt().withMessage('Hospital IDR must be an integer'),
+    body('Reserve1')
+      .optional()
+      .isInt().withMessage('Reserve1 must be an integer'),
+    body('Reserve2')
+      .optional()
+      .isInt().withMessage('Reserve2 must be an integer'),
+    body('Reserve3')
+      .optional()
+      .isLength({ max: 250 }).withMessage('Reserve3 cannot exceed 250 characters'),
+    body('Reserve4')
+      .optional()
+      .isLength({ max: 250 }).withMessage('Reserve4 cannot exceed 250 characters')
+  ];
+};
+
+exports.updateSkillValidationRules = () => {
+  return [
+    body('SkillName')
+      .optional()
+      .isLength({ max: 40 }).withMessage('Skill Name cannot exceed 40 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Skill Name can only contain letters and spaces'),
+    body('IsClinicalSkill')
+      .optional()
+      .isBoolean().withMessage('Is Clinical Skill must be a boolean value'),
+    body('IsActive')
+      .optional()
+      .isBoolean().withMessage('IsActive must be a boolean value'),
+    body('CreatedBy')
+      .optional()
+      .isString().withMessage('Created By must be a string'),
+    body('CreatedAt')
+      .optional()
+      .isISO8601().withMessage('Created At must be a valid date'),
+    body('EditedBy')
+      .optional()
+      .isString().withMessage('Edited By must be a string'),
+    body('EditedAt')
+      .optional()
+      .isISO8601().withMessage('Edited At must be a valid date'),
+    body('HospitalIDR')
+      .optional()
+      .isInt().withMessage('Hospital IDR must be an integer'),
+    body('Reserve1')
+      .optional()
+      .isInt().withMessage('Reserve1 must be an integer'),
+    body('Reserve2')
+      .optional()
+      .isInt().withMessage('Reserve2 must be an integer'),
+    body('Reserve3')
+      .optional()
+      .isLength({ max: 250 }).withMessage('Reserve3 cannot exceed 250 characters'),
+    body('Reserve4')
+      .optional()
+      .isLength({ max: 250 }).withMessage('Reserve4 cannot exceed 250 characters')
   ];
 };

@@ -1,5 +1,6 @@
 const DoctorMaster = require('../models/doctorMaster');
 const logger = require('../logger'); // Adjust path as needed
+const { validationResult } = require('express-validator');
 
 // GET all doctors
 exports.getAllDoctors = async (req, res) => {
@@ -49,7 +50,26 @@ exports.getDoctorById = async (req, res) => {
 
 // POST create a new doctor
 exports.createDoctor = async (req, res) => {
-  const { FirstName, MiddleName, LastName, Qualification, Specialization, Email, Address, WhatsAppNumber, MobileNumber, DateOfBirth, Gender, LicenseNumber, YearsOfExperience, CreatedBy } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const end = Date.now(); 
+      logger.info('Validation errors occurred', errors);
+      return res.status(400).json({
+          meta: {
+              statusCode: 400,
+              errorCode: 912,
+              executionTime: `${end - start}ms`
+          },
+          error: {
+              message: 'Validation errors occurred',
+              details: errors.array().map(err => ({
+                  field: err.param,
+                  message: err.msg
+              }))
+          }
+      });
+  }
+  const { FirstName, MiddleName, LastName, Qualification, Specialization, Email, Address, WhatsAppNumber, MobileNumber, DateOfBirth, Gender, LicenseNumber, YearsOfExperience, CreatedBy , Reserve1, Reserve2, Reserve3, Reserve4} = req.body;
   const HospitalID = req.hospitalId;
   // const HospitalGroupIDR = req.body;
 
@@ -71,7 +91,7 @@ exports.createDoctor = async (req, res) => {
       Gender,
       LicenseNumber,
       YearsOfExperience,
-      HospitalID,
+      HospitalID, Reserve1, Reserve2, Reserve3, Reserve4,
       
       IsActive: true,
       CreatedBy

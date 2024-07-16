@@ -1403,6 +1403,15 @@ exports.ensureSequelizeInstance = (req, res, next) => {
   req.sequelize = sequelize;
   logger.info('Sequelize instance created successfully');
   next();
+
+  sequelize.sync({ alter: true })
+  .then(() => {
+    console.log('Database synchronized successfully.');
+  })
+  .catch(error => {
+    console.error('Error synchronizing the database:', error);
+  });
+  
 };
 
 // exports.createUser =async (req, res) => {

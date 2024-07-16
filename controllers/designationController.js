@@ -49,7 +49,7 @@ exports.getAllDesignations = async (req, res) => {
   };
   
   exports.createDesignation = async (req, res) => {
-    const { Designationname, DesignationCode, CreatedBy } = req.body;
+    const { Designationname, DesignationCode, CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
     const HospitalIDR = req.hospitalId;
   
     try {
@@ -60,7 +60,7 @@ exports.getAllDesignations = async (req, res) => {
         DesignationCode,
         IsActive: true,
         CreatedBy,
-        HospitalIDR
+        HospitalIDR, Reserve1, Reserve2, Reserve3, Reserve4
       });
       logger.info('Created new designation successfully');
       res.status(201).json({

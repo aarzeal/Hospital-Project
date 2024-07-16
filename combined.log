@@ -2276,3 +2276,130 @@
 {"errors":[{"location":"body","msg":"First Name can only contain letters and spaces","path":"FName","type":"field","value":"@"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-15T10:15:15.212Z"}
 {"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T10:23:03.687Z"}
 {"errors":[{"location":"body","msg":"First Name can only contain letters and spaces","path":"FName","type":"field","value":"@"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-15T10:23:03.689Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-15T12:18:42.332Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-15T12:18:42.334Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-15T12:18:42.335Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-15T12:18:42.335Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 79ms","timestamp":"2024-07-15T12:18:42.396Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T12:19:03.245Z"}
+{"level":"info","message":"Created new skill successfully in 181ms","timestamp":"2024-07-15T12:19:03.427Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T12:20:45.880Z"}
+{"level":"info","message":"Created new skill successfully ","timestamp":"2024-07-15T12:20:45.932Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-15T12:25:02.850Z"}
+{"level":"info","message":"Created new skill successfully in 55ms","timestamp":"2024-07-15T12:25:02.907Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-16T05:06:43.896Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-16T05:06:43.898Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-16T05:06:43.899Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-16T05:06:43.899Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully, executionTime: 75ms","timestamp":"2024-07-16T05:06:43.961Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T05:07:14.618Z"}
+{"level":"info","message":"Created new staff successfully","timestamp":"2024-07-16T05:07:14.824Z"}
+{"level":"info","message":"createStaff executed in 206ms","timestamp":"2024-07-16T05:07:14.825Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T05:26:16.268Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-16T05:26:16.312Z"}
+{"level":"info","message":"createDepartment executed in 45ms","timestamp":"2024-07-16T05:26:16.316Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T05:30:19.980Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-16T05:30:20.037Z"}
+{"level":"info","message":"createDepartment executed in 58ms","timestamp":"2024-07-16T05:30:20.040Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T05:32:01.886Z"}
+{"level":"info","message":"Created new department successfully","timestamp":"2024-07-16T05:32:01.968Z"}
+{"level":"info","message":"createDepartment executed in 83ms","timestamp":"2024-07-16T05:32:01.971Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T05:34:46.181Z"}
+{"level":"info","message":"Created new designation successfully","timestamp":"2024-07-16T05:34:46.346Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:45:55.979Z"}
+{"errors":[{"location":"body","msg":"SkillName is required","path":"SkillName","type":"field"},{"location":"body","msg":"IsClinicalSkill is required","path":"IsClinicalSkill","type":"field"},{"location":"body","msg":"IsClinicalSkill must be a boolean value","path":"IsClinicalSkill","type":"field"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-16T08:45:55.981Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:48:25.748Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:48:25.838Z"}
+{"level":"info","message":"createStaff executed in 91ms","timestamp":"2024-07-16T08:48:25.841Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:49:42.734Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:49:42.815Z"}
+{"level":"info","message":"createStaff executed in 87ms","timestamp":"2024-07-16T08:49:42.823Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:51:48.210Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:51:48.293Z"}
+{"level":"info","message":"createStaff executed in 88ms","timestamp":"2024-07-16T08:51:48.300Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:53:13.462Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:53:13.532Z"}
+{"level":"info","message":"createStaff executed in 74ms","timestamp":"2024-07-16T08:53:13.538Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:53:25.507Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:53:25.553Z"}
+{"level":"info","message":"createStaff executed in 47ms","timestamp":"2024-07-16T08:53:25.554Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:53:47.855Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:53:47.912Z"}
+{"level":"info","message":"createStaff executed in 58ms","timestamp":"2024-07-16T08:53:47.915Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:54:03.308Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:54:03.369Z"}
+{"level":"info","message":"createStaff executed in 62ms","timestamp":"2024-07-16T08:54:03.372Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:54:49.158Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:54:49.227Z"}
+{"level":"info","message":"createStaff executed in 73ms","timestamp":"2024-07-16T08:54:49.231Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:55:55.838Z"}
+{"errors":[{"location":"body","msg":"Skill Name is required","path":"SkillName","type":"field"},{"location":"body","msg":"SkillName can only contain letters","path":"SkillName","type":"field"},{"location":"body","msg":"Is Clinical Skill is required","path":"IsClinicalSkill","type":"field"},{"location":"body","msg":"Is Clinical Skill must be a boolean value","path":"IsClinicalSkill","type":"field"},{"location":"body","msg":"Hospital IDR is required","path":"HospitalIDR","type":"field"},{"location":"body","msg":"Hospital IDR must be an integer","path":"HospitalIDR","type":"field"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-16T08:55:55.840Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:56:31.603Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:56:31.689Z"}
+{"level":"info","message":"createStaff executed in 87ms","timestamp":"2024-07-16T08:56:31.692Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:57:06.656Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:57:06.739Z"}
+{"level":"info","message":"createStaff executed in 86ms","timestamp":"2024-07-16T08:57:06.744Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:57:35.891Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:57:35.963Z"}
+{"level":"info","message":"createStaff executed in 73ms","timestamp":"2024-07-16T08:57:35.967Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:58:00.225Z"}
+{"0":{"instance":{"Address":"123 Main St, City, Country","Age":30,"BloodGroup":"O+","CreatedBy":"admin@example.com","DOB":"1994-05-15","Email":"john.smitshxample.com","EmergencyContactName":"Jane Doe","EmergencyContactPhone":"1234567890","Experience":5,"FirstName":"vdfvdd","Gender":"Male","HospitalIDR":52,"Id":null,"IsActive":true,"Language":"English","LastName":"Smitsh","MaritalStatus":"Single","MiddleName":"Dsoe","MobileNumber":"9876543210","Nationality":"American","Qualification":"Medical Doctor","Specialization":"Cardiology","WhatsAppNumber":"9876543210"},"message":"Validation isEmail on Email failed","origin":"FUNCTION","original":{"validatorArgs":[{"allow_display_name":false,"allow_underscores":false,"allow_utf8_local_part":true,"blacklisted_chars":"","host_blacklist":[],"host_whitelist":[],"ignore_max_length":false,"require_display_name":false,"require_tld":true}],"validatorName":"isEmail"},"path":"Email","type":"Validation error","validatorArgs":[{"allow_display_name":false,"allow_underscores":false,"allow_utf8_local_part":true,"blacklisted_chars":"","host_blacklist":[],"host_whitelist":[],"ignore_max_length":false,"require_display_name":false,"require_tld":true}],"validatorKey":"isEmail","validatorName":"isEmail","value":"john.smitshxample.com"},"level":"error","message":"Validation error creating staff:","timestamp":"2024-07-16T08:58:00.246Z"}
+{"level":"info","message":"createStaff executed in 22ms","timestamp":"2024-07-16T08:58:00.248Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:58:15.394Z"}
+{"level":"info","message":"Created new staff successfully","timestamp":"2024-07-16T08:58:15.468Z"}
+{"level":"info","message":"createStaff executed in 74ms","timestamp":"2024-07-16T08:58:15.469Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:59:12.735Z"}
+{"level":"info","message":"Created new staff successfully","timestamp":"2024-07-16T08:59:12.792Z"}
+{"level":"info","message":"createStaff executed in 59ms","timestamp":"2024-07-16T08:59:12.794Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:59:25.086Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T08:59:25.166Z"}
+{"level":"info","message":"createStaff executed in 80ms","timestamp":"2024-07-16T08:59:25.167Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T08:59:42.045Z"}
+{"level":"info","message":"Created new staff successfully","timestamp":"2024-07-16T08:59:42.124Z"}
+{"level":"info","message":"createStaff executed in 78ms","timestamp":"2024-07-16T08:59:42.124Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T09:00:04.683Z"}
+{"errors":[{"location":"body","msg":"First Name can only contain letters and spaces","path":"FirstName","type":"field","value":"<./vdfvdd.com"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-16T09:00:04.686Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T09:00:27.055Z"}
+{"errors":[{"location":"body","msg":"First Name can only contain letters and spaces","path":"FirstName","type":"field","value":"<./vdfvdd.com"},{"location":"body","msg":"Mobile Number must be a valid 10-digit number","path":"MobileNumber","type":"field","value":"987654321"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-16T09:00:27.056Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T09:09:03.169Z"}
+{"errors":[{"location":"body","msg":"First Name can only contain letters and spaces","path":"FirstName","type":"field","value":"<./vdfvdd.com"},{"location":"body","msg":"Mobile Number must be a valid 10-digit number","path":"MobileNumber","type":"field","value":"987654321"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-16T09:09:03.172Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T09:09:16.323Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T09:09:16.417Z"}
+{"level":"info","message":"createStaff executed in 95ms","timestamp":"2024-07-16T09:09:16.418Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T09:32:24.880Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T09:32:24.958Z"}
+{"level":"info","message":"createStaff executed in 79ms","timestamp":"2024-07-16T09:32:24.962Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T09:32:42.493Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T09:32:42.558Z"}
+{"level":"info","message":"createStaff executed in 65ms","timestamp":"2024-07-16T09:32:42.562Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:12:40.787Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T11:12:40.859Z"}
+{"level":"info","message":"createStaff executed in 72ms","timestamp":"2024-07-16T11:12:40.862Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:21:18.364Z"}
+{"errors":[{"location":"body","msg":"StaffMaster is not defined","path":"Email","type":"field","value":"vsd@gmial.com"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-16T11:21:18.366Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:22:08.345Z"}
+{"errors":[{"location":"body","msg":"StaffMaster is not defined","path":"Email","type":"field","value":"vsd@gmial.com"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-16T11:22:08.349Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:23:12.703Z"}
+{"errors":[{"location":"body","msg":"StaffMaster.findOne is not a function","path":"Email","type":"field","value":"vsd@gmial.com"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-16T11:23:12.706Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:24:24.925Z"}
+{"errors":[{"location":"body","msg":"StaffMaster.findOne is not a function","path":"Email","type":"field","value":"vsd@gmial.com"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-16T11:24:24.929Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:29:21.486Z"}
+{"errors":[{"location":"body","msg":"StaffMaster.findOne is not a function","path":"Email","type":"field","value":"vsd@gmial.com"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-16T11:29:21.489Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:29:49.082Z"}
+{"errors":[{"location":"body","msg":"StaffMaster is not defined","path":"Email","type":"field","value":"vsd@gmial.com"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-16T11:29:49.084Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:29:58.146Z"}
+{"errors":[{"location":"body","msg":"StaffMaster.findOne is not a function","path":"Email","type":"field","value":"vsd@gmial.com"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-07-16T11:29:58.148Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:36:32.503Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T11:36:32.596Z"}
+{"level":"info","message":"createStaff executed in 94ms","timestamp":"2024-07-16T11:36:32.599Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:36:51.006Z"}
+{"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T11:36:51.098Z"}
+{"level":"info","message":"createStaff executed in 94ms","timestamp":"2024-07-16T11:36:51.103Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:38:15.030Z"}
+{"level":"info","message":"createStaff executed in 29ms","timestamp":"2024-07-16T11:38:15.061Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:38:22.073Z"}
+{"level":"info","message":"Created new staff successfully","timestamp":"2024-07-16T11:38:22.158Z"}
+{"level":"info","message":"createStaff executed in 86ms","timestamp":"2024-07-16T11:38:22.159Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:38:57.283Z"}
+{"level":"info","message":"createStaff executed in 29ms","timestamp":"2024-07-16T11:38:57.315Z"}

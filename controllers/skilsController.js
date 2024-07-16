@@ -193,53 +193,54 @@ const Skill = require('../models/skillMaster');
 const logger = require('../logger'); // Adjust path as per your project structure
 
 exports.getAllSkills = async (req, res) => {
-  const startTime = Date.now();
+  const start = Date.now();
   try {
     const Skill = require('../models/skillMaster')(req.sequelize);
     const skills = await Skill.findAll();
 
-    logger.info(`Fetched all skills successfully in ${Date.now() - startTime}ms`);
-    const end = Date.now(); 
+    const end = Date.now();
+    logger.info(`Fetched all skills successfully in ${end - start}ms`);
     res.json({
       meta: { statusCode: 200, executionTime: `${end - start}ms` },
       data: skills
     });
   } catch (error) {
-    logger.error(`Error fetching skills: ${error.message} in ${Date.now() - startTime}ms`);
-    const end = Date.now(); 
+    const end = Date.now();
+    logger.error(`Error fetching skills: ${error.message} in ${end - start}ms`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 984 , executionTime: `${end - start}ms`},
+      meta: { statusCode: 500, errorCode: 984, executionTime: `${end - start}ms` },
       error: { message: 'Failed to fetch skills due to a server error. Please try again later.' }
     });
   }
 };
 
+
 // GET single skill by ID
 exports.getSkillById = async (req, res) => {
-  const startTime = Date.now();
+  const start = Date.now();
   const { id } = req.params;
- 
+
   try {
     const Skill = require('../models/skillMaster')(req.sequelize);
     const skill = await Skill.findByPk(id);
 
     if (!skill) {
-      logger.warn(`Skill with ID ${id} not found in ${Date.now() - startTime}ms`);
-      const end = Date.now(); 
+      const end = Date.now();
+      logger.warn(`Skill with ID ${id} not found in ${end - start}ms`);
       return res.status(404).json({
         meta: { statusCode: 404, errorCode: 985, executionTime: `${end - start}ms` },
         error: { message: `Skill with ID ${id} not found. Please check the ID and try again.` }
       });
     }
-    logger.info(`Fetched skill with ID ${id} successfully in ${Date.now() - startTime}ms`);
-    const end = Date.now(); 
+    const end = Date.now();
+    logger.info(`Fetched skill with ID ${id} successfully in ${end - start}ms`);
     res.json({
       meta: { statusCode: 200, executionTime: `${end - start}ms` },
       data: skill
     });
   } catch (error) {
-    logger.error(`Error fetching skill with ID ${id}: ${error.message} in ${Date.now() - startTime}ms`);
-    const end = Date.now(); 
+    const end = Date.now();
+    logger.error(`Error fetching skill with ID ${id}: ${error.message} in ${end - start}ms`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 986, executionTime: `${end - start}ms` },
       error: { message: `Failed to fetch skill with ID ${id} due to a server error. Please try again later.` }
@@ -249,10 +250,9 @@ exports.getSkillById = async (req, res) => {
 
 // POST create a new skill
 exports.createSkill = async (req, res) => {
-  const startTime = Date.now();
-  const { SkillName, IsClinicalSkill, CreatedBy } = req.body;
+  const start = Date.now();
+  const { SkillName, IsClinicalSkill, CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
   const HospitalIDR = req.hospitalId; // Get the HospitalIDR from the decoded token
-  
 
   try {
     const Skill = require('../models/skillMaster')(req.sequelize);
@@ -264,19 +264,23 @@ exports.createSkill = async (req, res) => {
       SkillName,
       IsClinicalSkill,
       CreatedBy,
-      HospitalIDR
+      HospitalIDR,
+      Reserve1,
+      Reserve2,
+      Reserve3,
+      Reserve4
     });
-    logger.info(`Created new skill successfully in ${Date.now() - startTime}ms`);
-    const end = Date.now(); 
+    const end = Date.now();
+    logger.info(`Created new skill successfully in ${end - start}ms`);
     res.status(201).json({
-      meta: { statusCode: 201 , executionTime: `${end - start}ms`},
+      meta: { statusCode: 201, executionTime: `${end - start}ms` },
       data: newSkill
     });
   } catch (error) {
-    logger.error(`Error creating skill: ${error.message} in ${Date.now() - startTime}ms`);
-    const end = Date.now(); 
+    const end = Date.now();
+    logger.error(`Error creating skill: ${error.message} in ${end - start}ms`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 987 , executionTime: `${end - start}ms`},
+      meta: { statusCode: 500, errorCode: 987, executionTime: `${end - start}ms` },
       error: { message: 'Failed to create skill due to a server error. Please ensure all fields are correctly filled and try again.' }
     });
   }
@@ -284,18 +288,17 @@ exports.createSkill = async (req, res) => {
 
 // PUT update an existing skill
 exports.updateSkill = async (req, res) => {
-  const startTime = Date.now();
+  const start = Date.now();
   const { id } = req.params;
   const { SkillName, IsClinicalSkill, EditedBy, HospitalIDR } = req.body;
-  
 
   try {
     const Skill = require('../models/skillMaster')(req.sequelize);
     let skill = await Skill.findByPk(id);
 
     if (!skill) {
-      logger.warn(`Skill with ID ${id} not found in ${Date.now() - startTime}ms`);
-      const end = Date.now(); 
+      const end = Date.now();
+      logger.warn(`Skill with ID ${id} not found in ${end - start}ms`);
       return res.status(404).json({
         meta: { statusCode: 404, errorCode: 988, executionTime: `${end - start}ms` },
         error: { message: `Skill with ID ${id} not found. Please check the ID and try again.` }
@@ -309,17 +312,17 @@ exports.updateSkill = async (req, res) => {
       HospitalIDR
     });
 
-    logger.info(`Updated skill with ID ${id} successfully in ${Date.now() - startTime}ms`);
-    const end = Date.now(); 
+    const end = Date.now();
+    logger.info(`Updated skill with ID ${id} successfully in ${end - start}ms`);
     res.json({
-      meta: { statusCode: 200 , executionTime: `${end - start}ms`},
+      meta: { statusCode: 200, executionTime: `${end - start}ms` },
       data: skill
     });
   } catch (error) {
-    logger.error(`Error updating skill with ID ${id}: ${error.message} in ${Date.now() - startTime}ms`);
-    const end = Date.now(); 
+    const end = Date.now();
+    logger.error(`Error updating skill with ID ${id}: ${error.message} in ${end - start}ms`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 989 , executionTime: `${end - start}ms`},
+      meta: { statusCode: 500, errorCode: 989, executionTime: `${end - start}ms` },
       error: { message: `Failed to update skill with ID ${id} due to a server error. Please try again later.` }
     });
   }
@@ -327,29 +330,32 @@ exports.updateSkill = async (req, res) => {
 
 // DELETE delete a skill
 exports.deleteSkill = async (req, res) => {
-  const startTime = Date.now();
+  const start = Date.now();
   const { id } = req.params;
- 
+
   try {
     const Skill = require('../models/skillMaster')(req.sequelize);
     const skill = await Skill.findByPk(id);
+
     if (!skill) {
-      logger.warn(`Skill with ID ${id} not found in ${Date.now() - startTime}ms`);
-      const end = Date.now(); 
+      const end = Date.now();
+      logger.warn(`Skill with ID ${id} not found in ${end - start}ms`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 990 , executionTime: `${end - start}ms`},
+        meta: { statusCode: 404, errorCode: 990, executionTime: `${end - start}ms` },
         error: { message: `Skill with ID ${id} not found. Please check the ID and try again.` }
       });
     }
+
     await skill.destroy();
-    logger.info(`Deleted skill with ID ${id} successfully in ${Date.now() - startTime}ms`);
+    const end = Date.now();
+    logger.info(`Deleted skill with ID ${id} successfully in ${end - start}ms`);
     res.json({
-      meta: { statusCode: 200 },
+      meta: { statusCode: 200, executionTime: `${end - start}ms` },
       message: 'Skill deleted successfully'
     });
   } catch (error) {
-    logger.error(`Error deleting skill with ID ${id}: ${error.message} in ${Date.now() - startTime}ms`);
-    const end = Date.now(); 
+    const end = Date.now();
+    logger.error(`Error deleting skill with ID ${id}: ${error.message} in ${end - start}ms`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 991, executionTime: `${end - start}ms` },
       error: { message: `Failed to delete skill with ID ${id} due to a server error. Please try again later.` }
@@ -358,8 +364,8 @@ exports.deleteSkill = async (req, res) => {
 };
 
 exports.getSkillsWithPagination = async (req, res) => {
-  const { page = 1, limit = 10 } = req.query; // Default to page 1 and limit 10
-  const startTime = Date.now();
+  const start = Date.now();
+  const { page = 1, limit = 10 } = req.query;
 
   try {
     const Skill = require('../models/skillMaster')(req.sequelize);
@@ -370,23 +376,21 @@ exports.getSkillsWithPagination = async (req, res) => {
       offset: parseInt(offset)
     });
 
-    logger.info(`Fetched skills with pagination successfully in ${Date.now() - startTime}ms`);
-    const end = Date.now(); 
-
+    const end = Date.now();
+    logger.info(`Fetched skills with pagination successfully in ${end - start}ms`);
     res.json({
       meta: {
         statusCode: 200,
         totalItems: count,
         totalPages: Math.ceil(count / limit),
         currentPage: parseInt(page),
-         executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`
       },
       data: rows
     });
   } catch (error) {
-
-    logger.error(`Error fetching skills with pagination: ${error.message} in ${Date.now() - startTime}ms`);
-    const end = Date.now(); 
+    const end = Date.now();
+    logger.error(`Error fetching skills with pagination: ${error.message} in ${end - start}ms`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 992, executionTime: `${end - start}ms` },
       error: { message: 'Failed to fetch skills due to a server error. Please try again later.' }

@@ -10,7 +10,7 @@ const hospitalController = require('../controllers/HospitalController');
 
 
 // Routes
-router.post('/create-staff', authenticate,createStaffValidationRules(), validateJSONContentType, hospitalController.ensureSequelizeInstance,staffController.createStaff);
+router.post('/create-staff', authenticate, validateJSONContentType, createStaffValidationRules(),hospitalController.ensureSequelizeInstance,staffController.createStaff);
 router.get('/staff/:id',authenticate, hospitalController.ensureSequelizeInstance,staffController.getStaffById);
 router.put('/staff/:id', authenticate,updateStaffValidationRules(), validateJSONContentType,hospitalController.ensureSequelizeInstance,staffController.updateStaff);
 router.delete('/staff/:id', authenticate,hospitalController.ensureSequelizeInstance,staffController.deleteStaff);

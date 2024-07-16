@@ -4,7 +4,7 @@ const logger = require('../logger');
 
 
 exports.createEmpCategory= async (req, res) => {
-    const {EmployeeCategoryName, EmployeeCategoryCode, IsAnnualAllowanceApplicable, IsNoticePeriodApplicable, NoticePeriodType, NoticePeriodValue, IsProbationPeriodApplicable, ProbationPeriodType, ProbationPeriodValue, IsRoundingApplicable, RoundingType, IsNonActive, NonCompulsoryLeave, SalaryHeadLedgerIDR, SalaryPayableLedgerIDR } = req.body;
+    const {EmployeeCategoryName, EmployeeCategoryCode, IsAnnualAllowanceApplicable, IsNoticePeriodApplicable, NoticePeriodType, NoticePeriodValue, IsProbationPeriodApplicable, ProbationPeriodType, ProbationPeriodValue, IsRoundingApplicable, RoundingType, IsNonActive, NonCompulsoryLeave, SalaryHeadLedgerIDR, SalaryPayableLedgerIDR, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
     const HospitalGroupIDR = req.hospitalGroupIDR; // Get the HospitalIDR from the decoded token
     const startTime = Date.now();
   
@@ -30,7 +30,7 @@ exports.createEmpCategory= async (req, res) => {
         NonCompulsoryLeave,
         SalaryHeadLedgerIDR,
         SalaryPayableLedgerIDR,
-        HospitalGroupIDR
+        HospitalGroupIDR,Reserve1, Reserve2, Reserve3, Reserve4
       });
       logger.info(`Created new EmpCategory successfully in ${Date.now() - startTime}ms`);
       res.status(201).json({

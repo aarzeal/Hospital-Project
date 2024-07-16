@@ -26,6 +26,10 @@ module.exports = (sequelize) => {
       validate: {
         isEmail: true
       }
+      // unique: {
+      //   name: 'email',
+      //   msg: 'The email address is already registered.'
+      // },
     },
     Address: {
       type: DataTypes.TEXT,
@@ -119,6 +123,22 @@ module.exports = (sequelize) => {
     },
     EditedAt: {
       type: DataTypes.DATE,
+      allowNull: true
+    },
+    Reserve1 : {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve2: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve3: {
+      type: DataTypes.STRING(250),
+      allowNull: true
+    },
+    Reserve4: {
+      type: DataTypes.STRING(250),
       allowNull: true
     }
   }, {

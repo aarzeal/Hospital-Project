@@ -62,8 +62,8 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Skill = sequelize.define('tblSkill', {
-    SkillId: {
+  const Skill = sequelize.define('tblspecialty', {
+    SpecialtyId: {
           type: DataTypes.INTEGER,
           primaryKey: true,
           autoIncrement: true
@@ -106,8 +106,25 @@ module.exports = (sequelize) => {
           // },
           allowNull: false
         }
+        ,
+    Reserve1 : {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve2: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve3: {
+      type: DataTypes.STRING(250),
+      allowNull: true
+    },
+    Reserve4: {
+      type: DataTypes.STRING(250),
+      allowNull: true
+    }
       }, {
-    tableName: 'tblSkill',
+    tableName: 'tblspecialty',
     timestamps: false
   });
 

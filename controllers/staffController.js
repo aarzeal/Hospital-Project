@@ -302,6 +302,7 @@
 
 const StaffMaster = require('../models/staffMaster');
 const logger = require('../logger'); // Adjust path as needed
+const { validationResult } = require('express-validator');
 
 const logExecutionTime = (start, end, functionName) => {
   const duration = end - start;
@@ -369,13 +370,48 @@ exports.getStaffById = async (req, res) => {
 
 // POST create a new staff
 exports.createStaff = async (req, res) => {
+
   const start = Date.now();
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const end = Date.now(); 
+      logger.info('Validation errors occurred', errors);
+      return res.status(400).json({
+          meta: {
+              statusCode: 400,
+              errorCode: 912,
+              executionTime: `${end - start}ms`
+          },
+          error: {
+              message: 'Validation errors occurred',
+              details: errors.array().map(err => ({
+                  field: err.param,
+                  message: err.msg
+              }))
+          }
+      });
+  }
   
-  const { FirstName, MiddleName, LastName, Email, Address, Age, DOB, BloodGroup, Gender, EmergencyContactName, EmergencyContactPhone, MaritalStatus, Nationality, Language, MobileNumber, Qualification, Experience, Specialization, WhatsAppNumber, CreatedBy } = req.body;
+  const { FirstName, MiddleName, LastName, Email, Address, Age, DOB, BloodGroup, Gender, EmergencyContactName, EmergencyContactPhone, MaritalStatus, Nationality, Language, MobileNumber, Qualification, Experience, Specialization, WhatsAppNumber, CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
   const HospitalIDR = req.hospitalId;
 
   try {
     const StaffMaster = require('../models/staffMaster')(req.sequelize);
+
+    const existingStaff = await StaffMaster.findOne({ where: { Email } });
+    if (existingStaff) {
+      const end = Date.now();
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 1043,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Email is already registered'
+        }
+      });
+    }
 
     // Ensure the table exists
     await StaffMaster.sync();
@@ -402,7 +438,7 @@ exports.createStaff = async (req, res) => {
       WhatsAppNumber,
       HospitalIDR,
       IsActive: true,
-      CreatedBy
+      CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4
     });
 
     logger.info('Created new staff successfully');
@@ -420,13 +456,29 @@ exports.createStaff = async (req, res) => {
         meta: { statusCode: 400, errorCode: 1004, executionTime: `${end - start}ms`},
         error: { message: error.message }
       });
-    } else {
+    }
+    else if (error.name === 'SequelizeValidationError') {
+      // Handle other validation errors
+      logger.error('Validation error creating staff:', error.errors);
+      res.status(400).json({
+        meta: { statusCode: 400, errorCode: 1004, executionTime: `${end - start}ms` },
+        error: { 
+          message: 'Validation errors occurred',
+          details: error.errors.map(err => ({
+            field: err.path,
+            message: err.message
+          }))
+        }
+      });
+    }  else {
       // Handle other Sequelize errors or generic server errors
       logger.error(`Error creating staff: ${error.message}`);
       const end = Date.now(); 
       res.status(500).json({
         meta: { statusCode: 500, errorCode: 1005, executionTime: `${end - start}ms` },
-        error: { message: 'Failed to create staff due to a server error. Please try again later.' }
+        error: { message: 'Failed to create staff due to a server error. Please try again later.', 
+
+         }
       });
     }
   } finally {
