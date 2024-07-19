@@ -124,9 +124,12 @@ exports.createUserValidationRules = () => {
           throw new Error('Username is already in use');
         }
       }),
-    body('password')
+      body('password')
       .notEmpty().withMessage('Password is required')
-      .isLength({ min: 8, max: 100 }).withMessage('Password must be between 8 and 100 characters'),
+      .isLength({ min: 8, max: 100 }).withMessage('Password must be between 8 and 100 characters')
+      .matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,100}$/)
+      .withMessage('Password must contain at least one capital letter, one numeric digit, and one special character'),
+
     body('hospitalId')
       .notEmpty().withMessage('Hospital ID is required')
       .isInt().withMessage('Hospital ID must be an integer'),
@@ -169,9 +172,14 @@ exports.updateUserValidationRules = () => {
           throw new Error('Username is already in use');
         }
       }),
-    body('password')
+      body('password')
       .optional()
-      .isLength({ min: 8, max: 100 }).withMessage('Password must be between 8 and 100 characters'),
+      .isLength({ min: 8, max: 100 }).withMessage('Password must be between 8 and 100 characters')
+      .matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,100}$/)
+      .withMessage('Password must contain at least one capital letter, one numeric digit, and one special character'),
+
+
+      
     body('hospitalId')
       .optional()
       .isInt().withMessage('Hospital ID must be an integer'),
@@ -940,3 +948,181 @@ exports.updateSkillValidationRules = () => {
       .isLength({ max: 250 }).withMessage('Reserve4 cannot exceed 250 characters')
   ];
 };
+
+
+
+
+
+
+
+// const { User } = require('../models/user'); 
+
+// exports.createUserValidationRules = () => {
+//   return [
+//     body('name')
+//       .notEmpty().withMessage('Name is required')
+//       .isLength({ max: 255 }).withMessage('Name must be between 1 and 255 characters')
+//       .matches(/^[a-zA-Z\s]+$/).withMessage('Name can only contain letters and spaces'),
+    
+//     body('phone')
+//       .notEmpty().withMessage('Phone is required')
+//       .isLength({ min: 10, max: 15 }).withMessage('Phone must be between 10 and 15 characters')
+//       .isNumeric().withMessage('Phone must contain only numbers'),
+
+//     body('email')
+//       .optional({ checkFalsy: true })
+//       .isEmail().withMessage('Invalid email address')
+//       .isLength({ max: 255 }).withMessage('Email must be between 1 and 255 characters'),
+
+//     body('username')
+//       .notEmpty().withMessage('Username is required')
+//       .isLength({ max: 255 }).withMessage('Username must be between 1 and 255 characters')
+//       .custom(async (value) => {
+//         const user = await User.findOne({ where: { username: value } });
+//         if (user) {
+//           return Promise.reject('Username is already in use');
+//         }
+//       }),
+
+//     body('password')
+//       .notEmpty().withMessage('Password is required')
+//       .isLength({ min: 8, max: 100 }).withMessage('Password must be between 8 and 100 characters'),
+
+//     body('hospitalId')
+//       .notEmpty().withMessage('Hospital ID is required')
+//       .isInt().withMessage('Hospital ID must be an integer'),
+
+//     body('empid')
+//       .notEmpty().withMessage('Employee ID is required')
+//       .isInt().withMessage('Employee ID must be an integer'),
+
+//     body('is_emailVerify')
+//       .optional()
+//       .isBoolean().withMessage('is_emailVerify must be a boolean value'),
+
+//     body('usertype')
+//       .optional()
+//       .isString().withMessage('Usertype must be a string'),
+
+//     body('lockuser')
+//       .optional()
+//       .isString().withMessage('Lockuser must be a string'),
+
+//     body('phoneverify')
+//       .optional()
+//       .isString().withMessage('Phoneverify must be a string'),
+
+//     body('otp')
+//       .optional()
+//       .isString().withMessage('OTP must be a string'),
+
+//     body('emailtoken')
+//       .optional()
+//       .isString().withMessage('Email token must be a string'),
+
+//     body('createdBy')
+//       .notEmpty().withMessage('Created By is required')
+//       .isInt().withMessage('Created By must be an integer'),
+
+//     body('Reserve1')
+//       .optional()
+//       .isInt().withMessage('Reserve1 must be an integer'),
+
+//     body('Reserve2')
+//       .optional()
+//       .isInt().withMessage('Reserve2 must be an integer'),
+
+//     body('Reserve3')
+//       .optional()
+//       .isString().withMessage('Reserve3 must be a string'),
+
+//     body('Reserve4')
+//       .optional()
+//       .isString().withMessage('Reserve4 must be a string')
+//   ];
+// };
+
+// exports.updateUserValidationRules = () => {
+//   return [
+//     body('name')
+//       .optional()
+//       .isLength({ max: 255 }).withMessage('Name must be between 1 and 255 characters')
+//       .matches(/^[a-zA-Z\s]+$/).withMessage('Name can only contain letters and spaces'),
+    
+//     body('phone')
+//       .optional()
+//       .isLength({ min: 10, max: 15 }).withMessage('Phone must be between 10 and 15 characters')
+//       .isNumeric().withMessage('Phone must contain only numbers'),
+
+//     body('email')
+//       .optional({ checkFalsy: true })
+//       .isEmail().withMessage('Invalid email address')
+//       .isLength({ max: 255 }).withMessage('Email must be between 1 and 255 characters'),
+
+//     body('username')
+//       .optional()
+//       .isLength({ max: 255 }).withMessage('Username must be between 1 and 255 characters')
+//       .custom(async (value, { req }) => {
+//         const user = await User.findOne({ where: { username: value } });
+//         if (user && user.userId !== req.params.id) {
+//           return Promise.reject('Username is already in use');
+//         }
+//       }),
+
+//     body('password')
+//       .optional()
+//       .isLength({ min: 8, max: 100 }).withMessage('Password must be between 8 and 100 characters'),
+
+//     body('hospitalId')
+//       .optional()
+//       .isInt().withMessage('Hospital ID must be an integer'),
+
+//     body('empid')
+//       .optional()
+//       .isInt().withMessage('Employee ID must be an integer'),
+
+//     body('is_emailVerify')
+//       .optional()
+//       .isBoolean().withMessage('is_emailVerify must be a boolean value'),
+
+//     body('usertype')
+//       .optional()
+//       .isString().withMessage('Usertype must be a string'),
+
+//     body('lockuser')
+//       .optional()
+//       .isString().withMessage('Lockuser must be a string'),
+
+//     body('phoneverify')
+//       .optional()
+//       .isString().withMessage('Phoneverify must be a string'),
+
+//     body('otp')
+//       .optional()
+//       .isString().withMessage('OTP must be a string'),
+
+//     body('emailtoken')
+//       .optional()
+//       .isString().withMessage('Email token must be a string'),
+
+//     body('createdBy')
+//       .optional()
+//       .isInt().withMessage('Created By must be an integer'),
+
+//     body('Reserve1')
+//       .optional()
+//       .isInt().withMessage('Reserve1 must be an integer'),
+
+//     body('Reserve2')
+//       .optional()
+//       .isInt().withMessage('Reserve2 must be an integer'),
+
+//     body('Reserve3')
+//       .optional()
+//       .isString().withMessage('Reserve3 must be a string'),
+
+//     body('Reserve4')
+//       .optional()
+//       .isString().withMessage('Reserve4 must be a string')
+//   ];
+// };

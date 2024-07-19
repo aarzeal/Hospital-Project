@@ -26,6 +26,7 @@ router.get('/hospitals', hospitalController.getAllHospitalsByPagination);
 
 
 router.post('/hospital/login', hospitalController.login);
+router.post('/hospital/HospitalCode', hospitalController.HospitalCode);
 
 router.post('/request-password-reset', hospitalController.requestPasswordReset);
 router.post('/reset-password', hospitalController.resetPassword);
@@ -45,6 +46,10 @@ router.get('/users', authenticate,hospitalController.ensureSequelizeInstance, ho
 //   router.post('/create-user', hospitalController.ensureSequelizeInstance, hospitalController.createUser);
 router.get('/verify/:token',authenticate, hospitalController.ensureSequelizeInstance,hospitalController.verifyEmail);
 router.get('/users/pagination',authenticate, hospitalController.getAllUsersByPagination);
+
+router.post('/user/login',authenticate, hospitalController.ensureSequelizeInstance, hospitalController.loginUser);
+router.post('/UserLogin/change-password', hospitalController.decodeToken,hospitalController.changePassword);
+// router.post('/resetuser-password', hospitalController.resetUserPassword);
   
 
 

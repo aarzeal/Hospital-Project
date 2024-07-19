@@ -1,67 +1,4 @@
-// const { DataTypes } = require('sequelize');
 
-// module.exports = (sequelize) => {
-//   const User = sequelize.define('User', {
-//     userId: {
-//       type: DataTypes.INTEGER,
-//       primaryKey: true,
-//       autoIncrement: true
-//     },
-//     name: {
-//       type: DataTypes.STRING,
-//       allowNull: false
-//     },
-//     phone: {
-//       type: DataTypes.STRING,
-//       allowNull: false
-//     },
-//     username: {
-//       type: DataTypes.STRING,
-//       allowNull: false
-//     },
-//     password: {
-//       type: DataTypes.STRING,
-//       allowNull: false
-//     },
-//     hospitalId: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false
-//     },
-//     status: {
-//       type: DataTypes.STRING,
-   
-//     },
-//     // empid: {
-//     //   type: DataTypes.STRING,
-//     //   allowNull: false,
-//     //   references: {
-//     //     model: 'empMaster', // Table name of the Module model
-//     //     key: 'empid'
-//     //   }
-//     // },
-//     is_emailVerify: {
-//       type: DataTypes.STRING,
-      
-//     },
-//     usertype: {
-//       type: DataTypes.STRING,
-      
-//     },
-//     lockuser: {
-//       type: DataTypes.STRING,
-
-//     },
-//     phoneverify: {
-//       type: DataTypes.STRING,
-     
-//     },
-//   }, {
-//     tableName: 'users',
-//     timestamps: false
-//   });
-
-//   return User;
-// };
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
@@ -158,14 +95,14 @@ module.exports = (sequelize) => {
     },
 
     ///after add the employee master then will remove the commnetout
-    //    empid: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   references: {
-    //     model: 'empMaster', // Table name of the Module model
-    //     key: 'empid'
-    //   }
-    // },
+       empid: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'tblEmployee', // Table name of the Module model
+        key: 'EmployeeID'
+      }
+    },
     is_emailVerify: {
       type: DataTypes.STRING,
       allowNull: true ,// Adjust allowNull as per your requirements
@@ -199,7 +136,28 @@ module.exports = (sequelize) => {
     createdBy: {
       type: DataTypes.INTEGER,
       allowNull: false
+    }, Reserve1 : {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve2: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    Reserve3: {
+      type: DataTypes.STRING(30),
+      allowNull: true
+    },
+    Reserve4: {
+      type: DataTypes.STRING(30),
+      allowNull: true
     }
+
+
+
+
+
+
   }, {
     tableName: 'users',
     timestamps: false

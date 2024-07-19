@@ -193,6 +193,7 @@ const bcrypt = require('bcrypt');
 const logger = require('../logger');  // Assuming logger is configured properly in '../logger'
 const jwt = require('jsonwebtoken');
 const {  DataTypes } = require('sequelize');
+const { User } = require('../models/user');
 
 
 const dotenv = require('dotenv');
@@ -941,6 +942,101 @@ logger.warn(`Incorrect password for hospital with Username ${Username}, executio
     });
   }
 };
+
+
+
+
+
+exports.HospitalCode = async (req, res) => {
+  const start = Date.now();
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const end = Date.now();
+    logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
+
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 923,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Validation errors occurred',
+        details: errors.array().map(err => ({
+          field: err.param,
+          message: err.msg
+        }))
+      }
+    });
+  }
+
+  const { HospitalCode } = req.body;
+
+  try {
+    const hospital = await Hospital.findOne({ where: { HospitalCode } });
+    if (!hospital) {
+      const end = Date.now();
+      logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
+
+      return res.status(404).json({
+        meta: {
+          statusCode: 404,
+          errorCode: 924,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Hospital not found'
+        }
+      });
+    }
+
+    const Hospitaltoken = jwt.sign(
+      { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
+      process.env.JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
+    const end = Date.now();
+    logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
+
+    req.hospitalDatabase = hospital.HospitalDatabase;
+
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`
+      },
+      data: {
+        Hospitaltoken,
+        hospital: {
+          hospitalId: hospital.HospitalID,
+          hospitalDatabase: hospital.HospitalDatabase,
+          hospitalGroupIDR: hospital.HospitalGroupIDR
+        },
+        message: 'Database name found successfully'
+      }
+    });
+  } catch (error) {
+    const end = Date.now();
+    logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
+
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 926,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error finding hospital: ' + error.message
+      }
+    });
+  }
+};
+
+
+
+
 exports.requestPasswordReset = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
@@ -1414,63 +1510,14 @@ exports.ensureSequelizeInstance = (req, res, next) => {
   
 };
 
-// exports.createUser =async (req, res) => {
 
- 
-//   const { name, username,phone,email,password,empid } = req.body;
-//   const hospitalId = req.hospitalId;
-
-//   try {
-//     if (!password) {
-//       throw new Error('Password is required');
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the number of salt rounds
-//     const User = require('../models/user')(req.sequelize);
-//     const verificationToken = uuidv4();
-
-//     // Ensure the table exists
-//     await User.sync();
-
-//     const user = await User.create({ username, password: hashedPassword,hospitalId ,name,phone ,email,empid, emailtoken: verificationToken});
-//     logger.info(`User created successfully with username: ${username}, hospitalId: ${hospitalId}`);
-
-
-
-//     const verificationLink = `https://example.com/verify/${verificationToken}`; // Replace with your actual verification link
-
-//     await sendEmail(User.email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
-
-//     res.status(201).json({
-//       meta: {
-//         statusCode: 200
-//       },
-//       data: {
-//         userId: user.userId,
-//         username: user.username
-//       }
-//     });
-//   } catch (error) {
-//     logger.error('Error creating user', { error: error.message });
-//     res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 928
-//       },
-//       error: {
-//         message: 'Error creating user: ' + error.message
-//       }
-//     });
-//   }
-// };
-
-
-// exports.ensureSequelizeInstance = async (req, res, next) => {
+// exports.ensureSequelizeInstance = (req, res, next) => {
 //   const start = Date.now();
 //   if (!req.hospitalDatabase) {
+
 //     const end = Date.now();
 //     logger.error('Database connection not established', { executionTime: `${end - start}ms` });
-    
+
 //     return res.status(500).json({
 //       meta: {
 //         statusCode: 500,
@@ -1483,16 +1530,32 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 //     });
 //   }
 
-//   try {
-//     const sequelize = new Sequelize(
-//       req.hospitalDatabase,
-//       process.env.DB_USER,
-//       process.env.DB_PASSWORD,
-//       {
-//         host: process.env.DB_HOST,
-//         dialect: process.env.DB_DIALECT
-//       }
-//     );
+//   const sequelize = new Sequelize(
+//     req.hospitalDatabase,
+//     process.env.DB_USER,
+//     process.env.DB_PASSWORD,
+//     {
+//       host: process.env.DB_HOST,
+//       dialect: process.env.DB_DIALECT
+//     }
+//   );
+
+//   req.sequelize = sequelize;
+//   logger.info('Sequelize instance created successfully');
+//   next();
+
+//   sequelize.sync({ alter: true })
+//     .then(() => {
+//       console.log('Database synchronized successfully.');
+//     })
+//     .catch(error => {
+//       console.error('Error synchronizing the database:', error);
+//     });
+// };
+
+
+
+
 
 //     // Import models
 //     const Hospital = require('../models/HospitalModel')(sequelize, DataTypes);
@@ -1540,7 +1603,7 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 
 exports.createUser = async (req, res) => {
   const start = Date.now();
-  const { name, username, phone, email, password, empid ,usertype} = req.body;
+  const { name, username, phone, email, password, empid ,usertype,Reserve1, Reserve2, Reserve3, Reserve4} = req.body;
   const hospitalId = req.hospitalId;
 
   try {
@@ -1568,7 +1631,7 @@ exports.createUser = async (req, res) => {
       empid,
       usertype,
       emailtoken: verificationToken,
-      createdBy: hospitalId
+      createdBy: hospitalId,Reserve1, Reserve2, Reserve3, Reserve4
     });
     logger.info(`User created successfully with username: ${username}, hospitalId: ${hospitalId}`);
 
@@ -1582,8 +1645,9 @@ exports.createUser = async (req, res) => {
         executionTime: `${end - start}ms`
       },
       data: {
-        userId: user.userId,
-        username: user.username
+        // userId: user.userId,
+        // username: user.username
+        user
       }
     });
   } catch (error) {
@@ -2012,9 +2076,283 @@ logger.error('Error retrieving users with pagination', { error: error.message, e
   }
 };
 
+// exports.loginUser = async (req, res) => {
+//   const start = Date.now();
+//   const { Username, Password } = req.body;
+
+//   if (!Username || !Password) {
+//     const end = Date.now();
+//     logger.error('Username or Password not provided', { executionTime: `${end - start}ms` });
+
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 930,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Username and Password are required'
+//       }
+//     });
+//   }
+
+//   try {
+//     const User = require('../models/user')(req.sequelize);
+//     console.log('Username:', Username); // Debugging log
+//     const user = await User.findOne({ where: { username: Username } });
+
+//     if (!user || !await bcrypt.compare(Password, user.password)) {
+//       const end = Date.now();
+//       return res.status(401).json({
+//         meta: {
+//           statusCode: 401,
+//           errorCode: 925,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Invalid username or password'
+//         }
+//       });
+//     }
+
+//     const token = jwt.sign(
+//       { userId: user.userId },
+//       process.env.JWT_SECRET,
+//       { expiresIn: '24h' }
+//     );
+
+//     const end = Date.now();
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: {
+//         token,
+//         user: {
+//           id: user.userId,
+//           username: user.username,
+//           email: user.email
+//         },
+//         message: 'Login successful'
+//       }
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 926,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error logging in: ' + error.message
+//       }
+//     });
+//   }
+// };
 
 
 
+exports.loginUser = async (req, res) => {
+  const start = Date.now();
+  const { Username, Password } = req.body;
+
+  if (!Username || !Password) {
+    const end = Date.now();
+    logger.error('Username or Password not provided', { executionTime: `${end - start}ms` });
+
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 1044,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Username and Password are required'
+      }
+    });
+  }
+
+  try {
+    const User = require('../models/user')(req.sequelize);
+    console.log('Username:', Username); // Debugging log
+    const user = await User.findOne({ where: { username: Username } });
+
+    if (!user || !await bcrypt.compare(Password, user.password)) {
+      const end = Date.now();
+      return res.status(401).json({
+        meta: {
+          statusCode: 401,
+          errorCode: 1045,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Invalid username or password'
+        }
+      });
+    }
+    if (user.is_emailVerify !== '1' || user.phoneverify !== '1') {
+      const end = Date.now();
+      return res.status(403).json({
+        meta: {
+          statusCode: 403,
+          errorCode: 1046,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Email or phone not verified. Please verify email and phone.'
+        }
+      });
+    }
 
 
+    const AccessToken = jwt.sign(
+      { userId: user.userId },
+      process.env.JWT_SECRET,
+      { expiresIn: '24h' }
+    );
 
+    const end = Date.now();
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`
+      },
+      data: {
+        AccessToken,
+        user: {
+          id: user.userId,
+          username: user.username,
+          email: user.email
+        },
+        message: 'Login successful'
+      }
+    });
+  } catch (error) {
+    const end = Date.now();
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 1048,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error logging in: ' + error.message
+      }
+    });
+  }
+};
+exports.decodeToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({ error: 'Unauthorized: No token provided' });
+  }
+
+  const AccessToken = authHeader.split(' ')[1]; // Assuming the token is in the format "Bearer <token>"
+
+  try {
+    const decoded = jwt.verify(AccessToken, process.env.JWT_SECRET);
+    console.log('Decoded token:', decoded); // Debugging log
+    req.user = decoded; // Attach the decoded token to the request object
+    next();
+  } catch (error) {
+    console.error('Token verification failed:', error); // Debugging log
+    res.status(401).json({ error: 'Unauthorized: Invalid token' });
+  }
+};
+
+
+exports.changePassword = async (req, res) => {
+  const start = Date.now();
+  const { oldPassword, newPassword, ConfirmPassword } = req.body;
+
+  if (!oldPassword || !newPassword || !ConfirmPassword) {
+    const end = Date.now();
+    logger.error('All password fields are required', { executionTime: `${end - start}ms` });
+
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 1050,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Old password, new password, and re-enter new password are required'
+      }
+    });
+  }
+
+  if (newPassword !== ConfirmPassword) {
+    const end = Date.now();
+    logger.error('New passwords do not match', { executionTime: `${end - start}ms` });
+
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 1051,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'New passwords do not match'
+      }
+    });
+  }
+
+  try {
+    console.log('User model:', User); // Debugging log to check if User model is loaded
+
+    if (!req.user || !req.user.userId) {
+      throw new Error('User ID is not defined in the token');
+    }
+
+    // Check if User model is loaded correctly
+    if (!User || typeof User.findOne !== 'function') {
+      throw new Error('User model is not correctly defined or loaded');
+    }
+
+    const user = await User.findOne({ where: { userId: req.user.userId } });
+
+    if (!user || !await bcrypt.compare(oldPassword, user.password)) {
+      const end = Date.now();
+      return res.status(401).json({
+        meta: {
+          statusCode: 401,
+          errorCode: 1052,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Old password is incorrect'
+        }
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await user.update({ password: hashedPassword });
+
+    const end = Date.now();
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`
+      },
+      data: {
+        message: 'Password updated successfully'
+      }
+    });
+  } catch (error) {
+    console.error('Error in changePassword:', error); // Debugging log
+    const end = Date.now();
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 1053,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error updating password: ' + error.message
+      }
+    });
+  }
+};

@@ -434,3 +434,22 @@
 {"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T11:12:40.859Z"}
 {"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T11:36:32.596Z"}
 {"level":"error","message":"Error creating staff: Validation error","timestamp":"2024-07-16T11:36:51.098Z"}
+{"error":"Can't create table `a8`.`users` (errno: 150 \"Foreign key constraint is incorrectly formed\")","executionTime":"216ms","level":"error","message":"Error creating user","timestamp":"2024-07-17T08:49:01.015Z"}
+{"error":"Can't create table `a8`.`users` (errno: 150 \"Foreign key constraint is incorrectly formed\")","executionTime":"184ms","level":"error","message":"Error creating user","timestamp":"2024-07-17T08:52:29.934Z"}
+{"error":"Username is already in use","executionTime":"95ms","level":"error","message":"Error creating user","timestamp":"2024-07-17T08:55:28.761Z"}
+{"error":"Username is already in use","executionTime":"96ms","level":"error","message":"Error creating user","timestamp":"2024-07-17T09:10:07.042Z"}
+{"code":"EDNS","command":"CONN","errno":-3001,"hostname":"smtp.gmail.com","level":"error","message":"Error sending email: getaddrinfo EAI_AGAIN smtp.gmail.com","stack":"Error: getaddrinfo EAI_AGAIN smtp.gmail.com\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2024-07-17T09:11:22.991Z"}
+{"executionTime":"70763ms","level":"error","message":"Error creating user","timestamp":"2024-07-17T09:11:22.992Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-17T12:29:24.429Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T04:35:35.246Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T05:09:53.848Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T06:42:47.277Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T06:54:39.933Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T06:56:36.625Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T06:58:18.175Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T06:58:45.416Z"}
+{"executionTime":"0ms","level":"error","message":"Username or Password not provided","timestamp":"2024-07-18T07:10:06.972Z"}
+{"error":"Unknown column 'empid' in 'field list'","executionTime":"72ms","level":"error","message":"Error creating user","timestamp":"2024-07-18T07:13:29.408Z"}
+{"executionTime":"0ms","level":"error","message":"Username or Password not provided","timestamp":"2024-07-18T07:14:54.515Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-19T05:26:11.289Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-19T05:26:48.134Z"}

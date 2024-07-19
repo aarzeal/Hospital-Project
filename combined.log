@@ -2403,3 +2403,90 @@
 {"level":"info","message":"createStaff executed in 86ms","timestamp":"2024-07-16T11:38:22.159Z"}
 {"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-16T11:38:57.283Z"}
 {"level":"info","message":"createStaff executed in 29ms","timestamp":"2024-07-16T11:38:57.315Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-17T08:48:37.729Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-17T08:48:37.731Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-17T08:48:37.731Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-17T08:48:37.732Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully, executionTime: 80ms","timestamp":"2024-07-17T08:48:37.794Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-17T08:49:00.799Z"}
+{"error":"Can't create table `a8`.`users` (errno: 150 \"Foreign key constraint is incorrectly formed\")","executionTime":"216ms","level":"error","message":"Error creating user","timestamp":"2024-07-17T08:49:01.015Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-17T08:52:29.748Z"}
+{"error":"Can't create table `a8`.`users` (errno: 150 \"Foreign key constraint is incorrectly formed\")","executionTime":"184ms","level":"error","message":"Error creating user","timestamp":"2024-07-17T08:52:29.934Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-17T08:54:15.192Z"}
+{"level":"info","message":"User created successfully with username: user63, hospitalId: 52","timestamp":"2024-07-17T08:54:15.554Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1721206461 d2e1a72fcca58-70b7eb9e232sm7629452b3a.34 - gsmtp","timestamp":"2024-07-17T08:54:20.935Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-17T08:55:28.663Z"}
+{"error":"Username is already in use","executionTime":"95ms","level":"error","message":"Error creating user","timestamp":"2024-07-17T08:55:28.761Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-17T08:55:35.787Z"}
+{"level":"info","message":"User created successfully with username: fgghhh, hospitalId: 52","timestamp":"2024-07-17T08:55:35.884Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1721206539 d9443c01a7336-1fc0bc274dasm72871905ad.166 - gsmtp","timestamp":"2024-07-17T08:55:39.554Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-17T09:06:22.569Z"}
+{"level":"info","message":"User created successfully with username: sddddd, hospitalId: 52","timestamp":"2024-07-17T09:06:22.664Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1721207186 d9443c01a7336-1fc0bb9befbsm71388755ad.74 - gsmtp","timestamp":"2024-07-17T09:06:26.318Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-17T09:10:06.943Z"}
+{"error":"Username is already in use","executionTime":"96ms","level":"error","message":"Error creating user","timestamp":"2024-07-17T09:10:07.042Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-17T09:10:12.228Z"}
+{"level":"info","message":"User created successfully with username: sddddasdd, hospitalId: 52","timestamp":"2024-07-17T09:10:12.315Z"}
+{"code":"EDNS","command":"CONN","errno":-3001,"hostname":"smtp.gmail.com","level":"error","message":"Error sending email: getaddrinfo EAI_AGAIN smtp.gmail.com","stack":"Error: getaddrinfo EAI_AGAIN smtp.gmail.com\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2024-07-17T09:11:22.991Z"}
+{"executionTime":"70763ms","level":"error","message":"Error creating user","timestamp":"2024-07-17T09:11:22.992Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-17T12:29:24.429Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T04:35:35.246Z"}
+{"level":"info","message":"UniqueKey from request headers: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-18T04:36:29.801Z"}
+{"level":"info","message":"UniqueKey from database: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-18T04:36:29.802Z"}
+{"level":"info","message":"Provided UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-18T04:36:29.802Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7da","timestamp":"2024-07-18T04:36:29.803Z"}
+{"level":"info","message":"Hospital with ID 52 logged in successfully, executionTime: 77ms","timestamp":"2024-07-18T04:36:29.864Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T05:09:53.848Z"}
+{"level":"info","message":"Hospital with HospitalCode GH1234 found successfully, executionTime: 18ms","timestamp":"2024-07-18T06:35:20.509Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T06:42:47.277Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T06:54:39.933Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T06:55:25.203Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T06:56:36.625Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T06:58:18.175Z"}
+{"level":"info","message":"Hospital with HospitalCode GH1234 found successfully, executionTime: 16ms","timestamp":"2024-07-18T06:58:29.381Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-18T06:58:45.416Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T07:04:16.917Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T07:10:06.970Z"}
+{"executionTime":"0ms","level":"error","message":"Username or Password not provided","timestamp":"2024-07-18T07:10:06.972Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T07:10:23.415Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 10ms","timestamp":"2024-07-18T07:11:40.445Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-18T07:13:06.337Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-18T07:13:06.338Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-18T07:13:06.338Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-18T07:13:06.339Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 67ms","timestamp":"2024-07-18T07:13:06.397Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T07:13:29.336Z"}
+{"error":"Unknown column 'empid' in 'field list'","executionTime":"72ms","level":"error","message":"Error creating user","timestamp":"2024-07-18T07:13:29.408Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T07:14:10.770Z"}
+{"level":"info","message":"User created successfully with username: sudhir, hospitalId: 54","timestamp":"2024-07-18T07:14:11.004Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1721286853 d9443c01a7336-1fc611707ccsm5721915ad.116 - gsmtp","timestamp":"2024-07-18T07:14:14.641Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T07:14:54.514Z"}
+{"executionTime":"0ms","level":"error","message":"Username or Password not provided","timestamp":"2024-07-18T07:14:54.515Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T07:15:11.176Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T07:15:26.055Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T07:15:49.557Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T07:38:11.250Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T07:39:10.813Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:27:20.438Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:27:39.542Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:27:48.471Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:28:30.012Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:30:46.795Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:31:28.848Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:32:09.120Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:34:26.634Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:34:38.802Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:40:28.168Z"}
+{"executionTime":"77ms","level":"warn","message":"Email not verified for user sudhir","timestamp":"2024-07-18T09:40:28.247Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:41:12.546Z"}
+{"executionTime":"79ms","level":"warn","message":"Email not verified for user sudhir","timestamp":"2024-07-18T09:41:12.627Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:42:03.484Z"}
+{"executionTime":"77ms","level":"warn","message":"Email not verified for user sudhir","timestamp":"2024-07-18T09:42:03.563Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:43:37.971Z"}
+{"executionTime":"79ms","level":"warn","message":"Email not verified for user sudhir","timestamp":"2024-07-18T09:43:38.052Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:51:20.034Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-18T09:53:51.560Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 32ms","timestamp":"2024-07-19T05:18:22.210Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-07-19T05:18:36.105Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-19T05:26:11.289Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-19T05:26:48.134Z"}
