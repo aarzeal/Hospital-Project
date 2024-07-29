@@ -1,17 +1,30 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/connection');
 const tblHospital = require('./HospitalModel'); // Import the HospitalGroup model
+const path = require('path');
+const fs = require('fs');
 
-const PatientMaster = sequelize.define('Patient_master', {
+let config;
+
+try {
+  const configPath = path.join(__dirname, '../config/employeeConfig.json');
+  const configFile = fs.readFileSync(configPath, 'utf8');
+  config = JSON.parse(configFile);
+
+} catch (error) {
+
+  console.error('Error loading employeeConfig.json:', error);
+  throw error; // Ensure errors are thrown to halt further execution if config loading fails
+}
+
+
+const PatientMaster = sequelize.define('Patient_masternew', {
   PatientID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  PatientName: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
+
   EMRNumber: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -40,6 +53,10 @@ const PatientMaster = sequelize.define('Patient_master', {
       notEmpty: true // Ensure this field is not empty
     }
   },
+  PatientMiddleName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   PatientLastName: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -64,19 +81,41 @@ const PatientMaster = sequelize.define('Patient_master', {
     }
   },
   BloodGroup: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
     validate: {
-      isIn: [['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']], // Ensure valid blood group
-      notEmpty: true // Ensure this field is not empty
+      isBloodGroup(value) {
+        if (!config || !config.BloodGroup) {
+          throw new Error('Configuration for Gender is missing or invalid.');
+        }
+        const validBloodGroup = Object.keys(config.BloodGroup).map(Number);
+        if (!validBloodGroup.includes(value)) {
+          throw new Error(`Invalid gender value: ${value}. Valid values are: ${validBloodGroup.join(', ')}`);
+        }
+      },
     }
   },
+  // Gender: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false,
+  //   validate: {
+  //     isIn: [['Male', 'Female', 'Other']], // Ensure valid gender
+  //     notEmpty: true // Ensure this field is not empty
+  //   }
+  // },
   Gender: {
-    type: DataTypes.STRING,
+    type: DataTypes.TINYINT,
     allowNull: false,
     validate: {
-      isIn: [['Male', 'Female', 'Other']], // Ensure valid gender
-      notEmpty: true // Ensure this field is not empty
+      isValidGender(value) {
+        if (!config || !config.Gender) {
+          throw new Error('Configuration for Gender is missing or invalid.');
+        }
+        const validGenders = Object.keys(config.Gender).map(Number);
+        if (!validGenders.includes(value)) {
+          throw new Error(`Invalid gender value: ${value}. Valid values are: ${validGenders.join(', ')}`);
+        }
+      },
     }
   },
   Phone: {
@@ -155,10 +194,18 @@ const PatientMaster = sequelize.define('Patient_master', {
     allowNull: true
   },
   MaritalStatus: {
-    type: DataTypes.STRING,
-    allowNull: true,
+    type: DataTypes.TINYINT,
+    allowNull: false,
     validate: {
-      isIn: [['Single', 'Married', 'Divorced', 'Widowed']] // Ensure valid marital status
+      isValidMaritalStatus(value) {
+        if (!config || !config.MaritalStatus) {
+          throw new Error('Configuration for MaritalStatus is missing or invalid.');
+        }
+        const validMaritalStatus = Object.keys(config.MaritalStatus).map(Number);
+        if (!validMaritalStatus.includes(value)) {
+          throw new Error(`Invalid MaritalStatus value: ${value}. Valid values are: ${validMaritalStatus.join(', ')}`);
+        }
+      },
     }
   },
   Occupation: {
@@ -166,8 +213,19 @@ const PatientMaster = sequelize.define('Patient_master', {
     allowNull: true
   },
   Nationality: {
-    type: DataTypes.STRING,
-    allowNull: true
+    type: DataTypes.TINYINT,
+    allowNull: false,
+    validate: {
+      isValidNationality(value) {
+        if (!config || !config.Nationality) {
+          throw new Error('Configuration for Gender is missing or invalid.');
+        }
+        const validNationality = Object.keys(config.Nationality).map(Number);
+        if (!validNationality.includes(value)) {
+          throw new Error(`Invalid Nationality value: ${value}. Valid values are: ${validNationality.join(', ')}`);
+        }
+      },
+    }
   },
   Language: {
     type: DataTypes.STRING,
@@ -208,7 +266,7 @@ const PatientMaster = sequelize.define('Patient_master', {
     //   }
     // }
 }, {
-  tableName: 'Patient_master', // Specify the table name if different from the model name
+  tableName: 'Patient_masternew', // Specify the table name if different from the model name
   timestamps: true // Enable timestamps (createdAt, updatedAt)
 });
 

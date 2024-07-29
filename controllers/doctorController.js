@@ -15,7 +15,7 @@ exports.getAllDoctors = async (req, res) => {
   } catch (error) {
     logger.error(`Error fetching doctors: ${error.message}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 984 },
+      meta: { statusCode: 500, errorCode: 1052 },
       error: { message: 'Failed to fetch doctors due to a server error. Please try again later.' }
     });
   }
@@ -30,7 +30,7 @@ exports.getDoctorById = async (req, res) => {
     if (!doctor) {
       logger.warn(`Doctor with ID ${id} not found`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 985 },
+        meta: { statusCode: 404, errorCode: 1053 },
         error: { message: `Doctor with ID ${id} not found. Please check the ID and try again.` }
       });
     }
@@ -42,7 +42,7 @@ exports.getDoctorById = async (req, res) => {
   } catch (error) {
     logger.error(`Error fetching doctor with ID ${id}: ${error.message}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 986 },
+      meta: { statusCode: 500, errorCode: 1054 },
       error: { message: `Failed to fetch doctor with ID ${id} due to a server error. Please try again later.` }
     });
   }
@@ -57,7 +57,7 @@ exports.createDoctor = async (req, res) => {
       return res.status(400).json({
           meta: {
               statusCode: 400,
-              errorCode: 912,
+              errorCode: 1055,
               executionTime: `${end - start}ms`
           },
           error: {
@@ -97,14 +97,14 @@ exports.createDoctor = async (req, res) => {
       CreatedBy
     });
     logger.info('Created new doctor successfully');
-    res.status(201).json({
-      meta: { statusCode: 201 },
+    res.status(200).json({
+      meta: { statusCode: 200 },
       data: newDoctor
     });
   } catch (error) {
     logger.error(`Error creating doctor: ${error.message}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 987 },
+      meta: { statusCode: 500, errorCode: 1056 },
       error: { message: 'Failed to create doctor due to a server error. Please ensure all fields are correctly filled and try again.' }
     });
   }
@@ -121,7 +121,7 @@ exports.updateDoctor = async (req, res) => {
     if (!doctor) {
       logger.warn(`Doctor with ID ${id} not found`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 988 },
+        meta: { statusCode: 404, errorCode: 1057 },
         error: { message: `Doctor with ID ${id} not found. Please check the ID and try again.` }
       });
     }
@@ -152,7 +152,7 @@ exports.updateDoctor = async (req, res) => {
   } catch (error) {
     logger.error(`Error updating doctor with ID ${id}: ${error.message}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 989 },
+      meta: { statusCode: 500, errorCode: 1058 },
       error: { message: `Failed to update doctor with ID ${id} due to a server error. Please try again later.` }
     });
   }
@@ -168,7 +168,7 @@ exports.deleteDoctor = async (req, res) => {
     if (!doctor) {
       logger.warn(`Doctor with ID ${id} not found`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 990 },
+        meta: { statusCode: 404, errorCode: 1059 },
         error: { message: `Doctor with ID ${id} not found. Please check the ID and try again.` }
       });
     }
@@ -181,7 +181,7 @@ exports.deleteDoctor = async (req, res) => {
   } catch (error) {
     logger.error(`Error deleting doctor with ID ${id}: ${error.message}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 991 },
+      meta: { statusCode: 500, errorCode: 1060 },
       error: { message: `Failed to delete doctor with ID ${id} due to a server error. Please try again later.` }
     });
   }
@@ -196,7 +196,7 @@ exports.getDoctorsByHospitalId = async (req, res) => {
     if (!doctors.length) {
       logger.warn(`No doctors found for HospitalID ${hospitalId}`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 992 },
+        meta: { statusCode: 404, errorCode: 1061 },
         error: { message: `No doctors found for HospitalID ${hospitalId}. Please check the ID and try again.` }
       });
     }
@@ -208,7 +208,7 @@ exports.getDoctorsByHospitalId = async (req, res) => {
   } catch (error) {
     logger.error(`Error fetching doctors for HospitalID ${hospitalId}: ${error.message}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 993 },
+      meta: { statusCode: 500, errorCode: 1062 },
       error: { message: `Failed to fetch doctors for HospitalID ${hospitalId} due to a server error. Please try again later.` }
     });
   }
@@ -244,7 +244,7 @@ exports.getPaginatedDoctors = async (req, res) => {
   } catch (error) {
     logger.error(`Error fetching paginated doctors: ${error.message}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 996 },
+      meta: { statusCode: 500, errorCode: 1063 },
       error: { message: 'Failed to fetch paginated doctors due to a server error. Please try again later.' }
     });
   }

@@ -20,6 +20,7 @@ const designationRoutes = require('./routes/designationRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
 const empCategoryRoutes = require('./routes/empCategoryRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
+const countApiLogger = require('./Middleware/countApiLogger');
 // Middleware for parsing JSON bodies
 app.use(express.json());
 app.use(bodyParser.json()); 
@@ -31,6 +32,8 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false } // Set to true if using HTTPS
 }));
+
+app.use(countApiLogger);
 
 
 // Serve Swagger UI
@@ -52,7 +55,7 @@ app.use('/api/v1', designationRoutes);
 app.use('/api/v1/hospital', departmentRoutes);
 app.use('/api/v1/', empCategoryRoutes);
 app.use('/api/v1/employee', employeeRoutes);
-
+app.use('/api/v1', hospitalGroupRoutes);
 
 
 

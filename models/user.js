@@ -151,7 +151,15 @@ module.exports = (sequelize) => {
     Reserve4: {
       type: DataTypes.STRING(30),
       allowNull: true
-    }
+    },
+    resetPasswordToken: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    resetPasswordExpires: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
 
 
 

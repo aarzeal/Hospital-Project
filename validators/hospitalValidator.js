@@ -204,7 +204,7 @@ exports.createPatientValidationRules = () => {
   return [
    
     body('EMRNumber')
-      .notEmpty().withMessage('EMR Number is required')
+      // .notEmpty().withMessage('EMR Number is required')
       .isLength({ max: 50 }).withMessage('EMR Number cannot exceed 50 characters'),
     body('HospitalGroupID')
       .optional()
@@ -213,6 +213,11 @@ exports.createPatientValidationRules = () => {
       .notEmpty().withMessage('Patient First Name is required')
       .isLength({ max: 255 }).withMessage('Patient First Name cannot exceed 255 characters')
       .matches(/^[a-zA-Z\s]+$/).withMessage('Patient First Name can only contain letters and spaces'),
+      body('PatientMiddleName')
+      .optional()
+      
+      .isLength({ max: 255 }).withMessage('Patient Middle Name cannot exceed 255 characters')
+      .matches(/^[a-zA-Z\s]+$/).withMessage('Patient Middle Name can only contain letters and spaces'),
     body('PatientLastName')
       .notEmpty().withMessage('Patient Last Name is required')
       .isLength({ max: 255 }).withMessage('Patient Last Name cannot exceed 255 characters')
@@ -224,11 +229,11 @@ exports.createPatientValidationRules = () => {
       .notEmpty().withMessage('Date of Birth is required')
       .isDate().withMessage('Date of Birth must be a valid date'),
     body('BloodGroup')
-      .notEmpty().withMessage('Blood Group is required')
-      .isIn(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).withMessage('Blood Group must be a valid type'),
+      .notEmpty().withMessage('Blood Group is required'),
+      // .isIn(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).withMessage('Blood Group must be a valid type'),
     body('Gender')
-      .notEmpty().withMessage('Gender is required')
-      .isIn(['Male', 'Female', 'Other']).withMessage('Gender must be Male, Female, or Other'),
+      .notEmpty().withMessage('Gender is required'),
+      // .isIn(['Male', 'Female', 'Other']).withMessage('Gender must be Male, Female, or Other'),
     body('Phone')
       .notEmpty().withMessage('Phone is required')
       .matches(/^[0-9]{10}$/).withMessage('Phone must be a valid 10-digit number'),
@@ -271,14 +276,14 @@ exports.createPatientValidationRules = () => {
       .optional()
       .isLength({ max: 5000 }).withMessage('Allergies cannot exceed 5000 characters'),
     body('MaritalStatus')
-      .optional()
-      .isIn(['Single', 'Married', 'Divorced', 'Widowed']).withMessage('Marital Status must be Single, Married, Divorced, or Widowed'),
+      .optional(),
+      // .isIn(['Single', 'Married', 'Divorced', 'Widowed']).withMessage('Marital Status must be Single, Married, Divorced, or Widowed'),
     body('Occupation')
       .optional()
       .isLength({ max: 255 }).withMessage('Occupation cannot exceed 255 characters'),
     body('Nationality')
-      .optional()
-      .isLength({ max: 255 }).withMessage('Nationality cannot exceed 255 characters'),
+      .optional(),
+      // .isLength({ max: 255 }).withMessage('Nationality cannot exceed 255 characters'),
     body('Language')
       .optional()
       .isLength({ max: 255 }).withMessage('Language cannot exceed 255 characters'),
@@ -373,6 +378,7 @@ exports.updatePatientValidationRules = () => {
       .isLength({ max: 255 }).withMessage('Updated By cannot exceed 255 characters'),
   ];
 };
+
 
 
 

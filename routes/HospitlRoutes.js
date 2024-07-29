@@ -3,6 +3,7 @@ const router = express.Router();
 const hospitalController = require('../controllers/HospitalController');
 const { createHospitalValidationRules, updateHospitalValidationRules,createUserValidationRules } = require('../validators/hospitalValidator');
 const { verifyToken } = require('../Middleware/authMiddleware');
+const { decodeUserAccessToken } = require('../Middleware/decodeUserAccessToken');
 const authenticate = require('../validators/authenticate');
 const validateJSONContentType = require('../Middleware/jsonvalidation');
 
@@ -48,8 +49,18 @@ router.get('/verify/:token',authenticate, hospitalController.ensureSequelizeInst
 router.get('/users/pagination',authenticate, hospitalController.getAllUsersByPagination);
 
 router.post('/user/login',authenticate, hospitalController.ensureSequelizeInstance, hospitalController.loginUser);
-router.post('/UserLogin/change-password', hospitalController.decodeToken,hospitalController.changePassword);
-// router.post('/resetuser-password', hospitalController.resetUserPassword);
+
+router.get('/getProfile', authenticate,hospitalController.ensureSequelizeInstance,hospitalController.getProfile);
+
+
+
+
+
+// router.post('/UserLogin/change-password', hospitalController.decodeToken,hospitalController.changePassword);
+// router.post('/UserLogin/forgot-password',authenticate, hospitalController.ensureSequelizeInstance, hospitalController.forgotPassword);
+router.post('/request-Userpassword-reset',hospitalController.requestUserPasswordReset);
+
+router.post('/resetuser-password', hospitalController.resetuserPassword);
   
 
 

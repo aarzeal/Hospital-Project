@@ -26,4 +26,10 @@ router.get('/patients/hospitalGroup/:id', authenticate, patientController.getPat
 // GET all patients with pagination
 router.get('/patients/pagination', authenticate, patientController.getAllPatientsByPagination);
 
+///Get patient by searching using  fistname , lastname , middlename , phone , MRnumber 
+router.get('/getPatient', authenticate,patientController.getPatient);
+
+
+
+
 module.exports = router;

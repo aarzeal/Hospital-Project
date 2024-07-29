@@ -2,31 +2,63 @@ const PatientMaster = require('../models/PatientMaster');
 const HospitalGroup = require('../models/HospitalGroup');
 const Hospital = require('../models/HospitalModel');
 const logger = require('../logger');
+const Sequelize = require('sequelize');
+const { Op } = Sequelize;
+const { sendSMS } = require('../Middleware/smsService');
+
 const jwt = require('jsonwebtoken');
 
 const { validationResult } = require('express-validator');
 // Get all patients
+// exports.getAllPatients = async (req, res) => {
+//   const start = Date.now();
+//   try {
+//     const patients = await PatientMaster.findAll();
+//     const end = Date.now(); 
+//     logger.info('Retrieved all patients successfully');
+//     logger.error('Error retrieving patients', { error: error.message, executionTime: `${end - start}ms` });
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//           executionTime: `${end - start}ms`
+//       },
+//       data: patients
+//     });
+//   } catch (error) {
+//     const end = Date.now(); 
+//     logger.error('Error retrieving patients', { error: error.message });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 971
+//       },
+//       error: {
+//         message: 'Error retrieving patients: ' + error.message
+//       }
+//     });
+//   }
+// };
 exports.getAllPatients = async (req, res) => {
   const start = Date.now();
   try {
     const patients = await PatientMaster.findAll();
     const end = Date.now(); 
-    logger.info('Retrieved all patients successfully');
-    logger.error('Error retrieving patients', { error: error.message, executionTime: `${end - start}ms` });
+    logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
     res.status(200).json({
       meta: {
         statusCode: 200,
-          executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`
       },
       data: patients
     });
   } catch (error) {
-    const end = Date.now(); 
-    logger.error('Error retrieving patients', { error: error.message });
+    const end = Date.now();
+    logger.error('Error retrieving patients', { error: error.message, executionTime: `${end - start}ms` });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 971
+        errorCode: 971,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error retrieving patients: ' + error.message
@@ -34,6 +66,7 @@ exports.getAllPatients = async (req, res) => {
     });
   }
 };
+
 
 // Get patient by ID
 exports.getPatientById = async (req, res) => {
@@ -298,6 +331,24 @@ exports.getPatientById = async (req, res) => {
 //   }
 // };
 
+const generateEMRNumber = async () => {
+  const currentTimestamp = Date.now();
+  const randomPart = Math.floor(Math.random() * 1000);
+  const emrNumber = `EMR${currentTimestamp}${randomPart}`;
+
+  // Ensure the generated EMR number is unique
+  const existingEMR = await PatientMaster.findOne({ where: { EMRNumber: emrNumber } });
+  if (existingEMR) {
+    // Recursively generate a new EMR number if a collision is found
+    return generateEMRNumber();
+  }
+  return emrNumber;
+};
+
+
+
+
+
 exports.createPatient = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
@@ -321,7 +372,7 @@ exports.createPatient = async (req, res) => {
   }
 
   const {
-    PatientName,
+    PatientMiddleName,
     EMRNumber,
     PatientFirstName,
     PatientLastName,
@@ -347,12 +398,46 @@ exports.createPatient = async (req, res) => {
     Occupation,
     Nationality,
     Language,
-    createdBy
+    createdBy, Reserve1, Reserve2, Reserve3, Reserve4 
   } = req.body;
 
   try {
+
+ // Check if phone number or email already exists
+ const existingPatient = await PatientMaster.findOne({
+  where: {
+    [Op.or]: [
+      { Phone },
+      { Email }
+    ]
+  }
+});
+
+if (existingPatient) {
+  const end = Date.now();
+  const duplicateField = existingPatient.Phone === Phone ? 'Phone number' : 'Email';
+  logger.info(`${duplicateField} already exists`, { executionTime: `${end - start}ms` });
+  return res.status(400).json({
+    meta: {
+      statusCode: 400,
+      errorCode: 1051,
+      executionTime: `${end - start}ms`
+    },
+    error: {
+      message: `${duplicateField} already exists`
+    }
+  });
+}
+
+
+
+
+  // Generate EMR number
+  const EMRNumber = await generateEMRNumber();
+
+
     const newPatient = await PatientMaster.create({
-      PatientName,
+      PatientMiddleName,
       EMRNumber,
       HospitalID: req.hospitalId,
       HospitalGroupIDR, // Ensure this is correctly set from the middleware
@@ -379,14 +464,19 @@ exports.createPatient = async (req, res) => {
       Occupation,
       Nationality,
       Language,
-      createdBy
+      createdBy, Reserve1, Reserve2, Reserve3, Reserve4 
     });
+
+     // Send registration success SMS
+     const smsMessage = `Dear ${newPatient.PatientFirstName}, your registration was successful. Your EMR Number is ${newPatient.EMRNumber}.`;
+     await sendSMS(newPatient.Phone, smsMessage);
+
 
     const end = Date.now();
     logger.info(`Created new patient with ID ${newPatient.PatientID} in ${end - start}ms`);
-    res.status(201).json({
+    res.status(200).json({
       meta: {
-        statusCode: 201,
+        statusCode: 200,
         executionTime: `${end - start}ms`
       },
       data: newPatient
@@ -468,7 +558,7 @@ exports.updatePatient = async (req, res) => {
       }
     });
   }
-};
+};                     
 
 // Delete a patient
 exports.deletePatient = async (req, res) => {
@@ -674,3 +764,38 @@ exports.getAllPatientsByPagination = async (req, res) => {
     });
   }
 };
+
+exports.getPatient = async (req, res) => {
+  try {
+      const { PatientFirstName, PatientLastName, PatientMiddleName, EMRNumber, Phone } = req.query;
+
+      // Build search criteria based on provided parameters
+      const searchCriteria = {};
+
+      if (PatientFirstName) searchCriteria.PatientFirstName = { [Op.like]: `%${PatientFirstName}%` };
+      if (PatientLastName) searchCriteria.PatientLastName = { [Op.like]: `%${PatientLastName}%` };
+      if (PatientMiddleName) searchCriteria.PatientMiddleName = { [Op.like]: `%${PatientMiddleName}%` };
+      if (EMRNumber) searchCriteria.EMRNumber = { [Op.like]: `%${EMRNumber}%` };
+      if (Phone) searchCriteria.Phone = { [Op.like]: `%${Phone}%` };
+
+
+
+      // if (PatientFirstName) searchCriteria.PatientFirstName = PatientFirstName;
+      // if (PatientLastName) searchCriteria.PatientLastName = PatientLastName;
+      // if (PatientMiddleName) searchCriteria.PatientMiddleName = PatientMiddleName;
+      // if (EMRNumber) searchCriteria.EMRNumber = EMRNumber;
+      // if (Phone) searchCriteria.Phone = Phone;
+
+      const patients = await PatientMaster.findAll({ where: searchCriteria });
+
+      if (patients.length > 0) {
+          res.status(200).json(patients);
+      } else {
+          res.status(200).json({ message: 'No patients found' });
+      }
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+};
+

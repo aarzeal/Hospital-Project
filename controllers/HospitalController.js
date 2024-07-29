@@ -194,6 +194,7 @@ const logger = require('../logger');  // Assuming logger is configured properly 
 const jwt = require('jsonwebtoken');
 const {  DataTypes } = require('sequelize');
 const { User } = require('../models/user');
+const CountAPI = require('../models/ApisCounts');
 
 
 const dotenv = require('dotenv');
@@ -201,15 +202,16 @@ dotenv.config();
 
 exports.createHospital = async (req, res) => {
   const start = Date.now(); 
+  // let end;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      const end = Date.now(); 
+      // const end = Date.now(); 
         logger.info('Validation errors occurred', errors);
         return res.status(400).json({
             meta: {
                 statusCode: 400,
                 errorCode: 912,
-                executionTime: `${end - start}ms`
+                // executionTime: `${end - start}ms`
             },
             error: {
                 message: 'Validation errors occurred',
@@ -225,12 +227,12 @@ exports.createHospital = async (req, res) => {
     try {
       const existingHospital = await Hospital.findOne({ where: { ManagingCompanyEmail: req.body.ManagingCompanyEmail } });
     if (existingHospital) {
-      const end = Date.now();
+      // const end = Date.now();
       return res.status(400).json({
         meta: {
           statusCode: 400,
           errorCode: 956,
-                   executionTime: `${end - start}ms`
+                  //  executionTime: `${end - start}ms`
         },
         error: {
           message: 'Managing Company Email already exists'
@@ -240,7 +242,7 @@ exports.createHospital = async (req, res) => {
         const hospital = await Hospital.create(req.body);
         logger.info('Hospital created successfully', {
           hospitalId: hospital.HospitalID,
-          executionTime: `${end - start}ms`
+          // executionTime: `${end - start}ms`
         });
 
         // Generate database name (e.g., from HospitalDatabase field)
@@ -251,18 +253,18 @@ exports.createHospital = async (req, res) => {
         await sequelize.query(`CREATE DATABASE \`${databaseName}\``);
         logger.info(`Database ${databaseName} created successfully`);
 
-        const { sequelize: dynamicDb, testConnection } = createDynamicConnection(databaseName);
+        // const { sequelize: dynamicDb, testConnection } = createDynamicConnection(databaseName);
         
         // Test the connection to the new database
-        await testConnection();
-        logger.info(`Connected to database ${databaseName} successfully`);
+        // await testConnection();
+        // logger.info(`Connected to database ${databaseName} successfully`);
 
         // Define and sync the UserMaster model in the new database
-        const UserMaster = createUserMasterModel(dynamicDb);
+        // const UserMaster = createUserMasterModel(dynamicDb);
 
         // Sync all models
-        await dynamicDb.sync();
-        logger.info(`Models synchronized successfully in database ${databaseName}, executionTime: ${end - start}ms`);
+        // await dynamicDb.sync();
+        logger.info(`Models synchronized successfully in database ${databaseName}`);
 
 
 
@@ -272,23 +274,23 @@ exports.createHospital = async (req, res) => {
         hospital.UniqueKey = uniqueKey;
          await hospital.save({ fields: ['UniqueKey'] });
         
-        logger.info(`Unique key stored in hospital record successfully, executionTime: ${end - start}ms`);
-        const end = Date.now();
+        logger.info(`Unique key stored in hospital record successfully`);
+        // const end = Date.now();
         res.status(200).json({
             meta: {
                 statusCode: 200,
-                    executionTime: `${end - start}ms`
+                    // executionTime: `${end - start}ms`
             },
             data: hospital
         });
     } catch (error) {
-      const end = Date.now(); 
+      // const end = Date.now(); 
         logger.error('Error creating hospital', { error: error.message });
         res.status(400).json({
             meta: {
                 statusCode: 400,
                 errorCode: 913,
-                          executionTime: `${end - start}ms`
+                          // executionTime: `${end - start}ms`
             },
             error: {
                 message: 'Error creating hospital: ' + error.message
@@ -296,6 +298,128 @@ exports.createHospital = async (req, res) => {
         });
     }
 };
+
+
+
+// exports.createHospital = async (req, res) => {
+//   const start = Date.now(); // Initialize start time at the beginning
+
+//   // Ensure the res object is correctly defined
+//   if (!res || typeof res.status !== 'function') {
+//     console.error('Response object is not properly defined at the start of the function');
+//     return;
+//   }
+
+//   // Validation Check
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     const end = Date.now();
+//     logger.info('Validation errors occurred', errors);
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 912,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Validation errors occurred',
+//         details: errors.array().map(err => ({
+//           field: err.param,
+//           message: err.msg
+//         }))
+//       }
+//     });
+//   }
+
+//   try {
+//     // Check for existing hospital by ManagingCompanyEmail
+//     const existingHospital = await Hospital.findOne({ where: { ManagingCompanyEmail: req.body.ManagingCompanyEmail } });
+//     if (existingHospital) {
+//       const end = Date.now();
+//       return res.status(400).json({
+//         meta: {
+//           statusCode: 400,
+//           errorCode: 956,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Managing Company Email already exists'
+//         }
+//       });
+//     }
+
+//     // Create Hospital
+//     const hospital = await Hospital.create(req.body);
+//     logger.info('Hospital created successfully', {
+//       hospitalId: hospital.HospitalID,
+//       executionTime: `${Date.now() - start}ms`
+//     });
+
+//     // Generate database name from HospitalDatabase field
+//     const databaseName = hospital.HospitalDatabase.replace(/\s+/g, '_').toLowerCase();
+//     logger.info(`Generated database name: ${databaseName}`);
+
+//     // Create new database
+//     await sequelize.query(`CREATE DATABASE \`${databaseName}\``);
+//     logger.info(`Database ${databaseName} created successfully`);
+
+//     // Create dynamic connection to the new database
+//     const { sequelize: dynamicDb, testConnection } = createDynamicConnection(databaseName);
+
+//     // Test the connection to the new database
+//     await testConnection();
+//     logger.info(`Connected to database ${databaseName} successfully`);
+
+//     // Define and sync the UserMaster model in the new database
+//     const UserMaster = createUserMasterModel(dynamicDb);
+//     await dynamicDb.sync();
+//     logger.info(`Models synchronized successfully in database ${databaseName}, executionTime: ${Date.now() - start}ms`);
+
+//     // Generate and store unique key in the hospital record
+//     const uniqueKey = uuidv4();
+//     logger.info(`Generated unique key: ${uniqueKey}`);
+//     hospital.UniqueKey = uniqueKey;
+//     await hospital.save({ fields: ['UniqueKey'] });
+//     logger.info(`Unique key stored in hospital record successfully, executionTime: ${Date.now() - start}ms`);
+
+//     // Send response with successful hospital creation
+//     const end = Date.now();
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: hospital
+//     });
+//   } catch (error) {
+//     // Catch any errors that occur during the hospital creation process
+//     const end = Date.now();
+//     logger.error('Error creating hospital', { error: error.message });
+
+//     // Log the state of res to diagnose potential issues
+//     console.error('Response object in catch block:', res);
+
+//     // Ensure the response object is correctly handled in the catch block
+//     if (res && typeof res.status === 'function') {
+//       res.status(500).json({
+//         meta: {
+//           statusCode: 500,
+//           errorCode: 913,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Error creating hospital: ' + error.message
+//         }
+//       });
+//     } else {
+//       console.error('Response object is not properly defined or corrupted in catch block');
+//     }
+//   }
+// };
+
+
+
+
 
 exports.getAllHospitals = async (req, res) => {
   const start = Date.now();
@@ -907,7 +1031,24 @@ logger.warn(`Incorrect password for hospital with Username ${Username}, executio
     const decodedToken = jwt.verify(Hospitaltoken, process.env.JWT_SECRET);
     const end = Date.now();
     logger.info(`Hospital with ID ${decodedToken.hospitalId} logged in successfully, executionTime: ${end - start}ms`);
-    
+    ////////////////Count apis 
+
+
+    // const method = req.method; 
+    // const city = req.body.city || 'Unknown'; 
+    // // Using the HTTP method from the request
+    // // try {
+    //   await CountAPI.create({
+    //     Apiname: 'login',
+    //     location: city,
+    //     createdby: decodedToken.hospitalId,
+    //     ApiMethod: method,
+    //     createdname: Username
+    //   });
+    // }
+    //  catch (err) {
+    //   logger.error('Error creating CountAPI entry', { error: err.message });
+    // }
 
     res.status(200).json({
       meta: {
@@ -947,92 +1088,6 @@ logger.warn(`Incorrect password for hospital with Username ${Username}, executio
 
 
 
-exports.HospitalCode = async (req, res) => {
-  const start = Date.now();
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const end = Date.now();
-    logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
-
-    return res.status(400).json({
-      meta: {
-        statusCode: 400,
-        errorCode: 923,
-        executionTime: `${end - start}ms`
-      },
-      error: {
-        message: 'Validation errors occurred',
-        details: errors.array().map(err => ({
-          field: err.param,
-          message: err.msg
-        }))
-      }
-    });
-  }
-
-  const { HospitalCode } = req.body;
-
-  try {
-    const hospital = await Hospital.findOne({ where: { HospitalCode } });
-    if (!hospital) {
-      const end = Date.now();
-      logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
-
-      return res.status(404).json({
-        meta: {
-          statusCode: 404,
-          errorCode: 924,
-          executionTime: `${end - start}ms`
-        },
-        error: {
-          message: 'Hospital not found'
-        }
-      });
-    }
-
-    const Hospitaltoken = jwt.sign(
-      { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
-      process.env.JWT_SECRET,
-      { expiresIn: '24h' }
-    );
-
-    const end = Date.now();
-    logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
-
-    req.hospitalDatabase = hospital.HospitalDatabase;
-
-
-    res.status(200).json({
-      meta: {
-        statusCode: 200,
-        executionTime: `${end - start}ms`
-      },
-      data: {
-        Hospitaltoken,
-        hospital: {
-          hospitalId: hospital.HospitalID,
-          hospitalDatabase: hospital.HospitalDatabase,
-          hospitalGroupIDR: hospital.HospitalGroupIDR
-        },
-        message: 'Database name found successfully'
-      }
-    });
-  } catch (error) {
-    const end = Date.now();
-    logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
-
-    res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode: 926,
-        executionTime: `${end - start}ms`
-      },
-      error: {
-        message: 'Error finding hospital: ' + error.message
-      }
-    });
-  }
-};
 
 
 
@@ -1726,6 +1781,8 @@ logger.info(`User email verified successfully with username: ${user.username}`, 
 };
 
 
+
+
 // exports.verifyEmail = async (req, res) => {
 //   const { token } = req.params;
 //   const User = require('../models/user')(req.sequelize);
@@ -2153,6 +2210,95 @@ logger.error('Error retrieving users with pagination', { error: error.message, e
 // };
 
 
+exports.HospitalCode = async (req, res) => {
+  const start = Date.now();
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const end = Date.now();
+    logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
+
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 1044,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Validation errors occurred',
+        details: errors.array().map(err => ({
+          field: err.param,
+          message: err.msg
+        }))
+      }
+    });
+  }
+
+  const { HospitalCode } = req.body;
+
+  try {
+    const hospital = await Hospital.findOne({ where: { HospitalCode } });
+    if (!hospital) {
+      const end = Date.now();
+      logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
+
+      return res.status(404).json({
+        meta: {
+          statusCode: 404,
+          errorCode: 1045,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Hospital not found'
+        }
+      });
+    }
+
+    const Hospitaltoken = jwt.sign(
+      { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
+      process.env.JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
+    const end = Date.now();
+    logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
+
+    req.hospitalDatabase = hospital.HospitalDatabase;
+
+  
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`
+      },
+      data: {
+        Hospitaltoken,
+        hospital: {
+          hospitalId: hospital.HospitalID,
+          hospitalDatabase: hospital.HospitalDatabase,
+          hospitalGroupIDR: hospital.HospitalGroupIDR
+        },
+        message: 'Database name found successfully'
+      }
+    });
+  } catch (error) {
+    const end = Date.now();
+    logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
+
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 1046,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error finding hospital: ' + error.message
+      }
+    });
+  }
+};
+
+
 
 exports.loginUser = async (req, res) => {
   const start = Date.now();
@@ -2165,7 +2311,7 @@ exports.loginUser = async (req, res) => {
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 1044,
+        errorCode: 1047,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -2184,7 +2330,7 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({
         meta: {
           statusCode: 401,
-          errorCode: 1045,
+          errorCode: 1048,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -2197,7 +2343,7 @@ exports.loginUser = async (req, res) => {
       return res.status(403).json({
         meta: {
           statusCode: 403,
-          errorCode: 1046,
+          errorCode: 1049,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -2208,10 +2354,24 @@ exports.loginUser = async (req, res) => {
 
 
     const AccessToken = jwt.sign(
-      { userId: user.userId },
+      { userId: user.userId,
+        username :user.username,
+        HospitalId :user.hospitalId
+
+
+
+       },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
+
+    const decodedToken = jwt.decode(AccessToken);
+    const currentTime = Math.floor(Date.now() / 1000);
+    const expiresIn = decodedToken.exp - currentTime;
+    const expiresInMinutes = Math.floor(expiresIn / 60);
+    console.log(`Token expires in: ${expiresIn} seconds`);
+
+
 
     const end = Date.now();
     return res.status(200).json({
@@ -2221,6 +2381,7 @@ exports.loginUser = async (req, res) => {
       },
       data: {
         AccessToken,
+      expiresInMinutes: `${expiresInMinutes} min`,
         user: {
           id: user.userId,
           username: user.username,
@@ -2234,7 +2395,7 @@ exports.loginUser = async (req, res) => {
     return res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 1048,
+        errorCode: 1050,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -2243,6 +2404,243 @@ exports.loginUser = async (req, res) => {
     });
   }
 };
+exports.getProfile = (req, res) => {
+  const token = req.headers['authorization'];
+  
+  if (!token) {
+    logger.warn('No token provided');
+    return res.status(401).json({
+      meta: {
+        statusCode: 401,
+        errorCode: 401,
+        message: 'No token provided'
+      }
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET); // Adjust the secret as necessary
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200
+      },
+      data: {
+        userId: decoded.userId || 'Unknown',
+        hospitalId: decoded.hospitalId || 'Unknown',
+        // Add other fields you have in the token
+      }
+    });
+  } catch (error) {
+    logger.error('Failed to authenticate token', { error: error.message });
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 500,
+        message: 'Failed to authenticate token'
+      }
+    });
+  }
+};
+
+exports.requestUserPasswordReset = async (req, res) => {
+  const { User } = require('../models/user');
+  const start = Date.now();
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const end = Date.now();
+    logger.warn('Validation errors occurred during password reset request', { errors, executionTime: `${end - start}ms` });
+
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 957,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Validation errors occurred',
+        details: errors.array().map(err => ({
+          field: err.param,
+          message: err.msg
+        }))
+      }
+    });
+  }
+
+  const { email } = req.body;
+
+  if (!email) {
+    const end = Date.now();
+    logger.error('Email not provided', { executionTime: `${end - start}ms` });
+
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 958,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Email is required'
+      }
+    });
+  }
+
+  try {
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      const end = Date.now();
+      logger.warn(`User with email ${email} not found`, { executionTime: `${end - start}ms` });
+
+      return res.status(404).json({
+        meta: {
+          statusCode: 404,
+          errorCode: 959,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'User not found'
+        }
+      });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetTokenExpiry = Date.now() + 3600000; // 1 hour from now
+
+    user.resetToken = resetToken;
+    user.resetTokenExpiry = resetTokenExpiry;
+    await user.save();
+
+    const resetLink = `http://localhost:3000/api/v1/hospital/reset-Userpassword/${resetToken}`;
+
+    const emailResponse = await sendEmail(
+      email,
+      'Password Reset Request',
+      `You requested a password reset. Click the link to reset your password: ${resetLink}`
+    );
+
+    if (emailResponse.meta.statusCode !== 200) {
+      throw new Error('Failed to send reset email');
+    }
+
+    const end = Date.now();
+    logger.info(`Password reset link sent to ${email}`, { executionTime: `${end - start}ms` });
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`
+      },
+      data: {
+        message: 'Password reset link sent successfully'
+      }
+    });
+  } catch (error) {
+    const end = Date.now();
+    logger.error('Error requesting password reset', { error: error.message, executionTime: `${end - start}ms` });
+
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 960,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error requesting password reset: ' + error.message
+      }
+    });
+  }
+};
+exports.resetuserPassword = async (req, res) => {
+  const start = Date.now();
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const end = Date.now();
+    logger.warn('Validation errors occurred during password reset', { errors, executionTime: `${end - start}ms` });
+
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 961,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Validation errors occurred',
+        details: errors.array().map(err => ({
+          field: err.param,
+          message: err.msg
+        }))
+      }
+    });
+  }
+
+  const { token, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        resetToken: token,
+        resetTokenExpiry: { [Op.gt]: Date.now() }
+      }
+    });
+
+    if (!user) {
+      const end = Date.now();
+      logger.warn('Invalid or expired reset token', { executionTime: `${end - start}ms` });
+
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 962,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Invalid or expired reset token'
+        }
+      });
+    }
+
+    const SALT_ROUNDS = 10;
+    const hashedNewPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+    user.password = hashedNewPassword;
+    user.resetToken = null;
+    user.resetTokenExpiry = null;
+    await user.save();
+
+    const end = Date.now();
+    logger.info(`Password reset successfully for user with email ${user.email}`, { executionTime: `${end - start}ms` });
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`
+      },
+      data: {
+        message: 'Password reset successfully'
+      }
+    });
+  } catch (error) {
+    const end = Date.now();
+    logger.error('Error resetting password', { error: error.message, executionTime: `${end - start}ms` });
+
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 963,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error resetting password: ' + error.message
+      }
+    });
+  }
+};
+
+
+
+
+
 exports.decodeToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -2263,6 +2661,8 @@ exports.decodeToken = (req, res, next) => {
   }
 };
 
+// Import the User model at the top of your controller file
+// const User = require('../models/user'); // Adjust path as needed
 
 exports.changePassword = async (req, res) => {
   const start = Date.now();
@@ -2301,18 +2701,19 @@ exports.changePassword = async (req, res) => {
   }
 
   try {
-    console.log('User model:', User); // Debugging log to check if User model is loaded
+    console.log('req.user:', req.user); // Debugging log to check if req.user is set
 
-    if (!req.user || !req.user.userId) {
+    if (!req.user) {
       throw new Error('User ID is not defined in the token');
     }
 
     // Check if User model is loaded correctly
-    if (!User || typeof User.findOne !== 'function') {
-      throw new Error('User model is not correctly defined or loaded');
-    }
+    // if (!User || typeof User.findOne !== 'function') {
+    //   throw new Error('User model is not correctly defined or loaded');
+    // }
 
     const user = await User.findOne({ where: { userId: req.user.userId } });
+
 
     if (!user || !await bcrypt.compare(oldPassword, user.password)) {
       const end = Date.now();
@@ -2356,3 +2757,183 @@ exports.changePassword = async (req, res) => {
     });
   }
 };
+
+
+
+exports.forgotPassword = async (req, res) => {
+  const start = Date.now();
+  const { email } = req.body;
+
+  if (!email) {
+    const end = Date.now();
+    logger.error('Email not provided', { executionTime: `${end - start}ms` });
+
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 970,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Email is required'
+      }
+    });
+  }
+
+  try {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      const end = Date.now();
+      logger.warn('User not found with provided email', { email, executionTime: `${end - start}ms` });
+
+      return res.status(404).json({
+        meta: {
+          statusCode: 404,
+          errorCode: 971,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'User not found'
+        }
+      });
+    }
+
+    // Generate a reset token
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetTokenExpires = Date.now() + 3600000; // Token expires in 1 hour
+
+    // Save token and expiration to user
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = resetTokenExpires;
+    await user.save();
+
+    // Send email with the reset token
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail', // Use your email service
+      auth: {
+        user: process.env.EMAIL, // Your email
+        pass: process.env.EMAIL_PASSWORD // Your email password
+      }
+    });
+
+    const mailOptions = {
+      to: email,
+      from: process.env.EMAIL,
+      subject: 'Password Reset',
+      text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+      Please click on the following link, or paste this into your browser to complete the process:\n\n
+      http://${req.headers.host}/reset/${resetToken}\n\n
+      If you did not request this, please ignore this email and your password will remain unchanged.\n`
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    const end = Date.now();
+    logger.info(`Password reset token sent to ${email}`, { email, executionTime: `${end - start}ms` });
+
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`
+      },
+      data: {
+        message: 'Password reset token sent successfully'
+      }
+    });
+  } catch (error) {
+    const end = Date.now();
+    logger.error('Error in forgot password', { error: error.message, executionTime: `${end - start}ms` });
+
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 972,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error in forgot password: ' + error.message
+      }
+    });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  const start = Date.now();
+  const { token, newPassword } = req.body;
+
+  if (!token || !newPassword) {
+    const end = Date.now();
+    logger.error('Token or new password not provided', { executionTime: `${end - start}ms` });
+
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 973,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Token and new password are required'
+      }
+    });
+  }
+
+  try {
+    const user = await User.findOne({ where: { resetPasswordToken: token, resetPasswordExpires: { [Op.gt]: Date.now() } } });
+
+    if (!user) {
+      const end = Date.now();
+      logger.warn('Invalid or expired token', { token, executionTime: `${end - start}ms` });
+
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 974,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Invalid or expired token'
+        }
+      });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update user's password and clear the reset token and expiration
+    user.password = hashedPassword;
+    user.resetPasswordToken = null;
+    user.resetPasswordExpires = null;
+    await user.save();
+
+    const end = Date.now();
+    logger.info('Password reset successfully', { userId: user.userId, executionTime: `${end - start}ms` });
+
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`
+      },
+      data: {
+        message: 'Password reset successfully'
+      }
+    });
+  } catch (error) {
+    const end = Date.now();
+    logger.error('Error in resetting password', { error: error.message, executionTime: `${end - start}ms` });
+
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 975,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error in resetting password: ' + error.message
+      }
+    });
+  }
+};
+
+
+
+

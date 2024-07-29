@@ -453,3 +453,98 @@
 {"executionTime":"0ms","level":"error","message":"Username or Password not provided","timestamp":"2024-07-18T07:14:54.515Z"}
 {"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-19T05:26:11.289Z"}
 {"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-19T05:26:48.134Z"}
+{"error":"Cannot read properties of undefined (reading 'findOne')","executionTime":"0ms","level":"error","message":"Error changing email","timestamp":"2024-07-19T09:26:17.969Z"}
+{"error":"user is not defined","executionTime":"0ms","level":"error","message":"Error changing email","timestamp":"2024-07-19T09:29:04.590Z"}
+{"error":"Cannot access 'User' before initialization","executionTime":"0ms","level":"error","message":"Error changing email","timestamp":"2024-07-19T09:29:51.004Z"}
+{"executionTime":"0ms","level":"error","message":"Email not provided","timestamp":"2024-07-19T10:15:59.664Z"}
+{"executionTime":"0ms","level":"error","message":"Email not provided","timestamp":"2024-07-19T10:16:17.528Z"}
+{"executionTime":"0ms","level":"error","message":"Email not provided","timestamp":"2024-07-19T10:24:23.503Z"}
+{"executionTime":"0ms","level":"error","message":"Email not provided","timestamp":"2024-07-19T11:24:18.162Z"}
+{"error":"count is not defined","executionTime":"80ms","level":"error","message":"Error logging in","timestamp":"2024-07-19T12:11:18.094Z"}
+{"error":"city is not defined","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-07-19T12:21:44.333Z"}
+{"error":"city is not defined","executionTime":"77ms","level":"error","message":"Error logging in","timestamp":"2024-07-19T12:23:01.856Z"}
+{"error":"Username is already in use","executionTime":"118ms","level":"error","message":"Error creating user","timestamp":"2024-07-20T06:24:37.186Z"}
+{"error":"Validation error","executionTime":"45ms","level":"error","message":"Error creating patient","timestamp":"2024-07-20T06:30:06.924Z"}
+{"error":"Unknown column 'Reserve1' in 'field list'","level":"error","message":"Error updating patient","timestamp":"2024-07-20T06:39:18.979Z"}
+{"error":"Validation error","executionTime":"29ms","level":"error","message":"Error creating patient","timestamp":"2024-07-20T06:41:39.895Z"}
+{"error":"Unknown column 'Reserve1' in 'field list'","level":"error","message":"Error updating patient","timestamp":"2024-07-20T06:41:56.109Z"}
+{"error":"Unknown column 'Reserve1' in 'field list'","level":"error","message":"Error retrieving patients","timestamp":"2024-07-20T06:45:26.665Z"}
+{"error":"Validation error","executionTime":"15ms","level":"error","message":"Error creating patient","timestamp":"2024-07-20T06:49:52.803Z"}
+{"error":"Unknown column 'Reserve1' in 'field list'","level":"error","message":"Error retrieving patients","timestamp":"2024-07-20T06:50:26.939Z"}
+{"error":"error is not defined","level":"error","message":"Error retrieving patients","timestamp":"2024-07-20T06:51:51.206Z"}
+{"error":"logDetails is not defined","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-07-20T09:04:44.204Z"}
+{"error":"Unknown column 'ip' in 'field list'","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-07-20T12:00:36.139Z"}
+{"error":"Unknown column 'ip' in 'field list'","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-07-20T12:04:03.855Z"}
+{"error":"Unknown column 'userAgent' in 'field list'","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-07-20T12:09:20.242Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-24T05:37:17.089Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-24T05:39:47.152Z"}
+{"executionTime":"0ms","level":"error","message":"Token or new password not provided","timestamp":"2024-07-24T10:19:23.568Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-24T10:21:17.866Z"}
+{"error":"Cannot read properties of undefined (reading 'findOne')","executionTime":"0ms","level":"error","message":"Error requesting password reset","timestamp":"2024-07-24T10:26:13.797Z"}
+{"error":"Cannot read properties of undefined (reading 'findOne')","executionTime":"1ms","level":"error","message":"Error requesting password reset","timestamp":"2024-07-24T10:38:09.863Z"}
+{"error":"Cannot read properties of undefined (reading 'findOne')","executionTime":"0ms","level":"error","message":"Error requesting password reset","timestamp":"2024-07-24T10:39:01.509Z"}
+{"error":"Cannot read properties of undefined (reading 'findOne')","executionTime":"0ms","level":"error","message":"Error requesting password reset","timestamp":"2024-07-24T10:51:20.517Z"}
+{"error":"Cannot read properties of undefined (reading 'findOne')","executionTime":"0ms","level":"error","message":"Error requesting password reset","timestamp":"2024-07-24T10:51:45.557Z"}
+{"error":"Cannot read properties of undefined (reading 'findOne')","executionTime":"0ms","level":"error","message":"Error requesting password reset","timestamp":"2024-07-24T11:45:51.950Z"}
+{"error":"Cannot read properties of undefined (reading 'findOne')","executionTime":"0ms","level":"error","message":"Error requesting password reset","timestamp":"2024-07-24T11:48:17.937Z"}
+{"error":"Cannot read properties of undefined (reading 'findOne')","executionTime":"0ms","level":"error","message":"Error requesting password reset","timestamp":"2024-07-24T11:50:33.057Z"}
+{"error":"Cannot read properties of undefined (reading 'findOne')","executionTime":"1ms","level":"error","message":"Error requesting password reset","timestamp":"2024-07-24T11:50:35.199Z"}
+{"error":"Op is not defined","executionTime":"0ms","level":"error","message":"Error creating patient","timestamp":"2024-07-25T06:23:14.808Z"}
+{"level":"error","message":"Error fetching employee: Unknown column 'SpecialtyIDR' in 'field list'","timestamp":"2024-07-27T06:29:56.388Z"}
+{"level":"error","message":"Error fetching employee: Unknown column 'Reserve1' in 'field list'","timestamp":"2024-07-27T06:32:29.933Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:37:05.177Z"}
+{"error":"Cannot access 'end' before initialization","level":"error","message":"Error creating hospital","timestamp":"2024-07-27T06:37:05.298Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:38:49.861Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:39:05.496Z"}
+{"error":"Cannot access 'end' before initialization","level":"error","message":"Error creating hospital","timestamp":"2024-07-27T06:39:05.636Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:39:50.467Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:40:01.260Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-27T06:40:01.413Z"}
+{"error":"Cannot read properties of undefined (reading 'status')","level":"error","message":"Error creating hospital","timestamp":"2024-07-27T06:40:01.413Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:41:08.265Z"}
+{"error":"Can't create database 'umcdb'; database exists","level":"error","message":"Error creating hospital","timestamp":"2024-07-27T06:41:08.451Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:41:42.765Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:42:15.609Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-27T06:42:15.750Z"}
+{"error":"Cannot read properties of undefined (reading 'status')","level":"error","message":"Error creating hospital","timestamp":"2024-07-27T06:42:15.751Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:46:07.120Z"}
+{"error":"end is not defined","level":"error","message":"Error creating hospital","timestamp":"2024-07-27T06:46:07.333Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:47:04.620Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:47:25.022Z"}
+{"error":"Can't create database 'umcdb3'; database exists","level":"error","message":"Error creating hospital","timestamp":"2024-07-27T06:47:25.171Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:48:27.400Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-27T06:48:27.530Z"}
+{"error":"Cannot read properties of undefined (reading 'status')","level":"error","message":"Error creating hospital","timestamp":"2024-07-27T06:48:27.531Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:50:59.294Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-27T06:50:59.493Z"}
+{"error":"Cannot read properties of undefined (reading 'status')","level":"error","message":"Error creating hospital","timestamp":"2024-07-27T06:50:59.493Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T06:51:58.490Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-27T06:51:58.635Z"}
+{"error":"Cannot read properties of undefined (reading 'status')","level":"error","message":"Error creating hospital","timestamp":"2024-07-27T06:51:58.636Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-07-27T07:19:33.375Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T09:43:22.284Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T09:43:52.284Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-27T09:43:52.429Z"}
+{"error":"Cannot read properties of undefined (reading 'status')","level":"error","message":"Error creating hospital","timestamp":"2024-07-27T09:43:52.430Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T10:06:17.077Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-27T10:07:35.285Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-27T10:07:35.452Z"}
+{"error":"Cannot read properties of undefined (reading 'status')","level":"error","message":"Error creating hospital","timestamp":"2024-07-27T10:07:35.452Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-29T05:23:55.911Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-29T05:23:56.077Z"}
+{"error":"Cannot read properties of undefined (reading 'status')","level":"error","message":"Error creating hospital","timestamp":"2024-07-29T05:23:56.077Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-29T05:37:45.532Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-29T05:37:45.710Z"}
+{"error":"Cannot read properties of undefined (reading 'status')","level":"error","message":"Error creating hospital","timestamp":"2024-07-29T05:37:45.711Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-29T05:40:25.155Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-07-29T05:40:25.353Z"}
+{"error":"Cannot read properties of undefined (reading 'status')","level":"error","message":"Error creating hospital","timestamp":"2024-07-29T05:40:25.354Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-29T05:43:11.542Z"}
+{"error":"createDynamicConnection is not a function","level":"error","message":"Error creating hospital","timestamp":"2024-07-29T05:43:11.745Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-29T05:45:16.076Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-29T05:45:40.360Z"}
+{"error":"end is not defined","level":"error","message":"Error creating hospital","timestamp":"2024-07-29T05:45:40.538Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-07-29T05:48:49.322Z"}
+{"error":"Validation error: config is not defined","executionTime":"13ms","level":"error","message":"Error creating patient","timestamp":"2024-07-29T07:33:59.049Z"}
+{"error":"Validation error: config is not defined","executionTime":"46ms","level":"error","message":"Error creating patient","timestamp":"2024-07-29T07:34:40.481Z"}
+{"error":"Validation error: Invalid gender value: A+. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid MaritalStatus value: Single. Valid values are: 1, 2, 3, 4","executionTime":"15ms","level":"error","message":"Error creating patient","timestamp":"2024-07-29T09:03:50.251Z"}
