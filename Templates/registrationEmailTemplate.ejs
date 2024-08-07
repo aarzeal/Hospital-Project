@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Successful</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+    }
+    .header {
+      background-color: #4CAF50;
+      color: #ffffff;
+      padding: 10px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+    }
+    .header img {
+      max-width: 150px;
+      height: auto;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0;
+    }
+    .body {
+      padding: 20px;
+    }
+    .highlight {
+      color: #4CAF50;
+      font-weight: bold;
+    }
+    .footer {
+      background-color: #f1f1f1;
+      color: #666;
+      padding: 10px;
+      text-align: center;
+      border-radius: 0 0 8px 8px;
+      font-size: 14px;
+    }
+    .footer a {
+      color: #4CAF50;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <!-- Replace 'logo.png' with the path to your logo image -->
+      <img src="cid:logo" alt="Hospital Logo" />
+      <h1>Registration Successful</h1>
+    </div>
+    <div class="body">
+      <p>Dear <%= firstName %>,</p>
+      <p>Your registration was successful. Your EMR Number is <span class="highlight"><%= emrNumber %></span>.</p>
+      <p>Thank you for choosing <span class="highlight"><%= hospitalName %></span> services.</p>
+    </div>
+   
+  </div>
+  <div class="footer">
+    <p>For more information, visit our website or contact us at <a href="mailto:support@hospital.com"><%= managingCompanyEmail
+       %></a>.</p>
+    <p>Best regards, <br> <%= hospitalName %> Team</p>
+  </div>
+</body>
+</html>

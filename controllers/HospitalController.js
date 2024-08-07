@@ -195,6 +195,10 @@ const jwt = require('jsonwebtoken');
 const {  DataTypes } = require('sequelize');
 const { User } = require('../models/user');
 const CountAPI = require('../models/ApisCounts');
+const redis = require('redis');
+const{ redisClient, getAsync, setAsync }  = require('../Middleware/redisClient'); 
+const client = redis.createClient();
+
 
 
 const dotenv = require('dotenv');
@@ -1022,15 +1026,41 @@ logger.warn(`Incorrect password for hospital with Username ${Username}, executio
       });
     }
 
+    // const Hospitaltoken = jwt.sign(
+    //   { hospitalId: hospital.HospitalID,
+    //      hospitalDatabase: hospital.HospitalDatabase,
+    //      hospitalGroupIDR:hospital.HospitalGroupIDR,
+    //      hospitalName: hospital.HospitalName },
+    //   process.env.JWT_SECRET,
+    //   { expiresIn: '24h' }
+    // );
+
     const Hospitaltoken = jwt.sign(
-      { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase,hospitalGroupIDR:hospital.HospitalGroupIDR },
+      {
+        hospitalId: hospital.HospitalID,
+        hospitalDatabase: hospital.HospitalDatabase,
+        hospitalGroupIDR: hospital.HospitalGroupIDR,
+        hospitalName: hospital.HospitalName,
+        ManagingCompanyAdd1:hospital.ManagingCompanyAdd1,
+        ManagingCompanyEmail:hospital.ManagingCompanyEmail
+      },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 
+
+
     const decodedToken = jwt.verify(Hospitaltoken, process.env.JWT_SECRET);
+
+    const currentTime = Math.floor(Date.now() / 1000);
+    const expiresIn = decodedToken.exp - currentTime;
+    const expiresInMinutes = Math.floor(expiresIn / 60);
+    console.log(`Token expires in: ${expiresIn} seconds`);
+
+    console.log("Decoded Token:", decodedToken);
     const end = Date.now();
     logger.info(`Hospital with ID ${decodedToken.hospitalId} logged in successfully, executionTime: ${end - start}ms`);
+    
     ////////////////Count apis 
 
 
@@ -1057,12 +1087,18 @@ logger.warn(`Incorrect password for hospital with Username ${Username}, executio
       },
       data: {
         Hospitaltoken,
+        expiresInMinutes: `${expiresInMinutes} min`,
+        
         hospital: {
           id: decodedToken.hospitalId,
           username: hospital.Username,
           email: hospital.Email,
           hospitalDatabase: hospital.HospitalDatabase,
-          HospitalGroupIDR:hospital.HospitalGroupIDR
+          HospitalGroupIDR:hospital.HospitalGroupIDR,
+          HospitalName: hospital.HospitalName,
+          ManagingCompanyAdd1:hospital.ManagingCompanyAdd1,
+        ManagingCompanyEmail:hospital.ManagingCompanyEmail
+         
         },
         message: 'Login successful and token generated.'
       }
@@ -2210,6 +2246,268 @@ logger.error('Error retrieving users with pagination', { error: error.message, e
 // };
 
 
+
+// client.on('error', (err) => {
+//   console.error('Redis error:', err);
+// });
+// exports.HospitalCode = async (req, res) => {
+
+//   const start = Date.now();
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     const end = Date.now();
+//     logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
+
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 1044,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Validation errors occurred',
+//         details: errors.array().map(err => ({
+//           field: err.param,
+//           message: err.msg
+//         }))
+//       }
+//     });
+//   }
+
+//   const { HospitalCode } = req.body;
+
+//   try {
+//     const hospital = await Hospital.findOne({ where: { HospitalCode } });
+//     if (!hospital) {
+//       const end = Date.now();
+//       logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
+
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: 404,
+//           errorCode: 1045,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Hospital not found'
+//         }
+//       });
+//     }
+//      // Check if the hospital already has a valid token in Redis
+//     //  client.get(hospital.HospitalID.toString(), (err, existingToken) => {
+//     //   if (err) {
+//     //     const end = Date.now();
+//     //     logger.error('Error checking Redis for existing token', { executionTime: `${end - start}ms`, error: err });
+
+//     //     return res.status(500).json({
+//     //       meta: {
+//     //         statusCode: 500,
+//     //         errorCode: 1050,
+//     //         executionTime: `${end - start}ms`
+//     //       },
+//     //       error: {
+//     //         message: 'Error checking existing login session'
+//     //       }
+//     //     });
+//     //   }
+
+//     //   if (existingToken) {
+//     //     const end = Date.now();
+//     //     return res.status(400).json({
+//     //       meta: {
+//     //         statusCode: 400,
+//     //         errorCode: 1051,
+//     //         executionTime: `${end - start}ms`
+//     //       },
+//     //       error: {
+//     //         message: 'Hospital already logged in'
+//     //       }
+//     //     });
+//     //   }
+//     // })
+//   // Generate a new token
+//     const Hospitaltoken = jwt.sign(
+//       { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
+//       process.env.JWT_SECRET,
+//       { expiresIn: '24h' }
+//     );
+
+//   // // Store the token in Redis with an expiration time
+//   // redisClient.set(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60, (err, reply) => {
+//   //   if (err) {
+//   //     const end = Date.now();
+//   //     logger.error('Error storing token in Redis', { executionTime: `${end - start}ms`, error: err });
+
+//   //     return res.status(500).json({
+//   //       meta: {
+//   //         statusCode: 500,
+//   //         errorCode: 1052,
+//   //         executionTime: `${end - start}ms`
+//   //       },
+//   //       error: {
+//   //         message: 'Error storing login session'
+//   //       }
+//   //     });
+//   //   }
+
+//     const end = Date.now();
+//     logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
+
+//     req.hospitalDatabase = hospital.HospitalDatabase;
+//     const decodedToken = jwt.decode(Hospitaltoken);
+//     const currentTime = Math.floor(Date.now() / 1000);
+//     const expiresIn = decodedToken.exp - currentTime;
+//     const expiresInMinutes = Math.floor(expiresIn / 60);
+//     console.log(`Token expires in: ${expiresIn} seconds`);
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: {
+//         Hospitaltoken,
+//         expiresInMinutes: `${expiresInMinutes} min`,
+//         hospital: {
+//           hospitalId: hospital.HospitalID,
+//           hospitalDatabase: hospital.HospitalDatabase,
+//           hospitalGroupIDR: hospital.HospitalGroupIDR
+//         },
+//         message: 'Database name found successfully'
+//       }
+//     });
+//   // });
+
+//   } catch (error) {
+//     const end = Date.now();
+//     logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 1046,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error finding hospital: ' + error.message
+//       }
+//     });
+//   }
+// };
+
+// exports.HospitalCode = async (req, res) => {
+//   const start = Date.now();
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     const end = Date.now();
+//     logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
+
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 1044,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Validation errors occurred',
+//         details: errors.array().map(err => ({
+//           field: err.param,
+//           message: err.msg
+//         }))
+//       }
+//     });
+//   }
+
+//   const { HospitalCode } = req.body;
+
+//   try {
+//     const hospital = await Hospital.findOne({ where: { HospitalCode } });
+//     if (!hospital) {
+//       const end = Date.now();
+//       logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
+
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: 404,
+//           errorCode: 1045,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Hospital not found'
+//         }
+//       });
+//     }
+
+//     // Check if the hospital already has a valid token in Redis
+//     const existingToken = await getAsync(hospital.HospitalID.toString());
+//     if (existingToken) {
+//       const end = Date.now();
+//       return res.status(400).json({
+//         meta: {
+//           statusCode: 400,
+//           errorCode: 1051,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Hospital already logged in'
+//         }
+//       });
+//     }
+
+//     // Generate a new token
+//     const Hospitaltoken = jwt.sign(
+//       { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
+//       process.env.JWT_SECRET,
+//       { expiresIn: '24h' }
+//     );
+
+//     // Store the token in Redis with an expiration time
+//     await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
+
+//     const end = Date.now();
+//     logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
+
+//     req.hospitalDatabase = hospital.HospitalDatabase;
+//     const decodedToken = jwt.decode(Hospitaltoken);
+//     const currentTime = Math.floor(Date.now() / 1000);
+//     const expiresIn = decodedToken.exp - currentTime;
+//     const expiresInMinutes = Math.floor(expiresIn / 60);
+//     console.log(`Token expires in: ${expiresIn} seconds`);
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: {
+//         Hospitaltoken,
+//         expiresInMinutes: `${expiresInMinutes} min`,
+//         hospital: {
+//           hospitalId: hospital.HospitalID,
+//           hospitalDatabase: hospital.HospitalDatabase,
+//           hospitalGroupIDR: hospital.HospitalGroupIDR
+//         },
+//         message: 'Database name found successfully'
+//       }
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 1046,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error finding hospital: ' + error.message
+//       }
+//     });
+//   }
+// };
+
+
 exports.HospitalCode = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
@@ -2253,18 +2551,31 @@ exports.HospitalCode = async (req, res) => {
       });
     }
 
-    const Hospitaltoken = jwt.sign(
-      { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
-      process.env.JWT_SECRET,
-      { expiresIn: '24h' }
-    );
+    // Check if the hospital already has a valid token in Redis
+    const existingToken = await getAsync(hospital.HospitalID.toString());
+    let Hospitaltoken = existingToken;
+
+    // If token is not present, generate a new one
+    if (!existingToken) {
+      Hospitaltoken = jwt.sign(
+        { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
+        process.env.JWT_SECRET,
+        { expiresIn: '24h' }
+      );
+
+      // Store the new token in Redis with an expiration time
+      await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
+    }
 
     const end = Date.now();
     logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
 
     req.hospitalDatabase = hospital.HospitalDatabase;
-
-  
+    const decodedToken = jwt.decode(Hospitaltoken);
+    const currentTime = Math.floor(Date.now() / 1000);
+    const expiresIn = decodedToken.exp - currentTime;
+    const expiresInMinutes = Math.floor(expiresIn / 60);
+    console.log(`Token expires in: ${expiresIn} seconds`);
 
     res.status(200).json({
       meta: {
@@ -2273,6 +2584,7 @@ exports.HospitalCode = async (req, res) => {
       },
       data: {
         Hospitaltoken,
+        expiresInMinutes: `${expiresInMinutes} min`,
         hospital: {
           hospitalId: hospital.HospitalID,
           hospitalDatabase: hospital.HospitalDatabase,
@@ -2297,6 +2609,111 @@ exports.HospitalCode = async (req, res) => {
     });
   }
 };
+
+// exports.loginUser = async (req, res) => {
+//   const start = Date.now();
+//   const { Username, Password } = req.body;
+
+//   if (!Username || !Password) {
+//     const end = Date.now();
+//     logger.error('Username or Password not provided', { executionTime: `${end - start}ms` });
+
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 1047,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Username and Password are required'
+//       }
+//     });
+//   }
+
+//   try {
+//     const User = require('../models/user')(req.sequelize);
+//     console.log('Username:', Username); // Debugging log
+//     const user = await User.findOne({ where: { username: Username } });
+
+//     if (!user || !await bcrypt.compare(Password, user.password)) {
+//       const end = Date.now();
+//       return res.status(401).json({
+//         meta: {
+//           statusCode: 401,
+//           errorCode: 1048,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Invalid username or password'
+//         }
+//       });
+//     }
+//     if (user.is_emailVerify !== '1' || user.phoneverify !== '1') {
+//       const end = Date.now();
+//       return res.status(403).json({
+//         meta: {
+//           statusCode: 403,
+//           errorCode: 1049,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Email or phone not verified. Please verify email and phone.'
+//         }
+//       });
+//     }
+
+
+//     const AccessToken = jwt.sign(
+//       { userId: user.userId,
+//         username :user.username,
+//         HospitalId :user.hospitalId
+
+
+
+//        },
+//       process.env.JWT_SECRET,
+//       { expiresIn: '24h' }
+//     );
+
+//     const decodedToken = jwt.decode(AccessToken);
+//     const currentTime = Math.floor(Date.now() / 1000);
+//     const expiresIn = decodedToken.exp - currentTime;
+//     const expiresInMinutes = Math.floor(expiresIn / 60);
+//     console.log(`Token expires in: ${expiresIn} seconds`);
+
+
+
+//     const end = Date.now();
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: {
+//         AccessToken,
+//       expiresInMinutes: `${expiresInMinutes} min`,
+//         user: {
+//           id: user.userId,
+//           username: user.username,
+//           email: user.email
+//         },
+//         message: 'Login successful'
+//       }
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 1050,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error logging in: ' + error.message
+//       }
+//     });
+//   }
+// };
 
 
 
@@ -2327,6 +2744,8 @@ exports.loginUser = async (req, res) => {
 
     if (!user || !await bcrypt.compare(Password, user.password)) {
       const end = Date.now();
+      logger.error('Invalid username or password', { executionTime: `${end - start}ms` });
+
       return res.status(401).json({
         meta: {
           statusCode: 401,
@@ -2338,8 +2757,11 @@ exports.loginUser = async (req, res) => {
         }
       });
     }
+
     if (user.is_emailVerify !== '1' || user.phoneverify !== '1') {
       const end = Date.now();
+      logger.error('Email or phone not verified', { executionTime: `${end - start}ms` });
+
       return res.status(403).json({
         meta: {
           statusCode: 403,
@@ -2352,26 +2774,27 @@ exports.loginUser = async (req, res) => {
       });
     }
 
+    // Check if the user already has a valid token in Redis
+    const existingToken = await getAsync(user.userId.toString());
+    let AccessToken = existingToken;
 
-    const AccessToken = jwt.sign(
-      { userId: user.userId,
-        username :user.username,
-        HospitalId :user.hospitalId
+    // If token is not present, generate a new one
+    if (!existingToken) {
+      AccessToken = jwt.sign(
+        { userId: user.userId, username: user.username, HospitalId: user.hospitalId },
+        process.env.JWT_SECRET,
+        { expiresIn: '24h' }
+      );
 
-
-
-       },
-      process.env.JWT_SECRET,
-      { expiresIn: '24h' }
-    );
+      // Store the new token in Redis with an expiration time
+      await setAsync(user.userId.toString(), AccessToken, 'EX', 24 * 60 * 60);
+    }
 
     const decodedToken = jwt.decode(AccessToken);
     const currentTime = Math.floor(Date.now() / 1000);
     const expiresIn = decodedToken.exp - currentTime;
     const expiresInMinutes = Math.floor(expiresIn / 60);
     console.log(`Token expires in: ${expiresIn} seconds`);
-
-
 
     const end = Date.now();
     return res.status(200).json({
@@ -2381,7 +2804,7 @@ exports.loginUser = async (req, res) => {
       },
       data: {
         AccessToken,
-      expiresInMinutes: `${expiresInMinutes} min`,
+        expiresInMinutes: `${expiresInMinutes} min`,
         user: {
           id: user.userId,
           username: user.username,
@@ -2392,6 +2815,8 @@ exports.loginUser = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
+    logger.error('Error logging in', { error: error.message, executionTime: `${end - start}ms` });
+
     return res.status(500).json({
       meta: {
         statusCode: 500,

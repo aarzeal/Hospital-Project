@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Successful</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      border: 2px solid #4CAF50; /* Increased border width and made it green */
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .logo img {
+      max-width: 150px;
+      height: auto;
+    }
+    h1 {
+      color: #4CAF50;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 10px 0;
+    }
+    .highlight {
+      color: #4CAF50;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <!-- Replace 'logo.png' with the path to your logo image -->
+      <img src="cid:logo" alt="Hospital Logo" />
+    </div>
+    <h1>Dear <%= firstName %>,</h1>
+    <p>Your registration was successful. Your EMR Number is <span class="highlight"><%= emrNumber %></span>.</p>
+    <p>Thank you for choosing <span class="highlight"><%= hospitalName %></span> services.</p>
+  </div>
+</body>
+</html>

@@ -21,9 +21,12 @@ const departmentRoutes = require('./routes/departmentRoutes');
 const empCategoryRoutes = require('./routes/empCategoryRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
 const countApiLogger = require('./Middleware/countApiLogger');
+const job = require('./Middleware/sendEmailAuto');
+const sendEmail = require('./Middleware/sendEmailEventbase');
 // Middleware for parsing JSON bodies
 app.use(express.json());
 app.use(bodyParser.json()); 
+
 
 const session = require('express-session');
 app.use(session({

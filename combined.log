@@ -2957,3 +2957,387 @@
 {"errors":{"errors":[{"location":"body","msg":"Blood Group must be a valid type","path":"BloodGroup","type":"field","value":2},{"location":"body","msg":"Marital Status must be Single, Married, Divorced, or Widowed","path":"MaritalStatus","type":"field","value":1}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-29T09:24:50.198Z"}
 {"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-29T09:24:57.951Z"}
 {"level":"info","message":"Created new patient with ID 12 in 1148ms","timestamp":"2024-07-29T09:24:59.110Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-29T12:42:45.610Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-29T12:43:06.152Z"}
+{"errors":{"errors":[{"location":"body","msg":"Patient First Name is required","path":"PatientFirstName","type":"field"},{"location":"body","msg":"Patient First Name can only contain letters and spaces","path":"PatientFirstName","type":"field"},{"location":"body","msg":"Patient Last Name is required","path":"PatientLastName","type":"field"},{"location":"body","msg":"Patient Last Name can only contain letters and spaces","path":"PatientLastName","type":"field"},{"location":"body","msg":"Age is required","path":"Age","type":"field"},{"location":"body","msg":"Age must be a non-negative integer","path":"Age","type":"field"},{"location":"body","msg":"Date of Birth is required","path":"DOB","type":"field"},{"location":"body","msg":"Date of Birth must be a valid date","path":"DOB","type":"field"},{"location":"body","msg":"Blood Group is required","path":"BloodGroup","type":"field"},{"location":"body","msg":"Gender is required","path":"Gender","type":"field"},{"location":"body","msg":"Phone is required","path":"Phone","type":"field"},{"location":"body","msg":"Phone must be a valid 10-digit number","path":"Phone","type":"field"},{"location":"body","msg":"Email is required","path":"Email","type":"field"},{"location":"body","msg":"Email must be a valid email address","path":"Email","type":"field"},{"location":"body","msg":"Accepted Policy is required","path":"AcceptedPolicy","type":"field"},{"location":"body","msg":"Accepted Policy must be a boolean value","path":"AcceptedPolicy","type":"field"},{"location":"body","msg":"Is Communication Allowed is required","path":"IsCommunicationAllowed","type":"field"},{"location":"body","msg":"Is Communication Allowed must be a boolean value","path":"IsCommunicationAllowed","type":"field"},{"location":"body","msg":"Patient Address is required","path":"PatientAddress","type":"field"}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-29T12:43:06.164Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-29T12:44:13.433Z"}
+{"errors":{"errors":[{"location":"body","msg":"Patient First Name is required","path":"PatientFirstName","type":"field"},{"location":"body","msg":"Patient First Name can only contain letters and spaces","path":"PatientFirstName","type":"field"},{"location":"body","msg":"Patient Last Name is required","path":"PatientLastName","type":"field"},{"location":"body","msg":"Patient Last Name can only contain letters and spaces","path":"PatientLastName","type":"field"},{"location":"body","msg":"Age is required","path":"Age","type":"field"},{"location":"body","msg":"Age must be a non-negative integer","path":"Age","type":"field"},{"location":"body","msg":"Date of Birth is required","path":"DOB","type":"field"},{"location":"body","msg":"Date of Birth must be a valid date","path":"DOB","type":"field"},{"location":"body","msg":"Blood Group is required","path":"BloodGroup","type":"field"},{"location":"body","msg":"Gender is required","path":"Gender","type":"field"},{"location":"body","msg":"Phone is required","path":"Phone","type":"field"},{"location":"body","msg":"Phone must be a valid 10-digit number","path":"Phone","type":"field"},{"location":"body","msg":"Email is required","path":"Email","type":"field"},{"location":"body","msg":"Email must be a valid email address","path":"Email","type":"field"},{"location":"body","msg":"Accepted Policy is required","path":"AcceptedPolicy","type":"field"},{"location":"body","msg":"Accepted Policy must be a boolean value","path":"AcceptedPolicy","type":"field"},{"location":"body","msg":"Is Communication Allowed is required","path":"IsCommunicationAllowed","type":"field"},{"location":"body","msg":"Is Communication Allowed must be a boolean value","path":"IsCommunicationAllowed","type":"field"},{"location":"body","msg":"Patient Address is required","path":"PatientAddress","type":"field"}]},"executionTime":"1ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-29T12:44:13.441Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-29T12:44:32.407Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-07-30T09:12:53.764Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/getPatient?PatientLastName=12 with method GET","timestamp":"2024-07-30T09:12:53.839Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-30T10:53:20.929Z"}
+{"executionTime":"9ms","level":"info","message":"Phone number already exists","timestamp":"2024-07-30T10:53:20.949Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-30T10:53:38.344Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722336826 d9443c01a7336-1fed7ee1241sm99423635ad.172 - gsmtp","timestamp":"2024-07-30T10:53:46.999Z"}
+{"level":"info","message":"Created new patient with ID 13 in 8652ms","timestamp":"2024-07-30T10:53:47.000Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T06:07:40.422Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722406066 d9443c01a7336-1fed7ee4b0asm112612225ad.176 - gsmtp","timestamp":"2024-07-31T06:07:47.569Z"}
+{"level":"info","message":"Created new patient with ID 14 in 7136ms","timestamp":"2024-07-31T06:07:47.570Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T06:10:03.308Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722406207 98e67ed59e1d1-2cfca1d98d1sm1580005a91.0 - gsmtp","timestamp":"2024-07-31T06:10:08.386Z"}
+{"level":"info","message":"Created new patient with ID 15 in 5067ms","timestamp":"2024-07-31T06:10:08.386Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T06:33:14.023Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722407597 d9443c01a7336-1fed7f677a0sm112692395ad.234 - gsmtp","timestamp":"2024-07-31T06:33:17.963Z"}
+{"level":"info","message":"Created new patient with ID 16 in 3929ms","timestamp":"2024-07-31T06:33:17.965Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T06:34:29.262Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722407672 98e67ed59e1d1-2cfcb85e72bsm1536336a91.1 - gsmtp","timestamp":"2024-07-31T06:34:33.330Z"}
+{"level":"info","message":"Created new patient with ID 17 in 4065ms","timestamp":"2024-07-31T06:34:33.332Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T07:05:50.943Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722409554 d9443c01a7336-1fed7f305dcsm112717585ad.202 - gsmtp","timestamp":"2024-07-31T07:05:54.978Z"}
+{"level":"info","message":"Created new patient with ID 18 in 4024ms","timestamp":"2024-07-31T07:05:54.979Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T07:06:57.416Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722409621 41be03b00d2f7-7ae8c81778esm4952095a12.73 - gsmtp","timestamp":"2024-07-31T07:07:01.952Z"}
+{"level":"info","message":"Created new patient with ID 19 in 4524ms","timestamp":"2024-07-31T07:07:01.953Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-07-31T07:18:18.986Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T07:18:18.999Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T07:18:19.000Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T07:18:19.000Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T07:18:19.001Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 77ms","timestamp":"2024-07-31T07:18:19.066Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T07:19:02.818Z"}
+{"error":"hospitalName is not defined","executionTime":"2209ms","level":"error","message":"Error creating patient","timestamp":"2024-07-31T07:19:05.049Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T07:19:35.217Z"}
+{"executionTime":"8ms","level":"info","message":"Phone number already exists","timestamp":"2024-07-31T07:19:35.236Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T07:19:50.482Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722410394 98e67ed59e1d1-2cfdc49150csm628077a91.31 - gsmtp","timestamp":"2024-07-31T07:19:54.783Z"}
+{"level":"info","message":"Created new patient with ID 21 in 4298ms","timestamp":"2024-07-31T07:19:54.785Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T07:23:24.286Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722410607 d2e1a72fcca58-70ead874af9sm9729130b3a.170 - gsmtp","timestamp":"2024-07-31T07:23:28.189Z"}
+{"level":"info","message":"Created new patient with ID 22 in 3890ms","timestamp":"2024-07-31T07:23:28.190Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T07:24:27.315Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722410671 41be03b00d2f7-7a9f817da8bsm9926692a12.27 - gsmtp","timestamp":"2024-07-31T07:24:31.266Z"}
+{"level":"info","message":"Created new patient with ID 23 in 3947ms","timestamp":"2024-07-31T07:24:31.267Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T07:25:28.605Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722410732 d9443c01a7336-1fed7f94c10sm114167265ad.245 - gsmtp","timestamp":"2024-07-31T07:25:32.981Z"}
+{"level":"info","message":"Created new patient with ID 24 in 4363ms","timestamp":"2024-07-31T07:25:32.981Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-07-31T07:26:47.935Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T07:26:47.948Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T07:26:47.949Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T07:26:47.950Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T07:26:47.951Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 75ms","timestamp":"2024-07-31T07:26:48.013Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T07:26:55.784Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722410819 d9443c01a7336-1fed7ffb53csm113427085ad.304 - gsmtp","timestamp":"2024-07-31T07:26:59.486Z"}
+{"level":"info","message":"Created new patient with ID 25 in 3691ms","timestamp":"2024-07-31T07:26:59.486Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-07-31T08:29:04.604Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:29:04.616Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:29:04.617Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:29:04.618Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:29:04.618Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 73ms","timestamp":"2024-07-31T08:29:04.680Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-07-31T08:29:55.993Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:29:56.006Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:29:56.007Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:29:56.007Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:29:56.007Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 74ms","timestamp":"2024-07-31T08:29:56.070Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-07-31T08:30:41.550Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:30:41.564Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:30:41.564Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:30:41.565Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:30:41.565Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 76ms","timestamp":"2024-07-31T08:30:41.629Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-07-31T08:32:03.589Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:32:03.602Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:32:03.602Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:32:03.603Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T08:32:03.603Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 73ms","timestamp":"2024-07-31T08:32:03.665Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:33:02.195Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722414786 41be03b00d2f7-7a9f7c73cffsm8684080a12.8 - gsmtp","timestamp":"2024-07-31T08:33:07.689Z"}
+{"level":"info","message":"Created new patient with ID 26 in 5483ms","timestamp":"2024-07-31T08:33:07.689Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:35:46.806Z"}
+{"executionTime":"5ms","level":"info","message":"Phone number already exists","timestamp":"2024-07-31T08:35:46.815Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:35:58.174Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722414960 d2e1a72fcca58-70ead7156easm9548880b3a.85 - gsmtp","timestamp":"2024-07-31T08:36:01.439Z"}
+{"level":"info","message":"Created new patient with ID 27 in 3250ms","timestamp":"2024-07-31T08:36:01.441Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:38:11.893Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722415094 98e67ed59e1d1-2cfdc45c3afsm768711a91.33 - gsmtp","timestamp":"2024-07-31T08:38:15.689Z"}
+{"level":"info","message":"Created new patient with ID 28 in 3792ms","timestamp":"2024-07-31T08:38:15.689Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:39:31.223Z"}
+{"executionTime":"4ms","level":"info","message":"Email already exists","timestamp":"2024-07-31T08:39:31.231Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:39:59.097Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722415201 41be03b00d2f7-7a9f8273a55sm8695456a12.35 - gsmtp","timestamp":"2024-07-31T08:40:02.316Z"}
+{"level":"info","message":"Created new patient with ID 29 in 3217ms","timestamp":"2024-07-31T08:40:02.318Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:50:02.844Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:50:14.394Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'originalname')","stack":"TypeError: Cannot read properties of undefined (reading 'originalname')\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:63:32)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async Promise.all (index 1)\n    at async exports.createPatient (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\patientController.js:486:5)","timestamp":"2024-07-31T08:50:15.376Z"}
+{"executionTime":"974ms","level":"error","message":"Error creating patient","timestamp":"2024-07-31T08:50:15.377Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:50:44.150Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:50:52.633Z"}
+{"executionTime":"6ms","level":"info","message":"Phone number already exists","timestamp":"2024-07-31T08:50:52.643Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:52:45.380Z"}
+{"errors":{"errors":[{"location":"body","msg":"Phone must be a valid 10-digit number","path":"Phone","type":"field","value":"22136547896"},{"location":"body","msg":"WhatsApp Number must be a valid 10-digit number","path":"WhatsappNumber","type":"field","value":"123657892"}]},"executionTime":"1ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-31T08:52:45.386Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:52:50.213Z"}
+{"errors":{"errors":[{"location":"body","msg":"WhatsApp Number must be a valid 10-digit number","path":"WhatsappNumber","type":"field","value":"123657892"}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-07-31T08:52:50.218Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:52:59.404Z"}
+{"executionTime":"4ms","level":"info","message":"Email already exists","timestamp":"2024-07-31T08:52:59.412Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:53:11.162Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'originalname')","stack":"TypeError: Cannot read properties of undefined (reading 'originalname')\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:63:32)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async Promise.all (index 1)\n    at async exports.createPatient (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\patientController.js:486:5)","timestamp":"2024-07-31T08:53:12.619Z"}
+{"executionTime":"1452ms","level":"error","message":"Error creating patient","timestamp":"2024-07-31T08:53:12.619Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T08:54:44.284Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T09:04:57.547Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T09:05:00.839Z"}
+{"executionTime":"4ms","level":"info","message":"Phone number already exists","timestamp":"2024-07-31T09:05:00.853Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T09:05:21.922Z"}
+{"address":"142.251.12.109","code":"ESOCKET","command":"CONN","errno":-4092,"level":"error","message":"Error sending email: connect EACCES 142.251.12.109:465","port":465,"stack":"Error: connect EACCES 142.251.12.109:465\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1595:16)","syscall":"connect","timestamp":"2024-07-31T09:05:22.682Z"}
+{"executionTime":"748ms","level":"error","message":"Error creating patient","timestamp":"2024-07-31T09:05:22.683Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T09:06:07.479Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722416771 d2e1a72fcca58-70ead712691sm9576081b3a.49 - gsmtp","timestamp":"2024-07-31T09:06:12.236Z"}
+{"level":"info","message":"Created new patient with ID 33 in 4743ms","timestamp":"2024-07-31T09:06:12.238Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T09:07:52.383Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722416874 d9443c01a7336-1fed7ee1258sm115498075ad.147 - gsmtp","timestamp":"2024-07-31T09:07:55.643Z"}
+{"level":"info","message":"Created new patient with ID 34 in 3258ms","timestamp":"2024-07-31T09:07:55.645Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T09:55:23.179Z"}
+{"error":"attachment is not defined","executionTime":"1482ms","level":"error","message":"Error creating patient","timestamp":"2024-07-31T09:55:24.675Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T09:56:02.144Z"}
+{"executionTime":"11ms","level":"info","message":"Phone number already exists","timestamp":"2024-07-31T09:56:02.168Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T09:56:14.126Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722419778 d9443c01a7336-1fed7f9f1a7sm116917765ad.254 - gsmtp","timestamp":"2024-07-31T09:56:19.411Z"}
+{"level":"info","message":"Created new patient with ID 36 in 5280ms","timestamp":"2024-07-31T09:56:19.412Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T09:57:20.125Z"}
+{"executionTime":"4ms","level":"info","message":"Phone number already exists","timestamp":"2024-07-31T09:57:20.137Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T09:57:33.601Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722419856 98e67ed59e1d1-2cfdc426751sm930318a91.12 - gsmtp","timestamp":"2024-07-31T09:57:36.897Z"}
+{"level":"info","message":"Created new patient with ID 37 in 3281ms","timestamp":"2024-07-31T09:57:36.898Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T09:59:55.453Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722419999 d9443c01a7336-1fed7f3efdcsm116428925ad.217 - gsmtp","timestamp":"2024-07-31T09:59:59.788Z"}
+{"level":"info","message":"Created new patient with ID 38 in 4319ms","timestamp":"2024-07-31T09:59:59.790Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:00:39.476Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722420043 d9443c01a7336-1fed7edd90dsm116796925ad.161 - gsmtp","timestamp":"2024-07-31T10:00:43.905Z"}
+{"level":"info","message":"Created new patient with ID 39 in 4428ms","timestamp":"2024-07-31T10:00:43.907Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:06:33.298Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:06:45.513Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722420408 98e67ed59e1d1-2cfdc461016sm935982a91.29 - gsmtp","timestamp":"2024-07-31T10:06:49.126Z"}
+{"level":"info","message":"Created new patient with ID 40 in 3611ms","timestamp":"2024-07-31T10:06:49.128Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:10:32.382Z"}
+{"executionTime":"10ms","level":"info","message":"Phone number already exists","timestamp":"2024-07-31T10:10:32.405Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:10:46.515Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722420650 d9443c01a7336-1fed7d173a6sm116392235ad.102 - gsmtp","timestamp":"2024-07-31T10:10:51.243Z"}
+{"level":"info","message":"Created new patient with ID 41 in 4717ms","timestamp":"2024-07-31T10:10:51.245Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:13:20.959Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722420803 98e67ed59e1d1-2cfdc406a0dsm966098a91.3 - gsmtp","timestamp":"2024-07-31T10:13:24.273Z"}
+{"level":"info","message":"Created new patient with ID 42 in 3309ms","timestamp":"2024-07-31T10:13:24.273Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-07-31T10:13:44.135Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T10:13:44.159Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T10:13:44.160Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T10:13:44.161Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-07-31T10:13:44.161Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 79ms","timestamp":"2024-07-31T10:13:44.221Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:14:14.475Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722420857 d9443c01a7336-1ff2bfebc20sm47362565ad.282 - gsmtp","timestamp":"2024-07-31T10:14:17.755Z"}
+{"level":"info","message":"Created new patient with ID 43 in 3275ms","timestamp":"2024-07-31T10:14:17.755Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:21:39.936Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722421302 d2e1a72fcca58-70ead874b41sm10048293b3a.149 - gsmtp","timestamp":"2024-07-31T10:21:43.494Z"}
+{"level":"info","message":"Created new patient with ID 44 in 3547ms","timestamp":"2024-07-31T10:21:43.496Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:35:49.799Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722422152 d9443c01a7336-1fed7eebbe8sm116988325ad.152 - gsmtp","timestamp":"2024-07-31T10:35:53.537Z"}
+{"level":"info","message":"Created new patient with ID 45 in 3735ms","timestamp":"2024-07-31T10:35:53.539Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:36:28.806Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722422192 d2e1a72fcca58-70ead712101sm9721226b3a.69 - gsmtp","timestamp":"2024-07-31T10:36:32.679Z"}
+{"level":"info","message":"Created new patient with ID 46 in 3870ms","timestamp":"2024-07-31T10:36:32.680Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:37:46.936Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:37:50.187Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722422272 d2e1a72fcca58-70ead712282sm9718561b3a.48 - gsmtp","timestamp":"2024-07-31T10:37:53.368Z"}
+{"level":"info","message":"Created new patient with ID 47 in 3176ms","timestamp":"2024-07-31T10:37:53.368Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:41:31.079Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:41:37.846Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722422500 d9443c01a7336-1fed7f1b6c3sm117328755ad.192 - gsmtp","timestamp":"2024-07-31T10:41:41.309Z"}
+{"level":"info","message":"Created new patient with ID 48 in 3458ms","timestamp":"2024-07-31T10:41:41.310Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:46:15.829Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:46:25.186Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722422788 d2e1a72fcca58-70ead6e0ff0sm9753144b3a.35 - gsmtp","timestamp":"2024-07-31T10:46:29.430Z"}
+{"level":"info","message":"Created new patient with ID 49 in 4241ms","timestamp":"2024-07-31T10:46:29.431Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-07-31T10:52:34.345Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722423157 d2e1a72fcca58-70eeb9aa93fsm4607821b3a.190 - gsmtp","timestamp":"2024-07-31T10:52:37.853Z"}
+{"level":"info","message":"Created new patient with ID 50 in 3485ms","timestamp":"2024-07-31T10:52:37.855Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T06:12:47.198Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722492770 98e67ed59e1d1-2cfdc4a8185sm2405532a91.39 - gsmtp","timestamp":"2024-08-01T06:12:51.509Z"}
+{"level":"info","message":"Created new patient with ID 51 in 4299ms","timestamp":"2024-08-01T06:12:51.510Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T06:13:22.371Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T06:20:08.892Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722493212 d9443c01a7336-1fed7cb0370sm130279965ad.65 - gsmtp","timestamp":"2024-08-01T06:20:12.872Z"}
+{"level":"info","message":"Created new patient with ID 52 in 3963ms","timestamp":"2024-08-01T06:20:12.873Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T06:33:27.858Z"}
+{"error":"attachment is not defined","executionTime":"92ms","level":"error","message":"Error creating patient","timestamp":"2024-08-01T06:33:27.965Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T06:33:41.907Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T06:35:10.071Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T06:35:21.003Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722494123 98e67ed59e1d1-2cfdc40648esm2455749a91.5 - gsmtp","timestamp":"2024-08-01T06:35:23.892Z"}
+{"level":"info","message":"Created new patient with ID 54 in 2884ms","timestamp":"2024-08-01T06:35:23.894Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T06:39:59.570Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T06:44:25.095Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T09:09:47.938Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T09:17:32.897Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T09:17:43.422Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T09:18:14.904Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T09:24:55.108Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T09:26:53.121Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T09:28:35.493Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-01T10:48:21.013Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T10:48:21.079Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-01T10:48:40.454Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-01T10:48:40.465Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-01T10:48:40.466Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-01T10:48:40.467Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-01T10:48:40.467Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 76ms","timestamp":"2024-08-01T10:48:40.531Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-01T10:49:13.328Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-02T09:42:09.489Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-02T09:42:09.502Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-02T09:42:09.502Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-02T09:42:09.503Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-02T09:42:09.503Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 73ms","timestamp":"2024-08-02T09:42:09.565Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-02T09:43:19.436Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-02T09:48:40.025Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-02T09:52:43.635Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722592371 98e67ed59e1d1-2cffaf69972sm1355697a91.10 - gsmtp","timestamp":"2024-08-02T09:52:50.778Z"}
+{"level":"info","message":"Created new patient with ID 55 in 7133ms","timestamp":"2024-08-02T09:52:50.780Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-02T09:54:07.049Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722592450 d2e1a72fcca58-7106ec010b4sm1059837b3a.27 - gsmtp","timestamp":"2024-08-02T09:54:10.666Z"}
+{"level":"info","message":"Created new patient with ID 56 in 3598ms","timestamp":"2024-08-02T09:54:10.668Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-02T10:20:19.647Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-02T10:20:19.660Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-02T10:20:19.660Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-02T10:20:19.661Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-02T10:20:19.661Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 75ms","timestamp":"2024-08-02T10:20:19.724Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-02T10:20:54.862Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722594059 d2e1a72fcca58-7106ed2d544sm1089871b3a.187 - gsmtp","timestamp":"2024-08-02T10:20:59.585Z"}
+{"level":"info","message":"Created new patient with ID 57 in 4712ms","timestamp":"2024-08-02T10:20:59.586Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-02T10:33:07.046Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722594791 d9443c01a7336-1ff5905fecbsm13885275ad.172 - gsmtp","timestamp":"2024-08-02T10:33:11.556Z"}
+{"level":"info","message":"Created new patient with ID 58 in 4498ms","timestamp":"2024-08-02T10:33:11.557Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-02T10:37:07.589Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722595033 98e67ed59e1d1-2cfcb85dd0bsm3091657a91.1 - gsmtp","timestamp":"2024-08-02T10:37:12.796Z"}
+{"level":"info","message":"Created new patient with ID 59 in 5188ms","timestamp":"2024-08-02T10:37:12.796Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-02T10:41:51.579Z"}
+{"level":"error","message":"Error sending email: C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\templates\\registrationEmailTemplate.ejs:74\n    72|   </div>\r\n    73|   <div class=\"footer\">\r\n >> 74|     <p>For more information, visit our website or contact us at <a href=\"mailto:support@hospital.com\"><%= ManagingCompanyEmail %></a>.</p>\r\n    75|     <p>Best regards, <br> <%= hospitalName %> Team</p>\r\n    76|   </div>\r\n    77| </body>\r\n\nManagingCompanyEmail is not defined","path":"C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\templates\\registrationEmailTemplate.ejs","stack":"ReferenceError: C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\templates\\registrationEmailTemplate.ejs:74\n    72|   </div>\r\n    73|   <div class=\"footer\">\r\n >> 74|     <p>For more information, visit our website or contact us at <a href=\"mailto:support@hospital.com\"><%= ManagingCompanyEmail %></a>.</p>\r\n    75|     <p>Best regards, <br> <%= hospitalName %> Team</p>\r\n    76|   </div>\r\n    77| </body>\r\n\nManagingCompanyEmail is not defined\n    at eval (\"C:\\\\Users\\\\#Admin\\\\Desktop\\\\Hospital-Project\\\\Hospital-Project\\\\templates\\\\registrationEmailTemplate.ejs\":21:26)\n    at registrationEmailTemplate (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:703:17)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:260:40\n    at new Promise (<anonymous>)\n    at tryHandleCache (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:258:14)\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:491:10)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:121:28)\n    at exports.createPatient (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\patientController.js:470:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-02T10:41:52.445Z"}
+{"executionTime":"854ms","level":"error","message":"Error creating patient","timestamp":"2024-08-02T10:41:52.447Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-02T10:42:25.552Z"}
+{"executionTime":"4ms","level":"info","message":"Phone number already exists","timestamp":"2024-08-02T10:42:25.562Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-02T10:42:39.212Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1722595363 41be03b00d2f7-7b763a3da29sm1131507a12.55 - gsmtp","timestamp":"2024-08-02T10:42:43.057Z"}
+{"level":"info","message":"Created new patient with ID 61 in 3831ms","timestamp":"2024-08-02T10:42:43.058Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-03T05:48:31.034Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-03T05:48:31.515Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-03T05:48:31.516Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-03T05:48:31.516Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-03T05:48:31.517Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 545ms","timestamp":"2024-08-03T05:48:31.582Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-03T05:50:36.737Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-03T05:52:51.668Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-03T05:53:36.283Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-03T05:55:58.122Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-03T07:10:26.214Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-03T07:10:26.234Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-03T07:10:26.235Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-03T07:10:26.236Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-03T07:10:26.237Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 82ms","timestamp":"2024-08-03T07:10:26.300Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-03T07:21:14.624Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 26ms","timestamp":"2024-08-03T07:21:14.651Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-03T07:27:15.039Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-03T07:27:15.043Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-03T11:59:55.842Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-03T11:59:55.854Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-03T11:59:55.855Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-03T11:59:55.856Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-03T11:59:55.856Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 74ms","timestamp":"2024-08-03T11:59:55.919Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-05T05:33:07.918Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 13ms","timestamp":"2024-08-05T05:33:07.935Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-05T05:40:03.713Z"}
+{"error":"redisClient.set is not a function","executionTime":"13ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-05T05:40:03.731Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-05T08:48:46.066Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-05T09:40:53.380Z"}
+{"error":"client is not defined","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-05T09:40:53.393Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-05T09:41:51.179Z"}
+{"error":"client is not defined","executionTime":"14ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-05T09:41:51.199Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-05T09:42:16.211Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 11ms","timestamp":"2024-08-05T09:42:16.225Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-05T09:43:49.574Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 13ms","timestamp":"2024-08-05T09:43:49.589Z"}
+{"error":"decodedToken is not defined","executionTime":"13ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-05T09:43:49.589Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-05T09:45:55.595Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 15ms","timestamp":"2024-08-05T09:45:55.617Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T05:22:12.348Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T05:25:05.960Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T05:25:34.445Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T05:26:18.690Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T07:17:28.872Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T07:18:06.130Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 11ms","timestamp":"2024-08-06T07:18:06.144Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-06T07:18:43.595Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-06T07:18:43.598Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:16:16.153Z"}
+{"error":"redisClient.get is not a function","executionTime":"19ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-06T11:16:16.183Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:19:44.805Z"}
+{"error":"getAsync is not defined","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-06T11:19:44.818Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:20:21.676Z"}
+{"error":"getAsync is not defined","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-06T11:20:21.687Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:20:53.207Z"}
+{"error":"getAsync is not defined","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-06T11:20:53.219Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:25:44.289Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:28:47.820Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:30:48.816Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 17ms","timestamp":"2024-08-06T11:30:48.840Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:32:02.353Z"}
+{"level":"info","message":"Hospital with HospitalCode HOS found successfully, executionTime: 7ms","timestamp":"2024-08-06T11:32:02.360Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:32:38.835Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:35:15.438Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 5ms","timestamp":"2024-08-06T11:35:15.444Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:40:48.478Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:41:01.561Z"}
+{"level":"info","message":"Hospital with HospitalCode HOS found successfully, executionTime: 9ms","timestamp":"2024-08-06T11:41:01.570Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:41:18.244Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:46:42.234Z"}
+{"level":"info","message":"Hospital with HospitalCode HOS found successfully, executionTime: 10ms","timestamp":"2024-08-06T11:46:42.246Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:46:48.391Z"}
+{"level":"info","message":"Hospital with HospitalCode HOS found successfully, executionTime: 4ms","timestamp":"2024-08-06T11:46:48.396Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:46:53.433Z"}
+{"level":"info","message":"Hospital with HospitalCode HOS found successfully, executionTime: 5ms","timestamp":"2024-08-06T11:46:53.438Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:50:01.552Z"}
+{"level":"info","message":"Hospital with HospitalCode HOS found successfully, executionTime: 21ms","timestamp":"2024-08-06T11:50:01.575Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:50:16.842Z"}
+{"level":"info","message":"Hospital with HospitalCode HOS found successfully, executionTime: 4ms","timestamp":"2024-08-06T11:50:16.846Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:53:10.969Z"}
+{"level":"info","message":"Hospital with HospitalCode HOS found successfully, executionTime: 4ms","timestamp":"2024-08-06T11:53:10.974Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:56:20.605Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 5ms","timestamp":"2024-08-06T11:56:20.611Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T11:56:57.079Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 4ms","timestamp":"2024-08-06T11:56:57.083Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-06T12:03:59.940Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 5ms","timestamp":"2024-08-06T12:03:59.945Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-06T12:05:42.630Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-06T12:05:42.638Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-06T12:06:09.152Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-06T12:06:09.156Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-07T07:31:11.524Z"}
+{"level":"info","message":"UniqueKey from request headers: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-07T07:31:11.547Z"}
+{"level":"info","message":"UniqueKey from database: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-07T07:31:11.547Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-07T07:31:11.548Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-07T07:31:11.548Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 109ms","timestamp":"2024-08-07T07:31:11.637Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-07T07:33:25.052Z"}
+{"body":{"AcceptedPolicy":true,"Age":30,"Allergies":"None","BloodGroup":"A+","CurrentMedications":"None","DOB":"1994-05-23","Email":"sudhirkale8188@gmail.com","EmergencyContactName":"Jane Doe","EmergencyContactPhone":"0987654321","Gender":"Male","HospitalGroupIDR":1,"InsurancePolicyNumber":"ABC123456","InsuranceProvider":"Health Insurance Inc.","IsCommunicationAllowed":true,"Language":"English","MaritalStatus":"Single","MedicalHistory":"None","Nationality":"American","Occupation":"Software Engineer","PatientAddress":"123 Main St, Anytown, USA","PatientFirstName":"John","PatientLastName":"Doe","PatientMiddleName":"Michael","Phone":"1234567890","WhatsappNumber":"1234567890"},"level":"info","message":"Request received","timestamp":"2024-08-07T07:33:25.063Z"}
+{"error":"\"undefined\" is not valid JSON","executionTime":"2ms","level":"error","message":"Error parsing JSON data from form-data","timestamp":"2024-08-07T07:33:25.065Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-07T07:34:22.984Z"}
+{"executionTime":"10ms","level":"info","message":"Phone number already exists","timestamp":"2024-08-07T07:34:23.007Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-07T07:34:54.383Z"}
+{"error":"Validation error: Invalid gender value: A+. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid gender value: Male. Valid values are: 1, 2, 3,\nValidation error: Invalid MaritalStatus value: Single. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: American. Valid values are: 1, 2, 3, 4","executionTime":"11ms","level":"error","message":"Error creating patient","timestamp":"2024-08-07T07:34:54.400Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-07T07:35:16.390Z"}
+{"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid gender value: 1. Valid values are: 1, 2, 3,\nValidation error: Invalid MaritalStatus value: Single. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"6ms","level":"error","message":"Error creating patient","timestamp":"2024-08-07T07:35:16.401Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-07T08:52:20.985Z"}
+{"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid MaritalStatus value: Single. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"9ms","level":"error","message":"Error creating patient","timestamp":"2024-08-07T08:52:20.998Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-07T08:52:36.709Z"}
+{"error":"Validation error: Invalid MaritalStatus value: Single. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"7ms","level":"error","message":"Error creating patient","timestamp":"2024-08-07T08:52:36.720Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-07T08:52:51.333Z"}
+{"error":"Validation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"7ms","level":"error","message":"Error creating patient","timestamp":"2024-08-07T08:52:51.347Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-07T08:52:59.492Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1723020783 d9443c01a7336-1ff59297c46sm101174045ad.258 - gsmtp","timestamp":"2024-08-07T08:53:04.386Z"}
+{"level":"info","message":"Created new patient with ID 62 in 4891ms","timestamp":"2024-08-07T08:53:04.387Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-07T08:53:58.207Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1723020840 98e67ed59e1d1-2d1b36bb3fdsm984576a91.16 - gsmtp","timestamp":"2024-08-07T08:54:01.713Z"}
+{"level":"info","message":"Created new patient with ID 63 in 3504ms","timestamp":"2024-08-07T08:54:01.715Z"}
