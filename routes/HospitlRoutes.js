@@ -26,7 +26,7 @@ router.get('/hospitals', hospitalController.getAllHospitalsByPagination);
 
 
 
-router.post('/hospital/login', hospitalController.login);
+router.post('/hospital/login',authenticate, hospitalController.login);
 router.post('/hospital/HospitalCode', hospitalController.HospitalCode);
 
 router.post('/request-password-reset', hospitalController.requestPasswordReset);

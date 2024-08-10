@@ -926,6 +926,129 @@ const verifyUniqueKey = (providedKey, storedKey) => {
   logger.info(`Stored UniqueKey: ${storedKey}`);
   return providedKey === storedKey;
 };
+exports.HospitalCode = async (req, res) => {
+  const start = Date.now();
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const end = Date.now();
+    logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
+
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 1044,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Validation errors occurred',
+        details: errors.array().map(err => ({
+          field: err.param,
+          message: err.msg
+        }))
+      }
+    });
+  }
+
+  const { HospitalCode } = req.body;
+  const uniqueKey = req.headers['x-unique-key'];
+  console.log("uniquekey", uniqueKey);
+
+
+
+
+  try {
+    const hospital = await Hospital.findOne({ where: { HospitalCode } });
+    if (!hospital) {
+      const end = Date.now();
+      logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
+
+      return res.status(404).json({
+        meta: {
+          statusCode: 404,
+          errorCode: 1045,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Hospital not found'
+        }
+      });
+    }
+    if (!verifyUniqueKey(uniqueKey, hospital.UniqueKey)) {
+      const end = Date.now();
+  // logger.warn(`Invalid UniqueKey for hospital with Username ${Username}, executionTime: ${end - start}ms`);
+  
+      return res.status(401).json({
+        meta: {
+          statusCode: 401,
+          errorCode: 955,
+              executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Unauthorized'
+        }
+      });
+    }
+
+ 
+
+    // Check if the hospital already has a valid token in Redis
+    const existingToken = await getAsync(hospital.HospitalID.toString());
+    let Hospitaltoken = existingToken;
+
+    // If token is not present, generate a new one
+    if (!existingToken) {
+      Hospitaltoken = jwt.sign(
+        { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
+        process.env.JWT_SECRET,
+        { expiresIn: '24h' }
+      );
+
+      // Store the new token in Redis with an expiration time
+      await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
+    }
+
+    const end = Date.now();
+    logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
+
+    req.hospitalDatabase = hospital.HospitalDatabase;
+    const decodedToken = jwt.decode(Hospitaltoken);
+    const currentTime = Math.floor(Date.now() / 1000);
+    const expiresIn = decodedToken.exp - currentTime;
+    const expiresInMinutes = Math.floor(expiresIn / 60);
+    console.log(`Token expires in: ${expiresIn} seconds`);
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`
+      },
+      data: {
+        Hospitaltoken,
+        expiresInMinutes: `${expiresInMinutes} min`,
+        hospital: {
+          hospitalId: hospital.HospitalID,
+          hospitalDatabase: hospital.HospitalDatabase,
+          hospitalGroupIDR: hospital.HospitalGroupIDR
+        },
+        message: 'Database name found successfully'
+      }
+    });
+  } catch (error) {
+    const end = Date.now();
+    logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
+
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 1046,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error finding hospital: ' + error.message
+      }
+    });
+  }
+};
 
 exports.login = async (req, res) => {
   const start = Date.now(); 
@@ -952,8 +1075,8 @@ exports.login = async (req, res) => {
 
   const { Username, Password } = req.body;
 
-  const uniqueKey = req.headers['x-unique-key'];
-  console.log("uniquekey", uniqueKey);
+  const Hospitaltoken = req.headers['authorization'];
+  console.log("SessionToken", Hospitaltoken);
 
   try {
     const hospital = await Hospital.findOne({ where: { Username } });
@@ -987,26 +1110,26 @@ logger.warn(`Hospital with Username ${Username} not found, executionTime: ${end 
     // }
     
     
-    logger.info(`UniqueKey from request headers: ${uniqueKey}`);
-    logger.info(`UniqueKey from database: ${hospital.UniqueKey}`);
-    console.log(hospital.UniqueKey);
+    // logger.info(`UniqueKey from request headers: ${uniqueKey}`);
+    // logger.info(`UniqueKey from database: ${hospital.UniqueKey}`);
+    // console.log(hospital.UniqueKey);
 
     // Highlighted changes: Replaced direct comparison with verifyUniqueKey function
-    if (!verifyUniqueKey(uniqueKey, hospital.UniqueKey)) {
-      const end = Date.now();
-logger.warn(`Invalid UniqueKey for hospital with Username ${Username}, executionTime: ${end - start}ms`);
+//     if (!verifyUniqueKey(uniqueKey, hospital.UniqueKey)) {
+//       const end = Date.now();
+// logger.warn(`Invalid UniqueKey for hospital with Username ${Username}, executionTime: ${end - start}ms`);
 
-      return res.status(401).json({
-        meta: {
-          statusCode: 401,
-          errorCode: 955,
-              executionTime: `${end - start}ms`
-        },
-        error: {
-          message: 'Unauthorized'
-        }
-      });
-    }
+//       return res.status(401).json({
+//         meta: {
+//           statusCode: 401,
+//           errorCode: 955,
+//               executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Unauthorized'
+//         }
+//       });
+//     }
 
     const passwordMatch = await bcrypt.compare(Password, hospital.Password);
     
@@ -1035,22 +1158,52 @@ logger.warn(`Incorrect password for hospital with Username ${Username}, executio
     //   { expiresIn: '24h' }
     // );
 
-    const Hospitaltoken = jwt.sign(
-      {
-        hospitalId: hospital.HospitalID,
-        hospitalDatabase: hospital.HospitalDatabase,
-        hospitalGroupIDR: hospital.HospitalGroupIDR,
-        hospitalName: hospital.HospitalName,
-        ManagingCompanyAdd1:hospital.ManagingCompanyAdd1,
-        ManagingCompanyEmail:hospital.ManagingCompanyEmail
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: '24h' }
-    );
+
+    const existingToken = await getAsync(hospital.HospitalID.toString());
+    let SessionToken = existingToken;
+
+    // If token is not present, generate a new one
+    if (!existingToken) {
+      SessionToken = jwt.sign(
+        {
+          hospitalId: hospital.HospitalID,
+          hospitalDatabase: hospital.HospitalDatabase,
+          hospitalGroupIDR: hospital.HospitalGroupIDR,
+          hospitalName: hospital.HospitalName,
+          ManagingCompanyAdd1: hospital.ManagingCompanyAdd1,
+          ManagingCompanyEmail: hospital.ManagingCompanyEmail
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: '24h' }
+      );
+
+      // Store the new token in Redis with an expiration time
+      await setAsync(hospital.HospitalID.toString(), SessionToken, 'EX', 24 * 60 * 60);
+    }
+
+
+    // const SessionToken = jwt.sign(
+    //   {
+    //     hospitalId: hospital.HospitalID,
+    //     hospitalDatabase: hospital.HospitalDatabase,
+    //     hospitalGroupIDR: hospital.HospitalGroupIDR,
+    //     hospitalName: hospital.HospitalName,
+    //     ManagingCompanyAdd1:hospital.ManagingCompanyAdd1,
+    //     ManagingCompanyEmail:hospital.ManagingCompanyEmail
+    //   },
+    //   process.env.JWT_SECRET,
+    //   { expiresIn: '24h' }
+    // );
 
 
 
-    const decodedToken = jwt.verify(Hospitaltoken, process.env.JWT_SECRET);
+    const decodedToken = jwt.verify(SessionToken, process.env.JWT_SECRET);
+
+
+   
+
+
+
 
     const currentTime = Math.floor(Date.now() / 1000);
     const expiresIn = decodedToken.exp - currentTime;
@@ -1086,8 +1239,9 @@ logger.warn(`Incorrect password for hospital with Username ${Username}, executio
          executionTime: `${end - start}ms`
       },
       data: {
-        Hospitaltoken,
+        SessionToken,
         expiresInMinutes: `${expiresInMinutes} min`,
+        
         
         hospital: {
           id: decodedToken.hospitalId,
@@ -2508,107 +2662,107 @@ logger.error('Error retrieving users with pagination', { error: error.message, e
 // };
 
 
-exports.HospitalCode = async (req, res) => {
-  const start = Date.now();
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const end = Date.now();
-    logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
+// exports.HospitalCode = async (req, res) => {
+//   const start = Date.now();
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     const end = Date.now();
+//     logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
 
-    return res.status(400).json({
-      meta: {
-        statusCode: 400,
-        errorCode: 1044,
-        executionTime: `${end - start}ms`
-      },
-      error: {
-        message: 'Validation errors occurred',
-        details: errors.array().map(err => ({
-          field: err.param,
-          message: err.msg
-        }))
-      }
-    });
-  }
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 1044,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Validation errors occurred',
+//         details: errors.array().map(err => ({
+//           field: err.param,
+//           message: err.msg
+//         }))
+//       }
+//     });
+//   }
 
-  const { HospitalCode } = req.body;
+//   const { HospitalCode } = req.body;
 
-  try {
-    const hospital = await Hospital.findOne({ where: { HospitalCode } });
-    if (!hospital) {
-      const end = Date.now();
-      logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
+//   try {
+//     const hospital = await Hospital.findOne({ where: { HospitalCode } });
+//     if (!hospital) {
+//       const end = Date.now();
+//       logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
 
-      return res.status(404).json({
-        meta: {
-          statusCode: 404,
-          errorCode: 1045,
-          executionTime: `${end - start}ms`
-        },
-        error: {
-          message: 'Hospital not found'
-        }
-      });
-    }
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: 404,
+//           errorCode: 1045,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Hospital not found'
+//         }
+//       });
+//     }
 
-    // Check if the hospital already has a valid token in Redis
-    const existingToken = await getAsync(hospital.HospitalID.toString());
-    let Hospitaltoken = existingToken;
+//     // Check if the hospital already has a valid token in Redis
+//     const existingToken = await getAsync(hospital.HospitalID.toString());
+//     let Hospitaltoken = existingToken;
 
-    // If token is not present, generate a new one
-    if (!existingToken) {
-      Hospitaltoken = jwt.sign(
-        { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
-        process.env.JWT_SECRET,
-        { expiresIn: '24h' }
-      );
+//     // If token is not present, generate a new one
+//     if (!existingToken) {
+//       Hospitaltoken = jwt.sign(
+//         { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
+//         process.env.JWT_SECRET,
+//         { expiresIn: '24h' }
+//       );
 
-      // Store the new token in Redis with an expiration time
-      await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
-    }
+//       // Store the new token in Redis with an expiration time
+//       await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
+//     }
 
-    const end = Date.now();
-    logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
+//     const end = Date.now();
+//     logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
 
-    req.hospitalDatabase = hospital.HospitalDatabase;
-    const decodedToken = jwt.decode(Hospitaltoken);
-    const currentTime = Math.floor(Date.now() / 1000);
-    const expiresIn = decodedToken.exp - currentTime;
-    const expiresInMinutes = Math.floor(expiresIn / 60);
-    console.log(`Token expires in: ${expiresIn} seconds`);
+//     req.hospitalDatabase = hospital.HospitalDatabase;
+//     const decodedToken = jwt.decode(Hospitaltoken);
+//     const currentTime = Math.floor(Date.now() / 1000);
+//     const expiresIn = decodedToken.exp - currentTime;
+//     const expiresInMinutes = Math.floor(expiresIn / 60);
+//     console.log(`Token expires in: ${expiresIn} seconds`);
 
-    res.status(200).json({
-      meta: {
-        statusCode: 200,
-        executionTime: `${end - start}ms`
-      },
-      data: {
-        Hospitaltoken,
-        expiresInMinutes: `${expiresInMinutes} min`,
-        hospital: {
-          hospitalId: hospital.HospitalID,
-          hospitalDatabase: hospital.HospitalDatabase,
-          hospitalGroupIDR: hospital.HospitalGroupIDR
-        },
-        message: 'Database name found successfully'
-      }
-    });
-  } catch (error) {
-    const end = Date.now();
-    logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: {
+//         Hospitaltoken,
+//         expiresInMinutes: `${expiresInMinutes} min`,
+//         hospital: {
+//           hospitalId: hospital.HospitalID,
+//           hospitalDatabase: hospital.HospitalDatabase,
+//           hospitalGroupIDR: hospital.HospitalGroupIDR
+//         },
+//         message: 'Database name found successfully'
+//       }
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
 
-    res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode: 1046,
-        executionTime: `${end - start}ms`
-      },
-      error: {
-        message: 'Error finding hospital: ' + error.message
-      }
-    });
-  }
-};
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 1046,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error finding hospital: ' + error.message
+//       }
+//     });
+//   }
+// };
 
 // exports.loginUser = async (req, res) => {
 //   const start = Date.now();

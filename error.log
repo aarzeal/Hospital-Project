@@ -575,3 +575,8 @@
 {"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid MaritalStatus value: Single. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"9ms","level":"error","message":"Error creating patient","timestamp":"2024-08-07T08:52:20.998Z"}
 {"error":"Validation error: Invalid MaritalStatus value: Single. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"7ms","level":"error","message":"Error creating patient","timestamp":"2024-08-07T08:52:36.720Z"}
 {"error":"Validation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"7ms","level":"error","message":"Error creating patient","timestamp":"2024-08-07T08:52:51.347Z"}
+{"error":"Username is not defined","executionTime":"10ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-10T05:18:42.933Z"}
+{"error":"uniqueKey is not defined","executionTime":"22ms","level":"error","message":"Error logging in","timestamp":"2024-08-10T05:31:20.703Z"}
+{"error":"uniqueKey is not defined","executionTime":"15ms","level":"error","message":"Error logging in","timestamp":"2024-08-10T05:32:34.680Z"}
+{"error":"uniqueKey is not defined","executionTime":"8ms","level":"error","message":"Error logging in","timestamp":"2024-08-10T05:33:01.845Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-10T05:49:01.231Z"}
