@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const hospitalController = require('../controllers/HospitalController');
 const { createHospitalValidationRules, updateHospitalValidationRules,createUserValidationRules } = require('../validators/hospitalValidator');
+const hospitalController = require('../controllers/HospitalController');
+const ensureSequelizeInstance = require('../Middleware/ensureSequelizeInstance');
 const { verifyToken } = require('../Middleware/authMiddleware');
 const { decodeUserAccessToken } = require('../Middleware/decodeUserAccessToken');
 const authenticate = require('../validators/authenticate');
@@ -45,7 +46,8 @@ router.put('/user/:id', createUserValidationRules(),authenticate,   validateJSON
 router.delete('/user/:id', authenticate,  hospitalController.ensureSequelizeInstance, hospitalController.deleteUser);
 router.get('/users', authenticate,hospitalController.ensureSequelizeInstance, hospitalController.getAllUsers);
 //   router.post('/create-user', hospitalController.ensureSequelizeInstance, hospitalController.createUser);
-router.get('/verify/:token',authenticate, hospitalController.ensureSequelizeInstance,hospitalController.verifyEmail);
+router.get('/verify/:token',authenticate,ensureSequelizeInstance.ensureSequelizeInstance,hospitalController.verifyEmail);
+router.post('/reverify',authenticate, hospitalController.ensureSequelizeInstance,hospitalController.resendVerificationEmail);
 router.get('/users/pagination',authenticate, hospitalController.getAllUsersByPagination);
 
 router.post('/user/login',authenticate, hospitalController.ensureSequelizeInstance, hospitalController.loginUser);

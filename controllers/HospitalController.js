@@ -178,6 +178,7 @@
 const validateJSONContentType = require('../Middleware/jsonvalidation');
 const { v4: uuidv4 } = require('uuid');
 const sendEmail = require('../Middleware/sendEmail');
+const sendUserEmail = require('../Middleware/sendUserEmail');
 const { Op } = require('sequelize');
 const express = require('express');
 const router = express.Router();
@@ -926,129 +927,335 @@ const verifyUniqueKey = (providedKey, storedKey) => {
   logger.info(`Stored UniqueKey: ${storedKey}`);
   return providedKey === storedKey;
 };
-exports.HospitalCode = async (req, res) => {
-  const start = Date.now();
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const end = Date.now();
-    logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
-
-    return res.status(400).json({
-      meta: {
-        statusCode: 400,
-        errorCode: 1044,
-        executionTime: `${end - start}ms`
-      },
-      error: {
-        message: 'Validation errors occurred',
-        details: errors.array().map(err => ({
-          field: err.param,
-          message: err.msg
-        }))
-      }
-    });
-  }
-
-  const { HospitalCode } = req.body;
-  const uniqueKey = req.headers['x-unique-key'];
-  console.log("uniquekey", uniqueKey);
 
 
+// exports.HospitalCode = async (req, res) => {
+//   const start = Date.now();
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     const end = Date.now();
+//     logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
+
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 1044,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Validation errors occurred',
+//         details: errors.array().map(err => ({
+//           field: err.param,
+//           message: err.msg
+//         }))
+//       }
+//     });
+//   }
+
+//   const { HospitalCode } = req.body;
+//   const uniqueKey = req.headers['x-unique-key'];
+//   console.log("uniquekey", uniqueKey);
+//   // const encryptedKeyFromHeader = req.headers['x-unique-key'];
+//   // const decryptionSecret = process.env.DECRYPTION_SECRET; 
 
 
-  try {
-    const hospital = await Hospital.findOne({ where: { HospitalCode } });
-    if (!hospital) {
-      const end = Date.now();
-      logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
 
-      return res.status(404).json({
-        meta: {
-          statusCode: 404,
-          errorCode: 1045,
-          executionTime: `${end - start}ms`
-        },
-        error: {
-          message: 'Hospital not found'
-        }
-      });
-    }
-    if (!verifyUniqueKey(uniqueKey, hospital.UniqueKey)) {
-      const end = Date.now();
-  // logger.warn(`Invalid UniqueKey for hospital with Username ${Username}, executionTime: ${end - start}ms`);
-  
-      return res.status(401).json({
-        meta: {
-          statusCode: 401,
-          errorCode: 955,
-              executionTime: `${end - start}ms`
-        },
-        error: {
-          message: 'Unauthorized'
-        }
-      });
-    }
+
+
+//   try {
+//     const hospital = await Hospital.findOne({ where: { HospitalCode } });
+//     if (!hospital) {
+//       const end = Date.now();
+//       logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
+
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: 404,
+//           errorCode: 1045,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Hospital not found'
+//         }
+//       });
+//     }
+
+//     // const decryptedKey = decryptText(encryptedKeyFromHeader, decryptionSecret);
+//     // console.log("Decrypted Key:", decryptedKey);
+//     if (!verifyUniqueKey(uniqueKey, hospital.UniqueKey)) {
+//       const end = Date.now();
+//   // logger.warn(`Invalid UniqueKey for hospital with Username ${Username}, executionTime: ${end - start}ms`);
+//   // if (decryptedKey !== hospital.UniqueKey) {
+//   //   const end = Date.now();
+//   //   logger.warn(`Invalid UniqueKey for HospitalCode ${HospitalCode}, executionTime: ${end - start}ms`);
+
+//       return res.status(401).json({
+//         meta: {
+//           statusCode: 401,
+//           errorCode: 955,
+//               executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Unauthorized'
+//         }
+//       });
+//     }
 
  
 
-    // Check if the hospital already has a valid token in Redis
-    const existingToken = await getAsync(hospital.HospitalID.toString());
-    let Hospitaltoken = existingToken;
+//     // Check if the hospital already has a valid token in Redis
+//     const existingToken = await getAsync(hospital.HospitalID.toString());
+//     let Hospitaltoken = existingToken;
 
-    // If token is not present, generate a new one
-    if (!existingToken) {
-      Hospitaltoken = jwt.sign(
-        { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
-        process.env.JWT_SECRET,
-        { expiresIn: '24h' }
-      );
+//     // If token is not present, generate a new one
+//     if (!existingToken) {
+//       Hospitaltoken = jwt.sign(
+//         { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
+//         process.env.JWT_SECRET,
+//         { expiresIn: '24h' }
+//       );
 
-      // Store the new token in Redis with an expiration time
-      await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
+//       // Store the new token in Redis with an expiration time
+//       await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
+//     }
+
+//     const end = Date.now();
+//     logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
+
+//     req.hospitalDatabase = hospital.HospitalDatabase;
+//     const decodedToken = jwt.decode(Hospitaltoken);
+//     const currentTime = Math.floor(Date.now() / 1000);
+//     const expiresIn = decodedToken.exp - currentTime;
+//     const expiresInMinutes = Math.floor(expiresIn / 60);
+//     console.log(`Token expires in: ${expiresIn} seconds`);
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: {
+//         Hospitaltoken,
+//         expiresInMinutes: `${expiresInMinutes} min`,
+//         hospital: {
+//           hospitalId: hospital.HospitalID,
+//           hospitalDatabase: hospital.HospitalDatabase,
+//           hospitalGroupIDR: hospital.HospitalGroupIDR
+//         },
+//         message: 'Database name found successfully'
+//       }
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 1046,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error finding hospital: ' + error.message
+//       }
+//     });
+//   }
+// };
+const CryptoJS = require('crypto-js');
+
+// Secret key should be in a suitable format and length
+const ENCRYPT_SECRET_KEY = process.env.ENCRYPT_SECRET_KEY;
+
+// Function to decrypt the provided ciphertext
+const decryptValue = (ciphertext) => {
+    try {
+        // Convert the secret key to a suitable format if needed
+        const bytes = CryptoJS.AES.decrypt(ciphertext, ENCRYPT_SECRET_KEY);
+        const originalText = bytes.toString(CryptoJS.enc.Utf8);
+
+        // Check if the decrypted text is not empty
+        if (!originalText) {
+            throw new Error('Decryption failed or result is empty.');
+        }
+
+        return originalText;
+    } catch (error) {
+        console.error('Error during decryption:', error.message);
+        return null;
+    }
+};
+
+// Encrypted key and secret key provided
+// const encryptedKey = 'U2FsdGVkX1+NOwStJXC+t32sBUOj6SVR0ChDJOXURFyNz9DHBh3sVY/D+rm8bgSlk9J+r76ziT+8xP8gjMRq1Q==';
+
+// // Decrypt the encrypted key and log the result
+// const decryptedKey = decryptValue(encryptedKey);
+// console.log("Decrypted Key:", decryptedKey);
+
+
+// // Example usage
+// const encryptedKey = 'U2FsdGVkX1+NOwStJXC+t32sBUOj6SVR0ChDJOXURFyNz9DHBh3sVY/D+rm8bgSlk9J+r76ziT+8xP8gjMRq1Q==';
+// const decryptedKey = decryptValue("U2FsdGVkX1+NOwStJXC+t32sBUOj6SVR0ChDJOXURFyNz9DHBh3sVY/D+rm8bgSlk9J+r76ziT+8xP8gjMRq1Q==");
+// console.log("Decrypted Key:", decryptedKey);
+
+
+// Example usage in your handler function
+exports.HospitalCode = async (req, res) => {
+    const start = Date.now();
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const end = Date.now();
+        logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
+
+        return res.status(400).json({
+            meta: {
+                statusCode: 400,
+                errorCode: 1044,
+                executionTime: `${end - start}ms`
+            },
+            error: {
+                message: 'Validation errors occurred',
+                details: errors.array().map(err => ({
+                    field: err.param,
+                    message: err.msg
+                }))
+            }
+        });
     }
 
-    const end = Date.now();
-    logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
+    const { HospitalCode } = req.body;
+    const encryptedKeyFromHeader = req.headers['x-unique-key'];
 
-    req.hospitalDatabase = hospital.HospitalDatabase;
-    const decodedToken = jwt.decode(Hospitaltoken);
-    const currentTime = Math.floor(Date.now() / 1000);
-    const expiresIn = decodedToken.exp - currentTime;
-    const expiresInMinutes = Math.floor(expiresIn / 60);
-    console.log(`Token expires in: ${expiresIn} seconds`);
+    // Validate inputs
+    if (!encryptedKeyFromHeader) {
+        const end = Date.now();
+        logger.error('Missing encrypted key in the request header', { executionTime: `${end - start}ms` });
 
-    res.status(200).json({
-      meta: {
-        statusCode: 200,
-        executionTime: `${end - start}ms`
-      },
-      data: {
-        Hospitaltoken,
-        expiresInMinutes: `${expiresInMinutes} min`,
-        hospital: {
-          hospitalId: hospital.HospitalID,
-          hospitalDatabase: hospital.HospitalDatabase,
-          hospitalGroupIDR: hospital.HospitalGroupIDR
-        },
-        message: 'Database name found successfully'
-      }
-    });
-  } catch (error) {
-    const end = Date.now();
-    logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
+        return res.status(400).json({
+            meta: {
+                statusCode: 400,
+                errorCode: 1047,
+                executionTime: `${end - start}ms`
+            },
+            error: {
+                message: 'Missing encrypted key in the request header'
+            }
+        });
+    }
 
-    res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode: 1046,
-        executionTime: `${end - start}ms`
-      },
-      error: {
-        message: 'Error finding hospital: ' + error.message
-      }
-    });
-  }
+    if (!ENCRYPT_SECRET_KEY) {
+        const end = Date.now();
+        logger.error('Decryption secret is not defined in environment variables', { executionTime: `${end - start}ms` });
+
+        return res.status(500).json({
+            meta: {
+                statusCode: 500,
+                errorCode: 1048,
+                executionTime: `${end - start}ms`
+            },
+            error: {
+                message: 'Internal Server Error: Decryption secret is not defined'
+            }
+        });
+    }
+
+    try {
+        const hospital = await Hospital.findOne({ where: { HospitalCode } });
+        if (!hospital) {
+            const end = Date.now();
+            logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
+
+            return res.status(404).json({
+                meta: {
+                    statusCode: 404,
+                    errorCode: 1045,
+                    executionTime: `${end - start}ms`
+                },
+                error: {
+                    message: 'Hospital not found'
+                }
+            });
+        }
+
+        // const encryptedKey = 'U2FsdGVkX1+NOwStJXC+t32sBUOj6SVR0ChDJOXURFyNz9DHBh3sVY/D+rm8bgSlk9J+r76ziT+8xP8gjMRq1Q==';
+const decryptedKey = decryptValue(encryptedKeyFromHeader);
+console.log("Decrypted Key:", decryptedKey);
+
+        // const decryptedKey = decryptValue(encryptedKeyFromHeader);
+
+        console.log("Decrypted Key:", decryptedKey);
+
+        if (decryptedKey !== hospital.UniqueKey) {
+            const end = Date.now();
+            logger.warn(`Invalid UniqueKey for HospitalCode ${HospitalCode}, executionTime: ${end - start}ms`);
+
+            return res.status(401).json({
+                meta: {
+                    statusCode: 401,
+                    errorCode: 955,
+                    executionTime: `${end - start}ms`
+                },
+                error: {
+                    message: 'Unauthorized'
+                }
+            });
+        }
+
+        const existingToken = await getAsync(hospital.HospitalID.toString());
+        let Hospitaltoken = existingToken;
+
+        if (!existingToken) {
+            Hospitaltoken = jwt.sign(
+                { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
+                process.env.JWT_SECRET,
+                { expiresIn: '24h' }
+            );
+
+            await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
+        }
+
+        const end = Date.now();
+        logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
+
+        const decodedToken = jwt.decode(Hospitaltoken);
+        const currentTime = Math.floor(Date.now() / 1000);
+        const expiresIn = decodedToken.exp - currentTime;
+        const expiresInMinutes = Math.floor(expiresIn / 60);
+
+        res.status(200).json({
+            meta: {
+                statusCode: 200,
+                executionTime: `${end - start}ms`
+            },
+            data: {
+                Hospitaltoken,
+                expiresInMinutes: `${expiresInMinutes} min`,
+                hospital: {
+                    hospitalId: hospital.HospitalID,
+                    hospitalDatabase: hospital.HospitalDatabase,
+                    hospitalGroupIDR: hospital.HospitalGroupIDR
+                },
+                message: 'Database name found successfully'
+            }
+        });
+    } catch (error) {
+        const end = Date.now();
+        logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
+
+        res.status(500).json({
+            meta: {
+                statusCode: 500,
+                errorCode: 1046,
+                executionTime: `${end - start}ms`
+            },
+            error: {
+                message: 'Error finding hospital: ' + error.message
+            }
+        });
+    }
 };
+
 
 exports.login = async (req, res) => {
   const start = Date.now(); 
@@ -1846,22 +2053,91 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 // };
 
 
+// exports.createUser = async (req, res) => {
+//   const start = Date.now();
+//   const { name, username, phone, email, password, empid ,usertype,Reserve1, Reserve2, Reserve3, Reserve4} = req.body;
+//   const hospitalId = req.hospitalId;
+
+//   try {
+//     if (!password) {
+//       const end = Date.now();
+//       throw new Error('Password is required');
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the number of salt rounds
+//     const verificationToken = uuidv4();
+//     const tokenExpiration = new Date();
+//     tokenExpiration.setMinutes(tokenExpiration.getMinutes() + 10); 
+//     const User = require('../models/user')(req.sequelize)
+
+//     // Ensure the table exists
+//     await User.sync();
+
+//     const user = await User.create({
+//       username,
+//       password: hashedPassword,
+//       hospitalId,
+//       name,
+//       phone,
+//       email,
+//       empid,
+//       usertype,
+//       emailtoken: verificationToken,
+//       createdBy: hospitalId,Reserve1, Reserve2, Reserve3, Reserve4
+//     });
+//     logger.info(`User created successfully with username: ${username}, hospitalId: ${hospitalId}`);
+
+//     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${verificationToken}`; // Replace with your actual verification link
+    
+//     await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
+
+//     // In the try block, make sure you are calling `sendUserEmail`:
+
+
+//     const end = Date.now();
+//     res.status(201).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: {
+//         // userId: user.userId,
+//         // username: user.username
+//         user
+//       }
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     logger.error('Error creating user', { error: error.message, executionTime: `${end - start}ms` });
+    
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 928,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error creating user: ' + error.message
+//       }
+//     });
+//   }
+// };
+
+
 exports.createUser = async (req, res) => {
   const start = Date.now();
-  const { name, username, phone, email, password, empid ,usertype,Reserve1, Reserve2, Reserve3, Reserve4} = req.body;
+  const { name, username, phone, email, password, empid, usertype, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
   const hospitalId = req.hospitalId;
 
   try {
     if (!password) {
-      const end = Date.now();
       throw new Error('Password is required');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the number of salt rounds
     const verificationToken = uuidv4();
-    const tokenExpiration = new Date();
-    tokenExpiration.setMinutes(tokenExpiration.getMinutes() + 10); 
-    const User = require('../models/user')(req.sequelize)
+
+    const User = require('../models/user')(req.sequelize);
 
     // Ensure the table exists
     await User.sync();
@@ -1876,29 +2152,34 @@ exports.createUser = async (req, res) => {
       empid,
       usertype,
       emailtoken: verificationToken,
-      createdBy: hospitalId,Reserve1, Reserve2, Reserve3, Reserve4
+      createdBy: hospitalId,
+      Reserve1,
+      Reserve2,
+      Reserve3,
+      Reserve4
     });
+
     logger.info(`User created successfully with username: ${username}, hospitalId: ${hospitalId}`);
 
-    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${verificationToken}`; // Replace with your actual verification link
+    // Construct the verification link
+    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${verificationToken}`;
     
-    await sendEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
+    // Send the verification email
+    await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
+
     const end = Date.now();
     res.status(201).json({
       meta: {
         statusCode: 200,
         executionTime: `${end - start}ms`
       },
-      data: {
-        // userId: user.userId,
-        // username: user.username
-        user
-      }
+      data: { user }
     });
+
   } catch (error) {
     const end = Date.now();
     logger.error('Error creating user', { error: error.message, executionTime: `${end - start}ms` });
-    
+
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1906,7 +2187,7 @@ exports.createUser = async (req, res) => {
         executionTime: `${end - start}ms`
       },
       error: {
-        message: 'Error creating user: ' + error.message
+        message: `Error creating user: ${error.message}`
       }
     });
   }
@@ -1915,7 +2196,7 @@ exports.createUser = async (req, res) => {
 exports.verifyEmail = async (req, res) => {
   const start = Date.now();
   const { token } = req.params;
-  const User = require('../models/user');
+  const User = require('../models/user')(req.sequelize); 
 
   try {
     // Find user by email token
@@ -1969,6 +2250,87 @@ logger.info(`User email verified successfully with username: ${user.username}`, 
     });
   }
 };
+
+
+
+exports.resendVerificationEmail = async (req, res) => {
+  const start = Date.now();
+  const { email } = req.body;
+  const User = require('../models/user')(req.sequelize);
+
+  try {
+    // Find the user by email
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      const end = Date.now();
+      return res.status(404).json({
+        meta: {
+          statusCode: 404,
+          errorCode: 954,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'User not found'
+        }
+      });
+    }
+
+    if (user.is_emailVerify) {
+      const end = Date.now();
+      return res.status(200).json({
+        meta: {
+          statusCode: 200,
+          errorCode: 955,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Email is already verified'
+        }
+      });
+    }
+
+    // Generate a new verification token
+    const verificationToken = uuidv4();
+    user.emailtoken = verificationToken;
+    await user.save();
+
+    // Construct the verification link
+    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${verificationToken}`;
+
+    // Resend the verification email
+    await sendUserEmail(user.email, 'Resend Verification Email', `Click this link to verify your email: ${verificationLink}`);
+
+    const end = Date.now();
+    logger.info(`Verification email resent to ${user.email}`, { executionTime: `${end - start}ms` });
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`
+      },
+      data: {
+        message: 'Verification email resent successfully'
+      }
+    });
+
+  } catch (error) {
+    const end = Date.now();
+    logger.error('Error resending verification email', { error: error.message, executionTime: `${end - start}ms` });
+
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 956,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error resending verification email: ' + error.message
+      }
+    });
+  }
+};
+
 
 
 

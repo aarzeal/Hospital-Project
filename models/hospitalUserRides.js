@@ -5,13 +5,12 @@ module.exports = (sequelize) => {
     Id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-     
     },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Users', // Ensure this matches the actual table name
+        model: 'Users',
         key: 'userId'
       }
     },
@@ -19,7 +18,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
       references: {
-        model: 'UserSubModules', // Ensure this matches the actual table name
+        model: 'UserSubModules',
         key: 'submodule_id'
       }
     },
@@ -27,7 +26,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'UserModules', // Ensure this matches the actual table name
+        model: 'UserModules',
         key: 'modules_Id'
       }
     },

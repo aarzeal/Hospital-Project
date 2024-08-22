@@ -3618,3 +3618,1079 @@
 {"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-10T07:10:02.354Z"}
 {"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-10T07:22:52.897Z"}
 {"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-10T07:22:52.900Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-10T07:28:07.420Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-10T07:28:07.424Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-10T07:28:07.425Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 5ms","timestamp":"2024-08-10T07:28:07.425Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-10T07:29:33.226Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 63ms","timestamp":"2024-08-10T07:29:33.296Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T07:30:00.013Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T07:30:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T07:30:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T07:30:00.016Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-10T07:30:53.548Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-10T07:30:53.550Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T07:50:00.017Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T07:50:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T07:50:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T07:50:00.019Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T08:40:00.748Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T08:40:00.813Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T08:40:00.814Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T08:40:00.814Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T08:40:00.830Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T08:40:00.832Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T08:40:00.833Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T08:40:00.955Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T08:50:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T08:50:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T08:50:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T08:50:00.014Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T09:10:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T09:10:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T09:10:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T09:10:00.014Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T09:30:00.010Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T09:30:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T09:30:00.012Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T09:30:00.012Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-10T09:35:06.128Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-10T09:35:06.132Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-10T09:35:06.132Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 5ms","timestamp":"2024-08-10T09:35:06.133Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-10T09:35:35.202Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 62ms","timestamp":"2024-08-10T09:35:35.266Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-10T09:36:14.402Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-10T09:36:14.405Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-10T09:37:32.073Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-10T09:37:32.076Z"}
+{"executionTime":"15ms","level":"error","message":"Invalid username or password","timestamp":"2024-08-10T09:37:32.091Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-10T09:38:32.030Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-10T09:38:32.034Z"}
+{"executionTime":"71ms","level":"error","message":"Email or phone not verified","timestamp":"2024-08-10T09:38:32.105Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-10T09:42:03.906Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-10T09:42:03.909Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-10T09:45:23.201Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-10T09:45:23.208Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T09:50:00.016Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T09:50:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T09:50:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T09:50:00.018Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-10T09:50:28.303Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-10T09:50:28.323Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-10T09:51:37.870Z"}
+{"executionTime":"21ms","level":"info","message":"Phone number already exists","timestamp":"2024-08-10T09:51:37.902Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-10T09:51:50.995Z"}
+{"executionTime":"7ms","level":"info","message":"Email already exists","timestamp":"2024-08-10T09:51:51.007Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-10T09:52:23.436Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-10T09:52:24.844Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1723283547 98e67ed59e1d1-2d1c9c62fe5sm4535025a91.1 - gsmtp","timestamp":"2024-08-10T09:52:28.342Z"}
+{"level":"info","message":"Created new patient with ID 64 in 4903ms","timestamp":"2024-08-10T09:52:28.342Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T10:10:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T10:10:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T10:10:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T10:10:00.013Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T10:30:00.021Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T10:30:00.023Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T10:30:00.024Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T10:30:00.024Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T10:50:00.016Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T10:50:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T10:50:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T10:50:00.018Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T11:30:47.681Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T11:30:47.699Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T11:30:47.701Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T11:30:47.702Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T11:30:47.703Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T11:30:47.704Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T11:30:47.704Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T11:30:47.704Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-10T11:50:00.022Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-10T11:50:00.023Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-10T11:50:00.023Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-10T11:50:00.024Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-12T05:46:35.523Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/admin/login with method POST","timestamp":"2024-08-12T05:46:40.558Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-08-12T05:46:40.637Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-12T05:47:03.561Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/%7B%7Bendpoint%7D%7D with method POST","timestamp":"2024-08-12T05:47:03.607Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-12T05:47:31.229Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital with method POST","timestamp":"2024-08-12T05:47:31.265Z"}
+{"errors":[{"location":"body","msg":"Hospital Code is required","path":"HospitalCode","type":"field"},{"location":"body","msg":"Managing Company is required","path":"ManagingCompany","type":"field"},{"location":"body","msg":"Managing Company Email is required","path":"ManagingCompanyEmail","type":"field"},{"location":"body","msg":"Managing Company Email must be a valid email address","path":"ManagingCompanyEmail","type":"field"},{"location":"body","msg":"City is required","path":"City","type":"field"},{"location":"body","msg":"Province is required","path":"Province","type":"field"},{"location":"body","msg":"Country is required","path":"Country","type":"field"},{"location":"body","msg":"Hospital Owner is required","path":"HospitalOwner","type":"field"},{"location":"body","msg":"Owner Name is required","path":"OwnerName","type":"field"},{"location":"body","msg":"Owner City is required","path":"OwnerCity","type":"field"},{"location":"body","msg":"Owner Country is required","path":"OwnerCountry","type":"field"},{"location":"body","msg":"Owner Email is required","path":"OwnerEmail","type":"field"},{"location":"body","msg":"Owner Email must be a valid email address","path":"OwnerEmail","type":"field"},{"location":"body","msg":"Service No is required","path":"ServiceNo","type":"field"},{"location":"body","msg":"Registration No is required","path":"RegistrationNo","type":"field"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-08-12T05:47:31.270Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-12T05:48:58.330Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital with method POST","timestamp":"2024-08-12T05:48:58.353Z"}
+{"errors":[{"location":"body","msg":"Hospital Code is required","path":"HospitalCode","type":"field"},{"location":"body","msg":"Managing Company is required","path":"ManagingCompany","type":"field"},{"location":"body","msg":"Managing Company Email is required","path":"ManagingCompanyEmail","type":"field"},{"location":"body","msg":"Managing Company Email must be a valid email address","path":"ManagingCompanyEmail","type":"field"},{"location":"body","msg":"City is required","path":"City","type":"field"},{"location":"body","msg":"Province is required","path":"Province","type":"field"},{"location":"body","msg":"Country is required","path":"Country","type":"field"},{"location":"body","msg":"Hospital Owner is required","path":"HospitalOwner","type":"field"},{"location":"body","msg":"Owner Name is required","path":"OwnerName","type":"field"},{"location":"body","msg":"Owner City is required","path":"OwnerCity","type":"field"},{"location":"body","msg":"Owner Country is required","path":"OwnerCountry","type":"field"},{"location":"body","msg":"Owner Email is required","path":"OwnerEmail","type":"field"},{"location":"body","msg":"Owner Email must be a valid email address","path":"OwnerEmail","type":"field"},{"location":"body","msg":"Service No is required","path":"ServiceNo","type":"field"},{"location":"body","msg":"Registration No is required","path":"RegistrationNo","type":"field"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-08-12T05:48:58.357Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T05:50:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T05:50:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T05:50:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T05:50:00.015Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/admin/login with method POST","timestamp":"2024-08-12T05:52:18.030Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-08-12T05:52:18.090Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T06:10:00.014Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T06:10:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T06:10:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T06:10:00.016Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T06:30:00.006Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T06:30:00.007Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T06:30:00.007Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T06:30:00.008Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T06:50:00.009Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T06:50:00.010Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T06:50:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T06:50:00.011Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-12T07:09:24.237Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital with method POST","timestamp":"2024-08-12T07:09:24.287Z"}
+{"errors":[{"location":"body","msg":"Hospital Code is required","path":"HospitalCode","type":"field"},{"location":"body","msg":"Managing Company is required","path":"ManagingCompany","type":"field"},{"location":"body","msg":"Managing Company Email is required","path":"ManagingCompanyEmail","type":"field"},{"location":"body","msg":"Managing Company Email must be a valid email address","path":"ManagingCompanyEmail","type":"field"},{"location":"body","msg":"City is required","path":"City","type":"field"},{"location":"body","msg":"Province is required","path":"Province","type":"field"},{"location":"body","msg":"Country is required","path":"Country","type":"field"},{"location":"body","msg":"Hospital Owner is required","path":"HospitalOwner","type":"field"},{"location":"body","msg":"Owner Name is required","path":"OwnerName","type":"field"},{"location":"body","msg":"Owner City is required","path":"OwnerCity","type":"field"},{"location":"body","msg":"Owner Country is required","path":"OwnerCountry","type":"field"},{"location":"body","msg":"Owner Email is required","path":"OwnerEmail","type":"field"},{"location":"body","msg":"Owner Email must be a valid email address","path":"OwnerEmail","type":"field"},{"location":"body","msg":"Service No is required","path":"ServiceNo","type":"field"},{"location":"body","msg":"Registration No is required","path":"RegistrationNo","type":"field"}],"level":"info","message":"Validation errors occurred","timestamp":"2024-08-12T07:09:24.291Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T07:10:00.016Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T07:10:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T07:10:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T07:10:00.018Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/admin/login with method POST","timestamp":"2024-08-12T07:15:17.901Z"}
+{"level":"info","message":"User Admin logged in successfully","timestamp":"2024-08-12T07:15:17.960Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T07:30:00.019Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T07:30:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T07:30:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T07:30:00.021Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T08:52:35.716Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T08:52:35.729Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T08:52:35.730Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T08:52:35.731Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T08:52:35.731Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T08:52:35.741Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T08:52:35.759Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T08:52:35.817Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T08:52:35.833Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T08:52:35.854Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T08:52:35.855Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T08:52:35.856Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T08:52:35.858Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T08:52:35.859Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T08:52:35.859Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T08:52:35.860Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T09:10:00.017Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T09:10:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T09:10:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T09:10:00.018Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T09:30:00.019Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T09:30:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T09:30:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T09:30:00.021Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T09:50:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T09:50:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T09:50:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T09:50:00.013Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-12T10:40:11.024Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T10:50:00.014Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T10:50:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T10:50:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T10:50:00.017Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-12T10:57:07.330Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-12T10:57:07.367Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-12T10:57:07.368Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 42ms","timestamp":"2024-08-12T10:57:07.373Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T11:10:00.013Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T11:10:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T11:10:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T11:10:00.015Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T11:42:01.726Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T11:42:01.743Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T11:42:01.744Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T11:42:01.745Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T11:50:00.017Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T11:50:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T11:50:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T11:50:00.019Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T12:10:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T12:10:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T12:10:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T12:10:00.014Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-12T12:30:00.011Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-12T12:30:00.012Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-12T12:30:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-12T12:30:00.013Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T06:12:23.846Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-13T06:16:46.965Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T06:16:51.521Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-13T06:16:51.565Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-13T06:18:11.012Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-13T06:18:11.024Z"}
+{"level":"info","message":"Stored UniqueKey: 52684569-ba41-478e-a128-1c536628b7d","timestamp":"2024-08-13T06:18:11.024Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-13T06:18:24.487Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-13T06:18:24.492Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-13T06:18:24.492Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 5ms","timestamp":"2024-08-13T06:18:24.493Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-13T06:18:40.584Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T06:18:40.592Z"}
+{"executionTime":"0ms","level":"error","message":"Username or Password not provided","timestamp":"2024-08-13T06:18:40.592Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-13T06:18:52.128Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T06:18:52.130Z"}
+{"executionTime":"24ms","level":"error","message":"Invalid username or password","timestamp":"2024-08-13T06:18:52.154Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-13T06:19:33.844Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T06:19:33.847Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-13T06:21:03.265Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-13T06:21:19.532Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-13T06:21:19.556Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-13T06:21:44.572Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 65ms","timestamp":"2024-08-13T06:21:44.639Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T06:30:00.010Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T06:30:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T06:30:00.012Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T06:30:00.012Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-13T06:32:23.418Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T06:32:23.421Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T06:50:00.007Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T06:50:00.008Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T06:50:00.009Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T06:50:00.009Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/module/modules with method POST","timestamp":"2024-08-13T07:03:33.335Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/module/create-modules with method POST","timestamp":"2024-08-13T07:04:15.234Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:04:15.237Z"}
+{"level":"info","message":"User created successfully with username: Administration, hospitalId: 54, executionTime: 170ms","timestamp":"2024-08-13T07:04:15.408Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/module/create-modules with method POST","timestamp":"2024-08-13T07:04:42.206Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:04:42.209Z"}
+{"level":"info","message":"User created successfully with username: Pharamcy, hospitalId: 54, executionTime: 63ms","timestamp":"2024-08-13T07:04:42.274Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/module/create-modules with method POST","timestamp":"2024-08-13T07:04:52.481Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:04:52.484Z"}
+{"level":"info","message":"User created successfully with username: OPD, hospitalId: 54, executionTime: 72ms","timestamp":"2024-08-13T07:04:52.556Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/module/create-modules with method POST","timestamp":"2024-08-13T07:05:02.498Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:05:02.503Z"}
+{"level":"info","message":"User created successfully with username: Reception, hospitalId: 54, executionTime: 36ms","timestamp":"2024-08-13T07:05:02.539Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T07:10:00.020Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T07:10:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T07:10:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T07:10:00.021Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:11:41.585Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:11:41.588Z"}
+{"error":"string violation: submodule_name cannot be an array or an object","executionTime":"237ms","level":"error","message":"Error creating submodules","timestamp":"2024-08-13T07:11:41.825Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:12:23.617Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:12:23.619Z"}
+{"error":"notNull Violation: UserSubModules.submodule_name cannot be null,\nnotNull Violation: UserSubModules.modules_Id cannot be null","executionTime":"15ms","level":"error","message":"Error creating submodules","timestamp":"2024-08-13T07:12:23.635Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:12:39.850Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:12:39.853Z"}
+{"level":"info","message":"Submodule created successfully with name: cashLessPriceList, hospitalId: 54, executionTime: 55ms","timestamp":"2024-08-13T07:12:39.908Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:12:59.751Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:12:59.763Z"}
+{"level":"info","message":"Submodule created successfully with name: ServceMaster, hospitalId: 54, executionTime: 53ms","timestamp":"2024-08-13T07:12:59.817Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:13:07.150Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:13:07.152Z"}
+{"level":"info","message":"Submodule created successfully with name: ClassMaster, hospitalId: 54, executionTime: 47ms","timestamp":"2024-08-13T07:13:07.200Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:16:55.542Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:16:55.545Z"}
+{"level":"info","message":"Submodule created successfully with name: PurcheseInvoice, hospitalId: 54, executionTime: 72ms","timestamp":"2024-08-13T07:16:55.617Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:17:07.833Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:17:07.835Z"}
+{"level":"info","message":"Submodule created successfully with name: SaleReturn, hospitalId: 54, executionTime: 49ms","timestamp":"2024-08-13T07:17:07.884Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:17:20.583Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:17:20.586Z"}
+{"level":"info","message":"Submodule created successfully with name: ItemMaster, hospitalId: 54, executionTime: 47ms","timestamp":"2024-08-13T07:17:20.634Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:17:30.366Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:17:30.369Z"}
+{"level":"info","message":"Submodule created successfully with name: PurchesReturn, hospitalId: 54, executionTime: 63ms","timestamp":"2024-08-13T07:17:30.432Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:17:59.381Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:17:59.384Z"}
+{"level":"info","message":"Submodule created successfully with name: EMR, hospitalId: 54, executionTime: 48ms","timestamp":"2024-08-13T07:17:59.432Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:18:18.765Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:18:18.774Z"}
+{"level":"info","message":"Submodule created successfully with name: AppoinmentBooking, hospitalId: 54, executionTime: 48ms","timestamp":"2024-08-13T07:18:18.823Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:18:33.281Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:18:33.283Z"}
+{"level":"info","message":"Submodule created successfully with name: DoctorCounsaltncy, hospitalId: 54, executionTime: 48ms","timestamp":"2024-08-13T07:18:33.331Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:18:57.597Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:18:57.600Z"}
+{"level":"info","message":"Submodule created successfully with name: PatientRegistraion, hospitalId: 54, executionTime: 47ms","timestamp":"2024-08-13T07:18:57.647Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:19:08.363Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:19:08.374Z"}
+{"level":"info","message":"Submodule created successfully with name: Addmision, hospitalId: 54, executionTime: 113ms","timestamp":"2024-08-13T07:19:08.488Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules/create-submodules with method POST","timestamp":"2024-08-13T07:19:25.329Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T07:19:25.336Z"}
+{"level":"info","message":"Submodule created successfully with name: AdvanceRecepts, hospitalId: 54, executionTime: 42ms","timestamp":"2024-08-13T07:19:25.379Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T07:30:00.014Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T07:30:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T07:30:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T07:30:00.016Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T08:06:54.671Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T08:06:55.861Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T08:06:55.863Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T08:06:55.864Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T08:10:00.010Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T08:10:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T08:10:00.012Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T08:10:00.012Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T08:30:00.009Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T08:30:00.010Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T08:30:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T08:30:00.011Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T08:50:00.016Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T08:50:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T08:50:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T08:50:00.018Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T09:14:13.152Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T09:30:00.018Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T09:30:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T09:30:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T09:30:00.020Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T09:32:21.459Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T09:32:34.533Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T09:36:10.107Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T09:39:59.142Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-08-13T09:39:59.154Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T09:42:37.910Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T09:42:40.605Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T09:42:40.618Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T09:47:17.027Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T09:47:22.569Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T09:47:22.574Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T09:50:00.015Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T09:50:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T09:50:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T09:50:00.017Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T09:50:40.905Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T09:52:35.650Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T09:52:35.656Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T09:53:12.647Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T09:53:25.148Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T09:53:25.154Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T09:54:36.812Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T09:54:40.488Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T09:54:40.493Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T09:55:21.573Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T09:55:23.087Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T09:55:23.092Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T09:58:17.074Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T09:58:19.483Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T09:58:21.339Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T09:58:21.346Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T10:07:26.557Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T10:10:00.019Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T10:10:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T10:10:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T10:10:00.022Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T10:12:45.069Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T10:13:32.547Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T10:15:54.636Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T10:17:36.026Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T10:17:40.797Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T10:19:32.342Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T10:20:24.723Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T10:21:14.151Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T10:21:16.839Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T10:21:16.846Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T10:26:08.972Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T10:26:08.978Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T10:30:00.013Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T10:30:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T10:30:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T10:30:00.015Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T10:35:39.046Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T10:35:39.052Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T10:35:42.697Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T10:35:44.831Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T10:35:44.848Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T10:37:30.217Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T10:37:32.060Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T10:37:32.067Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T10:41:13.025Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T10:41:15.803Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T10:41:15.811Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T10:42:36.576Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T10:42:38.525Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T10:42:38.534Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-13T10:46:33.926Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T10:46:33.930Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T10:46:55.459Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T10:46:55.464Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T10:47:38.940Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T10:47:38.945Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T10:50:00.019Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T10:50:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T10:50:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T10:50:00.021Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T11:10:00.015Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T11:10:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T11:10:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T11:10:00.018Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T11:15:38.246Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:15:41.084Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:15:41.140Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T11:16:04.525Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:16:06.398Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:16:06.447Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:16:12.094Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:16:12.138Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:16:46.807Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-13T11:16:46.837Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-13T11:17:06.853Z"}
+{"level":"info","message":"Hospital with ID 54 logged in successfully, executionTime: 71ms","timestamp":"2024-08-13T11:17:06.927Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-13T11:17:31.961Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-13T11:17:31.965Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:17:46.956Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:17:46.977Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:17:52.050Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:17:52.068Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T11:18:14.841Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:18:16.671Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:18:16.734Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T11:18:38.894Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:18:40.736Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:18:40.792Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:18:50.809Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:18:50.842Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:19:21.574Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T11:19:21.581Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T11:19:44.680Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:19:46.698Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T11:19:46.706Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T11:20:08.728Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:20:10.882Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T11:20:10.903Z"}
+{"executionTime":"17ms","level":"info","message":"User modules and submodules fetched successfully","timestamp":"2024-08-13T11:20:10.922Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T11:30:00.020Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T11:30:00.022Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T11:30:00.022Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T11:30:00.022Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:30:05.921Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T11:30:05.929Z"}
+{"error":"WHERE parameter \"userId\" has invalid \"undefined\" value","executionTime":"2ms","level":"error","message":"An error occurred while fetching user modules and submodules","timestamp":"2024-08-13T11:30:05.931Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:30:20.328Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T11:30:20.334Z"}
+{"executionTime":"13ms","level":"info","message":"User modules and submodules fetched successfully","timestamp":"2024-08-13T11:30:20.347Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:30:25.993Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:30:26.020Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T11:30:32.678Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T11:30:32.683Z"}
+{"executionTime":"13ms","level":"info","message":"User modules and submodules fetched successfully","timestamp":"2024-08-13T11:30:32.696Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T11:50:00.017Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T11:50:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T11:50:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T11:50:00.019Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T12:10:00.010Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T12:10:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T12:10:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T12:10:00.011Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T12:30:00.017Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T12:30:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T12:30:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T12:30:00.019Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T12:45:23.650Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T12:45:23.658Z"}
+{"executionTime":"31ms","level":"info","message":"User modules and submodules fetched successfully","timestamp":"2024-08-13T12:45:23.689Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T12:50:00.017Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T12:50:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T12:50:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T12:50:00.019Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-13T13:01:41.863Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-13T13:01:45.837Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-13T13:01:45.845Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-13T13:10:00.020Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-13T13:10:00.022Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-13T13:10:00.022Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-13T13:10:00.023Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T04:25:51.447Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-14T04:25:52.201Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-14T04:25:52.208Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T04:27:06.214Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-14T04:27:08.848Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-14T04:27:08.855Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T04:30:00.018Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T04:30:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T04:30:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T04:30:00.020Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T04:49:13.624Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T04:50:00.011Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T04:50:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T04:50:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T04:50:00.014Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T04:56:23.901Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T05:10:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T05:10:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T05:10:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T05:10:00.014Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:26:18.179Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T05:30:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T05:30:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T05:30:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T05:30:00.014Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:30:37.855Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:31:05.082Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-14T05:31:22.025Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/login with method POST","timestamp":"2024-08-14T05:31:22.099Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:33:27.903Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:33:36.089Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:34:51.928Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T05:35:31.842Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-14T05:35:31.854Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-14T05:35:31.854Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 11ms","timestamp":"2024-08-14T05:35:31.855Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:36:23.501Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T05:36:28.407Z"}
+{"error":"decryptText is not defined","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T05:36:28.418Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:37:35.177Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T05:37:37.640Z"}
+{"error":"The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined","executionTime":"18ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T05:37:37.667Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:38:40.095Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T05:38:43.320Z"}
+{"level":"info","message":"Provided UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-14T05:38:43.331Z"}
+{"level":"info","message":"Stored UniqueKey: ebcbab4d-7a58-4aba-a2da-4f353d95e865","timestamp":"2024-08-14T05:38:43.332Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 10ms","timestamp":"2024-08-14T05:38:43.333Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:49:12.195Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T05:49:16.465Z"}
+{"executionTime":"0ms","level":"error","message":"Decryption secret is not defined in environment variables","timestamp":"2024-08-14T05:49:16.467Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T05:49:21.689Z"}
+{"executionTime":"0ms","level":"error","message":"Decryption secret is not defined in environment variables","timestamp":"2024-08-14T05:49:21.690Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T05:50:00.019Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T05:50:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T05:50:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T05:50:00.021Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T05:50:15.463Z"}
+{"executionTime":"0ms","level":"error","message":"Decryption secret is not defined in environment variables","timestamp":"2024-08-14T05:50:15.463Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:50:21.588Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T05:50:24.146Z"}
+{"error":"decryptText is not defined","executionTime":"10ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T05:50:24.159Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:51:44.201Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T05:51:46.676Z"}
+{"error":"Invalid key length","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T05:51:46.688Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T05:56:02.272Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T05:56:05.393Z"}
+{"error":"Invalid key length","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T05:56:05.404Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:03:11.346Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:03:20.814Z"}
+{"error":"Invalid key length","executionTime":"10ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:03:20.825Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:04:19.831Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:04:22.861Z"}
+{"error":"Invalid key length","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:04:22.872Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:05:10.976Z"}
+{"error":"Invalid key length","executionTime":"4ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:05:10.982Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:05:20.302Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:05:22.936Z"}
+{"error":"Invalid key length","executionTime":"15ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:05:22.959Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:06:19.583Z"}
+{"error":"Invalid key length","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:06:19.595Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:06:40.690Z"}
+{"error":"Invalid key length","executionTime":"3ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:06:40.694Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:09:21.402Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:09:24.027Z"}
+{"executionTime":"0ms","level":"error","message":"Decryption secret is not defined in environment variables","timestamp":"2024-08-14T06:09:24.030Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:10:00.116Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:10:01.760Z"}
+{"error":"Invalid key length","executionTime":"16ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:10:01.781Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:10:13.741Z"}
+{"error":"Invalid key length","executionTime":"4ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:10:13.746Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:13:18.343Z"}
+{"error":"Invalid key length","executionTime":"4ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:13:18.348Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:15:37.291Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:15:40.756Z"}
+{"error":"decryptText is not defined","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:15:40.767Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:16:49.762Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:23:22.318Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:23:31.682Z"}
+{"level":"warn","message":"Invalid UniqueKey for HospitalCode HOSP1, executionTime: 13ms","timestamp":"2024-08-14T06:23:31.697Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:24:47.988Z"}
+{"level":"warn","message":"Invalid UniqueKey for HospitalCode HOSP1, executionTime: 4ms","timestamp":"2024-08-14T06:24:47.993Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T06:30:00.016Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T06:30:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T06:30:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T06:30:00.018Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:30:03.354Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:30:09.920Z"}
+{"level":"warn","message":"Invalid UniqueKey for HospitalCode HOSP1, executionTime: 17ms","timestamp":"2024-08-14T06:30:09.942Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:33:53.595Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:34:02.161Z"}
+{"executionTime":"0ms","level":"error","message":"Missing encrypted key in the request header","timestamp":"2024-08-14T06:34:02.164Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:34:24.426Z"}
+{"level":"warn","message":"Invalid UniqueKey for HospitalCode HOSP1, executionTime: 11ms","timestamp":"2024-08-14T06:34:24.438Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:35:21.980Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:35:25.109Z"}
+{"level":"warn","message":"Invalid UniqueKey for HospitalCode HOSP1, executionTime: 11ms","timestamp":"2024-08-14T06:35:25.121Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:35:50.127Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:35:51.591Z"}
+{"level":"warn","message":"Invalid UniqueKey for HospitalCode HOSP1, executionTime: 10ms","timestamp":"2024-08-14T06:35:51.603Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T06:50:00.017Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T06:50:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T06:50:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T06:50:00.020Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:52:23.237Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:52:26.853Z"}
+{"level":"warn","message":"Invalid UniqueKey for HospitalCode HOSP1, executionTime: 16ms","timestamp":"2024-08-14T06:52:26.875Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:53:31.186Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:53:34.441Z"}
+{"level":"warn","message":"Invalid UniqueKey for HospitalCode HOSP1, executionTime: 10ms","timestamp":"2024-08-14T06:53:34.452Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:54:57.802Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:55:00.821Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 11ms","timestamp":"2024-08-14T06:55:00.835Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:55:33.018Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:55:35.579Z"}
+{"error":"encryptedKey is not defined","executionTime":"8ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:55:35.589Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:55:49.214Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:55:51.595Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 13ms","timestamp":"2024-08-14T06:55:51.610Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:56:23.250Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:56:25.177Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 12ms","timestamp":"2024-08-14T06:56:25.191Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-14T06:57:15.110Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:57:18.101Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 12ms","timestamp":"2024-08-14T06:57:18.115Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:57:48.966Z"}
+{"level":"warn","message":"Invalid UniqueKey for HospitalCode HOSP1, executionTime: 6ms","timestamp":"2024-08-14T06:57:48.973Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:58:04.441Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 4ms","timestamp":"2024-08-14T06:58:04.445Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-14T06:59:31.846Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 4ms","timestamp":"2024-08-14T06:59:31.851Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T07:10:00.011Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T07:10:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T07:10:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T07:10:00.014Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T07:30:00.009Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T07:30:00.010Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T07:30:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T07:30:00.011Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-14T07:33:23.882Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-14T07:33:23.889Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-14T07:34:19.939Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-14T07:34:19.945Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T07:50:00.014Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T07:50:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T07:50:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T07:50:00.015Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T08:52:50.864Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T08:52:50.886Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T08:52:50.887Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T08:52:50.888Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T08:52:50.888Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T08:52:50.890Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T08:52:50.891Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T08:52:50.892Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T08:52:50.958Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T08:52:50.960Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T08:52:50.961Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T08:52:50.963Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T09:10:00.011Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T09:10:00.012Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T09:10:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T09:10:00.013Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T09:30:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T09:30:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T09:30:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T09:30:00.014Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T09:50:00.007Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T09:50:00.008Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T09:50:00.008Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T09:50:00.008Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T10:10:00.009Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T10:10:00.010Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T10:10:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T10:10:00.011Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-14T10:21:07.245Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/1 with method GET","timestamp":"2024-08-14T10:21:07.288Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-14T10:21:29.095Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-14T10:21:29.099Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/1 with method GET","timestamp":"2024-08-14T10:22:11.970Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-14T10:22:11.973Z"}
+{"executionTime":"16ms","level":"info","message":"User with ID 1 retrieved successfully","timestamp":"2024-08-14T10:22:11.989Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T10:30:00.014Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T10:30:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T10:30:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T10:30:00.016Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T10:50:00.009Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T10:50:00.010Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T10:50:00.010Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T10:50:00.011Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T11:10:00.017Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T11:10:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T11:10:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T11:10:00.019Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T11:42:39.827Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T11:42:39.839Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T11:42:39.843Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T11:42:39.844Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-14T11:50:00.015Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-14T11:50:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-14T11:50:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-14T11:50:00.016Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-21T04:57:08.433Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-21T04:58:10.204Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-21T04:58:10.262Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-21T04:58:25.136Z"}
+{"level":"warn","message":"Invalid UniqueKey for HospitalCode HOSP1, executionTime: 13ms","timestamp":"2024-08-21T04:58:25.150Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-21T04:59:37.934Z"}
+{"level":"warn","message":"Invalid UniqueKey for HospitalCode HOSP1, executionTime: 6ms","timestamp":"2024-08-21T04:59:37.940Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-21T05:03:43.150Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-21T05:03:43.156Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T05:10:00.024Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T05:10:00.025Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T05:10:00.026Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T05:10:00.026Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-21T05:16:38.296Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-21T05:16:41.441Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-21T05:16:41.449Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T05:30:00.009Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T05:30:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T05:30:00.012Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T05:30:00.012Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T05:50:00.016Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T05:50:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T05:50:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T05:50:00.018Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T06:10:00.008Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T06:10:00.009Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T06:10:00.010Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T06:10:00.010Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T06:30:00.018Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T06:30:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T06:30:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T06:30:00.020Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T06:50:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T06:50:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T06:50:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T06:50:00.014Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T07:10:00.007Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T07:10:00.008Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T07:10:00.008Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T07:10:00.009Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T08:28:59.838Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T08:28:59.859Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T08:28:59.874Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T08:28:59.876Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T08:28:59.883Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T08:28:59.939Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T08:28:59.940Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T08:28:59.941Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T08:28:59.941Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T08:28:59.942Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T08:28:59.942Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T08:28:59.942Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T08:30:00.006Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T08:30:00.007Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T08:30:00.007Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T08:30:00.009Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T08:50:00.011Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T08:50:00.012Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T08:50:00.012Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T08:50:00.012Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T09:10:00.014Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T09:10:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T09:10:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T09:10:00.015Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T09:30:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T09:30:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T09:30:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T09:30:00.014Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T09:50:00.017Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T09:50:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T09:50:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T09:50:00.018Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T10:10:00.010Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T10:10:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T10:10:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T10:10:00.012Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T10:30:00.008Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T10:30:00.009Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T10:30:00.009Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T10:30:00.010Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T10:50:00.014Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T10:50:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T10:50:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T10:50:00.015Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T11:10:00.019Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T11:10:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T11:10:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T11:10:00.021Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T11:30:00.008Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T11:30:00.009Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T11:30:00.009Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T11:30:00.010Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T11:50:00.009Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T11:50:00.010Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T11:50:00.010Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T11:50:00.011Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-21T12:10:00.015Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-21T12:10:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-21T12:10:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-21T12:10:00.017Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T05:21:42.794Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-22T05:21:45.511Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 21ms","timestamp":"2024-08-22T05:21:45.536Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-22T05:22:14.993Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T05:22:14.997Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-22T05:24:03.432Z"}
+{"errors":{"errors":[{"location":"body","msg":"Patient First Name can only contain letters and spaces","path":"PatientFirstName","type":"field","value":"moin2"}]},"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-08-22T05:24:03.449Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-22T05:24:36.372Z"}
+{"error":"notNull Violation: Patient_masternew.HospitalID cannot be null","executionTime":"13ms","level":"error","message":"Error creating patient","timestamp":"2024-08-22T05:24:36.389Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-22T05:26:11.835Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-22T05:26:13.744Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724304378 d9443c01a7336-20385ae761bsm4577655ad.261 - gsmtp","timestamp":"2024-08-22T05:26:17.811Z"}
+{"level":"info","message":"Created new patient with ID 65 in 5973ms","timestamp":"2024-08-22T05:26:17.813Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T05:29:38.963Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T05:30:00.013Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T05:30:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T05:30:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T05:30:00.015Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-22T05:30:15.346Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-22T05:30:16.043Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724304620 41be03b00d2f7-7cd9acabccasm419628a12.27 - gsmtp","timestamp":"2024-08-22T05:30:19.802Z"}
+{"level":"info","message":"Created new patient with ID 66 in 4448ms","timestamp":"2024-08-22T05:30:19.804Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T05:34:04.869Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-22T05:34:25.954Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-22T05:34:26.593Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724304871 98e67ed59e1d1-2d5eb8ccd3esm3026611a91.7 - gsmtp","timestamp":"2024-08-22T05:34:30.381Z"}
+{"level":"info","message":"Created new patient with ID 67 in 4418ms","timestamp":"2024-08-22T05:34:30.383Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T05:36:11.657Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-22T05:36:52.774Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-22T05:36:53.433Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724305017 d2e1a72fcca58-7143424a530sm576279b3a.51 - gsmtp","timestamp":"2024-08-22T05:36:56.405Z"}
+{"level":"info","message":"Created new patient with ID 68 in 3621ms","timestamp":"2024-08-22T05:36:56.407Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method GET","timestamp":"2024-08-22T05:39:11.986Z"}
+{"executionTime":"6ms","level":"info","message":"Retrieved all patients successfully","timestamp":"2024-08-22T05:39:11.995Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T05:50:00.010Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T05:50:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T05:50:00.012Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T05:50:00.012Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T05:55:58.127Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T05:55:58.133Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T05:55:58.227Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:121:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2091:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T05:55:58.228Z"}
+{"executionTime":"95ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T05:55:58.229Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T05:57:45.715Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T05:58:01.457Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T05:58:01.466Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T05:58:01.556Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:121:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2091:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T05:58:01.558Z"}
+{"executionTime":"92ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T05:58:01.559Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T06:09:40.491Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T06:09:40.495Z"}
+{"error":"Username is already in use","executionTime":"95ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:09:40.590Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T06:09:51.416Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T06:09:51.420Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T06:09:51.516Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:121:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2091:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T06:09:51.517Z"}
+{"executionTime":"96ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:09:51.517Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T06:10:00.019Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T06:10:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T06:10:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T06:10:00.021Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:12:23.195Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:12:24.515Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T06:12:40.419Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T06:12:40.428Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T06:12:40.518Z"}
+{"level":"error","message":"Error sending email: html is not defined","stack":"ReferenceError: html is not defined\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:137:13)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2091:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T06:12:40.520Z"}
+{"executionTime":"93ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:12:40.521Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:15:59.861Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:16:23.843Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T06:16:42.712Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T06:16:42.726Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T06:16:42.818Z"}
+{"error":"sendUserEmail is not defined","executionTime":"92ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:16:42.819Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:17:16.889Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T06:17:30.643Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T06:17:30.653Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T06:17:30.742Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:121:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2092:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T06:17:30.744Z"}
+{"executionTime":"91ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:17:30.745Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:18:25.605Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:19:42.708Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T06:19:55.438Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T06:19:55.451Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T06:19:55.546Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:169:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2092:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T06:19:55.548Z"}
+{"executionTime":"97ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:19:55.549Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:24:21.982Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T06:24:36.579Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T06:24:36.588Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T06:24:36.679Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:169:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2098:7)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T06:24:36.681Z"}
+{"executionTime":"92ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:24:36.681Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T06:30:00.017Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T06:30:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T06:30:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T06:30:00.019Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:44:00.157Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:44:15.389Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T06:47:09.943Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T06:47:09.952Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T06:47:10.043Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:165:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2168:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T06:47:10.044Z"}
+{"executionTime":"93ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:47:10.045Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:47:59.707Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:49:29.154Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:49:41.698Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T06:49:49.963Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T06:49:49.974Z"}
+{"error":"Username is already in use","executionTime":"115ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:49:50.089Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T06:50:00.015Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T06:50:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T06:50:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T06:50:00.018Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T06:50:01.945Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T06:50:01.950Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T06:50:02.037Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724309406 98e67ed59e1d1-2d5eb8cea18sm3224439a91.8 - gsmtp","timestamp":"2024-08-22T06:50:06.105Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T06:51:25.310Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T06:51:25.313Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T06:51:25.401Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724309489 d9443c01a7336-20385609819sm5987945ad.202 - gsmtp","timestamp":"2024-08-22T06:51:28.459Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/cdb35ded-b9d3-46d9-a562-87280bdc6910 with method GET","timestamp":"2024-08-22T06:52:01.500Z"}
+{"level":"info","message":"API call logged: /favicon.ico with method GET","timestamp":"2024-08-22T06:52:01.575Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:55:12.215Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/cdb35ded-b9d3-46d9-a562-87280bdc6910 with method GET","timestamp":"2024-08-22T06:55:18.427Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-08-22T06:55:18.429Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T06:55:42.391Z"}
+{"level":"info","message":"API call logged: /api/v1/user/verify/cdb35ded-b9d3-46d9-a562-87280bdc6910 with method GET","timestamp":"2024-08-22T06:57:46.181Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/cdb35ded-b9d3-46d9-a562-87280bdc6910 with method GET","timestamp":"2024-08-22T06:57:57.064Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T06:57:57.068Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T07:18:11.793Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/cdb35ded-b9d3-46d9-a562-87280bdc6910 with method GET","timestamp":"2024-08-22T07:18:53.820Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T07:18:53.824Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T07:20:30.366Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T07:20:30.373Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T07:20:32.217Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724311236 41be03b00d2f7-7cd9aca5c68sm614887a12.21 - gsmtp","timestamp":"2024-08-22T07:20:36.284Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/cdb35ded-b9d3-46d9-a562-87280bdc6910 with method GET","timestamp":"2024-08-22T07:20:38.723Z"}
+{"level":"info","message":"API call logged: /favicon.ico with method GET","timestamp":"2024-08-22T07:20:38.833Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/cdb35ded-b9d3-46d9-a562-87280bdc6910 with method GET","timestamp":"2024-08-22T07:20:39.866Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/cdb35ded-b9d3-46d9-a562-87280bdc6910 with method GET","timestamp":"2024-08-22T07:20:53.240Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T07:21:42.464Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T07:21:42.480Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T07:21:42.588Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724311306 d9443c01a7336-203859ef0fdsm6526355ad.248 - gsmtp","timestamp":"2024-08-22T07:21:45.466Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/75eefc3f-3e21-4cc0-910d-13a6de04c5f4 with method GET","timestamp":"2024-08-22T07:22:01.979Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T07:22:01.982Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/ee142fb5-2d14-4b46-a4e8-3a5907793d21 with method GET","timestamp":"2024-08-22T07:23:03.311Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T07:23:03.314Z"}
+{"executionTime":"64ms","level":"info","message":"User email verified successfully with username: Moin","timestamp":"2024-08-22T07:23:03.378Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T07:30:00.017Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T07:30:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T07:30:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T07:30:00.019Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T08:24:04.689Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T08:24:04.705Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T08:24:04.707Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T08:24:04.707Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T08:24:04.708Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T08:24:04.709Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T08:24:04.710Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T08:24:04.710Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T08:29:37.689Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T08:30:00.018Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T08:30:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T08:30:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T08:30:00.021Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T08:32:05.909Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T08:33:20.347Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/reverify with method POST","timestamp":"2024-08-22T08:40:05.271Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T08:40:05.284Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/reverify with method POST","timestamp":"2024-08-22T08:41:02.508Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T08:41:02.511Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T08:41:09.898Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/reverify with method POST","timestamp":"2024-08-22T08:41:11.383Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T08:41:11.387Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/reverify with method POST","timestamp":"2024-08-22T08:42:41.180Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T08:42:41.184Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/reverify with method POST","timestamp":"2024-08-22T08:42:58.296Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T08:42:58.299Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724316181 d9443c01a7336-20385607eadsm7908805ad.183 - gsmtp","timestamp":"2024-08-22T08:43:01.794Z"}
+{"executionTime":"3497ms","level":"info","message":"Verification email resent to test321@mailinator.com","timestamp":"2024-08-22T08:43:01.797Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/cdb35ded-b9d3-46d9-a562-87280bdc6910 with method GET","timestamp":"2024-08-22T08:43:16.505Z"}
+{"level":"info","message":"API call logged: /favicon.ico with method GET","timestamp":"2024-08-22T08:43:16.663Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/b1ec6d63-9778-4b69-b466-a41d46fcd372 with method GET","timestamp":"2024-08-22T08:43:24.445Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/cdb35ded-b9d3-46d9-a562-87280bdc6910 with method GET","timestamp":"2024-08-22T08:43:56.119Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T08:43:56.122Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/create-user with method POST","timestamp":"2024-08-22T08:44:33.268Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T08:44:33.275Z"}
+{"level":"info","message":"User created successfully with username: Moin, hospitalId: 54","timestamp":"2024-08-22T08:44:33.384Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724316277 41be03b00d2f7-7cd9acdd9casm889106a12.53 - gsmtp","timestamp":"2024-08-22T08:44:37.061Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/97d2986a-12c0-49dc-a817-04db3bba72a7 with method GET","timestamp":"2024-08-22T08:44:55.726Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/97d2986a-12c0-49dc-a817-04db3bba72a7 with method GET","timestamp":"2024-08-22T08:45:28.375Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T08:45:28.377Z"}
+{"executionTime":"56ms","level":"info","message":"User email verified successfully with username: Moin","timestamp":"2024-08-22T08:45:28.433Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/97d2986a-12c0-49dc-a817-04db3bba72a7 with method GET","timestamp":"2024-08-22T08:46:33.689Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T08:50:00.020Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T08:50:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T08:50:00.022Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T08:50:00.022Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/reverify with method POST","timestamp":"2024-08-22T08:55:46.346Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T08:55:46.356Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724316949 d2e1a72fcca58-714343094cesm940955b3a.170 - gsmtp","timestamp":"2024-08-22T08:55:49.360Z"}
+{"executionTime":"3005ms","level":"info","message":"Verification email resent to test321@mailinator.com","timestamp":"2024-08-22T08:55:49.362Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/reverify with method POST","timestamp":"2024-08-22T08:57:26.594Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T08:57:26.602Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724317049 d2e1a72fcca58-7143422f6absm914631b3a.5 - gsmtp","timestamp":"2024-08-22T08:57:29.516Z"}
+{"executionTime":"2915ms","level":"info","message":"Verification email resent to test321@mailinator.com","timestamp":"2024-08-22T08:57:29.517Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/a009df76-7670-4d35-bd5d-fa754daacb6f with method GET","timestamp":"2024-08-22T08:57:57.333Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T08:57:57.336Z"}
+{"executionTime":"47ms","level":"info","message":"User email verified successfully with username: Moin","timestamp":"2024-08-22T08:57:57.384Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T09:10:00.019Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T09:10:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T09:10:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T09:10:00.021Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-22T09:26:34.501Z"}
+{"executionTime":"6ms","level":"info","message":"Phone number already exists","timestamp":"2024-08-22T09:26:34.515Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-22T09:26:43.726Z"}
+{"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3","executionTime":"10ms","level":"error","message":"Error creating patient","timestamp":"2024-08-22T09:26:43.740Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-22T09:27:01.309Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-22T09:27:02.898Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724318826 d9443c01a7336-20385566509sm8663035ad.36 - gsmtp","timestamp":"2024-08-22T09:27:06.155Z"}
+{"level":"info","message":"Created new patient with ID 69 in 4842ms","timestamp":"2024-08-22T09:27:06.155Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-22T09:28:04.639Z"}
+{"executionTime":"4ms","level":"info","message":"Phone number already exists","timestamp":"2024-08-22T09:28:04.647Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-22T09:28:19.089Z"}
+{"executionTime":"5ms","level":"info","message":"Email already exists","timestamp":"2024-08-22T09:28:19.097Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-22T09:28:23.939Z"}
+{"error":"Validation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"8ms","level":"error","message":"Error creating patient","timestamp":"2024-08-22T09:28:23.951Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T09:30:00.013Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T09:30:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T09:30:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T09:30:00.014Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T09:50:00.019Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T09:50:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T09:50:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T09:50:00.020Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T09:52:07.605Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T09:52:19.474Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/reverify with method POST","timestamp":"2024-08-22T09:52:26.802Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T09:52:46.171Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/reverify with method POST","timestamp":"2024-08-22T09:52:47.003Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-08-22T09:52:47.005Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T09:52:54.657Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/reverify with method POST","timestamp":"2024-08-22T09:52:55.234Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T09:52:55.238Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724320379 41be03b00d2f7-7cd9ad55e39sm990949a12.58 - gsmtp","timestamp":"2024-08-22T09:52:59.374Z"}
+{"executionTime":"4137ms","level":"info","message":"Verification email resent to test321@mailinator.com","timestamp":"2024-08-22T09:52:59.376Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T09:53:21.319Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/d688e758-8275-45a3-a878-c06d8018d9af with method GET","timestamp":"2024-08-22T09:53:32.358Z"}
+{"error":"Cannot read properties of undefined (reading 'define')","executionTime":"0ms","level":"error","message":"Error verifying email","timestamp":"2024-08-22T09:53:32.360Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/d688e758-8275-45a3-a878-c06d8018d9af with method GET","timestamp":"2024-08-22T09:54:54.531Z"}
+{"error":"Cannot read properties of undefined (reading 'define')","executionTime":"1ms","level":"error","message":"Error verifying email","timestamp":"2024-08-22T09:54:54.533Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T09:59:14.458Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/d688e758-8275-45a3-a878-c06d8018d9af with method GET","timestamp":"2024-08-22T09:59:25.422Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-08-22T09:59:25.424Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T10:00:03.443Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/d688e758-8275-45a3-a878-c06d8018d9af with method GET","timestamp":"2024-08-22T10:00:06.904Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-22T10:00:06.910Z"}
+{"executionTime":"35ms","level":"info","message":"User email verified successfully with username: Moin","timestamp":"2024-08-22T10:00:06.946Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/d688e758-8275-45a3-a878-c06d8018d9af with method GET","timestamp":"2024-08-22T10:04:05.020Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/d688e758-8275-45a3-a878-c06d8018d9af with method GET","timestamp":"2024-08-22T10:04:23.861Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T10:10:00.021Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T10:10:00.023Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T10:10:00.023Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T10:10:00.024Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-22T10:26:41.898Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/reverify with method POST","timestamp":"2024-08-22T10:27:12.759Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T10:27:12.764Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/reverify with method POST","timestamp":"2024-08-22T10:27:48.166Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-22T10:27:48.169Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724322471 98e67ed59e1d1-2d613afa3c6sm1368808a91.41 - gsmtp","timestamp":"2024-08-22T10:27:51.564Z"}
+{"executionTime":"3397ms","level":"info","message":"Verification email resent to test321@mailinator.com","timestamp":"2024-08-22T10:27:51.566Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/verify/35dfad07-e3ee-4811-af1b-99d30ec0ea25 with method GET","timestamp":"2024-08-22T10:28:15.241Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T10:30:00.023Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T10:30:00.024Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T10:30:00.025Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T10:30:00.025Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T10:50:00.009Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T10:50:00.010Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T10:50:00.010Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T10:50:00.011Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-22T11:10:00.008Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-22T11:10:00.009Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-22T11:10:00.010Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-22T11:10:00.010Z"}

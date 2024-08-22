@@ -9,7 +9,7 @@
 // // Load environment variables from a .env file if you're using one
 // require('dotenv').config();
 
-// const sendEmail = async (to, subject, templateName, templateData,attachment) => {
+// const sendUserEmail = async (to, subject) => {
 //   try {
 //     // Create Nodemailer transporter
 //     const transporter = nodemailer.createTransport({
@@ -22,25 +22,25 @@
 
 
 //      // Render the EJS template
-//      const templatePath = path.join(__dirname, '../templates', templateName);
-//      const html = await ejs.renderFile(templatePath, templateData);
+//     //  const templatePath = path.join(__dirname, '../templates', templateName);
+//     //  const html = await ejs.renderFile(templatePath, templateData);
 
 
 //        // Debug: log attachment details
-//     if (attachment) {
-//       logger.info('Attachment details:', {
-//         filename: attachment.originalname,
-//         size: attachment.buffer.length,
-//         contentType: attachment.mimetype // Make sure the content type is correct
-//       });
-//     }
+//     // if (attachment) {
+//     //   logger.info('Attachment details:', {
+//     //     filename: attachment.originalname,
+//     //     size: attachment.buffer.length,
+//     //     contentType: attachment.mimetype // Make sure the content type is correct
+//     //   });
+//     // }
 
 //     // Construct email options
 //     const mailOptions = {
 //       from: process.env.EMAIL_USER,
 //       to: to,
 //       subject: subject,
-//       html: html,
+//       // html: html,
 //       attachments: []
 
 //     //   attachments: attachment ? [{
@@ -50,13 +50,13 @@
 //     //   }] : []
 //     };
 
-//     if (attachment) {
-//       mailOptions.attachments.push({
-//         filename: attachment.originalname,
-//         content: attachment.buffer,
-//         encoding: 'base64'
-//       });
-//     }
+//     // if (attachment) {
+//     //   mailOptions.attachments.push({
+//     //     filename: attachment.originalname,
+//     //     content: attachment.buffer,
+//     //     encoding: 'base64'
+//     //   });
+//     // }
 
 //   //   if (file) {
 //   //     mailOptions.attachments.push({
@@ -94,9 +94,7 @@
 //   }
 // };
 
-// module.exports = sendEmail;
-
-
+// module.exports = sendUserEmail;
 
 
 const nodemailer = require('nodemailer');

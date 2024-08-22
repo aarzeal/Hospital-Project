@@ -132,7 +132,7 @@ exports.createPatient = async (req, res) => {
 
   const {
     PatientMiddleName,
-    HospitalGroupIDR,
+    // HospitalGroupIDR,
     PatientFirstName,
     PatientLastName,
     Age,
@@ -193,7 +193,7 @@ exports.createPatient = async (req, res) => {
       PatientMiddleName,
       EMRNumber,
       HospitalID: req.hospitalId,
-      HospitalGroupIDR,
+      HospitalGroupIDR: req.hospitalGroupIDR,
       PatientFirstName,
       PatientLastName,
       Age,

@@ -580,3 +580,79 @@
 {"error":"uniqueKey is not defined","executionTime":"15ms","level":"error","message":"Error logging in","timestamp":"2024-08-10T05:32:34.680Z"}
 {"error":"uniqueKey is not defined","executionTime":"8ms","level":"error","message":"Error logging in","timestamp":"2024-08-10T05:33:01.845Z"}
 {"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-10T05:49:01.231Z"}
+{"executionTime":"15ms","level":"error","message":"Invalid username or password","timestamp":"2024-08-10T09:37:32.091Z"}
+{"executionTime":"71ms","level":"error","message":"Email or phone not verified","timestamp":"2024-08-10T09:38:32.105Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-10T09:50:28.303Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-12T05:47:03.561Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-12T05:47:31.229Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-12T05:48:58.330Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-12T07:09:24.237Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T06:16:51.521Z"}
+{"executionTime":"0ms","level":"error","message":"Username or Password not provided","timestamp":"2024-08-13T06:18:40.592Z"}
+{"executionTime":"24ms","level":"error","message":"Invalid username or password","timestamp":"2024-08-13T06:18:52.154Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-13T06:21:19.532Z"}
+{"error":"string violation: submodule_name cannot be an array or an object","executionTime":"237ms","level":"error","message":"Error creating submodules","timestamp":"2024-08-13T07:11:41.825Z"}
+{"error":"notNull Violation: UserSubModules.submodule_name cannot be null,\nnotNull Violation: UserSubModules.modules_Id cannot be null","executionTime":"15ms","level":"error","message":"Error creating submodules","timestamp":"2024-08-13T07:12:23.635Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-08-13T09:39:59.154Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:15:41.084Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:16:06.398Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:16:12.094Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:16:46.807Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:17:46.956Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:17:52.050Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:18:16.671Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:18:40.736Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:18:50.809Z"}
+{"error":"WHERE parameter \"userId\" has invalid \"undefined\" value","executionTime":"2ms","level":"error","message":"An error occurred while fetching user modules and submodules","timestamp":"2024-08-13T11:30:05.931Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-08-13T11:30:25.993Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-14T05:31:22.025Z"}
+{"error":"decryptText is not defined","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T05:36:28.418Z"}
+{"error":"The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined","executionTime":"18ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T05:37:37.667Z"}
+{"executionTime":"0ms","level":"error","message":"Decryption secret is not defined in environment variables","timestamp":"2024-08-14T05:49:16.467Z"}
+{"executionTime":"0ms","level":"error","message":"Decryption secret is not defined in environment variables","timestamp":"2024-08-14T05:49:21.690Z"}
+{"executionTime":"0ms","level":"error","message":"Decryption secret is not defined in environment variables","timestamp":"2024-08-14T05:50:15.463Z"}
+{"error":"decryptText is not defined","executionTime":"10ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T05:50:24.159Z"}
+{"error":"Invalid key length","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T05:51:46.688Z"}
+{"error":"Invalid key length","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T05:56:05.404Z"}
+{"error":"Invalid key length","executionTime":"10ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:03:20.825Z"}
+{"error":"Invalid key length","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:04:22.872Z"}
+{"error":"Invalid key length","executionTime":"4ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:05:10.982Z"}
+{"error":"Invalid key length","executionTime":"15ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:05:22.959Z"}
+{"error":"Invalid key length","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:06:19.595Z"}
+{"error":"Invalid key length","executionTime":"3ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:06:40.694Z"}
+{"executionTime":"0ms","level":"error","message":"Decryption secret is not defined in environment variables","timestamp":"2024-08-14T06:09:24.030Z"}
+{"error":"Invalid key length","executionTime":"16ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:10:01.781Z"}
+{"error":"Invalid key length","executionTime":"4ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:10:13.746Z"}
+{"error":"Invalid key length","executionTime":"4ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:13:18.348Z"}
+{"error":"decryptText is not defined","executionTime":"9ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:15:40.767Z"}
+{"executionTime":"0ms","level":"error","message":"Missing encrypted key in the request header","timestamp":"2024-08-14T06:34:02.164Z"}
+{"error":"encryptedKey is not defined","executionTime":"8ms","level":"error","message":"Error finding hospital","timestamp":"2024-08-14T06:55:35.589Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-14T10:21:07.245Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-21T04:58:10.204Z"}
+{"error":"notNull Violation: Patient_masternew.HospitalID cannot be null","executionTime":"13ms","level":"error","message":"Error creating patient","timestamp":"2024-08-22T05:24:36.389Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:121:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2091:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T05:55:58.228Z"}
+{"executionTime":"95ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T05:55:58.229Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:121:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2091:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T05:58:01.558Z"}
+{"executionTime":"92ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T05:58:01.559Z"}
+{"error":"Username is already in use","executionTime":"95ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:09:40.590Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:121:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2091:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T06:09:51.517Z"}
+{"executionTime":"96ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:09:51.517Z"}
+{"level":"error","message":"Error sending email: html is not defined","stack":"ReferenceError: html is not defined\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:137:13)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2091:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T06:12:40.520Z"}
+{"executionTime":"93ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:12:40.521Z"}
+{"error":"sendUserEmail is not defined","executionTime":"92ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:16:42.819Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:121:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2092:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T06:17:30.744Z"}
+{"executionTime":"91ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:17:30.745Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:169:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2092:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T06:19:55.548Z"}
+{"executionTime":"97ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:19:55.549Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:169:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2098:7)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T06:24:36.681Z"}
+{"executionTime":"92ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:24:36.681Z"}
+{"level":"error","message":"Error sending email: Cannot read properties of undefined (reading 'settings')","stack":"TypeError: Cannot read properties of undefined (reading 'settings')\n    at exports.renderFile (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\ejs\\lib\\ejs.js:465:16)\n    at sendEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\Middleware\\sendEmail.js:165:28)\n    at exports.createUser (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2168:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2024-08-22T06:47:10.044Z"}
+{"executionTime":"93ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:47:10.045Z"}
+{"error":"Username is already in use","executionTime":"115ms","level":"error","message":"Error creating user","timestamp":"2024-08-22T06:49:50.089Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-08-22T06:55:18.429Z"}
+{"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3","executionTime":"10ms","level":"error","message":"Error creating patient","timestamp":"2024-08-22T09:26:43.740Z"}
+{"error":"Validation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"8ms","level":"error","message":"Error creating patient","timestamp":"2024-08-22T09:28:23.951Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-08-22T09:52:47.005Z"}
+{"error":"Cannot read properties of undefined (reading 'define')","executionTime":"0ms","level":"error","message":"Error verifying email","timestamp":"2024-08-22T09:53:32.360Z"}
+{"error":"Cannot read properties of undefined (reading 'define')","executionTime":"1ms","level":"error","message":"Error verifying email","timestamp":"2024-08-22T09:54:54.533Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-08-22T09:59:25.424Z"}

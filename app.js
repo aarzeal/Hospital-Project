@@ -23,6 +23,7 @@ const employeeRoutes = require('./routes/employeeRoutes');
 const countApiLogger = require('./Middleware/countApiLogger');
 const job = require('./Middleware/sendEmailAuto');
 const sendEmail = require('./Middleware/sendEmailEventbase');
+const cors = require('cors');
 // Middleware for parsing JSON bodies
 app.use(express.json());
 app.use(bodyParser.json()); 
@@ -37,6 +38,7 @@ app.use(session({
 }));
 
 app.use(countApiLogger);
+app.use(cors());
 
 
 // Serve Swagger UI
