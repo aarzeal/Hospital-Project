@@ -240,15 +240,15 @@ const PatientMaster = sequelize.define('Patient_masternew', {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    Reserve2: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    Reserve3: {
+    state: {
       type: DataTypes.STRING(30),
       allowNull: true
     },
-    Reserve4: {
+    city: {
+      type: DataTypes.STRING(30),
+      allowNull: true
+    },
+    country: {
       type: DataTypes.STRING(30),
       allowNull: true
     }

@@ -1,0 +1,217 @@
+{
+    "userId": {
+      "en": "User Id",
+      "hi": "उपयोगकर्ता आईडी",
+      "es": "ID de Usuario",
+      "fr": "ID de l'utilisateur",
+      "ur": "صارف کی شناخت",
+      "mr": "वापरकर्ता आयडी"
+    },
+  
+    "email": {
+      "en": "Email",
+      "hi": "ईमेल",
+      "es": "Correo electrónico",
+      "fr": "E-mail",
+      "ur": "ای میل",
+      "mr": "ईमेल"
+    },
+  
+    "phoneNumber": {
+      "en": "Phone Number",
+      "hi": "फ़ोन नंबर",
+      "es": "Número de teléfono",
+      "fr": "Numéro de téléphone",
+      "ur": "فون نمبر",
+      "mr": "फोन नंबर"
+    },
+  
+    "verification": {
+      "en": "Verification",
+      "hi": "सत्यापन",
+      "es": "verificación",
+      "fr": "Vérification",
+      "ur": "تصدیق",
+      "mr": "पडताळणी"
+    },
+  
+    "address": {
+      "en": "Address",
+      "hi": "पता",
+      "es": "Dirección",
+      "fr": "Adresse",
+      "ur": "پتہ",
+      "mr": "पत्ता"
+    },
+  
+    "name": {
+      "en": "Name",
+      "hi": "नाम",
+      "es": "Nombre",
+      "fr": "Nom",
+      "ur": "نام",
+      "mr": "नाव"
+    },
+  
+    "username": {
+      "en": "Username",
+      "hi": "उपयोगकर्ता नाम",
+      "es": "Nombre de usuario",
+      "fr": "Nom d'utilisateur",
+      "ur": "صارف نام",
+      "mr": "वापरकर्तानाव"
+    },
+  
+    "lane": {
+      "en": "Lane",
+      "hi": "गली",
+      "es": "carril",
+      "fr": "voie",
+      "ur": "لین",
+      "mr": "लेन"
+    },
+  
+    "email_verification_status": {
+      "en": "Email Verification Status",
+      "hi": "ईमेल सत्यापन स्थिति",
+      "es": "Estado de verificación de correo electrónico",
+      "fr": "Statut de vérification des e-mails",
+      "ur": "ای میل کی توثیق کی حیثیت",
+      "mr": "ईमेल सत्यापन स्थिती"
+    },
+  
+    "phone_verification_status": {
+      "en": "Phone Verification Status",
+      "hi": "फ़ोन सत्यापन स्थिति",
+      "es": "Estado de verificación del teléfono",
+      "fr": "État de vérification du téléphone",
+      "ur": "فون کی تصدیق کی حیثیت",
+      "mr": "फोन सत्यापन स्थिती"
+    },
+  
+    "Hospital_Id": {
+      "en": "Hospital Id",
+      "hi": "अस्पताल आईडी",
+      "es": "Identificación del hospital",
+      "fr": "Identification de l'hôpital",
+      "ur": "ہسپتال کی شناخت",
+      "mr": "हॉस्पिटल आयडी"
+    },
+  
+    "User_Activation_Status": {
+      "en": "User Activation Status",
+      "hi": "उपयोगकर्ता सक्रियण स्थिति",
+      "es": "Estado de activación del usuario",
+      "fr": "Statut d'activation de l'utilisateur",
+      "ur": "یوزر ایکٹیویشن سٹیٹس",
+      "mr": "वापरकर्ता सक्रियकरण स्थिती"
+    },
+  
+    "Username": {
+      "en": "Username",
+      "hi": "उपयोगकर्ता नाम",
+      "es": "Nombre de usuario",
+      "fr": "Nom d'utilisateur",
+      "ur": "صارف نام",
+      "mr": "वापरकर्तानाव"
+    },
+  
+    "User_Type": {
+      "en": "User Type",
+      "hi": "उपयोगकर्ता का प्रकार",
+      "es": "Tipo de usuario",
+      "fr": "Type d'utilisateur",
+      "ur": "صارف کی قسم",
+      "mr": "वापरकर्ता प्रकार"
+    },
+  
+    "Locked_Status": {
+      "en": "Locked Status",
+      "hi": "बंद स्थिति",
+      "es": "Estado bloqueado",
+      "fr": "Statut verrouillé",
+      "ur": "مقفل حالت",
+      "mr": "लॉक केलेली स्थिती"
+    },
+  
+    "Action": {
+      "en": "Action",
+      "hi": "कार्रवाई",
+      "es": "Acción",
+      "fr": "Action",
+      "ur": "عمل",
+      "mr": "कृती"
+    },
+  
+    "Search_by_name_and_number": {
+      "en": "Search by name and number",
+      "hi": "नाम और नंबर से खोजें",
+      "es": "Buscar por nombre y número",
+      "fr": "Recherche par nom et numéro",
+      "ur": "نام اور نمبر سے تلاش کریں",
+      "mr": "नाव आणि क्रमांकानुसार शोधा"
+    },
+  
+    "All_users": {
+      "en": "All users",
+      "hi": "सभी उपयोगकर्ता",
+      "es": "Todas las usuarias",
+      "fr": "Tous les utilisateurs",
+      "ur": "تمام صارفین",
+      "mr": "सर्व वापरकर्ते"
+    },
+  
+    "Verified": {
+      "en": "Verified",
+      "hi": "सत्यापित",
+      "es": "Verificada",
+      "fr": "Vérifié",
+      "ur": "تصدیق شدہ",
+      "mr": "सत्यापित"
+    },
+  
+    "Not_Verified": {
+      "en": "Not Verified",
+      "hi": "सत्यापित नहीं है",
+      "es": "No Verificada",
+      "fr": "Non vérifié",
+      "ur": "غیر تصدیق شدہ",
+      "mr": "सत्यापित नाही"
+    },
+  
+    "Active": {
+      "en": "Active",
+      "hi": "सक्रिय",
+      "es": "Activa",
+      "fr": "Active",
+      "ur": "فعال",
+      "mr": "सक्रिय"
+    },
+  
+    "Inactive": {
+      "en": "Inactive",
+      "hi": "निष्क्रिय",
+      "es": "inactiva",
+      "fr": "Inactive",
+      "ur": "غیر فعال",
+      "mr": "निष्क्रिय"
+    },
+  
+    "Locked": {
+      "en": "Locked",
+      "hi": "बंद",
+      "es": "bloqueada",
+      "fr": "Fermé à clé",
+      "ur": "مقفل",
+      "mr": "कुलूपबंद"
+    },
+  
+    "Unlocked": {
+      "en": "Unlocked",
+      "hi": "अनलॉक किया",
+      "es": "desbloqueada",
+      "fr": "déverrouillé",
+      "ur": "غیر مقفل",
+      "mr": "अनलॉक केले"
+    }
+  }

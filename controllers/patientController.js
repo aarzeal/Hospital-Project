@@ -155,7 +155,10 @@ exports.createPatient = async (req, res) => {
     MaritalStatus,
     Occupation,
     Nationality,
-    Language
+    Language,
+    country,
+    city,
+    state
   }= req.body;
 
   try {
@@ -216,7 +219,10 @@ exports.createPatient = async (req, res) => {
       MaritalStatus,
       Occupation,
       Nationality,
-      Language
+      Language,
+      country,
+      city,
+      state
     });
 
     

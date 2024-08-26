@@ -1,0 +1,20 @@
+{
+  "email": {
+    "en": "Email",
+    "es": "Correo electrónico",
+    "fr": "E-mail"
+  },
+  "userId": {
+    "en": "User Id",
+    "es": "ID de Usuario",
+    "fr": "ID de l'utilisateur"
+  },
+  "phoneNumber": {
+    "en": "Phone Number",
+    "hi": "फ़ोन नंबर",
+    "es": "Número de teléfono",
+    "fr": "Numéro de téléphone",
+    "ur": "فون نمبر",
+    "mr": "फोन नंबर"
+  }
+}

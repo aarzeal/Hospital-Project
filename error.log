@@ -656,3 +656,29 @@
 {"error":"Cannot read properties of undefined (reading 'define')","executionTime":"0ms","level":"error","message":"Error verifying email","timestamp":"2024-08-22T09:53:32.360Z"}
 {"error":"Cannot read properties of undefined (reading 'define')","executionTime":"1ms","level":"error","message":"Error verifying email","timestamp":"2024-08-22T09:54:54.533Z"}
 {"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-08-22T09:59:25.424Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-23T05:38:49.855Z"}
+{"code":"ESOCKET","command":"CONN","errno":-4077,"level":"error","message":"Error sending email: read ECONNRESET","stack":"Error: read ECONNRESET\n    at TLSWrap.onStreamRead (node:internal/stream_base_commons:217:20)","syscall":"read","timestamp":"2024-08-23T05:48:38.838Z"}
+{"executionTime":"5250ms","level":"error","message":"Error resending verification email","timestamp":"2024-08-23T05:48:38.839Z"}
+{"address":"172.253.118.108","code":"ESOCKET","command":"CONN","errno":-4092,"level":"error","message":"Error sending email: connect EACCES 172.253.118.108:465","port":465,"stack":"Error: connect EACCES 172.253.118.108:465\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1595:16)","syscall":"connect","timestamp":"2024-08-23T05:49:50.267Z"}
+{"executionTime":"182ms","level":"error","message":"Error resending verification email","timestamp":"2024-08-23T05:49:50.268Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-23T08:30:43.560Z"}
+{"error":"Username is already in use","executionTime":"93ms","level":"error","message":"Error creating user","timestamp":"2024-08-23T08:36:23.531Z"}
+{"error":"Username is already in use","executionTime":"90ms","level":"error","message":"Error creating user","timestamp":"2024-08-23T08:44:35.526Z"}
+{"error":"Username is already in use","executionTime":"104ms","level":"error","message":"Error creating user","timestamp":"2024-08-23T08:45:08.080Z"}
+{"error":"Username is already in use","executionTime":"92ms","level":"error","message":"Error creating user","timestamp":"2024-08-23T08:45:19.931Z"}
+{"error":"Username is already in use","executionTime":"105ms","level":"error","message":"Error creating user","timestamp":"2024-08-23T08:45:27.748Z"}
+{"error":"Username is already in use","executionTime":"89ms","level":"error","message":"Error creating user","timestamp":"2024-08-23T08:45:36.797Z"}
+{"error":"Sequelize instance is not available","executionTime":"0ms","level":"error","message":"Error verifying email","timestamp":"2024-08-23T08:45:58.304Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-08-23T10:27:07.702Z"}
+{"error":"jwt malformed","executionTime":"0ms","level":"error","message":"Error verifying email","timestamp":"2024-08-23T10:30:28.161Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-08-23T10:43:45.820Z"}
+{"error":"jwt malformed","executionTime":"0ms","level":"error","message":"Error verifying email","timestamp":"2024-08-23T10:44:07.996Z"}
+{"error":"jwt malformed","executionTime":"1ms","level":"error","message":"Error verifying email","timestamp":"2024-08-23T10:44:30.554Z"}
+{"error":"jwt malformed","executionTime":"0ms","level":"error","message":"Error verifying email","timestamp":"2024-08-23T10:45:19.078Z"}
+{"error":"jwt malformed","executionTime":"0ms","level":"error","message":"Error verifying email","timestamp":"2024-08-23T10:45:22.108Z"}
+{"error":"jwt malformed","executionTime":"0ms","level":"error","message":"Error verifying email","timestamp":"2024-08-23T10:46:15.274Z"}
+{"error":"jwt malformed","executionTime":"0ms","level":"error","message":"Error verifying email","timestamp":"2024-08-23T10:46:17.069Z"}
+{"error":"jwt malformed","executionTime":"0ms","level":"error","message":"Error verifying email","timestamp":"2024-08-23T10:46:20.756Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-26T04:29:09.996Z"}
+{"error":"connect ECONNREFUSED 192.168.1.21:3306","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-08-26T06:56:00.944Z"}
+{"error":"connect ECONNREFUSED 192.168.1.21:3306","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-08-26T06:56:03.148Z"}

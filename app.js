@@ -23,6 +23,8 @@ const employeeRoutes = require('./routes/employeeRoutes');
 const countApiLogger = require('./Middleware/countApiLogger');
 const job = require('./Middleware/sendEmailAuto');
 const sendEmail = require('./Middleware/sendEmailEventbase');
+const locationRoutes = require('./routes/CountryStateCityroute');
+const translationsRoutes = require('./routes/translationsRoutes');
 const cors = require('cors');
 // Middleware for parsing JSON bodies
 app.use(express.json());
@@ -62,6 +64,9 @@ app.use('/api/v1/', empCategoryRoutes);
 app.use('/api/v1/employee', employeeRoutes);
 app.use('/api/v1', hospitalGroupRoutes);
 
+
+app.use('/api/v1/location', locationRoutes);
+app.use('/api/v1', translationsRoutes);
 
 
 // Start server
