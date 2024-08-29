@@ -25,10 +25,27 @@ const job = require('./Middleware/sendEmailAuto');
 const sendEmail = require('./Middleware/sendEmailEventbase');
 const locationRoutes = require('./routes/CountryStateCityroute');
 const translationsRoutes = require('./routes/translationsRoutes');
+const multer = require('multer');
 const cors = require('cors');
 // Middleware for parsing JSON bodies
 app.use(express.json());
 app.use(bodyParser.json()); 
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/'); // specify the destination directory
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + '-' + file.originalname); // specify the file name
+//   }
+// });
+
+// const upload = multer({ storage: storage });
+
+// const upload = multer({ dest: 'uploads/' });
 
 
 const session = require('express-session');

@@ -15,7 +15,9 @@ router.get('/patients', authenticate, patientController.getAllPatients);
 router.get('/patients/:id', authenticate, patientController.getPatientById);
 
 // POST create a new patient
-router.post('/patients',  authenticate, createPatientValidationRules(),validateJSONContentType,upload.single('file'), patientController.createPatient);
+// router.post('/patients',  authenticate, createPatientValidationRules(),validateJSONContentType, patientController.createPatient);
+router.post('/patients',  authenticate, 
+     patientController.createPatient);
 
 // PUT update a patient by ID
 router.put('/patients/:id', authenticate, updatePatientValidationRules(), validateJSONContentType,patientController.updatePatient);

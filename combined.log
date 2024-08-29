@@ -5790,3 +5790,364 @@
 {"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-26T11:50:00.020Z"}
 {"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-26T11:50:00.021Z"}
 {"level":"info","message":"API call logged: /api/v1/hospital/verify/93d38a2e-4180-42be-92b6-e9d9342dd54d?db=U2FsdGVkX1/8U6T0IiENcislu+celCNHs7TAI368vtI= with method GET","timestamp":"2024-08-26T11:58:10.191Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-26T12:10:00.018Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-26T12:10:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-26T12:10:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-26T12:10:00.020Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-26T12:22:23.901Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/module/module with method GET","timestamp":"2024-08-26T12:22:23.936Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-26T12:22:32.936Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 12ms","timestamp":"2024-08-26T12:22:32.950Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-26T12:22:54.777Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-26T12:22:54.779Z"}
+{"executionTime":"76ms","level":"error","message":"Email or phone not verified","timestamp":"2024-08-26T12:22:54.855Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/user/login with method POST","timestamp":"2024-08-26T12:23:24.226Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-26T12:23:24.228Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/module/module with method GET","timestamp":"2024-08-26T12:23:36.050Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-08-26T12:23:36.052Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/module/module with method GET","timestamp":"2024-08-26T12:24:32.140Z"}
+{"level":"info","message":"Sequelize instance created successfully","timestamp":"2024-08-26T12:24:32.141Z"}
+{"level":"info","message":"User with ID 1 retrieved successfully,executionTime: 32ms","timestamp":"2024-08-26T12:24:32.173Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/submodules with method GET","timestamp":"2024-08-26T12:25:34.588Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-26T12:27:08.593Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-26T12:27:18.085Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-26T12:27:18.089Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/getsubmodule with method GET","timestamp":"2024-08-26T12:27:59.250Z"}
+{"level":"info","message":"Sequelize instance and models initialized successfully","timestamp":"2024-08-26T12:27:59.255Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-26T12:30:00.005Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-26T12:30:00.006Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-26T12:30:00.006Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-26T12:30:00.007Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T04:43:45.880Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T04:50:00.029Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T04:50:00.030Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T04:50:00.031Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T04:50:00.032Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T05:10:00.015Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T05:10:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T05:10:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T05:10:00.017Z"}
+{"level":"info","message":"API call logged: /api/v1/hospital/hospital/HospitalCode with method POST","timestamp":"2024-08-28T05:24:55.284Z"}
+{"level":"info","message":"Hospital with HospitalCode HOSP1 found successfully, executionTime: 21ms","timestamp":"2024-08-28T05:24:55.308Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T05:30:00.018Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T05:30:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T05:30:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T05:30:00.020Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T05:45:07.231Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T05:50:00.016Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T05:50:00.017Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T05:50:00.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T05:50:00.018Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T05:59:31.602Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:03:50.284Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:03:57.525Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:04:20.250Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:04:32.533Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:04:48.341Z"}
+{"executionTime":"26ms","level":"info","message":"Phone number already exists","timestamp":"2024-08-28T06:04:48.373Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:09:24.016Z"}
+{"error":"CryptoJS is not defined","executionTime":"6ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T06:09:24.025Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T06:09:53.935Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:09:56.806Z"}
+{"error":"","executionTime":"24ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T06:09:56.841Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T06:10:00.019Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T06:10:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T06:10:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T06:10:00.021Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T06:11:27.966Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:11:31.495Z"}
+{"error":"Malformed UTF-8 data","executionTime":"17ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T06:11:31.526Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:14:00.984Z"}
+{"error":"","executionTime":"20ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T06:14:01.019Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:14:49.265Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T06:14:50.781Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724825694 98e67ed59e1d1-2d8445d5bffsm715818a91.10 - gsmtp","timestamp":"2024-08-28T06:14:54.392Z"}
+{"level":"info","message":"Created new patient with ID 85 in 5118ms","timestamp":"2024-08-28T06:14:54.392Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:19:40.414Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T06:19:41.690Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724825984 d2e1a72fcca58-714342316e8sm9837342b3a.16 - gsmtp","timestamp":"2024-08-28T06:19:44.632Z"}
+{"level":"info","message":"Created new patient with ID 86 in 4216ms","timestamp":"2024-08-28T06:19:44.632Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:21:08.860Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:21:22.710Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T06:24:38.835Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T06:25:03.818Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T06:27:58.379Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:28:13.632Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T06:30:00.021Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T06:30:00.022Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T06:30:00.022Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T06:30:00.023Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T06:38:54.832Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:38:59.235Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:39:31.559Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:39:46.209Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T06:44:48.711Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:44:54.859Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T06:50:00.014Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T06:50:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T06:50:00.016Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T06:50:00.017Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T06:56:52.812Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:56:58.910Z"}
+{"executionTime":"26ms","level":"info","message":"Phone number already exists","timestamp":"2024-08-28T06:56:58.945Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:57:16.026Z"}
+{"executionTime":"4ms","level":"info","message":"Phone number already exists","timestamp":"2024-08-28T06:57:16.035Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T06:57:27.492Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T06:57:28.161Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724828251 98e67ed59e1d1-2d844632e74sm828443a91.41 - gsmtp","timestamp":"2024-08-28T06:57:31.376Z"}
+{"level":"info","message":"Created new patient with ID 87 in 3883ms","timestamp":"2024-08-28T06:57:31.378Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T07:08:59.482Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T07:10:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T07:10:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T07:10:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T07:10:00.015Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T07:13:47.154Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T07:14:25.577Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T07:29:32.127Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T07:30:00.013Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T07:30:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T07:30:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T07:30:00.016Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T07:30:20.622Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T07:33:18.383Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T07:33:23.074Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T07:36:05.951Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T07:39:32.437Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T07:39:35.128Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T07:40:21.189Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T07:40:23.394Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T07:50:00.021Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T07:50:00.023Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T07:50:00.023Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T07:50:00.024Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T08:42:34.009Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T08:42:34.016Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T08:42:34.017Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T08:42:34.018Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T08:42:34.018Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T08:42:34.022Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T08:42:34.023Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T08:42:34.023Z"}
+{"error":"connect EHOSTUNREACH 192.168.1.21:3306","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-08-28T08:42:46.111Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T08:50:00.013Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T08:50:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T08:50:00.015Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T08:50:00.015Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:09:36.493Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T09:10:00.020Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T09:10:00.021Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T09:10:00.022Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T09:10:00.022Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:12:18.864Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:13:59.364Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:14:01.036Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:17:43.675Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:23:48.306Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:23:52.048Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:24:01.597Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:24:02.864Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:24:04.314Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:25:01.689Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:25:06.089Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:25:31.188Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:25:33.644Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:25:57.215Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:25:59.703Z"}
+{"errors":[{"location":"body","msg":"Patient First Name is required","path":"PatientFirstName","type":"field"},{"location":"body","msg":"Patient First Name can only contain letters and spaces","path":"PatientFirstName","type":"field"},{"location":"body","msg":"Patient Last Name is required","path":"PatientLastName","type":"field"},{"location":"body","msg":"Patient Last Name can only contain letters and spaces","path":"PatientLastName","type":"field"},{"location":"body","msg":"Age is required","path":"Age","type":"field"},{"location":"body","msg":"Age must be a non-negative integer","path":"Age","type":"field"},{"location":"body","msg":"Date of Birth is required","path":"DOB","type":"field"},{"location":"body","msg":"Date of Birth must be a valid date","path":"DOB","type":"field"},{"location":"body","msg":"Blood Group is required","path":"BloodGroup","type":"field"},{"location":"body","msg":"Gender is required","path":"Gender","type":"field"},{"location":"body","msg":"Phone is required","path":"Phone","type":"field"},{"location":"body","msg":"Phone must be a valid 10-digit number","path":"Phone","type":"field"},{"location":"body","msg":"Email is required","path":"Email","type":"field"},{"location":"body","msg":"Email must be a valid email address","path":"Email","type":"field"},{"location":"body","msg":"Accepted Policy is required","path":"AcceptedPolicy","type":"field"},{"location":"body","msg":"Accepted Policy must be a boolean value","path":"AcceptedPolicy","type":"field"},{"location":"body","msg":"Is Communication Allowed is required","path":"IsCommunicationAllowed","type":"field"},{"location":"body","msg":"Is Communication Allowed must be a boolean value","path":"IsCommunicationAllowed","type":"field"},{"location":"body","msg":"Patient Address is required","path":"PatientAddress","type":"field"}],"executionTime":"0ms","level":"info","message":"Validation errors occurred","timestamp":"2024-08-28T09:25:59.723Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:26:28.464Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:26:30.517Z"}
+{"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid gender value: 1. Valid values are: 1, 2, 3,\nValidation error: Invalid MaritalStatus value: 1. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"32ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:26:30.564Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:27:05.425Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:27:12.441Z"}
+{"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid gender value: 1. Valid values are: 1, 2, 3,\nValidation error: Invalid MaritalStatus value: 1. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"9ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:27:12.461Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:27:18.991Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:27:34.150Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:29:02.345Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:29:19.521Z"}
+{"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid gender value: 1. Valid values are: 1, 2, 3,\nValidation error: Invalid MaritalStatus value: 1. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"16ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:29:19.552Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T09:30:00.021Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T09:30:00.022Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T09:30:00.023Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T09:30:00.023Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:31:27.391Z"}
+{"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid gender value: 1. Valid values are: 1, 2, 3,\nValidation error: Invalid MaritalStatus value: 1. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"8ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:31:27.408Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:33:42.004Z"}
+{"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid gender value: \"1\". Valid values are: 1, 2, 3,\nValidation error: Invalid MaritalStatus value: \"1\". Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: \"1\". Valid values are: 1, 2, 3, 4","executionTime":"7ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:33:42.020Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:33:56.328Z"}
+{"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid gender value: \"1\". Valid values are: 1, 2, 3,\nValidation error: Invalid MaritalStatus value: \"1\". Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"8ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:33:56.345Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:34:07.703Z"}
+{"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid gender value: \"1\". Valid values are: 1, 2, 3,\nValidation error: Invalid MaritalStatus value: 1. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"8ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:34:07.717Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:34:17.969Z"}
+{"error":"Validation error: Invalid gender value: 1. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid gender value: 1. Valid values are: 1, 2, 3,\nValidation error: Invalid MaritalStatus value: 1. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"7ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:34:17.983Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:34:50.477Z"}
+{"error":"Validation error: Invalid gender value: 2. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid gender value: 1. Valid values are: 1, 2, 3,\nValidation error: Invalid MaritalStatus value: 1. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"8ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:34:50.493Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:35:10.276Z"}
+{"error":"Validation error: Invalid gender value: 10. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid gender value: 1. Valid values are: 1, 2, 3,\nValidation error: Invalid MaritalStatus value: 1. Valid values are: 1, 2, 3, 4,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"8ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:35:10.292Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:37:09.394Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:37:12.274Z"}
+{"error":"Validation error: Invalid gender value: 10. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8,\nValidation error: Invalid Nationality value: 1. Valid values are: 1, 2, 3, 4","executionTime":"17ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:37:12.322Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:37:53.843Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:37:56.172Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T09:37:57.226Z"}
+{"contentType":"image/jpeg","filename":"img-worlds-of-adventure.jpg","level":"info","message":"Attachment details:","size":517297,"timestamp":"2024-08-28T09:37:57.229Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724837880 d9443c01a7336-2038557f121sm95747895ad.89 - gsmtp","timestamp":"2024-08-28T09:38:00.932Z"}
+{"level":"info","message":"Created new patient with ID 88 in 4727ms","timestamp":"2024-08-28T09:38:00.934Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:39:17.135Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T09:39:17.590Z"}
+{"contentType":"image/jpeg","filename":"copertina_img-theme-park_v2.jpg__1200x700_q100_crop_subsampling-2_upscale.jpg","level":"info","message":"Attachment details:","size":636372,"timestamp":"2024-08-28T09:39:17.597Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724837960 41be03b00d2f7-7cd9acabfe5sm10523096a12.25 - gsmtp","timestamp":"2024-08-28T09:39:20.968Z"}
+{"level":"info","message":"Created new patient with ID 89 in 3826ms","timestamp":"2024-08-28T09:39:20.970Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:39:56.510Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:40:00.009Z"}
+{"executionTime":"9ms","level":"info","message":"Phone number already exists","timestamp":"2024-08-28T09:40:00.034Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:40:23.092Z"}
+{"error":"Validation error: Invalid BloodGroup value: 1. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8","executionTime":"11ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:40:23.114Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:42:43.729Z"}
+{"error":"Validation error: Invalid BloodGroup value: \"1\". Valid values are: 1, 2, 3, 4, 5, 6, 7, 8","executionTime":"10ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:42:43.746Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:43:01.571Z"}
+{"error":"Validation error: Invalid BloodGroup value: 2. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8","executionTime":"7ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:43:01.603Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T09:50:00.010Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T09:50:00.011Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T09:50:00.012Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T09:50:00.012Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:57:46.908Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:58:00.602Z"}
+{"error":"Validation error: Invalid BloodGroup value: 2. Valid values are: 1, 2, 3, 4, 5, 6, 7, 8","executionTime":"15ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T09:58:00.632Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:58:27.559Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T09:58:29.525Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T09:58:30.327Z"}
+{"contentType":"image/jpeg","filename":"copertina_img-theme-park_v2.jpg__1200x700_q100_crop_subsampling-2_upscale.jpg","level":"info","message":"Attachment details:","size":636372,"timestamp":"2024-08-28T09:58:30.335Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724839112 d9443c01a7336-2038557f093sm95526345ad.63 - gsmtp","timestamp":"2024-08-28T09:58:33.164Z"}
+{"level":"info","message":"Created new patient with ID 90 in 3625ms","timestamp":"2024-08-28T09:58:33.165Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T09:59:23.084Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:06:57.468Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:07:11.020Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T10:07:11.709Z"}
+{"contentType":"image/jpeg","filename":"copertina_img-theme-park_v2.jpg__1200x700_q100_crop_subsampling-2_upscale.jpg","level":"info","message":"Attachment details:","size":636372,"timestamp":"2024-08-28T10:07:11.711Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724839633 d9443c01a7336-203855665d4sm96021435ad.22 - gsmtp","timestamp":"2024-08-28T10:07:14.530Z"}
+{"level":"info","message":"Created new patient with ID 91 in 3473ms","timestamp":"2024-08-28T10:07:14.531Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:08:15.424Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:08:30.081Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T10:10:00.025Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T10:10:00.027Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T10:10:00.027Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T10:10:00.028Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:10:07.163Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:10:12.821Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T10:10:13.460Z"}
+{"contentType":"image/jpeg","filename":"copertina_img-theme-park_v2.jpg__1200x700_q100_crop_subsampling-2_upscale.jpg","level":"info","message":"Attachment details:","size":636372,"timestamp":"2024-08-28T10:10:13.462Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724839817 41be03b00d2f7-7cd9ad55fe9sm10538685a12.60 - gsmtp","timestamp":"2024-08-28T10:10:17.887Z"}
+{"level":"info","message":"Created new patient with ID 92 in 5048ms","timestamp":"2024-08-28T10:10:17.889Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:10:51.967Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:11:02.819Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T10:11:03.490Z"}
+{"contentType":"image/jpeg","filename":"copertina_img-theme-park_v2.jpg__1200x700_q100_crop_subsampling-2_upscale.jpg","level":"info","message":"Attachment details:","size":636372,"timestamp":"2024-08-28T10:11:03.493Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724839865 d2e1a72fcca58-714347199dfsm9734794b3a.129 - gsmtp","timestamp":"2024-08-28T10:11:06.563Z"}
+{"level":"info","message":"Created new patient with ID 93 in 3725ms","timestamp":"2024-08-28T10:11:06.565Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:17:28.648Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:17:39.129Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T10:17:40.049Z"}
+{"contentType":"image/jpeg","filename":"copertina_img-theme-park_v2.jpg__1200x700_q100_crop_subsampling-2_upscale.jpg","level":"info","message":"Attachment details:","size":636372,"timestamp":"2024-08-28T10:17:40.054Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724840262 41be03b00d2f7-7cd9ad6b878sm10711246a12.77 - gsmtp","timestamp":"2024-08-28T10:17:43.532Z"}
+{"level":"info","message":"Created new patient with ID 94 in 4389ms","timestamp":"2024-08-28T10:17:43.534Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:18:43.020Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T10:18:43.469Z"}
+{"contentType":"image/jpeg","filename":"img-worlds-of-adventure.jpg","level":"info","message":"Attachment details:","size":517297,"timestamp":"2024-08-28T10:18:43.471Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724840325 d9443c01a7336-203855dbf13sm96851095ad.163 - gsmtp","timestamp":"2024-08-28T10:18:46.131Z"}
+{"level":"info","message":"Created new patient with ID 95 in 3104ms","timestamp":"2024-08-28T10:18:46.134Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:20:16.974Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:20:32.715Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:22:08.455Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:22:51.967Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:23:00.911Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T10:23:01.582Z"}
+{"contentType":"image/jpeg","filename":"img-worlds-of-adventure.jpg","level":"info","message":"Attachment details:","size":517297,"timestamp":"2024-08-28T10:23:01.585Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724840583 d9443c01a7336-20385ae6ebasm96063125ad.240 - gsmtp","timestamp":"2024-08-28T10:23:04.370Z"}
+{"level":"info","message":"Created new patient with ID 96 in 3440ms","timestamp":"2024-08-28T10:23:04.372Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T10:30:00.012Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T10:30:00.013Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T10:30:00.014Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T10:30:00.014Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:32:58.927Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:33:37.116Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:34:08.520Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:34:20.249Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:39:36.546Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:39:40.765Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T10:39:41.761Z"}
+{"contentType":"image/jpeg","filename":"img-worlds-of-adventure.jpg","level":"info","message":"Attachment details:","size":517297,"timestamp":"2024-08-28T10:39:41.764Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724841584 d2e1a72fcca58-714343094a8sm9891635b3a.166 - gsmtp","timestamp":"2024-08-28T10:39:44.837Z"}
+{"level":"info","message":"Created new patient with ID 97 in 4037ms","timestamp":"2024-08-28T10:39:44.839Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:40:26.670Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T10:40:27.109Z"}
+{"contentType":"image/jpeg","filename":"img-worlds-of-adventure.jpg","level":"info","message":"Attachment details:","size":517297,"timestamp":"2024-08-28T10:40:27.110Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724841629 d9443c01a7336-2038556655dsm96643275ad.20 - gsmtp","timestamp":"2024-08-28T10:40:30.033Z"}
+{"level":"info","message":"Created new patient with ID 98 in 3351ms","timestamp":"2024-08-28T10:40:30.033Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:41:04.646Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:41:16.885Z"}
+{"error":"EMRNumber is not defined","executionTime":"4ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T10:41:16.911Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:44:19.668Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:44:29.029Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T10:44:29.653Z"}
+{"contentType":"image/jpeg","filename":"img-worlds-of-adventure.jpg","level":"info","message":"Attachment details:","size":517297,"timestamp":"2024-08-28T10:44:29.656Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724841871 d2e1a72fcca58-7143422ed7esm9873766b3a.6 - gsmtp","timestamp":"2024-08-28T10:44:32.611Z"}
+{"level":"info","message":"Created new patient with ID 99 in 3568ms","timestamp":"2024-08-28T10:44:32.613Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:48:36.878Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:48:59.337Z"}
+{"error":"notNull Violation: Patient_masternew.EMRNumber cannot be null","executionTime":"8ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T10:48:59.370Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T10:50:00.021Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T10:50:00.023Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T10:50:00.023Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T10:50:00.023Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:50:34.493Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:50:38.334Z"}
+{"error":"notNull Violation: Patient_masternew.EMRNumber cannot be null","executionTime":"8ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T10:50:38.363Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:51:39.590Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:51:42.531Z"}
+{"error":"notNull Violation: Patient_masternew.EMRNumber cannot be null","executionTime":"8ms","level":"error","message":"Error creating patient","timestamp":"2024-08-28T10:51:42.559Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:52:17.157Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:52:19.564Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T10:52:20.449Z"}
+{"contentType":"image/jpeg","filename":"img-worlds-of-adventure.jpg","level":"info","message":"Attachment details:","size":517297,"timestamp":"2024-08-28T10:52:20.452Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724842342 d2e1a72fcca58-714343388d3sm9843213b3a.208 - gsmtp","timestamp":"2024-08-28T10:52:23.287Z"}
+{"level":"info","message":"Created new patient with ID 100 in 3710ms","timestamp":"2024-08-28T10:52:23.289Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:53:00.955Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:53:17.404Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T10:53:33.111Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T10:53:33.733Z"}
+{"contentType":"image/jpeg","filename":"img-worlds-of-adventure.jpg","level":"info","message":"Attachment details:","size":517297,"timestamp":"2024-08-28T10:53:33.736Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724842416 d2e1a72fcca58-7143430641fsm9927170b3a.156 - gsmtp","timestamp":"2024-08-28T10:53:37.459Z"}
+{"level":"info","message":"Created new patient with ID 101 in 4329ms","timestamp":"2024-08-28T10:53:37.461Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:58:08.203Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-28T10:59:51.191Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T11:00:31.022Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T11:00:31.839Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724842834 98e67ed59e1d1-2d8445d5ba3sm1461129a91.11 - gsmtp","timestamp":"2024-08-28T11:00:35.062Z"}
+{"level":"info","message":"Created new patient with ID 102 in 4032ms","timestamp":"2024-08-28T11:00:35.064Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T11:01:18.921Z"}
+{"executionTime":"4ms","level":"info","message":"Phone number already exists","timestamp":"2024-08-28T11:01:18.932Z"}
+{"level":"info","message":"API call logged: /api/v1/patient/patients with method POST","timestamp":"2024-08-28T11:01:32.788Z"}
+{"data":"API Not Activated1","level":"info","message":"SMS sent successfully","timestamp":"2024-08-28T11:01:33.247Z"}
+{"level":"info","message":"Email sent: 250 2.0.0 OK  1724842895 d2e1a72fcca58-7143422eccbsm9919726b3a.2 - gsmtp","timestamp":"2024-08-28T11:01:36.000Z"}
+{"level":"info","message":"Created new patient with ID 103 in 3194ms","timestamp":"2024-08-28T11:01:36.002Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T11:10:00.020Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T11:10:00.022Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T11:10:00.022Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T11:10:00.022Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T11:39:44.823Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T11:39:44.824Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T11:39:44.825Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T11:39:44.825Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T11:50:00.017Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T11:50:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T11:50:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T11:50:00.019Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T12:10:00.018Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T12:10:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T12:10:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T12:10:00.020Z"}
+{"level":"info","message":"Scheduled email job started","timestamp":"2024-08-28T12:30:00.018Z"}
+{"level":"info","message":"Files in directory:","timestamp":"2024-08-28T12:30:00.019Z"}
+{"level":"info","message":"No files found, skipping email sending.","timestamp":"2024-08-28T12:30:00.020Z"}
+{"level":"info","message":"No files found, skipping email sending","timestamp":"2024-08-28T12:30:00.020Z"}
+{"level":"info","message":"Connected to Redis","timestamp":"2024-08-29T04:43:44.832Z"}

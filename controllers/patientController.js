@@ -6,6 +6,11 @@ const Sequelize = require('sequelize');
 const { Op } = Sequelize;
 const { sendSMS } = require('../Middleware/smsService');
 const sendEmail = require('../Middleware/sendEmail');
+const axios = require('axios');
+const fs = require('fs');
+const multer = require('multer');
+const path = require('path');
+
 
 const jwt = require('jsonwebtoken');
 
@@ -102,101 +107,266 @@ const generateEMRNumber = async () => {
   return emrNumber;
 };
 
-exports.createPatient = async (req, res) => {
-  const start = Date.now();
+// exports.createPatient = async (req, res) => {
+//   const start = Date.now();
 
-  // Validation
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const end = Date.now();
-    logger.info('Validation errors occurred', { errors, executionTime: `${end - start}ms` });
-    return res.status(400).json({
-      meta: {
-        statusCode: 400,
-        errorCode: 912,
-        executionTime: `${end - start}ms`
-      },
-      error: {
-        message: 'Validation errors occurred',
-        details: errors.array().map(err => ({
-          field: err.param,
-          message: err.msg
-        }))
-      }
-    });
+//   // Validation
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     const end = Date.now();
+//     logger.info('Validation errors occurred', { errors, executionTime: `${end - start}ms` });
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 912,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Validation errors occurred',
+//         details: errors.array().map(err => ({
+//           field: err.param,
+//           message: err.msg
+//         }))
+//       }
+//     });
+//   }
+
+//   // Extract and parse raw data from form-data
+//   // const rawData = JSON.parse(req.body.rawData);
+//   const attachment = req.file;
+
+//   const {
+//     PatientMiddleName,
+//     // HospitalGroupIDR,
+//     PatientFirstName,
+//     PatientLastName,
+//     Age,
+//     DOB,
+//     BloodGroup,
+//     Gender,
+//     Phone,
+//     WhatsappNumber,
+//     Email,
+//     AcceptedPolicy,
+//     IsCommunicationAllowed,
+//     PatientAddress,
+//     EmergencyContactName,
+//     EmergencyContactPhone,
+//     InsuranceProvider,
+//     InsurancePolicyNumber,
+//     MedicalHistory,
+//     CurrentMedications,
+//     Allergies,
+//     MaritalStatus,
+//     Occupation,
+//     Nationality,
+//     Language,
+//     country,
+//     city,
+//     state
+//   }= req.body;
+
+//   try {
+//     // Check if phone number or email already exists
+//     const existingPatient = await PatientMaster.findOne({
+//       where: {
+//         [Op.or]: [
+//           { Phone },
+//           { Email }
+//         ]
+//       }
+//     });
+
+//     if (existingPatient) {
+//       const end = Date.now();
+//       const duplicateField = existingPatient.Phone === Phone ? 'Phone number' : 'Email';
+//       logger.info(`${duplicateField} already exists`, { executionTime: `${end - start}ms` });
+//       return res.status(400).json({
+//         meta: {
+//           statusCode: 400,
+//           errorCode: 1051,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: `${duplicateField} already exists`
+//         }
+//       });
+//     }
+
+//     // Generate EMR number
+//     const EMRNumber = await generateEMRNumber();
+
+//     // Create new patient record
+//     const newPatient = await PatientMaster.create({
+//       PatientMiddleName,
+//       EMRNumber,
+//       HospitalID: req.hospitalId,
+//       HospitalGroupIDR: req.hospitalGroupIDR,
+//       PatientFirstName,
+//       PatientLastName,
+//       Age,
+//       DOB,
+//       BloodGroup,
+//       Gender,
+//       Phone,
+//       WhatsappNumber,
+//       Email,
+//       AcceptedPolicy,
+//       IsCommunicationAllowed,
+//       PatientAddress,
+//       EmergencyContactName,
+//       EmergencyContactPhone,
+//       InsuranceProvider,
+//       InsurancePolicyNumber,
+//       MedicalHistory,
+//       CurrentMedications,
+//       Allergies,
+//       MaritalStatus,
+//       Occupation,
+//       Nationality,
+//       Language,
+//       country,
+//       city,
+//       state
+//     });
+
+    
+//     // Send SMS and email
+//     const smsMessage = `Dear ${newPatient.PatientFirstName}, your registration was successful. Your EMR Number is ${newPatient.EMRNumber}.`;
+//     await sendSMS(newPatient.Phone, smsMessage);
+
+//     await sendEmail(newPatient.Email, 'Registration Successful', 'registrationEmailTemplate1.ejs', {
+//       firstName: newPatient.PatientFirstName,
+//       emrNumber: newPatient.EMRNumber,
+//       hospitalName: req.hospitalName,
+//       managingCompanyEmail: req.managingCompanyEmail
+//     }, attachment);
+
+//     const end = Date.now();
+//     logger.info(`Created new patient with ID ${newPatient.PatientID} in ${end - start}ms`);
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: newPatient
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     logger.error('Error creating patient', { error: error.message, executionTime: `${end - start}ms` });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 974,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error creating patient: ' + error.message
+//       }
+//     });
+//   }
+// };
+
+
+
+
+
+
+
+
+
+
+// Setup multer for file uploads
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadPath = path.join(__dirname, '../profile');
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
+    cb(null, uploadPath);
+  },
+  // filename: (req, file, cb) => {
+  //   cb(null, Date.now() + path.extname(file.originalname));
+  // }
+  filename: async (req, file, cb) => {
+    try {
+      // Generate EMRNumber before saving the file to use it as the filename
+      const EMRNumber = await generateEMRNumber();
+      req.body.EMRNumber = EMRNumber // Store EMRNumber in the request body to use later
+      cb(null, `${req.body.EMRNumber}${path.extname(file.originalname)}`);
+    } catch (err) {
+      cb(err);
+    }
+  }
+});
+
+const upload = multer({ storage });
+
+// Function to decode base64 image and save it as a file
+const saveBase64Image = (base64String, filename) => {
+  // Split the base64 string into parts to get the extension
+  const matches = base64String.match(/^data:(.+);base64,(.+)$/);
+  if (!matches || matches.length !== 3) {
+    throw new Error('Invalid base64 string');
+  }
+  const ext = matches[1].split('/')[1]; // Get the extension
+  const data = matches[2]; // Get the base64 data
+  const buffer = Buffer.from(data, 'base64'); // Decode the base64 data
+
+  // Create the directory if it doesn't exist
+  const uploadPath = path.join(__dirname, '../profile');
+  if (!fs.existsSync(uploadPath)) {
+    fs.mkdirSync(uploadPath, { recursive: true });
   }
 
-  // Extract and parse raw data from form-data
-  // const rawData = JSON.parse(req.body.rawData);
-  const attachment = req.file;
+  // Create the full file path with the extension
+  const filePath = path.join(uploadPath, `${filename}.${ext}`);
+  fs.writeFileSync(filePath, buffer); // Save the file
 
-  const {
-    PatientMiddleName,
-    // HospitalGroupIDR,
-    PatientFirstName,
-    PatientLastName,
-    Age,
-    DOB,
-    BloodGroup,
-    Gender,
-    Phone,
-    WhatsappNumber,
-    Email,
-    AcceptedPolicy,
-    IsCommunicationAllowed,
-    PatientAddress,
-    EmergencyContactName,
-    EmergencyContactPhone,
-    InsuranceProvider,
-    InsurancePolicyNumber,
-    MedicalHistory,
-    CurrentMedications,
-    Allergies,
-    MaritalStatus,
-    Occupation,
-    Nationality,
-    Language,
-    country,
-    city,
-    state
-  }= req.body;
+  return filePath; // Return the saved file path
+};
 
-  try {
-    // Check if phone number or email already exists
-    const existingPatient = await PatientMaster.findOne({
-      where: {
-        [Op.or]: [
-          { Phone },
-          { Email }
-        ]
-      }
-    });
+exports.createPatient = [
+  // Validation middleware (ensure this is used before multer middleware)
+  // Example: body('name').notEmpty().withMessage('Name is required'),
+  
+  // File upload middleware
+  upload.single('img'),
+  
+  async (req, res) => {
+    console.log('Request Body:', req.body);
+    console.log('Uploaded File:', req.file);
+    
+    const start = Date.now();
 
-    if (existingPatient) {
+    // Check validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
       const end = Date.now();
-      const duplicateField = existingPatient.Phone === Phone ? 'Phone number' : 'Email';
-      logger.info(`${duplicateField} already exists`, { executionTime: `${end - start}ms` });
+      logger.info('Validation errors occurred', { errors: errors.array(), executionTime: `${end - start}ms` });
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 1051,
+          errorCode: 912,
           executionTime: `${end - start}ms`
         },
         error: {
-          message: `${duplicateField} already exists`
+          message: 'Validation errors occurred',
+          details: errors.array().map(err => ({
+            field: err.param,
+            message: err.msg
+          }))
         }
       });
     }
 
-    // Generate EMR number
-    const EMRNumber = await generateEMRNumber();
+    // Get file from request
+    // const img = req.file ? req.file.path : null;
 
-    // Create new patient record
-    const newPatient = await PatientMaster.create({
+    // Extract data from request body
+    const {
       PatientMiddleName,
-      EMRNumber,
-      HospitalID: req.hospitalId,
-      HospitalGroupIDR: req.hospitalGroupIDR,
       PatientFirstName,
       PatientLastName,
       Age,
@@ -222,45 +392,121 @@ exports.createPatient = async (req, res) => {
       Language,
       country,
       city,
-      state
-    });
+      state,
+      img
+    } = req.body;
 
-    
-    // Send SMS and email
-    const smsMessage = `Dear ${newPatient.PatientFirstName}, your registration was successful. Your EMR Number is ${newPatient.EMRNumber}.`;
-    await sendSMS(newPatient.Phone, smsMessage);
+    try {
+      // Check for existing patient
+      const existingPatient = await PatientMaster.findOne({
+        where: {
+          [Op.or]: [
+            { Phone },
+            { Email }
+          ]
+        }
+      });
 
-    await sendEmail(newPatient.Email, 'Registration Successful', 'registrationEmailTemplate1.ejs', {
-      firstName: newPatient.PatientFirstName,
-      emrNumber: newPatient.EMRNumber,
-      hospitalName: req.hospitalName,
-      managingCompanyEmail: req.managingCompanyEmail
-    }, attachment);
-
-    const end = Date.now();
-    logger.info(`Created new patient with ID ${newPatient.PatientID} in ${end - start}ms`);
-    res.status(200).json({
-      meta: {
-        statusCode: 200,
-        executionTime: `${end - start}ms`
-      },
-      data: newPatient
-    });
-  } catch (error) {
-    const end = Date.now();
-    logger.error('Error creating patient', { error: error.message, executionTime: `${end - start}ms` });
-    res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode: 974,
-        executionTime: `${end - start}ms`
-      },
-      error: {
-        message: 'Error creating patient: ' + error.message
+      if (existingPatient) {
+        const end = Date.now();
+        const duplicateField = existingPatient.Phone === Phone ? 'Phone number' : 'Email';
+        logger.info(`${duplicateField} already exists`, { executionTime: `${end - start}ms` });
+        return res.status(400).json({
+          meta: {
+            statusCode: 400,
+            errorCode: 1051,
+            executionTime: `${end - start}ms`
+          },
+          error: {
+            message: `${duplicateField} already exists`
+          }
+        });
       }
-    });
+
+      // Generate unique EMR number
+      const EMRNumber = await generateEMRNumber();
+
+      let savedImagePath = null;
+      if (img) {
+        savedImagePath = saveBase64Image(img, EMRNumber); // Save the image using EMRNumber as the filename
+      }
+
+      // Create new patient record
+      const newPatient = await PatientMaster.create({
+        PatientMiddleName,
+        EMRNumber,
+        HospitalID: req.hospitalId,
+        HospitalGroupIDR: req.hospitalGroupIDR,
+        PatientFirstName,
+        PatientLastName,
+        Age,
+        DOB,
+        BloodGroup,
+        Gender,
+        Phone,
+        WhatsappNumber,
+        Email,
+        AcceptedPolicy,
+        IsCommunicationAllowed,
+        PatientAddress,
+        EmergencyContactName,
+        EmergencyContactPhone,
+        InsuranceProvider,
+        InsurancePolicyNumber,
+        MedicalHistory,
+        CurrentMedications,
+        Allergies,
+        MaritalStatus,
+        Occupation,
+        Nationality,
+        Language,
+        country,
+        city,
+        state,
+        img:savedImagePath 
+      });
+
+      // Send SMS and email
+      const smsMessage = `Dear ${newPatient.PatientFirstName}, your registration was successful. Your EMR Number is ${newPatient.EMRNumber}.`;
+      await sendSMS(newPatient.Phone, smsMessage);
+
+      await sendEmail(newPatient.Email, 'Registration Successful', 'registrationEmailTemplate1.ejs', {
+        firstName: newPatient.PatientFirstName,
+        emrNumber: newPatient.EMRNumber,
+        hospitalName: req.hospitalName,
+        managingCompanyEmail: req.managingCompanyEmail
+      }, req.file);
+
+      const end = Date.now();
+      logger.info(`Created new patient with ID ${newPatient.PatientID} in ${end - start}ms`);
+      res.status(200).json({
+        meta: {
+          statusCode: 200,
+          executionTime: `${end - start}ms`
+        },
+        data: newPatient
+      });
+    } catch (error) {
+      const end = Date.now();
+      logger.error('Error creating patient', { error: error.message, executionTime: `${end - start}ms` });
+      res.status(500).json({
+        meta: {
+          statusCode: 500,
+          errorCode: 974,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Error creating patient: ' + error.message
+        }
+      });
+    }
   }
-};
+];
+
+
+
+
+
 
 
 
@@ -491,206 +737,6 @@ exports.createPatient = async (req, res) => {
 
 
 
-// function generateEMRNumber(hospitalGroupId) {
-//   // Generate a timestamp-based component
-//   const timestampPart = Date.now().toString().slice(-6); // Last 6 digits of current timestamp
-
-//   // Generate a random sequence part
-//   const randomPart = Math.floor(1000 + Math.random() * 9000).toString(); // Random 4-digit number
-
-//   // Combine hospital group ID, timestamp, and random part
-//   const emrNumber = `${hospitalGroupId}-${timestampPart}-${randomPart}`;
-
-//   return emrNumber;
-// }
-
-// Update an existing patient
-
-
-
-// exports.createPatient = async (req, res) => {
-//   const start = Date.now();
-
-//   // Log request body and file for debugging
-//   logger.info('Request received', { body: req.body, file: req.file });
-
-//   // Validation
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     const end = Date.now();
-//     logger.info('Validation errors occurred', { errors, executionTime: `${end - start}ms` });
-//     return res.status(400).json({
-//       meta: {
-//         statusCode: 400,
-//         errorCode: 912,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Validation errors occurred',
-//         details: errors.array().map(err => ({
-//           field: err.param,
-//           message: err.msg
-//         }))
-//       }
-//     });
-//   }
-
-//   // Extract the attachment
-//   const attachment = req.file;
-
-//   // Extract and parse JSON data from form-data
-//   let patientData;
-//   try {
-//     patientData = JSON.parse(req.body.data);
-//     logger.info('Parsed patient data', { patientData });
-//   } catch (error) {
-//     const end = Date.now();
-//     logger.error('Error parsing JSON data from form-data', { error: error.message, executionTime: `${end - start}ms` });
-//     return res.status(400).json({
-//       meta: {
-//         statusCode: 400,
-//         errorCode: 913,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Error parsing JSON data from form-data'
-//       }
-//     });
-//   }
-
-//   const {
-//     PatientMiddleName,
-//     HospitalGroupIDR,
-//     PatientFirstName,
-//     PatientLastName,
-//     Age,
-//     DOB,
-//     BloodGroup,
-//     Gender,
-//     Phone,
-//     WhatsappNumber,
-//     Email,
-//     AcceptedPolicy,
-//     IsCommunicationAllowed,
-//     PatientAddress,
-//     EmergencyContactName,
-//     EmergencyContactPhone,
-//     InsuranceProvider,
-//     InsurancePolicyNumber,
-//     MedicalHistory,
-//     CurrentMedications,
-//     Allergies,
-//     MaritalStatus,
-//     Occupation,
-//     Nationality,
-//     Language
-//   } = patientData;
-
-//   try {
-//     // Check if phone number or email already exists
-//     const existingPatient = await PatientMaster.findOne({
-//       where: {
-//         [Op.or]: [
-//           { Phone },
-//           { Email }
-//         ]
-//       }
-//     });
-
-//     if (existingPatient) {
-//       const end = Date.now();
-//       const duplicateField = existingPatient.Phone === Phone ? 'Phone number' : 'Email';
-//       logger.info(`${duplicateField} already exists`, { executionTime: `${end - start}ms` });
-//       return res.status(400).json({
-//         meta: {
-//           statusCode: 400,
-//           errorCode: 1051,
-//           executionTime: `${end - start}ms`
-//         },
-//         error: {
-//           message: `${duplicateField} already exists`
-//         }
-//       });
-//     }
-
-//     // Generate EMR number
-//     const EMRNumber = await generateEMRNumber();
-
-//     // Create new patient record
-//     const newPatient = await PatientMaster.create({
-//       PatientMiddleName,
-//       EMRNumber,
-//       HospitalID: req.hospitalId,
-//       HospitalGroupIDR,
-//       PatientFirstName,
-//       PatientLastName,
-//       Age,
-//       DOB,
-//       BloodGroup,
-//       Gender,
-//       Phone,
-//       WhatsappNumber,
-//       Email,
-//       AcceptedPolicy,
-//       IsCommunicationAllowed,
-//       PatientAddress,
-//       EmergencyContactName,
-//       EmergencyContactPhone,
-//       InsuranceProvider,
-//       InsurancePolicyNumber,
-//       MedicalHistory,
-//       CurrentMedications,
-//       Allergies,
-//       MaritalStatus,
-//       Occupation,
-//       Nationality,
-//       Language
-//     });
-
-//     // Send SMS and email
-//     const smsMessage = `Dear ${newPatient.PatientFirstName}, your registration was successful. Your EMR Number is ${newPatient.EMRNumber}.`;
-//     await sendSMS(newPatient.Phone, smsMessage);
-
-//     await sendEmail(newPatient.Email, 'Registration Successful', 'registrationEmailTemplate1.ejs', {
-//       firstName: newPatient.PatientFirstName,
-//       emrNumber: newPatient.EMRNumber,
-//       hospitalName: req.hospitalName,
-//       managingCompanyEmail: req.managingCompanyEmail
-//     }, attachment);
-
-//     const end = Date.now();
-//     logger.info(`Created new patient with ID ${newPatient.PatientID} in ${end - start}ms`);
-//     res.status(200).json({
-//       meta: {
-//         statusCode: 200,
-//         executionTime: `${end - start}ms`
-//       },
-//       data: newPatient
-//     });
-//   } catch (error) {
-//     const end = Date.now();
-//     logger.error('Error creating patient', { error: error.message, executionTime: `${end - start}ms` });
-//     res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 974,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Error creating patient: ' + error.message
-//       }
-//     });
-//   }
-// };
-
-
-
-
-
-
-
-
-
 exports.updatePatient = async (req, res) => {
   const start = Date.now(); 
   const { id } = req.params;
@@ -785,57 +831,6 @@ exports.deletePatient = async (req, res) => {
   }
 };
 
-// // Get patients by HospitalGroup ID
-// exports.getPatientsByHospitalGroupID = async (req, res) => {
-//   const { id } = req.params;
-
-//   try {
-//     const hospitalGroup = await HospitalGroup.findByPk(id, {
-//       include: {
-//         model: Hospital,
-//         include: {
-//           model: PatientMaster
-//         }
-//       }
-//     });
-
-//     if (!hospitalGroup) {
-//       logger.warn(`HospitalGroup with ID ${id} not found`);
-//       return res.status(404).json({
-//         meta: {
-//           statusCode: 404,
-//           errorCode: 979
-//         },
-//         error: {
-//           message: 'HospitalGroup not found'
-//         }
-//       });
-//     }
-
-//     const patients = hospitalGroup.Hospitals.flatMap(hospital => hospital.Patient_masters);
-
-//     res.status(200).json({
-//       meta: {
-//         statusCode: 200
-//       },
-//       data: patients
-//     });
-//   } catch (error) {
-//     logger.error('Error fetching patients by HospitalGroupID', { error: error.message });
-//     res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 980
-//       },
-//       error: {
-//         message: 'Error fetching patients: ' + error.message
-//       }
-//     });
-//   }
-// };
-
-// controllers/patientController.js
- // Adjust the path as per your project structure
 
 // Controller function to fetch patients by HospitalGroupID with pagination
 exports.getPatientsByHospitalGroupID = async (req, res) => {
