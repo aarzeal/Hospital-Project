@@ -761,9 +761,9 @@ exports.createEmployeeValidationRules = () => {
       .notEmpty().withMessage('Last Name is required')
       .isLength({ max: 40 }).withMessage('Last Name cannot exceed 40 characters')
       .matches(/^[a-zA-Z\s]+$/).withMessage('Last Name can only contain letters and spaces'),
-    body('SkillSetIDR')
-      .notEmpty().withMessage('SkillSet ID is required')
-      .isInt().withMessage('SkillSet ID must be an integer'),
+    body('SpecialtyIDR')
+      .notEmpty().withMessage('SpecialtyIDR ID is required')
+      .isInt().withMessage('SpecialtyIDR ID must be an integer'),
     body('Gender')
       .notEmpty().withMessage('Gender is required')
       .isIn(Object.keys(config.Gender).map(Number)).withMessage(`Gender must be one of ${Object.keys(config.Gender).map(Number).join(', ')}`),

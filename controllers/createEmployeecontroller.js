@@ -42,7 +42,7 @@ exports.createEmployee = async (req, res) => {
       });
   }
   
-  const {  FName, MName, LName, SkillSetIDR, Gender, EmployeeGroup, BloodGroupIDR,
+  const {  FName, MName, LName, SpecialtyIDR, Gender, EmployeeGroup, BloodGroupIDR,
         DepartmentIDR, DesignationIDR, NationalityIDR, ReligionIDR, CastIDF,
         QualificationIDR, EmployeeCategoryIDR, EmployeeCode, EmployeeNo, UniqueTAXNo,
         EmployeePhoto, WagesIDF, DateOfBirth, DateOfJoining, DateOfLeaving, MaritalStatus,
@@ -60,7 +60,7 @@ exports.createEmployee = async (req, res) => {
       FName,
             MName,
             LName,
-            SkillSetIDR,
+            SpecialtyIDR,
             Gender, // Map numeric Gender to actual value
             EmployeeGroup,
             BloodGroupIDR, // Map numeric BloodGroupIDR to actual value
@@ -108,18 +108,18 @@ exports.createEmployee = async (req, res) => {
             GovernmentPlan,
             PracticeNumber, Reserve1, Reserve2, Reserve3, Reserve4
     });
-    logger.info('Created new department successfully');
+    logger.info('Created new Employee successfully');
     const end = Date.now(); 
     res.status(200).json({
       meta: { statusCode: 200, executionTime: `${end - start}ms`},
       data: newEmployee
     });
   } catch (error) {
-    logger.error(`Error creating department: ${error.message}`);
+    logger.error(`Error creating Employee: ${error.message}`);
     const end = Date.now(); 
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1025 , executionTime: `${end - start}ms`},
-      error: { message: 'Failed to create department due to a server error. Please ensure all fields are correctly filled and try again.' }
+      error: { message: 'Failed to create Employee due to a server error. Please ensure all fields are correctly filled and try again.' }
     });
   } 
 };

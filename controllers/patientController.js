@@ -12,6 +12,7 @@ const multer = require('multer');
 const path = require('path');
 
 
+
 const jwt = require('jsonwebtoken');
 
 const { validationResult } = require('express-validator');
@@ -47,11 +48,59 @@ exports.getAllPatients = async (req, res) => {
 
 
 // Get patient by ID
+// exports.getPatientById = async (req, res) => {
+//   const start = Date.now();
+//   const { id } = req.params;
+//   try {
+//     const patient = await PatientMaster.findByPk(id);
+//     if (!patient) {
+//       const end = Date.now(); 
+//       logger.warn(`Patient with ID ${id} not found`, { executionTime: `${end - start}ms` });
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: 404,
+//           errorCode: 972,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Patient not found'
+//         }
+//       });
+//     }
+//     const end = Date.now();
+//     logger.info(`Retrieved patient with ID ${id} successfully`);
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: patient
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     logger.error('Error retrieving patient', { error: error.message, executionTime: `${end - start}ms`  });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 973,
+//         executionTime: `${end - start}ms`
+
+//       },
+//       error: {
+//         message: 'Error retrieving patient: ' + error.message
+//       }
+//     });
+//   }
+// };
+
 exports.getPatientById = async (req, res) => {
   const start = Date.now();
   const { id } = req.params;
+  
   try {
+    // Fetch the patient by their ID
     const patient = await PatientMaster.findByPk(id);
+    
     if (!patient) {
       const end = Date.now(); 
       logger.warn(`Patient with ID ${id} not found`, { executionTime: `${end - start}ms` });
@@ -66,24 +115,42 @@ exports.getPatientById = async (req, res) => {
         }
       });
     }
+
+    // Read and convert the image to a base64 string
+    let imgBase64 = null;
+    if (patient.img) {
+      const imgPath = path.join(__dirname, '../profile', path.basename(patient.img));
+      if (fs.existsSync(imgPath)) {
+        const imgBuffer = fs.readFileSync(imgPath);
+        imgBase64 = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+
+        // Log the image to the console
+        console.log("Base64 Image String:", imgBase64);
+        console.log("Base64 Image String:");
+      }
+    }
+
     const end = Date.now();
     logger.info(`Retrieved patient with ID ${id} successfully`);
+
     res.status(200).json({
       meta: {
         statusCode: 200,
         executionTime: `${end - start}ms`
       },
-      data: patient
+      data: {
+        ...patient.toJSON(), // Convert the Sequelize model instance to a plain JSON object
+        img: imgBase64 // Return the image as a base64-encoded string
+      }
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error retrieving patient', { error: error.message, executionTime: `${end - start}ms`  });
+    logger.error('Error retrieving patient', { error: error.message, executionTime: `${end - start}ms` });
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 973,
         executionTime: `${end - start}ms`
-
       },
       error: {
         message: 'Error retrieving patient: ' + error.message
@@ -91,6 +158,16 @@ exports.getPatientById = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
+
+
+
 
 
 const generateEMRNumber = async () => {
@@ -365,6 +442,7 @@ exports.createPatient = [
     // const img = req.file ? req.file.path : null;
 
     // Extract data from request body
+    console.log(req.body)
     const {
       PatientMiddleName,
       PatientFirstName,
@@ -395,6 +473,13 @@ exports.createPatient = [
       state,
       img
     } = req.body;
+
+
+    const parsedBloodGroup = parseInt(BloodGroup, 10);
+const parsedGender = parseInt(Gender, 10);
+const parsedMaritalStatus = parseInt(MaritalStatus, 10);
+const parsedNationality = parseInt(Nationality, 10);
+
 
     try {
       // Check for existing patient
@@ -441,8 +526,8 @@ exports.createPatient = [
         PatientLastName,
         Age,
         DOB,
-        BloodGroup,
-        Gender,
+        BloodGroup: parsedBloodGroup,
+        Gender: parsedGender,
         Phone,
         WhatsappNumber,
         Email,
@@ -456,9 +541,9 @@ exports.createPatient = [
         MedicalHistory,
         CurrentMedications,
         Allergies,
-        MaritalStatus,
+        MaritalStatus: parsedMaritalStatus,
         Occupation,
-        Nationality,
+        Nationality: parsedNationality,
         Language,
         country,
         city,

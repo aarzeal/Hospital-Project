@@ -2190,73 +2190,6 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 // };
 const ENCRYPT_SECRET_KEY1 = process.env.ENCRYPT_SECRET_KEY2;
 // const ENCRYPT_SECRET_KEY2 = process.env.ENCRYPT_SECRET_KEY3;
-exports.createUser = async (req, res) => {
-  const start = Date.now();
-  const { name, username, phone, email, password, empid, usertype } = req.body;
-  const hospitalId = req.hospitalId;
-  const hospitalDatabase = req.hospitalDatabase;
-
-  try {
-    if (!password) {
-      throw new Error('Password is required');
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    
-    // Create a unique token and include the hospitalDatabase in the token metadata
-    const verificationToken = uuidv4();
-    const tokenExpiration = new Date();
-    tokenExpiration.setMinutes(tokenExpiration.getMinutes() + 10);
-
-    const User = require('../models/user')(req.sequelize);
-
-    const encrypteddb = CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString();
-
-    await User.sync();
-
-    const user = await User.create({
-      username,
-      password: hashedPassword,
-      hospitalId,
-      name,
-      phone,
-      email,
-      empid,
-      usertype,
-      emailtoken: verificationToken,
-      createdBy: hospitalId,
-    });
-
-    // Construct the verification link with token and database name
-    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${verificationToken}?db=${encrypteddb}`;
-
-    await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
-
-    res.status(201).json({
-      meta: {
-        statusCode: 201,
-        executionTime: `${Date.now() - start}ms`,
-        hospitalDatabase // Include hospitalDatabase in the response
-      },
-      data: { user },
-      message: 'User created successfully'
-    });
-  } catch (error) {
-    res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode: 928,
-        executionTime: `${Date.now() - start}ms`,
-        hospitalDatabase // Include hospitalDatabase in the response even in case of error
-      },
-      error: { message: 'Error creating user: ' + error.message },
-    });
-  }
-};
-
-// const ENCRYPT_SECRET_KEY2 = process.env.ENCRYPT_SECRET_KEY2 || 'your-secret-key';
-// const ENCRYPT_SECRET_KEY1 = process.env.ENCRYPT_SECRET_KEY2;
-
 // exports.createUser = async (req, res) => {
 //   const start = Date.now();
 //   const { name, username, phone, email, password, empid, usertype } = req.body;
@@ -2269,14 +2202,18 @@ exports.createUser = async (req, res) => {
 //     }
 
 //     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // Create a unique token
+    
+//     // Create a unique token and include the hospitalDatabase in the token metadata
 //     const verificationToken = uuidv4();
-
-//     // Encrypt the token
-//     const encryptedToken = CryptoJS.AES.encrypt(verificationToken, ENCRYPT_SECRET_KEY1).toString();
+//     const tokenExpiration = new Date();
+//     tokenExpiration.setMinutes(tokenExpiration.getMinutes() + 10);
 
 //     const User = require('../models/user')(req.sequelize);
+
+//     // const encrypteddb = CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString();
+
+//     // const encryptedToken = CryptoJS.AES.encrypt(verificationToken, ENCRYPT_SECRET_KEY1).toString();
+
 //     await User.sync();
 
 //     const user = await User.create({
@@ -2288,13 +2225,12 @@ exports.createUser = async (req, res) => {
 //       email,
 //       empid,
 //       usertype,
-//       emailtoken: encryptedToken,
+//       emailtoken: verificationToken,
 //       createdBy: hospitalId,
 //     });
 
-//     // Construct the verification link
-//     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedToken}?db=${hospitalDatabase}`;
-
+//     // Construct the verification link with token and database name
+//     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${verificationToken}?db=${hospitalDatabase}`;
 
 //     await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
 
@@ -2302,10 +2238,10 @@ exports.createUser = async (req, res) => {
 //       meta: {
 //         statusCode: 201,
 //         executionTime: `${Date.now() - start}ms`,
-//         hospitalDatabase
+//         hospitalDatabase // Include hospitalDatabase in the response
 //       },
 //       data: { user },
-//       message: 'User created successfully. Verification email sent.'
+//       message: 'User created successfully'
 //     });
 //   } catch (error) {
 //     res.status(500).json({
@@ -2313,14 +2249,177 @@ exports.createUser = async (req, res) => {
 //         statusCode: 500,
 //         errorCode: 928,
 //         executionTime: `${Date.now() - start}ms`,
-//         hospitalDatabase
+//         hospitalDatabase // Include hospitalDatabase in the response even in case of error
 //       },
 //       error: { message: 'Error creating user: ' + error.message },
 //     });
 //   }
 // };
 
+// const ENCRYPT_SECRET_KEY2 = process.env.ENCRYPT_SECRET_KEY2 || 'your-secret-key';
+// const ENCRYPT_SECRET_KEY1 = process.env.ENCRYPT_SECRET_KEY2;
+
+exports.createUser = async (req, res) => {
+  const start = Date.now();
+  const { name, username, phone, email, password, empid, usertype } = req.body;
+  const hospitalId = req.hospitalId;
+  const hospitalDatabase = req.hospitalDatabase;
+
+  try {
+    if (!password) {
+      throw new Error('Password is required');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a unique token
+    let verificationToken = uuidv4();
+     // Convert to Base64 and remove special characters
+
+      verificationToken = Buffer.from(verificationToken).toString('base64')
+     .replace(/[+/=]/g, '')  // Remove special characters
+     .replace(/-/g, '')     // Remove any remaining dashes
+     .replace(/\//g, ''); 
+
+    // Encrypt the token
+    let encryptedToken = CryptoJS.AES.encrypt(verificationToken, ENCRYPT_SECRET_KEY1).toString();
+
+    encryptedToken = encryptedToken
+    .replace(/\//g, '')  // Remove slashes (/)
+    .replace(/\+/g, '')  // Remove plus signs (+)
+    .replace(/=/g, '');  // Remove equal signs (=)
+
+
+    let encryptedHospitalDatabase = CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString();
+
+    // Remove special characters from the encrypted hospitalDatabase
+    encryptedHospitalDatabase = encryptedHospitalDatabase
+      .replace(/\//g, '')  // Remove slashes (/)
+      .replace(/\+/g, '')  // Remove plus signs (+)
+      .replace(/=/g, '');  // Remove equal signs (=)
+
+
+    const User = require('../models/user')(req.sequelize);
+    await User.sync();
+
+    const user = await User.create({
+      username,
+      password: hashedPassword,
+      hospitalId,
+      name,
+      phone,
+      email,
+      empid,
+      usertype,
+      emailtoken: encryptedToken,
+      createdBy: hospitalId,
+    });
+
+    // Construct the verification link
+    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedToken}?db=${encryptedHospitalDatabase}`;
+
+
+    await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
+
+    res.status(201).json({
+      meta: {
+        statusCode: 201,
+        executionTime: `${Date.now() - start}ms`,
+        hospitalDatabase
+      },
+      data: { user },
+      message: 'User created successfully. Verification email sent.'
+    });
+  } catch (error) {
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 928,
+        executionTime: `${Date.now() - start}ms`,
+        hospitalDatabase
+      },
+      error: { message: 'Error creating user: ' + error.message },
+    });
+  }
+};
+
 ////without encrpted
+
+
+exports.verifyEmail = async (req, res) => {
+  const start = Date.now();
+  console.log("Request Body:", req.body);
+  console.log("Request Params:", req.params);
+  console.log("Request Query:", req.query);
+
+  const { token } = req.params;
+  const encryptedHospitalDatabase = req.query.db; // Extract the encrypted database name from the query string
+  console.log("Token from URL Params:", token);
+  console.log("Encrypted Database from Query:", encryptedHospitalDatabase);
+
+  // Decrypt the hospitalDatabase
+  let decryptedDbBytes;
+  let hospitalDatabase;
+  try {
+    if (!encryptedHospitalDatabase) {
+      throw new Error('No encrypted database name provided');
+    }
+
+    // Attempt decryption
+    decryptedDbBytes = CryptoJS.AES.decrypt(encryptedHospitalDatabase, ENCRYPT_SECRET_KEY1);
+
+    // Check if decryption succeeded and produce a valid string
+    if (!decryptedDbBytes || !decryptedDbBytes.toString(CryptoJS.enc.Utf8)) {
+      throw new Error('Decryption failed or resulted in an empty string');
+    }
+
+    hospitalDatabase = decryptedDbBytes.toString(CryptoJS.enc.Utf8);
+    console.log("Decrypted Database Name:", hospitalDatabase);
+
+  } catch (error) {
+    console.error('Decryption Error:', error.message);
+    return res.status(400).json({
+      meta: { statusCode: 400, errorCode: 927, executionTime: `${Date.now() - start}ms` },
+      error: { message: 'Database name not provided or could not be decrypted' },
+    });
+  }
+
+  try {
+    // Initialize Sequelize with the decrypted hospitalDatabase name
+    const sequelize = new Sequelize(
+      hospitalDatabase,
+      process.env.DB_USER,
+      process.env.DB_PASSWORD,
+      { host: process.env.DB_HOST, dialect: process.env.DB_DIALECT }
+    );
+
+    const User = require('../models/user')(sequelize);
+
+    // Find the user by the provided email token
+    const user = await User.findOne({ where: { emailtoken: token } });
+    if (!user) {
+      return res.status(400).json({
+        meta: { statusCode: 400, errorCode: 952, executionTime: `${Date.now() - start}ms` },
+        error: { message: 'Invalid or expired verification token' },
+      });
+    }
+
+    // Update the user's email verification status
+    user.is_emailVerify = true;
+    user.emailtoken = null;
+    await user.save();
+
+    res.status(200).json({
+      meta: { statusCode: 200, executionTime: `${Date.now() - start}ms` },
+      data: { message: 'Email verified successfully' },
+    });
+  } catch (error) {
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode: 953, executionTime: `${Date.now() - start}ms` },
+      error: { message: 'Error verifying email: ' + error.message },
+    });
+  }
+};
 
 // exports.verifyEmail = async (req, res) => {
 //   const start = Date.now();
@@ -2375,60 +2474,188 @@ exports.createUser = async (req, res) => {
 // };
 
 
-exports.verifyEmail = async (req, res) => {
-  const start = Date.now();
-  console.log("Request Body:", req.body);  // Logs the request body
-  console.log("Request Params:", req.params);  // Logs URL params
-  console.log("Request Query:", req.query);  // Logs query string parameters
-  const { token } = req.params;
-  const hospitalDatabase = req.query.db; // Extract the database name from the query string
-  console.log("Token from URL Params:", token);
-  console.log("Database from Query:", hospitalDatabase); 
+// exports.verifyEmail = async (req, res) => {
+//   const start = Date.now();
+  
+//   console.log("Request Body:", req.body);  // Logs the request body
+//   console.log("Request Params:", req.params);  // Logs URL params
+//   console.log("Request Query:", req.query);  // Logs query string parameters
+  
+//   const { token } = req.params;
+//   // const hospitalDatabase = req.query.db; // Extract the database name from the query string
+//   const encryptedDatabase = req.query.db;
+  
+//   logger.info('Starting email verification process', { token, encryptedDatabase });
 
-  const bytes = CryptoJS.AES.decrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1);
-    const verificationdb = bytes.toString(CryptoJS.enc.Utf8);
+//   if (!token || !encryptedDatabase) {
+//     const errorMessage = 'Token or database name not provided';
+//     logger.error(errorMessage, { executionTime: `${Date.now() - start}ms` });
+//     return res.status(400).json({
+//       meta: { statusCode: 400, errorCode: 927, executionTime: `${Date.now() - start}ms` },
+//       error: { message: errorMessage },
+//     });
+//   }
+//   try {
+//     // Decrypt the hospital database name
+//     // const decryptedDbBytes = CryptoJS.AES.decrypt(encryptedDatabase.trim(), ENCRYPT_SECRET_KEY1);
+//     // const hospitalDatabase = decryptedDbBytes.toString(CryptoJS.enc.Utf8);
+
+//     if (!encryptedDatabase) {
+//       throw new Error('Failed to decrypt the database name');
+//     }
+
+//     logger.info('Database name decrypted successfully', { encryptedDatabase });
+
+//     // Decrypt the verification token
+//     const decryptedTokenBytes = CryptoJS.AES.decrypt(token.trim(), ENCRYPT_SECRET_KEY1);
+//     const decryptedToken = decryptedTokenBytes.toString(CryptoJS.enc.Utf8);
+
+//     if (!decryptedToken) {
+//       throw new Error('Failed to decrypt the verification token');
+//     }
+
+//     logger.info('Verification token decrypted successfully');
+
+//     // Initialize Sequelize with the decrypted database name
+//     const sequelize = new Sequelize(
+//       hospitalDatabase,
+//       process.env.DB_USER,
+//       process.env.DB_PASSWORD,
+//       { host: process.env.DB_HOST, dialect: process.env.DB_DIALECT }
+//     );
+
+//     const User = require('../models/user')(sequelize);
+
+//     // Find the user by the decrypted token
+//     const user = await User.findOne({ where: { emailtoken: decryptedToken } });
+
+//     if (!user) {
+//       const errorMessage = 'Invalid or expired verification token';
+//       logger.warn(errorMessage, { token: decryptedToken, hospitalDatabase });
+//       return res.status(400).json({
+//         meta: { statusCode: 400, errorCode: 952, executionTime: `${Date.now() - start}ms` },
+//         error: { message: errorMessage },
+//       });
+//     }
+
+//     // Update user status
+//     user.is_emailVerify = 1;
+//     user.emailtoken = null;
+//     await user.save();
+
+//     logger.info('Email verified successfully', { userId: user.id, hospitalDatabase });
+
+//     // Successful response
+//     res.status(200).json({
+//       meta: { statusCode: 200, executionTime: `${Date.now() - start}ms` },
+//       data: { message: 'Email verified successfully' },
+//     });
+//   } catch (error) {
+//     // Detailed error logging
+//     logger.error('Error verifying email', {
+//       error: error.message,
+//       stack: error.stack,
+//       executionTime: `${Date.now() - start}ms`,
+//     });
+
+//     // Error response
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode: 953, executionTime: `${Date.now() - start}ms` },
+//       error: { message: 'Error verifying email: ' + error.message },
+//     });
+//   }
+// };
 
 
-  if (!verificationdb) {
-    return res.status(400).json({
-      meta: { statusCode: 400, errorCode: 927, executionTime: `${Date.now() - start}ms` },
-      error: { message: 'Database name not provided' },
-    });
-  }
 
-  try {
-    const sequelize = new Sequelize(
-      verificationdb,
-      process.env.DB_USER,
-      process.env.DB_PASSWORD,
-      { host: process.env.DB_HOST, dialect: process.env.DB_DIALECT }
-    );
 
-    const User = require('../models/user')(sequelize);
 
-    const user = await User.findOne({ where: { emailtoken: token } });
-    if (!user) {
-      return res.status(400).json({
-        meta: { statusCode: 400, errorCode: 952, executionTime: `${Date.now() - start}ms` },
-        error: { message: 'Invalid or expired verification token' },
-      });
-    }
 
-    user.is_emailVerify = true;
-    user.emailtoken = null;
-    await user.save();
 
-    res.status(200).json({
-      meta: { statusCode: 200, executionTime: `${Date.now() - start}ms` },
-      data: { message: 'Email verified successfully' },
-    });
-  } catch (error) {
-    res.status(500).json({
-      meta: { statusCode: 500, errorCode: 953, executionTime: `${Date.now() - start}ms` },
-      error: { message: 'Error verifying email: ' + error.message },
-    });
-  }
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   // console.log("Database from Query:", hospitalDatabase);
+
+//   // Trim the hospitalDatabase string
+//   const trimmedHospitalDatabase = hospitalDatabase.trim();
+
+//   // Decrypt the trimmed hospitalDatabase
+//   const bytes = CryptoJS.AES.decrypt(trimmedHospitalDatabase, ENCRYPT_SECRET_KEY1);
+//   const verificationdb = bytes.toString(CryptoJS.enc.Utf8);
+
+//   console.log("Decrypted Database:", verificationdb);
+
+//   // Decrypt the token
+//   const bytesToken = CryptoJS.AES.decrypt(token, ENCRYPT_SECRET_KEY1);
+//   const decryptedToken = bytesToken.toString(CryptoJS.enc.Utf8);
+
+//   console.log("Decrypted Token:", decryptedToken);
+
+//   if (!verificationdb) {
+//     return res.status(400).json({
+//       meta: { statusCode: 400, errorCode: 927, executionTime: `${Date.now() - start}ms` },
+//       error: { message: 'Database name not provided' },
+//     });
+//   }
+
+//   try {
+//     const sequelize = new Sequelize(
+//       verificationdb,
+//       process.env.DB_USER,
+//       process.env.DB_PASSWORD,
+//       { host: process.env.DB_HOST, dialect: process.env.DB_DIALECT }
+//     );
+
+//     const User = require('../models/user')(sequelize);
+
+//     const user = await User.findOne({ where: { emailtoken: decryptedToken } });
+//     if (!user) {
+//       return res.status(400).json({
+//         meta: { statusCode: 400, errorCode: 952, executionTime: `${Date.now() - start}ms` },
+//         error: { message: 'Invalid or expired verification token' },
+//       });
+//     }
+
+//     user.is_emailVerify = 1;
+//     user.emailtoken = null;
+//     await user.save();
+
+//     res.status(200).json({
+//       meta: { statusCode: 200, executionTime: `${Date.now() - start}ms` },
+//       data: { message: 'Email verified successfully' },
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode: 953, executionTime: `${Date.now() - start}ms` },
+//       error: { message: 'Error verifying email: ' + error.message },
+//     });
+//   }
+// };
 
 
 // Updated verifyEmail function
@@ -2746,8 +2973,7 @@ exports.resendVerificationEmail = async (req, res) => {
         }
       });
     }
-
-    if (user.is_emailVerify) {
+    if (user.is_emailVerify==1) {
       const end = Date.now();
       return res.status(200).json({
         meta: {
@@ -2760,30 +2986,45 @@ exports.resendVerificationEmail = async (req, res) => {
         }
       });
     }
+    const hospitalDatabase = req.hospitalDatabase;
+   // Create a unique token
+   let verificationToken = uuidv4();
+   // Convert to Base64 and remove special characters
 
-    // Extract the token from the headers
-const tokenFromHeaders = req.headers['x-api-key'];
+    verificationToken = Buffer.from(verificationToken).toString('base64')
+   .replace(/[+/=]/g, '')  // Remove special characters
+   .replace(/-/g, '')     // Remove any remaining dashes
+   .replace(/\//g, ''); 
 
-// Decrypt the database name
-const decryptedDatabaseName = decryptValue(tokenFromHeaders);
+  // Encrypt the token
+  let encryptedToken = CryptoJS.AES.encrypt(verificationToken, ENCRYPT_SECRET_KEY1).toString();
 
-// Handle case where decryption fails or returns null
-const databaseNamePart = decryptedDatabaseName ? `-${decryptedDatabaseName}` : '';
+  encryptedToken = encryptedToken
+  .replace(/\//g, '')  // Remove slashes (/)
+  .replace(/\+/g, '')  // Remove plus signs (+)
+  .replace(/=/g, '');  // Remove equal signs (=)
 
-// Generate the verification token
-const verificationToken = `${uuidv4()}${databaseNamePart}`;
+
+  let encryptedHospitalDatabase = CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString();
+
+  // Remove special characters from the encrypted hospitalDatabase
+  encryptedHospitalDatabase = encryptedHospitalDatabase
+    .replace(/\//g, '')  // Remove slashes (/)
+    .replace(/\+/g, '')  // Remove plus signs (+)
+    .replace(/=/g, '');  // Remove equal signs (=)
 
 
 console.log(verificationToken); // For debugging
 
-
-    // Generate a new verification token
-    // const verificationToken = uuidv4();
     user.emailtoken = verificationToken;
     await user.save();
 
     // Construct the verification link
-    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${verificationToken}`;
+    // const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedToken}?db=${encrypteddb}`;
+    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedToken}?db=${encryptedHospitalDatabase}`;
+
+
+    
 
     // Resend the verification email
     await sendUserEmail(user.email, 'Resend Verification Email', `Click this link to verify your email: ${verificationLink}`);
