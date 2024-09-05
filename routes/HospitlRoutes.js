@@ -6,6 +6,7 @@ const ensureSequelizeInstance = require('../Middleware/ensureSequelizeInstance')
 const { verifyToken } = require('../Middleware/authMiddleware');
 const { decodeUserAccessToken } = require('../Middleware/decodeUserAccessToken');
 const authenticate = require('../validators/authenticate');
+const Accessstokenauthenticate = require('../validators/Accesstokenverify');
 const validateJSONContentType = require('../Middleware/jsonvalidation');
 
 // router.post('/hospital', verifyToken(['admin']),createHospitalValidationRules(), hospitalController.createHospital);
@@ -24,6 +25,7 @@ router.get('/hospital/group/:HospitalGroupIDR', verifyToken(['admin']),  validat
 router.put('/hospital/:id', verifyToken(['admin']),updateHospitalValidationRules(),  validateJSONContentType, hospitalController.updateHospital);
 router.delete('/hospital/:id',verifyToken(['admin']),  validateJSONContentType, hospitalController.deleteHospital);
 router.get('/hospitals', hospitalController.getAllHospitalsByPagination);
+
 
 
 
@@ -53,6 +55,9 @@ router.get('/users/pagination',authenticate, hospitalController.getAllUsersByPag
 
 router.post('/user/login',authenticate, hospitalController.ensureSequelizeInstance, hospitalController.loginUser);
 
+router.post('/sendotp',authenticate,Accessstokenauthenticate, hospitalController.ensureSequelizeInstance, hospitalController.sendOtp);
+router.post('/verifyUserotp',authenticate,Accessstokenauthenticate, hospitalController.ensureSequelizeInstance, hospitalController.verifyOtp);
+
 router.get('/getProfile', authenticate,hospitalController.ensureSequelizeInstance,hospitalController.getProfile);
 
 
@@ -65,11 +70,6 @@ router.post('/request-Userpassword-reset',hospitalController.requestUserPassword
 
 router.post('/resetuser-password', hospitalController.resetuserPassword);
   
-
-
-
-
-
 
 
 

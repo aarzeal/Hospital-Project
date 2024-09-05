@@ -23,7 +23,8 @@ router.post('/patients',  authenticate,
 
 
 // PUT update a patient by ID
-router.put('/patients/:id', authenticate, updatePatientValidationRules(), validateJSONContentType,patientController.updatePatient);
+// router.put('/patients/:id', authenticate, updatePatientValidationRules(), validateJSONContentType,patientController.updatePatient);
+router.put('/patients/:id', authenticate,patientController.updatePatient);
 
 // DELETE a patient by ID
 router.delete('/patients/:id', authenticate, patientController.deletePatient);

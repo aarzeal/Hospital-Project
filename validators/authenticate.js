@@ -54,7 +54,7 @@ const authenticate = (req, res, next) => {
         errorCode: 929
       },
       error: {
-        message: 'No token provided'
+        message: 'No Sesssion token provided'
       }
     });
   }
@@ -64,6 +64,10 @@ const authenticate = (req, res, next) => {
     req.hospitalName = decoded.hospitalName;
     req.hospitalId = decoded.hospitalId;
     req.hospitalDatabase = decoded.hospitalDatabase;
+    req.MFAEnabled= decoded.MFAEnabled,
+
+    console.log("req.MFAEnabled......",req.MFAEnabled)
+    console.log("req.hospitalDatabase......",req.hospitalDatabase)
     next();
   } catch (error) {
     return res.status(401).json({

@@ -212,7 +212,12 @@ const Hospital = sequelize.define('tblHospital', {
   ResetTokenExpires: {
     type: DataTypes.DATE,
     allowNull: true
-  }
+  },
+  MFAEnabled: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
 }, {
   tableName: 'tblHospital',
   timestamps: false,

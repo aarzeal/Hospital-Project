@@ -1207,19 +1207,43 @@ console.log("Decrypted Key:", decryptedKey);
         let Hospitaltoken = existingToken;
 
         if (!existingToken) {
+
+        //   const tokenPayload = {
+        //     hospitalId: hospital.HospitalID, 
+        //     hospitalDatabase: hospital.HospitalDatabase, 
+        //     hospitalGroupIDR: hospital.HospitalGroupIDR,
+        //     MFAEnabled: hospital.MFAEnabled
+        // };
+        
+        // await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
+        
+        // console.log("Token Payload:", tokenPayload);
+        
+        // Hospitaltoken = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '24h' });
             Hospitaltoken = jwt.sign(
-                { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
+                { hospitalId: hospital.HospitalID, 
+                  hospitalDatabase: hospital.HospitalDatabase, 
+                  hospitalGroupIDR: hospital.HospitalGroupIDR,
+
+                  MFAEnabled: hospital.MFAEnabled  },
                 process.env.JWT_SECRET,
                 { expiresIn: '24h' }
             );
 
+            
+
             await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
         }
+
+
+        
+      
 
         const end = Date.now();
         logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
 
         const decodedToken = jwt.decode(Hospitaltoken);
+        console.log("Generated JWT:",(decodedToken));
         const currentTime = Math.floor(Date.now() / 1000);
         const expiresIn = decodedToken.exp - currentTime;
         const expiresInMinutes = Math.floor(expiresIn / 60);
@@ -1232,6 +1256,7 @@ console.log("Decrypted Key:", decryptedKey);
             data: {
                 Hospitaltoken,
                 expiresInMinutes: `${expiresInMinutes} min`,
+                MFAEnabled: hospital.MFAEnabled,
                 hospital: {
                     hospitalId: hospital.HospitalID,
                     hospitalDatabase: hospital.HospitalDatabase,
@@ -2259,6 +2284,385 @@ const ENCRYPT_SECRET_KEY1 = process.env.ENCRYPT_SECRET_KEY2;
 // const ENCRYPT_SECRET_KEY2 = process.env.ENCRYPT_SECRET_KEY2 || 'your-secret-key';
 // const ENCRYPT_SECRET_KEY1 = process.env.ENCRYPT_SECRET_KEY2;
 
+// exports.createUser = async (req, res) => {
+//   const start = Date.now();
+//   const { name, username, phone, email, password, empid, usertype } = req.body;
+//   const hospitalId = req.hospitalId;
+//   const hospitalDatabase = req.hospitalDatabase;
+
+//   try {
+//     if (!password) {
+//       throw new Error('Password is required');
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     // Create a unique token
+//     let verificationToken = uuidv4();
+//      // Convert to Base64 and remove special characters
+
+//       verificationToken = Buffer.from(verificationToken).toString('base64')
+//      .replace(/[+/=]/g, '')  // Remove special characters
+//      .replace(/-/g, '')     // Remove any remaining dashes
+//      .replace(/\//g, ''); 
+
+//     // Encrypt the token
+//     let encryptedToken = CryptoJS.AES.encrypt(verificationToken, ENCRYPT_SECRET_KEY1).toString('base64');
+
+//     encryptedToken = encryptedToken
+//     .replace(/\//g, '')  // Remove slashes (/)
+//     .replace(/\+/g, '')  // Remove plus signs (+)
+//     .replace(/=/g, '');  // Remove equal signs (=)
+
+
+//     let encryptedHospitalDatabase = CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString('base64');
+
+//     // Remove special characters from the encrypted hospitalDatabase
+//     encryptedHospitalDatabase = encryptedHospitalDatabase
+//       .replace(/\//g, '')  // Remove slashes (/)
+//       .replace(/\+/g, '')  // Remove plus signs (+)
+//       .replace(/=/g, '');  // Remove equal signs (=)
+
+
+//     const User = require('../models/user')(req.sequelize);
+//     await User.sync();
+
+//     const user = await User.create({
+//       username,
+//       password: hashedPassword,
+//       hospitalId,
+//       name,
+//       phone,
+//       email,
+//       empid,
+//       usertype,
+//       emailtoken: encryptedToken,
+//       createdBy: hospitalId,
+//     });
+
+//     // Construct the verification link
+//     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedToken}?db=${encryptedHospitalDatabase}`;
+
+
+//     await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
+
+//     res.status(201).json({
+//       meta: {
+//         statusCode: 201,
+//         executionTime: `${Date.now() - start}ms`,
+//         hospitalDatabase
+//       },
+//       data: { user },
+//       message: 'User created successfully. Verification email sent.'
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 928,
+//         executionTime: `${Date.now() - start}ms`,
+//         hospitalDatabase
+//       },
+//       error: { message: 'Error creating user: ' + error.message },
+//     });
+//   }
+// };
+
+
+// exports.createUser = async (req, res) => {
+//   const start = Date.now();
+//   const { name, username, phone, email, password, empid, usertype } = req.body;
+//   const hospitalId = req.hospitalId;
+//   const hospitalDatabase = req.hospitalDatabase;
+
+//   try {
+//     if (!password) {
+//       throw new Error('Password is required');
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     // Create a unique token
+//     let verificationToken = uuidv4();
+    
+//     // Convert the token to Base64 and remove special characters
+//     verificationToken = Buffer.from(verificationToken)
+//       .toString('base64')
+//       .replace(/[+/=]/g, '')  // Remove special characters
+//       .replace(/-/g, '')      // Remove dashes
+//       .replace(/\//g, '');    // Remove slashes
+
+//     // Encrypt the token
+
+//     const cfg = {
+//       mode: CryptoJS.mode.CBC,
+//       padding: CryptoJS.pad.Pkcs7
+//     };
+//      const encryptAES = (hospitalDatabase, ENCRYPT_SECRET_KEY1) => {
+//       return CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString();
+//     };
+     
+
+
+//     let encryptedDB=encryptAES (hospitalDatabase, ENCRYPT_SECRET_KEY1)
+
+//     encryptedDB = Buffer.from(encryptedDB)
+//       .toString('base64')
+//       .replace(/[+/=]/g, '')  // Remove special characters
+//       .replace(/-/g, '')      // Remove dashes
+//       .replace(/\//g, '');    // Remove slashes
+
+//     console.log("encryptedDB...",encryptedDB)
+
+
+
+
+
+
+
+
+    
+//     let encryptedToken = CryptoJS.AES.encrypt(verificationToken, ENCRYPT_SECRET_KEY1).toString();
+
+//     // let encryptedDB = CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString();
+
+//     // console.log("encryptedDB.........",encryptedDB)
+
+//     // Further encode it in Base64 and remove special characters
+//     encryptedToken = Buffer.from(encryptedToken)
+//       .toString('base64')
+//       .replace(/\//g, '')  // Remove slashes (/)
+//       .replace(/\+/g, '')  // Remove plus signs (+)
+//       .replace(/=/g, '');  // Remove equal signs (=)
+
+//     const User = require('../models/user')(req.sequelize);
+//     await User.sync();
+
+//     const user = await User.create({
+//       username,
+//       password: hashedPassword,
+//       hospitalId,
+//       name,
+//       phone,
+//       email,
+//       empid,
+//       usertype,
+//       emailtoken: encryptedToken,
+//       createdBy: hospitalId,
+//     });
+
+//     // Construct the verification link
+//     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedToken}?db=${encryptedDB}`;
+
+//     await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
+
+//     res.status(201).json({
+//       meta: {
+//         statusCode: 201,
+//         executionTime: `${Date.now() - start}ms`,
+//         hospitalDatabase
+//       },
+//       data: { user },
+//       message: 'User created successfully. Verification email sent.'
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 928,
+//         executionTime: `${Date.now() - start}ms`,
+//         hospitalDatabase
+//       },
+//       error: { message: 'Error creating user: ' + error.message },
+//     });
+//   }
+// };
+
+
+////without encrpted
+
+
+// exports.verifyEmail = async (req, res) => {
+//   const start = Date.now();
+//   const { token } = req.params;
+//   const encryptedHospitalDatabase = req.query.db;
+
+//   console.log("Token from URL Params:", token);
+//   console.log("Encrypted Database from Query:", encryptedHospitalDatabase);
+
+//   // Decrypt the hospitalDatabase
+//   let hospitalDatabase;
+//   try {
+//     if (!encryptedHospitalDatabase) {
+//       throw new Error('No encrypted database name provided');
+//     }
+
+//     // Decrypt and convert bytes to string
+//     const decryptedDbBytes = CryptoJS.AES.decrypt(encryptedHospitalDatabase, ENCRYPT_SECRET_KEY1);
+
+//     hospitalDatabase = decryptedDbBytes.toString(CryptoJS.enc.Utf8);
+
+//     if (!hospitalDatabase) {
+//       throw new Error('Decryption failed or resulted in an empty string');
+//     }
+
+//     console.log("Decrypted Database Name:", hospitalDatabase);
+    
+//   } catch (error) {
+//     console.error('Decryption Error:', error.message);
+//     return res.status(400).json({
+//       meta: { statusCode: 400, errorCode: 927, executionTime: `${Date.now() - start}ms` },
+//       error: { message: 'Database name not provided or could not be decrypted' },
+//     });
+//   }
+
+//   try {
+//     // Initialize Sequelize with the decrypted hospitalDatabase name
+//     const sequelize = new Sequelize(
+//       hospitalDatabase,
+//       process.env.DB_USER,
+//       process.env.DB_PASSWORD,
+//       { host: process.env.DB_HOST, dialect: process.env.DB_DIALECT }
+//     );
+
+//     const User = require('../models/user')(sequelize);
+
+//     // Find the user by the provided email token
+//     const user = await User.findOne({ where: { emailtoken: token } });
+//     if (!user) {
+//       return res.status(400).json({
+//         meta: { statusCode: 400, errorCode: 952, executionTime: `${Date.now() - start}ms` },
+//         error: { message: 'Invalid or expired verification token' },
+//       });
+//     }
+
+//     // Update the user's email verification status
+//     user.is_emailVerify = true;
+//     user.emailtoken = null;
+//     await user.save();
+
+//     res.status(200).json({
+//       meta: { statusCode: 200, executionTime: `${Date.now() - start}ms` },
+//       data: { message: 'Email verified successfully' },
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode: 953, executionTime: `${Date.now() - start}ms` },
+//       error: { message: 'Error verifying email: ' + error.message },
+//     });
+//   }
+// };
+// exports.verifyEmail = async (req, res) => {
+//   const start = Date.now();
+//   const { token } = req.params;
+//   const encryptedHospitalDatabase = req.query.db;
+
+//   console.log("Token from URL Params:", token);
+//   console.log("Encrypted Database from Query:", encryptedHospitalDatabase);
+
+//   // Decode the encrypted database name from the query
+//   let decodedHospitalDatabase;
+//   try {
+//     if (!encryptedHospitalDatabase) {
+//       throw new Error('No encrypted database name provided');
+//     }
+
+//     decodedHospitalDatabase = decodeURIComponent(encryptedHospitalDatabase);
+//     console.log("Decoded Database Name:", decodedHospitalDatabase);
+
+//   } catch (error) {
+//     console.error('Decoding Error:', error.message);
+//     return res.status(400).json({
+//       meta: { statusCode: 400, errorCode: 928, executionTime: `${Date.now() - start}ms` },
+//       error: { message: 'Failed to decode the database name' },
+//     });
+//   }
+
+//   // Decrypt the hospitalDatabase
+//   let hospitalDatabase;
+  
+//   try {
+//     // Decrypt and convert bytes to string
+//     const decryptedDbBytes = CryptoJS.AES.decrypt(decodedHospitalDatabase, ENCRYPT_SECRET_KEY1);
+
+//     hospitalDatabase = decryptedDbBytes.toString(CryptoJS.enc.Utf8);
+
+//     if (!hospitalDatabase) {
+//       throw new Error('Decryption failed or resulted in an empty string');
+//     }
+
+//     console.log("Decrypted Database Name:", hospitalDatabase);
+
+//     // Verify the decrypted database name
+//     if (hospitalDatabase !== 'expectedDatabaseName') {
+//       throw new Error('Database name does not match the expected value');
+//     }
+
+//   } catch (error) {
+//     console.error('Decryption or Verification Error:', error.message);
+//     return res.status(400).json({
+//       meta: { statusCode: 400, errorCode: 927, executionTime: `${Date.now() - start}ms` },
+//       error: { message: 'Database name not provided, could not be decrypted, or verification failed' },
+//     });
+//   }
+
+//   try {
+//     // Initialize Sequelize with the decrypted hospitalDatabase name
+//     const sequelize = new Sequelize(
+//       hospitalDatabase,
+//       process.env.DB_USER,
+//       process.env.DB_PASSWORD,
+//       { host: process.env.DB_HOST, dialect: process.env.DB_DIALECT }
+//     );
+
+//     const User = require('../models/user')(sequelize);
+
+//     // Find the user by the provided email token
+//     const user = await User.findOne({ where: { emailtoken: token } });
+//     if (!user) {
+//       return res.status(400).json({
+//         meta: { statusCode: 400, errorCode: 952, executionTime: `${Date.now() - start}ms` },
+//         error: { message: 'Invalid or expired verification token' },
+//       });
+//     }
+
+//     // Update the user's email verification status
+//     user.is_emailVerify = true;
+//     user.emailtoken = null;
+//     await user.save();
+
+//     res.status(200).json({
+//       meta: { statusCode: 200, executionTime: `${Date.now() - start}ms` },
+//       data: { message: 'Email verified successfully' },
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode: 953, executionTime: `${Date.now() - start}ms` },
+//       error: { message: 'Error verifying email: ' + error.message },
+//     });
+//   }
+// };
+
+
+const encryptAES = (text, secretKey) => {
+  try {
+    console.log('Encrypting text:', text);
+    console.log('Using secret key:', secretKey);
+    return CryptoJS.AES.encrypt(text, secretKey).toString();
+  } catch (error) {
+    console.error('Encryption Error:', error.message);
+    throw new Error('Error during encryption');
+  }
+};
+
+
+// Decode Base64
+// const decodeBase64 = (text) => Buffer.from(text, 'base64').toString('utf8');
+
+// Encode text to Base64
+// const encodeBase64 = (text) => Buffer.from(text).toString('base64');
+
+// Define the `createUser` function
 exports.createUser = async (req, res) => {
   const start = Date.now();
   const { name, username, phone, email, password, empid, usertype } = req.body;
@@ -2273,31 +2677,33 @@ exports.createUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a unique token
-    let verificationToken = uuidv4();
-     // Convert to Base64 and remove special characters
+    const verificationToken = uuidv4();
 
-      verificationToken = Buffer.from(verificationToken).toString('base64')
-     .replace(/[+/=]/g, '')  // Remove special characters
-     .replace(/-/g, '')     // Remove any remaining dashes
-     .replace(/\//g, ''); 
+    // Encrypt the token and database name
+    // let encryptedToken = encryptAES(verificationToken, ENCRYPT_SECRET_KEY1);
+    // encryptedToken = encodeBase64(encryptedToken);
 
-    // Encrypt the token
-    let encryptedToken = CryptoJS.AES.encrypt(verificationToken, ENCRYPT_SECRET_KEY1).toString();
-
-    encryptedToken = encryptedToken
-    .replace(/\//g, '')  // Remove slashes (/)
-    .replace(/\+/g, '')  // Remove plus signs (+)
-    .replace(/=/g, '');  // Remove equal signs (=)
+    const encodeBase64 = (text) => Buffer.from(text).toString('base64');
+    
+    let encryptedDB = encryptAES(hospitalDatabase, ENCRYPT_SECRET_KEY1);
 
 
-    let encryptedHospitalDatabase = CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString();
 
-    // Remove special characters from the encrypted hospitalDatabase
-    encryptedHospitalDatabase = encryptedHospitalDatabase
-      .replace(/\//g, '')  // Remove slashes (/)
-      .replace(/\+/g, '')  // Remove plus signs (+)
-      .replace(/=/g, '');  // Remove equal signs (=)
+    let encryptedtoken = encryptAES(verificationToken, process.env.ENCRYPT_SECRET_KEY3);
+    encryptedtoken = encodeBase64(encryptedtoken);
 
+    encryptedtoken = encryptedtoken.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+
+
+    encryptedDB = encodeBase64(encryptedDB);
+
+  
+
+    // console.log('Generated EncryptedVerification Token:', encryptedtoken);
+
+    // console.log('Encrypted Token:', encryptedToken);
+    console.log('Encrypted DB:', encryptedDB);
 
     const User = require('../models/user')(req.sequelize);
     await User.sync();
@@ -2311,13 +2717,12 @@ exports.createUser = async (req, res) => {
       email,
       empid,
       usertype,
-      emailtoken: encryptedToken,
+      emailtoken: encryptedtoken,
       createdBy: hospitalId,
     });
 
     // Construct the verification link
-    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedToken}?db=${encryptedHospitalDatabase}`;
-
+    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedtoken}?db=${encryptedDB}`;
 
     await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
 
@@ -2343,60 +2748,116 @@ exports.createUser = async (req, res) => {
   }
 };
 
-////without encrpted
+
+
+
+const decryptAES = (encryptedText, secretKey) => {
+  try {
+    console.log('Decrypting text**********:', encryptedText);
+    console.log('Using secret key************:', secretKey);
+
+    if (!encryptedText || !secretKey) {
+      throw new Error('Missing encrypted text or secret key');
+    }
+
+    const bytes = CryptoJS.AES.decrypt(encryptedText, secretKey);
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+
+    if (!decrypted) {
+      throw new Error('Decryption resulted in an empty string');
+    }
+
+    return decrypted;
+  } catch (error) {
+    console.error('Decryption Error:', error.message);
+    throw new Error('Error during decryption');
+  }
+};
+
+const decodeBase64 = (text) => Buffer.from(text, 'base64').toString('utf8');
+
+
+
+// const decryptAEStoken = (encryptedtoken, secretKey) => {
+//   try {
+//     console.log('Decrypting text**********:', encryptedtoken);
+//     console.log('Using secret key************:', secretKey);
+
+//     if (!encryptedtoken || !secretKey) {
+//       throw new Error('Missing encrypted text or secret key');
+//     }
+
+//     const bytes = CryptoJS.AES.decrypt(encryptedtoken, secretKey);
+//     const decryptedtoken = bytes.toString(CryptoJS.enc.Utf8);
+
+//     if (!decryptedtoken) {
+//       throw new Error('Decryption decryptedtoken in an empty string');
+//     }
+
+//     return decryptedtoken;
+//   } catch (error) {
+//     console.error('Decryption Error:', error.message);
+//     throw new Error('Error during decryptedtoken');
+//   }
+// };
+
+// const decodeBase64token = (text) => Buffer.from(text, 'base64').toString('utf8');
+
 
 
 exports.verifyEmail = async (req, res) => {
   const start = Date.now();
-  console.log("Request Body:", req.body);
-  console.log("Request Params:", req.params);
-  console.log("Request Query:", req.query);
-
   const { token } = req.params;
-  const encryptedHospitalDatabase = req.query.db; // Extract the encrypted database name from the query string
-  console.log("Token from URL Params:", token);
-  console.log("Encrypted Database from Query:", encryptedHospitalDatabase);
-
-  // Decrypt the hospitalDatabase
-  let decryptedDbBytes;
-  let hospitalDatabase;
-  try {
-    if (!encryptedHospitalDatabase) {
-      throw new Error('No encrypted database name provided');
-    }
-
-    // Attempt decryption
-    decryptedDbBytes = CryptoJS.AES.decrypt(encryptedHospitalDatabase, ENCRYPT_SECRET_KEY1);
-
-    // Check if decryption succeeded and produce a valid string
-    if (!decryptedDbBytes || !decryptedDbBytes.toString(CryptoJS.enc.Utf8)) {
-      throw new Error('Decryption failed or resulted in an empty string');
-    }
-
-    hospitalDatabase = decryptedDbBytes.toString(CryptoJS.enc.Utf8);
-    console.log("Decrypted Database Name:", hospitalDatabase);
-
-  } catch (error) {
-    console.error('Decryption Error:', error.message);
-    return res.status(400).json({
-      meta: { statusCode: 400, errorCode: 927, executionTime: `${Date.now() - start}ms` },
-      error: { message: 'Database name not provided or could not be decrypted' },
-    });
-  }
+  // let token = req.params.token.replace(/-/g, '+').replace(/_/g, '/');
+  const hospitalDatabase = req.query.db;
 
   try {
-    // Initialize Sequelize with the decrypted hospitalDatabase name
+    if (!hospitalDatabase || !token) {
+      throw new Error('Missing database name or token');
+    }
+
+    const decodedDB = decodeBase64(hospitalDatabase);
+
+    // const decodetoken = decodeBase64token(token);
+    // const decodedToken = decodeBase64(token);
+
+    console.log('Decoded DB//////:', decodedDB);
+
+    // console.log('Decoded Token////////:', decodetoken);
+
+    const decryptedDB = decryptAES(decodedDB, ENCRYPT_SECRET_KEY1);
+
+    // const decryptedToken = decryptAEStoken(decodetoken, process.env.ENCRYPT_SECRET_KEY3);
+
+    console.log('Decrypted DB.......:', decryptedDB);
+    // console.log('Decrypted Token......:', decryptedToken);
+
+    if (!decryptedDB || !token) {
+      return res.status(400).json({
+        meta: { statusCode: 400, errorCode: 928, executionTime: `${Date.now() - start}ms` },
+        error: { message: 'Decryption failed or resulted in an empty string' },
+      });
+    }
+
     const sequelize = new Sequelize(
-      hospitalDatabase,
+      decryptedDB,
       process.env.DB_USER,
       process.env.DB_PASSWORD,
-      { host: process.env.DB_HOST, dialect: process.env.DB_DIALECT }
+      {
+        host: process.env.DB_HOST,
+        dialect: process.env.DB_DIALECT,
+        logging: false,
+      }
     );
 
     const User = require('../models/user')(sequelize);
 
-    // Find the user by the provided email token
+    // const user = await User.findOne({ where: { emailtoken: decryptedToken } });
     const user = await User.findOne({ where: { emailtoken: token } });
+
+    console.log('User found:', user);
+
+
     if (!user) {
       return res.status(400).json({
         meta: { statusCode: 400, errorCode: 952, executionTime: `${Date.now() - start}ms` },
@@ -2404,7 +2865,6 @@ exports.verifyEmail = async (req, res) => {
       });
     }
 
-    // Update the user's email verification status
     user.is_emailVerify = true;
     user.emailtoken = null;
     await user.save();
@@ -2414,6 +2874,7 @@ exports.verifyEmail = async (req, res) => {
       data: { message: 'Email verified successfully' },
     });
   } catch (error) {
+    console.error('Verification Error:', error.message);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 953, executionTime: `${Date.now() - start}ms` },
       error: { message: 'Error verifying email: ' + error.message },
@@ -2973,7 +3434,8 @@ exports.resendVerificationEmail = async (req, res) => {
         }
       });
     }
-    if (user.is_emailVerify==1) {
+
+    if (user.is_emailVerify == 1) {
       const end = Date.now();
       return res.status(200).json({
         meta: {
@@ -2986,45 +3448,36 @@ exports.resendVerificationEmail = async (req, res) => {
         }
       });
     }
+
     const hospitalDatabase = req.hospitalDatabase;
-   // Create a unique token
-   let verificationToken = uuidv4();
-   // Convert to Base64 and remove special characters
+    console.log("hospitalDatabase", hospitalDatabase);
 
-    verificationToken = Buffer.from(verificationToken).toString('base64')
-   .replace(/[+/=]/g, '')  // Remove special characters
-   .replace(/-/g, '')     // Remove any remaining dashes
-   .replace(/\//g, ''); 
+    // Create a unique token
+    let verificationToken = uuidv4();
 
-  // Encrypt the token
-  let encryptedToken = CryptoJS.AES.encrypt(verificationToken, ENCRYPT_SECRET_KEY1).toString();
-
-  encryptedToken = encryptedToken
-  .replace(/\//g, '')  // Remove slashes (/)
-  .replace(/\+/g, '')  // Remove plus signs (+)
-  .replace(/=/g, '');  // Remove equal signs (=)
+    // Convert to Base64 and remove special characters
+    const encodeBase64 = (text) => Buffer.from(text).toString('base64');
+    
+    let encryptedDB = encryptAES(hospitalDatabase, ENCRYPT_SECRET_KEY1);
 
 
-  let encryptedHospitalDatabase = CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString();
 
-  // Remove special characters from the encrypted hospitalDatabase
-  encryptedHospitalDatabase = encryptedHospitalDatabase
-    .replace(/\//g, '')  // Remove slashes (/)
-    .replace(/\+/g, '')  // Remove plus signs (+)
-    .replace(/=/g, '');  // Remove equal signs (=)
+    let encryptedtoken = encryptAES(verificationToken, process.env.ENCRYPT_SECRET_KEY3);
+    encryptedtoken = encodeBase64(encryptedtoken);
+
+    encryptedtoken = encryptedtoken.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 
 
-console.log(verificationToken); // For debugging
 
-    user.emailtoken = verificationToken;
+    encryptedDB = encodeBase64(encryptedDB);
+
+
+    // Save the email token to the user
+    user.emailtoken = encryptedtoken;
     await user.save();
 
     // Construct the verification link
-    // const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedToken}?db=${encrypteddb}`;
-    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedToken}?db=${encryptedHospitalDatabase}`;
-
-
-    
+    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedtoken}?db=${encryptedDB}`;
 
     // Resend the verification email
     await sendUserEmail(user.email, 'Resend Verification Email', `Click this link to verify your email: ${verificationLink}`);
@@ -3921,17 +4374,45 @@ exports.loginUser = async (req, res) => {
 
     // If token is not present, generate a new one
     if (!existingToken) {
+      // Define payload for JWT
+      const payload = { 
+        userId: user.userId, 
+        username: user.username, 
+        HospitalId: user.hospitalId, 
+        email: user.email 
+      };
+    
+      // Generate AccessToken
       AccessToken = jwt.sign(
-        { userId: user.userId, username: user.username, HospitalId: user.hospitalId },
+        payload,
         process.env.JWT_SECRET,
         { expiresIn: '24h' }
       );
-
-      // Store the new token in Redis with an expiration time
+    
+      // Store the new token in Redis with an expiration time of 24 hours
       await setAsync(user.userId.toString(), AccessToken, 'EX', 24 * 60 * 60);
     }
-
+    
+    // Decode the token to verify its content
     const decodedToken = jwt.decode(AccessToken);
+    
+    console.log("decodedToken.....", decodedToken);
+    
+
+
+
+  
+    
+    // console.log("Payload before signing:", payload);
+    
+    // AccessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
+    
+
+
+
+
+
+
     const currentTime = Math.floor(Date.now() / 1000);
     const expiresIn = decodedToken.exp - currentTime;
     const expiresInMinutes = Math.floor(expiresIn / 60);
@@ -3970,6 +4451,304 @@ exports.loginUser = async (req, res) => {
     });
   }
 };
+
+exports.sendOtp = async (req, res) => {
+  const start = Date.now();
+
+  // Extract token from headers
+  const token = req.headers['accesstoken'];
+
+  if (!token) {
+    const end = Date.now();
+    logger.error('No access token provided', { executionTime: `${end - start}ms` });
+    return res.status(401).json({
+      meta: {
+        statusCode: 401,
+        errorCode: 1081,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Access token is required'
+      }
+    });
+  }
+
+  try {
+    // Verify and decode the JWT token (assuming Bearer format)
+    const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
+    logger.info('Decoded token:', decoded); // Debugging log
+
+    const email = decoded.email;
+
+    if (!email) {
+      const end = Date.now();
+      logger.error('No email found in access token', { executionTime: `${end - start}ms` });
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 1082,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Email is required in the access token'
+        }
+      });
+    }
+
+    // Generate a 6-digit OTP using Math.random
+    const otp = Math.floor(100000 + Math.random() * 900000); // Generates a number between 100000 and 999999
+
+    // Store OTP in Redis with a 5-minute expiration
+    const userId = decoded.userId; // Assuming userId is part of the token
+    const expirationTime = 5 * 60; // 5 minutes in seconds
+    await setAsync(`otp_${userId}`, otp.toString(), 'EX', expirationTime);
+
+    // Prepare email content
+    const emailSubject = 'Your OTP Code';
+    const emailBody = `Your OTP code is ${otp}. It is valid for 5 minutes.`;
+
+    // Send email
+    await sendUserEmail(email, emailSubject, emailBody);
+
+    const end = Date.now();
+    logger.info('OTP sent successfully', { executionTime: `${end - start}ms` });
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`
+      },
+      data: {
+        message: 'OTP sent successfully to your email'
+      }
+    });
+  } catch (error) {
+    const end = Date.now();
+    logger.error('Error sending OTP', { error: error.message, executionTime: `${end - start}ms` });
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 1083,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error sending OTP: ' + error.message
+      }
+    });
+  }
+};
+
+
+exports.verifyOtp = async (req, res) => {
+  const start = Date.now();
+
+  // Extract token from headers
+  const token = req.headers['accesstoken'];
+
+  if (!token) {
+    const end = Date.now();
+    logger.error('No access token provided', { executionTime: `${end - start}ms` });
+    return res.status(401).json({
+      meta: {
+        statusCode: 401,
+        errorCode: 1084,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Access token is required'
+      }
+    });
+  }
+
+  try {
+    // Verify and decode the JWT token
+    const tokenParts = token.split(' ');
+    if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
+      throw new Error('Invalid token format');
+    }
+
+    const decoded = jwt.verify(tokenParts[1], process.env.JWT_SECRET);
+    logger.info('Decoded token:', decoded);
+
+    const userId = decoded.userId; // Get userId from decoded token
+    console.log("userId*******", userId);
+    const { otp } = req.body; // OTP from the request body
+
+    if (!otp) {
+      const end = Date.now();
+      logger.error('No OTP provided', { executionTime: `${end - start}ms` });
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 1085,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'OTP is required'
+        }
+      });
+    }
+
+    // Fetch the OTP from Redis
+    const storedOtp = await getAsync(`otp_${userId}`);
+    console.log("storedOtp****", storedOtp);
+
+    if (!storedOtp) {
+      const end = Date.now();
+      logger.error('OTP expired or not found', { executionTime: `${end - start}ms` });
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 1086,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'OTP expired or not found'
+        }
+      });
+    }
+
+    if (otp !== storedOtp) {
+      const end = Date.now();
+      logger.error('Invalid OTP', { executionTime: `${end - start}ms` });
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 1087,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Invalid OTP'
+        }
+      });
+    }
+
+    // OTP verified successfully
+    const end = Date.now();
+    logger.info('OTP verified successfully', { executionTime: `${end - start}ms` });
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`
+      },
+      data: {
+        message: 'OTP verified successfully'
+      }
+    });
+  } catch (error) {
+    const end = Date.now();
+    logger.error('Error verifying OTP', { error: error.message, executionTime: `${end - start}ms` });
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 1088,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Error verifying OTP: ' + error.message
+      }
+    });
+  }
+};
+
+
+
+
+
+
+
+
+// exports.verifyOtp = async (req, res) => {
+//   const start = Date.now();
+
+//   const {  otp } = req.body; // Assuming userId and OTP are passed in the request body
+
+//   if (!otp) {
+//     const end = Date.now();
+//     logger.error('User ID or OTP not provided', { executionTime: `${end - start}ms` });
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 1057,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'OTP are required'
+//       }
+//     });
+//   }
+
+//   try {
+//     // Retrieve OTP from Redis
+//     const storedOtp = await getAsync(`otp_${userId}`);
+
+//     if (!storedOtp) {
+//       const end = Date.now();
+//       logger.error('OTP not found or expired', { executionTime: `${end - start}ms` });
+//       return res.status(400).json({
+//         meta: {
+//           statusCode: 400,
+//           errorCode: 1058,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'OTP not found or expired'
+//         }
+//       });
+//     }
+
+//     // Compare provided OTP with stored OTP
+//     if (otp !== storedOtp) {
+//       const end = Date.now();
+//       logger.error('Invalid OTP', { executionTime: `${end - start}ms` });
+//       return res.status(400).json({
+//         meta: {
+//           statusCode: 400,
+//           errorCode: 1059,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Invalid OTP'
+//         }
+//       });
+//     }
+
+//     // OTP is valid; proceed with further actions (e.g., user authentication)
+//     const end = Date.now();
+//     logger.info('OTP verified successfully', { executionTime: `${end - start}ms` });
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: {
+//         message: 'OTP verified successfully'
+//       }
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     logger.error('Error verifying OTP', { error: error.message, executionTime: `${end - start}ms` });
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 1060,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error verifying OTP: ' + error.message
+//       }
+//     });
+//   }
+// };
+
+
+
+
+
+
+
+
+
+
 exports.getProfile = (req, res) => {
   const token = req.headers['authorization'];
   
@@ -4499,7 +5278,5 @@ exports.resetPassword = async (req, res) => {
     });
   }
 };
-
-
 
 

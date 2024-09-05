@@ -740,3 +740,133 @@
 {"error":"hospitalDatabase is not defined","executionTime":"2ms","level":"error","message":"Error verifying email","stack":"ReferenceError: hospitalDatabase is not defined\n    at exports.verifyEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2406:5)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at param (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:365:14)\n    at param (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:376:14)\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:421:3)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:280:10)","timestamp":"2024-08-30T10:40:36.792Z"}
 {"error":"Failed to decrypt the verification token","executionTime":"5ms","level":"error","message":"Error verifying email","stack":"Error: Failed to decrypt the verification token\n    at exports.verifyEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2417:13)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at param (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:365:14)\n    at param (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:376:14)\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:421:3)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:280:10)","timestamp":"2024-08-30T10:49:31.686Z"}
 {"error":"hospitalDatabase is not defined","executionTime":"29ms","level":"error","message":"Error resending verification email","timestamp":"2024-08-31T05:07:15.763Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-31T08:29:52.942Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-31T08:30:29.876Z"}
+{"address":"142.251.12.108","code":"ESOCKET","command":"CONN","errno":-4092,"level":"error","message":"Error sending email: connect EACCES 142.251.12.108:465","port":465,"stack":"Error: connect EACCES 142.251.12.108:465\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1595:16)","syscall":"connect","timestamp":"2024-08-31T10:14:40.684Z"}
+{"executionTime":"0ms","level":"error","message":"Username or Password not provided","timestamp":"2024-09-03T06:46:11.768Z"}
+{"executionTime":"17ms","level":"error","message":"Invalid username or password","timestamp":"2024-09-03T06:46:38.514Z"}
+{"executionTime":"71ms","level":"error","message":"Email or phone not verified","timestamp":"2024-09-03T06:47:01.978Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-09-03T06:48:21.852Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:37:26.038Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:37:26.040Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:37:26.041Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:37:26.043Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:37:39.371Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:37:39.374Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:37:39.376Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:37:39.380Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:47:44.944Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:47:44.970Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:47:44.981Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:47:44.984Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:47:59.536Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:47:59.552Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:47:59.553Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T08:47:59.554Z"}
+{"level":"error","message":"Error fetching departments: Unknown column 'Reserve1' in 'field list'","timestamp":"2024-09-03T08:49:40.835Z"}
+{"level":"error","message":"Error fetching designations: Unknown column 'Reserve1' in 'field list'","timestamp":"2024-09-03T08:50:38.122Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T09:03:14.849Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T09:03:14.865Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T09:03:14.949Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T09:03:15.040Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T09:03:15.157Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T09:03:15.241Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T09:03:15.349Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T09:03:15.449Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T09:03:15.540Z"}
+{"error":"Validation error","level":"error","message":"Error creating test users","timestamp":"2024-09-03T09:03:15.657Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:09:15.510Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:09:15.570Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:09:15.594Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:09:15.619Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:09:15.645Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:09:15.758Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:09:15.785Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:09:15.810Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:09:15.835Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:09:15.860Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:11:29.449Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:11:54.398Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:11:56.214Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:11:56.693Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:11:57.650Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:12:38.872Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:07.202Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:07.239Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:07.268Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:07.315Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:07.353Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:07.384Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:07.415Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:07.461Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:07.493Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:20.090Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:20.131Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:20.168Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:20.198Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:20.242Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:20.267Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:20.292Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:20.317Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:20.347Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:14:20.385Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:15:40.724Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:44:22.358Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:44:29.491Z"}
+{"level":"error","message":"Error creating test user:","timestamp":"2024-09-03T10:44:48.821Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-09-04T04:32:16.347Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-09-04T04:32:21.439Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-09-04T04:32:58.204Z"}
+{"error":"Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`tblhospital`, CONSTRAINT `tblhospital_ibfk_1` FOREIGN KEY (`HospitalGroupIDR`) REFERENCES `tblhospitalgroup` (`HospitalGroupID`))","level":"error","message":"Error creating hospital","timestamp":"2024-09-04T04:32:58.368Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-09-04T04:34:40.997Z"}
+{"error":"Cannot add or update a child row: a foreign key constraint fails (`hospital_master`.`tblhospital`, CONSTRAINT `tblhospital_ibfk_1` FOREIGN KEY (`HospitalGroupIDR`) REFERENCES `tblhospitalgroup` (`HospitalGroupID`))","level":"error","message":"Error creating hospital","timestamp":"2024-09-04T04:34:41.164Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-09-04T04:35:06.090Z"}
+{"executionTime":"76ms","level":"error","message":"Email or phone not verified","timestamp":"2024-09-05T05:00:26.084Z"}
+{"executionTime":"0ms","level":"error","message":"No email found in access token","timestamp":"2024-09-05T05:03:24.094Z"}
+{"executionTime":"1ms","level":"error","message":"No email found in access token","timestamp":"2024-09-05T05:31:00.191Z"}
+{"executionTime":"2ms","level":"error","message":"No email found in access token","timestamp":"2024-09-05T05:31:40.889Z"}
+{"error":"decodedToken is not defined","executionTime":"79ms","level":"error","message":"Error logging in","timestamp":"2024-09-05T05:37:46.074Z"}
+{"error":"expiresIn is not defined","executionTime":"80ms","level":"error","message":"Error logging in","timestamp":"2024-09-05T05:37:59.850Z"}
+{"error":"expiresIn is not defined","executionTime":"80ms","level":"error","message":"Error logging in","timestamp":"2024-09-05T05:38:26.540Z"}
+{"error":"expiresIn is not defined","executionTime":"71ms","level":"error","message":"Error logging in","timestamp":"2024-09-05T05:38:30.132Z"}
+{"error":"expiresInMinutes is not defined","executionTime":"77ms","level":"error","message":"Error logging in","timestamp":"2024-09-05T05:38:43.561Z"}
+{"error":"payload is not defined","executionTime":"78ms","level":"error","message":"Error logging in","timestamp":"2024-09-05T05:44:35.438Z"}
+{"executionTime":"1ms","level":"error","message":"No email found in access token","timestamp":"2024-09-05T05:46:55.953Z"}
+{"executionTime":"2ms","level":"error","message":"No email found in access token","timestamp":"2024-09-05T05:56:00.730Z"}
+{"executionTime":"1ms","level":"error","message":"No email found in access token","timestamp":"2024-09-05T05:57:28.340Z"}
+{"executionTime":"1ms","level":"error","message":"No email found in access token","timestamp":"2024-09-05T06:03:41.124Z"}
+{"executionTime":"0ms","level":"error","message":"No token provided","timestamp":"2024-09-05T06:04:17.496Z"}
+{"executionTime":"0ms","level":"error","message":"No token provided","timestamp":"2024-09-05T06:04:32.492Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-09-05T06:04:40.459Z"}
+{"executionTime":"2ms","level":"error","message":"No email found in access token","timestamp":"2024-09-05T06:04:54.689Z"}
+{"executionTime":"0ms","level":"error","message":"No token provided","timestamp":"2024-09-05T06:05:17.351Z"}
+{"executionTime":"0ms","level":"error","message":"No token provided","timestamp":"2024-09-05T06:05:27.541Z"}
+{"executionTime":"0ms","level":"error","message":"No token provided","timestamp":"2024-09-05T06:05:41.177Z"}
+{"executionTime":"0ms","level":"error","message":"No AccessToken provided","timestamp":"2024-09-05T06:06:02.333Z"}
+{"executionTime":"1ms","level":"error","message":"No AccessToken provided","timestamp":"2024-09-05T06:07:01.507Z"}
+{"executionTime":"1ms","level":"error","message":"No email found in access token","timestamp":"2024-09-05T06:07:46.305Z"}
+{"executionTime":"1ms","level":"error","message":"No email found in access token","timestamp":"2024-09-05T06:12:05.184Z"}
+{"error":"crypto.randomInt is not a function","executionTime":"2ms","level":"error","message":"Error sending OTP","timestamp":"2024-09-05T06:13:07.557Z"}
+{"error":"crypto.randomBytes is not a function","executionTime":"1ms","level":"error","message":"Error sending OTP","timestamp":"2024-09-05T06:14:22.472Z"}
+{"error":"invalid token","executionTime":"2ms","level":"error","message":"Invalid or expired token","timestamp":"2024-09-05T06:17:14.506Z"}
+{"error":"jwt must be provided","executionTime":"0ms","level":"error","message":"Error sending OTP","timestamp":"2024-09-05T06:18:26.814Z"}
+{"address":"142.251.12.109","code":"ESOCKET","command":"CONN","errno":-4092,"level":"error","message":"Error sending email: connect EACCES 142.251.12.109:465","port":465,"stack":"Error: connect EACCES 142.251.12.109:465\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1595:16)","syscall":"connect","timestamp":"2024-09-05T06:36:57.287Z"}
+{"executionTime":"116ms","level":"error","message":"Error sending OTP","timestamp":"2024-09-05T06:36:57.288Z"}
+{"executionTime":"2ms","level":"error","message":"Invalid OTP","timestamp":"2024-09-05T06:42:06.544Z"}
+{"executionTime":"1ms","level":"error","message":"OTP not found or expired","timestamp":"2024-09-05T06:42:13.258Z"}
+{"error":"storedOtp is not defined","executionTime":"0ms","level":"error","message":"Error verifying OTP","timestamp":"2024-09-05T06:44:04.758Z"}
+{"error":"userId is not defined","executionTime":"0ms","level":"error","message":"Error verifying OTP","timestamp":"2024-09-05T06:44:21.934Z"}
+{"error":"redisClient.getAsync is not a function","executionTime":"1ms","level":"error","message":"Error verifying OTP","timestamp":"2024-09-05T06:46:18.430Z"}
+{"error":"redisClient.getAsync is not a function","executionTime":"2ms","level":"error","message":"Error verifying OTP","timestamp":"2024-09-05T06:46:57.232Z"}
+{"error":"redisClient.getAsync is not a function","executionTime":"1ms","level":"error","message":"Error verifying OTP","timestamp":"2024-09-05T06:50:07.337Z"}
+{"error":"invalid token","executionTime":"0ms","level":"error","message":"Error verifying OTP","timestamp":"2024-09-05T06:52:11.158Z"}
+{"error":"invalid token","executionTime":"0ms","level":"error","message":"Error verifying OTP","timestamp":"2024-09-05T06:52:42.412Z"}
+{"error":"invalid token","executionTime":"0ms","level":"error","message":"Error verifying OTP","timestamp":"2024-09-05T06:52:48.054Z"}
+{"error":"invalid token","executionTime":"0ms","level":"error","message":"Error verifying OTP","timestamp":"2024-09-05T06:53:24.170Z"}
+{"error":"invalid token","executionTime":"0ms","level":"error","message":"Error verifying OTP","timestamp":"2024-09-05T06:53:29.712Z"}
+{"executionTime":"0ms","level":"error","message":"No access token provided","timestamp":"2024-09-05T06:53:33.820Z"}
+{"error":"invalid token","executionTime":"0ms","level":"error","message":"Error verifying OTP","timestamp":"2024-09-05T06:53:43.260Z"}
+{"error":"invalid token","executionTime":"0ms","level":"error","message":"Error verifying OTP","timestamp":"2024-09-05T06:53:57.608Z"}
+{"executionTime":"3ms","level":"error","message":"OTP expired or not found","timestamp":"2024-09-05T07:00:56.521Z"}
+{"executionTime":"3ms","level":"error","message":"Invalid OTP","timestamp":"2024-09-05T07:12:01.762Z"}
+{"executionTime":"3ms","level":"error","message":"Invalid OTP","timestamp":"2024-09-05T07:16:42.061Z"}
