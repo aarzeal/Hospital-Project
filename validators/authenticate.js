@@ -63,11 +63,14 @@ const authenticate = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.hospitalName = decoded.hospitalName;
     req.hospitalId = decoded.hospitalId;
+    req.hospitalGroupId = decoded.hospitalGroupIDR
     req.hospitalDatabase = decoded.hospitalDatabase;
     req.MFAEnabled= decoded.MFAEnabled,
 
     console.log("req.MFAEnabled......",req.MFAEnabled)
     console.log("req.hospitalDatabase......",req.hospitalDatabase)
+    console.log("req.hospitalGroupId......",req.hospitalGroupId)
+
     next();
   } catch (error) {
     return res.status(401).json({

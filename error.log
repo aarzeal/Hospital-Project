@@ -870,3 +870,4 @@
 {"executionTime":"3ms","level":"error","message":"OTP expired or not found","timestamp":"2024-09-05T07:00:56.521Z"}
 {"executionTime":"3ms","level":"error","message":"Invalid OTP","timestamp":"2024-09-05T07:12:01.762Z"}
 {"executionTime":"3ms","level":"error","message":"Invalid OTP","timestamp":"2024-09-05T07:16:42.061Z"}
+{"error":"Unknown column 'Patient_masternew.HospitalGroupID' in 'where clause'","executionTime":"7ms","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-09-06T09:01:04.460Z"}

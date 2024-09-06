@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/connection');
 const tblHospital = require('./HospitalModel'); // Import the HospitalGroup model
+const tblHospitalGroup = require('./HospitalGroup');
 const path = require('path');
 const fs = require('fs');
 
@@ -34,8 +35,8 @@ const PatientMaster = sequelize.define('Patient_masternew', {
     type: DataTypes.INTEGER,
     allowNull: true,
     references: {
-      model: tblHospital,
-      key: 'HospitalGroupIDR'
+      model: tblHospitalGroup,
+      key: 'HospitalGroupID'
     }
   },
   HospitalID: {

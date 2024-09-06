@@ -516,12 +516,14 @@ const parsedNationality = parseInt(Nationality, 10);
         savedImagePath = saveBase64Image(img, EMRNumber); // Save the image using EMRNumber as the filename
       }
 
+
+      console.log("req.hospitalGroupIDR :",req.hospitalGroupId)
       // Create new patient record
       const newPatient = await PatientMaster.create({
         PatientMiddleName,
         EMRNumber,
         HospitalID: req.hospitalId,
-        HospitalGroupIDR: req.hospitalGroupIDR,
+        HospitalGroupIDR: req.hospitalGroupId,
         PatientFirstName,
         PatientLastName,
         Age,
@@ -592,7 +594,160 @@ const parsedNationality = parseInt(Nationality, 10);
 
 
 
+exports.updatePatient = [
+  // Validation middleware (ensure this is used before multer middleware)
+  // Example: body('name').optional().notEmpty().withMessage('Name is required'),
+  
+  // File upload middleware (optional, only if updating image)
+  upload.single('img'),
+  
+  async (req, res) => {
+    console.log('Request Body:', req.body);
+    console.log('Uploaded File:', req.file);
+    
+    const start = Date.now();
+    
+    // Check validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const end = Date.now();
+      logger.info('Validation errors occurred', { errors: errors.array(), executionTime: `${end - start}ms` });
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 912,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Validation errors occurred',
+          details: errors.array().map(err => ({
+            field: err.param,
+            message: err.msg
+          }))
+        }
+      });
+    }
 
+    const {
+      PatientMiddleName,
+      PatientFirstName,
+      PatientLastName,
+      Age,
+      DOB,
+      BloodGroup,
+      Gender,
+      Phone,
+      WhatsappNumber,
+      Email,
+      AcceptedPolicy,
+      IsCommunicationAllowed,
+      PatientAddress,
+      EmergencyContactName,
+      EmergencyContactPhone,
+      InsuranceProvider,
+      InsurancePolicyNumber,
+      MedicalHistory,
+      CurrentMedications,
+      Allergies,
+      MaritalStatus,
+      Occupation,
+      Nationality,
+      Language,
+      country,
+      city,
+      state,
+      img
+    } = req.body;
+
+    const parsedBloodGroup = BloodGroup ? parseInt(BloodGroup, 10) : null;
+    const parsedGender = Gender ? parseInt(Gender, 10) : null;
+    const parsedMaritalStatus = MaritalStatus ? parseInt(MaritalStatus, 10) : null;
+    const parsedNationality = Nationality ? parseInt(Nationality, 10) : null;
+
+    try {
+      // Find the patient to update by ID or other unique identifier
+      const { patientId } = req.params; // Assume the patient ID is passed as a URL parameter
+      const patient = await PatientMaster.findByPk(patientId);
+      
+      if (!patient) {
+        const end = Date.now();
+        logger.info('Patient not found', { executionTime: `${end - start}ms` });
+        return res.status(404).json({
+          meta: {
+            statusCode: 404,
+            errorCode: 1004,
+            executionTime: `${end - start}ms`
+          },
+          error: {
+            message: 'Patient not found'
+          }
+        });
+      }
+
+      // Handle image update if provided
+      let savedImagePath = patient.img; // Use the existing image if not updated
+      if (img) {
+        savedImagePath = saveBase64Image(img, patient.EMRNumber); // Update the image using EMRNumber as the filename
+      }
+
+      // Update the patient's details
+      await patient.update({
+        PatientMiddleName: PatientMiddleName || patient.PatientMiddleName,
+        PatientFirstName: PatientFirstName || patient.PatientFirstName,
+        PatientLastName: PatientLastName || patient.PatientLastName,
+        Age: Age || patient.Age,
+        DOB: DOB || patient.DOB,
+        BloodGroup: parsedBloodGroup || patient.BloodGroup,
+        Gender: parsedGender || patient.Gender,
+        Phone: Phone || patient.Phone,
+        WhatsappNumber: WhatsappNumber || patient.WhatsappNumber,
+        Email: Email || patient.Email,
+        AcceptedPolicy: AcceptedPolicy !== undefined ? AcceptedPolicy : patient.AcceptedPolicy,
+        IsCommunicationAllowed: IsCommunicationAllowed !== undefined ? IsCommunicationAllowed : patient.IsCommunicationAllowed,
+        PatientAddress: PatientAddress || patient.PatientAddress,
+        EmergencyContactName: EmergencyContactName || patient.EmergencyContactName,
+        EmergencyContactPhone: EmergencyContactPhone || patient.EmergencyContactPhone,
+        InsuranceProvider: InsuranceProvider || patient.InsuranceProvider,
+        InsurancePolicyNumber: InsurancePolicyNumber || patient.InsurancePolicyNumber,
+        MedicalHistory: MedicalHistory || patient.MedicalHistory,
+        CurrentMedications: CurrentMedications || patient.CurrentMedications,
+        Allergies: Allergies || patient.Allergies,
+        MaritalStatus: parsedMaritalStatus || patient.MaritalStatus,
+        Occupation: Occupation || patient.Occupation,
+        Nationality: parsedNationality || patient.Nationality,
+        Language: Language || patient.Language,
+        country: country || patient.country,
+        city: city || patient.city,
+        state: state || patient.state,
+        img: savedImagePath
+      });
+
+      const end = Date.now();
+      logger.info(`Updated patient with ID ${patient.PatientID} in ${end - start}ms`);
+      res.status(200).json({
+        meta: {
+          statusCode: 200,
+          executionTime: `${end - start}ms`
+        },
+        data: patient
+      });
+    } catch (error) {
+      const end = Date.now();
+      logger.error('Error updating patient', { error: error.message, executionTime: `${end - start}ms` });
+      res.status(500).json({
+        meta: {
+          statusCode: 500,
+          errorCode: 974,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Error updating patient: ' + error.message
+        }
+      });
+    }
+  }
+];
+ 
 
 
 
@@ -822,52 +977,52 @@ const parsedNationality = parseInt(Nationality, 10);
 
 
 
-exports.updatePatient = async (req, res) => {
-  const start = Date.now(); 
-  const { id } = req.params;
-  const updates = req.body;
+// exports.updatePatient = async (req, res) => {
+//   const start = Date.now(); 
+//   const { id } = req.params;
+//   const updates = req.body;
 
-  try {
-    const patient = await PatientMaster.findByPk(id);
-    if (!patient) {
-      const end = Date.now(); // Capture end time
-      logger.warn(`Patient with ID ${id} not found`, { executionTime: `${end - start}ms` });
+//   try {
+//     const patient = await PatientMaster.findByPk(id);
+//     if (!patient) {
+//       const end = Date.now(); // Capture end time
+//       logger.warn(`Patient with ID ${id} not found`, { executionTime: `${end - start}ms` });
 
-      logger.warn(`Patient with ID ${id} not found`);
-      return res.status(404).json({
-        meta: {
-          statusCode: 404,
-          errorCode: 975
-        },
-        error: {
-          message: 'Patient not found'
-        }
-      });
-    }
+//       logger.warn(`Patient with ID ${id} not found`);
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: 404,
+//           errorCode: 975
+//         },
+//         error: {
+//           message: 'Patient not found'
+//         }
+//       });
+//     }
 
-    await PatientMaster.update(updates, { where: { PatientID: id } });
-    const updatedPatient = await PatientMaster.findByPk(id);
-    const end = Date.now(); 
-    logger.info(`Updated patient with ID ${id} successfully`);
-    res.status(200).json({
-      meta: {
-        statusCode: 200
-      },
-      data: updatedPatient
-    });
-  } catch (error) {
-    logger.error('Error updating patient', { error: error.message });
-    res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode: 976
-      },
-      error: {
-        message: 'Error updating patient: ' + error.message
-      }
-    });
-  }
-};                     
+//     await PatientMaster.update(updates, { where: { PatientID: id } });
+//     const updatedPatient = await PatientMaster.findByPk(id);
+//     const end = Date.now(); 
+//     logger.info(`Updated patient with ID ${id} successfully`);
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200
+//       },
+//       data: updatedPatient
+//     });
+//   } catch (error) {
+//     logger.error('Error updating patient', { error: error.message });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 976
+//       },
+//       error: {
+//         message: 'Error updating patient: ' + error.message
+//       }
+//     });
+//   }
+// };                     
 
 // Delete a patient
 exports.deletePatient = async (req, res) => {
@@ -933,7 +1088,7 @@ exports.getPatientsByHospitalGroupID = async (req, res) => {
 
     // Find patients by HospitalGroupID with pagination
     const patients = await PatientMaster.findAll({
-      where: { HospitalGroupID: id },
+      where: { HospitalGroupIDR: id },
       limit: pageSize,
       offset: offset
     });

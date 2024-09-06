@@ -12,7 +12,7 @@ exports.getCountries = async (req, res) => {
       res.status(200).json({ success: true, data: countries });
     } catch (error) {
       console.error('Error fetching countries:', error.message);
-      res.status(500).json({ success: false, message: 'Error fetching countries', error: error.message });
+      res.status(500).json({ success: false, errorCode: 1089, message: 'Error fetching countries', error: error.message });
     }
   };
   
@@ -60,7 +60,7 @@ exports.getCountries = async (req, res) => {
       res.status(200).json({ success: true, data: Object.values(result) });
     } catch (error) {
       console.error('Error fetching states and cities:', error.message);
-      res.status(500).json({ success: false, message: 'Error fetching states and cities', error: error.message });
+      res.status(500).json({ success: false, errorCode: 1090, message: 'Error fetching states and cities', error: error.message });
     }
   };
 
@@ -79,7 +79,7 @@ exports.getStatesOrCities = async (req, res) => {
         if (cities.length > 0) {
           res.status(200).json({ success: true, data: cities });
         } else {
-          res.status(404).json({ success: false, message: 'No cities found for this state' });
+          res.status(404).json({ success: false, errorCode: 1091, message: 'No cities found for this state' });
         }
       } else {
         // If no stateId is provided, fetch all states
@@ -89,7 +89,7 @@ exports.getStatesOrCities = async (req, res) => {
         res.status(200).json({ success: true, data: states });
       }
     } catch (error) {
-      res.status(500).json({ success: false, message: 'Error fetching data', error });
+      res.status(500).json({ success: false, errorCode: 1092, message: 'Error fetching data', error: error.message });
     }
   };
 
@@ -101,7 +101,7 @@ exports.getAllCities = async (req, res) => {
       });
       res.status(200).json({ success: true, data: cities });
     } catch (error) {
-      res.status(500).json({ success: false, message: 'Error fetching cities', error });
+      res.status(500).json({ success: false, errorCode: 1093, message: 'Error fetching cities', error: error.message });
     }
   };
   
@@ -126,9 +126,9 @@ exports.getAllCities = async (req, res) => {
       if (cityDetails.length > 0) {
         res.status(200).json({ success: true, data: cityDetails[0] });
       } else {
-        res.status(404).json({ success: false, message: 'City not found' });
+        res.status(404).json({ success: false, errorCode: 1094, message: 'City not found' });
       }
     } catch (error) {
-      res.status(500).json({ success: false, message: 'Error fetching city details', error });
+      res.status(500).json({ success: false, errorCode: 1095, message: 'Error fetching city details', error: error.message });
     }
   };
