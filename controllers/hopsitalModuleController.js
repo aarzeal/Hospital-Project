@@ -103,6 +103,60 @@ exports.creatmodules = async (req, res) => {
       });
     }
   };
+  exports.getAllModules = async (req, res) => {
+    const start = Date.now();
+    
+    try {
+      const UserModules = require('../models/HospitalModules')(req.sequelize);
+  
+      // Fetch all modules
+      const allModules = await UserModules.findAll();
+  
+      // If no modules found
+      if (!allModules || allModules.length === 0) {
+        const end = Date.now();
+        logger.warn(`No modules found, executionTime: ${end - start}ms`);
+        return res.status(404).json({
+          meta: {
+            statusCode: 404,
+            errorCode: 941,
+            executionTime: `${end - start}ms`
+          },
+          error: {
+            message: 'No modules found'
+          }
+        });
+      }
+  
+      const end = Date.now();
+      logger.info(`Modules retrieved successfully, executionTime: ${end - start}ms`);
+      
+      // Return all modules
+      res.status(200).json({
+        meta: {
+          statusCode: 200,
+          executionTime: `${end - start}ms`
+        },
+        data: allModules.map(module => ({
+          modules_Id: module.modules_Id,
+          modules_name: module.modules_name
+        }))
+      });
+    } catch (error) {
+      const end = Date.now();
+      logger.error('Error retrieving all modules', { error: error.message, executionTime: `${end - start}ms` });
+      res.status(500).json({
+        meta: {
+          statusCode: 500,
+          errorCode: 942,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Error retrieving modules: ' + error.message
+        }
+      });
+    }
+  };
   
   exports.updateModule = async (req, res) => {
     const start = Date.now();

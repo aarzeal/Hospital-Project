@@ -38,6 +38,42 @@
 //   return UserSubModules;
 // };
 
+// const { DataTypes } = require('sequelize');
+
+// module.exports = (sequelize) => {
+//   const UserSubModules = sequelize.define('UserSubModules', {
+//     submodule_id: {
+//       type: DataTypes.INTEGER,
+//       primaryKey: true,
+//       autoIncrement: true
+//     },
+//     submodule_name: {
+//       type: DataTypes.STRING,
+//       allowNull: false
+//     },
+//     modules_Id: {
+//       type: DataTypes.INTEGER,
+//       allowNull: false,
+//       references: {
+//         model: 'userModules',
+//         key: 'modules_Id'
+//       }
+//     },
+//     url: {
+//       type: DataTypes.STRING,
+//     },
+//     hospitalId: {
+//       type: DataTypes.INTEGER,
+//       allowNull: false
+//     }
+//   }, {
+//     tableName: 'usersubmodules',
+//     timestamps: false
+//   });
+
+//   return UserSubModules;
+// };
+
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
@@ -55,19 +91,19 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'userModules',
+        model: 'UserModules',
         key: 'modules_Id'
       }
     },
     url: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     hospitalId: {
       type: DataTypes.INTEGER,
       allowNull: false
     }
   }, {
-    tableName: 'usersubmodules',
+    tableName: 'userSubModules',
     timestamps: false
   });
 

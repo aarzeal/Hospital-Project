@@ -1,3 +1,4 @@
+
 // const { DataTypes } = require('sequelize');
 
 // module.exports = (sequelize) => {
@@ -10,8 +11,7 @@
 //     modules_name: {
 //       type: DataTypes.STRING,
 //       allowNull: false
-//     }
-//     ,
+//     },
 //     hospitalId: {
 //       type: DataTypes.INTEGER,
 //       allowNull: false
@@ -20,10 +20,10 @@
 //     tableName: 'userModules',
 //     timestamps: false
 //   });
-//   UserModules.hasMany(UserSubModules, { as: 'submodules', foreignKey: 'moduleId' });
 
 //   return UserModules;
 // };
+
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
@@ -45,6 +45,14 @@ module.exports = (sequelize) => {
     tableName: 'userModules',
     timestamps: false
   });
+
+  // Associations
+  UserModules.associate = (models) => {
+    UserModules.hasMany(models.UserSubModules, {
+      as: 'submodules',
+      foreignKey: 'modules_Id'
+    });
+  };
 
   return UserModules;
 };

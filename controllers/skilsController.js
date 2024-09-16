@@ -251,8 +251,10 @@ exports.getSkillById = async (req, res) => {
 // POST create a new skill
 exports.createSkill = async (req, res) => {
   const start = Date.now();
-  const { SkillName, IsClinicalSkill, CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
+  const { SkillName, IsClinicalSkill, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
   const HospitalIDR = req.hospitalId; // Get the HospitalIDR from the decoded token
+  const CreatedBy = req.user.userId
+  console.log("CreatedBy*******",CreatedBy)
 
   try {
     const Skill = require('../models/skillMaster')(req.sequelize);

@@ -88,7 +88,7 @@ const DoctorMaster = sequelize.define('DoctorMaster', {
   },
   CreatedBy: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    // allowNull: false
   },
   CreatedAt: {
     type: DataTypes.DATE,

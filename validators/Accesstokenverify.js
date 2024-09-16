@@ -1,3 +1,4 @@
+
 const jwt = require('jsonwebtoken');
 const logger = require('../logger');
 
@@ -46,6 +47,9 @@ const verifyAccessToken = (req, res, next) => {
 
     // Attach the decoded token to the request object
     req.user = decoded;
+    req.userId= decoded
+    console.log("decoded",  req.userId)
+
 
     logger.info('Token verified successfully', { executionTime: `${end - start}ms` });
     

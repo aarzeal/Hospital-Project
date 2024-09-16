@@ -871,3 +871,107 @@
 {"executionTime":"3ms","level":"error","message":"Invalid OTP","timestamp":"2024-09-05T07:12:01.762Z"}
 {"executionTime":"3ms","level":"error","message":"Invalid OTP","timestamp":"2024-09-05T07:16:42.061Z"}
 {"error":"Unknown column 'Patient_masternew.HospitalGroupID' in 'where clause'","executionTime":"7ms","level":"error","message":"Error fetching patients by HospitalGroupID","timestamp":"2024-09-06T09:01:04.460Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-09-09T05:16:00.051Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-09-09T05:20:04.122Z"}
+{"error":"Validation error","level":"error","message":"Error creating hospital","timestamp":"2024-09-09T05:20:04.262Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-09-09T05:21:22.345Z"}
+{"error":"Validation error","level":"error","message":"Error creating hospital","timestamp":"2024-09-09T05:21:22.439Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-09-09T05:22:46.346Z"}
+{"error":"Validation error","level":"error","message":"Error creating hospital","timestamp":"2024-09-09T05:22:46.446Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-09-09T05:25:37.806Z"}
+{"error":"Validation error","level":"error","message":"Error creating hospital","timestamp":"2024-09-09T05:25:37.915Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-09-09T05:25:58.358Z"}
+{"error":"Validation error","level":"error","message":"Error creating hospital","timestamp":"2024-09-09T05:25:58.447Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding token","timestamp":"2024-09-09T05:38:40.142Z"}
+{"executionTime":"0ms","level":"error","message":"Username or Password not provided","timestamp":"2024-09-09T06:24:07.962Z"}
+{"executionTime":"80ms","level":"error","message":"Email or phone not verified","timestamp":"2024-09-09T06:24:17.815Z"}
+{"executionTime":"71ms","level":"error","message":"Email or phone not verified","timestamp":"2024-09-09T06:30:20.203Z"}
+{"executionTime":"2ms","level":"error","message":"OTP expired or not found","timestamp":"2024-09-09T06:34:33.835Z"}
+{"executionTime":"3ms","level":"error","message":"OTP expired or not found","timestamp":"2024-09-09T06:35:07.035Z"}
+{"executionTime":"2ms","level":"error","message":"OTP expired or not found","timestamp":"2024-09-09T06:35:24.012Z"}
+{"executionTime":"4ms","level":"error","message":"OTP expired or not found","timestamp":"2024-09-09T06:36:21.714Z"}
+{"level":"error","message":"Error creating doctor: Validation error","timestamp":"2024-09-10T09:53:02.673Z"}
+{"level":"error","message":"Error creating doctor: Validation error","timestamp":"2024-09-10T09:56:49.024Z"}
+{"level":"error","message":"Error creating doctor: Validation error","timestamp":"2024-09-10T09:57:13.597Z"}
+{"level":"error","message":"Error creating doctor: Validation error","timestamp":"2024-09-10T09:58:55.544Z"}
+{"executionTime":"15ms","level":"error","message":"Invalid username or password","timestamp":"2024-09-10T10:13:45.016Z"}
+{"executionTime":"14ms","level":"error","message":"Invalid username or password","timestamp":"2024-09-10T10:14:09.872Z"}
+{"executionTime":"14ms","level":"error","message":"Invalid username or password","timestamp":"2024-09-10T10:14:24.657Z"}
+{"executionTime":"14ms","level":"error","message":"Invalid username or password","timestamp":"2024-09-10T10:16:02.494Z"}
+{"executionTime":"14ms","level":"error","message":"Invalid username or password","timestamp":"2024-09-10T10:16:07.086Z"}
+{"executionTime":"14ms","level":"error","message":"Invalid username or password","timestamp":"2024-09-10T10:16:33.901Z"}
+{"executionTime":"21ms","level":"error","message":"Invalid username or password","timestamp":"2024-09-10T10:16:58.316Z"}
+{"level":"error","message":"Error creating doctor: Validation error","timestamp":"2024-09-11T06:51:35.574Z"}
+{"level":"error","message":"Error creating doctor: Validation error","timestamp":"2024-09-11T06:54:24.159Z"}
+{"level":"error","message":"Error creating doctor: Validation error","timestamp":"2024-09-11T06:56:26.738Z"}
+{"executionTime":"0ms","level":"error","message":"No access token provided","timestamp":"2024-09-11T07:32:24.006Z"}
+{"error":{"errors":[{"instance":{"Address":"123 Main Street, Cityville","CreatedAt":"2024-09-11T07:36:25.074Z","DateOfBirth":"1980-05-20T00:00:00.000Z","DoctorID":null,"Email":"john.dode@examwddple.com","FirstName":"John","Gender":"Male","HospitalID":74,"IsActive":true,"LastName":"Doe","LicenseNumber":"LIC12r34d5d63","MiddleName":"A","MobileNumber":"1236667892","Qualification":"MBBS, MD","Specialization":"Cardiology","WhatsAppNumber":"1254557892","YearsOfExperience":15},"message":"DoctorMaster.CreatedBy cannot be null","origin":"CORE","path":"CreatedBy","type":"notNull Violation","validatorArgs":[],"validatorKey":"is_null","validatorName":null,"value":null}],"name":"SequelizeValidationError"},"level":"error","message":"Error creating doctor: notNull Violation: DoctorMaster.CreatedBy cannot be null","timestamp":"2024-09-11T07:36:25.075Z"}
+{"error":{"errors":[{"instance":{"Address":"123 Main Street, Cityville","CreatedAt":"2024-09-11T07:38:17.587Z","DateOfBirth":"1980-05-20T00:00:00.000Z","DoctorID":null,"Email":"john.dode@examwddple.com","FirstName":"John","Gender":"Male","HospitalID":74,"IsActive":true,"LastName":"Doe","LicenseNumber":"LIC12r34d5d63","MiddleName":"A","MobileNumber":"1236667892","Qualification":"MBBS, MD","Specialization":"Cardiology","WhatsAppNumber":"1254557892","YearsOfExperience":15},"message":"DoctorMaster.CreatedBy cannot be null","origin":"CORE","path":"CreatedBy","type":"notNull Violation","validatorArgs":[],"validatorKey":"is_null","validatorName":null,"value":null}],"name":"SequelizeValidationError"},"level":"error","message":"Error creating doctor: notNull Violation: DoctorMaster.CreatedBy cannot be null","timestamp":"2024-09-11T07:38:17.588Z"}
+{"error":"connect EHOSTUNREACH 192.168.1.21:3306","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-09-11T08:31:51.332Z"}
+{"error":"connect ETIMEDOUT","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-09-11T08:32:03.868Z"}
+{"error":{},"level":"error","message":"Error creating doctor: jwt is not defined","timestamp":"2024-09-11T08:34:43.164Z"}
+{"error":{},"level":"error","message":"Error creating doctor: jwt is not defined","timestamp":"2024-09-11T08:34:51.917Z"}
+{"error":"jwt malformed","level":"error","message":"Error decoding token","timestamp":"2024-09-11T09:36:06.030Z"}
+{"error":"jwt malformed","level":"error","message":"Error decoding token","timestamp":"2024-09-11T09:36:11.748Z"}
+{"error":"jwt malformed","level":"error","message":"Error decoding token","timestamp":"2024-09-11T09:55:49.630Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-09-11T11:10:24.973Z"}
+{"0":{"instance":{"Address":"123 Main St, Anytown","Age":35,"BloodGroup":"A+","DOB":"1989-05-15","Email":"john.doe@example.com","EmergencyContactName":"Jane Doe","EmergencyContactPhone":"9876543211","FirstName":"John","Gender":"Male","HospitalIDR":54,"Id":null,"IsActive":true,"Language":"English","LastName":"Doe","MaritalStatus":"Married","MobileNumber":"9876543210","Nationality":"US","Qualification":"Doctor"},"message":"StaffMaster.CreatedBy cannot be null","origin":"CORE","path":"CreatedBy","type":"notNull Violation","validatorArgs":[],"validatorKey":"is_null","validatorName":null,"value":null},"level":"error","message":"Validation error creating staff:","timestamp":"2024-09-12T07:01:40.471Z"}
+{"0":{"instance":{"Address":"123 Main St, Anytown","Age":35,"BloodGroup":"A+","DOB":"1989-05-15","Email":"john.doe@example.com","EmergencyContactName":"Jane Doe","EmergencyContactPhone":"9876543211","FirstName":"John","Gender":"Male","HospitalIDR":54,"Id":null,"IsActive":true,"Language":"English","LastName":"Doe","MaritalStatus":"Married","MobileNumber":"9876543210","Nationality":"US","Qualification":"Doctor"},"message":"StaffMaster.CreatedBy cannot be null","origin":"CORE","path":"CreatedBy","type":"notNull Violation","validatorArgs":[],"validatorKey":"is_null","validatorName":null,"value":null},"level":"error","message":"Validation error creating staff:","timestamp":"2024-09-12T07:01:53.382Z"}
+{"0":{"instance":{"Address":"123 Main St, Anytown","Age":35,"BloodGroup":"A+","DOB":"1989-05-15","Email":"john.doe@example.com","EmergencyContactName":"Jane Doe","EmergencyContactPhone":"9876543211","FirstName":"John","Gender":"Male","HospitalIDR":54,"Id":null,"IsActive":true,"Language":"English","LastName":"Doe","MaritalStatus":"Married","MobileNumber":"9876543210","Nationality":"US","Qualification":"Doctor"},"message":"StaffMaster.CreatedBy cannot be null","origin":"CORE","path":"CreatedBy","type":"notNull Violation","validatorArgs":[],"validatorKey":"is_null","validatorName":null,"value":null},"level":"error","message":"Validation error creating staff:","timestamp":"2024-09-12T07:01:59.757Z"}
+{"level":"error","message":"Error creating skill: notNull Violation: tblspecialty.CreatedBy cannot be null in 20ms","timestamp":"2024-09-13T05:30:01.927Z"}
+{"level":"error","message":"Error creating skill: notNull Violation: tblspecialty.CreatedBy cannot be null in 16ms","timestamp":"2024-09-13T05:30:10.978Z"}
+{"level":"error","message":"Error creating skill: notNull Violation: tblspecialty.CreatedBy cannot be null in 15ms","timestamp":"2024-09-13T05:30:57.051Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T09:45:17.924Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T09:46:56.369Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding Authorization token","timestamp":"2024-09-13T09:49:36.904Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T09:49:36.905Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding Authorization token","timestamp":"2024-09-13T09:50:41.832Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T09:50:41.833Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding Authorization token","timestamp":"2024-09-13T09:51:03.847Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T09:51:03.848Z"}
+{"error":"jwt expired","level":"error","message":"Error decoding Authorization token","timestamp":"2024-09-13T09:51:39.703Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T09:52:30.816Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T10:07:20.227Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T10:09:13.268Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T10:10:43.126Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T10:15:35.099Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T10:30:37.445Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T10:32:14.546Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-09-13T10:32:14.620Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T10:32:30.188Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T10:33:02.383Z"}
+{"executionTime":"0ms","level":"error","message":"Database connection not established","timestamp":"2024-09-13T10:33:02.438Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T10:33:07.188Z"}
+{"error":"invalid token","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T10:33:13.767Z"}
+{"error":"connect EHOSTUNREACH 192.168.1.21:3306","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-09-13T11:24:50.019Z"}
+{"error":"connect EHOSTUNREACH 192.168.1.21:3306","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-09-13T11:24:52.404Z"}
+{"error":"connect EHOSTUNREACH 192.168.1.21:3306","level":"error","message":"Error creating CountAPI entry","timestamp":"2024-09-13T11:24:59.390Z"}
+{"error":"secret or public key must be provided","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T11:51:25.053Z"}
+{"error":"secret or public key must be provided","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T11:51:42.403Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T12:05:41.049Z"}
+{"error":"invalid signature","level":"error","message":"Error decoding AccessToken","timestamp":"2024-09-13T12:06:46.229Z"}
+{"error":"invalid signature","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-13T12:09:17.631Z"}
+{"error":"invalid signature","executionTime":"2ms","level":"error","message":"Invalid or expired token","timestamp":"2024-09-13T12:09:17.695Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-13T12:09:49.162Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-14T05:31:07.256Z"}
+{"error":"jwt expired","executionTime":"2ms","level":"error","message":"Invalid or expired token","timestamp":"2024-09-14T05:31:07.379Z"}
+{"error":"axios is not defined","level":"error","message":"Error fetching location data","timestamp":"2024-09-14T06:17:15.057Z"}
+{"error":"axios is not defined","level":"error","message":"Error fetching public IP","timestamp":"2024-09-14T06:35:39.614Z"}
+{"error":"axios is not defined","level":"error","message":"Error fetching location data","timestamp":"2024-09-14T06:35:39.615Z"}
+{"error":"axios is not defined","level":"error","message":"Error fetching public IP","timestamp":"2024-09-14T06:36:49.532Z"}
+{"error":"axios is not defined","level":"error","message":"Error fetching location data","timestamp":"2024-09-14T06:36:49.533Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-14T12:29:04.193Z"}
+{"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-14T12:29:04.194Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-14T12:29:35.123Z"}
+{"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-14T12:29:35.125Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-14T12:29:47.968Z"}
+{"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-14T12:30:54.034Z"}
+{"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-14T12:32:31.885Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-16T04:59:36.934Z"}
+{"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-16T04:59:36.934Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-16T04:59:44.568Z"}
+{"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-16T04:59:44.569Z"}
+{"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-16T06:49:33.136Z"}
+{"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-16T06:49:55.623Z"}
+{"executionTime":"1ms","level":"error","message":"No AccessToken provided","timestamp":"2024-09-16T06:51:58.985Z"}
+{"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-16T06:52:28.461Z"}

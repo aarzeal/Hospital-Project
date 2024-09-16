@@ -110,7 +110,7 @@ module.exports = (sequelize) => {
     },
     CreatedBy: {
       type: DataTypes.STRING(100),
-      allowNull: false
+     
     },
     CreatedAt: {
       type: DataTypes.DATE,

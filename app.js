@@ -11,7 +11,7 @@ const sequelize = require('./database/connection');
 const userRoutes = require('./routes/userRoutes');
 const patientRoutes = require('./routes/patientRoutes');
 const moduleRoutes = require('./routes/hospitalModulesRoutes');
-const hospitalUserRidesRoutes = require('./routes/hospitalUserRides');
+const hospitalUserRidesRoutes = require('./routes/hospitalUserRights');
 const submoduleRoutes = require('./routes/submoduleRoutes');
 const staffRoutes = require('./routes/staffMasterRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
@@ -25,6 +25,7 @@ const job = require('./Middleware/sendEmailAuto');
 const sendEmail = require('./Middleware/sendEmailEventbase');
 const locationRoutes = require('./routes/CountryStateCityroute');
 const translationsRoutes = require('./routes/translationsRoutes');
+const apisRatesRoutes = require('./routes/apisRatesRoutes');
 const multer = require('multer');
 const cors = require('cors');
 // Middleware for parsing JSON bodies
@@ -80,6 +81,7 @@ app.use('/api/v1/hospital', departmentRoutes);
 app.use('/api/v1/', empCategoryRoutes);
 app.use('/api/v1/employee', employeeRoutes);
 app.use('/api/v1', hospitalGroupRoutes);
+app.use('/api/v1', apisRatesRoutes); 
 
 
 app.use('/api/v1/location', locationRoutes);

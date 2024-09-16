@@ -415,9 +415,9 @@ exports.createDoctorValidationRules = () => {
     body('MobileNumber')
       .notEmpty().withMessage('Mobile Number is required')
       .matches(/^[0-9]{10}$/).withMessage('Mobile Number must be a valid 10-digit number'),
-    body('HospitalID')
-      .notEmpty().withMessage('Hospital ID is required')
-      .isInt().withMessage('Hospital ID must be an integer'),
+    // body('HospitalID')
+    //   .notEmpty().withMessage('Hospital ID is required')
+    //   .isInt().withMessage('Hospital ID must be an integer'),
     body('DateOfBirth')
       .optional()
       .isDate().withMessage('Date of Birth must be a valid date'),
@@ -640,9 +640,9 @@ exports.createDoctorValidationRules = () => {
     body('MobileNumber')
       .notEmpty().withMessage('Mobile Number is required')
       .matches(/^[0-9]{10}$/).withMessage('Mobile Number must be a valid 10-digit number'),
-    body('HospitalID')
-      .notEmpty().withMessage('Hospital ID is required')
-      .isInt().withMessage('Hospital ID must be an integer'),
+    // body('HospitalID')
+    //   .notEmpty().withMessage('Hospital ID is required')
+    //   .isInt().withMessage('Hospital ID must be an integer'),
     body('DateOfBirth')
       .notEmpty().withMessage('Date of Birth is required')
       .isISO8601().withMessage('Date of Birth must be a valid date'),
@@ -654,15 +654,15 @@ exports.createDoctorValidationRules = () => {
     body('YearsOfExperience')
       .notEmpty().withMessage('Years of Experience is required')
       .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
-    body('HospitalGroupIDR')
-      .notEmpty().withMessage('Hospital Group IDR is required')
-      .isInt().withMessage('Hospital Group IDR must be an integer'),
+    // body('HospitalGroupIDR')
+    //   .notEmpty().withMessage('Hospital Group IDR is required')
+    //   .isInt().withMessage('Hospital Group IDR must be an integer'),
     body('IsActive')
       .optional()
       .isBoolean().withMessage('IsActive must be a boolean value'),
-    body('CreatedBy')
-      .notEmpty().withMessage('CreatedBy is required')
-      .isInt().withMessage('CreatedBy must be an integer')
+    // body('CreatedBy')
+    //   .notEmpty().withMessage('CreatedBy is required')
+    //   .isInt().withMessage('CreatedBy must be an integer')
   ];
 };
 
@@ -720,9 +720,9 @@ exports.updateDoctorValidationRules = () => {
     body('IsActive')
       .optional()
       .isBoolean().withMessage('IsActive must be a boolean value'),
-    body('CreatedBy')
-      .optional()
-      .isInt().withMessage('CreatedBy must be an integer')
+    // body('CreatedBy')
+    //   .optional()
+    //   .isInt().withMessage('CreatedBy must be an integer')
   ];
 };
 
