@@ -278,7 +278,9 @@ exports.createSubmodules = async (req, res) => {
 
 exports.getSubModule = async (req, res) => {
   const start = Date.now();
+
   const { submodule_id } = req.body;
+
   console.log(submodule_id)
 
   try {
@@ -329,62 +331,126 @@ exports.getSubModule = async (req, res) => {
       });
   }
 };
+exports.getAllSubModules = async (req, res) => {
+    const start = Date.now();
+  
+    try {
+        const UserSubModules = require('../models/hospitalsubmodule')(req.sequelize);
+        
+        // Retrieve all submodules
+        const userSubModules = await UserSubModules.findAll();
+  
+        if (!userSubModules || userSubModules.length === 0) {
+            const end = Date.now();
+            logger.warn(`No submodules found, executionTime: ${end - start}ms`);
+            return res.status(404).json({
+                meta: {
+                    statusCode: 404,
+                    errorCode: 946,
+                    executionTime: `${end - start}ms`
+                },
+                error: {
+                    message: 'No submodules found'
+                }
+            });
+        }
+  
+        const end = Date.now();
+        logger.info(`All submodules retrieved successfully, executionTime: ${end - start}ms`);
+  
+        res.status(200).json({
+            meta: {
+                statusCode: 200,
+                executionTime: `${end - start}ms`
+            },
+            data: userSubModules.map(submodule => ({
+                submodule_id: submodule.submodule_id,
+                submodule_name: submodule.submodule_name,
+                modules_Id: submodule.modules_Id
+            }))
+        });
+    } catch (error) {
+        const end = Date.now();
+        logger.error('Error retrieving all submodules', { error: error.message, executionTime: `${end - start}ms` });
+        res.status(500).json({
+            meta: {
+                statusCode: 500,
+                errorCode: 947,
+                executionTime: `${end - start}ms`
+            },
+            error: {
+                message: 'Error retrieving all submodules: ' + error.message
+            }
+        });
+    }
+  };
+  
 
-exports.updateSubModule = async (req, res) => {
-  const start = Date.now();
-  const { submodule_id, submodule_name } = req.body;
+  exports.updateSubModule = async (req, res) => {
+    
+    const start = Date.now();
+  
+    const { submodule_name } = req.body;
 
-  try {
+    const submodule_id = req.params.id;
+
+    console.log('Request Params:', req.params);
+console.log('Request Body:', req.body);
+  
+    try {
       const UserSubModules = require('../models/hospitalsubmodule')(req.sequelize);
       const userSubModules = await UserSubModules.findByPk(submodule_id);
-
+  
       if (!userSubModules) {
-          const end = Date.now();
-          logger.warn(`Submodule with ID ${submodule_id} not found, executionTime: ${end - start}ms`);
-          return res.status(404).json({
-              meta: {
-                  statusCode: 404,
-                  errorCode: 946,
-                  executionTime: `${end - start}ms`
-              },
-              error: {
-                  message: 'Submodule not found'
-              }
-          });
+        const end = Date.now();
+        logger.warn(`Submodule with ID ${submodule_id} not found, executionTime: ${end - start}ms`);
+        return res.status(404).json({
+          meta: {
+            statusCode: 404,
+            errorCode: 946,
+            executionTime: `${end - start}ms`,
+          },
+          error: {
+            message: 'Submodule not found',
+          },
+        });
       }
-
-      if (submodule_name) userSubModules.submodule_name = submodule_name;
-
+  
+      if (submodule_name) {
+        userSubModules.submodule_name = submodule_name;
+      }
+  
       await userSubModules.save();
-
+  
       const end = Date.now();
       logger.info(`Submodule with ID ${submodule_id} updated successfully, executionTime: ${end - start}ms`);
       res.status(200).json({
-          meta: {
-              statusCode: 200,
-              executionTime: `${end - start}ms`
-          },
-          data: {
-              submodule_id: userSubModules.submodule_id,
-              submodule_name: userSubModules.submodule_name
-          }
+        meta: {
+          statusCode: 200,
+          executionTime: `${end - start}ms`,
+        },
+        data: {
+          submodule_id: userSubModules.submodule_id,
+          submodule_name: userSubModules.submodule_name,
+        },
       });
-  } catch (error) {
+    } catch (error) {
       const end = Date.now();
-      logger.error('Error updating submodules', { error: error.message, executionTime: `${end - start}ms` });
+      logger.error('Error updating submodule', { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
-          meta: {
-              statusCode: 500,
-              errorCode: 947,
-              executionTime: `${end - start}ms`
-          },
-          error: {
-              message: 'Error updating submodule: ' + error.message
-          }
+        meta: {
+          statusCode: 500,
+          errorCode: 947,
+          executionTime: `${end - start}ms`,
+        },
+        error: {
+          message: 'Error updating submodule: ' + error.message,
+        },
       });
-  }
-};
-
+    }
+  };
+  
+  
 exports.getSubModulesByModuleId = async (req, res) => {
   const start = Date.now();
   const { modules_Id } = req.body;

@@ -975,3 +975,8 @@
 {"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-16T06:49:55.623Z"}
 {"executionTime":"1ms","level":"error","message":"No AccessToken provided","timestamp":"2024-09-16T06:51:58.985Z"}
 {"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-16T06:52:28.461Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-18T05:01:02.101Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-18T05:01:02.102Z"}
+{"error":"jwt expired","executionTime":"3ms","level":"error","message":"Invalid or expired token","timestamp":"2024-09-18T05:01:02.140Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-18T05:54:59.295Z"}
+{"error":"Argument passed to findByPk is invalid: [object Object]","executionTime":"1ms","level":"error","message":"Error updating user","timestamp":"2024-09-18T08:47:55.149Z"}

@@ -160,61 +160,71 @@ exports.creatmodules = async (req, res) => {
   
   exports.updateModule = async (req, res) => {
     const start = Date.now();
-    const { modules_Id } = req.body;
+    const modules_Id = req.params.id; // Correctly extract the module ID from the parameters
     const { modules_name } = req.body;
-  
-    try {
-      const UserModules = require('../models/HospitalModules')(req.sequelize);
-      const userModules = await UserModules.findByPk(modules_Id);
-  
-      if (!userModules) {
-        const end = Date.now();
-        logger.warn(`User with ID ${modules_Id} not found, executionTime: ${end - start}ms`);
-        return res.status(404).json({
-          meta: {
-            statusCode: 404,
-            errorCode: 941,
-            executionTime: `${end - start}ms`
-          },
-          error: {
-            message: 'Module not found'
-          }
-        });
-      }
-  
-      if (modules_name) userModules.modules_name = modules_name;
-      
-  
-      await userModules.save();
-      const end = Date.now();
-      logger.info(`User with ID ${modules_Id} updated successfully, executionTime: ${end - start}ms`);
-      res.status(200).json({
-        meta: {
-          statusCode: 200,
-          executionTime: `${end - start}ms`
-        },
-        data: {
-            modules_Id: userModules.modules_Id,
-            modules_name: userModules.modules_name
-        }
-      });
-    } catch (error) {
-      const end = Date.now();
-      logger.error('Error updating user', { error: error.message , executionTime: `${end - start}ms`});
-      res.status(500).json({
-        meta: {
-          statusCode: 500,
-          errorCode: 942,
-          executionTime: `${end - start}ms`
-        },
-        error: {
-          message: 'Error updating user: ' + error.message
-        }
-      });
-    }
 
-    
-  };
+    console.log('Updating Module ID:', modules_Id);
+    console.log('Request Body:', req.body);
+
+    try {
+        const UserModules = require('../models/HospitalModules')(req.sequelize);
+        console.log('UserModules Model Loaded:', UserModules);
+
+        if (!UserModules) {
+            throw new Error('UserModules model is not initialized correctly');
+        }
+
+        const userModules = await UserModules.findByPk(modules_Id);
+
+        console.log('Found User Modules:', userModules);
+
+        if (!userModules) {
+            const end = Date.now();
+            logger.warn(`Module with ID ${modules_Id} not found, executionTime: ${end - start}ms`);
+            return res.status(404).json({
+                meta: {
+                    statusCode: 404,
+                    errorCode: 941,
+                    executionTime: `${end - start}ms`
+                },
+                error: {
+                    message: 'Module not found'
+                }
+            });
+        }
+
+        if (modules_name) userModules.modules_name = modules_name;
+
+        await userModules.save();
+
+        const end = Date.now();
+        logger.info(`Module with ID ${modules_Id} updated successfully, executionTime: ${end - start}ms`);
+        res.status(200).json({
+            meta: {
+                statusCode: 200,
+                executionTime: `${end - start}ms`
+            },
+            data: {
+                modules_Id: userModules.modules_Id,
+                modules_name: userModules.modules_name
+            }
+        });
+    } catch (error) {
+        const end = Date.now();
+        logger.error('Error updating module', { error: error.message, executionTime: `${end - start}ms` });
+        res.status(500).json({
+            meta: {
+                statusCode: 500,
+                errorCode: 942,
+                executionTime: `${end - start}ms`
+            },
+            error: {
+                message: 'Error updating module: ' + error.message
+            }
+        });
+    }
+};
+
 
 
 
