@@ -25,9 +25,18 @@ const DoctorMaster = sequelize.define('DoctorMaster', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  // Specialization: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false
+  // },
+
   Specialization: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'tblspecialty', // Name of the referenced table
+      key: 'SpecialtyId'     // Primary key in the referenced table
+    },
+    allowNull: true
   },
   Email: {
     type: DataTypes.STRING,

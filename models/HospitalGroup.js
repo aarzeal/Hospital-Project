@@ -10,6 +10,9 @@ const HospitalGroup = sequelize.define('tblHospitalGroup', {
   },
   HospitalGroupName: {
     type: DataTypes.STRING(255),
+
+
+    
     allowNull: false
   },
   LicensedHospitalCount: {

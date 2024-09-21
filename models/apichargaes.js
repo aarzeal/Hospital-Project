@@ -13,7 +13,7 @@ const Charges = sequelize.define('Charges', {
   },
   method: {
     type: DataTypes.STRING,
-    allowNull: false
+
   },
   hospitalId: {
     type: DataTypes.INTEGER,

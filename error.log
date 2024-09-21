@@ -736,7 +736,7 @@
 {"error":"path is not defined","executionTime":"96ms","level":"error","message":"Error resending verification email","timestamp":"2024-08-30T06:31:00.986Z"}
 {"error":"emailHtml is not defined","executionTime":"3376ms","level":"error","message":"Error resending verification email","timestamp":"2024-08-30T06:37:04.747Z"}
 {"error":"jwt expired","level":"error","message":"Error decoding token","timestamp":"2024-08-30T07:16:45.435Z"}
-{"error":"Failed to decrypt the database name","executionTime":"4ms","level":"error","message":"Error verifying email","stack":"Error: Failed to decrypt the database name\n    at exports.verifyEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2407:13)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at param (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:365:14)\n    at param (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:376:14)\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:421:3)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:280:10)","timestamp":"2024-08-30T10:33:53.199Z"}
+{"error":"Failed to decrypt the database name","executionTime":"4ms","level":"error","message":"Error verifying email","stack": "Error: Failed to decrypt the database name\n    at exports.verifyEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2407:13)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at param (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:365:14)\n    at param (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:376:14)\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:421:3)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:280:10)","timestamp":"2024-08-30T10:33:53.199Z"}
 {"error":"hospitalDatabase is not defined","executionTime":"2ms","level":"error","message":"Error verifying email","stack":"ReferenceError: hospitalDatabase is not defined\n    at exports.verifyEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2406:5)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at param (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:365:14)\n    at param (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:376:14)\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:421:3)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:280:10)","timestamp":"2024-08-30T10:40:36.792Z"}
 {"error":"Failed to decrypt the verification token","executionTime":"5ms","level":"error","message":"Error verifying email","stack":"Error: Failed to decrypt the verification token\n    at exports.verifyEmail (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\HospitalController.js:2417:13)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:284:15\n    at param (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:365:14)\n    at param (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:376:14)\n    at Function.process_params (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:421:3)\n    at next (C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\node_modules\\express\\lib\\router\\index.js:280:10)","timestamp":"2024-08-30T10:49:31.686Z"}
 {"error":"hospitalDatabase is not defined","executionTime":"29ms","level":"error","message":"Error resending verification email","timestamp":"2024-08-31T05:07:15.763Z"}
@@ -980,3 +980,661 @@
 {"error":"jwt expired","executionTime":"3ms","level":"error","message":"Invalid or expired token","timestamp":"2024-09-18T05:01:02.140Z"}
 {"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-18T05:54:59.295Z"}
 {"error":"Argument passed to findByPk is invalid: [object Object]","executionTime":"1ms","level":"error","message":"Error updating user","timestamp":"2024-09-18T08:47:55.149Z"}
+{"errorCode":1098,"level":"error","message":"Charges not found for API: /api/v1/skills/80, Hospital: 5","timestamp":"2024-09-19T05:57:06.656Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-19T07:11:08.725Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-19T07:11:18.767Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-19T07:11:55.152Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-19T07:47:55.785Z"}
+{"error":"Unknown column 'Method' in 'field list'","level":"error","message":"Error fetching APIs","timestamp":"2024-09-19T10:19:34.458Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:27:45.677Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:54:43.860Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:55:11.660Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:55:18.592Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:55:37.745Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:55:57.649Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:57:01.434Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:57:16.093Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:57:41.103Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:57:56.925Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:58:10.656Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:58:21.267Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:58:32.044Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T04:59:44.919Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T05:01:05.257Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T05:01:48.317Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T05:03:15.620Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T05:03:24.977Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T05:04:34.250Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T05:04:52.059Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T05:14:33.680Z"}
+{"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-20T05:14:33.680Z"}
+{"error":"jwt must be provided","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-20T05:15:55.308Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T05:49:31.661Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T05:49:41.442Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T06:35:09.123Z"}
+{"level":"error","message":"Error fetching staff for HospitalIDR 54: end is not defined","timestamp":"2024-09-20T06:36:47.149Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T06:39:33.861Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T06:40:03.413Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T06:40:12.833Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T06:41:00.073Z"}
+{"error":"invalid signature","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T06:41:04.889Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T06:43:43.092Z"}
+{"level":"error","message":"Error updating staff with ID 1: end is not defined","timestamp":"2024-09-20T06:49:58.983Z"}
+{"level":"error","message":"Error updating staff with ID 4: Validation error","timestamp":"2024-09-20T06:50:45.419Z"}
+{"level":"error","message":"Error updating staff with ID 4: end is not defined","timestamp":"2024-09-20T06:51:33.103Z"}
+{"level":"error","message":"Error updating staff with ID 4: end is not defined","timestamp":"2024-09-20T06:54:15.913Z"}
+{"level":"error","message":"Error updating staff with ID 4: end is not defined","timestamp":"2024-09-20T06:54:41.557Z"}
+{"level":"error","message":"Error updating staff with ID 4: end is not defined","timestamp":"2024-09-20T06:57:33.436Z"}
+{"level":"error","message":"Error updating staff with ID 4: end is not defined","timestamp":"2024-09-20T06:58:35.567Z"}
+{"level":"error","message":"Error updating staff with ID 4: end is not defined","timestamp":"2024-09-20T06:58:45.587Z"}
+{"level":"error","message":"Error updating staff with ID 4: end is not defined","timestamp":"2024-09-20T06:59:02.558Z"}
+{"level":"error","message":"Error updating staff with ID 4: end is not defined","timestamp":"2024-09-20T06:59:31.007Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T07:13:04.169Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T07:13:09.831Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T10:06:45.698Z"}
+{"level":"error","message":"Error fetching doctors: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-20T10:55:32.251Z"}
+{"level":"error","message":"Error fetching doctors: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-20T10:56:17.102Z"}
+{"level":"error","message":"Error fetching doctor with ID 1: Cannot find module '../models/skill'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\doctorController.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\doctorRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","timestamp":"2024-09-20T10:59:10.045Z"}
+{"level":"error","message":"Error fetching doctor with ID 1: Cannot find module '../models/skill'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\doctorController.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\doctorRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","timestamp":"2024-09-20T10:59:40.016Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T11:00:25.199Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-20T11:00:25.201Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-20T11:00:49.188Z"}
+{"error":"jwt expired","executionTime":"1ms","level":"error","message":"Invalid or expired token","timestamp":"2024-09-20T11:00:49.213Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-20T11:01:08.780Z"}
+{"error":{"name":"SequelizeDatabaseError","original":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 'Cardiology' LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"parameters":{},"parent":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 'Cardiology' LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 'Cardiology' LIMIT 1;"},"level":"error","message":"Error creating doctor: Unknown column 'tblspecialty.id' in 'where clause'","timestamp":"2024-09-20T11:01:35.302Z"}
+{"error":{"name":"SequelizeDatabaseError","original":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"parameters":{},"parent":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;"},"level":"error","message":"Error creating doctor: Unknown column 'tblspecialty.id' in 'where clause'","timestamp":"2024-09-20T11:06:28.215Z"}
+{"error":{"name":"SequelizeDatabaseError","original":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"parameters":{},"parent":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;"},"level":"error","message":"Error creating doctor: Unknown column 'tblspecialty.id' in 'where clause'","timestamp":"2024-09-20T11:06:50.616Z"}
+{"error":{"name":"SequelizeDatabaseError","original":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"parameters":{},"parent":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;"},"level":"error","message":"Error creating doctor: Unknown column 'tblspecialty.id' in 'where clause'","timestamp":"2024-09-20T11:08:19.689Z"}
+{"error":{"name":"SequelizeDatabaseError","original":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"parameters":{},"parent":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;"},"level":"error","message":"Error creating doctor: Unknown column 'tblspecialty.id' in 'where clause'","timestamp":"2024-09-20T11:09:00.983Z"}
+{"error":{"name":"SequelizeDatabaseError","original":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"parameters":{},"parent":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;"},"level":"error","message":"Error creating doctor: Unknown column 'tblspecialty.id' in 'where clause'","timestamp":"2024-09-20T11:09:30.794Z"}
+{"error":{"name":"SequelizeDatabaseError","original":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"parameters":{},"parent":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;","sqlMessage":"Unknown column 'tblspecialty.id' in 'where clause'","sqlState":"42S22"},"sql":"SELECT `SpecialtyId`, `SkillName`, `IsClinicalSkill`, `IsActive`, `CreatedBy`, `CreatedAt`, `EditedBy`, `EditedAt`, `HospitalIDR`, `Reserve1`, `Reserve2`, `Reserve3`, `Reserve4` FROM `tblspecialty` AS `tblspecialty` WHERE `tblspecialty`.`id` = 1 LIMIT 1;"},"level":"error","message":"Error creating doctor: Unknown column 'tblspecialty.id' in 'where clause'","timestamp":"2024-09-20T11:56:06.231Z"}
+{"level":"error","message":"Error fetching doctor with ID 1: Cannot find module '../models/skill'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\doctorController.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\doctorRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","timestamp":"2024-09-21T04:19:18.324Z"}
+{"level":"error","message":"Error fetching doctor with ID 3: Cannot find module '../models/skill'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\doctorController.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\doctorRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","timestamp":"2024-09-21T04:19:29.338Z"}
+{"level":"error","message":"Error fetching doctor with ID 8: Cannot find module '../models/skill'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\doctorController.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\doctorRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","timestamp":"2024-09-21T04:19:33.948Z"}
+{"level":"error","message":"Error fetching doctors: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T04:19:42.881Z"}
+{"level":"error","message":"Error fetching doctor with ID 1: Cannot find module '../models/skill'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\doctorController.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\doctorRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","timestamp":"2024-09-21T04:21:07.243Z"}
+{"level":"error","message":"Error fetching doctor with ID 1: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T04:21:39.230Z"}
+{"level":"error","message":"Error fetching doctor with ID 1: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T04:25:14.441Z"}
+{"level":"error","message":"Error fetching doctor with ID 1: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T04:26:09.597Z"}
+{"level":"error","message":"Error fetching doctor with ID 1: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T04:29:09.256Z"}
+{"level":"error","message":"Error fetching doctor with ID 8: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T04:53:30.633Z"}
+{"level":"error","message":"Error fetching doctor with ID 1: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T04:53:37.255Z"}
+{"level":"error","message":"Error fetching doctors: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T04:53:55.179Z"}
+{"level":"error","message":"Error fetching doctors: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T04:55:42.395Z"}
+{"level":"error","message":"Error fetching staff: Cannot find module '../models/skill'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\staffController.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\staffMasterRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","timestamp":"2024-09-21T05:00:13.458Z"}
+{"level":"error","message":"Error fetching staff: Cannot find module '../models/skill'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\staffController.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\staffMasterRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","timestamp":"2024-09-21T05:00:16.533Z"}
+{"level":"error","message":"Error fetching staff: Cannot find module '../models/skill'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\staffController.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\staffMasterRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","timestamp":"2024-09-21T05:00:22.823Z"}
+{"level":"error","message":"Error fetching staff: Cannot find module '../models/skill'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\staffController.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\staffMasterRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","timestamp":"2024-09-21T05:00:30.780Z"}
+{"level":"error","message":"Error fetching staff: Cannot find module '../models/skill'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\staffController.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\staffMasterRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","timestamp":"2024-09-21T05:01:45.415Z"}
+{"level":"error","message":"Error fetching staff: Cannot find module '../models/skill'\nRequire stack:\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\controllers\\staffController.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\routes\\staffMasterRoutes.js\n- C:\\Users\\#Admin\\Desktop\\Hospital-Project\\Hospital-Project\\app.js","timestamp":"2024-09-21T05:05:22.230Z"}
+{"level":"error","message":"Error fetching staff: tblspecialty is not associated to StaffMaster!","timestamp":"2024-09-21T05:06:00.060Z"}
+{"level":"error","message":"Error fetching staff: tblspecialty is not associated to StaffMaster!","timestamp":"2024-09-21T05:06:03.245Z"}
+{"level":"error","message":"Error fetching staff: tblspecialty is not associated to StaffMaster!","timestamp":"2024-09-21T05:06:27.519Z"}
+{"level":"error","message":"Error fetching staff: tblspecialty is not associated to StaffMaster!","timestamp":"2024-09-21T05:12:17.463Z"}
+{"level":"error","message":"Error creating staff: Table 'sampledb.tblstaffmaster' doesn't exist","timestamp":"2024-09-21T05:23:23.593Z"}
+{"level":"error","message":"Error fetching staff: tblspecialty is not associated to StaffMaster!","timestamp":"2024-09-21T05:38:19.333Z"}
+{"level":"error","message":"Error fetching staff: tblspecialty is not associated to StaffMaster!","timestamp":"2024-09-21T05:38:31.118Z"}
+{"level":"error","message":"Error fetching staff list: tblspecialty is not associated to StaffMaster!","timestamp":"2024-09-21T05:42:56.688Z"}
+{"level":"error","message":"Error fetching staff list: tblspecialty is not associated to StaffMaster!","timestamp":"2024-09-21T05:44:16.782Z"}
+{"level":"error","message":"Error fetching staff list: tblspecialty is not associated to StaffMaster!","timestamp":"2024-09-21T05:46:48.568Z"}
+{"level":"error","message":"Error fetching staff list: tblspecialty is not associated to StaffMaster!","timestamp":"2024-09-21T05:48:12.090Z"}
+{"level":"error","message":"Error fetching doctors: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T05:49:39.980Z"}
+{"level":"error","message":"Error fetching doctors: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T05:52:11.358Z"}
+{"level":"error","message":"Error fetching doctors: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T05:55:17.451Z"}
+{"level":"error","message":"Error fetching doctor with ID 1: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T05:55:33.057Z"}
+{"level":"error","message":"Error fetching doctor with ID 1: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T06:03:45.928Z"}
+{"level":"error","message":"Error fetching doctors: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T06:03:50.431Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T06:05:11.276Z"}
+{"error":"jwt expired","executionTime":"7ms","level":"error","message":"Invalid or expired token","timestamp":"2024-09-21T06:05:11.324Z"}
+{"level":"error","message":"Error fetching doctors: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T06:09:20.243Z"}
+{"level":"error","message":"Error fetching doctor with ID 1: tblspecialty is not associated to DoctorMaster!","timestamp":"2024-09-21T06:09:28.005Z"}
+{"error":{"name":"SequelizeDatabaseError","original":{"code":"ER_NO_SUCH_TABLE","errno":1146,"parameters":["John","A","Doe","MD",1,"john.doe@exadmple.com","123 Main St, Cityville","1234567890","0987684321",54,"1980-05-15 00:00:00","Male","LIC123456d",10,true,"[object Object]","2024-09-21 06:10:05"],"sql":"INSERT INTO `tblDoctorMaster` (`DoctorID`,`FirstName`,`MiddleName`,`LastName`,`Qualification`,`Specialization`,`Email`,`Address`,`WhatsAppNumber`,`MobileNumber`,`HospitalID`,`DateOfBirth`,`Gender`,`LicenseNumber`,`YearsOfExperience`,`IsActive`,`CreatedBy`,`CreatedAt`) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);","sqlMessage":"Table 'sampledb.tbldoctormaster' doesn't exist","sqlState":"42S02"},"parameters":["John","A","Doe","MD",1,"john.doe@exadmple.com","123 Main St, Cityville","1234567890","0987684321",54,"1980-05-15 00:00:00","Male","LIC123456d",10,true,"[object Object]","2024-09-21 06:10:05"],"parent":{"code":"ER_NO_SUCH_TABLE","errno":1146,"parameters":["John","A","Doe","MD",1,"john.doe@exadmple.com","123 Main St, Cityville","1234567890","0987684321",54,"1980-05-15 00:00:00","Male","LIC123456d",10,true,"[object Object]","2024-09-21 06:10:05"],"sql":"INSERT INTO `tblDoctorMaster` (`DoctorID`,`FirstName`,`MiddleName`,`LastName`,`Qualification`,`Specialization`,`Email`,`Address`,`WhatsAppNumber`,`MobileNumber`,`HospitalID`,`DateOfBirth`,`Gender`,`LicenseNumber`,`YearsOfExperience`,`IsActive`,`CreatedBy`,`CreatedAt`) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);","sqlMessage":"Table 'sampledb.tbldoctormaster' doesn't exist","sqlState":"42S02"},"sql":"INSERT INTO `tblDoctorMaster` (`DoctorID`,`FirstName`,`MiddleName`,`LastName`,`Qualification`,`Specialization`,`Email`,`Address`,`WhatsAppNumber`,`MobileNumber`,`HospitalID`,`DateOfBirth`,`Gender`,`LicenseNumber`,`YearsOfExperience`,`IsActive`,`CreatedBy`,`CreatedAt`) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"},"level":"error","message":"Error creating doctor: Table 'sampledb.tbldoctormaster' doesn't exist","timestamp":"2024-09-21T06:10:05.641Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.507Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.508Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.526Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.527Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.535Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.536Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.543Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.544Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.549Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.550Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.556Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.556Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.561Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.562Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.567Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.568Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.578Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.584Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.594Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.600Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.605Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.606Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.610Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.611Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.615Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.616Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.621Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.622Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.627Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.628Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.632Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.633Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.638Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.639Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.645Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.646Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.652Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.653Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.662Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.663Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.668Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.669Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.673Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.674Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.678Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.679Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.682Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.683Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.688Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.689Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.693Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.694Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.698Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.699Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.703Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.704Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.710Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.711Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.716Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.717Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.721Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.722Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.726Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.727Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.730Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.731Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.737Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.737Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.741Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.742Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.746Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.747Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.751Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.752Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.756Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.757Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.761Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.762Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.765Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.766Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.771Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.772Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.775Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.776Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.780Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.781Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.785Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.786Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.790Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.791Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.795Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.796Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.799Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.800Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.805Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.805Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.809Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.810Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.814Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.815Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.819Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.820Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.824Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.825Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.829Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.830Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.834Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.836Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.840Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.840Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.844Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.845Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.849Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.850Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.855Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.856Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.859Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.860Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.864Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.865Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.870Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.871Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.875Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.876Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.880Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.881Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.885Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.886Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.890Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.891Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.895Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.896Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.900Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.901Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.905Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.906Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.910Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.911Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.914Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.915Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.920Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.921Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.926Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.927Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.931Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.932Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.936Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.937Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.941Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.942Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.945Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.946Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.950Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.951Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.955Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.956Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.960Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.961Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.966Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.966Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.971Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.972Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.976Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.977Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.981Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.982Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.987Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.988Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.992Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.993Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:06.997Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:06.997Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.002Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.003Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.007Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.008Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.011Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.012Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.016Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.017Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.022Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.022Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.026Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.027Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.031Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.032Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.038Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.039Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.043Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.044Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.048Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.048Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.053Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.054Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.061Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.061Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.067Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.068Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:07.269Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:07.271Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:36.957Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:36.959Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:36.966Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:36.967Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:36.983Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:36.984Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:36.989Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:36.991Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:36.996Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:36.997Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.002Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.003Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.009Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.010Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.014Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.015Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.019Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.020Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.024Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.025Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.030Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.031Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.036Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.036Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.040Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.041Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.045Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.046Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.050Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.051Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.055Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.056Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.060Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.062Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.066Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.067Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.071Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.071Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.076Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.077Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.082Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.083Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.087Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.088Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.097Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.097Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.102Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.103Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.109Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.110Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.114Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.115Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.119Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.120Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.126Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.127Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.131Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.131Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.135Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.136Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.141Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.143Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.149Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.150Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.154Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.155Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.161Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.162Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.166Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.167Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.171Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.172Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.179Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.180Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.184Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.185Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.190Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.191Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.195Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.196Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.200Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.201Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.205Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.206Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.212Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.213Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.218Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.219Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.223Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.224Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.228Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.229Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.233Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.234Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.237Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.238Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.243Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.244Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.248Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.248Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.253Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.253Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.258Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.259Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.262Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.263Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.267Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.268Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.271Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.272Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.276Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.277Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.281Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.282Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.285Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.286Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.291Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.292Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.296Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.297Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.301Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.302Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.305Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.306Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.311Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.312Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.316Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.316Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.320Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.321Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.326Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.327Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.331Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.331Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.335Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.336Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.340Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.341Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.346Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.347Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.351Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.352Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.355Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.356Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.360Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.361Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.365Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.365Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.369Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.370Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.373Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.374Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.379Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.379Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.384Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.385Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.388Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.389Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.394Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.395Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.399Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.400Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.403Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.404Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.411Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.412Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.416Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.417Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.423Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.423Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.428Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.429Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.433Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.434Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.438Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.439Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.444Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.445Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.449Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.450Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.453Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.454Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.458Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.460Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.464Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.464Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.468Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.469Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.472Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.473Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.479Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.480Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.483Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.484Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.488Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.489Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.494Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.495Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:15:37.716Z"}
+{"error":"jwt expired","level":"error","message":"Invalid AccessToken provided","timestamp":"2024-09-21T07:15:37.717Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.710Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.716Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.721Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.726Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.731Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.737Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.742Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.746Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.750Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.757Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.761Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.766Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.771Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.776Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.779Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.783Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.787Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.792Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.796Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.802Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.806Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.811Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.815Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.819Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.824Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.828Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.831Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.835Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.839Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.843Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.847Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.850Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.855Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.858Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.862Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.866Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.870Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.874Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.878Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.882Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.886Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.890Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.895Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.898Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.902Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.906Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.910Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.914Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.918Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.922Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.926Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.930Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.933Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.937Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.942Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.947Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.955Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.961Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.965Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.968Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.973Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.977Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.981Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.984Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.988Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.992Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.995Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:56.999Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.004Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.011Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.015Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.022Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.031Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.035Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.041Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.045Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.049Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.053Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.059Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.063Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.067Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.072Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.076Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.081Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.085Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.090Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.094Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.098Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.101Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.106Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.111Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.114Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.119Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.124Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.128Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.136Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.141Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.151Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.187Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:16:57.418Z"}
+{"error":"jwt expired","level":"error","message":"Invalid Authorization token provided","timestamp":"2024-09-21T07:17:55.460Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.122Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.126Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.130Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.179Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.183Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.185Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.240Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.283Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.286Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.290Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.293Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.305Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.346Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.350Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.353Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.361Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.365Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.384Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.387Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.390Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.394Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.406Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.451Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.454Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.457Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.462Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.482Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.516Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.519Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.522Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.531Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.537Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.574Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.578Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.583Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.588Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.600Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.624Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.627Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.632Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.636Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.647Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.692Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.696Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.699Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.703Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.722Z"}
+{"error":{"name":"SequelizeConnectionError","original":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""},"parent":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":""}},"level":"error","message":"Error fetching doctor by ID: Too many connections","timestamp":"2024-09-21T07:18:24.755Z"}

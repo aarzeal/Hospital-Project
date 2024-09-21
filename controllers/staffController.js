@@ -309,29 +309,86 @@ const logExecutionTime = (start, end, functionName) => {
   logger.info(`${functionName} executed in ${duration}ms`);
 };
 
-// GET all staff
 exports.getAllStaff = async (req, res) => {
   const start = Date.now();
+
   try {
     const StaffMaster = require('../models/staffMaster')(req.sequelize);
-    const staff = await StaffMaster.findAll();
-    logger.info('Fetched all staff successfully');
-    const end = Date.now(); 
-    res.json({
-      meta: { statusCode: 200, executionTime: `${end - start}ms` },
-      data: staff
+
+    // Fetch all staff
+    const staffList = await StaffMaster.findAll();
+
+    const end = Date.now();
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${end - start}ms`,
+        totalCount: staffList.length
+      },
+      data: staffList
     });
   } catch (error) {
-    logger.error(`Error fetching staff: ${error.message}`);
-    const end = Date.now(); 
-    res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1001, executionTime: `${end - start}ms` },
-      error: { message: 'Failed to fetch staff due to a server error. Please try again later.' }
+    const end = Date.now();
+    logger.error(`Error fetching staff list: ${error.message}`);
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 1006,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Failed to fetch staff list due to a server error. Please try again later.'
+      }
     });
-  } finally {
-    logExecutionTime(start, Date.now(), 'getAllStaff');
   }
 };
+
+
+
+// exports.getAllStaff = async (req, res) => {
+//   const start = Date.now();
+
+//   try {
+//     const StaffMaster = require('../models/staffMaster')(req.sequelize);
+//     const Specialty = require('../models/skillMaster')(req.sequelize); // Adjust as necessary
+
+//     // Fetch all staff with their specialization
+//     const staffList = await StaffMaster.findAll({
+//       include: [
+//         {
+//           model: Specialty,
+//           as: 'Specialty', // Make sure the alias matches your Sequelize associations
+//           attributes: ['SpecialtyId', 'SkillName'] // Adjust according to your actual column names
+//         }
+//       ]
+//     });
+
+//     const end = Date.now();
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`,
+//         totalCount: staffList.length
+//       },
+//       data: staffList
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     logger.error(`Error fetching staff list: ${error.message}`);
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 1006,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Failed to fetch staff list due to a server error. Please try again later.'
+//       }
+//     });
+//   }
+// };
+
+
 
 // GET single staff by ID
 exports.getStaffById = async (req, res) => {
@@ -369,35 +426,158 @@ exports.getStaffById = async (req, res) => {
 };
 
 // POST create a new staff
-exports.createStaff = async (req, res) => {
+// exports.createStaff = async (req, res) => {
 
+//   const start = Date.now();
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     const end = Date.now(); 
+//       logger.info('Validation errors occurred', errors);
+//       return res.status(400).json({
+//           meta: {
+//               statusCode: 400,
+//               errorCode: 912,
+//               executionTime: `${end - start}ms`
+//           },
+//           error: {
+//               message: 'Validation errors occurred',
+//               details: errors.array().map(err => ({
+//                   field: err.param,
+//                   message: err.msg
+//               }))
+//           }
+//       });
+//   }
+  
+//   const { FirstName, MiddleName, LastName, Email, Address, Age, DOB, BloodGroup, Gender, EmergencyContactName, EmergencyContactPhone, MaritalStatus, Nationality, Language, MobileNumber, Qualification, Experience, Specialization, WhatsAppNumber, CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
+//   const HospitalIDR = req.hospitalId;
+
+//   try {
+//     const StaffMaster = require('../models/staffMaster')(req.sequelize);
+
+//     const existingStaff = await StaffMaster.findOne({ where: { Email } });
+//     if (existingStaff) {
+//       const end = Date.now();
+//       return res.status(400).json({
+//         meta: {
+//           statusCode: 400,
+//           errorCode: 1043,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Email is already registered'
+//         }
+//       });
+//     }
+
+//     // Ensure the table exists
+//     await StaffMaster.sync();
+
+//     const newStaff = await StaffMaster.create({
+//       FirstName,
+//       MiddleName,
+//       LastName,
+//       Email,
+//       Address,
+//       Age,
+//       DOB,
+//       BloodGroup,
+//       Gender,
+//       EmergencyContactName,
+//       EmergencyContactPhone,
+//       MaritalStatus,
+//       Nationality,
+//       Language,
+//       MobileNumber,
+//       Qualification,
+//       Experience,
+//       Specialization,
+//       WhatsAppNumber,
+//       HospitalIDR,
+//       IsActive: true,
+//       CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4
+//     });
+
+//     logger.info('Created new staff successfully');
+//     const end = Date.now(); 
+//     res.status(200).json({
+//       meta: { statusCode: 200, executionTime: `${end - start}ms` },
+//       data: newStaff
+//     });
+//   } catch (error) {
+//     if (error.name === 'SequelizeValidationError') {
+//       // Handle validation errors
+//       logger.error('Validation error creating staff:', error.errors);
+//       const end = Date.now(); 
+//       res.status(400).json({
+//         meta: { statusCode: 400, errorCode: 1004, executionTime: `${end - start}ms`},
+//         error: { message: error.message }
+//       });
+//     }
+//     else if (error.name === 'SequelizeValidationError') {
+//       // Handle other validation errors
+//       logger.error('Validation error creating staff:', error.errors);
+//       res.status(400).json({
+//         meta: { statusCode: 400, errorCode: 1004, executionTime: `${end - start}ms` },
+//         error: { 
+//           message: 'Validation errors occurred',
+//           details: error.errors.map(err => ({
+//             field: err.path,
+//             message: err.message
+//           }))
+//         }
+//       });
+//     }  else {
+//       // Handle other Sequelize errors or generic server errors
+//       logger.error(`Error creating staff: ${error.message}`);
+//       const end = Date.now(); 
+//       res.status(500).json({
+//         meta: { statusCode: 500, errorCode: 1005, executionTime: `${end - start}ms` },
+//         error: { message: 'Failed to create staff due to a server error. Please try again later.', 
+
+//          }
+//       });
+//     }
+//   } finally {
+//     logExecutionTime(start, Date.now(), 'createStaff');
+//   }
+// };
+exports.createStaff = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const end = Date.now(); 
-      logger.info('Validation errors occurred', errors);
-      return res.status(400).json({
-          meta: {
-              statusCode: 400,
-              errorCode: 912,
-              executionTime: `${end - start}ms`
-          },
-          error: {
-              message: 'Validation errors occurred',
-              details: errors.array().map(err => ({
-                  field: err.param,
-                  message: err.msg
-              }))
-          }
-      });
-  }
   
-  const { FirstName, MiddleName, LastName, Email, Address, Age, DOB, BloodGroup, Gender, EmergencyContactName, EmergencyContactPhone, MaritalStatus, Nationality, Language, MobileNumber, Qualification, Experience, Specialization, WhatsAppNumber, CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
+  if (!errors.isEmpty()) {
+    const end = Date.now();
+    logger.info('Validation errors occurred', errors);
+    return res.status(400).json({
+      meta: {
+        statusCode: 400,
+        errorCode: 912,
+        executionTime: `${end - start}ms`
+      },
+      error: {
+        message: 'Validation errors occurred',
+        details: errors.array().map(err => ({
+          field: err.param,
+          message: err.msg
+        }))
+      }
+    });
+  }
+
+  const {
+    FirstName, MiddleName, LastName, Email, Address, Age, DOB, BloodGroup, Gender,
+    EmergencyContactName, EmergencyContactPhone, MaritalStatus, Nationality, Language,
+    MobileNumber, Qualification, Experience, Specialization, WhatsAppNumber,
+    CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4
+  } = req.body;
   const HospitalIDR = req.hospitalId;
 
   try {
     const StaffMaster = require('../models/staffMaster')(req.sequelize);
+    const Specialty = require('../models/skillMaster')(req.sequelize);
 
+    // Check if email already exists
     const existingStaff = await StaffMaster.findOne({ where: { Email } });
     if (existingStaff) {
       const end = Date.now();
@@ -413,56 +593,45 @@ exports.createStaff = async (req, res) => {
       });
     }
 
-    // Ensure the table exists
-    await StaffMaster.sync();
+    // Validate Specialization (FK)
+    const specializationExists = await Specialty.findByPk(Specialization);
+    if (!specializationExists) {
+      const end = Date.now();
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 1044,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Invalid specialization ID'
+        }
+      });
+    }
 
+    // Create new staff
     const newStaff = await StaffMaster.create({
-      FirstName,
-      MiddleName,
-      LastName,
-      Email,
-      Address,
-      Age,
-      DOB,
-      BloodGroup,
-      Gender,
-      EmergencyContactName,
-      EmergencyContactPhone,
-      MaritalStatus,
-      Nationality,
-      Language,
-      MobileNumber,
-      Qualification,
-      Experience,
-      Specialization,
-      WhatsAppNumber,
-      HospitalIDR,
-      IsActive: true,
-      CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4
+      FirstName, MiddleName, LastName, Email, Address, Age, DOB, BloodGroup, Gender,
+      EmergencyContactName, EmergencyContactPhone, MaritalStatus, Nationality, Language,
+      MobileNumber, Qualification, Experience, Specialization, WhatsAppNumber,
+      HospitalIDR, IsActive: true, CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4
     });
 
     logger.info('Created new staff successfully');
-    const end = Date.now(); 
+    const end = Date.now();
     res.status(200).json({
       meta: { statusCode: 200, executionTime: `${end - start}ms` },
       data: newStaff
     });
+
   } catch (error) {
+    const end = Date.now();
+
     if (error.name === 'SequelizeValidationError') {
-      // Handle validation errors
-      logger.error('Validation error creating staff:', error.errors);
-      const end = Date.now(); 
-      res.status(400).json({
-        meta: { statusCode: 400, errorCode: 1004, executionTime: `${end - start}ms`},
-        error: { message: error.message }
-      });
-    }
-    else if (error.name === 'SequelizeValidationError') {
-      // Handle other validation errors
       logger.error('Validation error creating staff:', error.errors);
       res.status(400).json({
         meta: { statusCode: 400, errorCode: 1004, executionTime: `${end - start}ms` },
-        error: { 
+        error: {
           message: 'Validation errors occurred',
           details: error.errors.map(err => ({
             field: err.path,
@@ -470,21 +639,19 @@ exports.createStaff = async (req, res) => {
           }))
         }
       });
-    }  else {
-      // Handle other Sequelize errors or generic server errors
+    } else {
       logger.error(`Error creating staff: ${error.message}`);
-      const end = Date.now(); 
       res.status(500).json({
         meta: { statusCode: 500, errorCode: 1005, executionTime: `${end - start}ms` },
-        error: { message: 'Failed to create staff due to a server error. Please try again later.', 
-
-         }
+        error: { message: 'Failed to create staff due to a server error. Please try again later.' }
       });
     }
   } finally {
     logExecutionTime(start, Date.now(), 'createStaff');
   }
 };
+
+
 
 // PUT update an existing staff
 exports.updateStaff = async (req, res) => {
@@ -496,13 +663,14 @@ exports.updateStaff = async (req, res) => {
     const StaffMaster = require('../models/staffMaster')(req.sequelize);
     let staff = await StaffMaster.findByPk(id);
     if (!staff) {
-      const end = Date.now(); 
       logger.warn(`Staff with ID ${id} not found`);
+      const end = Date.now();
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1006 , executionTime: `${end - start}ms`},
+        meta: { statusCode: 404, errorCode: 1006, executionTime: `${end - start}ms` },
         error: { message: `Staff with ID ${id} not found. Please check the ID and try again.` }
       });
     }
+    
     staff = await staff.update({
       FirstName,
       MiddleName,
@@ -528,13 +696,15 @@ exports.updateStaff = async (req, res) => {
       IsActive,
       EditedBy
     });
+
+    const end = Date.now();
     logger.info(`Updated staff with ID ${id} successfully`);
     res.json({
-      meta: { statusCode: 200 , executionTime: `${end - start}ms`},
+      meta: { statusCode: 200, executionTime: `${end - start}ms` },
       data: staff
     });
   } catch (error) {
-    const end = Date.now(); 
+    const end = Date.now();
     logger.error(`Error updating staff with ID ${id}: ${error.message}`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1007, executionTime: `${end - start}ms` },
@@ -544,6 +714,7 @@ exports.updateStaff = async (req, res) => {
     logExecutionTime(start, Date.now(), 'updateStaff');
   }
 };
+
 
 // DELETE delete a staff
 exports.deleteStaff = async (req, res) => {

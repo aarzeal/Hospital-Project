@@ -244,59 +244,59 @@ const {UserRides} = require('../models/hospitalUserRights');
 
 
 
-  const getModulesAndSubModulesByUserId = async (req, res) => {
-    try {
-      const userId = req.user.userId; // Extract userId from the token payload
+  // const getModulesAndSubModulesByUserId = async (req, res) => {
+  //   try {
+  //     const userId = req.user.userId; // Extract userId from the token payload
   
-      if (!userId) {
-        return res.status(400).json({ message: 'User ID is required' });
-      }
+  //     if (!userId) {
+  //       return res.status(400).json({ message: 'User ID is required' });
+  //     }
   
-      const { UserModules, UserSubModules, UserRides } = req.models;
+  //     const { UserModules, UserSubModules, UserRides } = req.models;
   
-      const userRights = await UserRides.findAll({
-        where: { userId },
-        include: [
-          {
-            model: UserModules,
-            as: 'module',
-            attributes: ['modules_name']
-          },
-          {
-            model: UserSubModules,
-            as: 'submodule',
-            attributes: ['submodule_name']
-          }
-        ]
-      });
+  //     const userRights = await UserRides.findAll({
+  //       where: { userId },
+  //       include: [
+  //         {
+  //           model: UserModules,
+  //           as: 'module',
+  //           attributes: ['modules_name']
+  //         },
+  //         {
+  //           model: UserSubModules,
+  //           as: 'submodule',
+  //           attributes: ['submodule_name']
+  //         }
+  //       ]
+  //     });
   
-      // Group submodules by module
-      const modulesMap = new Map();
-      userRights.forEach(right => {
-        const moduleName = right.module.modules_name;
-        const submoduleName = right.submodule.submodule_name;
+  //     // Group submodules by module
+  //     const modulesMap = new Map();
+  //     userRights.forEach(right => {
+  //       const moduleName = right.module.modules_name;
+  //       const submoduleName = right.submodule.submodule_name;
   
-        if (!modulesMap.has(moduleName)) {
-          modulesMap.set(moduleName, []);
-        }
-        modulesMap.get(moduleName).push(submoduleName);
-      });
+  //       if (!modulesMap.has(moduleName)) {
+  //         modulesMap.set(moduleName, []);
+  //       }
+  //       modulesMap.get(moduleName).push(submoduleName);
+  //     });
   
-      // Format the response
-      const response = Array.from(modulesMap.entries()).map(([moduleName, submodules]) => ({
-        moduleName: `${moduleName} { ${submodules.join(', ')} }`
-      }));
+  //     // Format the response
+  //     const response = Array.from(modulesMap.entries()).map(([moduleName, submodules]) => ({
+  //       moduleName: `${moduleName} { ${submodules.join(', ')} }`
+  //     }));
   
-      res.json(response);
-    } catch (error) {
-      console.error('Error fetching modules and submodules:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
-    }
-  };
+  //     res.json(response);
+  //   } catch (error) {
+  //     console.error('Error fetching modules and submodules:', error);
+  //     res.status(500).json({ message: 'Internal Server Error' });
+  //   }
+  // };
   
-  module.exports = {
-    getModulesAndSubModulesByUserId
-  };
+  // module.exports = {
+  //   getModulesAndSubModulesByUserId
+  // };
   
   
     ////without query end
@@ -439,3 +439,74 @@ const {UserRides} = require('../models/hospitalUserRights');
   // };
   
 //////////end sql query
+
+
+
+
+
+
+
+
+
+
+const getModulesAndSubModulesByUserId = async (req, res) => {
+  try {
+    const userId = req.user.userId; // Extract userId from the token payload
+
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    const { UserModules, UserSubModules, UserRides } = req.models;
+
+    const userRights = await UserRides.findAll({
+      where: { userId },
+      include: [
+        {
+          model: UserModules,
+          as: 'module',
+          attributes: ['modules_name']
+        },
+        {
+          model: UserSubModules,
+          as: 'submodule',
+          attributes: ['submodule_name']
+        }
+      ]
+    });
+
+    // Group submodules by module
+    const modulesMap = new Map();
+    userRights.forEach(right => {
+      const moduleName = right.module.modules_name;
+      const submoduleName = right.submodule.submodule_name;
+
+      if (!modulesMap.has(moduleName)) {
+        modulesMap.set(moduleName, []);
+      }
+      modulesMap.get(moduleName).push(submoduleName);
+    });
+
+    // Format the response to JSON
+    const response = Array.from(modulesMap.entries()).map(([moduleName, submodules]) => ({
+      moduleName, // Module name as a key
+      submodules  // Array of submodule names
+    }));
+
+    // Send JSON response
+    res.json({
+      meta: {
+        statusCode: 200,
+        message: 'Modules and submodules fetched successfully'
+      },
+      data: response
+    });
+  } catch (error) {
+    console.error('Error fetching modules and submodules:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+module.exports = {
+  getModulesAndSubModulesByUserId
+};

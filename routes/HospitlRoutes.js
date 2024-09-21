@@ -20,10 +20,10 @@ const validateJSONContentType = require('../Middleware/jsonvalidation');
 
 router.post('/hospital', verifyToken(['admin']),createHospitalValidationRules(),  validateJSONContentType, hospitalController.createHospital);
 router.get('/hospital',verifyToken(['admin']),  validateJSONContentType, hospitalController.getAllHospitals);
-router.get('/hospital/:id', verifyToken(['admin']),  validateJSONContentType,hospitalController.getHospitalById);
-router.get('/hospital/group/:HospitalGroupIDR', verifyToken(['admin']),  validateJSONContentType,hospitalController.getHospitalsByHospitalGroupID);
+router.get('/hospital/:id', verifyToken(['admin']),  hospitalController.getHospitalById);
+router.get('/hospital/group/:HospitalGroupIDR', verifyToken(['admin']),hospitalController.getHospitalsByHospitalGroupID);
 router.put('/hospital/:id', verifyToken(['admin']),updateHospitalValidationRules(),  validateJSONContentType, hospitalController.updateHospital);
-router.delete('/hospital/:id',verifyToken(['admin']),  validateJSONContentType, hospitalController.deleteHospital);
+router.delete('/hospital/:id',verifyToken(['admin']), hospitalController.deleteHospital);
 router.get('/hospitals', hospitalController.getAllHospitalsByPagination);
 
 

@@ -16,7 +16,7 @@ router.put('/staff/:id', authenticate,updateStaffValidationRules(), validateJSON
 router.delete('/staff/:id', authenticate,hospitalController.ensureSequelizeInstance,staffController.deleteStaff);
 // router.get('/staff/hospital/:hospitalID', authenticate,staffController.getStaffMembersByHospitalID);
 // router.get('/staff/hospitalGroup/:hospitalGroupID',authenticate, staffController.getStaffMembersByHospitalGroupID);
-router.get('/staff/',authenticate, hospitalController.ensureSequelizeInstance,staffController.getAllStaff);
+router.get('/staff',authenticate, hospitalController.ensureSequelizeInstance,staffController.getAllStaff);
 router.get('/hospitalId/:hospitalId', authenticate,hospitalController.ensureSequelizeInstance, staffController.getStaffByHospitalIDR);
  router.get('/hospital/staff', authenticate, hospitalController.ensureSequelizeInstance,staffController.getPaginatedStaff);
 

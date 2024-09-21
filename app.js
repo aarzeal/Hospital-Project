@@ -26,6 +26,8 @@ const sendEmail = require('./Middleware/sendEmailEventbase');
 const locationRoutes = require('./routes/CountryStateCityroute');
 const translationsRoutes = require('./routes/translationsRoutes');
 const apisRatesRoutes = require('./routes/apisRatesRoutes');
+const ApisListRoutes =require("./routes/ApisListRoutes")
+const CurrencyRoutes =require("./routes/currencyRoutes")
 const multer = require('multer');
 const cors = require('cors');
 // Middleware for parsing JSON bodies
@@ -82,6 +84,8 @@ app.use('/api/v1/', empCategoryRoutes);
 app.use('/api/v1/employee', employeeRoutes);
 app.use('/api/v1', hospitalGroupRoutes);
 app.use('/api/v1', apisRatesRoutes); 
+app.use('/api/v1',ApisListRoutes)
+app.use('/api/v1',CurrencyRoutes)
 
 
 app.use('/api/v1/location', locationRoutes);

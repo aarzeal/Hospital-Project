@@ -3,51 +3,113 @@ const logger = require('../logger'); // Adjust path as needed
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
-// GET all doctors
+
+const logExecutionTime = (start, end, functionName) => {
+  const executionTime = end - start;
+  logger.info(`Execution time for ${functionName}: ${executionTime}ms`);
+};
+
+// Get Doctor by ID
+// Get all doctors
 exports.getAllDoctors = async (req, res) => {
+  const start = Date.now();
   try {
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
     const doctors = await DoctorMaster.findAll();
+
     logger.info('Fetched all doctors successfully');
-    res.json({
+    res.status(200).json({
       meta: { statusCode: 200 },
       data: doctors
     });
   } catch (error) {
-    logger.error(`Error fetching doctors: ${error.message}`);
+    logger.error(`Error fetching doctors: ${error.message}`, { error });
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1052 },
-      error: { message: 'Failed to fetch doctors due to a server error. Please try again later.' }
+      meta: { statusCode: 500, errorCode: 1056 },
+      error: { message: 'Failed to fetch doctors due to a server error.' }
     });
   }
 };
 
-// GET single doctor by ID
+// Get doctor by ID
 exports.getDoctorById = async (req, res) => {
-  const { id } = req.params;
+  const start = Date.now();
+  const doctorId = req.params.id; // Assuming you pass the ID in the URL
+
   try {
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
-    const doctor = await DoctorMaster.findByPk(id);
+    const doctor = await DoctorMaster.findByPk(doctorId);
+
     if (!doctor) {
-      logger.warn(`Doctor with ID ${id} not found`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1053 },
-        error: { message: `Doctor with ID ${id} not found. Please check the ID and try again.` }
+        meta: { statusCode: 404, errorCode: 1061 },
+        error: { message: 'Doctor not found' }
       });
     }
-    logger.info(`Fetched doctor with ID ${id} successfully`);
-    res.json({
+
+    logger.info(`Fetched doctor with ID: ${doctorId} successfully`);
+    res.status(200).json({
       meta: { statusCode: 200 },
       data: doctor
     });
   } catch (error) {
-    logger.error(`Error fetching doctor with ID ${id}: ${error.message}`);
+    logger.error(`Error fetching doctor by ID: ${error.message}`, { error });
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1054 },
-      error: { message: `Failed to fetch doctor with ID ${id} due to a server error. Please try again later.` }
+      meta: { statusCode: 500, errorCode: 1056 },
+      error: { message: 'Failed to fetch doctor due to a server error.' }
     });
   }
 };
+
+// exports.getDoctorById = async (req, res) => {
+//   const { id } = req.params;
+//   const start = Date.now(); // Start time for execution logging
+//   try {
+//     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
+//     const Skill = require('../models/skillMaster')(req.sequelize);
+
+//     const doctor = await DoctorMaster.findByPk(id, {
+//       include: [
+//         {
+//           model: Skill,
+//           attributes: ['SpecialtyId', 'SkillName'], // Adjust attributes as needed
+//           as: 'specialty' // Ensure this matches the alias in the association
+//         }
+//       ]
+//     });
+
+//     if (!doctor) {
+//       logger.warn(`Doctor with ID ${id} not found`);
+//       return res.status(404).json({
+//         meta: { statusCode: 404, errorCode: 1053 },
+//         error: { message: `Doctor with ID ${id} not found. Please check the ID and try again.` }
+//       });
+//     }
+
+//     logger.info(`Fetched doctor with ID ${id} successfully`);
+//     const end = Date.now(); // End time for execution logging
+//     res.json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: doctor
+//     });
+//   } catch (error) {
+//     logger.error(`Error fetching doctor with ID ${id}: ${error.message}`);
+//     const end = Date.now(); // End time for execution logging
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 1054,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: { message: `Failed to fetch doctor with ID ${id} due to a server error. Please try again later.` }
+//     });
+//   } finally {
+//     logExecutionTime(start, Date.now(), 'getDoctorById'); // Log execution time
+//   }
+// };
 
 // POST create a new doctor
 // exports.createDoctor = async (req, res) => {
@@ -118,6 +180,7 @@ exports.createDoctor = async (req, res) => {
   const errors = validationResult(req);
   const token = req.headers['accesstoken'];
 
+  // Check for access token
   if (!token) {
     const end = Date.now();
     logger.error('No access token provided', { executionTime: `${end - start}ms` });
@@ -132,8 +195,8 @@ exports.createDoctor = async (req, res) => {
       }
     });
   }
-  
 
+  // Check for validation errors
   if (!errors.isEmpty()) {
     logger.info('Validation errors occurred', errors);
     return res.status(400).json({
@@ -151,19 +214,51 @@ exports.createDoctor = async (req, res) => {
     });
   }
 
+  const { 
+    FirstName, 
+    MiddleName, 
+    LastName, 
+    Qualification, 
+    Specialization, 
+    Email, 
+    Address, 
+    WhatsAppNumber, 
+    MobileNumber, 
+    DateOfBirth, 
+    Gender, 
+    LicenseNumber, 
+    YearsOfExperience, 
+    Reserve1, 
+    Reserve2, 
+    Reserve3, 
+    Reserve4 
+  } = req.body;
   
-  const { FirstName, MiddleName, LastName, Qualification, Specialization, Email, Address, WhatsAppNumber, MobileNumber, DateOfBirth, Gender, LicenseNumber, YearsOfExperience, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
-  const HospitalID = req.hospitalId;
-  const CreatedBy= req.userId;
+  const HospitalID = req.hospitalId; // Assuming this is set from your middleware
+  const CreatedBy = req.userId; // Assuming this is set from your authentication middleware
 
   try {
-
+    // Decode the token
     const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
     logger.info('Decoded token:', decoded);
-    console.log("userid",decoded.userId)
 
+    // Dynamically require the DoctorMaster model
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
+    const Skill = require('../models/skillMaster')(req.sequelize); // Adjust path as needed
 
+    // Check if the Specialization exists in the Skill table
+    const specializationExists = await Skill.findOne({ where: { SpecialtyId: Specialization } });
+
+    if (!specializationExists) {
+      const end = Date.now();
+      logger.warn('Specialization not found');
+      return res.status(400).json({
+        meta: { statusCode: 400, errorCode: 1060, executionTime: `${end - start}ms` },
+        error: { message: 'Invalid Specialization provided. Please provide a valid specialization.' }
+      });
+    }
+
+    // Create the new doctor
     const newDoctor = await DoctorMaster.create({
       FirstName,
       MiddleName,
@@ -188,12 +283,12 @@ exports.createDoctor = async (req, res) => {
     });
 
     logger.info('Created new doctor successfully');
-    res.status(200).json({
-      meta: { statusCode: 200 },
+    res.status(201).json({
+      meta: { statusCode: 201 },
       data: newDoctor
     });
-  } 
-  catch (error) {
+  } catch (error) {
+    // Handle unique constraint errors
     if (error.name === 'SequelizeUniqueConstraintError') {
       logger.warn('Unique constraint error while creating doctor');
       return res.status(400).json({
@@ -209,7 +304,6 @@ exports.createDoctor = async (req, res) => {
     });
   }
 };
-
 
 // PUT update an existing doctor
 exports.updateDoctor = async (req, res) => {

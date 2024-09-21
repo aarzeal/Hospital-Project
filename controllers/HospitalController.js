@@ -4382,16 +4382,17 @@ exports.loginUser = async (req, res) => {
         email: user.email 
       };
     
-      // Generate AccessToken
-      AccessToken = jwt.sign(
-        payload,
-        process.env.JWT_SECRET,
-        { expiresIn: '24h' }
-      );
-    
-      // Store the new token in Redis with an expiration time of 24 hours
-      await setAsync(user.userId.toString(), AccessToken, 'EX', 24 * 60 * 60);
-    }
+         // Generate AccessToken with 24-hour expiration
+         AccessToken = jwt.sign(
+          payload,
+          process.env.JWT_SECRET,
+          { expiresIn: '24h' }  // 24 hours expiration time
+        );
+      
+        // Store the new token in Redis with an expiration time of 24 hours
+        await setAsync(user.userId.toString(), AccessToken, 'EX', 24 * 60 * 60);  // 24 * 60 * 60 seconds = 24 hours
+      }
+  
     
     // Decode the token to verify its content
     const decodedToken = jwt.decode(AccessToken);
