@@ -210,8 +210,18 @@ exports.createHospital = async (req, res) => {
   // let end;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      // const end = Date.now(); 
-        logger.info('Validation errors occurred', errors);
+      const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 912;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Validation errors occurred: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+        // logger.info('Validation errors occurred', errors);
         return res.status(400).json({
             meta: {
                 statusCode: 400,
@@ -232,7 +242,19 @@ exports.createHospital = async (req, res) => {
     try {
       const existingHospital = await Hospital.findOne({ where: { ManagingCompanyEmail: req.body.ManagingCompanyEmail } });
     if (existingHospital) {
-      // const end = Date.now();
+
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 956;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Managing Company Email already exists: `, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+      });
+
       return res.status(400).json({
         meta: {
           statusCode: 400,
@@ -289,8 +311,19 @@ exports.createHospital = async (req, res) => {
             data: hospital
         });
     } catch (error) {
-      // const end = Date.now(); 
-        logger.error('Error creating hospital', { error: error.message });
+     
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 913;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Error creating hospital `, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+      });
+        // logger.error('Error creating hospital', { error: error.message });
         res.status(400).json({
             meta: {
                 statusCode: 400,
@@ -1315,7 +1348,11 @@ exports.login = async (req, res) => {
     const hospital = await Hospital.findOne({ where: { Username } });
     if (!hospital) {
       const end = Date.now();
-logger.warn(`Hospital with Username ${Username} not found, executionTime: ${end - start}ms`);
+
+      logger.warn(`Hospital with Username "${Username}" not found, executionTime: ${end - start}ms`, {
+        errorCode: 924,   // Adding the errorCode directly in the log
+        hospitalId: req.hospitalId || 'N/A'  // Including hospitalId if available, else 'N/A'
+      });
 
       return res.status(404).json({
         meta: {

@@ -18,3 +18,4 @@ router.get('/paginated', authenticate, hospitalController.ensureSequelizeInstanc
 // router.get('/hospital-group/:hospitalGroupId', authenticate,hospitalController.ensureSequelizeInstance, doctorController.getDoctorsByHospitalGroupId);
 
 module.exports = router;
+                                                                                                                                                                                       

@@ -590,7 +590,8 @@ console.log('Parsed Platform Info:', platformInfo);
     await CountAPI.create(logDetails);
     logger.info(`API call logged: ${originalUrl} with method ${method}`);
   } catch (err) {
-    logger.error('Error creating CountAPI entry', { error: err.message });
+    logger.error('Error creating CountAPI entry', { error: err.message, stack: err.stack });
+
   }
 
   const end = Date.now();

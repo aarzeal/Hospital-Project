@@ -13,7 +13,8 @@ exports.getAllDesignations = async (req, res) => {
         data: designations
       });
     } catch (error) {
-      logger.error(`Error fetching designations: ${error.message}`);
+const errorCode = 992
+      logger.error(`Error fetching designations: ${error.message},errorCode: ${errorCode}`);
       res.status(500).json({
         meta: { statusCode: 500, errorCode: 992 },
         error: { message: 'Failed to fetch designations due to a server error. Please try again later.' }
@@ -28,7 +29,8 @@ exports.getAllDesignations = async (req, res) => {
       const Designation = require('../models/designation')(req.sequelize);
       const designation = await Designation.findByPk(id);
       if (!designation) {
-        logger.warn(`Designation with ID ${id} not found`);
+        const errorCode = 993
+          logger.warn(`Designation with ID ${id} not found,errorCode: ${errorCode}`);
         return res.status(404).json({
           meta: { statusCode: 404, errorCode: 993 },
           error: { message: `Designation with ID ${id} not found. Please check the ID and try again.` }
@@ -40,7 +42,8 @@ exports.getAllDesignations = async (req, res) => {
         data: designation
       });
     } catch (error) {
-      logger.error(`Error fetching designation with ID ${id}: ${error.message}`);
+      const errorCode =994
+      logger.error(`Error fetching designation with ID ${id}: ${error.message},errorCode: ${errorCode}`);
       res.status(500).json({
         meta: { statusCode: 500, errorCode: 994 },
         error: { message: `Failed to fetch designation with ID ${id} due to a server error. Please try again later.` }
@@ -63,12 +66,13 @@ exports.getAllDesignations = async (req, res) => {
         HospitalIDR, Reserve1, Reserve2, Reserve3, Reserve4
       });
       logger.info('Created new designation successfully');
-      res.status(201).json({
-        meta: { statusCode: 201 },
+      res.status(200).json({
+        meta: { statusCode: 200 },
         data: newDesignation
       });
     } catch (error) {
-      logger.error(`Error creating designation: ${error.message}`);
+      const errorCode = 995
+      logger.error(`Error creating designation: ${error.message},errorCode: ${errorCode}`);
       res.status(500).json({
         meta: { statusCode: 500, errorCode: 995 },
         error: { message: 'Failed to create designation due to a server error. Please ensure all fields are correctly filled and try again.' }
@@ -88,7 +92,8 @@ exports.getAllDesignations = async (req, res) => {
       const Designation = require('../models/designation')(req.sequelize);
       let designation = await Designation.findByPk(id);
       if (!designation) {
-        logger.warn(`Designation with ID ${id} not found`);
+        const errorCode= 996
+        logger.warn(`Designation with ID ${id} not found,errorCode: ${errorCode}`);
         return res.status(404).json({
           meta: { statusCode: 404, errorCode: 996 },
           error: { message: `Designation with ID ${id} not found. Please check the ID and try again.` }
@@ -106,7 +111,8 @@ exports.getAllDesignations = async (req, res) => {
         data: designation
       });
     } catch (error) {
-      logger.error(`Error updating designation with ID ${id}: ${error.message}`);
+      const errorCode = 997;
+      logger.error(`Error updating designation with ID ${id}: ${error.message},errorCode: ${errorCode}`);
       res.status(500).json({
         meta: { statusCode: 500, errorCode: 997 },
         error: { message: `Failed to update designation with ID ${id} due to a server error. Please try again later.` }
@@ -122,7 +128,9 @@ exports.getAllDesignations = async (req, res) => {
       const Designation = require('../models/designation')(req.sequelize);
       const designation = await Designation.findByPk(id);
       if (!designation) {
-        logger.warn(`Designation with ID ${id} not found`);
+        const errorCode = 998
+
+        logger.warn(`Designation with ID ${id} not found,errorCode: ${errorCode}`);
         return res.status(404).json({
           meta: { statusCode: 404, errorCode: 998 },
           error: { message: `Designation with ID ${id} not found. Please check the ID and try again.` }
@@ -134,8 +142,10 @@ exports.getAllDesignations = async (req, res) => {
         meta: { statusCode: 200 },
         message: 'Designation deleted successfully'
       });
+
     } catch (error) {
-      logger.error(`Error deleting designation with ID ${id}: ${error.message}`);
+      const errorCode= 999
+      logger.error(`Error deleting designation with ID ${id}: ${error.message},errorCode: ${errorCode}`);
       res.status(500).json({
         meta: { statusCode: 500, errorCode: 999 },
         error: { message: `Failed to delete designation with ID ${id} due to a server error. Please try again later.` }
@@ -168,7 +178,8 @@ exports.getPaginatedDesignations = async (req, res) => {
       data: rows
     });
   } catch (error) {
-    logger.error(`Error fetching paginated designations: ${error.message}`);
+    const errorCode = 1000
+    logger.error(`Error fetching paginated designations: ${error.message},errorCode: ${errorCode}`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1000 },
       error: { message: 'Failed to fetch paginated designations due to a server error. Please try again later.' }

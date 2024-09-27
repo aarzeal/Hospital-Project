@@ -160,6 +160,19 @@
 // };
 
 
+const path = require('path');
+const fs = require('fs');
+
+try {
+  const configPath = path.join(__dirname, '../config/employeeConfig.json');
+  const configFile = fs.readFileSync(configPath, 'utf8');
+  config = JSON.parse(configFile);
+
+} catch (error) {
+
+  console.error('Error loading employeeConfig.json:', error);
+  throw error; // Ensure errors are thrown to halt further execution if config loading fails
+}
 
 const { DataTypes } = require('sequelize');
 
@@ -201,13 +214,43 @@ module.exports = (sequelize) => {
       type: DataTypes.DATEONLY,
       allowNull: true
     },
+    // BloodGroup: {
+    //   type: DataTypes.STRING(5),
+    //   allowNull: true
+    // },
     BloodGroup: {
-      type: DataTypes.STRING(5),
-      allowNull: true
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        isBloodGroup(value) {
+          if (!config || !config.BloodGroup) {
+            throw new Error('Configuration for Gender is missing or invalid.');
+          }
+          const validBloodGroup = Object.keys(config.BloodGroup).map(Number);
+          if (!validBloodGroup.includes(value)) {
+            throw new Error(`Invalid BloodGroup value: ${value}. Valid values are: ${validBloodGroup.join(', ')}`);
+          }
+        },
+      }
     },
+    // Gender: {
+    //   type: DataTypes.STRING(10),
+    //   allowNull: false
+    // },
     Gender: {
-      type: DataTypes.STRING(10),
-      allowNull: false
+      type: DataTypes.TINYINT,
+      allowNull: false,
+      validate: {
+        isValidGender(value) {
+          if (!config || !config.Gender) {
+            throw new Error('Configuration for Gender is missing or invalid.');
+          }
+          const validGenders = Object.keys(config.Gender).map(Number);
+          if (!validGenders.includes(value)) {
+            throw new Error(`Invalid gender value: ${value}. Valid values are: ${validGenders.join(', ')}`);
+          }
+        },
+      }
     },
     EmergencyContactName: {
       type: DataTypes.STRING(100),
@@ -217,14 +260,52 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(15),
       allowNull: true
     },
+    // MaritalStatus: {
+    //   type: DataTypes.STRING(20),
+    //   allowNull: true
+    // },
+
+
     MaritalStatus: {
-      type: DataTypes.STRING(20),
-      allowNull: true
+      type: DataTypes.TINYINT,
+      allowNull: false,
+      validate: {
+        isValidMaritalStatus(value) {
+          if (!config || !config.MaritalStatus) {
+            throw new Error('Configuration for MaritalStatus is missing or invalid.');
+          }
+          const validMaritalStatus = Object.keys(config.MaritalStatus).map(Number);
+          if (!validMaritalStatus.includes(value)) {
+            throw new Error(`Invalid MaritalStatus value: ${value}. Valid values are: ${validMaritalStatus.join(', ')}`);
+          }
+        },
+      }
     },
+    // Nationality: {
+    //   type: DataTypes.STRING(50),
+    //   allowNull: true
+    // },
+
     Nationality: {
-      type: DataTypes.STRING(50),
-      allowNull: true
+      type: DataTypes.TINYINT,
+      allowNull: false,
+      validate: {
+        isValidNationality(value) {
+          if (!config || !config.Nationality) {
+            throw new Error('Configuration for Nationality is missing or invalid.');
+          }
+          const validNationalities = Object.keys(config.Nationality).map(Number);
+          if (!validNationalities.includes(value)) {
+            throw new Error(`Invalid Nationality value: ${value}. Valid values are: ${validNationalities.join(', ')}`);
+          }
+        },
+      }
     },
+
+
+
+
+
     Language: {
       type: DataTypes.STRING(50),
       allowNull: true

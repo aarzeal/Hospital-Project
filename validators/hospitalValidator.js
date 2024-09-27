@@ -646,9 +646,9 @@ exports.createDoctorValidationRules = () => {
     body('DateOfBirth')
       .notEmpty().withMessage('Date of Birth is required')
       .isISO8601().withMessage('Date of Birth must be a valid date'),
-    body('Gender')
-      .notEmpty().withMessage('Gender is required')
-      .isIn(['Male', 'Female', 'Other']).withMessage('Gender must be one of "Male", "Female", or "Other"'),
+    // body('Gender')
+    //   .notEmpty().withMessage('Gender is required')
+    //   .isIn(['Male', 'Female', 'Other']).withMessage('Gender must be one of "Male", "Female", or "Other"'),
     body('LicenseNumber')
       .notEmpty().withMessage('License Number is required'),
     body('YearsOfExperience')

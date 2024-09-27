@@ -459,11 +459,12 @@ exports.getSubModulesByModuleId = async (req, res) => {
 
   if (!modules_Id) {
       const end = Date.now();
-      logger.warn('Module ID is missing in the request, executionTime: ${end - start}ms');
+       const errorCode= 948;
+      logger.warn('Module ID is missing in the request, executionTime: ${end - start}ms,{errorCode:errorCode}');
       return res.status(400).json({
           meta: {
               statusCode: 400,
-              errorCode: 948,
+              errorCode: errorCode,
               executionTime: `${end - start}ms`
           },
           error: {

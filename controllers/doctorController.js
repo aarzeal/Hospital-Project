@@ -23,7 +23,8 @@ exports.getAllDoctors = async (req, res) => {
       data: doctors
     });
   } catch (error) {
-    logger.error(`Error fetching doctors: ${error.message}`, { error });
+    const errorCode = 1056
+    logger.error(`Error fetching doctors: ${error.message},errorCode: ${errorCode}`, { error });
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1056 },
       error: { message: 'Failed to fetch doctors due to a server error.' }
@@ -42,6 +43,7 @@ exports.getDoctorById = async (req, res) => {
 
     if (!doctor) {
       return res.status(404).json({
+        // logger.error(`Doctor not found: ${error.message},errorCode: ${errorCode}`, { error });
         meta: { statusCode: 404, errorCode: 1061 },
         error: { message: 'Doctor not found' }
       });
@@ -53,7 +55,8 @@ exports.getDoctorById = async (req, res) => {
       data: doctor
     });
   } catch (error) {
-    logger.error(`Error fetching doctor by ID: ${error.message}`, { error });
+    const errorCode = 1056
+    logger.error(`Error fetching doctor by ID: ${error.message},errorCode: ${errorCode}`, { error });
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1056 },
       error: { message: 'Failed to fetch doctor due to a server error.' }
@@ -183,7 +186,8 @@ exports.createDoctor = async (req, res) => {
   // Check for access token
   if (!token) {
     const end = Date.now();
-    logger.error('No access token provided', { executionTime: `${end - start}ms` });
+    const errorCode = 1081
+    logger.error('No access token provided', { executionTime: `${end - start}ms,errorCode: ${errorCode}` });
     return res.status(401).json({
       meta: {
         statusCode: 401,
@@ -198,7 +202,8 @@ exports.createDoctor = async (req, res) => {
 
   // Check for validation errors
   if (!errors.isEmpty()) {
-    logger.info('Validation errors occurred', errors);
+    const errorCode = 1055
+    logger.info('Validation errors occurred,errorCode: ${errorCode}', errors);
     return res.status(400).json({
       meta: {
         statusCode: 400,
@@ -233,6 +238,11 @@ exports.createDoctor = async (req, res) => {
     Reserve3, 
     Reserve4 
   } = req.body;
+
+  
+  const parsedQualification = parseInt(Qualification, 10);
+  const parsedGender = parseInt(Gender, 10);
+
   
   const HospitalID = req.hospitalId; // Assuming this is set from your middleware
   const CreatedBy = req.userId; // Assuming this is set from your authentication middleware
@@ -251,26 +261,28 @@ exports.createDoctor = async (req, res) => {
 
     if (!specializationExists) {
       const end = Date.now();
-      logger.warn('Specialization not found');
+      const errorCode = 1060;
+      logger.warn(`Specialization not found, errorCode: ${errorCode}`);
+      
       return res.status(400).json({
-        meta: { statusCode: 400, errorCode: 1060, executionTime: `${end - start}ms` },
-        error: { message: 'Invalid Specialization provided. Please provide a valid specialization.' }
+          meta: { statusCode: 400, errorCode: errorCode, executionTime: `${end - start}ms` },
+          error: { message: 'Invalid Specialization provided. Please provide a valid specialization.' }
       });
-    }
-
+  }
+  
     // Create the new doctor
     const newDoctor = await DoctorMaster.create({
       FirstName,
       MiddleName,
       LastName,
-      Qualification,
+      Qualification:parsedQualification,
       Specialization,
       Email,
       Address,
       WhatsAppNumber,
       MobileNumber,
       DateOfBirth,
-      Gender,
+      Gender : parsedGender,
       LicenseNumber,
       YearsOfExperience,
       HospitalID,
@@ -290,18 +302,26 @@ exports.createDoctor = async (req, res) => {
   } catch (error) {
     // Handle unique constraint errors
     if (error.name === 'SequelizeUniqueConstraintError') {
-      logger.warn('Unique constraint error while creating doctor');
-      return res.status(400).json({
-        meta: { statusCode: 400, errorCode: 1057 },
-        error: { message: 'A doctor with this Email, Mobile Number, or License Number already exists.' }
-      });
-    }
+      const errorCode = 1057;
+      // logger.logWithMeta(`Unique constraint error while creating doctor, errorCode: ${errorCode}`);
+      logger.logWithMeta('warn', 'Unique constraint error while creating doctor', { errorCode: errorCode,  hospitalId: HospitalID });
 
-    logger.error(`Error creating doctor: ${error.message}`, { error });
-    res.status(500).json({
+      
+      return res.status(400).json({
+          meta: { statusCode: 400, errorCode: 1057 },
+          error: { message: 'A doctor with this Email, Mobile Number, or License Number already exists.' }
+      });
+  }
+  
+
+  logger.logWithMeta(`Error creating doctor (errorCode: 1056): ${error.message}`, { error }, { errorCode: errorCode,  hospitalId: HospitalID });
+  res.status(500).json({
+    
       meta: { statusCode: 500, errorCode: 1056 },
+
       error: { message: 'Failed to create doctor due to a server error. Please ensure all fields are correctly filled and try again.' }
-    });
+  });
+  
   }
 };
 
@@ -314,12 +334,14 @@ exports.updateDoctor = async (req, res) => {
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
     let doctor = await DoctorMaster.findByPk(id);
     if (!doctor) {
-      logger.warn(`Doctor with ID ${id} not found`);
+      const errorCode = 1057;
+      logger.warn(`Doctor with ID ${id} not found, errorCode: ${errorCode}`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1057 },
-        error: { message: `Doctor with ID ${id} not found. Please check the ID and try again.` }
+          meta: { statusCode: 404, errorCode },
+          error: { message: `Doctor with ID ${id} not found. Please check the ID and try again.` }
       });
-    }
+  }
+  
     doctor = await doctor.update({
       FirstName,
       MiddleName,
@@ -345,12 +367,14 @@ exports.updateDoctor = async (req, res) => {
       data: doctor
     });
   } catch (error) {
-    logger.error(`Error updating doctor with ID ${id}: ${error.message}`);
+    const errorCode = 1058;
+    logger.error(`Error updating doctor with ID ${id}: ${error.message}, errorCode: ${errorCode}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1058 },
-      error: { message: `Failed to update doctor with ID ${id} due to a server error. Please try again later.` }
+        meta: { statusCode: 500, errorCode },
+        error: { message: `Failed to update doctor with ID ${id} due to a server error. Please try again later.` }
     });
-  }
+}
+
 };
 
 // DELETE delete a doctor
@@ -361,12 +385,14 @@ exports.deleteDoctor = async (req, res) => {
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
     const doctor = await DoctorMaster.findByPk(id);
     if (!doctor) {
-      logger.warn(`Doctor with ID ${id} not found`);
+      const errorCode = 1059;
+      logger.warn(`Doctor with ID ${id} not found, errorCode: ${errorCode}`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1059 },
-        error: { message: `Doctor with ID ${id} not found. Please check the ID and try again.` }
+          meta: { statusCode: 404, errorCode },
+          error: { message: `Doctor with ID ${id} not found. Please check the ID and try again.` }
       });
-    }
+  }
+  
     await doctor.destroy();
     logger.info(`Deleted doctor with ID ${id} successfully`);
     res.json({
@@ -374,12 +400,14 @@ exports.deleteDoctor = async (req, res) => {
       message: 'Doctor deleted successfully'
     });
   } catch (error) {
-    logger.error(`Error deleting doctor with ID ${id}: ${error.message}`);
+    const errorCode = 1060;
+    logger.error(`Error deleting doctor with ID ${id}: ${error.message}, errorCode: ${errorCode}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1060 },
-      error: { message: `Failed to delete doctor with ID ${id} due to a server error. Please try again later.` }
+        meta: { statusCode: 500, errorCode },
+        error: { message: `Failed to delete doctor with ID ${id} due to a server error. Please try again later.` }
     });
-  }
+}
+
 };
 
 // GET doctors by HospitalID
@@ -389,19 +417,22 @@ exports.getDoctorsByHospitalId = async (req, res) => {
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
     const doctors = await DoctorMaster.findAll({ where: { HospitalID: hospitalId } });
     if (!doctors.length) {
-      logger.warn(`No doctors found for HospitalID ${hospitalId}`);
+      const errorCode = 1061;
+      logger.warn(`No doctors found for HospitalID ${hospitalId}, errorCode: ${errorCode}`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1061 },
-        error: { message: `No doctors found for HospitalID ${hospitalId}. Please check the ID and try again.` }
+          meta: { statusCode: 404, errorCode },
+          error: { message: `No doctors found for HospitalID ${hospitalId}. Please check the ID and try again.` }
       });
-    }
+  }
+  
     logger.info(`Fetched doctors for HospitalID ${hospitalId} successfully`);
     res.json({
       meta: { statusCode: 200 },
       data: doctors
     });
   } catch (error) {
-    logger.error(`Error fetching doctors for HospitalID ${hospitalId}: ${error.message}`);
+    const errorCode = 1062
+    logger.error(`Error fetching doctors for HospitalID ${hospitalId}: ${error.message},errorCode: ${errorCode}`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1062 },
       error: { message: `Failed to fetch doctors for HospitalID ${hospitalId} due to a server error. Please try again later.` }
@@ -437,7 +468,8 @@ exports.getPaginatedDoctors = async (req, res) => {
       data: rows
     });
   } catch (error) {
-    logger.error(`Error fetching paginated doctors: ${error.message}`);
+    const errorCode = 1063
+    logger.error(`Error fetching paginated doctors: ${error.message},errorCode: ${errorCode}`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1063 },
       error: { message: 'Failed to fetch paginated doctors due to a server error. Please try again later.' }

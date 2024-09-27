@@ -10,9 +10,21 @@ const STATIC_USERNAME = 'Hospital2'; // Corrected typo here
 const STATIC_PASSWORD = 'Pass@1234';
 
 exports.login = async (req, res) => {
+  const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.warn('Validation errors occurred during login', errors);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 926;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Validation errors occurred during login`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.warn('Validation errors occurred during login', errors);
     return res.status(400).json({
       meta: {
         statusCode: 400,
@@ -35,7 +47,18 @@ exports.login = async (req, res) => {
   try {
     // Check if the username matches the static credentials
     if (Username !== STATIC_USERNAME || Password !== STATIC_PASSWORD) {
-      logger.warn(`Incorrect username or password for username ${Username}`);
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 926;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Incorrect username or password for username ${Username}`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // logger.warn(`Incorrect username or password for username ${Username}`);
       return res.status(401).json({
         meta: {
           statusCode: 401,
@@ -50,7 +73,18 @@ exports.login = async (req, res) => {
     // Find the hospital in the database
     const hospital = await Hospital.findOne({ where: { Username: STATIC_USERNAME } });
     if (!hospital) {
-      logger.warn(`Hospital with Username ${STATIC_USERNAME} not found`);
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 926;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Hospital with Username ${STATIC_USERNAME} not found: `, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // logger.warn(`Hospital with Username ${STATIC_USERNAME} not found`);
       return res.status(404).json({
         meta: {
           statusCode: 404,
@@ -87,7 +121,18 @@ exports.login = async (req, res) => {
       }
     });
   } catch (error) {
-    logger.error('Error logging in', { error: error.message });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 926;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error logging in: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.error('Error logging in', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,

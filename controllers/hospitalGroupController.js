@@ -306,7 +306,18 @@ exports.login = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const end = Date.now();
-    logger.warn('Validation errors during login', errors.array());
+    const executionTime = `${end - start}ms`;
+    const errorCode = 900;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Validation errors during login: ${error.array()}`, {
+      errorCode,
+      errorMessage: error.array(),
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+
+    // logger.warn('Validation errors during login', errors.array());
     return res.status(400).json({
       meta: {
         statusCode: 400,
@@ -336,7 +347,18 @@ exports.login = async (req, res) => {
 
     if (!user) {
       const end = Date.now();
-      logger.warn(`Invalid username or password for user: ${SysUserName}`);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 901;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Invalid username or password for user: ${SysUserName}`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+
+      // logger.warn(`Invalid username or password for user: ${SysUserName}`);
       return res.status(401).json({
         meta: {
           statusCode: 401,
@@ -352,7 +374,18 @@ exports.login = async (req, res) => {
     const isPasswordValid = await bcrypt.compare(SysUserPwd, user.SysUserPwd);
     if (!isPasswordValid) {
       const end = Date.now();
-      logger.warn(`Invalid password for user: ${SysUserName}`);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 902;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Invalid password for user: ${SysUserName}`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+
+      // logger.warn(`Invalid password for user: ${SysUserName}`);
       return res.status(401).json({
         meta: {
           statusCode: 401,
@@ -384,7 +417,19 @@ exports.login = async (req, res) => {
       }
     });
   } catch (error) {
-    logger.error('Error during login', { error: error.message });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 903;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error during login: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+
+    // logger.error('Error during login', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -415,7 +460,18 @@ exports.createHospitalGroup = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error creating hospital group', { error: error.message });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 904;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error creating hospital group: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+
+    // logger.error('Error creating hospital group', { error: error.message });
     res.status(400).json({
       meta: {
         statusCode: 400,
@@ -446,7 +502,18 @@ exports.getAllHospitalGroups = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error retrieving hospital groups', { error: error.message });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 905;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error retrieving hospital groups: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+
+    // logger.error('Error retrieving hospital groups', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -468,7 +535,18 @@ exports.getHospitalGroupById = async (req, res) => {
     const hospitalGroup = await HospitalGroup.findByPk(id);
     if (!hospitalGroup) {
       const end = Date.now();
-      logger.warn(`Hospital group with ID ${id} not found`);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 906;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Hospital group with ID ${id} not found `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+
+      // logger.warn(`Hospital group with ID ${id} not found`);
       res.status(404).json({
         meta: {
           statusCode: 404,
@@ -493,7 +571,18 @@ exports.getHospitalGroupById = async (req, res) => {
     }
   } catch (error) {
     const end = Date.now();
-    logger.error('Error retrieving hospital group', { error: error.message });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 907;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error retrieving hospital group: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+
+    // logger.error('Error retrieving hospital group', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -523,7 +612,18 @@ exports.updateHospitalGroup = async (req, res) => {
 
     if (updatedRows === 0) {
       const end = Date.now();
-      logger.warn(`Hospital group with ID ${id} not found for update`);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 978;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Hospital group with ID ${id} not found for update: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+
+      // logger.warn(`Hospital group with ID ${id} not found for update`);
       res.status(404).json({
         meta: {
           statusCode: 404,
@@ -550,7 +650,17 @@ exports.updateHospitalGroup = async (req, res) => {
     }
   } catch (error) {
     const end = Date.now();
-    logger.error('Error updating hospital group', { error: error.message });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 909;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error updating hospital group: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+    // logger.error('Error updating hospital group', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -574,7 +684,17 @@ exports.deleteHospitalGroup = async (req, res) => {
     });
     if (deletedRows === 0) {
       const end = Date.now();
-      logger.warn(`Hospital group with ID ${id} not found for deletion`);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 978;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Hospital group with ID ${id} not found for deletion`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+      // logger.warn(`Hospital group with ID ${id} not found for deletion`);
       res.status(404).json({
         meta: {
           statusCode: 404,
@@ -601,7 +721,17 @@ exports.deleteHospitalGroup = async (req, res) => {
     }
   } catch (error) {
     const end = Date.now();
-    logger.error('Error deleting hospital group', { error: error.message });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 978;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error deleting hospital group: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+    // logger.error('Error deleting hospital group', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -647,7 +777,17 @@ exports.getAllHospitalGroupsByPagination = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error retrieving hospital groups with pagination', { error: error.message });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 981;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error retrieving hospital groups with pagination: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+    // logger.error('Error retrieving hospital groups with pagination', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,

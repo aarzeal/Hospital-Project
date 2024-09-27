@@ -28,6 +28,7 @@ const translationsRoutes = require('./routes/translationsRoutes');
 const apisRatesRoutes = require('./routes/apisRatesRoutes');
 const ApisListRoutes =require("./routes/ApisListRoutes")
 const CurrencyRoutes =require("./routes/currencyRoutes")
+const logRoutes = require('./routes/logRoutes');
 const multer = require('multer');
 const cors = require('cors');
 // Middleware for parsing JSON bodies
@@ -86,6 +87,7 @@ app.use('/api/v1', hospitalGroupRoutes);
 app.use('/api/v1', apisRatesRoutes); 
 app.use('/api/v1',ApisListRoutes)
 app.use('/api/v1',CurrencyRoutes)
+app.use('/api/v1', logRoutes);
 
 
 app.use('/api/v1/location', locationRoutes);

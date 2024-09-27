@@ -30,7 +30,8 @@ exports.createEmpCategory= async (req, res) => {
         NonCompulsoryLeave,
         SalaryHeadLedgerIDR,
         SalaryPayableLedgerIDR,
-        HospitalGroupIDR,Reserve1, Reserve2, Reserve3, Reserve4
+        HospitalGroupIDR,
+        Reserve1, Reserve2, Reserve3, Reserve4
       });
       logger.info(`Created new EmpCategory successfully in ${Date.now() - startTime}ms`);
       res.status(201).json({
@@ -38,9 +39,10 @@ exports.createEmpCategory= async (req, res) => {
         data: newEmpCategory
       });
     } catch (error) {
-      logger.error(`Error creating EmpCategory: ${error.message} in ${Date.now() - startTime}ms`);
+      const errorCode = 1035;
+      logger.error(`Error creating EmpCategory: ${error.message}, errorCode: ${errorCode} in ${Date.now() - startTime}ms`);
       res.status(500).json({
-        meta: { statusCode: 500, errorCode: 1035 },
+        meta: { statusCode: 500, errorCode: errorCode },
         error: { message: 'Failed to create EmpCategory due to a server error. Please ensure all fields are correctly filled and try again.' }
       });
     }
@@ -56,7 +58,8 @@ exports.getEmpCategoryById = async (req, res) => {
       const empCategory = await EmpCategory.findByPk(id);
   
       if (!empCategory) {
-        logger.warn(`Employee Category with ID ${id} not found`);
+        const errorCode=1036;
+        logger.warn(`Employee Category with ID ${id} not found,errorCode: ${errorCode}`);
         return res.status(404).json({
           meta: { statusCode: 404, errorCode: 1036 },
           error: { message: `Employee Category with ID ${id} not found. Please check the ID and try again.` }
@@ -69,7 +72,8 @@ exports.getEmpCategoryById = async (req, res) => {
         data: empCategory
       });
     } catch (error) {
-      logger.error(`Error fetching Employee Category with ID ${id}: ${error.message}`);
+      const errorCode=1037
+      logger.error(`Error fetching Employee Category with ID ${id}: ${error.message},errorCode: ${errorCode}`);
       res.status(500).json({
         meta: { statusCode: 500, errorCode: 1037 },
         error: { message: `Failed to fetch Employee Category with ID ${id} due to a server error. Please try again later.` }
@@ -93,7 +97,8 @@ exports.getEmpCategoryById = async (req, res) => {
         data: empCategories
       });
     } catch (error) {
-      logger.error(`Error fetching Employee Categories: ${error.message}`);
+      const errorCode = 1038
+      logger.error(`Error fetching Employee Categories: ${error.message},errorCode: ${errorCode}`);
       res.status(500).json({
         meta: { statusCode: 500, errorCode: 1038 },
         error: { message: `Failed to fetch Employee Categories due to a server error. Please try again later.` }
@@ -137,14 +142,16 @@ exports.getEmpCategoryById = async (req, res) => {
           data: updatedEmpCategory
         });
       }
+      const errorCode = 1039
   
-      logger.warn(`Employee Category with ID ${id} not found`);
+      logger.warn(`Employee Category with ID ${id} not found,errorCode: ${errorCode}`);
       res.status(404).json({
         meta: { statusCode: 404, errorCode: 1039 },
         error: { message: `Employee Category with ID ${id} not found. Please check the ID and try again.` }
       });
     } catch (error) {
-      logger.error(`Error updating Employee Category with ID ${id}: ${error.message} in ${Date.now() - startTime}ms`);
+      const errorCode=1040
+      logger.error(`Error updating Employee Category with ID ${id}: ${error.message} ,errorCode: ${errorCode} in ${Date.now() - startTime}ms`);
       res.status(500).json({
         meta: { statusCode: 500, errorCode: 1040 },
         error: { message: 'Failed to update Employee Category due to a server error. Please try again later.' }
@@ -170,14 +177,17 @@ exports.getEmpCategoryById = async (req, res) => {
           message: 'Employee Category deleted successfully.'
         });
       }
+      const errorCode = 1041
   
-      logger.warn(`Employee Category with ID ${id} not found`);
+      logger.warn(`Employee Category with ID ${id} not found,errorCode: ${errorCode}`);
       res.status(404).json({
         meta: { statusCode: 404, errorCode: 1041 },
         error: { message: `Employee Category with ID ${id} not found. Please check the ID and try again.` }
       });
     } catch (error) {
-      logger.error(`Error deleting Employee Category with ID ${id}: ${error.message} in ${Date.now() - startTime}ms`);
+
+      const errorCode = 1042;
+      logger.error(`Error deleting Employee Category with ID ${id}: ${error.message} ,errorCode: ${errorCode}in ${Date.now() - startTime}ms`);
       res.status(500).json({
         meta: { statusCode: 500, errorCode: 1042 },
         error: { message: 'Failed to delete Employee Category due to a server error. Please try again later.' }

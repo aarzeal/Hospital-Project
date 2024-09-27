@@ -115,13 +115,15 @@ exports.createEmployee = async (req, res) => {
       data: newEmployee
     });
   } catch (error) {
-    logger.error(`Error creating Employee: ${error.message}`);
+    logger.error(`Error creating Employee: ${error.message}, errorCode: 1025`);
     const end = Date.now(); 
+
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1025 , executionTime: `${end - start}ms`},
       error: { message: 'Failed to create Employee due to a server error. Please ensure all fields are correctly filled and try again.' }
     });
-  } 
+}
+
 };
 exports.getEmployee = async (req, res) => {
   const start = Date.now();

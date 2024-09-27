@@ -43,6 +43,7 @@
 
 // module.exports = authenticate;
 const jwt = require('jsonwebtoken');
+const logger = require('../logger');
 
 const authenticate = (req, res, next) => {
   const token = req.query.token || req.headers.authorization?.split(' ')[1];
@@ -53,6 +54,7 @@ const authenticate = (req, res, next) => {
         statusCode: 401,
         errorCode: 929
       },
+     
       error: {
         message: 'No Sesssion token provided'
       }
@@ -72,11 +74,27 @@ const authenticate = (req, res, next) => {
     console.log("req.hospitalGroupId......",req.hospitalGroupId)
 
     next();
-  } catch (error) {
+
+  } 
+  
+  catch (error) {
+    const   errorCode= 930
+    logger.logWithMeta = (level, message, { errorCode, hospitalId, ...meta } = {}) => {
+      console.log("Logging with meta: ", { level, message, errorCode, hospitalId, meta }); // Add this for debugging
+      logger.log({
+        level,
+        message,
+        meta,       // Pass any additional metadata
+        errorCode,  // Include error code in log
+        hospitalId, // Include hospital ID in log
+      });
+    };
+    
+    
     return res.status(401).json({
       meta: {
         statusCode: 401,
-        errorCode: 930
+        errorCode: errorCode
       },
       error: {
         message: 'Unauthorized: ' + error.message

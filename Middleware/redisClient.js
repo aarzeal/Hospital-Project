@@ -27,7 +27,8 @@ const logger = require('../logger'); // Adjust the path to your logger
 const redisClient = redis.createClient();
 
 redisClient.on('connect', () => {
-  logger.info('Connected to Redis');
+
+  // logger.info('Connected to Redis');
 });
 
 redisClient.on('error', (err) => {

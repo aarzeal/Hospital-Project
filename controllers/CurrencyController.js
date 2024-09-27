@@ -9,9 +9,11 @@ exports.createCurrency = async (req, res) => {
 
   try {
     if (!currencyName || !currencyCode) {
-      logger.error('Error creating currency: Missing currency name or code', { currencyName, currencyCode });
+      const errorCode = 1107;
+      logger.error(`Error creating currency: Missing currency name or code, errorCode: ${errorCode}`, { currencyName, currencyCode });
       return res.status(400).json({ errorCode: 1107, message: 'Currency name and code are required' });
-    }
+  }
+  
 
     const newCurrency = await Currency.create({
       currencyName,
@@ -24,10 +26,11 @@ exports.createCurrency = async (req, res) => {
       message: 'Currency created successfully',
       data: newCurrency
     });
-  } catch (error) {
-    logger.error('Error creating currency:', error);
+  }catch (error) {
+    const errorCode = 1109;
+    logger.error(`Error creating currency:`, error, { errorCode });
     return res.status(500).json({ errorCode: 1109, message: 'Internal server error' });
-  }
+}
 };
 
 // GET: Get all currencies
@@ -41,7 +44,8 @@ exports.getAllCurrencies = async (req, res) => {
       data: currencies
     });
   } catch (error) {
-    logger.error('Error fetching currencies:', error);
+    const  errorCode = 1111 
+    logger.error('Error fetching currencies:', error,{ errorCode });
     return res.status(500).json({ errorCode: 1111, message: 'Internal server error' });
   }
 };
@@ -56,18 +60,20 @@ exports.getCurrencyByCode = async (req, res) => {
     });
 
     if (!currency) {
-      logger.warn('Currency not found', { currencyCode });
+      const errorCode = 1112
+      logger.warn('Currency not found', { currencyCode },{ errorCode });
       return res.status(404).json({ errorCode: 1112, message: 'Currency not found' });
     }
-
-    logger.info('Currency retrieved successfully', { data: currency });
+const errorCode = 1113
+    logger.info('Currency retrieved successfully', { data: currency },{ errorCode });
     return res.status(200).json({
       errorCode: 1113,
       message: 'Currency retrieved successfully',
       data: currency
     });
   } catch (error) {
-    logger.error('Error fetching currency:', error);
+    const errorCode = 1114;
+    logger.error('Error fetching currency:', error,{ errorCode });
     return res.status(500).json({ errorCode: 1114, message: 'Internal server error' });
   }
 };

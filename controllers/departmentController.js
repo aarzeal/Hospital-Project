@@ -20,7 +20,8 @@ exports.getAllDepartments = async (req, res) => {
        executionTime: `${end - start}ms`
     });
   } catch (error) {
-    logger.error(`Error fetching departments: ${error.message}`);
+    const errorCode= 1015;
+    logger.error(`Error fetching departments: ${error.message},errorCode: ${errorCode}`);
     const end = Date.now(); 
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1015 , executionTime: `${end - start}ms` },
@@ -39,7 +40,8 @@ exports.getDepartmentById = async (req, res) => {
     const Department = require('../models/DepartmentModel')(req.sequelize);
     const department = await Department.findByPk(id);
     if (!department) {
-      logger.warn(`Department with ID ${id} not found`);
+      const errorCode = 1016
+      logger.warn(`Department with ID ${id} not found,errorCode: ${errorCode}`);
       const end = Date.now(); 
       return res.status(404).json({
         meta: { statusCode: 404, errorCode: 1016, executionTime: `${end - start}ms`  },
@@ -53,7 +55,8 @@ exports.getDepartmentById = async (req, res) => {
       data: department
     });
   } catch (error) {
-    logger.error(`Error fetching department with ID ${id}: ${error.message}`);
+    const errorCode = 1017
+    logger.error(`Error fetching department with ID ${id}: ${error.message},errorCode: ${errorCode}`);
     const end = Date.now(); 
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1017, executionTime: `${end - start}ms`  },
@@ -89,7 +92,8 @@ exports.createDepartment = async (req, res) => {
        executionTime: `${end - start}ms` 
     });
   } catch (error) {
-    logger.error(`Error creating department: ${error.message}`);
+    const errorCode = 1018;
+    logger.error(`Error creating department: ${error.message},errorCode: ${errorCode}`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1018 },
       error: { message: 'Failed to create department due to a server error. Please ensure all fields are correctly filled and try again.' }
@@ -109,7 +113,8 @@ exports.updateDepartment = async (req, res) => {
     const Department = require('../models/DepartmentModel')(req.sequelize);
     let department = await Department.findByPk(id);
     if (!department) {
-      logger.warn(`Department with ID ${id} not found`);
+      const errorCode = 1019
+      logger.warn(`Department with ID ${id} not found,errorCode: ${errorCode}`);
       const end = Date.now(); 
       return res.status(404).json({
         meta: { statusCode: 404, errorCode: 1019, executionTime: `${end - start}ms`  },
@@ -130,7 +135,8 @@ exports.updateDepartment = async (req, res) => {
       data: department
     });
   } catch (error) {
-    logger.error(`Error updating department with ID ${id}: ${error.message}`);
+    const errorCode = 1020;
+    logger.error(`Error updating department with ID ${id}: ${error.message},errorCode: ${errorCode}`);
     const end = Date.now(); 
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1020 , executionTime: `${end - start}ms` },
@@ -150,7 +156,8 @@ exports.deleteDepartment = async (req, res) => {
     const Department = require('../models/DepartmentModel')(req.sequelize);
     const department = await Department.findByPk(id);
     if (!department) {
-      logger.warn(`Department with ID ${id} not found`);
+      const errorCode = 1021
+      logger.warn(`Department with ID ${id} not found,errorCode: ${errorCode},errorCode: ${errorCode}`);
       const end = Date.now(); 
       return res.status(404).json({
         meta: { statusCode: 404, errorCode: 1021 , executionTime: `${end - start}ms` },
@@ -165,7 +172,8 @@ exports.deleteDepartment = async (req, res) => {
       message: 'Department deleted successfully'
     });
   } catch (error) {
-    logger.error(`Error deleting department with ID ${id}: ${error.message}`);
+    const errorCode = 1022
+    logger.error(`Error deleting department with ID ${id}: ${error.message},errorCode: ${errorCode}`);
     const end = Date.now(); 
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1022, executionTime: `${end - start}ms`  },
@@ -193,7 +201,8 @@ exports.getDepartmentsByHospitalId = async (req, res) => {
       data: departments,
     });
   } catch (error) {
-    logger.error(`Error fetching departments for Hospital ID ${hospitalId}: ${error.message}`);
+    const errorCode= 1023
+    logger.error(`Error fetching departments for Hospital ID ${hospitalId}: ${error.message},errorCode: ${errorCode}`);
     const end = Date.now(); 
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1023, executionTime: `${end - start}ms`  },
@@ -230,7 +239,8 @@ exports.getDepartmentsWithPagination = async (req, res) => {
       },
     });
   } catch (error) {
-    logger.error(`Error fetching departments: ${error.message}`);
+    const errorCode = 1024
+    logger.error(`Error fetching departments: ${error.message},errorCode: ${errorCode}`);
     const end = Date.now(); 
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1024 , executionTime: `${end - start}ms` },

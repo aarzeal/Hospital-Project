@@ -206,7 +206,17 @@ exports.getAllSkills = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error(`Error fetching skills: ${error.message} in ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+      const errorCode = 984;
+  
+      logger.logWithMeta("warn", `Error fetching skills:`, {
+        errorCode,
+        error,
+        executionTime,
+      
+        hospitalId:req.hospitalId
+      });
+    // logger.error(`Error fetching skills: ${error.message} in ${end - start}ms`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 984, executionTime: `${end - start}ms` },
       error: { message: 'Failed to fetch skills due to a server error. Please try again later.' }
@@ -226,7 +236,17 @@ exports.getSkillById = async (req, res) => {
 
     if (!skill) {
       const end = Date.now();
-      logger.warn(`Skill with ID ${id} not found in ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+      const errorCode = 985;
+  
+      logger.logWithMeta("warn", `Skill with ID ${id} not found :`, {
+        errorCode,
+        error,
+        executionTime,
+      
+        hospitalId:req.hospitalId
+      });
+      // logger.warn(`Skill with ID ${id} not found in ${end - start}ms`);
       return res.status(404).json({
         meta: { statusCode: 404, errorCode: 985, executionTime: `${end - start}ms` },
         error: { message: `Skill with ID ${id} not found. Please check the ID and try again.` }
@@ -240,7 +260,17 @@ exports.getSkillById = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error(`Error fetching skill with ID ${id}: ${error.message} in ${end - start}ms`);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 986;
+
+    logger.logWithMeta("warn", `Error fetching skill with ID ${id}:`, {
+      errorCode,
+      error,
+      executionTime,
+    
+      hospitalId:req.hospitalId
+    });
+    // logger.error(`Error fetching skill with ID ${id}: ${error.message} in ${end - start}ms`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 986, executionTime: `${end - start}ms` },
       error: { message: `Failed to fetch skill with ID ${id} due to a server error. Please try again later.` }
@@ -274,13 +304,23 @@ exports.createSkill = async (req, res) => {
     });
     const end = Date.now();
     logger.info(`Created new skill successfully in ${end - start}ms`);
-    res.status(201).json({
-      meta: { statusCode: 201, executionTime: `${end - start}ms` },
+    res.status(200).json({
+      meta: { statusCode: 200, executionTime: `${end - start}ms` },
       data: newSkill
     });
   } catch (error) {
     const end = Date.now();
-    logger.error(`Error creating skill: ${error.message} in ${end - start}ms`);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 987;
+
+    logger.logWithMeta("warn", `Error creating skill `, {
+      errorCode,
+      error,
+      executionTime,
+    
+      hospitalId:req.hospitalId
+    });
+    // logger.error(`Error creating skill: ${error.message} in ${end - start}ms`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 987, executionTime: `${end - start}ms` },
       error: { message: 'Failed to create skill due to a server error. Please ensure all fields are correctly filled and try again.' }
@@ -300,7 +340,18 @@ exports.updateSkill = async (req, res) => {
 
     if (!skill) {
       const end = Date.now();
-      logger.warn(`Skill with ID ${id} not found in ${end - start}ms`);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 988;
+
+    logger.logWithMeta("warn", `Error  skill with ID  not found${id}:`, {
+      errorCode,
+      error,
+      executionTime,
+    
+      hospitalId:req.hospitalId
+    });
+
+      // logger.warn(`Skill with ID ${id} not found in ${end - start}ms`);
       return res.status(404).json({
         meta: { statusCode: 404, errorCode: 988, executionTime: `${end - start}ms` },
         error: { message: `Skill with ID ${id} not found. Please check the ID and try again.` }
@@ -322,7 +373,17 @@ exports.updateSkill = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error(`Error updating skill with ID ${id}: ${error.message} in ${end - start}ms`);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 989;
+
+    logger.logWithMeta("warn", `Error updating skill with ID ${id}:`, {
+      errorCode,
+      error,
+      executionTime,
+    
+      hospitalId:req.hospitalId
+    });
+    // logger.error(`Error updating skill with ID ${id}: ${error.message} in ${end - start}ms`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 989, executionTime: `${end - start}ms` },
       error: { message: `Failed to update skill with ID ${id} due to a server error. Please try again later.` }
@@ -341,7 +402,17 @@ exports.deleteSkill = async (req, res) => {
 
     if (!skill) {
       const end = Date.now();
-      logger.warn(`Skill with ID ${id} not found in ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+      const errorCode = 990;
+  
+      logger.logWithMeta("warn", `Error  skill with ID ${id} not found :`, {
+        errorCode,
+        error,
+        executionTime,
+      
+        hospitalId:req.hospitalId
+      });
+      // logger.warn(`Skill with ID ${id} not found in ${end - start}ms`);
       return res.status(404).json({
         meta: { statusCode: 404, errorCode: 990, executionTime: `${end - start}ms` },
         error: { message: `Skill with ID ${id} not found. Please check the ID and try again.` }
@@ -357,7 +428,17 @@ exports.deleteSkill = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error(`Error deleting skill with ID ${id}: ${error.message} in ${end - start}ms`);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 991;
+
+    logger.logWithMeta("warn", `Error deleting skill with ID ${id}:`, {
+      errorCode,
+      error,
+      executionTime,
+    
+      hospitalId:req.hospitalId
+    });
+    // logger.error(`Error deleting skill with ID ${id}: ${error.message} in ${end - start}ms`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 991, executionTime: `${end - start}ms` },
       error: { message: `Failed to delete skill with ID ${id} due to a server error. Please try again later.` }
@@ -392,7 +473,17 @@ exports.getSkillsWithPagination = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error(`Error fetching skills with pagination: ${error.message} in ${end - start}ms`);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 992;
+
+    logger.logWithMeta("warn", `Error fetching skill with pagination:`, {
+      errorCode,
+      error,
+      executionTime,
+    
+      hospitalId:req.hospitalId
+    });
+    // logger.error(`Error fetching skills with pagination: ${error.message} in ${end - start}ms`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 992, executionTime: `${end - start}ms` },
       error: { message: 'Failed to fetch skills due to a server error. Please try again later.' }

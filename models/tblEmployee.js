@@ -101,8 +101,11 @@ module.exports = (sequelize) => {
     
     DesignationIDR: {
       type: DataTypes.INTEGER,
-      allowNull: false
-      // Add reference to Designation model if needed
+      allowNull: false,
+      references: {
+        model: 'tbldesignation', // Ensure this table exists
+        key: 'DesignationId'
+      },
     },
    
     NationalityIDR: {

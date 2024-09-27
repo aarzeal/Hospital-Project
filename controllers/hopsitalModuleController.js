@@ -35,8 +35,9 @@ exports.creatmodules = async (req, res) => {
         }
       });
     } catch (error) {
+      const errorCode =938
       const end = Date.now();
-      logger.error('Error creating Modules', { error: error.message, executionTime: `${end - start}ms` });
+      logger.error('Error creating Modules',{ errorCode }, { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
         meta: {
           statusCode: 500,
@@ -61,17 +62,17 @@ exports.creatmodules = async (req, res) => {
   
       if (!userModules) {
         const end = Date.now();
-        logger.warn(`module with ID ${modules_Id} not found, executionTime: ${end - start}ms`);
+        const errorCode = 939;
+        logger.warn(`Module with ID ${modules_Id} not found, executionTime: ${end - start}ms, errorCode: ${errorCode}`);
         return res.status(404).json({
-          meta: {
-            statusCode: 404,
-            errorCode: 939,
-            executionTime: `${end - start}ms`
-          },
-          error: {
-            message: 'module not found'
-            
-          }
+            meta: {
+                statusCode: 404,
+                errorCode: errorCode,
+                executionTime: `${end - start}ms`
+            },
+            error: {
+                message: 'Module not found'
+            }
         });
       }
   
