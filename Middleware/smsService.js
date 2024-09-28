@@ -53,8 +53,8 @@
 // smsService.js
 const axios = require('axios');
 
-const sendSMS = async (phone) => {
-  if (!phone) {
+const sendSMS = async (phone,PatientFirstName,EMRNumber) => {
+  if (!phone & !EMRNumber & !PatientFirstName) {
     throw new Error('Phone number is required');
   }
 
@@ -67,9 +67,14 @@ const sendSMS = async (phone) => {
       sender: 'BUZWAP',
       phone,
       text: 'arzeal_regs',
+      // text: `Dear ${PatientFirstName}, Your registration was successful. Your EMR Number is ${EMRNumber}.`, // Construct the message
       priority: 'wa',
       stype: 'normal',
-      Params: '1,2',
+      // Params: '1,3',
+
+        // Params: `${PatientFirstName},${EMRNumber}`,
+        Params: `${EMRNumber},${PatientFirstName}`,
+
       htype: 'document',
       fname: 'PDFFile',
       url: 'https://smartping.live/trai/trai.pdf'

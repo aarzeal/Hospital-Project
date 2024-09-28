@@ -655,29 +655,45 @@ const parsedNationality = parseInt(Nationality, 10);
     // Ensure newPatient.Phone is defined and is a valid phone number
     console.log('New Patient Data:', newPatient);
     console.log('Patient Phone Number:', newPatient.Phone); // Log the phone number
+    console.log('Patient first Number:', newPatient.PatientFirstName); // Log the phone number
+    console.log('Patient Emr Number:', newPatient.EMRNumber); // Log the phone number
     
-    if (newPatient && newPatient.Phone) { // Ensure newPatient and Phone are defined
-      sendSMS(newPatient.Phone)
+    // if (newPatient && newPatient.Phone) { // Ensure newPatient and Phone are defined
+    //   sendSMS(newPatient.Phone)
+    //     .then(response => {
+    //       console.log('WhatsApp message response:', response);
+    //     })
+    //     .catch(error => {
+    //       console.error('Error sending WhatsApp message:', error);
+    //     });
+    // } else {
+    //   console.error('Error: newPatient or Phone number is not defined');
+    // }
+    if (newPatient && newPatient.Phone && newPatient.PatientFirstName && newPatient.EMRNumber) {
+      sendSMS(newPatient.Phone, newPatient.PatientFirstName, newPatient.EMRNumber)
         .then(response => {
+          console.log('Sending SMS to:', newPatient.Phone);
           console.log('WhatsApp message response:', response);
         })
         .catch(error => {
           console.error('Error sending WhatsApp message:', error);
         });
     } else {
-      console.error('Error: newPatient or Phone number is not defined');
+      console.error('Error: newPatient, Phone number, PatientFirstName, or EMRNumber is not defined');
     }
-    sendSMS(newPatient.Phone)
+    // sendSMS(newPatient.Phone)
 
     
       
-      .then(response => {
-        console.log('Sending SMS to:', newPatient.Phone);
-        console.log('WhatsApp message response:', response);
-      })
-      .catch(error => {
-        console.error('Error sending WhatsApp message:', error);
-      });
+    //   .then(response => {
+    //     console.log('Sending SMS to:', newPatient.Phone);
+    //     console.log('Sending SMS to:', newPatient.PatientFirstName);
+    //     console.log('Sending SMS to:', newPatient.EMRNumber);
+    //     console.log('WhatsApp message response:', response);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error sending WhatsApp message:', error);
+    //   });
     
       await sendEmail(newPatient.Email, 'Registration Successful', 'registrationEmailTemplate1.ejs', {
         firstName: newPatient.PatientFirstName,
