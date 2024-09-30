@@ -23,8 +23,18 @@ exports.getAllDoctors = async (req, res) => {
       data: doctors
     });
   } catch (error) {
-    const errorCode = 1056
-    logger.error(`Error fetching doctors: ${error.message},errorCode: ${errorCode}`, { error });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1056;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `'Error fetching doctors: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.error(`Error fetching doctors: ${error.message},errorCode: ${errorCode}`, { error });
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1056 },
       error: { message: 'Failed to fetch doctors due to a server error.' }
@@ -42,7 +52,19 @@ exports.getDoctorById = async (req, res) => {
     const doctor = await DoctorMaster.findByPk(doctorId);
 
     if (!doctor) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1061;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `'Doctor not found: ${error.message}`, {
+        errorCode,
+        errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
       return res.status(404).json({
+        
         // logger.error(`Doctor not found: ${error.message},errorCode: ${errorCode}`, { error });
         meta: { statusCode: 404, errorCode: 1061 },
         error: { message: 'Doctor not found' }
@@ -55,8 +77,19 @@ exports.getDoctorById = async (req, res) => {
       data: doctor
     });
   } catch (error) {
-    const errorCode = 1056
-    logger.error(`Error fetching doctor by ID: ${error.message},errorCode: ${errorCode}`, { error });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1056;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `'Error fetching doctor by ID: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // const errorCode = 1056
+    // logger.error(`Error fetching doctor by ID: ${error.message},errorCode: ${errorCode}`, { error });
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1056 },
       error: { message: 'Failed to fetch doctor due to a server error.' }
@@ -186,8 +219,17 @@ exports.createDoctor = async (req, res) => {
   // Check for access token
   if (!token) {
     const end = Date.now();
-    const errorCode = 1081
-    logger.error('No access token provided', { executionTime: `${end - start}ms,errorCode: ${errorCode}` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1081;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `'No access token provided: `, {
+      errorCode,
+      // errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.error('No access token provided', { executionTime: `${end - start}ms,errorCode: ${errorCode}` });
     return res.status(401).json({
       meta: {
         statusCode: 401,
@@ -202,8 +244,18 @@ exports.createDoctor = async (req, res) => {
 
   // Check for validation errors
   if (!errors.isEmpty()) {
-    const errorCode = 1055
-    logger.info('Validation errors occurred,errorCode: ${errorCode}', errors);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1055;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `'Error fetching doctor by ID:`, {
+      errorCode,
+      // errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.info('Validation errors occurred,errorCode: ${errorCode}', errors);
     return res.status(400).json({
       meta: {
         statusCode: 400,
@@ -261,8 +313,19 @@ exports.createDoctor = async (req, res) => {
 
     if (!specializationExists) {
       const end = Date.now();
+      const executionTime = `${end - start}ms`;
       const errorCode = 1060;
-      logger.warn(`Specialization not found, errorCode: ${errorCode}`);
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `'Specialization not found, errorCode:`, {
+        errorCode,
+        // errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // const end = Date.now();
+      // const errorCode = 1060;
+      // logger.warn(`Specialization not found, errorCode: ${errorCode}`);
       
       return res.status(400).json({
           meta: { statusCode: 400, errorCode: errorCode, executionTime: `${end - start}ms` },
@@ -302,9 +365,18 @@ exports.createDoctor = async (req, res) => {
   } catch (error) {
     // Handle unique constraint errors
     if (error.name === 'SequelizeUniqueConstraintError') {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
       const errorCode = 1057;
-      // logger.logWithMeta(`Unique constraint error while creating doctor, errorCode: ${errorCode}`);
-      logger.logWithMeta('warn', 'Unique constraint error while creating doctor', { errorCode: errorCode,  hospitalId: HospitalID });
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `'Unique constraint error while creating doctor : A doctor with this Email, Mobile Number, or License Number already exists`, {
+        errorCode,
+        // errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // logger.logWithMeta('warn', 'Unique constraint error while creating doctor', { errorCode: errorCode,  hospitalId: HospitalID });
 
       
       return res.status(400).json({
@@ -313,8 +385,19 @@ exports.createDoctor = async (req, res) => {
       });
   }
   
+  const end = Date.now();
+  const executionTime = `${end - start}ms`;
+  const errorCode = 1056;
+  
+  // Ensure that error.message is logged separately if needed
+  logger.logWithMeta("warn", `'Error creating doctor${error.message}`, {
+    errorCode,
+    errorMessage: error.message, // Include the error message in meta explicitly
+    executionTime,
+    hospitalId: req.hospitalId,
+  });
 
-  logger.logWithMeta(`Error creating doctor (errorCode: 1056): ${error.message}`, { error }, { errorCode: errorCode,  hospitalId: HospitalID });
+  // logger.logWithMeta(`Error creating doctor (errorCode: 1056): ${error.message}`, { error }, { errorCode: errorCode,  hospitalId: HospitalID });
   res.status(500).json({
     
       meta: { statusCode: 500, errorCode: 1056 },
@@ -334,8 +417,18 @@ exports.updateDoctor = async (req, res) => {
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
     let doctor = await DoctorMaster.findByPk(id);
     if (!doctor) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
       const errorCode = 1057;
-      logger.warn(`Doctor with ID ${id} not found, errorCode: ${errorCode}`);
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `'Doctor with ID ${id} not found`, {
+        errorCode,
+        // errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // logger.warn(`Doctor with ID ${id} not found, errorCode: ${errorCode}`);
       return res.status(404).json({
           meta: { statusCode: 404, errorCode },
           error: { message: `Doctor with ID ${id} not found. Please check the ID and try again.` }
@@ -367,8 +460,18 @@ exports.updateDoctor = async (req, res) => {
       data: doctor
     });
   } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
     const errorCode = 1058;
-    logger.error(`Error updating doctor with ID ${id}: ${error.message}, errorCode: ${errorCode}`);
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `'Error updating doctor with ID ${id}: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.error(`Error updating doctor with ID ${id}: ${error.message}, errorCode: ${errorCode}`);
     res.status(500).json({
         meta: { statusCode: 500, errorCode },
         error: { message: `Failed to update doctor with ID ${id} due to a server error. Please try again later.` }
@@ -385,8 +488,18 @@ exports.deleteDoctor = async (req, res) => {
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
     const doctor = await DoctorMaster.findByPk(id);
     if (!doctor) {
-      const errorCode = 1059;
-      logger.warn(`Doctor with ID ${id} not found, errorCode: ${errorCode}`);
+      const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1059;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `'Doctor with ID ${id} not found`, {
+      errorCode,
+      // errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+      // logger.warn(`Doctor with ID ${id} not found, errorCode: ${errorCode}`);
       return res.status(404).json({
           meta: { statusCode: 404, errorCode },
           error: { message: `Doctor with ID ${id} not found. Please check the ID and try again.` }
@@ -400,8 +513,18 @@ exports.deleteDoctor = async (req, res) => {
       message: 'Doctor deleted successfully'
     });
   } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
     const errorCode = 1060;
-    logger.error(`Error deleting doctor with ID ${id}: ${error.message}, errorCode: ${errorCode}`);
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `'Doctor with ID ${id} not found ${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.error(`Error deleting doctor with ID ${id}: ${error.message}, errorCode: ${errorCode}`);
     res.status(500).json({
         meta: { statusCode: 500, errorCode },
         error: { message: `Failed to delete doctor with ID ${id} due to a server error. Please try again later.` }
@@ -417,8 +540,18 @@ exports.getDoctorsByHospitalId = async (req, res) => {
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
     const doctors = await DoctorMaster.findAll({ where: { HospitalID: hospitalId } });
     if (!doctors.length) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
       const errorCode = 1061;
-      logger.warn(`No doctors found for HospitalID ${hospitalId}, errorCode: ${errorCode}`);
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `'No doctors found for`, {
+        errorCode,
+        // errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // logger.warn(`No doctors found for HospitalID ${hospitalId}, errorCode: ${errorCode}`);
       return res.status(404).json({
           meta: { statusCode: 404, errorCode },
           error: { message: `No doctors found for HospitalID ${hospitalId}. Please check the ID and try again.` }
@@ -431,8 +564,18 @@ exports.getDoctorsByHospitalId = async (req, res) => {
       data: doctors
     });
   } catch (error) {
-    const errorCode = 1062
-    logger.error(`Error fetching doctors for HospitalID ${hospitalId}: ${error.message},errorCode: ${errorCode}`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1062;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `'Error fetching doctors for HospitalID ${hospitalId}: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.error(`Error fetching doctors for HospitalID ${hospitalId}: ${error.message},errorCode: ${errorCode}`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1062 },
       error: { message: `Failed to fetch doctors for HospitalID ${hospitalId} due to a server error. Please try again later.` }
@@ -468,8 +611,18 @@ exports.getPaginatedDoctors = async (req, res) => {
       data: rows
     });
   } catch (error) {
-    const errorCode = 1063
-    logger.error(`Error fetching paginated doctors: ${error.message},errorCode: ${errorCode}`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1063;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `'Error fetching paginated doctors ${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.error(`Error fetching paginated doctors: ${error.message},errorCode: ${errorCode}`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1063 },
       error: { message: 'Failed to fetch paginated doctors due to a server error. Please try again later.' }

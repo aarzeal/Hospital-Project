@@ -210,12 +210,24 @@ const logger = require('../logger');
 
 
 exports.createCharge = async (req, res) => {
+  const start = Date.now();
   const { Apiname, hospitalId, chargeRate } = req.body;
 
   try {
     // Check if all required fields are present
     if (!Apiname || !hospitalId || !chargeRate) {
-      logger.warn('Charge creation failed: Missing required fields', { errorCode: 1096 });
+      const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1096;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `Charge creation failed: Missing required fields`, {
+      errorCode,
+      // errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+      // logger.warn('Charge creation failed: Missing required fields', { errorCode: 1096 });
       return res.status(400).json({
         errorCode: 1096,
         message: 'All fields (Apiname, hospitalId, chargeRate) are required.'
@@ -240,8 +252,18 @@ exports.createCharge = async (req, res) => {
 
   } catch (error) {
     // Log the error message
-    logger.error('Error creating charge', { errorCode: 1097, error: error.message });
-
+    // logger.error('Error creating charge', { errorCode: 1097, error: error.message });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1097;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `Error creating charge:${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
     // Return internal server error with proper error code
     return res.status(500).json({
       errorCode: 1097,
@@ -250,6 +272,7 @@ exports.createCharge = async (req, res) => {
   }
 };
 exports.calculateCharges = async (req, res) => {
+  const start = Date.now();
   const { Apiname, hospitalId, startDate, endDate, hoursAgo } = req.body;
 
   try {
@@ -284,7 +307,18 @@ exports.calculateCharges = async (req, res) => {
     });
 
     if (!chargeData) {
-      logger.error(`Charges not found for API: ${Apiname}, Hospital: ${hospitalId}`, { errorCode: 1098 });
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1098;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `Charges not found for API:${error.message}`, {
+        errorCode,
+        errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // logger.error(`Charges not found for API: ${Apiname}, Hospital: ${hospitalId}`, { errorCode: 1098 });
       return res.status(404).json({
         errorCode: 1098,
         message: 'Charges not found for this API'
@@ -305,7 +339,18 @@ exports.calculateCharges = async (req, res) => {
     });
 
   } catch (error) {
-    logger.error(`Error calculating charges for API: ${Apiname}, Hospital: ${hospitalId}. Error: ${error.message}`, { errorCode: 1099 });
+    const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1099;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `Error calculating charges for API:${error.message}`, {
+        errorCode,
+        errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+    // logger.error(`Error calculating charges for API: ${Apiname}, Hospital: ${hospitalId}. Error: ${error.message}`, { errorCode: 1099 });
     return res.status(500).json({
       errorCode: 1099,
       message: 'Internal server error'
@@ -382,12 +427,24 @@ exports.calculateCharges = async (req, res) => {
 
 
 exports.calculateChargeswithDetails = async (req, res) => {
+  const start = Date.now();
   const { Apiname, hospitalId, startDate, endDate, hoursAgo } = req.body;
 
   try {
     // Validate required parameters
     if (!Apiname || !hospitalId) {
-      logger.error('Missing required fields: Apiname or hospitalId', { errorCode: 1100 });
+      // logger.error('Missing required fields: Apiname or hospitalId', { errorCode: 1100 });
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1100;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `Missing required fields::${error.message}`, {
+        errorCode,
+        errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
       return res.status(400).json({
         errorCode: 1100,
         message: 'Missing required fields: Apiname or hospitalId'
@@ -423,7 +480,18 @@ exports.calculateChargeswithDetails = async (req, res) => {
     const apiCallCount = apiCalls.length;
 
     if (apiCallCount === 0) {
-      logger.warn(`No API calls found for API: ${Apiname}, Hospital: ${hospitalId}`, { errorCode: 1101 });
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1101;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `No API calls found for API::${error.message}`, {
+        errorCode,
+        errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // logger.warn(`No API calls found for API: ${Apiname}, Hospital: ${hospitalId}`, { errorCode: 1101 });
       return res.status(404).json({
         errorCode: 1101,
         message: 'No API calls found for the given parameters'
@@ -436,7 +504,18 @@ exports.calculateChargeswithDetails = async (req, res) => {
     });
 
     if (!chargeData) {
-      logger.error(`Charges not found for API: ${Apiname}, Hospital: ${hospitalId}`, { errorCode: 1102 });
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1102;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `Charges not found for API::${error.message}`, {
+        errorCode,
+        errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // logger.error(`Charges not found for API: ${Apiname}, Hospital: ${hospitalId}`, { errorCode: 1102 });
       return res.status(404).json({
         errorCode: 1102,
         message: 'Charges not found for this API'

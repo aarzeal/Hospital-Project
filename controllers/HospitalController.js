@@ -474,7 +474,17 @@ exports.getAllHospitals = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error retrieving hospitals', { error: error.message });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 914;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error retrieving hospitals:${error.message} `, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+    // logger.error('Error retrieving hospitals', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -495,9 +505,20 @@ exports.getHospitalById = async (req, res) => {
   try {
     const hospital = await Hospital.findByPk(id);
     if (!hospital) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 914;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Hospital with ID ${id} not found `, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+      });
       
-      logger.warn(`Hospital with ID ${id} not found`);
-      const end = Date.now(); 
+      // logger.warn(`Hospital with ID ${id} not found`);
+      // const end = Date.now(); 
       res.status(404).json({
         meta: {
           statusCode: 404,
@@ -522,7 +543,18 @@ exports.getHospitalById = async (req, res) => {
     }
   } catch (error) {
     const end = Date.now();
-    logger.error('Error retrieving hospital', { error: error.message });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 916;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error retrieving hospital:${error.message} `, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+    // const end = Date.now();
+    // logger.error('Error retrieving hospital', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -541,8 +573,19 @@ exports.updateHospital = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.warn('Validation errors occurred while updating hospital', errors);
     const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 917;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Validation errors occurred while updating hospital:${error.message} `, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+    // logger.warn('Validation errors occurred while updating hospital', errors);
+    // const end = Date.now();
     return res.status(400).json({
       meta: {
         statusCode: 400,
@@ -561,10 +604,20 @@ exports.updateHospital = async (req, res) => {
       where: { HospitalID: id }
     });
     if (updatedRows === 0) {
-      const end = Date.now();
-logger.warn(`Hospital with ID ${id} not found for update, executionTime: ${end - start}ms`);
+//       const end = Date.now();
+// logger.warn(`Hospital with ID ${id} not found for update, executionTime: ${end - start}ms`);
 
-     
+const end = Date.now();
+const executionTime = `${end - start}ms`;
+const errorCode = 914;
+
+// Correctly log the error when in the catch block
+logger.logWithMeta("warn", `Hospital not found:`, {
+  errorCode,
+  // errorMessage: error.message,
+  executionTime,
+  // hospitalId: req.hospitalId,
+});
       res.status(404).json({
         meta: {
           statusCode: 404,
@@ -588,9 +641,19 @@ logger.warn(`Hospital with ID ${id} not found for update, executionTime: ${end -
       });
     }
   } catch (error) {
+    // const end = Date.now();
+    // logger.error(`Error updating hospital, executionTime: ${end - start}ms`, { error: error.message });
     const end = Date.now();
-    logger.error(`Error updating hospital, executionTime: ${end - start}ms`, { error: error.message });
-    
+    const executionTime = `${end - start}ms`;
+    const errorCode = 919;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error updating hospital, executionTime:${error.message} `, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -613,10 +676,20 @@ exports.deleteHospital = async (req, res) => {
       where: { HospitalID: id }
     });
     if (deletedRows === 0) {
-      const end = Date.now();
-logger.warn(`Hospital with ID ${id} not found for deletion, executionTime: ${end - start}ms`);
+      // const end = Date.now();
+// logger.warn(`Hospital with ID ${id} not found for deletion, executionTime: ${end - start}ms`);
 
-    
+const end = Date.now();
+const executionTime = `${end - start}ms`;
+const errorCode = 920;
+
+// Correctly log the error when in the catch block
+logger.logWithMeta("warn", `Hospital not found: `, {
+  errorCode,
+  // errorMessage: error.message,
+  executionTime,
+  // hospitalId: req.hospitalId,
+});
       res.status(404).json({
         meta: {
           statusCode: 404,
@@ -642,7 +715,18 @@ logger.info(`Hospital with ID ${id} deleted successfully, executionTime: ${end -
     }
   } catch (error) {
     const end = Date.now();
-    logger.error('Error deleting hospital', { error: error.message, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 921;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error deleting hospital:${error.message} `, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+    // const end = Date.now();
+    // logger.error('Error deleting hospital', { error: error.message, executionTime: `${end - start}ms` });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -675,9 +759,19 @@ exports.getHospitalsByHospitalGroupID = async (req, res) => {
       data: hospitals
     });
   } catch (error) {
+    // const end = Date.now();
+    // logger.error('Error retrieving hospitals by HospitalGroupIDR', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.error('Error retrieving hospitals by HospitalGroupIDR', { error: error.message, executionTime: `${end - start}ms` });
-    
+    const executionTime = `${end - start}ms`;
+    const errorCode = 922;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error retrieving hospitals by HospitalGroupIDR:${error.message} `, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -722,9 +816,19 @@ exports.getAllHospitalsByPagination = async (req, res) => {
       data: hospitals
     });
   } catch (error) {
+    // const end = Date.now();
+    // logger.error(`Error retrieving hospitals with pagination, executionTime: ${end - start}ms`, { error: error.message });
     const end = Date.now();
-    logger.error(`Error retrieving hospitals with pagination, executionTime: ${end - start}ms`, { error: error.message });
-    
+    const executionTime = `${end - start}ms`;
+    const errorCode = 923;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error retrieving hospitals with pagination:${error.message} `, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1139,9 +1243,19 @@ exports.HospitalCode = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
+        // const end = Date.now();
+        // logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
         const end = Date.now();
-        logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
-
+        const executionTime = `${end - start}ms`;
+        const errorCode = 923;
+    
+        // Correctly log the error when in the catch block
+        logger.logWithMeta("warn", `Validation errors occurred during login: `, {
+          errorCode,
+          // errorMessage: error.message,
+          executionTime,
+          // hospitalId: req.hospitalId,
+        });
         return res.status(400).json({
             meta: {
                 statusCode: 400,
@@ -1163,9 +1277,19 @@ exports.HospitalCode = async (req, res) => {
 
     // Validate inputs
     if (!encryptedKeyFromHeader) {
+        // const end = Date.now();
+        // logger.error('Missing encrypted key in the request header', { executionTime: `${end - start}ms` });
         const end = Date.now();
-        logger.error('Missing encrypted key in the request header', { executionTime: `${end - start}ms` });
-
+        const executionTime = `${end - start}ms`;
+        const errorCode = 1047;
+    
+        // Correctly log the error when in the catch block
+        logger.logWithMeta("warn", `Missing encrypted key in the request header:`, {
+          errorCode,
+          // errorMessage: error.message,
+          executionTime,
+          // hospitalId: req.hospitalId,
+        });
         return res.status(400).json({
             meta: {
                 statusCode: 400,
@@ -1179,9 +1303,19 @@ exports.HospitalCode = async (req, res) => {
     }
 
     if (!ENCRYPT_SECRET_KEY) {
+        // const end = Date.now();
+        // logger.error('Decryption secret is not defined in environment variables', { executionTime: `${end - start}ms` });
         const end = Date.now();
-        logger.error('Decryption secret is not defined in environment variables', { executionTime: `${end - start}ms` });
-
+        const executionTime = `${end - start}ms`;
+        const errorCode = 1048;
+    
+        // Correctly log the error when in the catch block
+        logger.logWithMeta("warn", `Decryption secret is not defined in environment variables: `, {
+          errorCode,
+          // errorMessage: error.message,
+          executionTime,
+          // hospitalId: req.hospitalId,
+        });
         return res.status(500).json({
             meta: {
                 statusCode: 500,
@@ -1197,9 +1331,19 @@ exports.HospitalCode = async (req, res) => {
     try {
         const hospital = await Hospital.findOne({ where: { HospitalCode } });
         if (!hospital) {
+            // const end = Date.now();
+            // logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
             const end = Date.now();
-            logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
-
+            const executionTime = `${end - start}ms`;
+            const errorCode = 1045;
+        
+            // Correctly log the error when in the catch block
+            logger.logWithMeta("warn", `Hospital with HospitalCode ${HospitalCode} not found `, {
+              errorCode,
+              // errorMessage: error.message,
+              executionTime,
+              // hospitalId: req.hospitalId,
+            });
             return res.status(404).json({
                 meta: {
                     statusCode: 404,
@@ -1221,9 +1365,19 @@ console.log("Decrypted Key:", decryptedKey);
         console.log("Decrypted Key:", decryptedKey);
 
         if (decryptedKey !== hospital.UniqueKey) {
+            // const end = Date.now();
+            // logger.warn(`Invalid UniqueKey for HospitalCode ${HospitalCode}, executionTime: ${end - start}ms`);
             const end = Date.now();
-            logger.warn(`Invalid UniqueKey for HospitalCode ${HospitalCode}, executionTime: ${end - start}ms`);
-
+            const executionTime = `${end - start}ms`;
+            const errorCode = 955;
+        
+            // Correctly log the error when in the catch block
+            logger.logWithMeta("warn", `Invalid UniqueKey for HospitalCode ${HospitalCode}: `, {
+              errorCode,
+              // errorMessage: error.message,
+              executionTime,
+              // hospitalId: req.hospitalId,
+            });
             return res.status(401).json({
                 meta: {
                     statusCode: 401,
@@ -1299,9 +1453,19 @@ console.log("Decrypted Key:", decryptedKey);
             }
         });
     } catch (error) {
+        // const end = Date.now();
+        // logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
         const end = Date.now();
-        logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
-
+        const executionTime = `${end - start}ms`;
+        const errorCode = 1046;
+    
+        // Correctly log the error when in the catch block
+        logger.logWithMeta("warn", `Error finding hospital:${error.message} `, {
+          errorCode,
+          errorMessage: error.message,
+          executionTime,
+          // hospitalId: req.hospitalId,
+        });
         res.status(500).json({
             meta: {
                 statusCode: 500,
@@ -1320,9 +1484,19 @@ exports.login = async (req, res) => {
   const start = Date.now(); 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    // const end = Date.now();
+    // logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
     const end = Date.now();
-    logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
-    
+    const executionTime = `${end - start}ms`;
+    const errorCode = 923;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Validation errors occurred during login: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     return res.status(400).json({
       meta: {
         statusCode: 400,
@@ -1348,11 +1522,21 @@ exports.login = async (req, res) => {
     const hospital = await Hospital.findOne({ where: { Username } });
     if (!hospital) {
       const end = Date.now();
-
-      logger.warn(`Hospital with Username "${Username}" not found, executionTime: ${end - start}ms`, {
-        errorCode: 924,   // Adding the errorCode directly in the log
-        hospitalId: req.hospitalId || 'N/A'  // Including hospitalId if available, else 'N/A'
+      const executionTime = `${end - start}ms`;
+      const errorCode = 924;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Hospital with Username "${Username}" not found `, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
       });
+
+      // logger.warn(`Hospital with Username "${Username}" not found, executionTime: ${end - start}ms`, {
+      //   errorCode: 924,   // Adding the errorCode directly in the log
+      //   hospitalId: req.hospitalId || 'N/A'  // Including hospitalId if available, else 'N/A'
+      // });
 
       return res.status(404).json({
         meta: {
@@ -1404,9 +1588,19 @@ exports.login = async (req, res) => {
     const passwordMatch = await bcrypt.compare(Password, hospital.Password);
     
     if (!passwordMatch) {
-      const end = Date.now();
-logger.warn(`Incorrect password for hospital with Username ${Username}, executionTime: ${end - start}ms`);
+//       const end = Date.now();
+// logger.warn(`Incorrect password for hospital with Username ${Username}, executionTime: ${end - start}ms`);
+const end = Date.now();
+const executionTime = `${end - start}ms`;
+const errorCode = 925;
 
+// Correctly log the error when in the catch block
+logger.logWithMeta("warn", `Incorrect password for hospital with Username ${Username},`, {
+  errorCode,
+  // errorMessage: error.message,
+  executionTime,
+  // hospitalId: req.hospitalId,
+});
       return res.status(401).json({
         meta: {
           statusCode: 401,
@@ -1528,9 +1722,19 @@ logger.warn(`Incorrect password for hospital with Username ${Username}, executio
       }
     });
   } catch (error) {
+    // const end = Date.now();
+    // logger.error('Error logging in', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.error('Error logging in', { error: error.message, executionTime: `${end - start}ms` });
-    
+    const executionTime = `${end - start}ms`;
+    const errorCode = 926;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `'Error logging in ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1556,9 +1760,19 @@ exports.requestPasswordReset = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    // const end = Date.now();
+    // logger.warn('Validation errors occurred during password reset request', { errors, executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.warn('Validation errors occurred during password reset request', { errors, executionTime: `${end - start}ms` });
-    
+    const executionTime = `${end - start}ms`;
+    const errorCode = 957;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Validation errors occurred during password reset request: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     return res.status(400).json({
       meta: {
         statusCode: 400,
@@ -1578,8 +1792,19 @@ exports.requestPasswordReset = async (req, res) => {
   const uniqueKey = req.headers['x-unique-key'];
 
   if (!uniqueKey) {
+    // const end = Date.now();
+    // logger.error('Missing unique key in request headers', { executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.error('Missing unique key in request headers', { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 958;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Missing unique key in request headers: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     
     return res.status(400).json({
       meta: {
@@ -1597,8 +1822,19 @@ exports.requestPasswordReset = async (req, res) => {
     // Find hospital by uniqueKey
     const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
     if (!hospital) {
+      // const end = Date.now();
+      // logger.warn(`Hospital with UniqueKey ${uniqueKey} not found`, { executionTime: `${end - start}ms` });
       const end = Date.now();
-      logger.warn(`Hospital with UniqueKey ${uniqueKey} not found`, { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 959;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Hospital with UniqueKey ${uniqueKey} not found: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
       
       return res.status(404).json({
         meta: {
@@ -1616,9 +1852,19 @@ exports.requestPasswordReset = async (req, res) => {
     // Ensure managingCompanyEmail is available
     const managingCompanyEmail = hospital.ManagingCompanyEmail;
     if (!managingCompanyEmail) {
-      const end = Date.now();
-logger.error(`Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail`, { executionTime: `${end - start}ms` });
+//       const end = Date.now();
+// logger.error(`Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail`, { executionTime: `${end - start}ms` });
+const end = Date.now();
+const executionTime = `${end - start}ms`;
+const errorCode = 960;
 
+// Correctly log the error when in the catch block
+logger.logWithMeta("warn", `Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail `, {
+  errorCode,
+  // errorMessage: error.message,
+  executionTime,
+  // hospitalId: req.hospitalId,
+});
       return res.status(400).json({
         meta: {
           statusCode: 400,
@@ -1668,9 +1914,19 @@ logger.info(`Password reset link sent to ${managingCompanyEmail}`, { executionTi
       }
     });
   } catch (error) {
+    // const end = Date.now();
+    // logger.error('Error requesting password reset', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.error('Error requesting password reset', { error: error.message, executionTime: `${end - start}ms` });
-    
+    const executionTime = `${end - start}ms`;
+    const errorCode = 960;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error requesting password reset: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -1698,8 +1954,19 @@ exports.resetPassword = async (req, res) => {
 
     if (!hospital) {
       
+      // const end = Date.now();
+      // logger.warn('Invalid or expired reset token', { executionTime: `${end - start}ms` });
       const end = Date.now();
-      logger.warn('Invalid or expired reset token', { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 961;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Invalid or expired reset token: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
       
       return res.status(400).json({
         meta: {
@@ -1767,8 +2034,19 @@ logger.info(`Password reset successfully for hospital with email ${hospital.Emai
       }
     });
   } catch (error) {
+    // const end = Date.now();
+    // logger.error('Error resetting password', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.error('Error resetting password', { error: error.message, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 962;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error resetting password: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     
     res.status(500).json({
       meta: {
@@ -1788,8 +2066,19 @@ exports.changePassword = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    // const end = Date.now();
+    // logger.info('Validation errors occurred', { errors, executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.info('Validation errors occurred', { errors, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 963;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Validation errors occurred: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     
       return res.status(400).json({
           meta: {
@@ -1813,9 +2102,20 @@ exports.changePassword = async (req, res) => {
   try {
       const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
       if (!hospital) {
-        const end = Date.now();
-        logger.warn('Hospital not found with provided unique key', { uniqueKey, executionTime: `${end - start}ms` });
+        // const end = Date.now();
+        // logger.warn('Hospital not found with provided unique key', { uniqueKey, executionTime: `${end - start}ms` });
         
+        const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 964;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Hospital not found with provided unique key: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
           return res.status(404).json({
               meta: {
                   statusCode: 404,
@@ -1832,9 +2132,20 @@ exports.changePassword = async (req, res) => {
       
       const passwordMatch = await bcrypt.compare(currentPassword, hospital.Password);
       if (!passwordMatch) {
-        const end = Date.now();
-        logger.warn('Current password is incorrect', { executionTime: `${end - start}ms` });
+        // const end = Date.now();
+        // logger.warn('Current password is incorrect', { executionTime: `${end - start}ms` });
         
+        const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 968;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Current password is incorrect: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
           return res.status(400).json({
               meta: {
                   statusCode: 400,
@@ -1873,9 +2184,20 @@ exports.changePassword = async (req, res) => {
           }
       });
   } catch (error) {
-    const end = Date.now();
-logger.error('Error changing password', { error: error.message, executionTime: `${end - start}ms` });
+//     const end = Date.now();
+// logger.error('Error changing password', { error: error.message, executionTime: `${end - start}ms` });
 
+const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 966;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error changing password: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
       res.status(500).json({
           meta: {
               statusCode: 500,
@@ -1894,8 +2216,19 @@ exports.changeEmail = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    // const end = Date.now();
+    // logger.info('Validation errors occurred', errors);
     const end = Date.now();
-    logger.info('Validation errors occurred', errors);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 967;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Validation errors occurred: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     return res.status(400).json({
       meta: {
         statusCode: 400,
@@ -1919,7 +2252,18 @@ exports.changeEmail = async (req, res) => {
     const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
     if (!hospital) {
       const end = Date.now();
-logger.warn('Hospital not found with provided unique key', { uniqueKey: providedUniqueKey, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 968;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Hospital not found with provided unique key: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
+//       const end = Date.now();
+// logger.warn('Hospital not found with provided unique key', { uniqueKey: providedUniqueKey, executionTime: `${end - start}ms` });
 
       return res.status(404).json({
         meta: {
@@ -1950,8 +2294,19 @@ logger.info(`Email updated successfully for hospital with unique key ${uniqueKey
       }
     });
   } catch (error) {
-    const end = Date.now();
-logger.error('Error changing email', { error: error.message, executionTime: `${end - start}ms` });
+//     const end = Date.now();
+// logger.error('Error changing email', { error: error.message, executionTime: `${end - start}ms` });
+const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 969;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error changing email: `, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
 
     res.status(500).json({
       meta: {

@@ -31,7 +31,18 @@ exports.getAllApis = async (req, res) => {
       data: apis
     });
   } catch (error) {
-    logger.error('Error fetching APIs', { errorCode: 1104, error: error.message });
+    // logger.error('Error fetching APIs', { errorCode: 1104, error: error.message });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1104;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `Error fetching APIs:${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
 
     return res.status(500).json({
       meta: {
@@ -52,7 +63,19 @@ exports.getApiById = async (req, res) => {
     const api = await ApisList.findByPk(id);
 
     if (!api) {
-      logger.warn(`API with ID ${id} not found`, { errorCode: 1105 });
+      // logger.warn(`API with ID ${id} not found`, { errorCode: 1105 });
+      const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1105;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `API with ID ${id} not found:${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+
 
       return res.status(404).json({
         meta: {
@@ -76,7 +99,18 @@ exports.getApiById = async (req, res) => {
       data: api
     });
   } catch (error) {
-    logger.error(`Error fetching API by ID ${id}`, { errorCode: 1106, error: error.message });
+    // logger.error(`Error fetching API by ID ${id}`, { errorCode: 1106, error: error.message });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1106;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `Error fetching API by ID ${id}:${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
 
     return res.status(500).json({
       meta: {

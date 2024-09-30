@@ -35,9 +35,18 @@ exports.creatmodules = async (req, res) => {
         }
       });
     } catch (error) {
-      const errorCode =938
       const end = Date.now();
-      logger.error('Error creating Modules',{ errorCode }, { error: error.message, executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 938;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `'Error creating Modules: ${error.message}`, {
+        errorCode,
+        errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // logger.error('Error creating Modules',{ errorCode }, { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
         meta: {
           statusCode: 500,
@@ -62,8 +71,17 @@ exports.creatmodules = async (req, res) => {
   
       if (!userModules) {
         const end = Date.now();
+        const executionTime = `${end - start}ms`;
         const errorCode = 939;
-        logger.warn(`Module with ID ${modules_Id} not found, executionTime: ${end - start}ms, errorCode: ${errorCode}`);
+        
+        // Ensure that error.message is logged separately if needed
+        logger.logWithMeta("warn", `'Module with ID ${modules_Id} not found: ${error.message}`, {
+          errorCode,
+          errorMessage: error.message, // Include the error message in meta explicitly
+          executionTime,
+          hospitalId: req.hospitalId,
+        });
+        // logger.warn(`Module with ID ${modules_Id} not found, executionTime: ${end - start}ms, errorCode: ${errorCode}`);
         return res.status(404).json({
             meta: {
                 statusCode: 404,
@@ -91,7 +109,17 @@ exports.creatmodules = async (req, res) => {
       });
     } catch (error) {
       const end = Date.now();
-      logger.error('Error retrieving Modules', { error: error.message , executionTime: `${end - start}ms`});
+      const executionTime = `${end - start}ms`;
+      const errorCode = 940;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `'Error retrieving Modules ${error.message}`, {
+        errorCode,
+        errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // logger.error('Error retrieving Modules', { error: error.message , executionTime: `${end - start}ms`});
       res.status(500).json({
         meta: {
           statusCode: 500,
@@ -116,7 +144,17 @@ exports.creatmodules = async (req, res) => {
       // If no modules found
       if (!allModules || allModules.length === 0) {
         const end = Date.now();
-        logger.warn(`No modules found, executionTime: ${end - start}ms`);
+        const executionTime = `${end - start}ms`;
+        const errorCode = 941;
+        
+        // Ensure that error.message is logged separately if needed
+        logger.logWithMeta("warn", `'No modules found ${error.message}`, {
+          errorCode,
+          errorMessage: error.message, // Include the error message in meta explicitly
+          executionTime,
+          hospitalId: req.hospitalId,
+        });
+        // logger.warn(`No modules found, executionTime: ${end - start}ms`);
         return res.status(404).json({
           meta: {
             statusCode: 404,
@@ -145,7 +183,17 @@ exports.creatmodules = async (req, res) => {
       });
     } catch (error) {
       const end = Date.now();
-      logger.error('Error retrieving all modules', { error: error.message, executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 942;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `'Error retrieving all modules ${error.message}`, {
+        errorCode,
+        errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // logger.error('Error retrieving all modules', { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
         meta: {
           statusCode: 500,
@@ -180,12 +228,22 @@ exports.creatmodules = async (req, res) => {
         console.log('Found User Modules:', userModules);
 
         if (!userModules) {
-            const end = Date.now();
-            logger.warn(`Module with ID ${modules_Id} not found, executionTime: ${end - start}ms`);
+          const end = Date.now();
+          const executionTime = `${end - start}ms`;
+          const errorCode = 943;
+          
+          // Ensure that error.message is logged separately if needed
+          logger.logWithMeta("warn", `'Module with ID ${modules_Id} not found ${error.message}`, {
+            errorCode,
+            errorMessage: error.message, // Include the error message in meta explicitly
+            executionTime,
+            hospitalId: req.hospitalId,
+          });
+            // logger.warn(`Module with ID ${modules_Id} not found, executionTime: ${end - start}ms`);
             return res.status(404).json({
                 meta: {
                     statusCode: 404,
-                    errorCode: 941,
+                    errorCode: 943,
                     executionTime: `${end - start}ms`
                 },
                 error: {
@@ -211,12 +269,22 @@ exports.creatmodules = async (req, res) => {
             }
         });
     } catch (error) {
-        const end = Date.now();
-        logger.error('Error updating module', { error: error.message, executionTime: `${end - start}ms` });
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 944;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `'Error updating module ${error.message}`, {
+        errorCode,
+        errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+        // logger.error('Error updating module', { error: error.message, executionTime: `${end - start}ms` });
         res.status(500).json({
             meta: {
                 statusCode: 500,
-                errorCode: 942,
+                errorCode: 944,
                 executionTime: `${end - start}ms`
             },
             error: {

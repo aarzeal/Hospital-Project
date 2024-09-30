@@ -24,8 +24,18 @@ exports.createEmployee = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const end = Date.now(); 
-      logger.info('Validation errors occurred', errors);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 912;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `'Validation errors occurred:`, {
+      errorCode,
+      // errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+      // logger.info('Validation errors occurred', errors);
       return res.status(400).json({
           meta: {
               statusCode: 400,
@@ -115,8 +125,18 @@ exports.createEmployee = async (req, res) => {
       data: newEmployee
     });
   } catch (error) {
-    logger.error(`Error creating Employee: ${error.message}, errorCode: 1025`);
-    const end = Date.now(); 
+    // logger.error(`Error creating Employee: ${error.message}, errorCode: 1025`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1025;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `Error creating Employee: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
 
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1025 , executionTime: `${end - start}ms`},
@@ -134,8 +154,18 @@ exports.getEmployee = async (req, res) => {
     const employee = await Employee.findByPk(id);
 
     if (!employee) {
-      logger.warn(`Employee with ID ${id} not found`);
-      const end = Date.now(); 
+      // logger.warn(`Employee with ID ${id} not found`);
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1026;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `'Employee not found`, {
+        errorCode,
+        // errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
       return res.status(404).json({
         meta: { statusCode: 404 ,errorCode:1026, executionTime: `${end - start}ms`},
         error: { message: 'Employee not found' }
@@ -166,8 +196,18 @@ exports.getEmployee = async (req, res) => {
       data: employeeData
     });
   } catch (error) {
-    const end = Date.now(); 
-    logger.error(`Error fetching employee: ${error.message}`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1027;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `'Error fetching employee: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.error(`Error fetching employee: ${error.message}`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1027, executionTime: `${end - start}ms` },
       error: { message: 'Failed to fetch employee data due to a server error.' }
@@ -185,7 +225,17 @@ exports.updateEmployee = async (req, res) => {
     const employee = await Employee.findByPk(id);
 
     if (!employee) {
-      const end = Date.now(); 
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1028;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `Employee not found`, {
+        errorCode,
+        // errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
       return res.status(404).json({
         meta: { statusCode: 404, errroCode :1028 , executionTime: `${end - start}ms`},
         error: { message: 'Employee not found' }
@@ -202,8 +252,18 @@ exports.updateEmployee = async (req, res) => {
 
     });
   } catch (error) {
-    const end = Date.now(); 
-    logger.error(`Error updating employee: ${error.message}`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1029;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `Error updating employee: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.error(`Error updating employee: ${error.message}`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1029 , executionTime: `${end - start}ms`},
       error: { message: 'Failed to update employee due to a server error.' }
@@ -221,7 +281,17 @@ exports.deleteEmployee = async (req, res) => {
     const employee = await Employee.findByPk(id);
 
     if (!employee) {
-      const end = Date.now(); 
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1030;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `Employee not found`, {
+        errorCode,
+        // errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
       return res.status(404).json({
         meta: { statusCode: 404  , errorCode :1030, executionTime: `${end - start}ms`},
         error: { message: 'Employee not found' }
@@ -236,8 +306,18 @@ exports.deleteEmployee = async (req, res) => {
       message: 'Deleted employee successfully'
     });
   } catch (error) {
-    logger.error(`Error deleting employee: ${error.message}`);
-    const end = Date.now(); 
+    // logger.error(`Error deleting employee: ${error.message}`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1031;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `Error deleting employee: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1031, executionTime: `${end - start}ms` },
       error: { message: 'Failed to delete employee due to a server error.' }
@@ -283,8 +363,18 @@ exports.getEmployeeWithPagination = async (req, res) => {
       data: employeeData
     });
   } catch (error) {
-    const end = Date.now(); 
-    logger.error(`Error fetching employees with pagination: ${error.message}`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1032;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `Error fetching employees with pagination: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.error(`Error fetching employees with pagination: ${error.message}`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1032 , executionTime: `${end - start}ms`},
       error: { message: 'Failed to fetch employees with pagination due to a server error.' }
@@ -300,8 +390,18 @@ exports.getAllEmployees = async (req, res) => {
     const employees = await Employee.findAll();
 
     if (!employees || employees.length === 0) {
-      const end = Date.now(); 
-      logger.warn('No employees found');
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1033;
+      
+      // Ensure that error.message is logged separately if needed
+      logger.logWithMeta("warn", `'No employees found`, {
+        errorCode,
+        // errorMessage: error.message, // Include the error message in meta explicitly
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // logger.warn('No employees found');
       return res.status(404).json({
         meta: { statusCode: 404, errorCode: 1033 , executionTime: `${end - start}ms`},
         error: { message: 'No employees found' }
@@ -326,7 +426,18 @@ exports.getAllEmployees = async (req, res) => {
       data: employeeData
     });
   } catch (error) {
-    logger.error(`Error fetching all employees: ${error.message}`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1034;
+    
+    // Ensure that error.message is logged separately if needed
+    logger.logWithMeta("warn", `'Error fetching all employees: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message, // Include the error message in meta explicitly
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // logger.error(`Error fetching all employees: ${error.message}`);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1034, executionTime: `${end - start}ms` },
       error: { message: 'Failed to fetch employees due to a server error.' }
