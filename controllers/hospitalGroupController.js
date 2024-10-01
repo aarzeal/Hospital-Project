@@ -613,7 +613,7 @@ exports.updateHospitalGroup = async (req, res) => {
     if (updatedRows === 0) {
       const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 978;
+    const errorCode = 908;
 
     // Correctly log the error when in the catch block
     logger.logWithMeta("warn", `Hospital group with ID ${id} not found for update: ${error.message}`, {
@@ -722,7 +722,7 @@ exports.deleteHospitalGroup = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 978;
+    const errorCode = 911;
 
     // Correctly log the error when in the catch block
     logger.logWithMeta("warn", `Error deleting hospital group: ${error.message}`, {
@@ -778,7 +778,7 @@ exports.getAllHospitalGroupsByPagination = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 981;
+    const errorCode = 912;
 
     // Correctly log the error when in the catch block
     logger.logWithMeta("warn", `Error retrieving hospital groups with pagination: ${error.message}`, {
@@ -791,7 +791,7 @@ exports.getAllHospitalGroupsByPagination = async (req, res) => {
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 981,
+        errorCode: 912,
         executionTime: `${end - start}ms`
       },
       error: {

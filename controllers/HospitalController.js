@@ -212,7 +212,7 @@ exports.createHospital = async (req, res) => {
     if (!errors.isEmpty()) {
       const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 912;
+    const errorCode = 913;
 
     // Correctly log the error when in the catch block
     logger.logWithMeta("warn", `Validation errors occurred: `, {
@@ -225,7 +225,7 @@ exports.createHospital = async (req, res) => {
         return res.status(400).json({
             meta: {
                 statusCode: 400,
-                errorCode: 912,
+                errorCode: 913,
                 // executionTime: `${end - start}ms`
             },
             error: {
@@ -245,7 +245,7 @@ exports.createHospital = async (req, res) => {
 
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 956;
+      const errorCode = 914;
   
       // Correctly log the error when in the catch block
       logger.logWithMeta("warn", `Managing Company Email already exists: `, {
@@ -258,7 +258,7 @@ exports.createHospital = async (req, res) => {
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 956,
+          errorCode: 914,
                   //  executionTime: `${end - start}ms`
         },
         error: {
@@ -314,7 +314,7 @@ exports.createHospital = async (req, res) => {
      
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 913;
+      const errorCode = 915;
   
       // Correctly log the error when in the catch block
       logger.logWithMeta("warn", `Error creating hospital `, {
@@ -327,7 +327,7 @@ exports.createHospital = async (req, res) => {
         res.status(400).json({
             meta: {
                 statusCode: 400,
-                errorCode: 913,
+                errorCode: 915,
                           // executionTime: `${end - start}ms`
             },
             error: {
@@ -336,6 +336,7 @@ exports.createHospital = async (req, res) => {
         });
     }
 };
+
 
 
 
@@ -475,7 +476,7 @@ exports.getAllHospitals = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 914;
+    const errorCode = 916;
 
     // Correctly log the error when in the catch block
     logger.logWithMeta("warn", `Error retrieving hospitals:${error.message} `, {
@@ -488,7 +489,7 @@ exports.getAllHospitals = async (req, res) => {
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 914,
+        errorCode: 916,
           executionTime: `${end - start}ms`
       },
       error: {
@@ -507,7 +508,7 @@ exports.getHospitalById = async (req, res) => {
     if (!hospital) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 914;
+      const errorCode = 917;
   
       // Correctly log the error when in the catch block
       logger.logWithMeta("warn", `Hospital with ID ${id} not found `, {
@@ -522,7 +523,7 @@ exports.getHospitalById = async (req, res) => {
       res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 915,
+          errorCode: 917,
             executionTime: `${end - start}ms`
         },
         error: {
@@ -544,7 +545,7 @@ exports.getHospitalById = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 916;
+    const errorCode = 918;
 
     // Correctly log the error when in the catch block
     logger.logWithMeta("warn", `Error retrieving hospital:${error.message} `, {
@@ -558,7 +559,7 @@ exports.getHospitalById = async (req, res) => {
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 916,
+        errorCode: 918,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -575,7 +576,7 @@ exports.updateHospital = async (req, res) => {
   if (!errors.isEmpty()) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 917;
+    const errorCode = 919;
 
     // Correctly log the error when in the catch block
     logger.logWithMeta("warn", `Validation errors occurred while updating hospital:${error.message} `, {
@@ -589,7 +590,7 @@ exports.updateHospital = async (req, res) => {
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 917,
+        errorCode: 919,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -609,7 +610,7 @@ exports.updateHospital = async (req, res) => {
 
 const end = Date.now();
 const executionTime = `${end - start}ms`;
-const errorCode = 914;
+const errorCode = 920;
 
 // Correctly log the error when in the catch block
 logger.logWithMeta("warn", `Hospital not found:`, {
@@ -621,7 +622,7 @@ logger.logWithMeta("warn", `Hospital not found:`, {
       res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 918,
+          errorCode: 920,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -645,7 +646,7 @@ logger.logWithMeta("warn", `Hospital not found:`, {
     // logger.error(`Error updating hospital, executionTime: ${end - start}ms`, { error: error.message });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 919;
+    const errorCode = 921;
 
     // Correctly log the error when in the catch block
     logger.logWithMeta("warn", `Error updating hospital, executionTime:${error.message} `, {
@@ -657,7 +658,7 @@ logger.logWithMeta("warn", `Hospital not found:`, {
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 919,
+        errorCode: 921,
          executionTime: `${end - start}ms`
       },
       error: {
@@ -693,7 +694,7 @@ logger.logWithMeta("warn", `Hospital not found: `, {
       res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 920,
+          errorCode: 922,
            executionTime: `${end - start}ms`
         },
         error: {
@@ -716,7 +717,7 @@ logger.info(`Hospital with ID ${id} deleted successfully, executionTime: ${end -
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 921;
+    const errorCode = 923;
 
     // Correctly log the error when in the catch block
     logger.logWithMeta("warn", `Error deleting hospital:${error.message} `, {
@@ -730,7 +731,7 @@ logger.info(`Hospital with ID ${id} deleted successfully, executionTime: ${end -
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 921
+        errorCode: 923
       },
       error: {
         message: 'Error deleting hospital: ' + error.message
@@ -763,7 +764,7 @@ exports.getHospitalsByHospitalGroupID = async (req, res) => {
     // logger.error('Error retrieving hospitals by HospitalGroupIDR', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 922;
+    const errorCode = 924;
 
     // Correctly log the error when in the catch block
     logger.logWithMeta("warn", `Error retrieving hospitals by HospitalGroupIDR:${error.message} `, {
@@ -775,7 +776,7 @@ exports.getHospitalsByHospitalGroupID = async (req, res) => {
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 922,
+        errorCode: 924,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -820,7 +821,7 @@ exports.getAllHospitalsByPagination = async (req, res) => {
     // logger.error(`Error retrieving hospitals with pagination, executionTime: ${end - start}ms`, { error: error.message });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 923;
+    const errorCode = 925;
 
     // Correctly log the error when in the catch block
     logger.logWithMeta("warn", `Error retrieving hospitals with pagination:${error.message} `, {
@@ -832,7 +833,7 @@ exports.getAllHospitalsByPagination = async (req, res) => {
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 923,
+        errorCode: 925,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -1248,6 +1249,7 @@ exports.HospitalCode = async (req, res) => {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 923;
+        
     
         // Correctly log the error when in the catch block
         logger.logWithMeta("warn", `Validation errors occurred during login: `, {
@@ -3063,6 +3065,17 @@ exports.createUser = async (req, res) => {
 
   try {
     if (!password) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1212;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Password is required: `, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
       throw new Error('Password is required');
     }
 
@@ -3118,9 +3131,9 @@ exports.createUser = async (req, res) => {
 
     await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
 
-    res.status(201).json({
+    res.status(200).json({
       meta: {
-        statusCode: 201,
+        statusCode: 200,
         executionTime: `${Date.now() - start}ms`,
         hospitalDatabase
       },
@@ -3128,6 +3141,18 @@ exports.createUser = async (req, res) => {
       message: 'User created successfully. Verification email sent.'
     });
   } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 928;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error creating user:${error.message} `, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -3144,11 +3169,23 @@ exports.createUser = async (req, res) => {
 
 
 const decryptAES = (encryptedText, secretKey) => {
+  const start = Date.now();
   try {
     console.log('Decrypting text**********:', encryptedText);
     console.log('Using secret key************:', secretKey);
 
     if (!encryptedText || !secretKey) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 928;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Error creating user:${error.message} `, {
+        errorCode,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
       throw new Error('Missing encrypted text or secret key');
     }
 
@@ -3156,11 +3193,33 @@ const decryptAES = (encryptedText, secretKey) => {
     const decrypted = bytes.toString(CryptoJS.enc.Utf8);
 
     if (!decrypted) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1212;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Decryption resulted in an empty string:${error.message} `, {
+        errorCode,
+        errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+      });
       throw new Error('Decryption resulted in an empty string');
     }
 
     return decrypted;
   } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1212;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error during decryption:${error.message} `, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     console.error('Decryption Error:', error.message);
     throw new Error('Error during decryption');
   }
@@ -3205,6 +3264,17 @@ exports.verifyEmail = async (req, res) => {
 
   try {
     if (!hospitalDatabase || !token) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1212;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Missing database name or token:`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+      });
       throw new Error('Missing database name or token');
     }
 
@@ -3225,6 +3295,17 @@ exports.verifyEmail = async (req, res) => {
     // console.log('Decrypted Token......:', decryptedToken);
 
     if (!decryptedDB || !token) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 928;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Decryption failed or resulted in an empty string:`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+      });
       return res.status(400).json({
         meta: { statusCode: 400, errorCode: 928, executionTime: `${Date.now() - start}ms` },
         error: { message: 'Decryption failed or resulted in an empty string' },
@@ -3251,6 +3332,17 @@ exports.verifyEmail = async (req, res) => {
 
 
     if (!user) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 928;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Invalid or expired verification token`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+      });
       return res.status(400).json({
         meta: { statusCode: 400, errorCode: 952, executionTime: `${Date.now() - start}ms` },
         error: { message: 'Invalid or expired verification token' },
@@ -3266,6 +3358,17 @@ exports.verifyEmail = async (req, res) => {
       data: { message: 'Email verified successfully' },
     });
   } catch (error) {
+    const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 928;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Error verifying email`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+      });
     console.error('Verification Error:', error.message);
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 953, executionTime: `${Date.now() - start}ms` },
@@ -3815,6 +3918,16 @@ exports.resendVerificationEmail = async (req, res) => {
 
     if (!user) {
       const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 954;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Email is not registered`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+      });
       return res.status(404).json({
         meta: {
           statusCode: 404,
@@ -3829,6 +3942,16 @@ exports.resendVerificationEmail = async (req, res) => {
 
     if (user.is_emailVerify == 1) {
       const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 955;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Email is already verified`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+      });
       return res.status(200).json({
         meta: {
           statusCode: 200,
@@ -3874,9 +3997,19 @@ exports.resendVerificationEmail = async (req, res) => {
     // Resend the verification email
     await sendUserEmail(user.email, 'Resend Verification Email', `Click this link to verify your email: ${verificationLink}`);
 
+    // const end = Date.now();
+    // logger.info(`Verification email resent to ${user.email}`, { executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.info(`Verification email resent to ${user.email}`, { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    
 
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Verification email resent to ${user.email}`, {
+      // errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -3888,9 +4021,19 @@ exports.resendVerificationEmail = async (req, res) => {
     });
 
   } catch (error) {
+    // const end = Date.now();
+    // logger.error('Error resending verification email', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.error('Error resending verification email', { error: error.message, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 956;
 
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error resending verification email${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -3913,8 +4056,19 @@ exports.getUser = async (req, res) => {
     const user = await User.findByPk(id);
 
     if (!user) {
+      // const end = Date.now();
+      // logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
       const end = Date.now();
-      logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 937;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `User with ID ${id} not found`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+      });
       
       return res.status(404).json({
         meta: {
@@ -3927,9 +4081,19 @@ exports.getUser = async (req, res) => {
         }
       });
     }
-
     const end = Date.now();
-    logger.info(`User with ID ${id} retrieved successfully`, { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `'User with ID ${id} retrieved successfully`, {
+      // errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // const end = Date.now();
+    // logger.info(`User with ID ${id} retrieved successfully`, { executionTime: `${end - start}ms` });
     
     res.status(200).json({
       meta: {
@@ -3945,8 +4109,19 @@ exports.getUser = async (req, res) => {
       }
     });
   } catch (error) {
+    // const end = Date.now();
+    // logger.error('Error retrieving user', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.error('Error retrieving user', { error: error.message, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 931;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `'Error retrieving user ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
     
     res.status(500).json({
       meta: {
@@ -3972,8 +4147,19 @@ exports.updateUser = async (req, res) => {
     const user = await User.findByPk(id);
 
     if (!user) {
-      const end = Date.now();
-logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
+//       const end = Date.now();
+// logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
+const end = Date.now();
+const executionTime = `${end - start}ms`;
+const errorCode = 932;
+
+// Correctly log the error when in the catch block
+logger.logWithMeta("warn", `User with ID ${id} not found`, {
+  errorCode,
+  // errorMessage: error.message,
+  executionTime,
+  // hospitalId: req.hospitalId,
+});
 
       return res.status(404).json({
         meta: {
@@ -3991,9 +4177,19 @@ logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` 
     if (password) user.password = await bcrypt.hash(password, 10);
 
     await user.save();
-    const end = Date.now();
-logger.info(`User with ID ${id} updated successfully`, { executionTime: `${end - start}ms` });
+//     const end = Date.now();
+// logger.info(`User with ID ${id} updated successfully`, { executionTime: `${end - start}ms` });
+const end = Date.now();
+const executionTime = `${end - start}ms`;
 
+
+// Correctly log the error when in the catch block
+logger.logWithMeta("warn", `User with ID ${id} updated successfully`, {
+ 
+  // errorMessage: error.message,
+  executionTime,
+  hospitalId: req.hospitalId,
+});
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -4005,9 +4201,20 @@ logger.info(`User with ID ${id} updated successfully`, { executionTime: `${end -
       }
     });
   } catch (error) {
-    const end = Date.now();
-    logger.error('Error updating user', { error: error.message, executionTime: `${end - start}ms` });
+    // const end = Date.now();
+    // logger.error('Error updating user', { error: error.message, executionTime: `${end - start}ms` });
     
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 933;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error updating user${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
     res.status(500).json({
       meta: {
         statusCode: 500,
@@ -4030,8 +4237,19 @@ exports.deleteUser = async (req, res) => {
     const user = await User.findByPk(id);
 
     if (!user) {
+      // const end = Date.now();
+      // logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
       const end = Date.now();
-      logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 934;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `User with ID ${id} not found`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
       
       return res.status(404).json({
         meta: {
@@ -4047,8 +4265,21 @@ exports.deleteUser = async (req, res) => {
 
     await user.destroy();
 
+
+    // const end = Date.now();
+    // logger.info(`User with ID ${id} deleted successfully`, { executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.info(`User with ID ${id} deleted successfully`, { executionTime: `${end - start}ms` });
+const executionTime = `${end - start}ms`;
+
+
+// Correctly log the error when in the catch block
+logger.logWithMeta("warn", `User with ID ${id} deleted successfully`, {
+ 
+  // errorMessage: error.message,
+  executionTime,
+  hospitalId: req.hospitalId,
+});
+
     
     res.status(200).json({
       meta: {
@@ -4060,8 +4291,19 @@ exports.deleteUser = async (req, res) => {
       }
     });
   } catch (error) {
-    const end = Date.now();
-logger.error('Error deleting user', { error: error.message, executionTime: `${end - start}ms` });
+//     const end = Date.now();
+// logger.error('Error deleting user', { error: error.message, executionTime: `${end - start}ms` });
+const end = Date.now();
+const executionTime = `${end - start}ms`;
+const errorCode = 935;
+
+// Correctly log the error when in the catch block
+logger.logWithMeta("warn", `Error deleting user ${error.message}`, {
+  errorCode,
+  errorMessage: error.message,
+  executionTime,
+  hospitalId: req.hospitalId,
+});
 
     res.status(500).json({
       meta: {
@@ -4081,8 +4323,19 @@ exports.getAllUsers = async (req, res) => {
     const User = require('../models/user')(req.sequelize);
     const users = await User.findAll();
 
-    const end = Date.now();
-logger.info(`Retrieved all users successfully`, { executionTime: `${end - start}ms` });
+//     const end = Date.now();
+// logger.info(`Retrieved all users successfully`, { executionTime: `${end - start}ms` });
+const end = Date.now();
+const executionTime = `${end - start}ms`;
+
+
+// Correctly log the error when in the catch block
+logger.logWithMeta("warn", `Retrieved all users successfully`, {
+  
+  // errorMessage: error.message,
+  executionTime,
+  hospitalId: req.hospitalId,
+});
 
 
     res.status(200).json({
@@ -4094,7 +4347,18 @@ logger.info(`Retrieved all users successfully`, { executionTime: `${end - start}
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error retrieving all users', { error: error.message, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 936;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error retrieving all users${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // const end = Date.now();
+    // logger.error('Error retrieving all users', { error: error.message, executionTime: `${end - start}ms` });
     
     res.status(500).json({
       meta: {
@@ -4123,9 +4387,19 @@ exports.getAllUsersByPagination = async (req, res) => {
       limit,
       order: [['createdAt', 'ASC']] // Example ordering by createdAt, adjust as per your requirement
     });
+    // const end = Date.now();
+    // logger.info(`Retrieved users for page ${page} with limit ${limit} successfully`, { executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.info(`Retrieved users for page ${page} with limit ${limit} successfully`, { executionTime: `${end - start}ms` });
-    
+    const executionTime = `${end - start}ms`;
+    // const errorCode = 928;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `user get successfull`, {
+      // errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
 
     res.status(200).json({
       meta: {
@@ -4139,7 +4413,18 @@ exports.getAllUsersByPagination = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-logger.error('Error retrieving users with pagination', { error: error.message, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 937;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error retrieving users with pagination${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+//     const end = Date.now();
+// logger.error('Error retrieving users with pagination', { error: error.message, executionTime: `${end - start}ms` });
 
 
     res.status(500).json({
@@ -4708,8 +4993,19 @@ exports.loginUser = async (req, res) => {
   const { Username, Password } = req.body;
 
   if (!Username || !Password) {
+    // const end = Date.now();
+    // logger.error('Username or Password not provided', { executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.error('Username or Password not provided', { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1047;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Username or Password not provided`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
 
     return res.status(400).json({
       meta: {
@@ -4729,8 +5025,19 @@ exports.loginUser = async (req, res) => {
     const user = await User.findOne({ where: { username: Username } });
 
     if (!user || !await bcrypt.compare(Password, user.password)) {
+      // const end = Date.now();
+      // logger.error('Invalid username or password', { executionTime: `${end - start}ms` });
       const end = Date.now();
-      logger.error('Invalid username or password', { executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1048;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Invalid username or password`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
 
       return res.status(401).json({
         meta: {
@@ -4745,8 +5052,19 @@ exports.loginUser = async (req, res) => {
     }
 
     if (user.is_emailVerify !== '1' || user.phoneverify !== '1') {
+      // const end = Date.now();
+      // logger.error('Email or phone not verified', { executionTime: `${end - start}ms` });
       const end = Date.now();
-      logger.error('Email or phone not verified', { executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1049;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Email or phone not verified`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
 
       return res.status(403).json({
         meta: {
@@ -4812,11 +5130,23 @@ exports.loginUser = async (req, res) => {
     console.log(`Token expires in: ${expiresIn} seconds`);
 
     const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Login successful`, {
+   
+      
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+
     return res.status(200).json({
       meta: {
         statusCode: 200,
         executionTime: `${end - start}ms`
       },
+
       data: {
         AccessToken,
         expiresInMinutes: `${expiresInMinutes} min`,
@@ -4829,8 +5159,19 @@ exports.loginUser = async (req, res) => {
       }
     });
   } catch (error) {
+    // const end = Date.now();
+    // logger.error('Error logging in', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.error('Error logging in', { error: error.message, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1050;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error logging in${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
 
     return res.status(500).json({
       meta: {
@@ -4852,9 +5193,21 @@ exports.sendOtp = async (req, res) => {
   const token = req.headers['accesstoken'];
 
   if (!token) {
+    // const end = Date.now();
+    // logger.error('No access token provided', { executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.error('No access token provided', { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1081;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `No access token provided`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
     return res.status(401).json({
+
       meta: {
         statusCode: 401,
         errorCode: 1081,
@@ -4874,8 +5227,19 @@ exports.sendOtp = async (req, res) => {
     const email = decoded.email;
 
     if (!email) {
+      // const end = Date.now();
+      // logger.error('No email found in access token', { executionTime: `${end - start}ms` });
       const end = Date.now();
-      logger.error('No email found in access token', { executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1082;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `No email found in access token`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
       return res.status(400).json({
         meta: {
           statusCode: 400,
@@ -4903,8 +5267,22 @@ exports.sendOtp = async (req, res) => {
     // Send email
     await sendUserEmail(email, emailSubject, emailBody);
 
+
+
     const end = Date.now();
-    logger.info('OTP sent successfully', { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    // const errorCode = 928;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `OTP sent successfully to your email`, {
+      // errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+
+    // const end = Date.now();
+    // logger.info('OTP sent successfully', { executionTime: `${end - start}ms` });
     return res.status(200).json({
       meta: {
         statusCode: 200,
@@ -4915,8 +5293,21 @@ exports.sendOtp = async (req, res) => {
       }
     });
   } catch (error) {
+
+
     const end = Date.now();
-    logger.error('Error sending OTP', { error: error.message, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1083;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error sending OTP${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // const end = Date.now();
+    // logger.error('Error sending OTP', { error: error.message, executionTime: `${end - start}ms` });
     return res.status(500).json({
       meta: {
         statusCode: 500,
@@ -4939,7 +5330,18 @@ exports.verifyOtp = async (req, res) => {
 
   if (!token) {
     const end = Date.now();
-    logger.error('No access token provided', { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1084;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `No access token provided`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // const end = Date.now();
+    // logger.error('No access token provided', { executionTime: `${end - start}ms` });
     return res.status(401).json({
       meta: {
         statusCode: 401,
@@ -4955,7 +5357,20 @@ exports.verifyOtp = async (req, res) => {
   try {
     // Verify and decode the JWT token
     const tokenParts = token.split(' ');
-    if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
+    if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer')
+      
+       {
+        const end = Date.now();
+        const executionTime = `${end - start}ms`;
+        const errorCode = 1212;
+    
+        // Correctly log the error when in the catch block
+        logger.logWithMeta("warn", `Invalid token format`, {
+          errorCode,
+          // errorMessage: error.message,
+          executionTime,
+          hospitalId: req.hospitalId,
+        });
       throw new Error('Invalid token format');
     }
 
@@ -4968,7 +5383,18 @@ exports.verifyOtp = async (req, res) => {
 
     if (!otp) {
       const end = Date.now();
-      logger.error('No OTP provided', { executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1085;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `OTP verified successfully`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // const end = Date.now();
+      // logger.error('No OTP provided', { executionTime: `${end - start}ms` });
       return res.status(400).json({
         meta: {
           statusCode: 400,
@@ -4987,7 +5413,18 @@ exports.verifyOtp = async (req, res) => {
 
     if (!storedOtp) {
       const end = Date.now();
-      logger.error('OTP expired or not found', { executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1086;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `OTP expired or not found`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      // const end = Date.now();
+      // logger.error('OTP expired or not found', { executionTime: `${end - start}ms` });
       return res.status(400).json({
         meta: {
           statusCode: 400,
@@ -5002,7 +5439,18 @@ exports.verifyOtp = async (req, res) => {
 
     if (otp !== storedOtp) {
       const end = Date.now();
-      logger.error('Invalid OTP', { executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1087;
+  
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Invalid OTP`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+      });
+      // const end = Date.now();
+      // logger.error('Invalid OTP', { executionTime: `${end - start}ms` });
       return res.status(400).json({
         meta: {
           statusCode: 400,
@@ -5016,8 +5464,19 @@ exports.verifyOtp = async (req, res) => {
     }
 
     // OTP verified successfully
+    // const end = Date.now();
+    // logger.info('OTP verified successfully', { executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.info('OTP verified successfully', { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    // const errorCode = 928;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `OTP verified successfully`, {
+      // errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     return res.status(200).json({
       meta: {
         statusCode: 200,
@@ -5029,7 +5488,18 @@ exports.verifyOtp = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error verifying OTP', { error: error.message, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1088;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Error verifying OTP`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
+    // const end = Date.now();
+    // logger.error('Error verifying OTP', { error: error.message, executionTime: `${end - start}ms` });
     return res.status(500).json({
       meta: {
         statusCode: 500,
@@ -5146,6 +5616,15 @@ exports.getProfile = (req, res) => {
   const token = req.headers['authorization'];
   
   if (!token) {
+    const errorCode = 401;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `No token provided`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     logger.warn('No token provided');
     return res.status(401).json({
       meta: {
@@ -5159,6 +5638,13 @@ exports.getProfile = (req, res) => {
   try {
     const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET); // Adjust the secret as necessary
 
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", ` get all user successfully`, {
+      
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     res.status(200).json({
       meta: {
         statusCode: 200
@@ -5170,6 +5656,15 @@ exports.getProfile = (req, res) => {
       }
     });
   } catch (error) {
+    const errorCode = 500;
+
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `Failed to authenticate token${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      // hospitalId: req.hospitalId,
+    });
     logger.error('Failed to authenticate token', { error: error.message });
     res.status(500).json({
       meta: {
