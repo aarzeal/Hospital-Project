@@ -10,6 +10,7 @@ const axios = require('axios');
 const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
+const requestIp = require('request-ip');
 
 
 
@@ -669,18 +670,26 @@ const parsedNationality = parseInt(Nationality, 10);
     // } else {
     //   console.error('Error: newPatient or Phone number is not defined');
     // }
-    if (newPatient && newPatient.Phone && newPatient.PatientFirstName && newPatient.EMRNumber) {
-      sendSMS(newPatient.Phone, newPatient.PatientFirstName, newPatient.EMRNumber)
-        .then(response => {
-          console.log('Sending SMS to:', newPatient.Phone);
-          console.log('WhatsApp message response:', response);
-        })
-        .catch(error => {
-          console.error('Error sending WhatsApp message:', error);
-        });
-    } else {
-      console.error('Error: newPatient, Phone number, PatientFirstName, or EMRNumber is not defined');
-    }
+
+
+/**************send sms working function start */
+    // if (newPatient && newPatient.Phone && newPatient.PatientFirstName && newPatient.EMRNumber) {
+    //   sendSMS(newPatient.Phone, newPatient.PatientFirstName, newPatient.EMRNumber)
+    //     .then(response => {
+    //       console.log('Sending SMS to:', newPatient.Phone);
+    //       console.log('WhatsApp message response:', response);
+    //     })
+    //     .catch(error => {
+    //       console.error('Error sending WhatsApp message:', error);
+    //     });
+    // } else {
+    //   console.error('Error: newPatient, Phone number, PatientFirstName, or EMRNumber is not defined');
+    // }
+
+
+/**************send sms working function end  */
+
+
     // sendSMS(newPatient.Phone)
 
     
@@ -695,15 +704,57 @@ const parsedNationality = parseInt(Nationality, 10);
     //     console.error('Error sending WhatsApp message:', error);
     //   });
     
+
+
       await sendEmail(newPatient.Email, 'Registration Successful', 'registrationEmailTemplate1.ejs', {
         firstName: newPatient.PatientFirstName,
         emrNumber: newPatient.EMRNumber,
         hospitalName: req.hospitalName,
         managingCompanyEmail: req.managingCompanyEmail
       }, req.file);
+      
+    // Get the real IP address of the client
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
 
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+      logger.error('Error fetching public IP', { error: error.message });
+      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+    }
+  }
+
+  console.log('Client IP:', clientIp);
       const end = Date.now();
-      logger.info(`Created new patient with ID ${newPatient.PatientID} in ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+      // let clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip;
+      
+      console.log("clientIp.....",clientIp )
+
+// // Get API name and method
+const apiName = req.originalUrl; // This gets the original URL of the request
+const method = req.method;         // This gets the HTTP method (GET, POST, etc.)
+
+// Log the creation of the new patient
+logger.logWithMeta("info", `Created new patient with ID ${newPatient.PatientID} in ${executionTime} ms`, {
+  executionTime,                         // Execution time in ms
+  MRNumber: newPatient.EMRNumber,       // EMR Number
+  hospitalId: req.hospitalId,          // Hospital ID
+  patientId: newPatient.PatientID,      // Patient ID
+  patientFirstName: newPatient.PatientFirstName, // Include first name separately if needed
+  userId: req.userId,                  // User ID (if available)
+  ip: clientIp,                         // Client IP
+  userAgent: req.headers['user-agent'], // User agent from headers
+  apiName,                              // API name
+  method                                // HTTP method
+});
+      
+
+      // const end = Date.now();
+      // logger.info(`Created new patient with ID ${newPatient.PatientID} in ${end - start}ms`);
       res.status(200).json({
         meta: {
           statusCode: 200,

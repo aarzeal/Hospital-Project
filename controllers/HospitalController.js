@@ -1413,6 +1413,7 @@ console.log("Decrypted Key:", decryptedKey);
                 { hospitalId: hospital.HospitalID, 
                   hospitalDatabase: hospital.HospitalDatabase, 
                   hospitalGroupIDR: hospital.HospitalGroupIDR,
+                  hospitalName:hospital.hospitalName,
 
                   MFAEnabled: hospital.MFAEnabled  },
                 process.env.JWT_SECRET,

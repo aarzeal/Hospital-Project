@@ -267,7 +267,8 @@
 //////  start craete new table days wise
 const winston = require('winston');
 const mongoose = require('mongoose');
-
+const { v4: uuidv4 } = require('uuid'); 
+const crypto = require('crypto');
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/logs', {
   useNewUrlParser: true,
@@ -293,6 +294,9 @@ class MongoDBTransport extends winston.Transport {
         meta: mongoose.Schema.Types.Mixed,
         errorCode: Number,
         hospitalId: String,
+        logId: String,
+        apiName: String, // Include apiName in the schema
+        method: String,   // Include method in the schema
       });
 
       this.models[name] = mongoose.model(name, logSchema);
@@ -306,6 +310,7 @@ class MongoDBTransport extends winston.Transport {
     const datePart = `${today.getFullYear()}_${today.getMonth() + 1}_${today.getDate()}`; // Format: YYYY_MM_DD
     return `logs_${datePart}`;
   }
+  
 
   async log(info, callback) {
     setImmediate(() => this.emit('logged', info));
@@ -320,6 +325,10 @@ class MongoDBTransport extends winston.Transport {
       // Get the appropriate model for the current collection
       const Log = this.getModel(this.currentCollectionName);
 
+      function generateLogId() {
+        return crypto.randomBytes(16).toString('hex'); // Generates 32 hex characters (16 bytes)
+    }
+      const logId = generateLogId(); // Generate a unique log ID
       // Create a new log entry
       const logEntry = new Log({
         level: info.level,
@@ -328,6 +337,9 @@ class MongoDBTransport extends winston.Transport {
         meta: info.meta || {},
         errorCode: info.errorCode,  // Include errorCode
         hospitalId: info.hospitalId, // Include hospitalId
+        logId,
+        apiName: info.apiName,        // Log the API name
+        method: info.method  
       });
 
       await logEntry.save(); // Save the log entry to the current collection
@@ -351,15 +363,18 @@ const logger = winston.createLogger({
     new MongoDBTransport(),             // Log to MongoDB
   ],
 });
-
+// const apiName = req.originalUrl; // This gets the original URL of the request
+// const method = req.method; 
 // Log function to include errorCode and hospitalId
 logger.logWithMeta = (level, message, { errorCode, hospitalId, ...meta } = {}) => {
   logger.log({
     level,
     message,
-    meta,       // Pass any additional metadata
-    errorCode,  // Include error code in log
-    hospitalId, // Include hospital ID in log
+    meta,
+    errorCode,
+    hospitalId,
+    // apiName: meta.apiName, // Pass apiName from meta
+    // method: meta.method     // Pass method from meta
   });
 };
 

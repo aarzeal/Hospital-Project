@@ -62,6 +62,7 @@ app.use(session({
 
 app.use(countApiLogger);
 app.use(cors());
+app.set('trust proxy', true);
 
 
 // Serve Swagger UI

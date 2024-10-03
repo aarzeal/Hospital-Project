@@ -67,11 +67,13 @@ const authenticate = (req, res, next) => {
     req.hospitalId = decoded.hospitalId;
     req.hospitalGroupId = decoded.hospitalGroupIDR
     req.hospitalDatabase = decoded.hospitalDatabase;
+    
     req.MFAEnabled= decoded.MFAEnabled,
 
     console.log("req.MFAEnabled......",req.MFAEnabled)
     console.log("req.hospitalDatabase......",req.hospitalDatabase)
     console.log("req.hospitalGroupId......",req.hospitalGroupId)
+    console.log("req.hospitalName......",req.hospitalName)
 
     next();
 
