@@ -18,12 +18,44 @@ const jwt = require('jsonwebtoken');
 
 const { validationResult } = require('express-validator');
 
+async function getClientIp(req) {
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+
+      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 971 });
+
+      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+    }
+  }
+
+  return clientIp;
+}
+
 exports.getAllPatients = async (req, res) => {
   const start = Date.now();
   try {
+    const clientIp = await getClientIp(req);
     const patients = await PatientMaster.findAll();
-    const end = Date.now(); 
-    logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    // logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
+    logger.logWithMeta("info", `Retrieved all patients successfully`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      // patientFirstName: patient.PatientFirstName, // Adjust to match actual field
+      userId: req.userId,
+      ip: clientIp, // Correctly log the client IP
+      userAgent: req.headers['user-agent'],
+      apiName: req.originalUrl, // API name
+      method: req.method         // HTTP method
+    });
+
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -33,23 +65,25 @@ exports.getAllPatients = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-      
     const executionTime = `${end - start}ms`;
-    const errorCode = 971;
-    
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `Error retrieving patients`, error. error.message,{
+    const errorCode = 972;
+
+    // Log the warning
+    logger.logWithMeta("warn", `Error retrieving patients`, {
       errorCode,
-      // Include the error message in meta explicitly
-      error: error.message,
+
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method         // HTTP method
     });
+
     // logger.error('Error retrieving patients', { error: error.message, executionTime: `${end - start}ms` });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 971,
+        errorCode: 972,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -106,32 +140,37 @@ exports.getAllPatients = async (req, res) => {
 //   }
 // };
 
+// Function to get the client IP address
+
+
 exports.getPatientById = async (req, res) => {
   const start = Date.now();
   const { id } = req.params;
-  
+
   try {
     // Fetch the patient by their ID
     const patient = await PatientMaster.findByPk(id);
-    
+    const clientIp = await getClientIp(req);
+
     if (!patient) {
       const end = Date.now();
-      
       const executionTime = `${end - start}ms`;
-      const errorCode = 972;
-      
-      // Ensure that error.message is logged separately if needed
+      const errorCode = 973;
+
+      // Log the warning
       logger.logWithMeta("warn", `Patient with ID ${id} not found`, {
         errorCode,
-        // Include the error message in meta explicitly
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method         // HTTP method
       });
       // logger.warn(`Patient with ID ${id} not found`, { executionTime: `${end - start}ms` });
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 972,
+          errorCode: 973,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -154,8 +193,22 @@ exports.getPatientById = async (req, res) => {
       }
     }
 
+
+
     const end = Date.now();
-    logger.info(`Retrieved patient with ID ${id} successfully`);
+    const executionTime = `${end - start}ms`;
+    // Log success
+    logger.logWithMeta("info", `Retrieved patient with ID ${id} successfully`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      patientFirstName: patient.PatientFirstName, // Adjust to match actual field
+      userId: req.userId,
+      ip: clientIp, // Correctly log the client IP
+      userAgent: req.headers['user-agent'],
+      apiName: req.originalUrl, // API name
+      method: req.method         // HTTP method
+    });
+
 
     res.status(200).json({
       meta: {
@@ -169,23 +222,27 @@ exports.getPatientById = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-      
-    const executionTime = `${end - start}ms`;
-    const errorCode = 972;
-    
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `Error retrieving patient`, error. error.message,{
+    const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+    const errorCode = 974;
+
+    // Log the error
+    logger.logWithMeta("warn", `Error retrieving patient`, {
       errorCode,
-      // Include the error message in meta explicitly
       error: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method
     });
+
+
+
     // logger.error('Error retrieving patient', { error: error.message, executionTime: `${end - start}ms` });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 973,
+        errorCode: 974,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -343,7 +400,7 @@ const generateEMRNumber = async () => {
 //       state
 //     });
 
-    
+
 //     // Send SMS and email
 //     const smsMessage = `Dear ${newPatient.PatientFirstName}, your registration was successful. Your EMR Number is ${newPatient.EMRNumber}.`;
 //     await sendSMS(newPatient.Phone, smsMessage);
@@ -409,6 +466,8 @@ const storage = multer.diskStorage({
       req.body.EMRNumber = EMRNumber // Store EMRNumber in the request body to use later
       cb(null, `${req.body.EMRNumber}${path.extname(file.originalname)}`);
     } catch (err) {
+      logger.logWithMeta('Error storing img file path ', { error: err.message, erroerCode: 975 });
+
       cb(err);
     }
   }
@@ -443,26 +502,26 @@ const saveBase64Image = (base64String, filename) => {
 exports.createPatient = [
   // Validation middleware (ensure this is used before multer middleware)
   // Example: body('name').notEmpty().withMessage('Name is required'),
-  
+
   // File upload middleware
   upload.single('img'),
-  
+
   async (req, res) => {
     console.log('Request Body:', req.body);
     console.log('Uploaded File:', req.file);
-    
+
     const start = Date.now();
 
     // Check validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const end = Date.now();
-      
+
       const executionTime = `${end - start}ms`;
-      const errorCode = 912;
-      
+      const errorCode = 976;
+
       // Ensure that error.message is logged separately if needed
-      logger.logWithMeta("warn", `Validation errors occurred`,errors.array(), {
+      logger.logWithMeta("warn", `Validation errors occurred`, errors.array(), {
         errorCode,
         errorMessage: errors.array(), // Include the error message in meta explicitly
         executionTime,
@@ -472,7 +531,7 @@ exports.createPatient = [
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 912,
+          errorCode: 976,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -523,9 +582,9 @@ exports.createPatient = [
 
 
     const parsedBloodGroup = parseInt(BloodGroup, 10);
-const parsedGender = parseInt(Gender, 10);
-const parsedMaritalStatus = parseInt(MaritalStatus, 10);
-const parsedNationality = parseInt(Nationality, 10);
+    const parsedGender = parseInt(Gender, 10);
+    const parsedMaritalStatus = parseInt(MaritalStatus, 10);
+    const parsedNationality = parseInt(Nationality, 10);
 
 
     try {
@@ -544,21 +603,21 @@ const parsedNationality = parseInt(Nationality, 10);
 
         const duplicateField = existingPatient.Phone === Phone ? 'Phone number' : 'Email';
         const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 1051;
-      
-      // Ensure that error.message is logged separately if needed
-      logger.logWithMeta("warn", `${duplicateField} already exists`, {
-        errorCode,
-        // errorMessage: error.message, // Include the error message in meta explicitly
-        executionTime,
-        hospitalId: req.hospitalId,
-      });
+        const executionTime = `${end - start}ms`;
+        const errorCode = 977;
+
+        // Ensure that error.message is logged separately if needed
+        logger.logWithMeta("warn", `${duplicateField} already exists`, {
+          errorCode,
+          // errorMessage: error.message, // Include the error message in meta explicitly
+          executionTime,
+          hospitalId: req.hospitalId,
+        });
         // logger.info(`${duplicateField} already exists`, { executionTime: `${end - start}ms` });
         return res.status(400).json({
           meta: {
             statusCode: 400,
-            errorCode: 1051,
+            errorCode: 977,
             executionTime: `${end - start}ms`
           },
           error: {
@@ -576,7 +635,7 @@ const parsedNationality = parseInt(Nationality, 10);
       }
 
 
-      console.log("req.hospitalGroupIDR :",req.hospitalGroupId)
+      console.log("req.hospitalGroupIDR :", req.hospitalGroupId)
       // Create new patient record
       const newPatient = await PatientMaster.create({
         PatientMiddleName,
@@ -609,101 +668,101 @@ const parsedNationality = parseInt(Nationality, 10);
         country,
         city,
         state,
-        img:savedImagePath 
+        img: savedImagePath
       });
 
       // Send SMS and email
       // const smsMessage = `Dear ${newPatient.PatientFirstName}, your registration was successful. Your EMR Number is ${newPatient.EMRNumber}.`;
-      
+
       // await sendSMS(newPatient.Phone, smsMessage);
-       // Send SMS and WhatsApp message
+      // Send SMS and WhatsApp message
 
-    //    try {
-    //     // Regular SMS message to be sent
-    //     const smsMessage = `Dear ${newPatient.PatientFirstName}, your registration was successful. Your EMR Number is ${newPatient.EMRNumber}.`;
-        
-    //     // Attempt to send a regular SMS
-    //     const smsResponse = await sendSMS(newPatient.Phone, smsMessage, 'sms'); 
-    //     console.log('SMS Response:', smsResponse, newPatient.Phone, smsMessage);
-        
-    //     // Attempt to send a WhatsApp message using the approved template
-    //     const waResponse = await sendSMS(newPatient.Phone, 'arzeal_regs', 'document', 'PDFFile', 'https://smartping.live/trai/trai.pdf'); 
-    //     console.log('WhatsApp Message Response:', waResponse);
-    
-    //     // Log the detailed WhatsApp response to troubleshoot delivery issues
-    //     logger.info('WhatsApp message response:', { fullResponse: waResponse, statusCode: waResponse.statusCode, data: waResponse.data });
-    
-    // } catch (error) {
-    //     // Enhanced error logging for detailed insight into failures
-    //     logger.error('Error sending WhatsApp message', { 
-    //         error: error.message, 
-    //         stack: error.stack, 
-    //         timestamp: new Date().toISOString() 
-    //     });
-    //     res.status(500).json({
-    //         meta: {
-    //             statusCode: 500,
-    //             errorCode: 975, 
-    //             message: 'Failed to send WhatsApp message, please contact support.'
-    //         },
-    //         error: {
-    //             message: `Error sending message: ${error.message}`
-    //         }
-    //     });
-    // }
-    const { sendSMS } = require('../Middleware/smsService');
+      //    try {
+      //     // Regular SMS message to be sent
+      //     const smsMessage = `Dear ${newPatient.PatientFirstName}, your registration was successful. Your EMR Number is ${newPatient.EMRNumber}.`;
 
-    // Ensure newPatient.Phone is defined and is a valid phone number
-    console.log('New Patient Data:', newPatient);
-    console.log('Patient Phone Number:', newPatient.Phone); // Log the phone number
-    console.log('Patient first Number:', newPatient.PatientFirstName); // Log the phone number
-    console.log('Patient Emr Number:', newPatient.EMRNumber); // Log the phone number
-    
-    // if (newPatient && newPatient.Phone) { // Ensure newPatient and Phone are defined
-    //   sendSMS(newPatient.Phone)
-    //     .then(response => {
-    //       console.log('WhatsApp message response:', response);
-    //     })
-    //     .catch(error => {
-    //       console.error('Error sending WhatsApp message:', error);
-    //     });
-    // } else {
-    //   console.error('Error: newPatient or Phone number is not defined');
-    // }
+      //     // Attempt to send a regular SMS
+      //     const smsResponse = await sendSMS(newPatient.Phone, smsMessage, 'sms'); 
+      //     console.log('SMS Response:', smsResponse, newPatient.Phone, smsMessage);
 
+      //     // Attempt to send a WhatsApp message using the approved template
+      //     const waResponse = await sendSMS(newPatient.Phone, 'arzeal_regs', 'document', 'PDFFile', 'https://smartping.live/trai/trai.pdf'); 
+      //     console.log('WhatsApp Message Response:', waResponse);
 
-/**************send sms working function start */
-    // if (newPatient && newPatient.Phone && newPatient.PatientFirstName && newPatient.EMRNumber) {
-    //   sendSMS(newPatient.Phone, newPatient.PatientFirstName, newPatient.EMRNumber)
-    //     .then(response => {
-    //       console.log('Sending SMS to:', newPatient.Phone);
-    //       console.log('WhatsApp message response:', response);
-    //     })
-    //     .catch(error => {
-    //       console.error('Error sending WhatsApp message:', error);
-    //     });
-    // } else {
-    //   console.error('Error: newPatient, Phone number, PatientFirstName, or EMRNumber is not defined');
-    // }
+      //     // Log the detailed WhatsApp response to troubleshoot delivery issues
+      //     logger.info('WhatsApp message response:', { fullResponse: waResponse, statusCode: waResponse.statusCode, data: waResponse.data });
+
+      // } catch (error) {
+      //     // Enhanced error logging for detailed insight into failures
+      //     logger.error('Error sending WhatsApp message', { 
+      //         error: error.message, 
+      //         stack: error.stack, 
+      //         timestamp: new Date().toISOString() 
+      //     });
+      //     res.status(500).json({
+      //         meta: {
+      //             statusCode: 500,
+      //             errorCode: 975, 
+      //             message: 'Failed to send WhatsApp message, please contact support.'
+      //         },
+      //         error: {
+      //             message: `Error sending message: ${error.message}`
+      //         }
+      //     });
+      // }
+      const { sendSMS } = require('../Middleware/smsService');
+
+      // Ensure newPatient.Phone is defined and is a valid phone number
+      console.log('New Patient Data:', newPatient);
+      console.log('Patient Phone Number:', newPatient.Phone); // Log the phone number
+      console.log('Patient first Number:', newPatient.PatientFirstName); // Log the phone number
+      console.log('Patient Emr Number:', newPatient.EMRNumber); // Log the phone number
+
+      // if (newPatient && newPatient.Phone) { // Ensure newPatient and Phone are defined
+      //   sendSMS(newPatient.Phone)
+      //     .then(response => {
+      //       console.log('WhatsApp message response:', response);
+      //     })
+      //     .catch(error => {
+      //       console.error('Error sending WhatsApp message:', error);
+      //     });
+      // } else {
+      //   console.error('Error: newPatient or Phone number is not defined');
+      // }
 
 
-/**************send sms working function end  */
+      /**************send sms working function start */
+      // if (newPatient && newPatient.Phone && newPatient.PatientFirstName && newPatient.EMRNumber) {
+      //   sendSMS(newPatient.Phone, newPatient.PatientFirstName, newPatient.EMRNumber)
+      //     .then(response => {
+      //       console.log('Sending SMS to:', newPatient.Phone);
+      //       console.log('WhatsApp message response:', response);
+      //     })
+      //     .catch(error => {
+      //       console.error('Error sending WhatsApp message:', error);
+      //     });
+      // } else {
+      //   console.error('Error: newPatient, Phone number, PatientFirstName, or EMRNumber is not defined');
+      // }
 
 
-    // sendSMS(newPatient.Phone)
+      /**************send sms working function end  */
 
-    
-      
-    //   .then(response => {
-    //     console.log('Sending SMS to:', newPatient.Phone);
-    //     console.log('Sending SMS to:', newPatient.PatientFirstName);
-    //     console.log('Sending SMS to:', newPatient.EMRNumber);
-    //     console.log('WhatsApp message response:', response);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error sending WhatsApp message:', error);
-    //   });
-    
+
+      // sendSMS(newPatient.Phone)
+
+
+
+      //   .then(response => {
+      //     console.log('Sending SMS to:', newPatient.Phone);
+      //     console.log('Sending SMS to:', newPatient.PatientFirstName);
+      //     console.log('Sending SMS to:', newPatient.EMRNumber);
+      //     console.log('WhatsApp message response:', response);
+      //   })
+      //   .catch(error => {
+      //     console.error('Error sending WhatsApp message:', error);
+      //   });
+
 
 
       await sendEmail(newPatient.Email, 'Registration Successful', 'registrationEmailTemplate1.ejs', {
@@ -712,46 +771,46 @@ const parsedNationality = parseInt(Nationality, 10);
         hospitalName: req.hospitalName,
         managingCompanyEmail: req.managingCompanyEmail
       }, req.file);
-      
-    // Get the real IP address of the client
-  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
 
-  // If IP is localhost or private, try fetching the public IP
-  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
-    try {
-      const ipResponse = await axios.get('https://api.ipify.org?format=json');
-      clientIp = ipResponse.data.ip;
-    } catch (error) {
-      logger.error('Error fetching public IP', { error: error.message });
-      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
-    }
-  }
+      // Get the real IP address of the client
+      let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
 
-  console.log('Client IP:', clientIp);
+      // If IP is localhost or private, try fetching the public IP
+      if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+        try {
+          const ipResponse = await axios.get('https://api.ipify.org?format=json');
+          clientIp = ipResponse.data.ip;
+        } catch (error) {
+          logger.error('Error fetching public IP', { error: error.message });
+          clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+        }
+      }
+
+      console.log('Client IP:', clientIp);
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       // let clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip;
-      
-      console.log("clientIp.....",clientIp )
 
-// // Get API name and method
-const apiName = req.originalUrl; // This gets the original URL of the request
-const method = req.method;         // This gets the HTTP method (GET, POST, etc.)
+      // console.log("clientIp.....",clientIp )
+      // 
+      // // Get API name and method
+      const apiName = req.originalUrl; // This gets the original URL of the request
+      const method = req.method;         // This gets the HTTP method (GET, POST, etc.)
 
-// Log the creation of the new patient
-logger.logWithMeta("info", `Created new patient with ID ${newPatient.PatientID} in ${executionTime} ms`, {
-  executionTime,                         // Execution time in ms
-  MRNumber: newPatient.EMRNumber,       // EMR Number
-  hospitalId: req.hospitalId,          // Hospital ID
-  patientId: newPatient.PatientID,      // Patient ID
-  patientFirstName: newPatient.PatientFirstName, // Include first name separately if needed
-  userId: req.userId,                  // User ID (if available)
-  ip: clientIp,                         // Client IP
-  userAgent: req.headers['user-agent'], // User agent from headers
-  apiName,                              // API name
-  method                                // HTTP method
-});
-      
+      // Log the creation of the new patient
+      logger.logWithMeta("info", `Created new patient with ID ${newPatient.PatientID} in ${executionTime} ms`, {
+        executionTime,                         // Execution time in ms
+        MRNumber: newPatient.EMRNumber,       // EMR Number
+        hospitalId: req.hospitalId,          // Hospital ID
+        patientId: newPatient.PatientID,      // Patient ID
+        patientFirstName: newPatient.PatientFirstName, // Include first name separately if needed
+        userId: req.userId,                  // User ID (if available)
+        ip: clientIp,                         // Client IP
+        userAgent: req.headers['user-agent'], // User agent from headers
+        apiName,                              // API name
+        method                                // HTTP method
+      });
+
 
       // const end = Date.now();
       // logger.info(`Created new patient with ID ${newPatient.PatientID} in ${end - start}ms`);
@@ -764,22 +823,25 @@ logger.logWithMeta("info", `Created new patient with ID ${newPatient.PatientID} 
       });
     } catch (error) {
       const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 974;
-      
-      // Ensure that error.message is logged separately if needed
-      logger.logWithMeta("warn", `Error creating patient: ${error.message}`, {
+      const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+      const errorCode = 978;
+
+      // Log the error
+      logger.logWithMeta("warn", `Error creating patient`, {
         errorCode,
-        errorMessage: error.message, // Include the error message in meta explicitly
+        error: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method
       });
-      
+
       // logger.error('Error creating patient', { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
         meta: {
           statusCode: 500,
-          errorCode: 974,
+          errorCode: 978,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -797,36 +859,41 @@ logger.logWithMeta("info", `Created new patient with ID ${newPatient.PatientID} 
 exports.updatePatient = [
   // Validation middleware (ensure this is used before multer middleware)
   // Example: body('name').optional().notEmpty().withMessage('Name is required'),
-  
+
   // File upload middleware (optional, only if updating image)
   upload.single('img'),
-  
+
+
   async (req, res) => {
     console.log('Request Body:', req.body);
     console.log('Uploaded File:', req.file);
-    
+    const clientIp = await getClientIp(req);
+
     const start = Date.now();
-    
+
     // Check validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 912;
-  
-      logger.logWithMeta("warn", `Validation errors occurred :`, {
+      const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+      const errorCode = 979;
+
+      // Log the error
+      logger.logWithMeta("warn", `Validation errors occurred`, {
         errorCode,
-        errorMessage, 
+        // error: error.message,
         executionTime,
-      
-        hospitalId:req.hospitalId
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method
       });
 
       // logger.info('Validation errors occurred', { errors: errors.array(), executionTime: `${end - start}ms` });
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 912,
+          errorCode: 979,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -879,25 +946,28 @@ exports.updatePatient = [
       // Find the patient to update by ID or other unique identifier
       const { patientId } = req.params; // Assume the patient ID is passed as a URL parameter
       const patient = await PatientMaster.findByPk(patientId);
-      
+
       if (!patient) {
-         
+
         const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 1004;
-    
-        logger.logWithMeta("warn", `Patient not found :`, {
+        const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+        const errorCode = 980;
+
+        // Log the error
+        logger.logWithMeta("warn", `Patient not found`, {
           errorCode,
-          
+          // error: error.message,
           executionTime,
-        
-          hospitalId:req.hospitalId
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method
         });
         // logger.info('Patient not found', { executionTime: `${end - start}ms` });
         return res.status(404).json({
           meta: {
             statusCode: 404,
-            errorCode: 1004,
+            errorCode: 980,
             executionTime: `${end - start}ms`
           },
           error: {
@@ -943,9 +1013,22 @@ exports.updatePatient = [
         state: state || patient.state,
         img: savedImagePath
       });
-
       const end = Date.now();
-      logger.info(`Updated patient with ID ${patient.PatientID} in ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+
+
+      // Log the warning
+      logger.logWithMeta("warn", `Updated patient with ID ${patient.PatientID} in ${end - start}ms`, {
+
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method         // HTTP method
+      });
+
+      // const end = Date.now();
+      // logger.info(`Updated patient with ID ${patient.PatientID} in ${end - start}ms`);
       res.status(200).json({
         meta: {
           statusCode: 200,
@@ -954,24 +1037,27 @@ exports.updatePatient = [
         data: patient
       });
     } catch (error) {
-      
-      
+
+
       const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 974;
-  
-      logger.logWithMeta("warn", `Error updating patient :` ,{
+      const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+      const errorCode = 981;
+
+      // Log the error
+      logger.logWithMeta("warn", `Error updating patient`, {
         errorCode,
-    
+        // error: error.message,
         executionTime,
-      
-        hospitalId:req.hospitalId
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method
       });
       // logger.error('Error updating patient', { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
         meta: {
           statusCode: 500,
-          errorCode: 974,
+          errorCode: 981,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -981,7 +1067,7 @@ exports.updatePatient = [
     }
   }
 ];
- 
+
 
 
 
@@ -1022,7 +1108,7 @@ exports.updatePatient = [
 //    // Extract and parse JSON data
 //    const rawData = req.body.rawData;
 //   //  const attachment = req.file;
-   
+
 //    let patientData;
 //    try {
 //      patientData = JSON.parse(rawData);
@@ -1038,7 +1124,7 @@ exports.updatePatient = [
 //        }
 //      });
 //    }
- 
+
 //   const {
 //     base64Data, 
 //     PatientMiddleName,
@@ -1178,7 +1264,7 @@ exports.updatePatient = [
 //        emrNumber: newPatient.EMRNumber,
 //        hospitalName
 //      };
- 
+
 //      await Promise.all([
 //        sendSMS(newPatient.Phone, smsMessage),
 //        sendEmail(newPatient.Email, emailSubject, 'registrationEmailTemplate.ejs', emailData, attachment)
@@ -1265,16 +1351,16 @@ exports.updatePatient = [
 //   try {
 //     const patient = await PatientMaster.findByPk(id);
 //     if (!patient) {
-   
+
 //       const end = Date.now();
 //       const executionTime = `${end - start}ms`;
 //       const errorCode = 977;
-  
+
 //       logger.logWithMeta("warn", `patient with ID ${id} not found :`, {
 //         errorCode,
 //         error,
 //         executionTime,
-      
+
 //         hospitalId:req.hospitalId
 //       });
 //       // logger.warn(`Patient with ID ${id} not found`, { executionTime: `${end - start}ms` });
@@ -1309,7 +1395,7 @@ exports.updatePatient = [
 //       errorCode,
 //       errorMessage: error.message, 
 //       executionTime,
-    
+
 //       hospitalId:req.hospitalId
 //     });
 //     // logger.error('Error deleting patient', { error: error.message });
@@ -1328,25 +1414,33 @@ exports.updatePatient = [
 exports.deletePatient = async (req, res) => {
   const start = Date.now();
   const { id } = req.params;
+  const clientIp = await getClientIp(req);
+
 
   try {
     const patient = await PatientMaster.findByPk(id);
     if (!patient) {
       const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 977;
+      const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+      const errorCode = 982;
 
-      // Logging without the error object since no error is thrown here
+      // Log the error
       logger.logWithMeta("warn", `Patient with ID ${id} not found`, {
         errorCode,
+        // error: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],
       });
+
 
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 977,
+          errorCode: 982,
           executionTime,
         },
         error: {
@@ -1358,8 +1452,19 @@ exports.deletePatient = async (req, res) => {
     // Delete the patient if found
     await PatientMaster.destroy({ where: { PatientID: id } });
     const end = Date.now();
+    const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+    
 
-    // Log successful deletion
+    // Log the error
+    logger.logWithMeta("warn", `Deleted patient with ID ${id} successfully`, {
+      
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],
+    });
     logger.info(`Deleted patient with ID ${id} successfully`);
     res.status(200).json({
       meta: {
@@ -1371,21 +1476,25 @@ exports.deletePatient = async (req, res) => {
 
   } catch (error) {
     const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 978;
+    const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+    const errorCode = 983;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error deleting patients: ${error.message}`, {
+    // Log the error
+    logger.logWithMeta("warn", `Error deleting patient: ${error.message}`, {
       errorCode,
-      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],
     });
+
 
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 978,
+        errorCode: 983,
         executionTime,
       },
       error: {
@@ -1398,6 +1507,7 @@ exports.deletePatient = async (req, res) => {
 
 // Controller function to fetch patients by HospitalGroupID with pagination
 exports.getPatientsByHospitalGroupID = async (req, res) => {
+  
   const start = Date.now();
   const { id } = req.params;
   let { page, pageSize } = req.query;
@@ -1429,37 +1539,62 @@ exports.getPatientsByHospitalGroupID = async (req, res) => {
         data: [] // Return empty array when no patients are found
       });
     }
-    const end = Date.now(); // Capture end time
-    logger.info(`Retrieved patients for HospitalGroupID ${id} with pagination in ${end - start}ms`);
+    const clientIp = await getClientIp(req);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+    
+
+    const apiName = req.originalUrl; // This gets the original URL of the request
+    const method = req.method;         // This gets the HTTP method (GET, POST, etc.)
+
+    // Log the creation of the new patient
+    logger.logWithMeta("info", `Retrieved patients for HospitalGroupID ${id} with pagination in ${end - start}ms`, {
+      executionTime,                         // Execution time in ms
+      
+      hospitalId: req.hospitalId,          // Hospital ID
+      
+      userId: req.userId,                  // User ID (if available)
+      ip: clientIp,                         // Client IP
+      userAgent: req.headers['user-agent'], // User agent from headers
+      apiName,                              // API name
+      method                                // HTTP method
+    });
+    // logger.info(`Retrieved patients for HospitalGroupID ${id} with pagination in ${end - start}ms`);
     // Return patients with pagination metadata
     res.status(200).json({
       meta: {
         statusCode: 200,
         page: page,
         pageSize: pageSize,
-          executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`
       },
       data: patients
     });
   } catch (error) {
     const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 980;
+    const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+    const errorCode = 984;
 
-    logger.logWithMeta("warn", `Error fatching patients by hospital group id :`, {
+    // Log the error
+    logger.logWithMeta("warn", `Error fetching patients by HospitalGroupID`, {
       errorCode,
-      error,
+      // error: error.message,
       executionTime,
-    
-      hospitalId:req.hospitalId
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],
     });
+
+
     // logger.error('Error fetching patients by HospitalGroupID', { error: error.message, executionTime: `${end - start}ms` });
     console.error('Error fetching patients by HospitalGroupID', error);
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 980,
-         executionTime: `${end - start}ms`
+        errorCode: 984,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error fetching patients: ' + error.message
@@ -1483,8 +1618,22 @@ exports.getAllPatientsByPagination = async (req, res) => {
       limit,
       order: [['createdAt', 'ASC']] // Example ordering by createdAt, adjust as per your requirement
     });
-    const end = Date.now(); 
-    logger.info(`Retrieved patients for page ${page} with limit ${limit} successfully`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+   
+
+    // Log the error
+    logger.logWithMeta("warn", `Retrieved patients for page ${page} with limit ${limit} successfully`, {
+      // errorCode,
+      // error: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],
+    });
+    // logger.info(`Retrieved patients for page ${page} with limit ${limit} successfully`);
 
     res.status(200).json({
       meta: {
@@ -1492,28 +1641,33 @@ exports.getAllPatientsByPagination = async (req, res) => {
         totalCount,
         page,
         limit,
-         executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`
       },
       data: patients
     });
   } catch (error) {
     const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 981;
+    const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+    const errorCode = 985;
 
-    logger.logWithMeta("warn", `Error retrieving patients with pagination :`, {
+    // Log the error
+    logger.logWithMeta("warn", `Error fetching patients by HospitalGroupID`, {
       errorCode,
-      error,
+      // error: error.message,
       executionTime,
-    
-      hospitalId:req.hospitalId
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],
     });
+
     // logger.error('Error retrieving patients with pagination', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 981,
-           executionTime: `${end - start}ms`
+        errorCode: 985,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error retrieving patients with pagination: ' + error.message
@@ -1524,35 +1678,50 @@ exports.getAllPatientsByPagination = async (req, res) => {
 
 exports.getPatient = async (req, res) => {
   try {
-      const { PatientFirstName, PatientLastName, PatientMiddleName, EMRNumber, Phone } = req.query;
+    const { PatientFirstName, PatientLastName, PatientMiddleName, EMRNumber, Phone } = req.query;
 
-      // Build search criteria based on provided parameters
-      const searchCriteria = {};
+    // Build search criteria based on provided parameters
+    const searchCriteria = {};
 
-      if (PatientFirstName) searchCriteria.PatientFirstName = { [Op.like]: `%${PatientFirstName}%` };
-      if (PatientLastName) searchCriteria.PatientLastName = { [Op.like]: `%${PatientLastName}%` };
-      if (PatientMiddleName) searchCriteria.PatientMiddleName = { [Op.like]: `%${PatientMiddleName}%` };
-      if (EMRNumber) searchCriteria.EMRNumber = { [Op.like]: `%${EMRNumber}%` };
-      if (Phone) searchCriteria.Phone = { [Op.like]: `%${Phone}%` };
+    if (PatientFirstName) searchCriteria.PatientFirstName = { [Op.like]: `%${PatientFirstName}%` };
+    if (PatientLastName) searchCriteria.PatientLastName = { [Op.like]: `%${PatientLastName}%` };
+    if (PatientMiddleName) searchCriteria.PatientMiddleName = { [Op.like]: `%${PatientMiddleName}%` };
+    if (EMRNumber) searchCriteria.EMRNumber = { [Op.like]: `%${EMRNumber}%` };
+    if (Phone) searchCriteria.Phone = { [Op.like]: `%${Phone}%` };
 
 
 
-      // if (PatientFirstName) searchCriteria.PatientFirstName = PatientFirstName;
-      // if (PatientLastName) searchCriteria.PatientLastName = PatientLastName;
-      // if (PatientMiddleName) searchCriteria.PatientMiddleName = PatientMiddleName;
-      // if (EMRNumber) searchCriteria.EMRNumber = EMRNumber;
-      // if (Phone) searchCriteria.Phone = Phone;
+    // if (PatientFirstName) searchCriteria.PatientFirstName = PatientFirstName;
+    // if (PatientLastName) searchCriteria.PatientLastName = PatientLastName;
+    // if (PatientMiddleName) searchCriteria.PatientMiddleName = PatientMiddleName;
+    // if (EMRNumber) searchCriteria.EMRNumber = EMRNumber;
+    // if (Phone) searchCriteria.Phone = Phone;
 
-      const patients = await PatientMaster.findAll({ where: searchCriteria });
+    const patients = await PatientMaster.findAll({ where: searchCriteria });
 
-      if (patients.length > 0) {
-          res.status(200).json(patients);
-      } else {
-          res.status(200).json({ message: 'No patients found' });
-      }
+    if (patients.length > 0) {
+      res.status(200).json(patients);
+    } else {
+      res.status(200).json({ message: 'No patients available' });
+    }
   } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal server error' });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+    const errorCode = 986;
+
+    // Log the error
+    logger.logWithMeta("warn", `Internal server error: ${error.message}`, {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],
+    });
+
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' ,errorCode});
   }
 };
 
