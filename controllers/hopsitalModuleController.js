@@ -5,10 +5,29 @@ const bcrypt = require('bcrypt');
 const logger = require('../logger');  // Assuming logger is configured properly in '../logger'
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const requestIp = require('request-ip');
 dotenv.config();
+async function getClientIp(req) {
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
 
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+
+      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 1135 });
+
+      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+    }
+  }
+
+  return clientIp;
+}
 exports.creatmodules = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
     const { modules_name } = req.body;
     const hospitalId = req.hospitalId;
   
@@ -22,7 +41,17 @@ exports.creatmodules = async (req, res) => {
   
       const userModules = await UserModules.create({ modules_name,hospitalId  });
       const end = Date.now();
-      logger.info(`User created successfully with username: ${modules_name}, hospitalId: ${hospitalId}, executionTime: ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+      // Log the warning
+      logger.logWithMeta("warn", `User created successfully with username: ${modules_name}`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
+      // logger.info(`User created successfully with username: ${modules_name}, hospitalId: ${hospitalId}, executionTime: ${end - start}ms`);
   
       res.status(201).json({
         meta: {
@@ -37,20 +66,24 @@ exports.creatmodules = async (req, res) => {
     } catch (error) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 938;
+      const errorCode = 1136;
       
-      // Ensure that error.message is logged separately if needed
-      logger.logWithMeta("warn", `'Error creating Modules: ${error.message}`, {
+      // Log the warning
+      logger.logWithMeta("warn", `Error creating Modules ${error.message}`, {
         errorCode,
-        errorMessage: error.message, // Include the error message in meta explicitly
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       // logger.error('Error creating Modules',{ errorCode }, { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
         meta: {
           statusCode: 500,
-          errorCode: 938,
+          errorCode: 1136,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -61,6 +94,7 @@ exports.creatmodules = async (req, res) => {
   };
  exports.getModule = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
     const { modules_Id } = req.body;
     console.log(modules_Id)
   
@@ -72,14 +106,18 @@ exports.creatmodules = async (req, res) => {
       if (!userModules) {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
-        const errorCode = 939;
+        const errorCode = 1137;
         
-        // Ensure that error.message is logged separately if needed
-        logger.logWithMeta("warn", `'Module with ID ${modules_Id} not found: ${error.message}`, {
+        // Log the warning
+        logger.logWithMeta("warn", `Module with ID ${modules_Id} not found ${error.message}`, {
           errorCode,
-          errorMessage: error.message, // Include the error message in meta explicitly
+          errorMessage: error.message,
           executionTime,
           hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],     // HTTP method
         });
         // logger.warn(`Module with ID ${modules_Id} not found, executionTime: ${end - start}ms, errorCode: ${errorCode}`);
         return res.status(404).json({
@@ -95,6 +133,16 @@ exports.creatmodules = async (req, res) => {
       }
   
       const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      // Log the warning
+      logger.logWithMeta("warn", `User with ID ${modules_Id} retrieved successfully`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
       logger.info(`User with ID ${modules_Id} retrieved successfully,executionTime: ${end - start}ms`);
       
       res.status(200).json({
@@ -110,20 +158,24 @@ exports.creatmodules = async (req, res) => {
     } catch (error) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 940;
+      const errorCode = 1138;
       
-      // Ensure that error.message is logged separately if needed
-      logger.logWithMeta("warn", `'Error retrieving Modules ${error.message}`, {
+      // Log the warning
+      logger.logWithMeta("warn", `Error retrieving Modules ${error.message}`, {
         errorCode,
-        errorMessage: error.message, // Include the error message in meta explicitly
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       // logger.error('Error retrieving Modules', { error: error.message , executionTime: `${end - start}ms`});
       res.status(500).json({
         meta: {
           statusCode: 500,
-          errorCode: 940,
+          errorCode: 1138,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -134,6 +186,7 @@ exports.creatmodules = async (req, res) => {
   };
   exports.getAllModules = async (req, res) => {
     const start = Date.now();
+    const clientIp = await getClientIp(req);
     
     try {
       const UserModules = require('../models/HospitalModules')(req.sequelize);
@@ -145,20 +198,24 @@ exports.creatmodules = async (req, res) => {
       if (!allModules || allModules.length === 0) {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
-        const errorCode = 941;
+        const errorCode = 1139;
         
-        // Ensure that error.message is logged separately if needed
-        logger.logWithMeta("warn", `'No modules found ${error.message}`, {
+        // Log the warning
+        logger.logWithMeta("warn", `No modules found ${error.message}`, {
           errorCode,
-          errorMessage: error.message, // Include the error message in meta explicitly
+          errorMessage: error.message,
           executionTime,
           hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],     // HTTP method
         });
         // logger.warn(`No modules found, executionTime: ${end - start}ms`);
         return res.status(404).json({
           meta: {
             statusCode: 404,
-            errorCode: 941,
+            errorCode: 1139,
             executionTime: `${end - start}ms`
           },
           error: {
@@ -168,6 +225,16 @@ exports.creatmodules = async (req, res) => {
       }
   
       const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      // Log the warning
+      logger.logWithMeta("warn", `Modules retrieved successfully`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
       logger.info(`Modules retrieved successfully, executionTime: ${end - start}ms`);
       
       // Return all modules
@@ -184,20 +251,24 @@ exports.creatmodules = async (req, res) => {
     } catch (error) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 942;
+      const errorCode = 1140;
       
-      // Ensure that error.message is logged separately if needed
-      logger.logWithMeta("warn", `'Error retrieving all modules ${error.message}`, {
+      // Log the warning
+      logger.logWithMeta("warn", `Error retrieving all modules ${error.message}`, {
         errorCode,
-        errorMessage: error.message, // Include the error message in meta explicitly
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       // logger.error('Error retrieving all modules', { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
         meta: {
           statusCode: 500,
-          errorCode: 942,
+          errorCode: 1140,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -208,6 +279,7 @@ exports.creatmodules = async (req, res) => {
   };
   
   exports.updateModule = async (req, res) => {
+    const clientIp = await getClientIp(req);
     const start = Date.now();
     const modules_Id = req.params.id; // Correctly extract the module ID from the parameters
     const { modules_name } = req.body;
@@ -230,20 +302,24 @@ exports.creatmodules = async (req, res) => {
         if (!userModules) {
           const end = Date.now();
           const executionTime = `${end - start}ms`;
-          const errorCode = 943;
+          const errorCode = 1141;
           
-          // Ensure that error.message is logged separately if needed
-          logger.logWithMeta("warn", `'Module with ID ${modules_Id} not found ${error.message}`, {
+          // Log the warning
+          logger.logWithMeta("warn", `Module with ID ${modules_Id} not found ${error.message}`, {
             errorCode,
-            errorMessage: error.message, // Include the error message in meta explicitly
+            errorMessage: error.message,
             executionTime,
             hospitalId: req.hospitalId,
+            ip: clientIp,
+            apiName: req.originalUrl, // API name
+            method: req.method,
+            userAgent: req.headers['user-agent'],     // HTTP method
           });
             // logger.warn(`Module with ID ${modules_Id} not found, executionTime: ${end - start}ms`);
             return res.status(404).json({
                 meta: {
                     statusCode: 404,
-                    errorCode: 943,
+                    errorCode: 1141,
                     executionTime: `${end - start}ms`
                 },
                 error: {
@@ -257,7 +333,17 @@ exports.creatmodules = async (req, res) => {
         await userModules.save();
 
         const end = Date.now();
-        logger.info(`Module with ID ${modules_Id} updated successfully, executionTime: ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+      // Log the warning
+      logger.logWithMeta("warn", `Module with ID ${modules_Id} updated successfully`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
+        // logger.info(`Module with ID ${modules_Id} updated successfully, executionTime: ${end - start}ms`);
         res.status(200).json({
             meta: {
                 statusCode: 200,
@@ -271,20 +357,24 @@ exports.creatmodules = async (req, res) => {
     } catch (error) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 944;
+      const errorCode = 1142;
       
-      // Ensure that error.message is logged separately if needed
-      logger.logWithMeta("warn", `'Error updating module ${error.message}`, {
+      // Log the warning
+      logger.logWithMeta("warn", `Error updating module ${error.message}`, {
         errorCode,
-        errorMessage: error.message, // Include the error message in meta explicitly
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
         // logger.error('Error updating module', { error: error.message, executionTime: `${end - start}ms` });
         res.status(500).json({
             meta: {
                 statusCode: 500,
-                errorCode: 944,
+                errorCode: 1142,
                 executionTime: `${end - start}ms`
             },
             error: {

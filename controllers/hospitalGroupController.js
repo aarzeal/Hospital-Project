@@ -293,35 +293,59 @@ const sequelize = require('../database/connection');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const logger = require('../logger'); // Assuming logger is configured properly
-
+const requestIp = require('request-ip');
 // Login validation rules
 exports.loginValidationRules = () => [
   body('SysUserName').notEmpty().withMessage('Username is required'),
   body('SysUserPwd').notEmpty().withMessage('Password is required')
 ];
+async function getClientIp(req) {
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+
+      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 1121 });
+
+      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+    }
+  }
+
+  return clientIp;
+}
+
 
 // Login
 exports.login = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 900;
+    const errorCode = 1122;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Validation errors during login: ${error.array()}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Validation errors during login `, {
       errorCode,
-      errorMessage: error.array(),
+      // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
 
     // logger.warn('Validation errors during login', errors.array());
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 900,
+        errorCode: 1122,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -347,22 +371,26 @@ exports.login = async (req, res) => {
 
     if (!user) {
       const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 901;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Invalid username or password for user: ${SysUserName}`, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      // hospitalId: req.hospitalId,
-    });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1123;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Invalid username or password for user `, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
 
       // logger.warn(`Invalid username or password for user: ${SysUserName}`);
       return res.status(401).json({
         meta: {
           statusCode: 401,
-          errorCode: 901,
+          errorCode: 1123,
         executionTime: `${end - start}ms`
         },
         error: {
@@ -374,22 +402,27 @@ exports.login = async (req, res) => {
     const isPasswordValid = await bcrypt.compare(SysUserPwd, user.SysUserPwd);
     if (!isPasswordValid) {
       const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 902;
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1124;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Invalid password for user `, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Invalid password for user: ${SysUserName}`, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      // hospitalId: req.hospitalId,
-    });
 
       // logger.warn(`Invalid password for user: ${SysUserName}`);
       return res.status(401).json({
         meta: {
           statusCode: 401,
-          errorCode: 902,
+          errorCode: 1124,
         executionTime: `${end - start}ms`
         },
         error: {
@@ -419,21 +452,24 @@ exports.login = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 903;
+    const errorCode = 1125;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error during login: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error during login `, {
       errorCode,
-      errorMessage: error.message,
+      // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
-
     // logger.error('Error during login', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 903,
+        errorCode: 1125,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -446,6 +482,7 @@ exports.login = async (req, res) => {
 // Create Hospital Group
 exports.createHospitalGroup = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   try {
     const hospitalGroup = await HospitalGroup.create(req.body);
     const end = Date.now();
@@ -461,21 +498,25 @@ exports.createHospitalGroup = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 904;
+    const errorCode = 1126;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error creating hospital group: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error creating hospital group `, {
       errorCode,
-      errorMessage: error.message,
+      // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
 
     // logger.error('Error creating hospital group', { error: error.message });
     res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 904,
+        errorCode: 1126,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -488,6 +529,7 @@ exports.createHospitalGroup = async (req, res) => {
 // Get all hospital groups
 exports.getAllHospitalGroups = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   try {
     const hospitalGroups = await HospitalGroup.findAll();
     const end = Date.now();
@@ -503,21 +545,25 @@ exports.getAllHospitalGroups = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 905;
+    const errorCode = 1127;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error retrieving hospital groups: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error retrieving hospital groups `, {
       errorCode,
-      errorMessage: error.message,
+      // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
 
     // logger.error('Error retrieving hospital groups', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 905,
+        errorCode: 1127,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -530,27 +576,32 @@ exports.getAllHospitalGroups = async (req, res) => {
 // Get hospital group by ID
 exports.getHospitalGroupById = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const id = req.params.id;
   try {
     const hospitalGroup = await HospitalGroup.findByPk(id);
     if (!hospitalGroup) {
       const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 906;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Hospital group with ID ${id} not found `, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      // hospitalId: req.hospitalId,
-    });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1128;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Hospital group with ID ${id} not found `, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
 
       // logger.warn(`Hospital group with ID ${id} not found`);
       res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 906,
+          errorCode: 1128,
         executionTime: `${end - start}ms`
         },
         error: {
@@ -572,21 +623,25 @@ exports.getHospitalGroupById = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 907;
+    const errorCode = 1129;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error retrieving hospital group: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error retrieving hospital group `, {
       errorCode,
-      errorMessage: error.message,
+      // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
 
     // logger.error('Error retrieving hospital group', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 907,
+        errorCode: 1129,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -599,6 +654,7 @@ exports.getHospitalGroupById = async (req, res) => {
 // Update hospital group
 exports.updateHospitalGroup = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const id = req.params.id;
   const { HospitalGroupName, LicensedHospitalCount } = req.body;
 
@@ -612,22 +668,26 @@ exports.updateHospitalGroup = async (req, res) => {
 
     if (updatedRows === 0) {
       const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 908;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Hospital group with ID ${id} not found for update: ${error.message}`, {
-      errorCode,
-      errorMessage: error.message,
-      executionTime,
-      // hospitalId: req.hospitalId,
-    });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1130;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Hospital group with ID ${id} not found for update `, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
 
       // logger.warn(`Hospital group with ID ${id} not found for update`);
       res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 908,
+          errorCode: 1130,
         executionTime: `${end - start}ms`
         },
         error: {
@@ -651,20 +711,24 @@ exports.updateHospitalGroup = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 909;
+    const errorCode = 1131;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error updating hospital group: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error updating hospital group `, {
       errorCode,
-      errorMessage: error.message,
+      // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.error('Error updating hospital group', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 909,
+        errorCode: 1131,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -678,27 +742,32 @@ exports.updateHospitalGroup = async (req, res) => {
 exports.deleteHospitalGroup = async (req, res) => {
   const start = Date.now();
   const id = req.params.id;
+  const clientIp = await getClientIp(req);
   try {
     const deletedRows = await HospitalGroup.destroy({
       where: { HospitalGroupID: id }
     });
     if (deletedRows === 0) {
       const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 978;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Hospital group with ID ${id} not found for deletion`, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      // hospitalId: req.hospitalId,
-    });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1132;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Hospital group with ID ${id} not found for deletion `, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        // hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
       // logger.warn(`Hospital group with ID ${id} not found for deletion`);
       res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 910,
+          errorCode: 1132,
         executionTime: `${end - start}ms`
         },
         error: {
@@ -722,20 +791,24 @@ exports.deleteHospitalGroup = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 911;
+    const errorCode = 1133;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error deleting hospital group: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error deleting hospital group `, {
       errorCode,
-      errorMessage: error.message,
+      // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.error('Error deleting hospital group', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 911,
+        errorCode: 1133,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -748,6 +821,7 @@ exports.deleteHospitalGroup = async (req, res) => {
 
 exports.getAllHospitalGroupsByPagination = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   let { page, limit } = req.query;
   page = parseInt(page) || 1;
   limit = parseInt(limit) || 5; // Default limit is 5, adjust as per your requirement
@@ -778,20 +852,24 @@ exports.getAllHospitalGroupsByPagination = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 912;
+    const errorCode = 1134;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error retrieving hospital groups with pagination: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error retrieving hospital groups with pagination`, {
       errorCode,
-      errorMessage: error.message,
+      // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.error('Error retrieving hospital groups with pagination', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 912,
+        errorCode: 1134,
         executionTime: `${end - start}ms`
       },
       error: {

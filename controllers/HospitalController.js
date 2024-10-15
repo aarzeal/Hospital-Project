@@ -198,34 +198,62 @@ const { User } = require('../models/user');
 const CountAPI = require('../models/ApisCounts');
 const redis = require('redis');
 const{ redisClient, getAsync, setAsync }  = require('../Middleware/redisClient'); 
+
 const client = redis.createClient();
 
 
+const requestIp = require('request-ip');
+async function getClientIp(req) {
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+
+      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 900 });
+
+      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+    }
+  }
+
+  return clientIp;
+}
 
 const dotenv = require('dotenv');
 dotenv.config();
 
 exports.createHospital = async (req, res) => {
-  const start = Date.now(); 
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
   // let end;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      
+      
       const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 913;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Validation errors occurred: `, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      // hospitalId: req.hospitalId,
-    });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 901;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Validation errors occurred `, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
+  
         // logger.info('Validation errors occurred', errors);
         return res.status(400).json({
             meta: {
                 statusCode: 400,
-                errorCode: 913,
+                errorCode: 901,
                 // executionTime: `${end - start}ms`
             },
             error: {
@@ -245,20 +273,24 @@ exports.createHospital = async (req, res) => {
 
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 914;
+      const errorCode = 902;
   
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Managing Company Email already exists: `, {
+      // Log the warning
+      logger.logWithMeta("warn", `Managing Company Email already exists ${error.message}`, {
         errorCode,
-        // errorMessage: error.message,
+        errorMessage: error.message,
         executionTime,
-        // hospitalId: req.hospitalId,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
 
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 914,
+          errorCode: 902,
                   //  executionTime: `${end - start}ms`
         },
         error: {
@@ -278,7 +310,18 @@ exports.createHospital = async (req, res) => {
 
         // Create new database
         await sequelize.query(`CREATE DATABASE \`${databaseName}\``);
-        logger.info(`Database ${databaseName} created successfully`);
+        // logger.info(`Database ${databaseName} created successfully`);
+        const end = Date.now();
+        const executionTime = `${end - start}ms`;
+       // Log the warning
+        logger.logWithMeta("warn", `Database ${databaseName} created successfully`, {
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],    // HTTP method
+        });
 
         // const { sequelize: dynamicDb, testConnection } = createDynamicConnection(databaseName);
         
@@ -301,7 +344,18 @@ exports.createHospital = async (req, res) => {
         hospital.UniqueKey = uniqueKey;
          await hospital.save({ fields: ['UniqueKey'] });
         
-        logger.info(`Unique key stored in hospital record successfully`);
+         
+        // Log the warning
+         logger.logWithMeta("warn", `Unique key stored in hospital record successfully`, {
+           executionTime,
+           hospitalId: req.hospitalId,
+           ip: clientIp,
+           apiName: req.originalUrl, // API name
+           method: req.method,
+           userAgent: req.headers['user-agent'],    // HTTP method
+         });
+
+        // logger.info(`Unique key stored in hospital record successfully`);
         // const end = Date.now();
         res.status(200).json({
             meta: {
@@ -314,20 +368,24 @@ exports.createHospital = async (req, res) => {
      
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 915;
+      const errorCode = 903;
   
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Error creating hospital `, {
+      // Log the warning
+      logger.logWithMeta("warn", `Error creating hospital ${error.message}`, {
         errorCode,
-        // errorMessage: error.message,
+        errorMessage: error.message,
         executionTime,
-        // hospitalId: req.hospitalId,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
         // logger.error('Error creating hospital', { error: error.message });
         res.status(400).json({
             meta: {
                 statusCode: 400,
-                errorCode: 915,
+                errorCode: 903,
                           // executionTime: `${end - start}ms`
             },
             error: {
@@ -462,10 +520,22 @@ exports.createHospital = async (req, res) => {
 
 exports.getAllHospitals = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   try {
     const hospitals = await Hospital.findAll();
-    logger.info('Retrieved all hospitals successfully');
+    // logger.info('Retrieved all hospitals successfully');
     const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   // Log the warning
+    logger.logWithMeta("warn", `Retrieved all hospitals successfully`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    
     res.json({
       meta: {
         statusCode: 200,
@@ -476,20 +546,24 @@ exports.getAllHospitals = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 916;
+    const errorCode = 904;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error retrieving hospitals:${error.message} `, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error retrieving hospitals ${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.error('Error retrieving hospitals', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 916,
+        errorCode: 904,
           executionTime: `${end - start}ms`
       },
       error: {
@@ -501,21 +575,26 @@ exports.getAllHospitals = async (req, res) => {
 
 // Get hospital by ID
 exports.getHospitalById = async (req, res) => {
-  const start = Date.now(); 
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
   const id = req.params.id;
   try {
     const hospital = await Hospital.findByPk(id);
     if (!hospital) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 917;
+      const errorCode = 905;
   
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Hospital with ID ${id} not found `, {
+      // Log the warning
+      logger.logWithMeta("warn", `Hospital with ID ${id} not found ${error.message}`, {
         errorCode,
-        // errorMessage: error.message,
+        errorMessage: error.message,
         executionTime,
-        // hospitalId: req.hospitalId,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       
       // logger.warn(`Hospital with ID ${id} not found`);
@@ -523,7 +602,7 @@ exports.getHospitalById = async (req, res) => {
       res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 917,
+          errorCode: 905,
             executionTime: `${end - start}ms`
         },
         error: {
@@ -532,7 +611,17 @@ exports.getHospitalById = async (req, res) => {
       });
     } else {
       const end = Date.now();
-      logger.info(`Retrieved hospital with ID ${id} successfully`);
+      const executionTime = `${end - start}ms`;
+     // Log the warning
+      logger.logWithMeta("warn", `Retrieved hospital with ID ${id} successfully`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
+      // logger.info(`Retrieved hospital with ID ${id} successfully`);
       res.json({
         meta: {
           statusCode: 200,
@@ -545,21 +634,25 @@ exports.getHospitalById = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 918;
+    const errorCode = 906;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error retrieving hospital:${error.message} `, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error retrieving hospital ${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // const end = Date.now();
     // logger.error('Error retrieving hospital', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 918,
+        errorCode: 906,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -572,25 +665,30 @@ exports.getHospitalById = async (req, res) => {
 // Update hospital
 exports.updateHospital = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 919;
+    const errorCode = 907;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Validation errors occurred while updating hospital:${error.message} `, {
+    // Log the warning
+    logger.logWithMeta("warn", `Validation errors occurred while updating hospital ${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.warn('Validation errors occurred while updating hospital', errors);
     // const end = Date.now();
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 919,
+        errorCode: 907,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -609,20 +707,24 @@ exports.updateHospital = async (req, res) => {
 // logger.warn(`Hospital with ID ${id} not found for update, executionTime: ${end - start}ms`);
 
 const end = Date.now();
-const executionTime = `${end - start}ms`;
-const errorCode = 920;
+    const executionTime = `${end - start}ms`;
+    const errorCode = 908;
 
-// Correctly log the error when in the catch block
-logger.logWithMeta("warn", `Hospital not found:`, {
-  errorCode,
-  // errorMessage: error.message,
-  executionTime,
-  // hospitalId: req.hospitalId,
-});
+    // Log the warning
+    logger.logWithMeta("warn", `Hospital with ID ${id} not found for update ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
+    });
       res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 920,
+          errorCode: 908,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -631,7 +733,18 @@ logger.logWithMeta("warn", `Hospital not found:`, {
       });
     } else {
       const end = Date.now();
-      logger.info(`Hospital with ID ${id} updated successfully, executionTime: ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+     // Log the warning
+      logger.logWithMeta("warn", `Hospital with ID ${id} updated successfully`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
+
+      // logger.info(`Hospital with ID ${id} updated successfully, executionTime: ${end - start}ms`);
       
       res.json({
         meta: {
@@ -646,19 +759,23 @@ logger.logWithMeta("warn", `Hospital not found:`, {
     // logger.error(`Error updating hospital, executionTime: ${end - start}ms`, { error: error.message });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 921;
+    const errorCode = 909;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error updating hospital, executionTime:${error.message} `, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error updating hospital, executionTime ${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 921,
+        errorCode: 909,
          executionTime: `${end - start}ms`
       },
       error: {
@@ -671,6 +788,7 @@ logger.logWithMeta("warn", `Hospital not found:`, {
 // Delete hospital
 exports.deleteHospital = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const id = req.params.id;
   try {
     const deletedRows = await Hospital.destroy({
@@ -682,19 +800,23 @@ exports.deleteHospital = async (req, res) => {
 
 const end = Date.now();
 const executionTime = `${end - start}ms`;
-const errorCode = 920;
+const errorCode = 910;
 
-// Correctly log the error when in the catch block
-logger.logWithMeta("warn", `Hospital not found: `, {
+// Log the warning
+logger.logWithMeta("warn", `Hospital with ID ${id} not found for deletion ${error.message}`, {
   errorCode,
-  // errorMessage: error.message,
+  errorMessage: error.message,
   executionTime,
-  // hospitalId: req.hospitalId,
+  hospitalId: req.hospitalId,
+  ip: clientIp,
+  apiName: req.originalUrl, // API name
+  method: req.method,
+  userAgent: req.headers['user-agent'],     // HTTP method
 });
       res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 922,
+          errorCode: 910,
            executionTime: `${end - start}ms`
         },
         error: {
@@ -703,7 +825,17 @@ logger.logWithMeta("warn", `Hospital not found: `, {
       });
     } else {
       const end = Date.now();
-logger.info(`Hospital with ID ${id} deleted successfully, executionTime: ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+     // Log the warning
+      logger.logWithMeta("warn", `Hospital with ID ${id} deleted successfully,`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
+// logger.info(`Hospital with ID ${id} deleted successfully, executionTime: ${end - start}ms`);
 
   
       res.json({
@@ -717,21 +849,25 @@ logger.info(`Hospital with ID ${id} deleted successfully, executionTime: ${end -
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 923;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error deleting hospital:${error.message} `, {
+    const errorCode = 911;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error deleting hospital ${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // const end = Date.now();
     // logger.error('Error deleting hospital', { error: error.message, executionTime: `${end - start}ms` });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 923
+        errorCode: 911
       },
       error: {
         message: 'Error deleting hospital: ' + error.message
@@ -742,14 +878,25 @@ logger.info(`Hospital with ID ${id} deleted successfully, executionTime: ${end -
 
 // Get hospitals by HospitalGroupID
 exports.getHospitalsByHospitalGroupID = async (req, res) => {
-  const start = Date.now(); 
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { HospitalGroupIDR } = req.params;
   try {
     const hospitals = await Hospital.findAll({
       where: { HospitalGroupIDR }
     });
     const end = Date.now();
-    logger.info(`Retrieved hospitals by HospitalGroupIDR: ${HospitalGroupIDR} successfully, executionTime: ${end - start}ms`);
+    const executionTime = `${end - start}ms`;
+   // Log the warning
+    logger.logWithMeta("warn", `Retrieved hospitals by HospitalGroupIDR: ${HospitalGroupIDR} successfully,`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    // logger.info(`Retrieved hospitals by HospitalGroupIDR: ${HospitalGroupIDR} successfully, executionTime: ${end - start}ms`);
     
  
     res.json({
@@ -764,19 +911,23 @@ exports.getHospitalsByHospitalGroupID = async (req, res) => {
     // logger.error('Error retrieving hospitals by HospitalGroupIDR', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 924;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error retrieving hospitals by HospitalGroupIDR:${error.message} `, {
+    const errorCode = 912;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error retrieving hospitals by HospitalGroupIDR ${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 924,
+        errorCode: 912,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -789,6 +940,7 @@ exports.getHospitalsByHospitalGroupID = async (req, res) => {
 
 exports.getAllHospitalsByPagination = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   let { page, limit } = req.query;
   page = parseInt(page) || 1;
   limit = parseInt(limit) || 5; // Default limit is 5, adjust as per your requirement
@@ -803,9 +955,19 @@ exports.getAllHospitalsByPagination = async (req, res) => {
       // order: [[ 'ASC']] // Example ordering by createdAt, adjust as per your requirement
     });
 
-    const end = Date.now();
-    logger.info(`Retrieved hospitals for page ${page} with limit ${limit} successfully, executionTime: ${end - start}ms`);
     
+    // logger.info(`Retrieved hospitals for page ${page} with limit ${limit} successfully, executionTime: ${end - start}ms`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   // Log the warning
+    logger.logWithMeta("warn", `Retrieved hospitals for page ${page} with limit ${limit} successfully`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -821,19 +983,23 @@ exports.getAllHospitalsByPagination = async (req, res) => {
     // logger.error(`Error retrieving hospitals with pagination, executionTime: ${end - start}ms`, { error: error.message });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 925;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error retrieving hospitals with pagination:${error.message} `, {
+    const errorCode = 913;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error retrieving hospitals with pagination ${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 925,
+        errorCode: 913,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -1061,6 +1227,7 @@ const { Sequelize } = require('sequelize');
 
 
 const verifyUniqueKey = (providedKey, storedKey) => {
+
   logger.info(`Provided UniqueKey: ${providedKey}`);
   logger.info(`Stored UniqueKey: ${storedKey}`);
   return providedKey === storedKey;
@@ -1207,6 +1374,7 @@ const ENCRYPT_SECRET_KEY2 = process.env.ENCRYPT_SECRET_KEY3;
 
 // Function to decrypt the provided ciphertext
 const decryptValue = (ciphertext) => {
+  
     try {
         // Convert the secret key to a suitable format if needed
         const bytes = CryptoJS.AES.decrypt(ciphertext, ENCRYPT_SECRET_KEY);
@@ -1240,7 +1408,8 @@ const decryptValue = (ciphertext) => {
 
 // Example usage in your handler function
 exports.HospitalCode = async (req, res) => {
-    const start = Date.now();
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -1248,20 +1417,23 @@ exports.HospitalCode = async (req, res) => {
         // logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
         const end = Date.now();
         const executionTime = `${end - start}ms`;
-        const errorCode = 923;
+        const errorCode = 914;
         
-    
-        // Correctly log the error when in the catch block
-        logger.logWithMeta("warn", `Validation errors occurred during login: `, {
+        // Log the warning
+        logger.logWithMeta("warn", `Validation errors occurred during login ${error.message}`, {
           errorCode,
-          // errorMessage: error.message,
+          errorMessage: error.message,
           executionTime,
-          // hospitalId: req.hospitalId,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],     // HTTP method
         });
         return res.status(400).json({
             meta: {
                 statusCode: 400,
-                errorCode: 1044,
+                errorCode: 914,
                 executionTime: `${end - start}ms`
             },
             error: {
@@ -1283,19 +1455,23 @@ exports.HospitalCode = async (req, res) => {
         // logger.error('Missing encrypted key in the request header', { executionTime: `${end - start}ms` });
         const end = Date.now();
         const executionTime = `${end - start}ms`;
-        const errorCode = 1047;
-    
-        // Correctly log the error when in the catch block
-        logger.logWithMeta("warn", `Missing encrypted key in the request header:`, {
+        const errorCode = 915;
+        
+        // Log the warning
+        logger.logWithMeta("warn", `Missing encrypted key in the request header ${error.message}`, {
           errorCode,
-          // errorMessage: error.message,
+          errorMessage: error.message,
           executionTime,
-          // hospitalId: req.hospitalId,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],     // HTTP method
         });
         return res.status(400).json({
             meta: {
                 statusCode: 400,
-                errorCode: 1047,
+                errorCode: 915,
                 executionTime: `${end - start}ms`
             },
             error: {
@@ -1309,19 +1485,23 @@ exports.HospitalCode = async (req, res) => {
         // logger.error('Decryption secret is not defined in environment variables', { executionTime: `${end - start}ms` });
         const end = Date.now();
         const executionTime = `${end - start}ms`;
-        const errorCode = 1048;
-    
-        // Correctly log the error when in the catch block
-        logger.logWithMeta("warn", `Decryption secret is not defined in environment variables: `, {
+        const errorCode = 916;
+        
+        // Log the warning
+        logger.logWithMeta("warn", `Decryption secret is not defined in environment variables ${error.message}`, {
           errorCode,
-          // errorMessage: error.message,
+          errorMessage: error.message,
           executionTime,
-          // hospitalId: req.hospitalId,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],     // HTTP method
         });
         return res.status(500).json({
             meta: {
                 statusCode: 500,
-                errorCode: 1048,
+                errorCode: 916,
                 executionTime: `${end - start}ms`
             },
             error: {
@@ -1337,19 +1517,23 @@ exports.HospitalCode = async (req, res) => {
             // logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
             const end = Date.now();
             const executionTime = `${end - start}ms`;
-            const errorCode = 1045;
-        
-            // Correctly log the error when in the catch block
-            logger.logWithMeta("warn", `Hospital with HospitalCode ${HospitalCode} not found `, {
+            const errorCode = 917;
+            
+            // Log the warning
+            logger.logWithMeta("warn", `Hospital with HospitalCode ${HospitalCode} not found`, {
               errorCode,
-              // errorMessage: error.message,
+              
               executionTime,
-              // hospitalId: req.hospitalId,
+              hospitalId: req.hospitalId,
+              ip: clientIp,
+              apiName: req.originalUrl, // API name
+              method: req.method,
+              userAgent: req.headers['user-agent'],     // HTTP method
             });
             return res.status(404).json({
                 meta: {
                     statusCode: 404,
-                    errorCode: 1045,
+                    errorCode: 917,
                     executionTime: `${end - start}ms`
                 },
                 error: {
@@ -1371,19 +1555,23 @@ console.log("Decrypted Key:", decryptedKey);
             // logger.warn(`Invalid UniqueKey for HospitalCode ${HospitalCode}, executionTime: ${end - start}ms`);
             const end = Date.now();
             const executionTime = `${end - start}ms`;
-            const errorCode = 955;
-        
-            // Correctly log the error when in the catch block
-            logger.logWithMeta("warn", `Invalid UniqueKey for HospitalCode ${HospitalCode}: `, {
+            const errorCode = 918;
+            
+            // Log the warning
+            logger.logWithMeta("warn", `Invalid UniqueKey for HospitalCode ${HospitalCode}`, {
               errorCode,
-              // errorMessage: error.message,
+              
               executionTime,
-              // hospitalId: req.hospitalId,
+              hospitalId: req.hospitalId,
+              ip: clientIp,
+              apiName: req.originalUrl, // API name
+              method: req.method,
+              userAgent: req.headers['user-agent'],     // HTTP method
             });
             return res.status(401).json({
                 meta: {
                     statusCode: 401,
-                    errorCode: 955,
+                    errorCode: 918,
                     executionTime: `${end - start}ms`
                 },
                 error: {
@@ -1429,8 +1617,19 @@ console.log("Decrypted Key:", decryptedKey);
         
       
 
+      
+        // logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
         const end = Date.now();
-        logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
+        const executionTime = `${end - start}ms`;
+       // Log the warning
+        logger.logWithMeta("warn", `Hospital with HospitalCode ${HospitalCode} found successfully`, {
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],    // HTTP method
+        });
 
         const decodedToken = jwt.decode(Hospitaltoken);
         console.log("Generated JWT:",(decodedToken));
@@ -1460,19 +1659,23 @@ console.log("Decrypted Key:", decryptedKey);
         // logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
         const end = Date.now();
         const executionTime = `${end - start}ms`;
-        const errorCode = 1046;
-    
-        // Correctly log the error when in the catch block
-        logger.logWithMeta("warn", `Error finding hospital:${error.message} `, {
+        const errorCode = 919;
+        
+        // Log the warning
+        logger.logWithMeta("warn", `Error finding hospital`, {
           errorCode,
-          errorMessage: error.message,
+          
           executionTime,
-          // hospitalId: req.hospitalId,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],     // HTTP method
         });
         res.status(500).json({
             meta: {
                 statusCode: 500,
-                errorCode: 1046,
+                errorCode: 919,
                 executionTime: `${end - start}ms`
             },
             error: {
@@ -1484,26 +1687,31 @@ console.log("Decrypted Key:", decryptedKey);
 
 
 exports.login = async (req, res) => {
-  const start = Date.now(); 
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     // const end = Date.now();
     // logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 923;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Validation errors occurred during login: `, {
+    const errorCode = 920;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Validation errors occurred during login`, {
       errorCode,
-      // errorMessage: error.message,
+      
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 923,
+        errorCode: 920,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -1526,14 +1734,18 @@ exports.login = async (req, res) => {
     if (!hospital) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 924;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Hospital with Username "${Username}" not found `, {
+      const errorCode = 921;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Hospital with Username "${Username}" not found`, {
         errorCode,
-        // errorMessage: error.message,
+        
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
 
       // logger.warn(`Hospital with Username "${Username}" not found, executionTime: ${end - start}ms`, {
@@ -1544,7 +1756,7 @@ exports.login = async (req, res) => {
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 924,
+          errorCode: 921,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -1595,19 +1807,24 @@ exports.login = async (req, res) => {
 // logger.warn(`Incorrect password for hospital with Username ${Username}, executionTime: ${end - start}ms`);
 const end = Date.now();
 const executionTime = `${end - start}ms`;
-const errorCode = 925;
+const errorCode = 922;
 
-// Correctly log the error when in the catch block
-logger.logWithMeta("warn", `Incorrect password for hospital with Username ${Username},`, {
+// Log the warning
+logger.logWithMeta("warn", `Incorrect password for hospital with Username ${Username}`, {
   errorCode,
-  // errorMessage: error.message,
+  
   executionTime,
-  // hospitalId: req.hospitalId,
+  hospitalId: req.hospitalId,
+  ip: clientIp,
+  apiName: req.originalUrl, // API name
+  method: req.method,
+  userAgent: req.headers['user-agent'],     // HTTP method
 });
+
       return res.status(401).json({
         meta: {
           statusCode: 401,
-          errorCode: 925,
+          errorCode: 922,
              executionTime: `${end - start}ms`
         },
         error: {
@@ -1679,7 +1896,18 @@ logger.logWithMeta("warn", `Incorrect password for hospital with Username ${User
 
     console.log("Decoded Token:", decodedToken);
     const end = Date.now();
-    logger.info(`Hospital with ID ${decodedToken.hospitalId} logged in successfully, executionTime: ${end - start}ms`);
+    const executionTime = `${end - start}ms`;
+   // Log the warning
+    logger.logWithMeta("warn", `Hospital with ID ${decodedToken.hospitalId} logged in successfully`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+
+    // logger.info(`Hospital with ID ${decodedToken.hospitalId} logged in successfully, executionTime: ${end - start}ms`);
     
     ////////////////Count apis 
 
@@ -1729,19 +1957,23 @@ logger.logWithMeta("warn", `Incorrect password for hospital with Username ${User
     // logger.error('Error logging in', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 926;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `'Error logging in ${error.message}`, {
+    const errorCode = 923;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error logging in`, {
       errorCode,
-      errorMessage: error.message,
+      
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 926,
+        errorCode: 923,
                 executionTime: `${end - start}ms`
       },
       error: {
@@ -1761,25 +1993,30 @@ logger.logWithMeta("warn", `Incorrect password for hospital with Username ${User
 
 exports.requestPasswordReset = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     // const end = Date.now();
     // logger.warn('Validation errors occurred during password reset request', { errors, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 957;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Validation errors occurred during password reset request: `, {
+    const errorCode = 924;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Validation errors occurred during password reset request`, {
       errorCode,
-      // errorMessage: error.message,
+      
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 957,
+        errorCode: 924,
          executionTime: `${end - start}ms`
       },
       error: {
@@ -1799,20 +2036,24 @@ exports.requestPasswordReset = async (req, res) => {
     // logger.error('Missing unique key in request headers', { executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 958;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Missing unique key in request headers: `, {
+    const errorCode = 925;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Missing unique key in request headers`, {
       errorCode,
-      // errorMessage: error.message,
+      
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 958,
+        errorCode: 925,
          executionTime: `${end - start}ms`
       },
       error: {
@@ -1829,20 +2070,24 @@ exports.requestPasswordReset = async (req, res) => {
       // logger.warn(`Hospital with UniqueKey ${uniqueKey} not found`, { executionTime: `${end - start}ms` });
       const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 959;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Hospital with UniqueKey ${uniqueKey} not found: `, {
+    const errorCode = 926;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Hospital with UniqueKey ${uniqueKey} not found`, {
       errorCode,
-      // errorMessage: error.message,
+      
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
       
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 959,
+          errorCode: 926,
           executionTime: `${end - start}ms`
 
         },
@@ -1859,19 +2104,23 @@ exports.requestPasswordReset = async (req, res) => {
 // logger.error(`Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail`, { executionTime: `${end - start}ms` });
 const end = Date.now();
 const executionTime = `${end - start}ms`;
-const errorCode = 960;
+const errorCode = 927;
 
-// Correctly log the error when in the catch block
-logger.logWithMeta("warn", `Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail `, {
+// Log the warning
+logger.logWithMeta("warn", `Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail`, {
   errorCode,
-  // errorMessage: error.message,
+  
   executionTime,
-  // hospitalId: req.hospitalId,
+  hospitalId: req.hospitalId,
+  ip: clientIp,
+  apiName: req.originalUrl, // API name
+  method: req.method,
+  userAgent: req.headers['user-agent'],     // HTTP method
 });
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 960,
+          errorCode: 927,
             executionTime: `${end - start}ms`
         },
         error: {
@@ -1904,7 +2153,18 @@ logger.logWithMeta("warn", `Hospital with UniqueKey ${uniqueKey} does not have a
       throw new Error('Failed to send reset email ');
     }
     const end = Date.now();
-logger.info(`Password reset link sent to ${managingCompanyEmail}`, { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+   // Log the warning
+    logger.logWithMeta("warn", `Password reset link sent to ${managingCompanyEmail}`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+
+// logger.info(`Password reset link sent to ${managingCompanyEmail}`, { executionTime: `${end - start}ms` });
 
 
     res.status(200).json({
@@ -1921,19 +2181,23 @@ logger.info(`Password reset link sent to ${managingCompanyEmail}`, { executionTi
     // logger.error('Error requesting password reset', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 960;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error requesting password reset: `, {
+    const errorCode = 928;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error requesting password reset`, {
       errorCode,
-      // errorMessage: error.message,
+      
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 960,
+        errorCode: 928,
            executionTime: `${end - start}ms`
       },
       error: {
@@ -1945,6 +2209,7 @@ logger.info(`Password reset link sent to ${managingCompanyEmail}`, { executionTi
 
 exports.resetPassword = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { token, newPassword } = req.body;
 
   try {
@@ -1960,21 +2225,25 @@ exports.resetPassword = async (req, res) => {
       // const end = Date.now();
       // logger.warn('Invalid or expired reset token', { executionTime: `${end - start}ms` });
       const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 961;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Invalid or expired reset token: `, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      // hospitalId: req.hospitalId,
-    });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 929;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Invalid or expired reset token`, {
+        errorCode,
+        
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
       
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 961
+          errorCode: 929
         },
         error: {
           message: 'Invalid or expired reset token'
@@ -2025,7 +2294,17 @@ exports.resetPassword = async (req, res) => {
     await hospital.save({ fields: ['ResetToken', 'ResetTokenExpires'] });
     logger.info('Reset token and expiration time cleared in the database');
     const end = Date.now();
-logger.info(`Password reset successfully for hospital with email ${hospital.Email}`, { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+   // Log the warning
+    logger.logWithMeta("warn", `Password reset successfully for hospital with email ${hospital.Email}`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+// logger.info(`Password reset successfully for hospital with email ${hospital.Email}`, { executionTime: `${end - start}ms` });
 
     res.status(200).json({
       meta: {
@@ -2041,20 +2320,24 @@ logger.info(`Password reset successfully for hospital with email ${hospital.Emai
     // logger.error('Error resetting password', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 962;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error resetting password: `, {
+    const errorCode = 930;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error resetting password`, {
       errorCode,
-      // errorMessage: error.message,
+      
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 962,
+        errorCode: 930,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -2067,26 +2350,32 @@ logger.info(`Password reset successfully for hospital with email ${hospital.Emai
 
 exports.changePassword = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     // const end = Date.now();
     // logger.info('Validation errors occurred', { errors, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 963;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Validation errors occurred: `, {
+    const errorCode = 931;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Validation errors occurred`, {
       errorCode,
-      // errorMessage: error.message,
+      
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
+    
     
       return res.status(400).json({
           meta: {
               statusCode: 400,
-              errorCode: 963,
+              errorCode: 931,
                 executionTime: `${end - start}ms`
           },
           error: {
@@ -2109,20 +2398,24 @@ exports.changePassword = async (req, res) => {
         // logger.warn('Hospital not found with provided unique key', { uniqueKey, executionTime: `${end - start}ms` });
         
         const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 964;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Hospital not found with provided unique key: `, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      // hospitalId: req.hospitalId,
-    });
+        const executionTime = `${end - start}ms`;
+        const errorCode = 932;
+        
+        // Log the warning
+        logger.logWithMeta("warn", `Hospital not found with provided unique key`, {
+          errorCode,
+          
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],     // HTTP method
+        });
           return res.status(404).json({
               meta: {
                   statusCode: 404,
-                  errorCode: 964,
+                  errorCode: 932,
                     executionTime: `${end - start}ms`
               },
               error: {
@@ -2139,20 +2432,24 @@ exports.changePassword = async (req, res) => {
         // logger.warn('Current password is incorrect', { executionTime: `${end - start}ms` });
         
         const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 968;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Current password is incorrect: `, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      // hospitalId: req.hospitalId,
-    });
+        const executionTime = `${end - start}ms`;
+        const errorCode = 933;
+        
+        // Log the warning
+        logger.logWithMeta("warn", `Current password is incorrect`, {
+          errorCode,
+          
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],     // HTTP method
+        });
           return res.status(400).json({
               meta: {
                   statusCode: 400,
-                  errorCode: 965,
+                  errorCode: 933,
                   executionTime: `${end - start}ms`
               },
               error: {
@@ -2175,7 +2472,17 @@ exports.changePassword = async (req, res) => {
       logger.info(`New password stored in database: ${updatedHospital.Password}`);
 
       const end = Date.now();
-      logger.info(`Password changed successfully for hospital with email ${hospital.ManagingCompanyEmail}`, { executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+     // Log the warning
+      logger.logWithMeta("warn", `Password changed successfully for hospital with email ${hospital.ManagingCompanyEmail}`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
+      // logger.info(`Password changed successfully for hospital with email ${hospital.ManagingCompanyEmail}`, { executionTime: `${end - start}ms` });
       
       
       res.status(200).json({
@@ -2191,20 +2498,25 @@ exports.changePassword = async (req, res) => {
 // logger.error('Error changing password', { error: error.message, executionTime: `${end - start}ms` });
 
 const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 966;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error changing password: `, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      // hospitalId: req.hospitalId,
-    });
+        const executionTime = `${end - start}ms`;
+        const errorCode = 934;
+        
+        // Log the warning
+        logger.logWithMeta("warn", `Error changing password`, {
+          errorCode,
+          
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],     // HTTP method
+        });
       res.status(500).json({
           meta: {
               statusCode: 500,
-              errorCode: 966,
+              errorCode: 934,
               executionTime: `${end - start}ms`
           },
           error: {
@@ -2217,25 +2529,29 @@ const end = Date.now();
 
 exports.changeEmail = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    // const end = Date.now();
-    // logger.info('Validation errors occurred', errors);
     const end = Date.now();
+    // logger.info('Validation errors occurred', errors);
     const executionTime = `${end - start}ms`;
-    const errorCode = 967;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Validation errors occurred: `, {
+    const errorCode = 935;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Validation errors occurred`, {
       errorCode,
-      // errorMessage: error.message,
+      
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 967,
+        errorCode: 935,
          executionTime: `${end - start}ms`
       },
       error: {
@@ -2255,23 +2571,27 @@ exports.changeEmail = async (req, res) => {
     const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
     if (!hospital) {
       const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 968;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Hospital not found with provided unique key: `, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      // hospitalId: req.hospitalId,
-    });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 935;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Validation errors occurred`, {
+        errorCode,
+        
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
 //       const end = Date.now();
 // logger.warn('Hospital not found with provided unique key', { uniqueKey: providedUniqueKey, executionTime: `${end - start}ms` });
 
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 968,
+          errorCode: 935,
            executionTime: `${end - start}ms`
         },
         error: {
@@ -2284,7 +2604,17 @@ exports.changeEmail = async (req, res) => {
     hospital.ManagingCompanyEmail = ManagingCompanyEmail;
     await hospital.save({ fields: ['ManagingCompanyEmail'] });
     const end = Date.now();
-logger.info(`Email updated successfully for hospital with unique key ${uniqueKey}`, { uniqueKey, executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+     // Log the warning
+      logger.logWithMeta("warn", `Email updated successfully for hospital with unique key ${uniqueKey}`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
+// logger.info(`Email updated successfully for hospital with unique key ${uniqueKey}`, { uniqueKey, executionTime: `${end - start}ms` });
 
 
     res.status(200).json({
@@ -2300,21 +2630,25 @@ logger.info(`Email updated successfully for hospital with unique key ${uniqueKey
 //     const end = Date.now();
 // logger.error('Error changing email', { error: error.message, executionTime: `${end - start}ms` });
 const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 969;
+const executionTime = `${end - start}ms`;
+const errorCode = 936;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error changing email: `, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      // hospitalId: req.hospitalId,
-    });
+// Log the warning
+logger.logWithMeta("warn", `Error changing email`, {
+  errorCode,
+  
+  executionTime,
+  hospitalId: req.hospitalId,
+  ip: clientIp,
+  apiName: req.originalUrl, // API name
+  method: req.method,
+  userAgent: req.headers['user-agent'],     // HTTP method
+});
 
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 969
+        errorCode: 936
       },
       error: {
         message: 'Error changing email: ' + error.message
@@ -2340,15 +2674,31 @@ const end = Date.now();
 
 exports.ensureSequelizeInstance = (req, res, next) => {
   const start = Date.now();
+  // const clientIp = await getClientIp(req);
+
   if (!req.hospitalDatabase) {
    
     const end = Date.now();
-    logger.error('Database connection not established', { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 937;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Database connection not established`, {
+      errorCode,
+      
+      executionTime,
+      hospitalId: req.hospitalId,
+      // ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
+    });
+    // logger.error('Database connection not established', { executionTime: `${end - start}ms` });
     
     return res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 927,
+        errorCode: 937,
         executionTime: `${end - start}ms`
       },
       
@@ -2370,7 +2720,18 @@ exports.ensureSequelizeInstance = (req, res, next) => {
   );
   
   req.sequelize = sequelize;
-  logger.info('Sequelize instance created successfully');
+  // logger.info('Sequelize instance created successfully');
+  const end = Date.now();
+      const executionTime = `${end - start}ms`;
+     // Log the warning
+      logger.logWithMeta("warn", `Sequelize instance created successfully`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        // ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
   next();
 
   sequelize.sync({ alter: true })
@@ -3040,6 +3401,7 @@ const ENCRYPT_SECRET_KEY1 = process.env.ENCRYPT_SECRET_KEY2;
 
 
 const encryptAES = (text, secretKey) => {
+  
   try {
     console.log('Encrypting text:', text);
     console.log('Using secret key:', secretKey);
@@ -3060,6 +3422,7 @@ const encryptAES = (text, secretKey) => {
 // Define the `createUser` function
 exports.createUser = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { name, username, phone, email, password, empid, usertype } = req.body;
   const hospitalId = req.hospitalId;
   const hospitalDatabase = req.hospitalDatabase;
@@ -3068,14 +3431,18 @@ exports.createUser = async (req, res) => {
     if (!password) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1212;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Password is required: `, {
+      const errorCode = 938;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Password is required`, {
         errorCode,
-        // errorMessage: error.message,
+        
         executionTime,
         hospitalId: req.hospitalId,
+        // ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       throw new Error('Password is required');
     }
@@ -3132,6 +3499,17 @@ exports.createUser = async (req, res) => {
 
     await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
 
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   // Log the warning
+    logger.logWithMeta("warn", `User created successfully. Verification email sent`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -3144,20 +3522,24 @@ exports.createUser = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 928;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error creating user:${error.message} `, {
+    const errorCode = 939;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error creating user`, {
       errorCode,
-      errorMessage: error.message,
+      
       executionTime,
       hospitalId: req.hospitalId,
+      // ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 928,
+        errorCode: 939,
         executionTime: `${Date.now() - start}ms`,
         hospitalDatabase
       },
@@ -3171,6 +3553,7 @@ exports.createUser = async (req, res) => {
 
 const decryptAES = (encryptedText, secretKey) => {
   const start = Date.now();
+  // const clientIp = await getClientIp(req);
   try {
     console.log('Decrypting text**********:', encryptedText);
     console.log('Using secret key************:', secretKey);
@@ -3178,15 +3561,20 @@ const decryptAES = (encryptedText, secretKey) => {
     if (!encryptedText || !secretKey) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 928;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Error creating user:${error.message} `, {
+      const errorCode = 940;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Missing encrypted text or secret key`, {
         errorCode,
-        errorMessage: error.message,
+        
         executionTime,
         hospitalId: req.hospitalId,
+        // ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
+    
       throw new Error('Missing encrypted text or secret key');
     }
 
@@ -3196,14 +3584,18 @@ const decryptAES = (encryptedText, secretKey) => {
     if (!decrypted) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1212;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Decryption resulted in an empty string:${error.message} `, {
+      const errorCode = 941;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Decryption resulted in an empty string`, {
         errorCode,
-        errorMessage: error.message,
+        
         executionTime,
-        // hospitalId: req.hospitalId,
+        hospitalId: req.hospitalId,
+        // ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       throw new Error('Decryption resulted in an empty string');
     }
@@ -3212,14 +3604,18 @@ const decryptAES = (encryptedText, secretKey) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1212;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error during decryption:${error.message} `, {
+    const errorCode = 942;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error during decryption`, {
       errorCode,
-      errorMessage: error.message,
+      
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      // ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     console.error('Decryption Error:', error.message);
     throw new Error('Error during decryption');
@@ -3259,6 +3655,7 @@ const decodeBase64 = (text) => Buffer.from(text, 'base64').toString('utf8');
 
 exports.verifyEmail = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { token } = req.params;
   // let token = req.params.token.replace(/-/g, '+').replace(/_/g, '/');
   const hospitalDatabase = req.query.db;
@@ -3267,14 +3664,18 @@ exports.verifyEmail = async (req, res) => {
     if (!hospitalDatabase || !token) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1212;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Missing database name or token:`, {
+      const errorCode = 943;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Missing database name or token`, {
         errorCode,
-        // errorMessage: error.message,
+        
         executionTime,
-        // hospitalId: req.hospitalId,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       throw new Error('Missing database name or token');
     }
@@ -3298,17 +3699,21 @@ exports.verifyEmail = async (req, res) => {
     if (!decryptedDB || !token) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 928;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Decryption failed or resulted in an empty string:`, {
+      const errorCode = 944;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Decryption failed or resulted in an empty string`, {
         errorCode,
-        // errorMessage: error.message,
+        
         executionTime,
-        // hospitalId: req.hospitalId,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       return res.status(400).json({
-        meta: { statusCode: 400, errorCode: 928, executionTime: `${Date.now() - start}ms` },
+        meta: { statusCode: 400, errorCode: 944, executionTime: `${Date.now() - start}ms` },
         error: { message: 'Decryption failed or resulted in an empty string' },
       });
     }
@@ -3335,17 +3740,21 @@ exports.verifyEmail = async (req, res) => {
     if (!user) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 928;
-  
-      // Correctly log the error when in the catch block
+      const errorCode = 945;
+      
+      // Log the warning
       logger.logWithMeta("warn", `Invalid or expired verification token`, {
         errorCode,
-        // errorMessage: error.message,
+        
         executionTime,
-        // hospitalId: req.hospitalId,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       return res.status(400).json({
-        meta: { statusCode: 400, errorCode: 952, executionTime: `${Date.now() - start}ms` },
+        meta: { statusCode: 400, errorCode: 945, executionTime: `${Date.now() - start}ms` },
         error: { message: 'Invalid or expired verification token' },
       });
     }
@@ -3353,26 +3762,40 @@ exports.verifyEmail = async (req, res) => {
     user.is_emailVerify = true;
     user.emailtoken = null;
     await user.save();
-
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   // Log the warning
+    logger.logWithMeta("warn", `Email verified successfully`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
     res.status(200).json({
       meta: { statusCode: 200, executionTime: `${Date.now() - start}ms` },
       data: { message: 'Email verified successfully' },
     });
   } catch (error) {
     const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 928;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Error verifying email`, {
-        errorCode,
-        // errorMessage: error.message,
-        executionTime,
-        // hospitalId: req.hospitalId,
-      });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 946;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error verifying email`, {
+      errorCode,
+      
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
+    });
     console.error('Verification Error:', error.message);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 953, executionTime: `${Date.now() - start}ms` },
+      meta: { statusCode: 500, errorCode: 946, executionTime: `${Date.now() - start}ms` },
       error: { message: 'Error verifying email: ' + error.message },
     });
   }
@@ -3910,6 +4333,7 @@ exports.verifyEmail = async (req, res) => {
 
 exports.resendVerificationEmail = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { email } = req.body;
   const User = require('../models/user')(req.sequelize);
 
@@ -3920,19 +4344,23 @@ exports.resendVerificationEmail = async (req, res) => {
     if (!user) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 954;
-  
-      // Correctly log the error when in the catch block
+      const errorCode = 947;
+      
+      // Log the warning
       logger.logWithMeta("warn", `Email is not registered`, {
         errorCode,
-        // errorMessage: error.message,
+        
         executionTime,
-        // hospitalId: req.hospitalId,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 954,
+          errorCode: 947,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -3944,19 +4372,23 @@ exports.resendVerificationEmail = async (req, res) => {
     if (user.is_emailVerify == 1) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 955;
-  
-      // Correctly log the error when in the catch block
+      const errorCode = 948;
+      
+      // Log the warning
       logger.logWithMeta("warn", `Email is already verified`, {
         errorCode,
-        // errorMessage: error.message,
+        
         executionTime,
-        // hospitalId: req.hospitalId,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       return res.status(200).json({
         meta: {
           statusCode: 200,
-          errorCode: 955,
+          errorCode: 948,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -4002,15 +4434,18 @@ exports.resendVerificationEmail = async (req, res) => {
     // logger.info(`Verification email resent to ${user.email}`, { executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    
-
-    // Correctly log the error when in the catch block
+   // Log the warning
     logger.logWithMeta("warn", `Verification email resent to ${user.email}`, {
-      // errorCode,
-      // errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
     });
+
+    // Correctly log the error when in the catch block
+   
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -4026,19 +4461,23 @@ exports.resendVerificationEmail = async (req, res) => {
     // logger.error('Error resending verification email', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 956;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error resending verification email${error.message}`, {
+    const errorCode = 949;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error resending verification email`, {
       errorCode,
-      errorMessage: error.message,
+      
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 956,
+        errorCode: 949,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -4049,6 +4488,7 @@ exports.resendVerificationEmail = async (req, res) => {
 };
 exports.getUser = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { id } = req.params;
 
   try {
@@ -4061,20 +4501,24 @@ exports.getUser = async (req, res) => {
       // logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 937;
-  
-      // Correctly log the error when in the catch block
+      const errorCode = 950;
+      
+      // Log the warning
       logger.logWithMeta("warn", `User with ID ${id} not found`, {
         errorCode,
-        // errorMessage: error.message,
+        
         executionTime,
-        // hospitalId: req.hospitalId,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 937,
+          errorCode: 950,
         executionTime: `${end - start}ms`
         },
         error: {
@@ -4084,15 +4528,18 @@ exports.getUser = async (req, res) => {
     }
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `'User with ID ${id} retrieved successfully`, {
-      // errorCode,
-      // errorMessage: error.message,
+   // Log the warning
+    logger.logWithMeta("warn", `User with ID ${id} retrieved successfully`, {
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
     });
+
+
+ 
     // const end = Date.now();
     // logger.info(`User with ID ${id} retrieved successfully`, { executionTime: `${end - start}ms` });
     
@@ -4114,20 +4561,24 @@ exports.getUser = async (req, res) => {
     // logger.error('Error retrieving user', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 931;
+    const errorCode = 951;
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `'Error retrieving user ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error retrieving user ${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
-    
+
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 931,
+        errorCode: 951,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -4139,6 +4590,7 @@ exports.getUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { id } = req.params;
   const { username, password } = req.body;
 
@@ -4152,20 +4604,24 @@ exports.updateUser = async (req, res) => {
 // logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
 const end = Date.now();
 const executionTime = `${end - start}ms`;
-const errorCode = 932;
+const errorCode = 952;
 
-// Correctly log the error when in the catch block
-logger.logWithMeta("warn", `User with ID ${id} not found`, {
+// Log the warning
+logger.logWithMeta("warn", `User with ID ${id} not found${error.message}`, {
   errorCode,
-  // errorMessage: error.message,
+  errorMessage: error.message,
   executionTime,
-  // hospitalId: req.hospitalId,
+  hospitalId: req.hospitalId,
+  ip: clientIp,
+  apiName: req.originalUrl, // API name
+  method: req.method,
+  userAgent: req.headers['user-agent'],     // HTTP method
 });
 
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 932,
+          errorCode: 952,
         executionTime: `${end - start}ms`
         },
         error: {
@@ -4182,15 +4638,17 @@ logger.logWithMeta("warn", `User with ID ${id} not found`, {
 // logger.info(`User with ID ${id} updated successfully`, { executionTime: `${end - start}ms` });
 const end = Date.now();
 const executionTime = `${end - start}ms`;
-
-
-// Correctly log the error when in the catch block
+// Log the warning
 logger.logWithMeta("warn", `User with ID ${id} updated successfully`, {
- 
-  // errorMessage: error.message,
   executionTime,
   hospitalId: req.hospitalId,
+  ip: clientIp,
+  apiName: req.originalUrl, // API name
+  method: req.method,
+  userAgent: req.headers['user-agent'],    // HTTP method
 });
+
+
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -4207,19 +4665,23 @@ logger.logWithMeta("warn", `User with ID ${id} updated successfully`, {
     
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 933;
-
-    // Correctly log the error when in the catch block
+    const errorCode = 953;
+    
+    // Log the warning
     logger.logWithMeta("warn", `Error updating user${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 933,
+        errorCode: 953,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -4231,6 +4693,7 @@ logger.logWithMeta("warn", `User with ID ${id} updated successfully`, {
 
 exports.deleteUser = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { id } = req.params;
 
   try {
@@ -4242,20 +4705,24 @@ exports.deleteUser = async (req, res) => {
       // logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 934;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `User with ID ${id} not found`, {
+      const errorCode = 954;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `User with ID ${id} not found${error.message}`, {
         errorCode,
-        // errorMessage: error.message,
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 934,
+          errorCode: 954,
         executionTime: `${end - start}ms`
         },
         error: {
@@ -4270,8 +4737,16 @@ exports.deleteUser = async (req, res) => {
     // const end = Date.now();
     // logger.info(`User with ID ${id} deleted successfully`, { executionTime: `${end - start}ms` });
     const end = Date.now();
-const executionTime = `${end - start}ms`;
-
+    const executionTime = `${end - start}ms`;
+    // Log the warning
+    logger.logWithMeta("warn", `User with ID ${id} deleted successfully`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
 
 // Correctly log the error when in the catch block
 logger.logWithMeta("warn", `User with ID ${id} deleted successfully`, {
@@ -4296,20 +4771,23 @@ logger.logWithMeta("warn", `User with ID ${id} deleted successfully`, {
 // logger.error('Error deleting user', { error: error.message, executionTime: `${end - start}ms` });
 const end = Date.now();
 const executionTime = `${end - start}ms`;
-const errorCode = 935;
+const errorCode = 955;
 
-// Correctly log the error when in the catch block
-logger.logWithMeta("warn", `Error deleting user ${error.message}`, {
+// Log the warning
+logger.logWithMeta("warn", `Error deleting user${error.message}`, {
   errorCode,
   errorMessage: error.message,
   executionTime,
   hospitalId: req.hospitalId,
+  ip: clientIp,
+  apiName: req.originalUrl, // API name
+  method: req.method,
+  userAgent: req.headers['user-agent'],     // HTTP method
 });
-
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 935,
+        errorCode: 955,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -4320,6 +4798,7 @@ logger.logWithMeta("warn", `Error deleting user ${error.message}`, {
 };
 exports.getAllUsers = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   try {
     const User = require('../models/user')(req.sequelize);
     const users = await User.findAll();
@@ -4327,16 +4806,19 @@ exports.getAllUsers = async (req, res) => {
 //     const end = Date.now();
 // logger.info(`Retrieved all users successfully`, { executionTime: `${end - start}ms` });
 const end = Date.now();
-const executionTime = `${end - start}ms`;
-
+    const executionTime = `${end - start}ms`;
+    // Log the warning
+    logger.logWithMeta("warn", `Retrieved all users successfully`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
 
 // Correctly log the error when in the catch block
-logger.logWithMeta("warn", `Retrieved all users successfully`, {
-  
-  // errorMessage: error.message,
-  executionTime,
-  hospitalId: req.hospitalId,
-});
+
 
 
     res.status(200).json({
@@ -4349,14 +4831,18 @@ logger.logWithMeta("warn", `Retrieved all users successfully`, {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 936;
-
-    // Correctly log the error when in the catch block
+    const errorCode = 956;
+    
+    // Log the warning
     logger.logWithMeta("warn", `Error retrieving all users${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // const end = Date.now();
     // logger.error('Error retrieving all users', { error: error.message, executionTime: `${end - start}ms` });
@@ -4364,7 +4850,7 @@ logger.logWithMeta("warn", `Retrieved all users successfully`, {
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 936,
+        errorCode: 956,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -4375,6 +4861,7 @@ logger.logWithMeta("warn", `Retrieved all users successfully`, {
 };
 exports.getAllUsersByPagination = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   let { page, limit } = req.query;
   page = parseInt(page) || 1;
   limit = parseInt(limit) || 5; // Default limit is 5, adjust as per your requirement
@@ -4392,15 +4879,17 @@ exports.getAllUsersByPagination = async (req, res) => {
     // logger.info(`Retrieved users for page ${page} with limit ${limit} successfully`, { executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    // const errorCode = 928;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `user get successfull`, {
-      // errorCode,
-      // errorMessage: error.message,
+    // Log the warning
+    logger.logWithMeta("warn", `get all users successfully`, {
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
     });
+    // Correctly log the error when in the catch block
+    
 
     res.status(200).json({
       meta: {
@@ -4415,14 +4904,18 @@ exports.getAllUsersByPagination = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 937;
-
-    // Correctly log the error when in the catch block
+    const errorCode = 957;
+    
+    // Log the warning
     logger.logWithMeta("warn", `Error retrieving users with pagination${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
 //     const end = Date.now();
 // logger.error('Error retrieving users with pagination', { error: error.message, executionTime: `${end - start}ms` });
@@ -4431,7 +4924,7 @@ exports.getAllUsersByPagination = async (req, res) => {
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 937,
+        errorCode: 957,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -4991,6 +5484,7 @@ exports.getAllUsersByPagination = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { Username, Password } = req.body;
 
   if (!Username || !Password) {
@@ -4998,20 +5492,24 @@ exports.loginUser = async (req, res) => {
     // logger.error('Username or Password not provided', { executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1047;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Username or Password not provided`, {
+    const errorCode = 958;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Username or Password not provided${error.message}`, {
       errorCode,
-      // errorMessage: error.message,
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
 
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 1047,
+        errorCode: 958,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -5030,20 +5528,25 @@ exports.loginUser = async (req, res) => {
       // logger.error('Invalid username or password', { executionTime: `${end - start}ms` });
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1048;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Invalid username or password`, {
+      const errorCode = 959;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Invalid username or password${error.message}`, {
         errorCode,
-        // errorMessage: error.message,
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
+  
 
       return res.status(401).json({
         meta: {
           statusCode: 401,
-          errorCode: 1048,
+          errorCode: 959,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -5057,20 +5560,24 @@ exports.loginUser = async (req, res) => {
       // logger.error('Email or phone not verified', { executionTime: `${end - start}ms` });
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1049;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Email or phone not verified`, {
+      const errorCode = 960;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Email or phone not verified${error.message}`, {
         errorCode,
-        // errorMessage: error.message,
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
 
       return res.status(403).json({
         meta: {
           statusCode: 403,
-          errorCode: 1049,
+          errorCode: 960,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -5132,15 +5639,18 @@ exports.loginUser = async (req, res) => {
 
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    
-
-    // Correctly log the error when in the catch block
+    // Log the warning
     logger.logWithMeta("warn", `Login successful`, {
-   
-      
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
     });
+    
+
+    
 
     return res.status(200).json({
       meta: {
@@ -5163,21 +5673,26 @@ exports.loginUser = async (req, res) => {
     // const end = Date.now();
     // logger.error('Error logging in', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 1050;
+      const executionTime = `${end - start}ms`;
+      const errorCode = 961;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Error logging in${error.message}`, {
+        errorCode,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
 
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error logging in${error.message}`, {
-      errorCode,
-      errorMessage: error.message,
-      executionTime,
-      hospitalId: req.hospitalId,
-    });
 
     return res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 1050,
+        errorCode: 961,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -5189,6 +5704,7 @@ exports.loginUser = async (req, res) => {
 
 exports.sendOtp = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
 
   // Extract token from headers
   const token = req.headers['accesstoken'];
@@ -5198,20 +5714,25 @@ exports.sendOtp = async (req, res) => {
     // logger.error('No access token provided', { executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1081;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `No access token provided`, {
+    const errorCode = 962;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `No access token provided${error.message}`, {
       errorCode,
-      // errorMessage: error.message,
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
+
     return res.status(401).json({
 
       meta: {
         statusCode: 401,
-        errorCode: 1081,
+        errorCode: 962,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -5232,19 +5753,23 @@ exports.sendOtp = async (req, res) => {
       // logger.error('No email found in access token', { executionTime: `${end - start}ms` });
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1082;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `No email found in access token`, {
+      const errorCode = 963;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `No email found in access token${error.message}`, {
         errorCode,
-        // errorMessage: error.message,
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 1082,
+          errorCode: 963,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -5272,15 +5797,18 @@ exports.sendOtp = async (req, res) => {
 
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    // const errorCode = 928;
-
-    // Correctly log the error when in the catch block
+    // Log the warning
     logger.logWithMeta("warn", `OTP sent successfully to your email`, {
-      // errorCode,
-      // errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
     });
+    
+
+ 
 
     // const end = Date.now();
     // logger.info('OTP sent successfully', { executionTime: `${end - start}ms` });
@@ -5298,21 +5826,25 @@ exports.sendOtp = async (req, res) => {
 
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1083;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error sending OTP${error.message}`, {
+    const errorCode = 964;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error sending OTP ${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // const end = Date.now();
     // logger.error('Error sending OTP', { error: error.message, executionTime: `${end - start}ms` });
     return res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 1083,
+        errorCode: 964,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -5325,6 +5857,7 @@ exports.sendOtp = async (req, res) => {
 
 exports.verifyOtp = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
 
   // Extract token from headers
   const token = req.headers['accesstoken'];
@@ -5332,21 +5865,25 @@ exports.verifyOtp = async (req, res) => {
   if (!token) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1084;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `No access token provided`, {
+    const errorCode = 965;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `No access token provided ${error.message}`, {
       errorCode,
-      // errorMessage: error.message,
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // const end = Date.now();
     // logger.error('No access token provided', { executionTime: `${end - start}ms` });
     return res.status(401).json({
       meta: {
         statusCode: 401,
-        errorCode: 1084,
+        errorCode: 965,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -5385,21 +5922,25 @@ exports.verifyOtp = async (req, res) => {
     if (!otp) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1085;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `OTP verified successfully`, {
+      const errorCode = 966;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `No OTP provided ${error.message}`, {
         errorCode,
-        // errorMessage: error.message,
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       // const end = Date.now();
       // logger.error('No OTP provided', { executionTime: `${end - start}ms` });
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 1085,
+          errorCode: 966,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -5415,21 +5956,25 @@ exports.verifyOtp = async (req, res) => {
     if (!storedOtp) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1086;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `OTP expired or not found`, {
+      const errorCode = 967;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `OTP expired or not found ${error.message}`, {
         errorCode,
-        // errorMessage: error.message,
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       // const end = Date.now();
       // logger.error('OTP expired or not found', { executionTime: `${end - start}ms` });
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 1086,
+          errorCode: 967,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -5441,21 +5986,24 @@ exports.verifyOtp = async (req, res) => {
     if (otp !== storedOtp) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1087;
-  
-      // Correctly log the error when in the catch block
-      logger.logWithMeta("warn", `Invalid OTP`, {
+      const errorCode = 968;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Invalid OTP ${error.message}`, {
         errorCode,
-        // errorMessage: error.message,
+        errorMessage: error.message,
         executionTime,
-        // hospitalId: req.hospitalId,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
-      // const end = Date.now();
       // logger.error('Invalid OTP', { executionTime: `${end - start}ms` });
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 1087,
+          errorCode: 968,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -5463,21 +6011,26 @@ exports.verifyOtp = async (req, res) => {
         }
       });
     }
-
-    // OTP verified successfully
-    // const end = Date.now();
-    // logger.info('OTP verified successfully', { executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    // const errorCode = 928;
-
-    // Correctly log the error when in the catch block
+    // Log the warning
     logger.logWithMeta("warn", `OTP verified successfully`, {
-      // errorCode,
-      // errorMessage: error.message,
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
     });
+    
+
+    // // Correctly log the error when in the catch block
+    // logger.logWithMeta("warn", `OTP verified successfully`, {
+    //   // errorCode,
+    //   // errorMessage: error.message,
+    //   executionTime,
+    //   // hospitalId: req.hospitalId,
+    // });
     return res.status(200).json({
       meta: {
         statusCode: 200,
@@ -5490,21 +6043,25 @@ exports.verifyOtp = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1088;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `Error verifying OTP`, {
+    const errorCode = 969;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error verifying OTP ${error.message}`, {
       errorCode,
-      // errorMessage: error.message,
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // const end = Date.now();
     // logger.error('Error verifying OTP', { error: error.message, executionTime: `${end - start}ms` });
     return res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 1088,
+        errorCode: 969,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -5614,23 +6171,31 @@ exports.verifyOtp = async (req, res) => {
 
 
 exports.getProfile = (req, res) => {
+  const start = Date.now();
+  // const clientIp = await getClientIp(req);
   const token = req.headers['authorization'];
   
   if (!token) {
-    const errorCode = 401;
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", `No token provided`, {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 970;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `No token provided${error.message}`, {
       errorCode,
-      // errorMessage: error.message,
+      errorMessage: error.message,
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      // ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     logger.warn('No token provided');
     return res.status(401).json({
       meta: {
         statusCode: 401,
-        errorCode: 401,
+        errorCode: 970,
         message: 'No token provided'
       }
     });
@@ -5638,14 +6203,25 @@ exports.getProfile = (req, res) => {
 
   try {
     const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET); // Adjust the secret as necessary
-
-
-    // Correctly log the error when in the catch block
-    logger.logWithMeta("warn", ` get all user successfully`, {
-      
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    // Log the warning
+    logger.logWithMeta("warn", `get all user successfully`, {
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      // ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
     });
+    
+
+    // // Correctly log the error when in the catch block
+    // logger.logWithMeta("warn", ` get all user successfully`, {
+      
+    //   executionTime,
+    //   // hospitalId: req.hospitalId,
+    // });
     res.status(200).json({
       meta: {
         statusCode: 200
@@ -5657,20 +6233,26 @@ exports.getProfile = (req, res) => {
       }
     });
   } catch (error) {
-    const errorCode = 500;
-
-    // Correctly log the error when in the catch block
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1155;
+    
+    // Log the warning
     logger.logWithMeta("warn", `Failed to authenticate token${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
-      // hospitalId: req.hospitalId,
+      hospitalId: req.hospitalId,
+      // ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
-    logger.error('Failed to authenticate token', { error: error.message });
+    // logger.error('Failed to authenticate token', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 500,
+        errorCode: 1155,
         message: 'Failed to authenticate token'
       }
     });
@@ -5678,17 +6260,33 @@ exports.getProfile = (req, res) => {
 };
 
 exports.requestUserPasswordReset = async (req, res) => {
-  const { User } = require('../models/user');
   const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const { User } = require('../models/user');
+  
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const end = Date.now();
-    logger.warn('Validation errors occurred during password reset request', { errors, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1156;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Validation errors occurred during password reset request`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
+    });
+    // logger.warn('Validation errors occurred during password reset request', { errors, executionTime: `${end - start}ms` });
 
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 957,
+        errorCode: 1156,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -5704,13 +6302,27 @@ exports.requestUserPasswordReset = async (req, res) => {
   const { email } = req.body;
 
   if (!email) {
-    const end = Date.now();
+   
     logger.error('Email not provided', { executionTime: `${end - start}ms` });
-
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1157;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Email is required`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
+    });
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 958,
+        errorCode: 1157,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -5724,12 +6336,26 @@ exports.requestUserPasswordReset = async (req, res) => {
 
     if (!user) {
       const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1158;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `User with email ${email} not found`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
+    });
       logger.warn(`User with email ${email} not found`, { executionTime: `${end - start}ms` });
 
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 959,
+          errorCode: 1158,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -5757,8 +6383,19 @@ exports.requestUserPasswordReset = async (req, res) => {
       throw new Error('Failed to send reset email');
     }
 
+    // logger.info(`Password reset link sent to ${email}`, { executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.info(`Password reset link sent to ${email}`, { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    // Log the warning
+    logger.logWithMeta("warn", `Password reset link sent to ${email}`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    
 
     res.status(200).json({
       meta: {
@@ -5771,12 +6408,26 @@ exports.requestUserPasswordReset = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1159;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error requesting password reset`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
+    });
     logger.error('Error requesting password reset', { error: error.message, executionTime: `${end - start}ms` });
 
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 960,
+        errorCode: 1159,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -5787,15 +6438,30 @@ exports.requestUserPasswordReset = async (req, res) => {
 };
 exports.resetuserPassword = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1160;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Validation errors occurred during password reset`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
+    });
     logger.warn('Validation errors occurred during password reset', { errors, executionTime: `${end - start}ms` });
 
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 961,
+        errorCode: 1160,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -5820,12 +6486,26 @@ exports.resetuserPassword = async (req, res) => {
 
     if (!user) {
       const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1161;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Invalid or expired reset token`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
       logger.warn('Invalid or expired reset token', { executionTime: `${end - start}ms` });
 
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 962,
+          errorCode: 1161,
           executionTime: `${end - start}ms`
         },
         error: {
@@ -5843,7 +6523,17 @@ exports.resetuserPassword = async (req, res) => {
     await user.save();
 
     const end = Date.now();
-    logger.info(`Password reset successfully for user with email ${user.email}`, { executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    // Log the warning
+    logger.logWithMeta("warn", `Password reset successfully for user with email ${user.email}`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    // logger.info(`Password reset successfully for user with email ${user.email}`, { executionTime: `${end - start}ms` });
 
     res.status(200).json({
       meta: {
@@ -5856,12 +6546,26 @@ exports.resetuserPassword = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error resetting password', { error: error.message, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1162;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Error resetting password'`, {
+      errorCode,
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
+    });
+    // logger.error('Error resetting password', { error: error.message, executionTime: `${end - start}ms` });
 
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 963,
+        errorCode: 1162,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -5877,7 +6581,8 @@ exports.resetuserPassword = async (req, res) => {
 
 exports.decodeToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
-
+  const start = Date.now();
+  // const clientIp = await getClientIp(req);
   if (!authHeader) {
     return res.status(401).json({ error: 'Unauthorized: No token provided' });
   }
@@ -5900,6 +6605,7 @@ exports.decodeToken = (req, res, next) => {
 
 exports.changePassword = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { oldPassword, newPassword, ConfirmPassword } = req.body;
 
   if (!oldPassword || !newPassword || !ConfirmPassword) {
@@ -5965,8 +6671,17 @@ exports.changePassword = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await user.update({ password: hashedPassword });
-
     const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    // Log the warning
+    logger.logWithMeta("warn", `Password updated successfully`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
     return res.status(200).json({
       meta: {
         statusCode: 200,
@@ -5996,6 +6711,7 @@ exports.changePassword = async (req, res) => {
 
 exports.forgotPassword = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { email } = req.body;
 
   if (!email) {
@@ -6062,8 +6778,19 @@ exports.forgotPassword = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
+    
+    // logger.info(`Password reset token sent to ${email}`, { email, executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.info(`Password reset token sent to ${email}`, { email, executionTime: `${end - start}ms` });
+    const executionTime = `${end - start}ms`;
+    // Log the warning
+    logger.logWithMeta("warn", `Password reset token sent to ${email}`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
 
     return res.status(200).json({
       meta: {
@@ -6093,6 +6820,7 @@ exports.forgotPassword = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { token, newPassword } = req.body;
 
   if (!token || !newPassword) {
@@ -6139,9 +6867,19 @@ exports.resetPassword = async (req, res) => {
     user.resetPasswordExpires = null;
     await user.save();
 
+  
+    // logger.info('Password reset successfully', { userId: user.userId, executionTime: `${end - start}ms` });
     const end = Date.now();
-    logger.info('Password reset successfully', { userId: user.userId, executionTime: `${end - start}ms` });
-
+    const executionTime = `${end - start}ms`;
+    // Log the warning
+    logger.logWithMeta("warn", `Password reset successfully`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
     return res.status(200).json({
       meta: {
         statusCode: 200,

@@ -37,61 +37,61 @@ async function getClientIp(req) {
   return clientIp;
 }
 
-exports.getAllPatients = async (req, res) => {
-  const start = Date.now();
-  try {
-    const clientIp = await getClientIp(req);
-    const patients = await PatientMaster.findAll();
-    const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    // logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
-    logger.logWithMeta("info", `Retrieved all patients successfully`, {
-      executionTime,
-      hospitalId: req.hospitalId,
-      // patientFirstName: patient.PatientFirstName, // Adjust to match actual field
-      userId: req.userId,
-      ip: clientIp, // Correctly log the client IP
-      userAgent: req.headers['user-agent'],
-      apiName: req.originalUrl, // API name
-      method: req.method         // HTTP method
-    });
+// exports.getAllPatients = async (req, res) => {
+//   const start = Date.now();
+//   try {
+//     const clientIp = await getClientIp(req);
+//     const patients = await PatientMaster.findAll();
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     // logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
+//     logger.logWithMeta("info", `Retrieved all patients successfully`, {
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       // patientFirstName: patient.PatientFirstName, // Adjust to match actual field
+//       userId: req.userId,
+//       ip: clientIp, // Correctly log the client IP
+//       userAgent: req.headers['user-agent'],
+//       apiName: req.originalUrl, // API name
+//       method: req.method         // HTTP method
+//     });
 
-    res.status(200).json({
-      meta: {
-        statusCode: 200,
-        executionTime: `${end - start}ms`
-      },
-      data: patients
-    });
-  } catch (error) {
-    const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 972;
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: patients
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 972;
 
-    // Log the warning
-    logger.logWithMeta("warn", `Error retrieving patients`, {
-      errorCode,
+//     // Log the warning
+//     logger.logWithMeta("warn", `Error retrieving patients`, {
+//       errorCode,
 
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method         // HTTP method
-    });
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method         // HTTP method
+//     });
 
-    // logger.error('Error retrieving patients', { error: error.message, executionTime: `${end - start}ms` });
-    res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode: 972,
-        executionTime: `${end - start}ms`
-      },
-      error: {
-        message: 'Error retrieving patients: ' + error.message
-      }
-    });
-  }
-};
+//     // logger.error('Error retrieving patients', { error: error.message, executionTime: `${end - start}ms` });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 972,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error retrieving patients: ' + error.message
+//       }
+//     });
+//   }
+// };
 
 
 // Get patient by ID
@@ -141,116 +141,352 @@ exports.getAllPatients = async (req, res) => {
 // };
 
 // Function to get the client IP address
+const { logWithMeta,getIp  } = require('../Middleware/loggerUtility'); // Import the utility
 
-
-exports.getPatientById = async (req, res) => {
-  const start = Date.now();
-  const { id } = req.params;
-
+exports.getAllPatients = async (req, res) => {
+  const start = Date.now(); // Start the execution timer
   try {
-    // Fetch the patient by their ID
-    const patient = await PatientMaster.findByPk(id);
-    const clientIp = await getClientIp(req);
+    const clientIp =  await getClientIp(req);// Assuming you have a utility function for this
+    req.clientIp = clientIp; // Attach clientIp to req for logging
 
-    if (!patient) {
-      const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 973;
-
-      // Log the warning
-      logger.logWithMeta("warn", `Patient with ID ${id} not found`, {
-        errorCode,
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method         // HTTP method
-      });
-      // logger.warn(`Patient with ID ${id} not found`, { executionTime: `${end - start}ms` });
-      return res.status(404).json({
-        meta: {
-          statusCode: 404,
-          errorCode: 973,
-          executionTime: `${end - start}ms`
-        },
-        error: {
-          message: 'Patient not found'
-        }
-      });
-    }
-
-    // Read and convert the image to a base64 string
-    let imgBase64 = null;
-    if (patient.img) {
-      const imgPath = path.join(__dirname, '../profile', path.basename(patient.img));
-      if (fs.existsSync(imgPath)) {
-        const imgBuffer = fs.readFileSync(imgPath);
-        imgBase64 = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
-
-        // Log the image to the console
-        console.log("Base64 Image String:", imgBase64);
-        console.log("Base64 Image String:");
-      }
-    }
-
-
-
+    const patients = await PatientMaster.findAll(); // Fetch all patients
     const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    // Log success
-    logger.logWithMeta("info", `Retrieved patient with ID ${id} successfully`, {
-      executionTime,
-      hospitalId: req.hospitalId,
-      patientFirstName: patient.PatientFirstName, // Adjust to match actual field
-      userId: req.userId,
-      ip: clientIp, // Correctly log the client IP
-      userAgent: req.headers['user-agent'],
-      apiName: req.originalUrl, // API name
-      method: req.method         // HTTP method
-    });
+    const executionTime = `${end - start}ms`; // Calculate execution time
 
+    // Use the logging utility function, passing executionTime as additional metadata
+    logWithMeta("info", "Retrieved all patients successfully", req, { executionTime });
 
     res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime
       },
-      data: {
-        ...patient.toJSON(), // Convert the Sequelize model instance to a plain JSON object
-        img: imgBase64 // Return the image as a base64-encoded string
-      }
+      data: patients
     });
   } catch (error) {
     const end = Date.now();
-    const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
-    const errorCode = 974;
+    const executionTime = `${end - start}ms`; // Calculate execution time in case of error
+    const errorCode = 972;
 
-    // Log the error
-    logger.logWithMeta("warn", `Error retrieving patient`, {
-      errorCode,
-      error: error.message,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method
-    });
+    // Use the logging utility function for error logs, passing executionTime and errorCode
+    logWithMeta("warn", "Error retrieving patients", req, { executionTime, errorCode });
 
-
-
-    // logger.error('Error retrieving patient', { error: error.message, executionTime: `${end - start}ms` });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 974,
-        executionTime: `${end - start}ms`
+        errorCode,
+        executionTime
       },
       error: {
-        message: 'Error retrieving patient: ' + error.message
+        message: 'Error retrieving patients: ' + error.message
       }
     });
   }
 };
+const { v4: uuidv4 } = require('uuid'); // For generating unique log IDs
+
+
+exports.getPatientById = async (req, res) => {
+    const start = Date.now();
+    // const clientIp =  await getClientIp(req);
+    const logId = uuidv4(); // Generate a unique log ID for this request
+    const { id } = req.params;
+
+    // Extract metadata from the request to pass to logWithMeta
+    const hospitalId = req.hospitalId || null;
+    // const userId = req.userId || null;
+    const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const userAgent = req.headers['user-agent'];
+    const apiName = req.originalUrl;
+    const method = req.method;
+
+    try {
+        const patient = await PatientMaster.findByPk(id);
+
+        if (!patient) {
+            const end = Date.now();
+            const executionTime = `${end - start}ms`;
+            const errorCode = 973;
+            const statusCode = 404
+
+            // Log the warning with relevant metadata
+            logWithMeta("warn", `Patient with ID ${id} not found`, {
+                logId,
+                hospitalId,
+                // userId,
+                clientIp,
+                userAgent,
+                apiName,
+                method,
+                errorCode,
+                executionTime,
+                statusCode
+
+            });
+
+            return res.status(statusCode).json({
+                meta: {
+                    statusCode,
+                    errorCode,
+                    logId,
+                    executionTime
+                },
+                error: {
+                    message: 'Patient not found'
+                }
+            });
+        }
+
+        const end = Date.now();
+        const executionTime = `${end - start}ms`;
+
+        // Log success with relevant metadata and patient info
+        logWithMeta("info", `Retrieved patient with ID ${id} successfully`, {
+            logId,
+            hospitalId,
+            // userId,
+            clientIp,
+            userAgent,
+            apiName,
+            method,
+            executionTime
+        }, {
+            PatientID: patient.PatientID,
+            EMRNumber: patient.EMRNumber,
+            PatientFirstName: patient.PatientFirstName
+        });
+
+        res.status(200).json({
+            meta: {
+                statusCode: 200,
+                logId,
+                executionTime
+            },
+            data: patient.toJSON()
+        });
+    } catch (error) {
+        const end = Date.now();
+        const executionTime = `${end - start}ms`;
+        const errorCode = 974;
+        const statusCode = 500;
+        
+
+        // Log the error with relevant metadata
+        logWithMeta("error", `Error retrieving patient`, {
+            logId,
+            hospitalId,
+            // userId,
+            clientIp,
+            userAgent,
+            apiName,
+            method,
+            errorCode,
+            executionTime,
+            statusCode,
+            error: error.message
+        });
+
+        res.status(statusCode).json({
+            meta: {
+                statusCode,
+                errorCode,
+                logId,
+                executionTime
+            },
+            error: {
+                message: 'Error retrieving patient: ' + error.message
+            }
+        });
+    }
+};
+
+
+// exports.getPatientById = async (req, res) => {
+//   const start = Date.now();
+//   const { id } = req.params;
+
+//   try {
+//       const patient = await PatientMaster.findByPk(id);
+//       req.clientIp = await getClientIp(req); // Fetch and attach client IP for logging
+
+//       if (!patient) {
+//           const end = Date.now();
+//           const executionTime = `${end - start}ms`;
+//           const errorCode = 973;
+
+//           // Log the warning with errorCode and executionTime
+//           logWithMeta("warn", `Patient with ID ${id} not found`, req, {
+//               errorCode,
+//               executionTime
+//           });
+
+//           return res.status(404).json({
+//               meta: {
+//                   statusCode: 404,
+//                   errorCode,
+//                   executionTime
+//               },
+//               error: {
+//                   message: 'Patient not found'
+//               }
+//           });
+//       }
+
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+
+//       // Create a new object with specific fields to log
+//       const responseToLog = {
+//           PatientID: patient.PatientID,
+//           EMRNumber: patient.EMRNumber,
+//           PatientFirstName: patient.PatientFirstName
+//       };
+
+//       // Log success with executionTime and selected patient data
+//       logWithMeta("info", `Retrieved patient with ID ${id} successfully`, req, {
+//           executionTime
+//       }, responseToLog);
+
+//       res.status(200).json({
+//           meta: {
+//               statusCode: 200,
+//               executionTime
+//           },
+//           data: patient.toJSON()
+//       });
+//   } catch (error) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 974;
+
+//       // Log the error with errorCode and executionTime
+//       logWithMeta("error", `Error retrieving patient`, req, {
+//           errorCode,
+//           executionTime,
+//           error: error.message
+//       });
+
+//       res.status(500).json({
+//           meta: {
+//               statusCode: 500,
+//               errorCode,
+//               executionTime
+//           },
+//           error: {
+//               message: 'Error retrieving patient: ' + error.message
+//           }
+//       });
+//   }
+// };
+
+// exports.getPatientById = async (req, res) => {
+//   const start = Date.now();
+//   const { id } = req.params;
+
+//   try {
+//     // Fetch the patient by their ID
+//     const patient = await PatientMaster.findByPk(id);
+//     const clientIp = await getClientIp(req);
+
+//     if (!patient) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 973;
+
+//       // Log the warning
+//       logger.logWithMeta("warn", `Patient with ID ${id} not found`, {
+//         errorCode,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method         // HTTP method
+//       });
+//       // logger.warn(`Patient with ID ${id} not found`, { executionTime: `${end - start}ms` });
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: 404,
+//           errorCode: 973,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Patient not found'
+//         }
+//       });
+//     }
+
+//     // Read and convert the image to a base64 string
+//     let imgBase64 = null;
+//     if (patient.img) {
+//       const imgPath = path.join(__dirname, '../profile', path.basename(patient.img));
+//       if (fs.existsSync(imgPath)) {
+//         const imgBuffer = fs.readFileSync(imgPath);
+//         imgBase64 = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+
+//         // Log the image to the console
+//         console.log("Base64 Image String:", imgBase64);
+//         console.log("Base64 Image String:");
+//       }
+//     }
+
+
+
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     // Log success
+//     logger.logWithMeta("info", `Retrieved patient with ID ${id} successfully`, {
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       patientFirstName: patient.PatientFirstName, // Adjust to match actual field
+//       userId: req.userId,
+//       ip: clientIp, // Correctly log the client IP
+//       userAgent: req.headers['user-agent'],
+//       apiName: req.originalUrl, // API name
+//       method: req.method         // HTTP method
+//     });
+
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: {
+//         ...patient.toJSON(), // Convert the Sequelize model instance to a plain JSON object
+//         img: imgBase64 // Return the image as a base64-encoded string
+//       }
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+//     const errorCode = 974;
+
+//     // Log the error
+//     logger.logWithMeta("warn", `Error retrieving patient`, {
+//       errorCode,
+//       error: error.message,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method
+//     });
+
+
+
+//     // logger.error('Error retrieving patient', { error: error.message, executionTime: `${end - start}ms` });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 974,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error retrieving patient: ' + error.message
+//       }
+//     });
+//   }
+// };
 
 
 
@@ -609,7 +845,6 @@ exports.createPatient = [
         // Ensure that error.message is logged separately if needed
         logger.logWithMeta("warn", `${duplicateField} already exists`, {
           errorCode,
-          // errorMessage: error.message, // Include the error message in meta explicitly
           executionTime,
           hospitalId: req.hospitalId,
         });

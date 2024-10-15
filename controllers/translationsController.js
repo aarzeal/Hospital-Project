@@ -1,10 +1,32 @@
 const fs = require("fs");
 const path = require("path");
 const logger = require("../logger");
+const requestIp = require('request-ip');
+
+async function getClientIp(req) {
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+
+      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 1089 });
+
+      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+    }
+  }
+
+  return clientIp;
+}
 
 // GET API to retrieve labels by language
 const getLabelsByLanguage = async (req, res) => {
-  const start = Date.now();
+  const clientIp = await getClientIp(req);// Get the HospitalIDR from the decoded token
+    const start = Date.now();
+  
   try {
     const { component, language } = req.params;
     const pathData = path.join(__dirname, `../Data/${component}.json`);
@@ -14,16 +36,23 @@ const getLabelsByLanguage = async (req, res) => {
 
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1077;
-
-      logger.logWithMeta("warn", `Component file not found: ${component}`, {
+      const errorCode = 1090;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Component file not found${error.message}`, {
         errorCode,
+        errorMessage: error.message,
         executionTime,
-        component,
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method    ,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
 
       return res.status(404).json({
-        errorCode: 1077,
+        errorCode: 1090,
         message: "Component file not found",
       });
     }
@@ -41,25 +70,41 @@ const getLabelsByLanguage = async (req, res) => {
       }
     }
     const end = Date.now();
-    logger.logWithMeta("info", `Translations fetched for component: ${component}`, {
-      executionTime: `${end - start}ms`,
+    const executionTime = `${end - start}ms`;
+  
+    // Log the warning
+    logger.logWithMeta("warn", `Translations fetched for component:`, {
+      executionTime,
       component,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
     });
+   
     res.status(200).json(translations);
   } catch (error) {
 
-   const end = Date.now();
+    const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1078;
+    const errorCode = 1091;
 
-    logger.logWithMeta("error", `Error fetching translations: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error fetching translations ${error.message}`, {
       errorCode,
+      errorMessage: error.message,
       executionTime,
-      error: error.message,
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
 
     res.status(500).json({
-      errorCode: 1078,
+      errorCode: 1091,
       message: "Error fetching translations",
       error: error.message,
     });
@@ -68,6 +113,7 @@ const getLabelsByLanguage = async (req, res) => {
 
 // POST API to create or update the component JSON file
 const createOrUpdateComponent = async (req, res) => {
+  const clientIp = await getClientIp(req);// Get the HospitalIDR from the decoded token
   const start = Date.now();
   try {
     const { component } = req.params;
@@ -78,15 +124,23 @@ const createOrUpdateComponent = async (req, res) => {
     if (!newData || typeof newData !== "object") {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1079;
-
-      logger.logWithMeta("warn", `Invalid data format for component: ${component}`, {
+      const errorCode = 1092;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Invalid data format for component:${component} ${error.message}`, {
         errorCode,
+        errorMessage: error.message,
         executionTime,
-        component,
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method    ,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
+    
       return res.status(400).json({
-        errorCode: 1079,
+        errorCode: 1092,
         message: "Invalid data format. Expected a JSON object.",
       });
     }
@@ -104,9 +158,16 @@ const createOrUpdateComponent = async (req, res) => {
       fs.writeFileSync(pathData, JSON.stringify(updatedData, null, 2), "utf8");
 
       const end = Date.now();
-      logger.logWithMeta("info", `Component data updated: ${component}`, {
-        executionTime: `${end - start}ms`,
-        component,
+      const executionTime = `${end - start}ms`;
+    
+      // Log the warning
+      logger.logWithMeta("warn", `Component data updated successfully`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method   ,  
+        userAgent: req.headers['user-agent'],    // HTTP method
       });
       res.status(200).json({
         message: "Component data updated successfully",
@@ -128,14 +189,22 @@ const createOrUpdateComponent = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1080;
+    const errorCode = 1093;
 
-    logger.logWithMeta("error", `Error creating/updating component: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error creating/updating component::${component} ${error.message}`, {
       errorCode,
+      errorMessage: error.message,
       executionTime,
-      component: req.params.component,
-      error: error.message,
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
+
+    
     res.status(500).json({
       errorCode,
       message: "Error creating/updating component",

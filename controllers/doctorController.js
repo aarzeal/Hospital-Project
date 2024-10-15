@@ -2,7 +2,26 @@ const DoctorMaster = require('../models/doctorMaster');
 const logger = require('../logger'); // Adjust path as needed
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const requestIp = require('request-ip');
 
+async function getClientIp(req) {
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+
+      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 1056 });
+
+      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+    }
+  }
+
+  return clientIp;
+}
 
 const logExecutionTime = (start, end, functionName) => {
   const executionTime = end - start;
@@ -13,11 +32,29 @@ const logExecutionTime = (start, end, functionName) => {
 // Get all doctors
 exports.getAllDoctors = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   try {
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
     const doctors = await DoctorMaster.findAll();
 
-    logger.info('Fetched all doctors successfully');
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   
+  
+    // Log the warning
+    logger.logWithMeta("warn", `Fetched all doctors successfully`, {
+  
+  
+      executionTime,
+      hospitalId: req.hospitalId,
+      
+  
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    // logger.info('Fetched all doctors successfully');
     res.status(200).json({
       meta: { statusCode: 200 },
       data: doctors
@@ -25,18 +62,23 @@ exports.getAllDoctors = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1056;
-    
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `'Error fetching doctors: ${error.message}`, {
+    const errorCode = 1057;
+
+    // Log the warning
+    logger.logWithMeta("warn", `Error fetching doctors:${error.message}`, {
       errorCode,
-      errorMessage: error.message, // Include the error message in meta explicitly
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.error(`Error fetching doctors: ${error.message},errorCode: ${errorCode}`, { error });
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1056 },
+      meta: { statusCode: 500, errorCode: 1057 },
       error: { message: 'Failed to fetch doctors due to a server error.' }
     });
   }
@@ -45,6 +87,7 @@ exports.getAllDoctors = async (req, res) => {
 // Get doctor by ID
 exports.getDoctorById = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const doctorId = req.params.id; // Assuming you pass the ID in the URL
 
   try {
@@ -54,24 +97,46 @@ exports.getDoctorById = async (req, res) => {
     if (!doctor) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1061;
-      
-      // Ensure that error.message is logged separately if needed
-      logger.logWithMeta("warn", `'Doctor not found: ${error.message}`, {
+      const errorCode = 1058;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Doctor not found:${error.message}`, {
         errorCode,
-        errorMessage: error.message, // Include the error message in meta explicitly
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method    ,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       return res.status(404).json({
         
         // logger.error(`Doctor not found: ${error.message},errorCode: ${errorCode}`, { error });
-        meta: { statusCode: 404, errorCode: 1061 },
+        meta: { statusCode: 404, errorCode: 1058 },
         error: { message: 'Doctor not found' }
       });
     }
 
-    logger.info(`Fetched doctor with ID: ${doctorId} successfully`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   
+  
+    // Log the warning
+    logger.logWithMeta("warn", `Fetched doctor with ID: ${doctorId} successfully`, {
+  
+  
+      executionTime,
+      hospitalId: req.hospitalId,
+      
+  
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    // logger.info(`Fetched doctor with ID: ${doctorId} successfully`);
     res.status(200).json({
       meta: { statusCode: 200 },
       data: doctor
@@ -79,19 +144,24 @@ exports.getDoctorById = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1056;
-    
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `'Error fetching doctor by ID: ${error.message}`, {
+    const errorCode = 1059;
+
+    // Log the warning
+    logger.logWithMeta("warn", `Error fetching doctor by ID::${error.message}`, {
       errorCode,
-      errorMessage: error.message, // Include the error message in meta explicitly
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // const errorCode = 1056
     // logger.error(`Error fetching doctor by ID: ${error.message},errorCode: ${errorCode}`, { error });
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1056 },
+      meta: { statusCode: 500, errorCode: 1059 },
       error: { message: 'Failed to fetch doctor due to a server error.' }
     });
   }
@@ -214,26 +284,32 @@ exports.getDoctorById = async (req, res) => {
 exports.createDoctor = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
+  const clientIp = await getClientIp(req);
   const token = req.headers['accesstoken'];
 
   // Check for access token
   if (!token) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1081;
-    
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `'No access token provided: `, {
+    const errorCode = 1060;
+
+    // Log the warning
+    logger.logWithMeta("warn", `No access token provided:${error.message}`, {
       errorCode,
-      // errorMessage: error.message, // Include the error message in meta explicitly
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.error('No access token provided', { executionTime: `${end - start}ms,errorCode: ${errorCode}` });
     return res.status(401).json({
       meta: {
         statusCode: 401,
-        errorCode: 1081,
+        errorCode: 1060,
         executionTime: `${end - start}ms`
       },
       error: {
@@ -246,20 +322,25 @@ exports.createDoctor = async (req, res) => {
   if (!errors.isEmpty()) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1055;
-    
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `'Error fetching doctor by ID:`, {
+    const errorCode = 1061;
+
+    // Log the warning
+    logger.logWithMeta("warn", `Validation errors occurred:${error.message}`, {
       errorCode,
-      // errorMessage: error.message, // Include the error message in meta explicitly
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.info('Validation errors occurred,errorCode: ${errorCode}', errors);
     return res.status(400).json({
       meta: {
         statusCode: 400,
-        errorCode: 1055
+        errorCode: 1061
       },
       error: {
         message: 'Validation errors occurred',
@@ -314,14 +395,19 @@ exports.createDoctor = async (req, res) => {
     if (!specializationExists) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1060;
-      
-      // Ensure that error.message is logged separately if needed
-      logger.logWithMeta("warn", `'Specialization not found, errorCode:`, {
+      const errorCode = 1062;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Specialization not found:${error.message}`, {
         errorCode,
-        // errorMessage: error.message, // Include the error message in meta explicitly
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method    ,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       // const end = Date.now();
       // const errorCode = 1060;
@@ -356,10 +442,26 @@ exports.createDoctor = async (req, res) => {
       IsActive: true,
       CreatedBy
     });
-
-    logger.info('Created new doctor successfully');
-    res.status(201).json({
-      meta: { statusCode: 201 },
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   
+  
+    // Log the warning
+    logger.logWithMeta("warn", `Created new doctor successfully`, {
+  
+  
+      executionTime,
+      hospitalId: req.hospitalId,
+      
+  
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    // logger.info('Created new doctor successfully');
+    res.status(200).json({
+      meta: { statusCode: 200 },
       data: newDoctor
     });
   } catch (error) {
@@ -367,40 +469,49 @@ exports.createDoctor = async (req, res) => {
     if (error.name === 'SequelizeUniqueConstraintError') {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1057;
-      
-      // Ensure that error.message is logged separately if needed
-      logger.logWithMeta("warn", `'Unique constraint error while creating doctor : A doctor with this Email, Mobile Number, or License Number already exists`, {
+      const errorCode = 1063;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Unique constraint error while creating doctor:${error.message}`, {
         errorCode,
-        // errorMessage: error.message, // Include the error message in meta explicitly
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method    ,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       // logger.logWithMeta('warn', 'Unique constraint error while creating doctor', { errorCode: errorCode,  hospitalId: HospitalID });
 
       
       return res.status(400).json({
-          meta: { statusCode: 400, errorCode: 1057 },
+          meta: { statusCode: 400, errorCode: 1063 },
           error: { message: 'A doctor with this Email, Mobile Number, or License Number already exists.' }
       });
   }
-  
   const end = Date.now();
   const executionTime = `${end - start}ms`;
-  const errorCode = 1056;
-  
-  // Ensure that error.message is logged separately if needed
-  logger.logWithMeta("warn", `'Error creating doctor${error.message}`, {
+  const errorCode = 1064;
+
+  // Log the warning
+  logger.logWithMeta("warn", `Error creating doctor:${error.message}`, {
     errorCode,
-    errorMessage: error.message, // Include the error message in meta explicitly
+    errorMessage: error.message,
     executionTime,
     hospitalId: req.hospitalId,
+
+    ip: clientIp,
+    apiName: req.originalUrl, // API name
+    method: req.method    ,
+    userAgent: req.headers['user-agent'],     // HTTP method
   });
 
   // logger.logWithMeta(`Error creating doctor (errorCode: 1056): ${error.message}`, { error }, { errorCode: errorCode,  hospitalId: HospitalID });
   res.status(500).json({
     
-      meta: { statusCode: 500, errorCode: 1056 },
+      meta: { statusCode: 500, errorCode: 1064 },
 
       error: { message: 'Failed to create doctor due to a server error. Please ensure all fields are correctly filled and try again.' }
   });
@@ -411,6 +522,8 @@ exports.createDoctor = async (req, res) => {
 // PUT update an existing doctor
 exports.updateDoctor = async (req, res) => {
   const { id } = req.params;
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { FirstName, MiddleName, LastName, Qualification, Specialization, Email, Address, WhatsAppNumber, MobileNumber, DateOfBirth, Gender, LicenseNumber, YearsOfExperience, EditedBy, HospitalID, HospitalGroupIDR, IsActive } = req.body;
 
   try {
@@ -419,15 +532,21 @@ exports.updateDoctor = async (req, res) => {
     if (!doctor) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1057;
-      
-      // Ensure that error.message is logged separately if needed
-      logger.logWithMeta("warn", `'Doctor with ID ${id} not found`, {
+      const errorCode = 1065;
+    
+      // Log the warning
+      logger.logWithMeta("warn", `Doctor with ID ${id} not found${error.message}`, {
         errorCode,
-        // errorMessage: error.message, // Include the error message in meta explicitly
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+    
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method    ,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
+    
       // logger.warn(`Doctor with ID ${id} not found, errorCode: ${errorCode}`);
       return res.status(404).json({
           meta: { statusCode: 404, errorCode },
@@ -454,7 +573,24 @@ exports.updateDoctor = async (req, res) => {
       IsActive,
       EditedBy
     });
-    logger.info(`Updated doctor with ID ${id} successfully`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   
+  
+    // Log the warning
+    logger.logWithMeta("warn", `Updated doctor with ID ${id} successfully`, {
+  
+  
+      executionTime,
+      hospitalId: req.hospitalId,
+      
+  
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    // logger.info(`Updated doctor with ID ${id} successfully`);
     res.json({
       meta: { statusCode: 200 },
       data: doctor
@@ -462,14 +598,19 @@ exports.updateDoctor = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1058;
-    
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `'Error updating doctor with ID ${id}: ${error.message}`, {
+    const errorCode = 1066;
+  
+    // Log the warning
+    logger.logWithMeta("warn", `Error updating doctor with ID ${id}${error.message}`, {
       errorCode,
-      errorMessage: error.message, // Include the error message in meta explicitly
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+  
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.error(`Error updating doctor with ID ${id}: ${error.message}, errorCode: ${errorCode}`);
     res.status(500).json({
@@ -483,6 +624,8 @@ exports.updateDoctor = async (req, res) => {
 // DELETE delete a doctor
 exports.deleteDoctor = async (req, res) => {
   const { id } = req.params;
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
 
   try {
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
@@ -490,14 +633,19 @@ exports.deleteDoctor = async (req, res) => {
     if (!doctor) {
       const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1059;
-    
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `'Doctor with ID ${id} not found`, {
+    const errorCode = 1067;
+  
+    // Log the warning
+    logger.logWithMeta("warn", `Doctor with ID ${id} not found${error.message}`, {
       errorCode,
-      // errorMessage: error.message, // Include the error message in meta explicitly
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+  
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
       // logger.warn(`Doctor with ID ${id} not found, errorCode: ${errorCode}`);
       return res.status(404).json({
@@ -507,7 +655,24 @@ exports.deleteDoctor = async (req, res) => {
   }
   
     await doctor.destroy();
-    logger.info(`Deleted doctor with ID ${id} successfully`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   
+  
+    // Log the warning
+    logger.logWithMeta("warn", `Deleted doctor with ID ${id} successfully`, {
+  
+  
+      executionTime,
+      hospitalId: req.hospitalId,
+      
+  
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    // logger.info(`Deleted doctor with ID ${id} successfully`);
     res.json({
       meta: { statusCode: 200 },
       message: 'Doctor deleted successfully'
@@ -515,14 +680,19 @@ exports.deleteDoctor = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1060;
-    
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `'Doctor with ID ${id} not found ${error.message}`, {
+    const errorCode = 1068;
+  
+    // Log the warning
+    logger.logWithMeta("warn", `Error deleting doctor with ID ${id}:${error.message}`, {
       errorCode,
-      errorMessage: error.message, // Include the error message in meta explicitly
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+  
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.error(`Error deleting doctor with ID ${id}: ${error.message}, errorCode: ${errorCode}`);
     res.status(500).json({
@@ -536,20 +706,27 @@ exports.deleteDoctor = async (req, res) => {
 // GET doctors by HospitalID
 exports.getDoctorsByHospitalId = async (req, res) => {
   const { hospitalId } = req.params;
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
   try {
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
     const doctors = await DoctorMaster.findAll({ where: { HospitalID: hospitalId } });
     if (!doctors.length) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1061;
-      
-      // Ensure that error.message is logged separately if needed
-      logger.logWithMeta("warn", `'No doctors found for`, {
+      const errorCode = 1069;
+    
+      // Log the warning
+      logger.logWithMeta("warn", `No doctors found for HospitalID ${id}:${error.message}`, {
         errorCode,
-        // errorMessage: error.message, // Include the error message in meta explicitly
+        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+    
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method    ,
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
       // logger.warn(`No doctors found for HospitalID ${hospitalId}, errorCode: ${errorCode}`);
       return res.status(404).json({
@@ -557,8 +734,26 @@ exports.getDoctorsByHospitalId = async (req, res) => {
           error: { message: `No doctors found for HospitalID ${hospitalId}. Please check the ID and try again.` }
       });
   }
+
+  const end = Date.now();
+  const executionTime = `${end - start}ms`;
+ 
+
+  // Log the warning
+  logger.logWithMeta("warn", `Fetched doctors for HospitalID ${hospitalId} successfully`, {
+
+
+    executionTime,
+    hospitalId: req.hospitalId,
+    
+
+    ip: clientIp,
+    apiName: req.originalUrl, // API name
+    method: req.method   ,  
+    userAgent: req.headers['user-agent'],    // HTTP method
+  });
   
-    logger.info(`Fetched doctors for HospitalID ${hospitalId} successfully`);
+    // logger.info(`Fetched doctors for HospitalID ${hospitalId} successfully`);
     res.json({
       meta: { statusCode: 200 },
       data: doctors
@@ -566,18 +761,23 @@ exports.getDoctorsByHospitalId = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1062;
-    
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `'Error fetching doctors for HospitalID ${hospitalId}: ${error.message}`, {
+    const errorCode = 1070;
+  
+    // Log the warning
+    logger.logWithMeta("warn", `Error fetching doctors for HospitalID ${hospitalId}::${error.message}`, {
       errorCode,
-      errorMessage: error.message, // Include the error message in meta explicitly
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+  
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.error(`Error fetching doctors for HospitalID ${hospitalId}: ${error.message},errorCode: ${errorCode}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1062 },
+      meta: { statusCode: 500, errorCode: 1070 },
       error: { message: `Failed to fetch doctors for HospitalID ${hospitalId} due to a server error. Please try again later.` }
     });
   }
@@ -590,6 +790,8 @@ exports.getDoctorsByHospitalId = async (req, res) => {
 exports.getPaginatedDoctors = async (req, res) => {
   const { page = 1, limit = 10 } = req.query; // Default values if not provided
   const offset = (page - 1) * limit;
+  const clientIp = await getClientIp(req);
+  const start = Date.now();
 
   try {
     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
@@ -599,8 +801,24 @@ exports.getPaginatedDoctors = async (req, res) => {
     });
 
     const totalPages = Math.ceil(count / limit);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   
 
-    logger.info(`Fetched page ${page} of doctors successfully`);
+    // Log the warning
+    logger.logWithMeta("warn", `Fetched page ${page} of doctors successfully`, {
+
+
+      executionTime,
+      hospitalId: req.hospitalId,
+      
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    // logger.info(`Fetched page ${page} of doctors successfully`);
     res.json({
       meta: {
         statusCode: 200,
@@ -613,18 +831,23 @@ exports.getPaginatedDoctors = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1063;
-    
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `'Error fetching paginated doctors ${error.message}`, {
+    const errorCode = 1071;
+  
+    // Log the warning
+    logger.logWithMeta("warn", `Error fetching paginated doctors::${error.message}`, {
       errorCode,
-      errorMessage: error.message, // Include the error message in meta explicitly
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+  
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.error(`Error fetching paginated doctors: ${error.message},errorCode: ${errorCode}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1063 },
+      meta: { statusCode: 500, errorCode: 1071 },
       error: { message: 'Failed to fetch paginated doctors due to a server error. Please try again later.' }
     });
   }

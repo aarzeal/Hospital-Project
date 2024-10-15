@@ -1,12 +1,30 @@
 const jwt = require('jsonwebtoken');
 const logger = require('../logger'); // Adjust the path to your logger module
+const requestIp = require('request-ip');
+
 
 exports.verifyToken = (requiredRoles = []) => {
+  const start = Date.now();
+  
   return (req, res, next) => {
     const token = req.headers['authorization'];
     if (!token) {
-      const errorCode = 918;
-      logger.logWithMeta('error', 'No token provided', { errorCode});
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1201;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `No token provided'`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        // ip: clientIp,
+        // apiName: req.originalUrl, // API name
+        // method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
+      // logger.logWithMeta('error', 'No token provided', { errorCode});
      
       return res.status(403).json({
         meta: {
@@ -23,7 +41,21 @@ exports.verifyToken = (requiredRoles = []) => {
 
     jwt.verify(tokenWithoutBearer, process.env.SUPERCLIENTSECRET, (err, decoded) => {
       if (err) {
-        const errorCode = 919;
+        const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1202;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Token verification error'`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        // apiName: req.originalUrl, // API name
+        // method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
         logger.logWithMeta('error', `Token verification error: ${err.message}`, { errorCode});
         return res.status(500).json({
           meta: {

@@ -102,6 +102,27 @@ const Report = require('../models/AutoEmilsendmodel');
 const emailConfig = require('../config/emailCofig.json');
 const logger = require('../logger'); // Adjust the path to your logger
 
+const requestIp = require('request-ip');
+
+async function getClientIp(req) {
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+
+      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 1079 });
+
+      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+    }
+  }
+
+  return clientIp;
+}
+
 // Configure the email transporter
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -113,6 +134,8 @@ const transporter = nodemailer.createTransport({
 
 // Function to send an email with a PDF attachment
 const sendEmail = async (filePath, fileName) => {
+  const clientIp = await getClientIp(req);
+  const start = Date.now();
   const maxRetries = 5;
   const retryDelay = 1000; // 1 second
 
@@ -146,8 +169,26 @@ const sendEmail = async (filePath, fileName) => {
       // Send the email
       transporter.sendMail(mailOptions, async (error, info) => {
         if (error) {
-          logger.error('Error sending email:', error);
-          throw { statusCode: 500, errorCode: 1070, data: { message: 'Error sending email' } };
+          // logger.error('Error sending email:', error);
+          const end = Date.now();
+          const executionTime = `${end - start}ms`;
+          const errorCode = 1080;
+      
+          // Log the warning
+    
+          logger.logWithMeta("warn", `Error sending email:${err.message}`, {
+            errorCode,
+            errorMessage: err.message,
+            executionTime,
+            hospitalId: req.hospitalId,
+      
+            ip: clientIp,
+            // apiName: req.originalUrl, // API name
+            // method: req.method    ,
+            userAgent: req.headers['user-agent'],  
+            data: { message: err.data?.message }   // HTTP method
+          });
+          throw { statusCode: 500, errorCode: 1080, data: { message: 'Error sending email' } };
         } else {
           logger.info('Email sent:', info.response);
 
@@ -157,10 +198,45 @@ const sendEmail = async (filePath, fileName) => {
           // Delete the file after sending the email successfully
           fs.unlink(filePath, (err) => {
             if (err) {
-              logger.error('Error deleting the PDF file:', err);
-              throw { statusCode: 500, errorCode: 1071, data: { message: 'Error deleting the PDF file' } };
+              // logger.error('Error deleting the PDF file:', err);
+              const end = Date.now();
+              const executionTime = `${end - start}ms`;
+              const errorCode = 1081;
+          
+              // Log the warning
+        
+              logger.logWithMeta("warn", `Error deleting the PDF file:${err.message}`, {
+                errorCode,
+                errorMessage: err.message,
+                executionTime,
+                hospitalId: req.hospitalId,
+          
+                ip: clientIp,
+                apiName: req.originalUrl, // API name
+                method: req.method    ,
+                userAgent: req.headers['user-agent'],  
+                data: { message: err.data?.message }   // HTTP method
+              });
+              throw { statusCode: 500, errorCode: 1081, data: { message: 'Error deleting the PDF file' } };
             } else {
-              logger.info('PDF file deleted successfully');
+              // logger.info('PDF file deleted successfully');
+              const end = Date.now();
+              const executionTime = `${end - start}ms`;
+
+
+              // Log the warning
+              logger.logWithMeta("warn", `PDF file deleted successfully`, {
+
+
+                executionTime,
+                hospitalId: req.hospitalId,
+
+
+                ip: clientIp,
+                apiName: req.originalUrl, // API name
+                method: req.method,
+                userAgent: req.headers['user-agent'],    // HTTP method
+              });
               logger.info({ statusCode: 200, data: { message: 'Email sent and PDF file deleted successfully' } });
             }
           });
@@ -171,8 +247,26 @@ const sendEmail = async (filePath, fileName) => {
         logger.warn(`File is busy, retrying in ${retryDelay}ms...`);
         setTimeout(() => readFileWithRetry(retries - 1), retryDelay);
       } else {
-        logger.error('Error reading the PDF file:', err);
-        throw { statusCode: 500, errorCode: 1072, data: { message: 'Error reading the PDF file' } };
+        // logger.error('Error reading the PDF file:', err);
+        const end = Date.now();
+        const executionTime = `${end - start}ms`;
+        const errorCode = 1082;
+    
+        // Log the warning
+  
+        logger.logWithMeta("warn", `Error reading the PDF file:${err.message}`, {
+          errorCode,
+          errorMessage: err.message,
+          executionTime,
+          hospitalId: req.hospitalId,
+    
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method    ,
+          userAgent: req.headers['user-agent'],  
+          data: { message: err.data?.message }   // HTTP method
+        });
+        throw { statusCode: 500, errorCode: 1082, data: { message: 'Error reading the PDF file' } };
       }
     }
   };

@@ -97,7 +97,7 @@ module.exports = (sequelize) => {
     ///after add the employee master then will remove the commnetout
        empid: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'tblEmployee', // Table name of the Module model
         key: 'EmployeeID'

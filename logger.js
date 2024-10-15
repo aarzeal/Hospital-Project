@@ -325,10 +325,10 @@ class MongoDBTransport extends winston.Transport {
       // Get the appropriate model for the current collection
       const Log = this.getModel(this.currentCollectionName);
 
-      function generateLogId() {
-        return crypto.randomBytes(16).toString('hex'); // Generates 32 hex characters (16 bytes)
-    }
-      const logId = generateLogId(); // Generate a unique log ID
+    //   function generateLogId() {
+    //     return crypto.randomBytes(16).toString('hex'); // Generates 32 hex characters (16 bytes)
+    // }
+      // const logId = generateLogId(); // Generate a unique log ID
       // Create a new log entry
       const logEntry = new Log({
         level: info.level,
@@ -337,7 +337,7 @@ class MongoDBTransport extends winston.Transport {
         meta: info.meta || {},
         errorCode: info.errorCode,  // Include errorCode
         hospitalId: info.hospitalId, // Include hospitalId
-        logId,
+        // logId,
         apiName: info.apiName,        // Log the API name
         method: info.method  
       });

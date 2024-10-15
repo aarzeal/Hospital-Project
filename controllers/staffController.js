@@ -304,22 +304,58 @@ const StaffMaster = require('../models/staffMaster');
 const logger = require('../logger'); // Adjust path as needed
 const { validationResult } = require('express-validator');
 const { error } = require('winston');
+const requestIp = require('request-ip');
 
 const logExecutionTime = (start, end, functionName) => {
   const duration = end - start;
   logger.info(`${functionName} executed in ${duration}ms`);
 };
 
+async function getClientIp(req) {
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+
+      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 1007 });
+
+      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+    }
+  }
+
+  return clientIp;
+}
+
 exports.getAllStaff = async (req, res) => {
   const start = Date.now();
-
+  const clientIp = await getClientIp(req);
   try {
     const StaffMaster = require('../models/staffMaster')(req.sequelize);
 
     // Fetch all staff
     const staffList = await StaffMaster.findAll();
-
     const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   
+
+    // Log the warning
+    logger.logWithMeta("warn", `Fetched staff  successfully`, {
+
+
+      executionTime,
+      hospitalId: req.hospitalId,
+      
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    
     return res.status(200).json({
       meta: {
         statusCode: 200,
@@ -330,16 +366,23 @@ exports.getAllStaff = async (req, res) => {
     });
   } catch (error) {
     const end = Date.now();
-  
     const executionTime = `${end - start}ms`;
-    const errorCode = 1079;
+    const errorCode = 1008;
 
-    logger.logWithMeta("warn", `Error fetching staff list:${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error fetching staff list`, {
       errorCode,
+
       executionTime,
-      
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.error(`Error fetching staff list: ${error.message}`);
+    
     return res.status(500).json({
       meta: {
         statusCode: 500,
@@ -404,6 +447,7 @@ exports.getAllStaff = async (req, res) => {
 exports.getStaffById = async (req, res) => {
   const start = Date.now();
   const { id } = req.params;
+  const clientIp = await getClientIp(req);
   try {
     const StaffMaster = require('../models/staffMaster')(req.sequelize);
     const staff = await StaffMaster.findByPk(id);
@@ -411,21 +455,43 @@ exports.getStaffById = async (req, res) => {
       // logger.warn(`Staff with ID ${id} not found`);
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1002;
-
-      logger.logWithMeta("warn", `Staff with ID ${id} not found: `, {
+      const errorCode = 1009;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Staff with ID ${id} not found`, {
         errorCode,
+  
         executionTime,
-      
-        hospitalId:req.hospitalId
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method   ,  
+        userAgent: req.headers['user-agent'],    // HTTP method
       });
       return res.status(404).json({
         meta: { statusCode: 404, errorCode , executionTime: `${end - start}ms`},
         error: { message: `Staff with ID ${id} not found. Please check the ID and try again.` }
       });
     }
-    logger.info(`Fetched staff with ID ${id} successfully`);
-    const end = Date.now(); 
+    // logger.info(`Fetched staff with ID ${id} successfully`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   
+
+    // Log the warning
+    logger.logWithMeta("warn", `Fetched staff with ID ${id} successfully`, {
+
+
+      executionTime,
+      hospitalId: req.hospitalId,
+      
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
     res.json({
       meta: { statusCode: 200 },
       data: staff
@@ -434,16 +500,22 @@ exports.getStaffById = async (req, res) => {
     // logger.error(`Error fetching staff with ID ${id}: ${error.message}`);
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1002;
+    const errorCode = 1010;
 
-    logger.logWithMeta("warn", `Error fetching staff with ID ${id}: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error fetching staff with ID ${id}`, {
       errorCode,
+
       executionTime,
-      
-      hospitalId:req.hospitalId
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
     });
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1003, executionTime: `${end - start}ms`
+      meta: { statusCode: 500, errorCode: 1010, executionTime: `${end - start}ms`
 
        },
       error: { message: `Failed to fetch staff with ID ${id} due to a server error. Please try again later.` }
@@ -573,19 +645,25 @@ exports.getStaffById = async (req, res) => {
 exports.createStaff = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
+  const clientIp = await getClientIp(req);
   
   if (!errors.isEmpty()) {
     
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 912;
+    const errorCode = 1011;
 
+    // Log the warning
     logger.logWithMeta("warn", `Validation errors occurred`, {
-      errors,
       errorCode,
+
       executionTime,
-    
-      hospitalId:req.hospitalId
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
     });
     // logger.info('Validation errors occurred', errors);
     return res.status(400).json({
@@ -626,13 +704,19 @@ exports.createStaff = async (req, res) => {
     if (existingStaff) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1043;
-
-      logger.logWithMeta("warn", `Email is already registered`, {
+      const errorCode = 1012;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `email already exists`, {
         errorCode,
+  
         executionTime,
-      
-        hospitalId:req.hospitalId
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method   ,  
+        userAgent: req.headers['user-agent'],    // HTTP method
       });
       return res.status(400).json({
         meta: {
@@ -651,14 +735,21 @@ exports.createStaff = async (req, res) => {
     if (!specializationExists) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1044;
-
+      const errorCode = 1013;
+  
+      // Log the warning
       logger.logWithMeta("warn", `Invalid specialization ID`, {
         errorCode,
+  
         executionTime,
-      
-        hospitalId:req.hospitalId
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method   ,  
+        userAgent: req.headers['user-agent'],    // HTTP method
       });
+    
       return res.status(400).json({
         meta: {
           statusCode: 400,
@@ -679,8 +770,24 @@ exports.createStaff = async (req, res) => {
       HospitalIDR, IsActive: true, CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4
     });
 
-    logger.info('Created new staff successfully');
+    // logger.info('Created new staff successfully');
     const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   
+
+    // Log the warning
+    logger.logWithMeta("warn", `Created new staff successfully`, {
+
+
+      executionTime,
+      hospitalId: req.hospitalId,
+      FirstName:FirstName,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
     res.status(200).json({
       meta: { statusCode: 200, executionTime: `${end - start}ms` },
       data: newStaff
@@ -693,14 +800,19 @@ exports.createStaff = async (req, res) => {
       // logger.error('Validation error creating staff:', error.errors);
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1004;
-
+      const errorCode = 1014;
+  
+      // Log the warning
       logger.logWithMeta("warn", `Validation error creating staff`, {
         errorCode,
-        errors,
+  
         executionTime,
-      
-        hospitalId:req.hospitalId
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method   ,  
+        userAgent: req.headers['user-agent'],    // HTTP method
       });
       res.status(400).json({
         meta: { statusCode: 400, errorCode, executionTime: `${end - start}ms` },
@@ -716,16 +828,22 @@ exports.createStaff = async (req, res) => {
       // logger.error(`Error creating staff: ${error.message}`);
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1005;
-
-      logger.logWithMeta("warn", `Validation error creating staff`, {
+      const errorCode = 1015;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Error creating staff`, {
         errorCode,
+  
         executionTime,
-      
-        hospitalId:req.hospitalId
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method   ,  
+        userAgent: req.headers['user-agent'],    // HTTP method
       });
       res.status(500).json({
-        meta: { statusCode: 500, errorCode: 1005, executionTime: `${end - start}ms` },
+        meta: { statusCode: 500, errorCode: 1015, executionTime: `${end - start}ms` },
         error: { message: 'Failed to create staff due to a server error. Please try again later.' }
       });
     }
@@ -740,6 +858,7 @@ exports.createStaff = async (req, res) => {
 exports.updateStaff = async (req, res) => {
   const start = Date.now();
   const { id } = req.params;
+  const clientIp = await getClientIp(req);
   const { FirstName, MiddleName, LastName, Email, Address, Age, DOB, BloodGroup, Gender, EmergencyContactName, EmergencyContactPhone, MaritalStatus, Nationality, Language, MobileNumber, Qualification, Experience, Specialization, WhatsAppNumber, EditedBy, HospitalIDR, HospitalGroupIDR, IsActive } = req.body;
 
   try {
@@ -749,17 +868,23 @@ exports.updateStaff = async (req, res) => {
       // logger.warn(`Staff with ID ${id} not found`);
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1006;
-
+      const errorCode = 1016;
+  
+      // Log the warning
       logger.logWithMeta("warn", `Staff with ID ${id} not found`, {
         errorCode,
+  
         executionTime,
-      
-        hospitalId:req.hospitalId
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method   ,  
+        userAgent: req.headers['user-agent'],    // HTTP method
       });
     
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1006, executionTime: `${end - start}ms` },
+        meta: { statusCode: 404, errorCode: 1016, executionTime: `${end - start}ms` },
         error: { message: `Staff with ID ${id} not found. Please check the ID and try again.` }
       });
     }
@@ -790,8 +915,24 @@ exports.updateStaff = async (req, res) => {
       EditedBy
     });
 
+  
+    // logger.info(`Updated staff with ID ${id} successfully`);
     const end = Date.now();
-    logger.info(`Updated staff with ID ${id} successfully`);
+    const executionTime = `${end - start}ms`;
+   
+
+    // Log the warning
+    logger.logWithMeta("warn", `Updated staff with ID ${id} successfully`, {
+
+
+      executionTime,
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
     res.json({
       meta: { statusCode: 200, executionTime: `${end - start}ms` },
       data: staff
@@ -801,17 +942,22 @@ exports.updateStaff = async (req, res) => {
     // logger.error(`Error updating staff with ID ${id}: ${error.message}`);
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1007;
+    const errorCode = 1017;
 
-    logger.logWithMeta("warn", `Error updating staff with ID ${id}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error updating staff with ID ${id}:`, {
       errorCode,
-      error,
+
       executionTime,
-    
-      hospitalId:req.hospitalId
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
     });
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1007, executionTime: `${end - start}ms` },
+      meta: { statusCode: 500, errorCode: 1017, executionTime: `${end - start}ms` },
       error: { message: `Failed to update staff with ID ${id} due to a server error. Please try again later.` }
     });
   } finally {
@@ -824,31 +970,53 @@ exports.updateStaff = async (req, res) => {
 exports.deleteStaff = async (req, res) => {
   const start = Date.now();
   const { id } = req.params;
+  const clientIp = await getClientIp(req);
 
   try {
     const StaffMaster = require('../models/staffMaster')(req.sequelize);
     const staff = await StaffMaster.findByPk(id);
     if (!staff) {
       const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 1008;
-  
-      logger.logWithMeta("warn", `Staff with ID ${id} not found`, {
-        errorCode,
-        
-        executionTime,
-      
-        hospitalId:req.hospitalId
-      });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1018;
+
+    // Log the warning
+    logger.logWithMeta("warn", `Staff with ID ${id} not found`, {
+      errorCode,
+
+      executionTime,
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
       // logger.warn(`Staff with ID ${id} not found`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1008, executionTime: `${end - start}ms` },
+        meta: { statusCode: 404, errorCode: 1018, executionTime: `${end - start}ms` },
         error: { message: `Staff with ID ${id} not found. Please check the ID and try again.` }
       });
     }
     await staff.destroy();
-    logger.info(`Deleted staff with ID ${id} successfully`);
-    const end = Date.now(); 
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   
+
+    // Log the warning
+    logger.logWithMeta("warn", `Deleted staff with ID ${id} successfully`, {
+
+
+      executionTime,
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    // logger.info(`Deleted staff with ID ${id} successfully`);
+    
     res.json({
       meta: { statusCode: 200 , executionTime: `${end - start}ms`},
       message: 'Staff deleted successfully'
@@ -856,16 +1024,21 @@ exports.deleteStaff = async (req, res) => {
   } catch (error) {
     // logger.error(`Error deleting staff with ID ${id}: ${error.message}`);
     const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 1009;
-  
-      logger.logWithMeta("warn", `Error deleting staff with ID ${id}`, {
-        errorCode,
-        error,
-        executionTime,
-      
-        hospitalId:req.hospitalId
-      });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1019;
+
+    // Log the warning
+    logger.logWithMeta("warn", `Error deleting staff with ID ${id}:`, {
+      errorCode,
+
+      executionTime,
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime: `${end - start}ms`},
       error: { message: `Failed to delete staff with ID ${id} due to a server error. Please try again later.` }
@@ -879,6 +1052,7 @@ exports.deleteStaff = async (req, res) => {
 exports.getStaffByHospitalIDR = async (req, res) => {
   const start = Date.now();
   const { hospitalId } = req.params;
+  const clientIp = await getClientIp(req);
   try {
 
     const StaffMaster = require('../models/staffMaster')(req.sequelize);
@@ -888,21 +1062,42 @@ exports.getStaffByHospitalIDR = async (req, res) => {
       // logger.warn(`No staff found for HospitalIDR ${hospitalId}`);
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1010;
+      const errorCode = 1020;
   
+      // Log the warning
       logger.logWithMeta("warn", `No staff found for HospitalIDR ${hospitalId}`, {
         errorCode,
-        
+  
         executionTime,
-      
-        hospitalId:req.hospitalId
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method   ,  
+        userAgent: req.headers['user-agent'],    // HTTP method
       });
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1010 , executionTime: `${end - start}ms`},
+        meta: { statusCode: 404, errorCode: 1020 , executionTime: `${end - start}ms`},
         error: { message: `No staff found for HospitalIDR ${hospitalId}. Please check the ID and try again.` }
       });
     }
-    logger.info(`Fetched staff for HospitalIDR ${hospitalId} successfully`);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   
+
+    // Log the warning
+    logger.logWithMeta("warn", `Fetched staff for HospitalIDR ${hospitalId} successfully`, {
+
+
+      executionTime,
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    // logger.info(`Fetched staff for HospitalIDR ${hospitalId} successfully`);
     res.json({
       meta: { statusCode: 200, executionTime: `${end - start}ms` },
       data: staff
@@ -910,19 +1105,24 @@ exports.getStaffByHospitalIDR = async (req, res) => {
   } catch (error) {
     // logger.error(`Error fetching staff for HospitalIDR ${hospitalId}: ${error.message}`);
 
-       const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 1011;
-  
-      logger.logWithMeta("warn", `Error fetching staff for HospitalIDR ${hospitalId}`, {
-        errorCode,
-        error,
-        executionTime,
-      
-        hospitalId:req.hospitalId
-      });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1021;
+
+    // Log the warning
+    logger.logWithMeta("warn", `Error fetching staff for HospitalIDR ${hospitalId}:`, {
+      errorCode,
+
+      executionTime,
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1011, executionTime: `${end - start}ms` },
+      meta: { statusCode: 500, errorCode: 1021, executionTime: `${end - start}ms` },
       error: { message: `Failed to fetch staff for HospitalIDR ${hospitalId} due to a server error. Please try again later.` }
     });
   } finally {
@@ -933,6 +1133,7 @@ exports.getStaffByHospitalIDR = async (req, res) => {
 // GET staff by HospitalGroupIDR
 exports.getPaginatedStaff = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { page = 1, pageSize = 10 } = req.query; // Default values for page and pageSize
 
   try {
@@ -950,23 +1151,44 @@ exports.getPaginatedStaff = async (req, res) => {
       // logger.warn('No staff found for the given page and page size');
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1013;
+      const errorCode = 1022;
   
-      logger.logWithMeta("warn", `No staff found for the given page and page size`, {
+      // Log the warning
+      logger.logWithMeta("warn", `No staff found for the given page and page size:`, {
         errorCode,
-        
+  
         executionTime,
-      
-        hospitalId:req.hospitalId
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method   ,  
+        userAgent: req.headers['user-agent'],    // HTTP method
       });
+
       return res.status(404).json({
         meta: { statusCode: 404, errorCode, executionTime: `${end - start}ms` },
         error: { message: 'No staff found for the given page and page size. Please adjust your parameters and try again.' }
       });
     }
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+   
 
-    logger.info(`Fetched staff for page ${page} with pageSize ${pageSize} successfully`);
-    const end = Date.now(); 
+    // Log the warning
+    logger.logWithMeta("warn", `Fetched staff for page ${page} with pageSize ${pageSize} successfully`, {
+
+
+      executionTime,
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
+    // logger.info(`Fetched staff for page ${page} with pageSize ${pageSize} successfully`);
+    // const end = Date.now(); 
     res.json({
       meta: { statusCode: 200 },
       data: {
@@ -983,17 +1205,22 @@ exports.getPaginatedStaff = async (req, res) => {
     // logger.error(`Error fetching staff for page ${page} with pageSize ${pageSize}: ${error.message}`);
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1014;
+    const errorCode = 1023;
 
-    logger.logWithMeta("warn", `Error fetching staff for page ${page} with pageSize ${pageSize}:`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error fetching staff for page ${page} with pageSize ${pageSize}::`, {
       errorCode,
-      error,
+
       executionTime,
-    
-      hospitalId:req.hospitalId
+      hospitalId: req.hospitalId,
+
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
     });
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1014, executionTime: `${end - start}ms` },
+      meta: { statusCode: 500, errorCode: 1023, executionTime: `${end - start}ms` },
       error: { message: 'Failed to fetch staff due to a server error. Please try again later.' }
     });
   } finally {

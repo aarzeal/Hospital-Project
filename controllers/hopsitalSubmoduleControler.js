@@ -6,7 +6,25 @@ const logger = require('../logger');  // Assuming logger is configured properly 
 
 const dotenv = require('dotenv');
 dotenv.config();
+const requestIp = require('request-ip');
+async function getClientIp(req) {
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
 
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+
+      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 1135 });
+
+      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+    }
+  }
+
+  return clientIp;
+}
 // exports.creatsubmodules = async (req, res) => {
 //     const { submodule_name,modules_Id } = req.body;
 //     const hospitalId = req.hospitalId;
@@ -236,6 +254,7 @@ dotenv.config();
 
 exports.createSubmodules = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { submodule_name, modules_Id } = req.body;
   const hospitalId = req.hospitalId;
 
@@ -247,7 +266,17 @@ exports.createSubmodules = async (req, res) => {
 
       const userSubModules = await UserSubModules.create({ submodule_name, modules_Id, hospitalId });
       const end = Date.now();
-      logger.info(`Submodule created successfully with name: ${submodule_name}, hospitalId: ${hospitalId}, executionTime: ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+      // Log the warning
+      logger.logWithMeta("warn", `Submodule created successfully with name: ${submodule_name}`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
+      // logger.info(`Submodule created successfully with name: ${submodule_name}, hospitalId: ${hospitalId}, executionTime: ${end - start}ms`);
 
       res.status(200).json({
           meta: {
@@ -263,20 +292,24 @@ exports.createSubmodules = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 943;
+    const errorCode = 1144;
     
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `Error creating submodules: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error creating submodules ${error.message}`, {
       errorCode,
-      errorMessage: error.message, // Include the error message in meta explicitly
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     //   logger.error('Error creating submodules', { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
           meta: {
               statusCode: 500,
-              errorCode: 943,
+              errorCode: 1144,
               executionTime: `${end - start}ms`
           },
           error: {
@@ -288,6 +321,7 @@ exports.createSubmodules = async (req, res) => {
 
 exports.getSubModule = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
 
   const { submodule_id } = req.body;
 
@@ -299,21 +333,25 @@ exports.getSubModule = async (req, res) => {
 
       if (!userSubModules) {
         const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 944;
-        
-        // Ensure that error.message is logged separately if needed
-        logger.logWithMeta("warn", `Submodule with ID ${submodule_id} not found: ${error.message}`, {
-          errorCode,
-          errorMessage: error.message, // Include the error message in meta explicitly
-          executionTime,
-          hospitalId: req.hospitalId,
-        });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1145;
+    
+    // Log the warning
+    logger.logWithMeta("warn", `Submodule with ID ${submodule_id} not found ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
+    });
         //   logger.warn(`Submodule with ID ${submodule_id} not found, executionTime: ${end - start}ms`);
           return res.status(404).json({
               meta: {
                   statusCode: 404,
-                  errorCode: 944,
+                  errorCode: 1145,
                   executionTime: `${end - start}ms`
               },
               error: {
@@ -323,7 +361,17 @@ exports.getSubModule = async (req, res) => {
       }
 
       const end = Date.now();
-      logger.info(`Submodule with ID ${submodule_id} retrieved successfully, executionTime: ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+      // Log the warning
+      logger.logWithMeta("warn", `Submodule with ID ${submodule_id} retrieved successfully`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
+      // logger.info(`Submodule with ID ${submodule_id} retrieved successfully, executionTime: ${end - start}ms`);
 
       res.status(200).json({
           meta: {
@@ -339,20 +387,24 @@ exports.getSubModule = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 945;
+    const errorCode = 1146;
     
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `Error retrieving submodules: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Submodule with ID ${submodule_id} not found ${error.message}`, {
       errorCode,
-      errorMessage: error.message, // Include the error message in meta explicitly
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     //   logger.error('Error retrieving submodules', { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
           meta: {
               statusCode: 500,
-              errorCode: 945,
+              errorCode: 1146,
               executionTime: `${end - start}ms`
           },
           error: {
@@ -363,6 +415,7 @@ exports.getSubModule = async (req, res) => {
 };
 exports.getAllSubModules = async (req, res) => {
     const start = Date.now();
+    const clientIp = await getClientIp(req);
   
     try {
         const UserSubModules = require('../models/hospitalsubmodule')(req.sequelize);
@@ -371,22 +424,26 @@ exports.getAllSubModules = async (req, res) => {
         const userSubModules = await UserSubModules.findAll();
   
         if (!userSubModules || userSubModules.length === 0) {
-            const end = Date.now();
-            const executionTime = `${end - start}ms`;
-            const errorCode = 946;
-            
-            // Ensure that error.message is logged separately if needed
-            logger.logWithMeta("warn", `No submodules found: ${error.message}`, {
-              errorCode,
-              errorMessage: error.message, // Include the error message in meta explicitly
-              executionTime,
-              hospitalId: req.hospitalId,
-            });
+          const end = Date.now();
+          const executionTime = `${end - start}ms`;
+          const errorCode = 1147;
+          
+          // Log the warning
+          logger.logWithMeta("warn", `No submodules found ${error.message}`, {
+            errorCode,
+            errorMessage: error.message,
+            executionTime,
+            hospitalId: req.hospitalId,
+            ip: clientIp,
+            apiName: req.originalUrl, // API name
+            method: req.method,
+            userAgent: req.headers['user-agent'],     // HTTP method
+          });
             // logger.warn(`No submodules found, executionTime: ${end - start}ms`);
             return res.status(404).json({
                 meta: {
                     statusCode: 404,
-                    errorCode: 946,
+                    errorCode: 1147,
                     executionTime: `${end - start}ms`
                 },
                 error: {
@@ -395,8 +452,19 @@ exports.getAllSubModules = async (req, res) => {
             });
         }
   
-        const end = Date.now();
-        logger.info(`All submodules retrieved successfully, executionTime: ${end - start}ms`);
+        
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      // Log the warning
+      logger.logWithMeta("warn", `All submodules retrieved successfully`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
+        // logger.info(`All submodules retrieved successfully, executionTime: ${end - start}ms`);
   
         res.status(200).json({
             meta: {
@@ -410,22 +478,26 @@ exports.getAllSubModules = async (req, res) => {
             }))
         });
     } catch (error) {
-        const end = Date.now();
-            const executionTime = `${end - start}ms`;
-            const errorCode = 947;
-            
-            // Ensure that error.message is logged separately if needed
-            logger.logWithMeta("warn", `Error retrieving all submodules: ${error.message}`, {
-              errorCode,
-              errorMessage: error.message, // Include the error message in meta explicitly
-              executionTime,
-              hospitalId: req.hospitalId,
-            });
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1148;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Error retrieving all submodules ${error.message}`, {
+        errorCode,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
         // logger.error('Error retrieving all submodules', { error: error.message, executionTime: `${end - start}ms` });
         res.status(500).json({
             meta: {
                 statusCode: 500,
-                errorCode: 947,
+                errorCode: 1148,
                 executionTime: `${end - start}ms`
             },
             error: {
@@ -437,7 +509,7 @@ exports.getAllSubModules = async (req, res) => {
   
 
   exports.updateSubModule = async (req, res) => {
-    
+    const clientIp = await getClientIp(req);
     const start = Date.now();
   
     const { submodule_name } = req.body;
@@ -454,20 +526,24 @@ console.log('Request Body:', req.body);
       if (!userSubModules) {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
-        const errorCode = 946;
+        const errorCode = 1149;
         
-        // Ensure that error.message is logged separately if needed
-        logger.logWithMeta("warn", `Submodule with ID ${submodule_id} not found: ${error.message}`, {
+        // Log the warning
+        logger.logWithMeta("warn", `Submodule with ID ${submodule_id} not found ${error.message}`, {
           errorCode,
-          errorMessage: error.message, // Include the error message in meta explicitly
+          errorMessage: error.message,
           executionTime,
           hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],     // HTTP method
         });
         // logger.warn(`Submodule with ID ${submodule_id} not found, executionTime: ${end - start}ms`);
         return res.status(404).json({
           meta: {
             statusCode: 404,
-            errorCode: 946,
+            errorCode: 1149,
             executionTime: `${end - start}ms`,
           },
           error: {
@@ -483,7 +559,17 @@ console.log('Request Body:', req.body);
       await userSubModules.save();
   
       const end = Date.now();
-      logger.info(`Submodule with ID ${submodule_id} updated successfully, executionTime: ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+      // Log the warning
+      logger.logWithMeta("warn", `Submodule with ID ${submodule_id} updated successfully`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
+      // logger.info(`Submodule with ID ${submodule_id} updated successfully, executionTime: ${end - start}ms`);
       res.status(200).json({
         meta: {
           statusCode: 200,
@@ -495,22 +581,26 @@ console.log('Request Body:', req.body);
         },
       });
     } catch (error) {
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 947;
-        
-        // Ensure that error.message is logged separately if needed
-        logger.logWithMeta("warn", `Error updating submodule: ${error.message}`, {
-          errorCode,
-          errorMessage: error.message, // Include the error message in meta explicitly
-          executionTime,
-          hospitalId: req.hospitalId,
-        });
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1150;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Error updating submodule ${error.message}`, {
+        errorCode,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
     //   logger.error('Error updating submodule', { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
         meta: {
           statusCode: 500,
-          errorCode: 947,
+          errorCode: 1150,
           executionTime: `${end - start}ms`,
         },
         error: {
@@ -523,22 +613,27 @@ console.log('Request Body:', req.body);
   
 exports.getSubModulesByModuleId = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { modules_Id } = req.body;
 
   logger.info(`Received request for submodules with module_id: ${modules_Id}`);
 
   if (!modules_Id) {
     const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 948;
-    
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `'Module ID is missing in the request, executionTime: ${error.message}`, {
-      errorCode,
-      errorMessage: error.message, // Include the error message in meta explicitly
-      executionTime,
-      hospitalId: req.hospitalId,
-    });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1151;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Module ID is missing in the request ${error.message}`, {
+        errorCode,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
     //   logger.warn('Module ID is missing in the request, executionTime: ${end - start}ms,{errorCode:errorCode}');
       return res.status(400).json({
           meta: {
@@ -561,21 +656,25 @@ exports.getSubModulesByModuleId = async (req, res) => {
 
       if (!module) {
         const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 949;
-        
-        // Ensure that error.message is logged separately if needed
-        logger.logWithMeta("warn", `'Module with ID ${modules_Id} not found, executionTime: ${error.message}`, {
-          errorCode,
-          errorMessage: error.message, // Include the error message in meta explicitly
-          executionTime,
-          hospitalId: req.hospitalId,
-        });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1152;
+      
+      // Log the warning
+      logger.logWithMeta("warn", `Module with ID ${modules_Id} not found ${error.message}`, {
+        errorCode,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
         //   logger.warn(`Module with ID ${modules_Id} not found, executionTime: ${end - start}ms`);
           return res.status(404).json({
               meta: {
                   statusCode: 404,
-                  errorCode: 949,
+                  errorCode: 1152,
                   executionTime: `${end - start}ms`
               },
               error: {
@@ -590,20 +689,24 @@ exports.getSubModulesByModuleId = async (req, res) => {
       if (!subModules || subModules.length === 0) {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
-        const errorCode = 950;
+        const errorCode = 1153;
         
-        // Ensure that error.message is logged separately if needed
-        logger.logWithMeta("warn", `'Submodules for module ID ${modules_Id} not found: ${error.message}`, {
+        // Log the warning
+        logger.logWithMeta("warn", `Submodules for module ID ${modules_Id} not found ${error.message}`, {
           errorCode,
-          errorMessage: error.message, // Include the error message in meta explicitly
+          errorMessage: error.message,
           executionTime,
           hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'],     // HTTP method
         });
         //   logger.warn(`Submodules for module ID ${modules_Id} not found, executionTime: ${end - start}ms`);
           return res.status(404).json({
               meta: {
                   statusCode: 404,
-                  errorCode: 950,
+                  errorCode: 1153,
                   executionTime: `${end - start}ms`
               },
               error: {
@@ -622,8 +725,19 @@ exports.getSubModulesByModuleId = async (req, res) => {
           }))
       };
 
+    
       const end = Date.now();
-      logger.info(`Submodules for module ID ${modules_Id} retrieved successfully, executionTime: ${end - start}ms`);
+      const executionTime = `${end - start}ms`;
+      // Log the warning
+      logger.logWithMeta("warn", `Submodules for module ID ${modules_Id} retrieved successfully`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
+      // logger.info(`Submodules for module ID ${modules_Id} retrieved successfully, executionTime: ${end - start}ms`);
 
       res.status(200).json({
           meta: {
@@ -635,20 +749,24 @@ exports.getSubModulesByModuleId = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 951;
+    const errorCode = 1154;
     
-    // Ensure that error.message is logged separately if needed
-    logger.logWithMeta("warn", `'Error retrieving submodules: ${error.message}`, {
+    // Log the warning
+    logger.logWithMeta("warn", `Error retrieving submodules ${error.message}`, {
       errorCode,
-      errorMessage: error.message, // Include the error message in meta explicitly
+      errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     //   logger.error('Error retrieving submodules', { error: error.message, executionTime: `${end - start}ms` });
       res.status(500).json({
           meta: {
               statusCode: 500,
-              errorCode: 951,
+              errorCode: 1154,
               executionTime: `${end - start}ms`
           },
           error: {

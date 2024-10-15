@@ -1,8 +1,30 @@
 const sequelize = require('../database/connection'); // Ensure correct path
 
 console.log('Sequelize instance:', sequelize); // Debugging
+const requestIp = require('request-ip');
+
+async function getClientIp(req) {
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+
+      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 1094 });
+
+      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+    }
+  }
+
+  return clientIp;
+}
 
 exports.getCountries = async (req, res) => {
+  const clientIp = await getClientIp(req);// Get the HospitalIDR from the decoded token
+    const start = Date.now();
     try {
       console.log('Attempting to fetch countries...');
       const countries = await sequelize.query("SELECT * FROM countries", {
@@ -11,13 +33,31 @@ exports.getCountries = async (req, res) => {
       console.log('Countries fetched successfully:', countries);
       res.status(200).json({ success: true, data: countries });
     } catch (error) {
-      console.error('Error fetching countries:', error.message);
-      res.status(500).json({ success: false, errorCode: 1089, message: 'Error fetching countries', error: error.message });
+      // console.error('Error fetching countries:', error.message);
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1095;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Error fetching countries${error.message}`, {
+        errorCode,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method    ,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
+      res.status(500).json({ success: false, errorCode: 1095, message: 'Error fetching countries', error: error.message });
     }
   };
   
   // Get states and cities by countryId
   exports.getStatesAndCitiesByCountry = async (req, res) => {
+    const clientIp = await getClientIp(req);// Get the HospitalIDR from the decoded token
+    const start = Date.now();
     try {
       const { countryId } = req.params;
   
@@ -56,16 +96,46 @@ exports.getCountries = async (req, res) => {
         }
         return acc;
       }, {});
-  
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+    
+      // Log the warning
+      logger.logWithMeta("warn", ` fatched state or city by countries successfull:`, {
+        executionTime,
+        
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method   ,  
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
       res.status(200).json({ success: true, data: Object.values(result) });
     } catch (error) {
-      console.error('Error fetching states and cities:', error.message);
-      res.status(500).json({ success: false, errorCode: 1090, message: 'Error fetching states and cities', error: error.message });
+      // console.error('Error fetching states and cities:', error.message);
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1096;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Error fetching states and cities${error.message}`, {
+        errorCode,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method    ,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
+      res.status(500).json({ success: false, errorCode: 1096, message: 'Error fetching states and cities', error: error.message });
     }
   };
 
 // Get states by countryId
 exports.getStatesOrCities = async (req, res) => {
+  const clientIp = await getClientIp(req);// Get the HospitalIDR from the decoded token
+    const start = Date.now();
     try {
       const { stateId } = req.params;
   
@@ -79,34 +149,112 @@ exports.getStatesOrCities = async (req, res) => {
         if (cities.length > 0) {
           res.status(200).json({ success: true, data: cities });
         } else {
-          res.status(404).json({ success: false, errorCode: 1091, message: 'No cities found for this state' });
+          const end = Date.now();
+          const executionTime = `${end - start}ms`;
+          const errorCode = 1097;
+      
+          // Log the warning
+          logger.logWithMeta("warn", `No cities found for this state${error.message}`, {
+            errorCode,
+            errorMessage: error.message,
+            executionTime,
+            hospitalId: req.hospitalId,
+      
+            ip: clientIp,
+            apiName: req.originalUrl, // API name
+            method: req.method    ,
+            userAgent: req.headers['user-agent'],     // HTTP method
+          });
+          res.status(404).json({ success: false, errorCode: 1097, message: 'No cities found for this state' });
         }
       } else {
         // If no stateId is provided, fetch all states
         const states = await sequelize.query("SELECT * FROM states", {
           type: sequelize.QueryTypes.SELECT,
         });
+        const end = Date.now();
+        const executionTime = `${end - start}ms`;
+      
+        // Log the warning
+        logger.logWithMeta("warn", ` fatched state or city successfull:`, {
+          executionTime,
+          component,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method   ,  
+          userAgent: req.headers['user-agent'],    // HTTP method
+        });
         res.status(200).json({ success: true, data: states });
       }
     } catch (error) {
-      res.status(500).json({ success: false, errorCode: 1092, message: 'Error fetching data', error: error.message });
+      const end = Date.now();
+          const executionTime = `${end - start}ms`;
+          const errorCode = 1098;
+      
+          // Log the warning
+          logger.logWithMeta("warn", `Error fetching data${error.message}`, {
+            errorCode,
+            errorMessage: error.message,
+            executionTime,
+            hospitalId: req.hospitalId,
+      
+            ip: clientIp,
+            apiName: req.originalUrl, // API name
+            method: req.method    ,
+            userAgent: req.headers['user-agent'],     // HTTP method
+          });
+      res.status(500).json({ success: false, errorCode: 1098, message: 'Error fetching data', error: error.message });
     }
   };
 
 // Get cities by stateId
 exports.getAllCities = async (req, res) => {
+  const clientIp = await getClientIp(req);// Get the HospitalIDR from the decoded token
+    const start = Date.now();
     try {
       const cities = await sequelize.query("SELECT * FROM cities", {
         type: sequelize.QueryTypes.SELECT,
       });
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+    
+      // Log the warning
+      logger.logWithMeta("warn", ` Get all city successful:`, {
+        executionTime,
+        component,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method   ,  
+        userAgent: req.headers['user-agent'],    // HTTP method
+      });
       res.status(200).json({ success: true, data: cities });
     } catch (error) {
-      res.status(500).json({ success: false, errorCode: 1093, message: 'Error fetching cities', error: error.message });
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1099;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Error fetching cities ${error.message}`, {
+        errorCode,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method    ,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
+      res.status(500).json({ success: false, errorCode: 1099, message: 'Error fetching cities', error: error.message });
     }
   };
   
   // Get city details by cityId, including state and country information
   exports.getCityDetails = async (req, res) => {
+    const clientIp = await getClientIp(req);// Get the HospitalIDR from the decoded token
+    const start = Date.now();
     try {
       const { cityId } = req.params;
   
@@ -124,11 +272,58 @@ exports.getAllCities = async (req, res) => {
       });
   
       if (cityDetails.length > 0) {
+
+        const end = Date.now();
+    const executionTime = `${end - start}ms`;
+  
+    // Log the warning
+    logger.logWithMeta("warn", ` fetche city successfull:`, {
+      executionTime,
+      component,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method   ,  
+      userAgent: req.headers['user-agent'],    // HTTP method
+    });
         res.status(200).json({ success: true, data: cityDetails[0] });
       } else {
-        res.status(404).json({ success: false, errorCode: 1094, message: 'City not found' });
+        const end = Date.now();
+        const executionTime = `${end - start}ms`;
+        const errorCode = 1100;
+    
+        // Log the warning
+        logger.logWithMeta("warn", `City not found ${error.message}`, {
+          errorCode,
+          errorMessage: error.message,
+          executionTime,
+          hospitalId: req.hospitalId,
+    
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method    ,
+          userAgent: req.headers['user-agent'],     // HTTP method
+        });
+        res.status(404).json({ success: false, errorCode: 1100, message: 'City not found' });
       }
     } catch (error) {
-      res.status(500).json({ success: false, errorCode: 1095, message: 'Error fetching city details', error: error.message });
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1101;
+  
+      // Log the warning
+      logger.logWithMeta("warn", `Error fetching city details ${error.message}`, {
+        errorCode,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+  
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method    ,
+        userAgent: req.headers['user-agent'],     // HTTP method
+      });
+
+      res.status(500).json({ success: false, errorCode: 1101, message: 'Error fetching city details', error: error.message });
     }
   };

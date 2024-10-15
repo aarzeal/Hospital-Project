@@ -52,8 +52,31 @@
 
 // smsService.js
 const axios = require('axios');
+const logger = require('../logger'); 
+const requestIp = require('request-ip');
+
+async function getClientIp(req) {
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+
+      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 1083 });
+
+      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+    }
+  }
+
+  return clientIp;
+}
 
 const sendSMS = async (phone,PatientFirstName,EMRNumber) => {
+  const clientIp = await getClientIp(req);
+  const start = Date.now();
   if (!phone & !EMRNumber & !PatientFirstName) {
     throw new Error('Phone number is required');
   }
@@ -81,10 +104,31 @@ const sendSMS = async (phone,PatientFirstName,EMRNumber) => {
     };
 
     const response = await axios.get(apiUrl, { params });
+    // logger.info(`SMS sent successfully to ${phone}. Response: ${response.data}`);
+    
     console.log('Response:', response.data);
 
     return response.data; // Return the response for further processing
   } catch (error) {
+    // logger.error(`Error sending SMS to ${phone}. Error: ${error.message}`);
+    const end = Date.now();
+          const executionTime = `${end - start}ms`;
+          const errorCode = 1084;
+      
+          // Log the warning
+    
+          logger.logWithMeta("warn", `Error sending SMS to ${phone}. Error:${err.message}`, {
+            errorCode,
+            errorMessage: err.message,
+            executionTime,
+            hospitalId: req.hospitalId,
+      
+            ip: clientIp,
+            apiName: req.originalUrl, // API name
+            method: req.method    ,
+            userAgent: req.headers['user-agent'],  
+            data: { message: err.data?.message }   // HTTP method
+          });
     console.error('Error sending message:', error);
     throw error; // Rethrow error for handling in the calling function
   }

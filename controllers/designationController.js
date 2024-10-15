@@ -12,7 +12,7 @@ async function getClientIp(req) {
       clientIp = ipResponse.data.ip;
     } catch (error) {
 
-      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 971 });
+      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 997 });
 
       clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
     }
@@ -55,7 +55,7 @@ exports.getAllDesignations = async (req, res) => {
 
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 996;
+      const errorCode = 998;
   
       // Log the warning
       logger.logWithMeta("warn", `Error fetching designations:`, {
@@ -68,7 +68,7 @@ exports.getAllDesignations = async (req, res) => {
         method: req.method         // HTTP method
       });
       res.status(500).json({
-        meta: { statusCode: 500, errorCode: 996 },
+        meta: { statusCode: 500, errorCode: 998 },
         error: { message: 'Failed to fetch designations due to a server error. Please try again later.' }
       });
     }
@@ -85,7 +85,7 @@ exports.getAllDesignations = async (req, res) => {
       if (!designation) {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
-        const errorCode = 997;
+        const errorCode = 999;
     
         // Log the warning
         logger.logWithMeta("warn", `Designation with ID ${id} not found,errorCode:`, {
@@ -99,7 +99,7 @@ exports.getAllDesignations = async (req, res) => {
         });
           // logger.warn(`Designation with ID ${id} not found,errorCode: ${errorCode}`);
         return res.status(404).json({
-          meta: { statusCode: 404, errorCode: 997 },
+          meta: { statusCode: 404, errorCode: 999 },
           error: { message: `Designation with ID ${id} not found. Please check the ID and try again.` }
         });
       }
@@ -124,7 +124,7 @@ exports.getAllDesignations = async (req, res) => {
     } catch (error) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 998;
+      const errorCode = 1000;
   
       // Log the warning
       logger.logWithMeta("warn", `Error fetching designation with ID ${id}:`, {
@@ -138,7 +138,7 @@ exports.getAllDesignations = async (req, res) => {
       });
       // logger.error(`Error fetching designation with ID ${id}: ${error.message},errorCode: ${errorCode}`);
       res.status(500).json({
-        meta: { statusCode: 500, errorCode: 998 },
+        meta: { statusCode: 500, errorCode: 1000 },
         error: { message: `Failed to fetch designation with ID ${id} due to a server error. Please try again later.` }
       });
     }
@@ -181,7 +181,7 @@ exports.getAllDesignations = async (req, res) => {
     } catch (error) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 999;
+      const errorCode = 1001;
   
       // Log the warning
       logger.logWithMeta("warn", `Error creating designation:`, {
@@ -195,7 +195,7 @@ exports.getAllDesignations = async (req, res) => {
       });
       // logger.error(`Error creating designation: ${error.message},errorCode: ${errorCode}`);
       res.status(500).json({
-        meta: { statusCode: 500, errorCode: 995 },
+        meta: { statusCode: 500, errorCode: 1001 },
         error: { message: 'Failed to create designation due to a server error. Please ensure all fields are correctly filled and try again.' }
       });
     }
@@ -216,7 +216,7 @@ exports.getAllDesignations = async (req, res) => {
       if (!designation) {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
-        const errorCode = 1000;
+        const errorCode = 1002;
     
         // Log the warning
         logger.logWithMeta("warn", `Designation with ID ${id} not found,errorCode:`, {
@@ -230,7 +230,7 @@ exports.getAllDesignations = async (req, res) => {
         });
         // logger.warn(`Designation with ID ${id} not found,errorCode: ${errorCode}`);
         return res.status(404).json({
-          meta: { statusCode: 404, errorCode: 1000 },
+          meta: { statusCode: 404, errorCode: 1002 },
           error: { message: `Designation with ID ${id} not found. Please check the ID and try again.` }
         });
       }
@@ -261,7 +261,7 @@ exports.getAllDesignations = async (req, res) => {
     } catch (error) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCode = 1001;
+      const errorCode = 1003;
   
       // Log the warning
       logger.logWithMeta("warn", `Error updating designation with ID ${id}:`, {
@@ -275,7 +275,7 @@ exports.getAllDesignations = async (req, res) => {
       });
       // logger.error(`Error updating designation with ID ${id}: ${error.message},errorCode: ${errorCode}`);
       res.status(500).json({
-        meta: { statusCode: 500, errorCode: 1001 },
+        meta: { statusCode: 500, errorCode: 1003 },
         error: { message: `Failed to update designation with ID ${id} due to a server error. Please try again later.` }
       });
     }
@@ -294,7 +294,7 @@ exports.getAllDesignations = async (req, res) => {
         
         const end = Date.now();
         const executionTime = `${end - start}ms`;
-        const errorCode = 1002;
+        const errorCode = 1004;
     
         // Log the warning
         logger.logWithMeta("warn", `Designation with ID ${id} not found,errorCode:`, {
@@ -308,7 +308,7 @@ exports.getAllDesignations = async (req, res) => {
         });
         // logger.warn(`Designation with ID ${id} not found,errorCode: ${errorCode}`);
         return res.status(404).json({
-          meta: { statusCode: 404, errorCode: 1002 },
+          meta: { statusCode: 404, errorCode: 1004 },
           error: { message: `Designation with ID ${id} not found. Please check the ID and try again.` }
         });
       }
@@ -335,7 +335,7 @@ exports.getAllDesignations = async (req, res) => {
     } catch (error) {
       const end = Date.now();
         const executionTime = `${end - start}ms`;
-        const errorCode = 1003;
+        const errorCode = 1005;
     
         // Log the warning
         logger.logWithMeta("warn", `Error deleting designation with ID ${id}:`, {
@@ -349,7 +349,7 @@ exports.getAllDesignations = async (req, res) => {
         });
       // logger.error(`Error deleting designation with ID ${id}: ${error.message},errorCode: ${errorCode}`);
       res.status(500).json({
-        meta: { statusCode: 500, errorCode: 1003 },
+        meta: { statusCode: 500, errorCode: 1005 },
         error: { message: `Failed to delete designation with ID ${id} due to a server error. Please try again later.` }
       });
     }
@@ -396,7 +396,7 @@ exports.getPaginatedDesignations = async (req, res) => {
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1004;
+    const errorCode = 1006;
 
     // Log the warning
     logger.logWithMeta("warn", `Error fetching paginated designations:`, {
@@ -405,16 +405,14 @@ exports.getPaginatedDesignations = async (req, res) => {
       executionTime,
       hospitalId: req.hospitalId,
 
-
-
-      
       ip: clientIp,
       apiName: req.originalUrl, // API name
-      method: req.method         // HTTP method
+      method: req.method    ,
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
     // logger.error(`Error fetching paginated designations: ${error.message},errorCode: ${errorCode}`);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1004 },
+      meta: { statusCode: 500, errorCode: 1006 },
       error: { message: 'Failed to fetch paginated designations due to a server error. Please try again later.' }
     });
   }
