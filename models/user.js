@@ -95,14 +95,25 @@ module.exports = (sequelize) => {
     },
 
     ///after add the employee master then will remove the commnetout
-       empid: {
+    // empid: {
+    //   type: DataTypes.INTEGER,
+    //   references: {
+    //     model: 'tblEmployee', // Ensure case sensitivity and table name match
+    //     key: 'EmployeeID',
+    //   },
+      
+      
+    // }, 
+    empid: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      references: {
-        model: 'tblEmployee', // Table name of the Module model
-        key: 'EmployeeID'
-      }
-    },
+  //     references: {
+  //       model: 'tblEmployee', // Adjusted to match your actual table name
+  //       key: 'EmployeeID',
+  //       onDelete: 'CASCADE', // or other appropriate action
+  // onUpdate: 'CASCADE' // or other appropriate action
+  //     }
+    },  
     is_emailVerify: {
       type: DataTypes.STRING,
       allowNull: true ,// Adjust allowNull as per your requirements

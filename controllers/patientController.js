@@ -185,6 +185,13 @@ exports.getAllPatients = async (req, res) => {
 };
 const { v4: uuidv4 } = require('uuid'); // For generating unique log IDs
 
+function maskSensitiveData(data) {
+  if (data && data.startsWith("Bearer ")) {
+      // Show first 12 characters of the token and mask the rest
+      return `Bearer ${data.substring(7, 17)}...masked`;
+  }
+  return data ? `${data.substring(0, 6)}...masked` : null;
+}
 
 exports.getPatientById = async (req, res) => {
     const start = Date.now();
@@ -199,6 +206,7 @@ exports.getPatientById = async (req, res) => {
     const userAgent = req.headers['user-agent'];
     const apiName = req.originalUrl;
     const method = req.method;
+    const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
 
     try {
         const patient = await PatientMaster.findByPk(id);
@@ -220,7 +228,8 @@ exports.getPatientById = async (req, res) => {
                 method,
                 errorCode,
                 executionTime,
-                statusCode
+                statusCode,
+                authorization
 
             });
 

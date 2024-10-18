@@ -18,7 +18,7 @@ router.get('/skills/:id', authenticate, hospitalController.ensureSequelizeInstan
 router.get('/paginated', authenticate, hospitalController.ensureSequelizeInstance,skillController.getSkillsWithPagination);
 
 // POST create a new skill
-router.post('/skills', authenticate, Accesstokenverify ,validateJSONContentType,createSkillValidationRules(),  hospitalController.ensureSequelizeInstance,skillController.createSkill);
+router.post('/skills', authenticate ,validateJSONContentType,createSkillValidationRules(),  hospitalController.ensureSequelizeInstance,skillController.createSkill);
 
 // PUT update an existing skill
 router.put('/skills/:id',authenticate, validateJSONContentType,updateSkillValidationRules(), hospitalController.ensureSequelizeInstance,skillController.updateSkill);
