@@ -13,6 +13,7 @@ router.get('/patients', authenticate, patientController.getAllPatients);
 
 // GET patient by ID
 router.get('/patients/:id', authenticate, patientController.getPatientById);
+router.get('/patients/hospital/:hospitalId', authenticate, patientController.getPatientsByHospitalId);
 
 // POST create a new patient
 // router.post('/patients',  authenticate, createPatientValidationRules(),validateJSONContentType, patientController.createPatient);

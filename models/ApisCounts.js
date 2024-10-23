@@ -61,10 +61,7 @@ const CountAPI = sequelize.define('CountAPI', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  hospitalId: {  // Change HospitalId to hospitalId
-    type: DataTypes.INTEGER,
-    allowNull: true
-  },
+ 
   ip: {
     type: DataTypes.STRING, // Fix this from INTEGER to STRING for storing IP
     allowNull: true
@@ -80,12 +77,24 @@ const CountAPI = sequelize.define('CountAPI', {
   os: {
     type: DataTypes.STRING,
     allowNull: true
-  }
+  },
+  queryParams: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  hospitalId: {  // Change HospitalId to hospitalId
+    type: DataTypes.INTEGER,
+    allowNull: true
+  },
 }, {
   timestamps: true,
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 });
 
+(async () => {
+  await CountAPI.sync({ alter: true });  // Alter the table to match the model
+  console.log('CountAPI table updated successfully.');
+})();
 
 module.exports = CountAPI;

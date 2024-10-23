@@ -83,7 +83,82 @@ exports.getAllDoctors = async (req, res) => {
     });
   }
 };
+// exports.getAllDoctors = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
 
+//   // Extract the startDate and endDate from the request query
+//   const { startDate, endDate } = req.query;
+
+//   try {
+//     const DoctorMaster = require('../models/doctorMaster')(req.sequelize);
+
+//     // Build where clause for filtering doctors by date range
+//     let whereClause = {};
+    
+//     if (startDate || endDate) {
+//       whereClause.createdAt = {}; // Assuming we are filtering based on creation date
+//       if (startDate) {
+//         const start = new Date(startDate);
+//         if (isNaN(start)) {
+//           throw new Error("Invalid start date format");
+//         }
+//         whereClause.createdAt[Op.gte] = start; // Filter doctors created on or after startDate
+//       }
+//       if (endDate) {
+//         const end = new Date(endDate);
+//         if (isNaN(end)) {
+//           throw new Error("Invalid end date format");
+//         }
+//         whereClause.createdAt[Op.lte] = end; // Filter doctors created on or before endDate
+//       }
+//     }
+
+//     // Query the DoctorMaster model with the optional date filter
+//     const doctors = await DoctorMaster.findAll({
+//       where: whereClause
+//     });
+
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+
+//     // Log the success
+//     logger.logWithMeta("warn", `Fetched all doctors successfully`, {
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,       // HTTP method
+//       userAgent: req.headers['user-agent'],
+//     });
+
+//     res.status(200).json({
+//       meta: { statusCode: 200 },
+//       data: doctors
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 1057;
+
+//     // Log the error
+//     logger.logWithMeta("warn", `Error fetching doctors: ${error.message}`, {
+//       errorCode,
+//       errorMessage: error.message,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,       // HTTP method
+//       userAgent: req.headers['user-agent'],
+//     });
+
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode: 1057 },
+//       error: { message: 'Failed to fetch doctors due to a server error.' }
+//     });
+//   }
+// };
 // Get doctor by ID
 exports.getDoctorById = async (req, res) => {
   const start = Date.now();

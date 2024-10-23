@@ -146,36 +146,46 @@ const { logWithMeta,getIp  } = require('../Middleware/loggerUtility'); // Import
 exports.getAllPatients = async (req, res) => {
   const start = Date.now(); // Start the execution timer
   try {
-    const clientIp =  await getClientIp(req);// Assuming you have a utility function for this
-    req.clientIp = clientIp; // Attach clientIp to req for logging
-
     const patients = await PatientMaster.findAll(); // Fetch all patients
+
+    // Map through each patient to prepare the response
+    const patientsWithImages = patients.map(patient => {
+      let imgBase64 = null;
+
+      // Assuming 'img' is the property that holds the image path
+      if (patient.img) {
+        const imgPath = path.join(__dirname, '../profile', path.basename(patient.img));
+        
+        if (fs.existsSync(imgPath)) {
+          const imgBuffer = fs.readFileSync(imgPath);
+          imgBase64 = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+        }
+      }
+
+      // Return a plain object representation of the patient with the image
+      return {
+        ...patient.get(), // Use patient.get() to convert Sequelize instance to a plain object
+        img: imgBase64 // Add the base64 image to the patient data
+      };
+    });
+
     const end = Date.now();
-    const executionTime = `${end - start}ms`; // Calculate execution time
-
-    // Use the logging utility function, passing executionTime as additional metadata
-    logWithMeta("info", "Retrieved all patients successfully", req, { executionTime });
-
+    logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
     res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime
+        executionTime: `${end - start}ms`
       },
-      data: patients
+      data: patientsWithImages // Return the array of patients with images
     });
   } catch (error) {
     const end = Date.now();
-    const executionTime = `${end - start}ms`; // Calculate execution time in case of error
-    const errorCode = 972;
-
-    // Use the logging utility function for error logs, passing executionTime and errorCode
-    logWithMeta("warn", "Error retrieving patients", req, { executionTime, errorCode });
-
+    logger.error('Error retrieving patients', { error: error.message, executionTime: `${end - start}ms` });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode,
-        executionTime
+        errorCode: 971,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Error retrieving patients: ' + error.message
@@ -183,6 +193,58 @@ exports.getAllPatients = async (req, res) => {
     });
   }
 };
+// exports.getAllPatients = async (req, res) => {
+//   const start = Date.now(); // Start the execution timer
+//   try {
+//     const clientIp = await getClientIp(req); // Assuming you have a utility function for this
+//     req.clientIp = clientIp; // Attach clientIp to req for logging
+
+//     const patients = await PatientMaster.findAll(); // Fetch all patients
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`; // Calculate execution time
+
+//     // Process each patient to include base64 image data if available
+//     const patientsWithImages = await Promise.all(
+//       patients.map(async (patient) => {
+//         const imgBase64 = patient.imgPath // Assume you have a path to the image in your patient record
+//           ? `data:image/jpeg;base64,${(await fs.promises.readFile(patient.imgPath)).toString('base64')}`
+//           : null; // Set to null if no image path exists
+        
+//         return { ...patient.toJSON(), img: imgBase64 }; // Include the base64 image in the response
+//       })
+//     );
+
+//     // Use the logging utility function, passing executionTime as additional metadata
+//     logWithMeta("info", "Retrieved all patients successfully", req, { executionTime });
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//       },
+//       data: patientsWithImages, // Use the modified patients array with images
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`; // Calculate execution time in case of error
+//     const errorCode = 972;
+
+//     // Use the logging utility function for error logs, passing executionTime and errorCode
+//     logWithMeta("warn", "Error retrieving patients", req, { executionTime, errorCode });
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode,
+//         executionTime,
+//       },
+//       error: {
+//         message: 'Error retrieving patients: ' + error.message,
+//       },
+//     });
+//   }
+// };
+
 const { v4: uuidv4 } = require('uuid'); // For generating unique log IDs
 
 function maskSensitiveData(data) {
@@ -695,6 +757,7 @@ const generateEMRNumber = async () => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    
     const uploadPath = path.join(__dirname, '../profile');
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
@@ -717,8 +780,12 @@ const storage = multer.diskStorage({
     }
   }
 });
-
-const upload = multer({ storage });
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 50 * 1024 * 1024 // 50 MB limit
+  }})
+// const upload = multer({ storage });
 
 // Function to decode base64 image and save it as a file
 const saveBase64Image = (base64String, filename) => {
@@ -873,12 +940,27 @@ exports.createPatient = [
       // Generate unique EMR number
       const EMRNumber = await generateEMRNumber();
 
+      // let savedImagePath = null;
+      // let imgBase64 = null;
+      // if (img) {
+      //   savedImagePath = saveBase64Image(img, EMRNumber); // Save the image using EMRNumber as the filename
+      //   imgBase64 = savedImagePath.toString('base64'); // Convert to base64
+      // }
       let savedImagePath = null;
+      let imgBase64 = null;
       if (img) {
-        savedImagePath = saveBase64Image(img, EMRNumber); // Save the image using EMRNumber as the filename
+        // If img is provided as a Base64 string
+        imgBase64 = img.startsWith('data:image/jpeg;base64/') ? img.split(',')[1] : img; // Extract base64 part if needed
+        // imgBase64 = `data:image/jpeg;base64,${imgBuffer.toString('base64')}`;
+        savedImagePath = saveBase64Image(img, EMRNumber);
+        console.log("savedImagePath",savedImagePath)
+      } else if (req.file) {
+        // If an image file is uploaded
+        const imgBuffer = fs.readFileSync(req.file.path);
+        imgBase64 = imgBuffer.toString('base64'); // Convert to base64
       }
 
-
+      console.log("imgBase64", imgBase64);
       console.log("req.hospitalGroupIDR :", req.hospitalGroupId)
       // Create new patient record
       const newPatient = await PatientMaster.create({
@@ -1049,7 +1131,7 @@ exports.createPatient = [
         patientId: newPatient.PatientID,      // Patient ID
         patientFirstName: newPatient.PatientFirstName, // Include first name separately if needed
         userId: req.userId,                  // User ID (if available)
-        ip: clientIp,                         // Client IP
+        // ip: clientIp,                         // Client IP
         userAgent: req.headers['user-agent'], // User agent from headers
         apiName,                              // API name
         method                                // HTTP method
@@ -1063,7 +1145,9 @@ exports.createPatient = [
           statusCode: 200,
           executionTime: `${end - start}ms`
         },
-        data: newPatient
+        data: newPatient,
+        // ...newPatient,
+          img: imgBase64 
       });
     } catch (error) {
       const end = Date.now();
@@ -1076,7 +1160,7 @@ exports.createPatient = [
         error: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-        ip: clientIp,
+        // ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method
       });
@@ -1096,63 +1180,49 @@ exports.createPatient = [
   }
 ];
 
-
-
-
-
 exports.updatePatient = [
-  // Validation middleware (ensure this is used before multer middleware)
-  // Example: body('name').optional().notEmpty().withMessage('Name is required'),
+  // Validation middleware for incoming data (make sure to validate each field)
+  // Example: body('PatientFirstName').notEmpty().withMessage('First name is required'),
 
-  // File upload middleware (optional, only if updating image)
+  // File upload middleware
   upload.single('img'),
 
-
   async (req, res) => {
-    console.log('Request Body:', req.body);
-    console.log('Uploaded File:', req.file);
-    const clientIp = await getClientIp(req);
-
     const start = Date.now();
+    const patientId = req.params.id; // Assuming patient ID is passed as a URL parameter
 
     // Check validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const end = Date.now();
-      const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
-      const errorCode = 979;
+      const executionTime = `${end - start}ms`;
+      const errorCode = 980;
 
-      // Log the error
-      logger.logWithMeta("warn", `Validation errors occurred`, {
+      logger.logWithMeta("warn", "Validation errors occurred while updating patient", errors.array(), {
         errorCode,
-        // error: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method
       });
 
-      // logger.info('Validation errors occurred', { errors: errors.array(), executionTime: `${end - start}ms` });
       return res.status(400).json({
         meta: {
           statusCode: 400,
-          errorCode: 979,
-          executionTime: `${end - start}ms`
+          errorCode,
+          executionTime,
         },
         error: {
           message: 'Validation errors occurred',
           details: errors.array().map(err => ({
             field: err.param,
-            message: err.msg
-          }))
-        }
+            message: err.msg,
+          })),
+        },
       });
     }
 
     const {
-      PatientMiddleName,
       PatientFirstName,
+      PatientMiddleName,
       PatientLastName,
       Age,
       DOB,
@@ -1178,139 +1248,345 @@ exports.updatePatient = [
       country,
       city,
       state,
-      img
+      img,
     } = req.body;
 
-    const parsedBloodGroup = BloodGroup ? parseInt(BloodGroup, 10) : null;
-    const parsedGender = Gender ? parseInt(Gender, 10) : null;
-    const parsedMaritalStatus = MaritalStatus ? parseInt(MaritalStatus, 10) : null;
-    const parsedNationality = Nationality ? parseInt(Nationality, 10) : null;
+    const parsedBloodGroup = parseInt(BloodGroup, 10);
+    const parsedGender = parseInt(Gender, 10);
+    const parsedMaritalStatus = parseInt(MaritalStatus, 10);
+    const parsedNationality = parseInt(Nationality, 10);
 
     try {
-      // Find the patient to update by ID or other unique identifier
-      const { patientId } = req.params; // Assume the patient ID is passed as a URL parameter
+      // Find the patient by ID
       const patient = await PatientMaster.findByPk(patientId);
-
       if (!patient) {
-
         const end = Date.now();
-        const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
-        const errorCode = 980;
+        const executionTime = `${end - start}ms`;
+        const errorCode = 981;
 
-        // Log the error
-        logger.logWithMeta("warn", `Patient not found`, {
+        logger.logWithMeta("warn", `Patient with ID ${patientId} not found`, {
           errorCode,
-          // error: error.message,
           executionTime,
           hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method
         });
-        // logger.info('Patient not found', { executionTime: `${end - start}ms` });
+
         return res.status(404).json({
           meta: {
             statusCode: 404,
-            errorCode: 980,
-            executionTime: `${end - start}ms`
+            errorCode,
+            executionTime,
           },
           error: {
-            message: 'Patient not found'
-          }
+            message: `Patient with ID ${patientId} not found`,
+          },
         });
       }
 
-      // Handle image update if provided
-      let savedImagePath = patient.img; // Use the existing image if not updated
+      // Handle image upload (if any)
+      let savedImagePath = patient.img; // Use the existing image if no new image is uploaded
+      let imgBase64 = null;
+
       if (img) {
-        savedImagePath = saveBase64Image(img, patient.EMRNumber); // Update the image using EMRNumber as the filename
+        imgBase64 = img.startsWith('data:image/jpeg;base64/') ? img.split(',')[1] : img;
+        savedImagePath = saveBase64Image(img, patient.EMRNumber);
+      } else if (req.file) {
+        const imgBuffer = fs.readFileSync(req.file.path);
+        imgBase64 = imgBuffer.toString('base64');
       }
 
-      // Update the patient's details
+      // Update patient record
       await patient.update({
-        PatientMiddleName: PatientMiddleName || patient.PatientMiddleName,
-        PatientFirstName: PatientFirstName || patient.PatientFirstName,
-        PatientLastName: PatientLastName || patient.PatientLastName,
-        Age: Age || patient.Age,
-        DOB: DOB || patient.DOB,
-        BloodGroup: parsedBloodGroup || patient.BloodGroup,
-        Gender: parsedGender || patient.Gender,
-        Phone: Phone || patient.Phone,
-        WhatsappNumber: WhatsappNumber || patient.WhatsappNumber,
-        Email: Email || patient.Email,
-        AcceptedPolicy: AcceptedPolicy !== undefined ? AcceptedPolicy : patient.AcceptedPolicy,
-        IsCommunicationAllowed: IsCommunicationAllowed !== undefined ? IsCommunicationAllowed : patient.IsCommunicationAllowed,
-        PatientAddress: PatientAddress || patient.PatientAddress,
-        EmergencyContactName: EmergencyContactName || patient.EmergencyContactName,
-        EmergencyContactPhone: EmergencyContactPhone || patient.EmergencyContactPhone,
-        InsuranceProvider: InsuranceProvider || patient.InsuranceProvider,
-        InsurancePolicyNumber: InsurancePolicyNumber || patient.InsurancePolicyNumber,
-        MedicalHistory: MedicalHistory || patient.MedicalHistory,
-        CurrentMedications: CurrentMedications || patient.CurrentMedications,
-        Allergies: Allergies || patient.Allergies,
-        MaritalStatus: parsedMaritalStatus || patient.MaritalStatus,
-        Occupation: Occupation || patient.Occupation,
-        Nationality: parsedNationality || patient.Nationality,
-        Language: Language || patient.Language,
-        country: country || patient.country,
-        city: city || patient.city,
-        state: state || patient.state,
-        img: savedImagePath
+        PatientFirstName,
+        PatientMiddleName,
+        PatientLastName,
+        Age,
+        DOB,
+        BloodGroup: parsedBloodGroup,
+        Gender: parsedGender,
+        Phone,
+        WhatsappNumber,
+        Email,
+        AcceptedPolicy,
+        IsCommunicationAllowed,
+        PatientAddress,
+        EmergencyContactName,
+        EmergencyContactPhone,
+        InsuranceProvider,
+        InsurancePolicyNumber,
+        MedicalHistory,
+        CurrentMedications,
+        Allergies,
+        MaritalStatus: parsedMaritalStatus,
+        Occupation,
+        Nationality: parsedNationality,
+        Language,
+        country,
+        city,
+        state,
+        img: savedImagePath,
       });
+
       const end = Date.now();
       const executionTime = `${end - start}ms`;
 
-
-      // Log the warning
-      logger.logWithMeta("warn", `Updated patient with ID ${patient.PatientID} in ${end - start}ms`, {
-
+      // Log the patient update action
+      logger.logWithMeta("info", `Updated patient with ID ${patient.PatientID} in ${executionTime} ms`, {
         executionTime,
         hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method         // HTTP method
+        patientId: patient.PatientID,
+        userId: req.userId,
+        apiName: req.originalUrl,
+        method: req.method,
       });
 
-      // const end = Date.now();
-      // logger.info(`Updated patient with ID ${patient.PatientID} in ${end - start}ms`);
       res.status(200).json({
         meta: {
           statusCode: 200,
-          executionTime: `${end - start}ms`
+          executionTime,
         },
-        data: patient
+        data: patient,
+        img: imgBase64, // Send the base64-encoded image if needed
       });
     } catch (error) {
-
-
       const end = Date.now();
-      const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
-      const errorCode = 981;
+      const executionTime = `${end - start}ms`;
+      const errorCode = 982;
 
       // Log the error
-      logger.logWithMeta("warn", `Error updating patient`, {
+      logger.logWithMeta("error", "Error occurred while updating patient", {
+        error: error.message,
         errorCode,
-        // error: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method
       });
-      // logger.error('Error updating patient', { error: error.message, executionTime: `${end - start}ms` });
-      res.status(500).json({
+
+      return res.status(500).json({
         meta: {
           statusCode: 500,
-          errorCode: 981,
-          executionTime: `${end - start}ms`
+          errorCode,
+          executionTime,
         },
         error: {
-          message: 'Error updating patient: ' + error.message
-        }
+          message: 'Error occurred while updating patient',
+        },
       });
     }
   }
 ];
+
+
+
+// exports.updatePatient = [
+//   // Validation middleware (ensure this is used before multer middleware)
+//   // Example: body('name').optional().notEmpty().withMessage('Name is required'),
+
+//   // File upload middleware (optional, only if updating image)
+//   upload.single('img'),
+
+
+//   async (req, res) => {
+//     console.log('Request Body:', req.body);
+//     console.log('Uploaded File:', req.file);
+//     const clientIp = await getClientIp(req);
+
+//     const start = Date.now();
+
+//     // Check validation errors
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+//       const errorCode = 979;
+
+//       // Log the error
+//       logger.logWithMeta("warn", `Validation errors occurred`, {
+//         errorCode,
+//         // error: error.message,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method
+//       });
+
+//       // logger.info('Validation errors occurred', { errors: errors.array(), executionTime: `${end - start}ms` });
+//       return res.status(400).json({
+//         meta: {
+//           statusCode: 400,
+//           errorCode: 979,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Validation errors occurred',
+//           details: errors.array().map(err => ({
+//             field: err.param,
+//             message: err.msg
+//           }))
+//         }
+//       });
+//     }
+
+//     const {
+//       PatientMiddleName,
+//       PatientFirstName,
+//       PatientLastName,
+//       Age,
+//       DOB,
+//       BloodGroup,
+//       Gender,
+//       Phone,
+//       WhatsappNumber,
+//       Email,
+//       AcceptedPolicy,
+//       IsCommunicationAllowed,
+//       PatientAddress,
+//       EmergencyContactName,
+//       EmergencyContactPhone,
+//       InsuranceProvider,
+//       InsurancePolicyNumber,
+//       MedicalHistory,
+//       CurrentMedications,
+//       Allergies,
+//       MaritalStatus,
+//       Occupation,
+//       Nationality,
+//       Language,
+//       country,
+//       city,
+//       state,
+//       img
+//     } = req.body;
+
+//     const parsedBloodGroup = BloodGroup ? parseInt(BloodGroup, 10) : null;
+//     const parsedGender = Gender ? parseInt(Gender, 10) : null;
+//     const parsedMaritalStatus = MaritalStatus ? parseInt(MaritalStatus, 10) : null;
+//     const parsedNationality = Nationality ? parseInt(Nationality, 10) : null;
+
+//     try {
+//       // Find the patient to update by ID or other unique identifier
+//       const { patientId } = req.params; // Assume the patient ID is passed as a URL parameter
+//       const patient = await PatientMaster.findByPk(patientId);
+
+//       if (!patient) {
+
+//         const end = Date.now();
+//         const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+//         const errorCode = 980;
+
+//         // Log the error
+//         logger.logWithMeta("warn", `Patient not found`, {
+//           errorCode,
+//           // error: error.message,
+//           executionTime,
+//           hospitalId: req.hospitalId,
+//           ip: clientIp,
+//           apiName: req.originalUrl, // API name
+//           method: req.method
+//         });
+//         // logger.info('Patient not found', { executionTime: `${end - start}ms` });
+//         return res.status(404).json({
+//           meta: {
+//             statusCode: 404,
+//             errorCode: 980,
+//             executionTime: `${end - start}ms`
+//           },
+//           error: {
+//             message: 'Patient not found'
+//           }
+//         });
+//       }
+
+//       // Handle image update if provided
+//       let savedImagePath = patient.img; // Use the existing image if not updated
+//       if (img) {
+//         savedImagePath = saveBase64Image(img, patient.EMRNumber); // Update the image using EMRNumber as the filename
+//       }
+
+//       // Update the patient's details
+//       await patient.update({
+//         PatientMiddleName: PatientMiddleName || patient.PatientMiddleName,
+//         PatientFirstName: PatientFirstName || patient.PatientFirstName,
+//         PatientLastName: PatientLastName || patient.PatientLastName,
+//         Age: Age || patient.Age,
+//         DOB: DOB || patient.DOB,
+//         BloodGroup: parsedBloodGroup || patient.BloodGroup,
+//         Gender: parsedGender || patient.Gender,
+//         Phone: Phone || patient.Phone,
+//         WhatsappNumber: WhatsappNumber || patient.WhatsappNumber,
+//         Email: Email || patient.Email,
+//         AcceptedPolicy: AcceptedPolicy !== undefined ? AcceptedPolicy : patient.AcceptedPolicy,
+//         IsCommunicationAllowed: IsCommunicationAllowed !== undefined ? IsCommunicationAllowed : patient.IsCommunicationAllowed,
+//         PatientAddress: PatientAddress || patient.PatientAddress,
+//         EmergencyContactName: EmergencyContactName || patient.EmergencyContactName,
+//         EmergencyContactPhone: EmergencyContactPhone || patient.EmergencyContactPhone,
+//         InsuranceProvider: InsuranceProvider || patient.InsuranceProvider,
+//         InsurancePolicyNumber: InsurancePolicyNumber || patient.InsurancePolicyNumber,
+//         MedicalHistory: MedicalHistory || patient.MedicalHistory,
+//         CurrentMedications: CurrentMedications || patient.CurrentMedications,
+//         Allergies: Allergies || patient.Allergies,
+//         MaritalStatus: parsedMaritalStatus || patient.MaritalStatus,
+//         Occupation: Occupation || patient.Occupation,
+//         Nationality: parsedNationality || patient.Nationality,
+//         Language: Language || patient.Language,
+//         country: country || patient.country,
+//         city: city || patient.city,
+//         state: state || patient.state,
+//         img: savedImagePath
+//       });
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+
+
+//       // Log the warning
+//       logger.logWithMeta("warn", `Updated patient with ID ${patient.PatientID} in ${end - start}ms`, {
+
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method         // HTTP method
+//       });
+
+//       // const end = Date.now();
+//       // logger.info(`Updated patient with ID ${patient.PatientID} in ${end - start}ms`);
+//       res.status(200).json({
+//         meta: {
+//           statusCode: 200,
+//           executionTime: `${end - start}ms`
+//         },
+//         data: patient
+//       });
+//     } catch (error) {
+
+
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+//       const errorCode = 981;
+
+//       // Log the error
+//       logger.logWithMeta("warn", `Error updating patient`, {
+//         errorCode,
+//         // error: error.message,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method
+//       });
+//       // logger.error('Error updating patient', { error: error.message, executionTime: `${end - start}ms` });
+//       res.status(500).json({
+//         meta: {
+//           statusCode: 500,
+//           errorCode: 981,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Error updating patient: ' + error.message
+//         }
+//       });
+//     }
+//   }
+// ];
 
 
 
@@ -1969,3 +2245,435 @@ exports.getPatient = async (req, res) => {
   }
 };
 
+
+
+
+// exports.getPatientsByHospitalId = async (req, res) => {
+//   const start = Date.now();
+//   const logId = uuidv4(); // Generate a unique log ID for this request
+
+//   // Extract metadata from the request to pass to logWithMeta
+//   const hospitalId = req.params.hospitalId; // Get hospitalId from request parameters
+//   const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+//   const userAgent = req.headers['user-agent'];
+//   const apiName = req.originalUrl;
+//   const method = req.method;
+//   const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+//   try {
+//       // Query the PatientMaster model for patients belonging to the specified hospitalId
+//       const patients = await PatientMaster.findAll({
+//           where: { HospitalID: hospitalId } // Replace 'HospitalID' with your actual foreign key column name
+//       });
+
+//       if (!patients || patients.length === 0) {
+//           const end = Date.now();
+//           const executionTime = `${end - start}ms`;
+//           const errorCode = 1163;
+//           const statusCode = 404;
+
+//           // Log the warning with relevant metadata
+//           logWithMeta("warn", `No patients found for hospital ID ${hospitalId}`, {
+//               logId,
+//               hospitalId,
+//               clientIp,
+//               userAgent,
+//               apiName,
+//               method,
+//               errorCode,
+//               executionTime,
+//               statusCode,
+//               authorization
+//           });
+
+//           return res.status(statusCode).json({
+//               meta: {
+//                   statusCode,
+//                   errorCode,
+//                   logId,
+//                   executionTime
+//               },
+//               error: {
+//                   message: 'No patients found for the specified hospital ID'
+//               }
+//           });
+//       }
+
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+
+//       // Log success with relevant metadata and patient info
+//       logWithMeta("info", `Retrieved patients for hospital ID ${hospitalId} successfully`, {
+//           logId,
+//           hospitalId,
+//           clientIp,
+//           userAgent,
+//           apiName,
+//           method,
+//           executionTime
+//       }, {
+//           patientCount: patients.length,
+//           patientIds: patients.map(patient => patient.PatientID) // Optionally log patient IDs
+//       });
+//        // Map through each patient to prepare the response
+//     const patientsWithImages = patients.map(patient => {
+//       let imgBase64 = null;
+
+//       // Assuming 'img' is the property that holds the image path
+//       if (patient.img) {
+//         const imgPath = path.join(__dirname, '../profile', path.basename(patient.img));
+        
+//         if (fs.existsSync(imgPath)) {
+//           const imgBuffer = fs.readFileSync(imgPath);
+//           imgBase64 = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+//         }
+//       }
+
+//       // Return a plain object representation of the patient with the image
+//       return {
+//         ...patient.get(), // Use patient.get() to convert Sequelize instance to a plain object
+//         img: imgBase64 // Add the base64 image to the patient data
+//       };
+//     });
+
+
+//       res.status(200).json({
+//           meta: {
+//               statusCode: 200,
+//               logId,
+//               executionTime
+//           },
+//           data: patients.map(patient => patient.toJSON()),
+//           data: patientsWithImages
+
+//       });
+//   } catch (error) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 1164;
+//       const statusCode = 500;
+
+//       // Log the error with relevant metadata
+//       logWithMeta("error", `Error retrieving patients for hospital ID ${hospitalId}`, {
+//           logId,
+//           hospitalId,
+//           clientIp,
+//           userAgent,
+//           apiName,
+//           method,
+//           errorCode,
+//           executionTime,
+//           statusCode,
+//           error: error.message
+//       });
+
+//       res.status(statusCode).json({
+//           meta: {
+//               statusCode,
+//               errorCode,
+//               logId,
+//               executionTime
+//           },
+//           error: {
+//               message: 'Error retrieving patients: ' + error.message
+//           }
+//       });
+//   }
+// };
+
+
+
+
+
+// exports.getPatientsByHospitalId = async (req, res) => {
+//   const start = Date.now();
+//   const logId = uuidv4(); // Generate a unique log ID for this request
+
+//   // Extract metadata from the request for logging
+//   const hospitalId = req.params.hospitalId; // Get hospitalId from request parameters
+//   const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+//   const userAgent = req.headers['user-agent'];
+//   const apiName = req.originalUrl;
+//   const method = req.method;
+//   const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+//   try {
+//     // Query the PatientMaster model for patients belonging to the specified hospitalId
+//     const patients = await PatientMaster.findAll({
+//       where: { HospitalID: hospitalId } // Replace 'HospitalID' with your actual foreign key column name
+//     });
+
+    
+//     if (!patients || patients.length === 0) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 1163;
+//       const statusCode = 404;
+
+//       // Log the warning with relevant metadata
+//       logWithMeta("warn", `No patients found for hospital ID ${hospitalId}`, {
+//         logId,
+//         hospitalId,
+//         clientIp,
+//         userAgent,
+//         apiName,
+//         method,
+//         errorCode,
+//         executionTime,
+//         statusCode,
+//         authorization
+//       });
+
+//       return res.status(statusCode).json({
+//         meta: {
+//           statusCode,
+//           errorCode,
+//           logId,
+//           executionTime
+//         },
+//         error: {
+//           message: 'No patients found for the specified hospital ID'
+//         }
+//       });
+//     }
+
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+
+//     // Map through each patient to prepare the response, including base64-encoded images
+//     const patientsWithImages = patients.map(patient => {
+//       let imgBase64 = null;
+
+//       // Assuming 'img' is the property that holds the image path
+//       if (patient.img) {
+//         const imgPath = path.join(__dirname, '../profile', path.basename(patient.img));
+//         if (fs.existsSync(imgPath)) {
+//           const imgBuffer = fs.readFileSync(imgPath);
+//           imgBase64 = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+//         }
+//       }
+
+//       // Return a plain object representation of the patient with the image
+//       return {
+//         ...patient.get(), // Use patient.get() to convert Sequelize instance to a plain object
+//         img: imgBase64 // Add the base64 image to the patient data
+//       };
+//     });
+
+//     // Log success with relevant metadata and patient info
+//     logWithMeta("info", `Retrieved patients for hospital ID ${hospitalId} successfully`, {
+//       logId,
+//       hospitalId,
+//       clientIp,
+//       userAgent,
+//       apiName,
+//       method,
+//       executionTime
+//     }, {
+//       patientCount: patients.length,
+//       patientIds: patients.map(patient => patient.PatientID) // Optionally log patient IDs
+//     });
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         logId,
+//         executionTime
+//       },
+//       data: patientsWithImages // Return the array of patients with images
+//     });
+
+//   } catch (error) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 1164;
+//     const statusCode = 500;
+
+//     // Log the error with relevant metadata
+//     logWithMeta("error", `Error retrieving patients for hospital ID ${hospitalId}`, {
+//       logId,
+//       hospitalId,
+//       clientIp,
+//       userAgent,
+//       apiName,
+//       method,
+//       errorCode,
+//       executionTime,
+//       statusCode,
+//       error: error.message
+//     });
+
+//     res.status(statusCode).json({
+//       meta: {
+//         statusCode,
+//         errorCode,
+//         logId,
+//         executionTime
+//       },
+//       error: {
+//         message: 'Error retrieving patients: ' + error.message
+//       }
+//     });
+//   }
+// };
+
+
+
+exports.getPatientsByHospitalId = async (req, res) => {
+  const start = Date.now();
+  const logId = uuidv4(); // Generate a unique log ID for this request
+
+  // Extract metadata from the request for logging
+  const hospitalId = req.params.hospitalId; // Get hospitalId from request parameters
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const apiName = req.originalUrl;
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+  // Extract optional query parameters for date range filtering
+  const { startDate, endDate } = req.query;
+
+  try {
+    // Build where clause for filtering by hospitalId and optional date range
+    let whereClause = { HospitalID: hospitalId };
+
+    // Add date filtering to the where clause if startDate and endDate are provided
+    if (startDate || endDate) {
+      whereClause.createdAt = {};
+      if (startDate) {
+        const start = new Date(startDate);
+        if (isNaN(start)) {
+          throw new Error("Invalid start date format");
+        }
+        whereClause.createdAt[Op.gte] = start; // Include patients created after or on startDate
+      }
+      if (endDate) {
+        const end = new Date(endDate);
+        if (isNaN(end)) {
+          throw new Error("Invalid end date format");
+        }
+        whereClause.createdAt[Op.lte] = end; // Include patients created before or on endDate
+      }
+    }
+
+    // Log the exact whereClause for debugging purposes
+    console.log("Where clause for patient query:", whereClause);
+
+    // Query the PatientMaster model for patients belonging to the specified hospitalId and date range
+    const patients = await PatientMaster.findAll({
+      where: whereClause
+    });
+
+    if (!patients || patients.length === 0) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1163;
+      const statusCode = 404;
+
+      // Log the warning with relevant metadata
+      logWithMeta("warn", `No patients found for hospital ID ${hospitalId}`, {
+        logId,
+        hospitalId,
+        clientIp,
+        userAgent,
+        apiName,
+        method,
+        errorCode,
+        executionTime,
+        statusCode,
+        authorization
+      });
+
+      return res.status(statusCode).json({
+        meta: {
+          statusCode,
+          errorCode,
+          logId,
+          executionTime
+        },
+        error: {
+          message: 'No patients found for the specified hospital ID or date range'
+        }
+      });
+    }
+
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+
+    // Map through each patient to prepare the response, including base64-encoded images
+    const patientsWithImages = patients.map(patient => {
+      let imgBase64 = null;
+
+      // Assuming 'img' is the property that holds the image path
+      if (patient.img) {
+        const imgPath = path.join(__dirname, '../profile', path.basename(patient.img));
+        if (fs.existsSync(imgPath)) {
+          const imgBuffer = fs.readFileSync(imgPath);
+          imgBase64 = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+        }
+      }
+
+      // Return a plain object representation of the patient with the image
+      return {
+        ...patient.get(), // Use patient.get() to convert Sequelize instance to a plain object
+        img: imgBase64 // Add the base64 image to the patient data
+      };
+    });
+
+    // Log success with relevant metadata and patient info
+    logWithMeta("info", `Retrieved patients for hospital ID ${hospitalId} successfully`, {
+      logId,
+      hospitalId,
+      clientIp,
+      userAgent,
+      apiName,
+      method,
+      executionTime
+    }, {
+      patientCount: patients.length,
+      patientIds: patients.map(patient => patient.PatientID) // Optionally log patient IDs
+    });
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        logId,
+        executionTime
+      },
+      data: patientsWithImages // Return the array of patients with images
+    });
+
+  } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1164;
+    const statusCode = 500;
+
+    // Log the error with relevant metadata
+    logWithMeta("error", `Error retrieving patients for hospital ID ${hospitalId}`, {
+      logId,
+      hospitalId,
+      clientIp,
+      userAgent,
+      apiName,
+      method,
+      errorCode,
+      executionTime,
+      statusCode,
+      error: error.message
+    });
+
+    res.status(statusCode).json({
+      meta: {
+        statusCode,
+        errorCode,
+        logId,
+        executionTime
+      },
+      error: {
+        message: 'Error retrieving patients: ' + error.message
+      }
+    });
+  }
+};

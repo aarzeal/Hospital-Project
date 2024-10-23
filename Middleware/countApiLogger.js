@@ -298,9 +298,114 @@ async function getClientIp(req) {
 }
 
 // Middleware function to log API details
+// const countApiLogger = async (req, res, next) => {
+//   const start = Date.now();
+//   const { method, originalUrl, query } = req;
+//   const { Username } = req.body || query;
+
+//   // Get client IP
+//   const clientIp = await getClientIp(req);
+//   console.log('Client IP:', clientIp);
+
+//   // Fetch location using the public IP
+//   let locationData = { city: 'Unknown' };
+//   try {
+//     const locationResponse = await axios.get(`http://ip-api.com/json/${clientIp}`);
+//     locationData = locationResponse.data;
+//     console.log('Location Data:', locationData);
+//   } catch (error) {
+//     logger.error('Error fetching location data', { error: error.message });
+//   }
+
+//   // Get the user-agent string from headers
+//   const userAgentString = req.headers['user-agent'] || 'Unknown';
+//   console.log('Raw User-Agent String:', userAgentString);
+
+//   // Parse the user-agent string using UAParser
+//   const parser = new UAParser();
+//   const userAgent = parser.setUA(userAgentString).getResult();
+
+//   // If the user-agent is Postman, handle it differently
+//   let browserInfo = userAgent.browser.name || 'Unknown Browser';
+//   let osInfo = userAgent.os.name || 'Unknown OS';
+//   let platformInfo = userAgent.device.model || 'Unknown';
+
+//   // Check if Postman is the tool being used
+//   if (userAgentString.includes('Postman')) {
+//     browserInfo = 'Postman';  // Override browser info with 'Postman'
+//     osInfo = 'Postman';       // Override OS info with 'Postman'
+//   }
+
+//   console.log('Parsed Browser Info:', browserInfo);
+//   console.log('Parsed OS Info:', osInfo);
+//   console.log('Parsed Platform Info:', platformInfo);
+
+//   // Initialize variables
+//   let hospitalId = 'Unknown';
+//   let userId = 'Unknown';
+//   let accessTokenInfo = 'Unknown';
+
+//   // Decode Authorization token if present
+//   const authToken = req.headers['authorization'];
+//   if (authToken) {
+//     try {
+//       const decoded = jwt.verify(authToken.split(' ')[1], process.env.JWT_SECRET);
+//       hospitalId = decoded.hospitalId || 'Unknown';
+//       req.hospitalId = hospitalId;
+//       console.log('Decoded Authorization token:', decoded);
+//     } catch (err) {
+//       logger.error('Invalid Authorization token provided', { error: err.message });
+//     }
+//   }
+
+//   // Decode AccessToken if present
+//   const accessToken = req.headers['accesstoken'];
+//   if (accessToken) {
+//     try {
+//       const decodedAccessToken = jwt.verify(accessToken.split(' ')[1], process.env.JWT_SECRET);
+//       accessTokenInfo = decodedAccessToken.info || 'Unknown';
+//       userId = decodedAccessToken.userId || 'Unknown';
+//       console.log('Decoded AccessToken:', decodedAccessToken);
+//     } catch (err) {
+//       logger.error('Invalid AccessToken provided', { error: err.message });
+//     }
+//   }
+
+//   logger.info('Tokens are optional, proceeding even if they are invalid or missing.');
+
+//   // Log details
+//   const logDetails = {
+//     Apiname: originalUrl,
+//     location: locationData.city,
+//     hospitalId: hospitalId,
+//     ApiMethod: method,
+//     createdby: userId,
+//     accessTokenInfo: accessTokenInfo,
+//     userAgent: userAgentString,
+//     ip: clientIp,
+//     browser: browserInfo,
+//     os: osInfo,
+//     platform: platformInfo
+//   };
+
+//   console.log('logDetails before saving:', logDetails);
+
+//   // Store the log details in the database
+//   try {
+//     await CountAPI.create(logDetails);
+//     logger.info(`API call logged: ${originalUrl} with method ${method}`);
+//   } catch (err) {
+//     logger.error('Error creating CountAPI entry', { error: err.message, stack: err.stack });
+//   }
+
+//   const end = Date.now();
+//   req.executionTime = `${end - start}ms`;
+//   next();
+// };
+
 const countApiLogger = async (req, res, next) => {
   const start = Date.now();
-  const { method, originalUrl, query } = req;
+  const { method, query } = req;
   const { Username } = req.body || query;
 
   // Get client IP
@@ -373,11 +478,30 @@ const countApiLogger = async (req, res, next) => {
 
   logger.info('Tokens are optional, proceeding even if they are invalid or missing.');
 
+  // **Extract only the base API path (excluding IDs and params)**
+  // req.baseUrl contains the base path of the mounted router
+  // req.route.path contains the defined path for the endpoint
+  let baseApiName = req.baseUrl;
+  if (req.route && req.route.path) {
+    // Combine baseUrl and route path if both are available
+    baseApiName = `${req.baseUrl}${req.route.path}`;
+  } else if (!req.route) {
+    // Fallback to req.originalUrl if req.route is not defined
+    baseApiName = req.originalUrl.split('?')[0];  // Ignore query parameters
+  }
+   // Strip dynamic segments (like numeric IDs)
+   baseApiName = baseApiName.replace(/\/\d+/g, '');  // Removes segments that are only numbers
+
+   console.log('Base API Name after stripping dynamic segments:', baseApiName); 
+
+   // Store query parameters separately if they exist
+  const queryParams = req.query ? JSON.stringify(req.query) : 'None';
+
   // Log details
   const logDetails = {
-    Apiname: originalUrl,
+    Apiname: baseApiName, // Store the base API name without dynamic parts
     location: locationData.city,
-    hospitalId: hospitalId,
+    hospitalId: req.hospitalId,
     ApiMethod: method,
     createdby: userId,
     accessTokenInfo: accessTokenInfo,
@@ -385,7 +509,8 @@ const countApiLogger = async (req, res, next) => {
     ip: clientIp,
     browser: browserInfo,
     os: osInfo,
-    platform: platformInfo
+    platform: platformInfo,
+    queryParams: queryParams // Store query parameters separately
   };
 
   console.log('logDetails before saving:', logDetails);
@@ -393,7 +518,7 @@ const countApiLogger = async (req, res, next) => {
   // Store the log details in the database
   try {
     await CountAPI.create(logDetails);
-    logger.info(`API call logged: ${originalUrl} with method ${method}`);
+    logger.info(`API call logged: ${baseApiName} with method ${method}`);
   } catch (err) {
     logger.error('Error creating CountAPI entry', { error: err.message, stack: err.stack });
   }
@@ -402,5 +527,6 @@ const countApiLogger = async (req, res, next) => {
   req.executionTime = `${end - start}ms`;
   next();
 };
+
 
 module.exports = countApiLogger;

@@ -307,41 +307,217 @@ exports.calculateCharges = async (req, res) => {
 // };
 
 
+// exports.calculateChargeswithDetails = async (req, res) => {
+//   const clientIp = await getClientIp(req);// Get the HospitalIDR from the decoded token
+//   const start = Date.now();
+//   const { Apiname, hospitalId, startDate, endDate, hoursAgo } = req.query;
+
+//   try {
+//     // Validate required parameters
+//     if (!Apiname || !hospitalId) {
+//       // logger.error('Missing required fields: Apiname or hospitalId', { errorCode: 1100 });
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 1107;
+  
+//       // Log the warning
+//       logger.logWithMeta("warn", `Missing required fields: Apiname or hospitalId${error.message}`, {
+//         errorCode,
+//         errorMessage: error.message,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+  
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method    ,
+//         userAgent: req.headers['user-agent'],     // HTTP method
+//       });
+//       return res.status(400).json({
+//         errorCode: 1107,
+//         message: 'Missing required fields: Apiname or hospitalId'
+//       });
+//     }
+
+//     let whereConditions = {
+//       Apiname,
+//       hospitalId
+//     };
+
+//     // Filter based on hoursAgo or date range
+//     if (hoursAgo) {
+//       const currentTime = new Date();
+//       const pastTime = new Date(currentTime.getTime() - hoursAgo * 60 * 60 * 1000);
+//       whereConditions.createdAt = {
+//         [Op.between]: [pastTime, currentTime]
+//       };
+//     } else if (startDate && endDate) {
+//       const adjustedEndDate = new Date(endDate);
+//       adjustedEndDate.setHours(23, 59, 59, 999);
+//       whereConditions.createdAt = {
+//         [Op.between]: [new Date(startDate), adjustedEndDate]
+//       };
+//     }
+
+//     // Retrieve API call details
+//     const apiCalls = await CountAPI.findAll({
+//       where: whereConditions,
+//       attributes: ['id', 'createdby', 'createdAt', 'userAgent']
+//     });
+
+//     const apiCallCount = apiCalls.length;
+
+//     if (apiCallCount === 0) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 1108;
+  
+//       // Log the warning
+//       logger.logWithMeta("warn", `No API calls found for API:${error.message}`, {
+//         errorCode,
+//         errorMessage: error.message,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+  
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method    ,
+//         userAgent: req.headers['user-agent'],     // HTTP method
+//       });
+//       // logger.warn(`No API calls found for API: ${Apiname}, Hospital: ${hospitalId}`, { errorCode: 1101 });
+//       return res.status(404).json({
+//         errorCode: 1108,
+//         message: 'No API calls found for the given parameters'
+//       });
+//     }
+
+//     // Retrieve charge data for the API
+//     const chargeData = await Charges.findOne({
+//       where: { Apiname, hospitalId }
+//     });
+
+//     if (!chargeData) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 1109;
+  
+//       // Log the warning
+//       logger.logWithMeta("warn", `Charges not found for API: ${error.message}`, {
+//         errorCode,
+//         errorMessage: error.message,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+  
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method    ,
+//         userAgent: req.headers['user-agent'],     // HTTP method
+//       });
+//       // logger.error(`Charges not found for API: ${Apiname}, Hospital: ${hospitalId}`, { errorCode: 1102 });
+//       return res.status(404).json({
+//         errorCode: 1109,
+//         message: 'Charges not found for this API'
+//       });
+//     }
+
+//     // Calculate total charges
+//     const totalCharges = apiCallCount * chargeData.chargeRate;
+
+//     // Success logging
+//     // logger.info(`Charges and API details retrieved successfully for API: ${Apiname}, Hospital: ${hospitalId}. Calls: ${apiCallCount}, Total Charges: ${totalCharges}`);
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+  
+//     // Log the warning
+//     logger.logWithMeta("warn", ` Charges and API call details retrieved successfully:`, {
+//       executionTime,
+//       apiCallCount,
+//       totalCharges,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method   ,  
+//       userAgent: req.headers['user-agent'],    // HTTP method
+//     });
+//     // Send success response with detailed information
+//     return res.status(200).json({
+//       message: 'Charges and API call details retrieved successfully',
+//       Apiname,
+//       hospitalId,
+//       apiCallCount,
+//       chargeRate: chargeData.chargeRate,
+//       method: req.method,
+//       totalCharges,
+//       apiDetails: apiCalls.map(call => ({
+//         id: call.id,
+//         createdBy: call.createdby,
+//         createdAt: call.createdAt,
+//         userAgent: call.userAgent
+//       }))
+//     });
+
+//   } catch (error) {
+//     const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 1110;
+  
+//       // Log the warning
+//       logger.logWithMeta("warn", `Error retrieving API details for API ${error.message}`, {
+//         errorCode,
+//         errorMessage: error.message,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+  
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method    ,
+//         userAgent: req.headers['user-agent'],     // HTTP method
+//       });
+//     // logger.error(`Error retrieving API details for API: ${Apiname}, Hospital: ${hospitalId}. Error: ${error.message}`, { errorCode: 1103 });
+//     return res.status(500).json({
+//       errorCode: 1110,
+//       message: 'Internal server error',
+//       details: error.message
+//     });
+//   }
+// };
+
+
+
 exports.calculateChargeswithDetails = async (req, res) => {
-  const clientIp = await getClientIp(req);// Get the HospitalIDR from the decoded token
+  const clientIp = await getClientIp(req); // Get the client IP
   const start = Date.now();
   const { Apiname, hospitalId, startDate, endDate, hoursAgo } = req.query;
 
   try {
     // Validate required parameters
-    if (!Apiname || !hospitalId) {
-      // logger.error('Missing required fields: Apiname or hospitalId', { errorCode: 1100 });
+    if (!hospitalId) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1107;
-  
+
       // Log the warning
-      logger.logWithMeta("warn", `Missing required fields: Apiname or hospitalId${error.message}`, {
+      logger.logWithMeta("warn", `Missing required field: hospitalId`, {
         errorCode,
-        errorMessage: error.message,
+        errorMessage: 'hospitalId is required',
         executionTime,
         hospitalId: req.hospitalId,
-  
         ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method    ,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers['user-agent'],
       });
       return res.status(400).json({
         errorCode: 1107,
-        message: 'Missing required fields: Apiname or hospitalId'
+        message: 'Missing required field: hospitalId'
       });
     }
 
-    let whereConditions = {
-      Apiname,
-      hospitalId
-    };
+    let whereConditions = { hospitalId };
+
+    // If Apiname is provided, include it in the conditions
+    if (Apiname) {
+      whereConditions.apiName = Apiname;
+    }
 
     // Filter based on hoursAgo or date range
     if (hoursAgo) {
@@ -361,7 +537,7 @@ exports.calculateChargeswithDetails = async (req, res) => {
     // Retrieve API call details
     const apiCalls = await CountAPI.findAll({
       where: whereConditions,
-      attributes: ['id', 'createdby', 'createdAt', 'userAgent']
+      attributes: ['id', 'createdby', 'createdAt', 'userAgent', 'apiName']
     });
 
     const apiCallCount = apiCalls.length;
@@ -370,109 +546,153 @@ exports.calculateChargeswithDetails = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1108;
-  
+
       // Log the warning
-      logger.logWithMeta("warn", `No API calls found for API:${error.message}`, {
+      logger.logWithMeta("warn", `No API calls found for the given parameters`, {
         errorCode,
-        errorMessage: error.message,
+        errorMessage: 'No API calls found',
         executionTime,
         hospitalId: req.hospitalId,
-  
         ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method    ,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers['user-agent'],
       });
-      // logger.warn(`No API calls found for API: ${Apiname}, Hospital: ${hospitalId}`, { errorCode: 1101 });
       return res.status(404).json({
         errorCode: 1108,
         message: 'No API calls found for the given parameters'
       });
     }
 
-    // Retrieve charge data for the API
-    const chargeData = await Charges.findOne({
-      where: { Apiname, hospitalId }
+    // Fetch unique apiNames from the API calls
+    // const uniqueApiNames = [...new Set(apiCalls.map(call => call.apiName))];
+
+    // console.log("apiCalls", apiCalls)
+
+    const uniqueApiNames = [...new Set(apiCalls.map(call => call?.dataValues?.apiName))];
+    console.log("uniqueApiNames",uniqueApiNames)
+
+    // Retrieve charge rates for all API calls in one go
+    // const chargesResult = await Charges.findAll({
+    //   where: {
+    //     apiName: { [Op.in]: uniqueApiNames },
+    //     hospitalId,
+    //   },
+    //   attributes: ['apiName', 'chargeRate']
+    // });
+    const chargesResult = await Charges.findAll({
+      where: {
+        apiName: { [Op.in]: uniqueApiNames },
+        hospitalId,
+      },
+      attributes: ['apiName', 'chargeRate']
+    });
+    
+    // Extract the `dataValues` from each result
+    const charges = chargesResult.map(charge => charge.dataValues);
+
+    console.log("charges",charges)
+    // Log fetched charge rates
+    logger.logWithMeta("info", `Fetched charge rates:`, {
+      chargesResult: chargesResult.map(charge => ({
+        apiName: charge.apiName,
+        chargeRate: charge.chargeRate
+      })),
+      hospitalId
     });
 
-    if (!chargeData) {
-      const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 1109;
-  
-      // Log the warning
-      logger.logWithMeta("warn", `Charges not found for API: ${error.message}`, {
-        errorCode,
-        errorMessage: error.message,
-        executionTime,
-        hospitalId: req.hospitalId,
-  
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method    ,
-        userAgent: req.headers['user-agent'],     // HTTP method
-      });
-      // logger.error(`Charges not found for API: ${Apiname}, Hospital: ${hospitalId}`, { errorCode: 1102 });
-      return res.status(404).json({
-        errorCode: 1109,
-        message: 'Charges not found for this API'
-      });
-    }
+    console.log("chargesResult", chargesResult)
 
-    // Calculate total charges
-    const totalCharges = apiCallCount * chargeData.chargeRate;
+    // Create a dictionary of charge rates
+    const chargeRateMap = {};
+    // chargesResult.forEach(charge => {
+    //   chargeRateMap[charge.apiName] = parseFloat(charge.chargeRate); 
 
-    // Success logging
-    // logger.info(`Charges and API details retrieved successfully for API: ${Apiname}, Hospital: ${hospitalId}. Calls: ${apiCallCount}, Total Charges: ${totalCharges}`);
+    //   console.log("charge", charge)
+    // });
+
+    // // Log the charge rate mapping
+    // logger.logWithMeta("info", `Charge rate mapping:`, {
+    //   chargeRateMap,
+    // });
+
+    charges.forEach(charge => {
+      chargeRateMap[charge.apiName] = parseFloat(charge.chargeRate); // Convert chargeRate to a float for calculation
+    });
+
+    console.log("chargeRateMap++++", chargeRateMap)
+    
+
+    // Calculate total charges using the pre-fetched rates
+    let totalCharges = 0;
+    apiCalls.forEach(call => {
+    const chargeRate = chargeRateMap[call?.dataValues?.apiName];
+
+    console.log("chargeRate++++++++", chargeRate)
+
+      // console.log("chargeRate", chargeRate)
+
+      if (chargeRate) {
+        totalCharges += chargeRate;
+      } else {
+        logger.logWithMeta("warn", `Charge rate not found for apiName: ${call.apiName}`, {
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl,
+          method: req.method,
+          userAgent: req.headers['user-agent'],
+        });
+      }
+    });
+
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-  
-    // Log the warning
-    logger.logWithMeta("warn", ` Charges and API call details retrieved successfully:`, {
+
+    // Log the success
+    logger.logWithMeta("info", `Charges and API call details retrieved successfully:`, {
       executionTime,
       apiCallCount,
       totalCharges,
       hospitalId: req.hospitalId,
       ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method   ,  
-      userAgent: req.headers['user-agent'],    // HTTP method
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers['user-agent'],
     });
+
     // Send success response with detailed information
     return res.status(200).json({
       message: 'Charges and API call details retrieved successfully',
-      Apiname,
       hospitalId,
       apiCallCount,
-      chargeRate: chargeData.chargeRate,
-      method: req.method,
       totalCharges,
+      Apiname,
       apiDetails: apiCalls.map(call => ({
         id: call.id,
         createdBy: call.createdby,
         createdAt: call.createdAt,
-        userAgent: call.userAgent
-      }))
+        userAgent: call.userAgent,
+        apiName: call.apiName,
+        chargeRate: chargeRateMap[call?.dataValues?.apiName] || null,
+      })),
     });
 
   } catch (error) {
     const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 1110;
-  
-      // Log the warning
-      logger.logWithMeta("warn", `Error retrieving API details for API ${error.message}`, {
-        errorCode,
-        errorMessage: error.message,
-        executionTime,
-        hospitalId: req.hospitalId,
-  
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method    ,
-        userAgent: req.headers['user-agent'],     // HTTP method
-      });
-    // logger.error(`Error retrieving API details for API: ${Apiname}, Hospital: ${hospitalId}. Error: ${error.message}`, { errorCode: 1103 });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1110;
+
+    // Log the warning
+    logger.logWithMeta("error", `Error retrieving API details: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers['user-agent'],
+    });
     return res.status(500).json({
       errorCode: 1110,
       message: 'Internal server error',
@@ -480,6 +700,8 @@ exports.calculateChargeswithDetails = async (req, res) => {
     });
   }
 };
+
+
 exports.calculateTotalChargesWithDetails = async (req, res) => {
   const clientIp = await getClientIp(req); // Get the client IP
   const start = Date.now();
@@ -847,210 +1069,210 @@ exports.calculateTotalChargesWithDetails = async (req, res) => {
 // };
 
 
-exports.calculateTotalChargesWithDetailsbyHospitalid = async (req, res) => {
-  const clientIp = await getClientIp(req); // Get the client IP
-  const start = Date.now();
-  const { hospitalId, startDate, endDate, hoursAgo } = req.params;
+  exports.calculateTotalChargesWithDetailsbyHospitalid = async (req, res) => {
+    const clientIp = await getClientIp(req); // Get the client IP
+    const start = Date.now();
+    const { hospitalId, startDate, endDate, hoursAgo } = req.params;
 
-  try {
-    // Validate required parameters
-    if (!hospitalId) {
-      const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 1107;
+    try {
+      // Validate required parameters
+      if (!hospitalId) {
+        const end = Date.now();
+        const executionTime = `${end - start}ms`;
+        const errorCode = 1107;
 
-      // Log the warning
-      logger.logWithMeta("warn", `Missing required field: hospitalId`, {
-        errorCode,
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'], // HTTP method
-      });
-      return res.status(400).json({
-        errorCode: 1107,
-        message: 'Missing required field: hospitalId'
-      });
-    }
-
-    // Initialize where conditions
-    let whereConditions = { hospitalId };
-
-    // Filter based on hoursAgo or date range
-    if (hoursAgo) {
-      const currentTime = new Date();
-      const pastTime = new Date(currentTime.getTime() - hoursAgo * 60 * 60 * 1000);
-      whereConditions.createdAt = {
-        [Op.between]: [pastTime, currentTime]
-      };
-    } else if (startDate && endDate) {
-      const adjustedEndDate = new Date(endDate);
-      adjustedEndDate.setHours(23, 59, 59, 999);
-      whereConditions.createdAt = {
-        [Op.between]: [new Date(startDate), adjustedEndDate]
-      };
-    }
-
-    // Retrieve API call details for the given hospitalId
-    const apiCalls = await CountAPI.findAll({
-      where: whereConditions,
-      attributes: ['id', 'createdby', 'createdAt', 'userAgent', 'apiName'] // Include apiName to determine charge rate
-    });
-
-    console.log("apiCalls",apiCalls)
-    const apiCallCount = apiCalls?.length;
-
-    if (apiCallCount === 0) {
-      const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 1108;
-
-      // Log the warning
-      logger.logWithMeta("warn", `No API calls found for hospitalId: ${hospitalId}`, {
-        errorCode,
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'], // HTTP method
-      });
-      return res.status(404).json({
-        errorCode: 1108,
-        message: 'No API calls found for the given hospitalId'
-      });
-    }
-
-    // Fetch unique apiNames from the API calls
-    const uniqueApiNames = [...new Set(apiCalls.map(call => call?.dataValues?.apiName))];
-    // const allApiNames = [...new Set(apiCalls.map(call => call?.dataValues?.apiName))];
-    
-
-    // console.log("apiCalls", apiCalls)
-    // console.log("allApiNames", uniqueApiNames)
-
-    // Retrieve charge rates for all API calls in one go
-    const chargesResult = await Charges.findAll({
-      where: {
-        apiName: { [Op.in]: uniqueApiNames },
-        hospitalId,
-      },
-      attributes: ['apiName', 'chargeRate']
-    });
-    
-    // Extract the `dataValues` from each result
-    const charges = chargesResult.map(charge => charge.dataValues);
-
-    console.log("charges",charges)
-    
-    // Create a dictionary of charge rates
-    const chargeRateMap = {};
-    charges.forEach(charge => {
-      chargeRateMap[charge.apiName] = parseFloat(charge.chargeRate); // Convert chargeRate to a float for calculation
-    });
-    // console.log("chargeRateMap+++++", chargeRateMap)
-
-    function calculateTotalCharge(chargeObject) {
-      let total = 0;
-      
-      // Iterate over the object values and sum them
-      for (const key in chargeObject) {
-        if (chargeObject.hasOwnProperty(key)) {
-          total += chargeObject[key];
-        }
-      }
-      
-      return total;
-    }
-
-    
-    
-    // Calculate total charges using the pre-fetched rates
-    // let totalCharges = 0;
-    let totalCharges = 0
-    apiCalls.forEach(call => {
-      const chargeRate = chargeRateMap[call?.dataValues?.apiName];
-      // console.log("chargeRate++++++",chargeRate)
-  
-      if (chargeRate) {
-        totalCharges += chargeRate;
-      } else {
-        logger.logWithMeta("warn", `Charge rate not found for apiName: ${call.apiName}`, {
+        // Log the warning
+        logger.logWithMeta("warn", `Missing required field: hospitalId`, {
+          errorCode,
+          executionTime,
           hospitalId: req.hospitalId,
           ip: clientIp,
           apiName: req.originalUrl, // API name
           method: req.method,
           userAgent: req.headers['user-agent'], // HTTP method
         });
+        return res.status(400).json({
+          errorCode: 1107,
+          message: 'Missing required field: hospitalId'
+        });
       }
-    });
 
-    console.log("Charge Rate Map:++++++++++", chargeRateMap);
+      // Initialize where conditions
+      let whereConditions = { hospitalId };
 
-    // console.log(totalCharges)
+      // Filter based on hoursAgo or date range
+      if (hoursAgo) {
+        const currentTime = new Date();
+        const pastTime = new Date(currentTime.getTime() - hoursAgo * 60 * 60 * 1000);
+        whereConditions.createdAt = {
+          [Op.between]: [pastTime, currentTime]
+        };
+      } else if (startDate && endDate) {
+        const adjustedEndDate = new Date(endDate);
+        adjustedEndDate.setHours(23, 59, 59, 999);
+        whereConditions.createdAt = {
+          [Op.between]: [new Date(startDate), adjustedEndDate]
+        };
+      }
 
-    const end = Date.now();
-    const executionTime = `${end - start}ms`;
+      // Retrieve API call details for the given hospitalId
+      const apiCalls = await CountAPI.findAll({
+        where: whereConditions,
+        attributes: ['id', 'createdby', 'createdAt', 'userAgent', 'apiName'] // Include apiName to determine charge rate
+      });
 
+      console.log("apiCalls",apiCalls)
+      const apiCallCount = apiCalls?.length;
 
-    // Log the success
-    logger.logWithMeta("info", `Total charges calculated successfully for hospitalId: ${hospitalId}`, {
-      executionTime,
-      apiCallCount,
-      totalCharges,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'], // HTTP method
-    });
-    
-    console.log("apiCalls structure:", apiCalls);
+      if (apiCallCount === 0) {
+        const end = Date.now();
+        const executionTime = `${end - start}ms`;
+        const errorCode = 1108;
 
-    // Send success response with detailed information
-    
-    return res.status(200).json({
-      message: 'Total charges calculated successfully',
-      hospitalId,
-      apiCallCount,
-      totalCharges,
-      apiDetails: apiCalls.map(call => ({
+        // Log the warning
+        logger.logWithMeta("warn", `No API calls found for hospitalId: ${hospitalId}`, {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers['user-agent'], // HTTP method
+        });
+        return res.status(404).json({
+          errorCode: 1108,
+          message: 'No API calls found for the given hospitalId'
+        });
+      }
+
+      // Fetch unique apiNames from the API calls
+      const uniqueApiNames = [...new Set(apiCalls.map(call => call?.dataValues?.apiName))];
+      // const allApiNames = [...new Set(apiCalls.map(call => call?.dataValues?.apiName))];
+      
+
+      // console.log("apiCalls", apiCalls)
+      // console.log("allApiNames", uniqueApiNames)
+
+      // Retrieve charge rates for all API calls in one go
+      const chargesResult = await Charges.findAll({
+        where: {
+          apiName: { [Op.in]: uniqueApiNames },
+          hospitalId,
+        },
+        attributes: ['apiName', 'chargeRate']
+      });
+      
+      // Extract the `dataValues` from each result
+      const charges = chargesResult.map(charge => charge.dataValues);
+
+      console.log("charges",charges)
+      
+      // Create a dictionary of charge rates
+      const chargeRateMap = {};
+      charges.forEach(charge => {
+        chargeRateMap[charge.apiName] = parseFloat(charge.chargeRate); // Convert chargeRate to a float for calculation
+      });
+      // console.log("chargeRateMap+++++", chargeRateMap)
+
+      function calculateTotalCharge(chargeObject) {
+        let total = 0;
         
-        id: call.id,
-        createdBy: call.createdby,
-        createdAt: call.createdAt,
-        userAgent: call.userAgent,
-        apiName: apiCalls.apiName,
-        // chargeRate: chargeRateMap[call.apiName]
+        // Iterate over the object values and sum them
+        for (const key in chargeObject) {
+          if (chargeObject.hasOwnProperty(key)) {
+            total += chargeObject[key];
+          }
+        }
         
-      }))
-    });
+       return total;
+      }
 
-  } catch (error) {
-    const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 1110;
+      
+      
+      // Calculate total charges using the pre-fetched rates
+      // let totalCharges = 0;
+      let totalCharges = 0
+      apiCalls.forEach(call => {
+        const chargeRate = chargeRateMap[call?.dataValues?.apiName];
+        // console.log("chargeRate++++++",chargeRate)
+    
+        if (chargeRate) {
+          totalCharges += chargeRate;
+        } else {
+          logger.logWithMeta("warn", `Charge rate not found for apiName: ${call.apiName}`, {
+            hospitalId: req.hospitalId,
+            ip: clientIp,
+            apiName: req.originalUrl, // API name
+            method: req.method,
+            userAgent: req.headers['user-agent'], // HTTP method
+          });
+        }
+      });
 
-    // Log the error
-    logger.logWithMeta("error", `Error calculating total charges: ${error.message}`, {
-      errorCode,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'], // HTTP method
-    });
+      console.log("Charge Rate Map:++++++++++", chargeRateMap);
 
-    return res.status(500).json({
-      errorCode: 1110,
-      message: 'Internal server error',
-      details: error.message
-    });
-  }
-};
+      // console.log(totalCharges)
+
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+
+
+      // Log the success
+      logger.logWithMeta("info", `Total charges calculated successfully for hospitalId: ${hospitalId}`, {
+        executionTime,
+        apiCallCount,
+        totalCharges,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'], // HTTP method
+      });
+      
+      console.log("apiCalls structure:", apiCalls);
+
+      // Send success response with detailed information
+      
+      return res.status(200).json({
+        message: 'Total charges calculated successfully',
+        hospitalId,
+        apiCallCount,
+        totalCharges,
+        apiDetails: apiCalls.map(call => ({
+          
+          id: call.id,
+          createdBy: call.createdby,
+          createdAt: call.createdAt,
+          userAgent: call.userAgent,
+          apiName: apiCalls.apiName,
+          // chargeRate: chargeRateMap[call.apiName]
+          
+        }))
+      });
+
+    } catch (error) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1110;
+
+      // Log the error
+      logger.logWithMeta("error", `Error calculating total charges: ${error.message}`, {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers['user-agent'], // HTTP method
+      });
+
+      return res.status(500).json({
+        errorCode: 1110,
+        message: 'Internal server error',
+        details: error.message
+      });
+    }
+  };
 
 
 

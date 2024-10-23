@@ -213,11 +213,7 @@ exports.createPatientValidationRules = () => {
       .notEmpty().withMessage('Patient First Name is required')
       .isLength({ max: 255 }).withMessage('Patient First Name cannot exceed 255 characters')
       .matches(/^[a-zA-Z\s]+$/).withMessage('Patient First Name can only contain letters and spaces'),
-      body('PatientMiddleName')
-      .optional()
       
-      .isLength({ max: 255 }).withMessage('Patient Middle Name cannot exceed 255 characters')
-      .matches(/^[a-zA-Z\s]+$/).withMessage('Patient Middle Name can only contain letters and spaces'),
     body('PatientLastName')
       .notEmpty().withMessage('Patient Last Name is required')
       .isLength({ max: 255 }).withMessage('Patient Last Name cannot exceed 255 characters')
@@ -237,9 +233,7 @@ exports.createPatientValidationRules = () => {
     body('Phone')
       .notEmpty().withMessage('Phone is required')
       .matches(/^[0-9]{10}$/).withMessage('Phone must be a valid 10-digit number'),
-    body('WhatsappNumber')
-      .optional()
-      .matches(/^[0-9]{10}$/).withMessage('WhatsApp Number must be a valid 10-digit number'),
+   
     body('Email')
       .notEmpty().withMessage('Email is required')
       .isEmail().withMessage('Email must be a valid email address')
@@ -314,9 +308,9 @@ exports.updatePatientValidationRules = () => {
     body('DOB')
       .optional()
       .isDate().withMessage('Date of Birth must be a valid date'),
-    body('BloodGroup')
-      .optional()
-      .isIn(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).withMessage('Blood Group must be a valid type'),
+    // body('BloodGroup')
+    //   .optional()
+    //   .isIn(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).withMessage('Blood Group must be a valid type'),
     body('Gender')
       .optional()
       .isIn(['Male', 'Female', 'Other']).withMessage('Gender must be Male, Female, or Other'),
@@ -361,15 +355,15 @@ exports.updatePatientValidationRules = () => {
     body('Allergies')
       .optional()
       .isLength({ max: 5000 }).withMessage('Allergies cannot exceed 5000 characters'),
-    body('MaritalStatus')
-      .optional()
-      .isIn(['Single', 'Married', 'Divorced', 'Widowed']).withMessage('Marital Status must be Single, Married, Divorced, or Widowed'),
+    // body('MaritalStatus')
+    //   .optional()
+    //   .isIn(['Single', 'Married', 'Divorced', 'Widowed']).withMessage('Marital Status must be Single, Married, Divorced, or Widowed'),
     body('Occupation')
       .optional()
       .isLength({ max: 255 }).withMessage('Occupation cannot exceed 255 characters'),
-    body('Nationality')
-      .optional()
-      .isLength({ max: 255 }).withMessage('Nationality cannot exceed 255 characters'),
+    // body('Nationality')
+    //   .optional()
+    //   .isLength({ max: 255 }).withMessage('Nationality cannot exceed 255 characters'),
     body('Language')
       .optional()
       .isLength({ max: 255 }).withMessage('Language cannot exceed 255 characters'),
