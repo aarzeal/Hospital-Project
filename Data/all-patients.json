@@ -1,0 +1,290 @@
+{
+  "EMRNumber": {
+    "en": "EMR Number",
+    "hi": "ई एम आर नंबर"
+  },
+  "PatientFirstName": {
+    "en": "First Name",
+    "hi": "प्रथम नाम"
+  },
+  "PatientMiddleName": {
+    "en": "Middle Name",
+    "hi": "मध्य नाम"
+  },
+  "PatientLastName": {
+    "en": "Last Name",
+    "hi": "उपनाम"
+  },
+  "MobileNumber": {
+    "en": "Mobile Number",
+    "hi": "मोबाइल नंबर"
+  },
+  "Email": {
+    "en": "Email",
+    "hi": "ईमेल"
+  },
+  "DOB": {
+    "en": "Date Of Birth",
+    "hi": "जन्म तिथि"
+  },
+  "Age": {
+    "en": "Age",
+    "hi": "आयु"
+  },
+  "Gender": {
+    "en": "Gender",
+    "hi": "लिंग"
+  },
+  "Address": {
+    "en": "Address",
+    "hi": "पता"
+  },
+  "BloodGroup": {
+    "en": "Blood Group",
+    "hi": "रक्त वर्ग"
+  },
+  "Allergies": {
+    "en": "Allergies",
+    "hi": "एलर्जी"
+  },
+  "MedicalHistory": {
+    "en": "Medical History",
+    "hi": "चिकित्सा का इतिहास"
+  },
+  "Medications": {
+    "en": "Medications",
+    "hi": "दवाएं"
+  },
+  "MaritalStatus": {
+    "en": "Marital Status",
+    "hi": "वैवाहिक स्थिति"
+  },
+  "Nationality": {
+    "en": "Nationality",
+    "hi": "राष्ट्रीयता"
+  },
+  "Occupation": {
+    "en": "Occupation",
+    "hi": "पेशा"
+  },
+  "EmergencyContactName": {
+    "en": "Emergency Contact Name",
+    "hi": "आपातकालीन संपर्क नाम"
+  },
+  "EmergencyContactPhone": {
+    "en": "Emergency Contact Phone",
+    "hi": "आपातकालीन संपर्क फ़ोन"
+  },
+  "WhatsappNumber": {
+    "en": "Whatsapp Number",
+    "hi": "व्हाट्सएप नंबर"
+  },
+  "InsurancePolicyNumber": {
+    "en": "Insurance Policy Number",
+    "hi": "बीमा पॉलिसी नंबर"
+  },
+  "InsuranceProvider": {
+    "en": "Insurance Provider",
+    "hi": "बीमा प्रदाता"
+  },
+  "AcceptedPolicy": {
+    "en": "Accepted Policy",
+    "hi": "स्वीकृत नीति"
+  },
+  "IsCommunicationAllowed": {
+    "en": "Communication Allowed?",
+    "hi": "क्या संचार की अनुमति है?"
+  },
+  "NotProvided": {
+    "en": "Not Provided",
+    "hi": "उपलब्ध नहीं कराया"
+  },
+  "Accepted": {
+    "en": "Accepted ",
+    "hi": "स्वीकार किया गया"
+  },
+  "Notaccepted": {
+    "en": "Not accepted ",
+    "hi": "स्वीकार नहीं किया गया"
+  },
+  "YES": {
+    "en": "YES ",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO ",
+    "hi": "नहीं"
+  },
+  "Details": {
+    "en": "Details",
+    "hi": "विवरण"
+  },
+  "ViewDetails": {
+    "en": "View Details",
+    "hi": "विवरण देखें"
+  },
+  "ViewIDCard": {
+    "en": "View ID Card",
+    "hi": "आईडी कार्ड देखें"
+  },
+  "Select": {
+    "en": "Select",
+    "hi": "चुनना"
+  },
+  "NAME": {
+    "en": "Name",
+    "hi": "नाम"
+  },
+  "Language": {
+    "en": "Language",
+    "hi": "भाषा"
+  },
+  "RegisteredOn": {
+    "en": "Registered on",
+    "hi": "पंजीकरण"
+  },
+  "UpdatedOn": {
+    "en": "Updated on",
+    "hi": "अद्यतन"
+  },
+  "CreatedBy": {
+    "en": "Created by",
+    "hi": "के द्वारा बनाई गई"
+  },
+  "ProfileImage": {
+    "en": "Profile Image",
+    "hi": "प्रोफ़ाइल छवि"
+  },
+  "SearchbyFirstNameLastNameIDEMRNo": {
+    "en": "Search by First Name, Last Name, ID & EMR No.",
+    "hi": "प्रथम नाम, अंतिम नाम, आईडी और ईएमआर नंबर के आधार पर खोजें।"
+  },
+  "Actions": {
+    "en": "Actions",
+    "hi": "काम"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "DoyoureallywanttodeletethisPatient": {
+    "en": "Do you really want to delete this Patient?",
+    "hi": "क्या आप सचमुच इस रोगी को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
+  },
+  "Nocancel": {
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
+  },
+  "Deleted": {
+    "en": "Deleted",
+    "hi": "हटाए गए"
+  },
+  "ThePatienthasbeendeleted": {
+    "en": "The Patient has been deleted",
+    "hi": "मरीज को हटा दिया गया है"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "AllPatients": {
+    "en": "All Patients",
+    "hi": "सभी मरीज"
+  },
+  "IDCard": {
+    "en": "ID Card",
+    "hi": "आईडी कार्ड"
+  },
+  "Download": {
+    "en": "Download",
+    "hi": "डाउनलोड करना"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Barcode": {
+    "en": "Barcode",
+    "hi": "बारकोड"
+  },
+  "ViewProfile": {
+    "en": "View Profile",
+    "hi": "प्रोफ़ाइल देखें"
+  },
+  "Patients": {
+    "en": "Patients",
+    "hi": "मरीज"
+  },
+  "UpdateProfile": {
+    "en": "Update Profile ",
+    "hi": "प्रोफ़ाइल अपडेट करें"
+  },
+  "ErrorfetchingCity": {
+    "en": "Error fetching City ",
+    "hi": "शहर लाने में त्रुटि"
+  },
+  "ErrorfetchingState": {
+    "en": "Error fetching State ",
+    "hi": "राज्य लाने में त्रुटि"
+  },
+  "ErrorfetchingCountry": {
+    "en": "Error fetching Country",
+    "hi": "देश लाने में त्रुटि"
+  },
+  "MRNumber": {
+    "en": "MR Number",
+    "hi": "एमआर नंबर"
+  },
+  "WhatsAppNo": {
+    "en": "WhatsApp No.",
+    "hi": "व्हाट्सएप नंबर"
+  },
+  "PatientReport": {
+    "en": "Patient Report",
+    "hi": "रोगी रिपोर्ट"
+  },
+  "StartDate": {
+    "en": "Start Date",
+    "hi": "शुरू तारीख"
+  },
+  "EndDate": {
+    "en": "End Date",
+    "hi": "अंत तारीख"
+  },
+  "SearchPatientHere": {
+    "en": "Search Patient Here",
+    "hi": "यहां मरीज खोजें"
+  },
+  "ViewBracode": {
+    "en": "View Bracode",
+    "hi": "बारकोड देखें"
+  },
+  "country": {
+    "en": "Country",
+    "hi": "देश"
+  },
+  "state": {
+    "en": "State",
+    "hi": "राज्य"
+  },
+  "City": {
+    "en": "City",
+    "hi": "शहर"
+  }
+}

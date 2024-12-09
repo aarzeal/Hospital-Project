@@ -473,7 +473,8 @@
 // controllers/userController.js
 const { Sequelize } = require('sequelize');
 const createUserMasterModel = require('../models/userMaster');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();

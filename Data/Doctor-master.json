@@ -1,0 +1,306 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "DatemustbeforeJanuary11900": {
+    "en": "Date must before January 1 1900",
+    "hi": "दिनांक 1 जनवरी 1900 से पहले का होना चाहिए"
+  },
+  "Datecannotbeinfuture": {
+    "en": "Date cannot be in future",
+    "hi": "दिनांक भविष्य में नहीं हो सकता"
+  },
+  "DoctorRegisterationForm": {
+    "en": "Doctor Registeration Form",
+    "hi": "डॉक्टर पंजीकरण प्रपत्र"
+  },
+  "EnterFirstName": {
+    "en": "Enter First Name",
+    "hi": "प्रथम नाम दर्ज करें"
+  },
+  "FirstName": {
+    "en": "First Name",
+    "hi": "पहला नाम"
+  },
+  "MiddleName": {
+    "en": "Middle Name",
+    "hi": "मध्य नाम"
+  },
+  "EnterMiddleName": {
+    "en": "Enter Middle Name",
+    "hi": "मध्य नाम दर्ज करें"
+  },
+  "LastName": {
+    "en": "Last Name",
+    "hi": "उपनाम"
+  },
+  "EnterLastName": {
+    "en": "Enter Last Name",
+    "hi": "उपनाम दर्ज करो"
+  },
+  "Qualification": {
+    "en": "Qualification",
+    "hi": "योग्यता"
+  },
+  "Specialization": {
+    "en": "Specialization",
+    "hi": "विशेषज्ञता"
+  },
+  "Email": {
+    "en": "Email",
+    "hi": "ईमेल"
+  },
+  "EnterEmail": {
+    "en": "Enter Email",
+    "hi": "ईमेल दर्ज करें"
+  },
+  "Address": {
+    "en": "Address",
+    "hi": "पता"
+  },
+  "MobileNo": {
+    "en": "Mobile No.",
+    "hi": "मोबाइल नंबर"
+  },
+  "EnterMobileNumber": {
+    "en": "Enter Mobile Number",
+    "hi": "मोबाइल नंबर दर्ज करें"
+  },
+  "WhatsAppNo": {
+    "en": "WhatsApp No.",
+    "hi": "व्हाट्सएप नंबर"
+  },
+  "DateofBirth": {
+    "en": "Date of Birth",
+    "hi": "जन्म तिथि"
+  },
+  "Gender": {
+    "en": "Gender",
+    "hi": "लिंग"
+  },
+  "LicenseNumber": {
+    "en": "License Number",
+    "hi": "लाइसेंस नंबर"
+  },
+  "Experience": {
+    "en": "Experience",
+    "hi": "अनुभव"
+  },
+  "EnterExperienceinYears": {
+    "en": "Enter Experience in Years",
+    "hi": "अनुभव को वर्षों में दर्ज करें"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "RequireOnlyLetters": {
+    "en": "Require Only Letters",
+    "hi": "केवल पत्रों की आवश्यकता है"
+  },
+  "RequireOnlyNumbers": {
+    "en": "Require Only Numbers",
+    "hi": "केवल नंबरों की आवश्यकता है"
+  },
+  "InvalidEmailAddress": {
+    "en": "Invalid Email Address",
+    "hi": "अमान्य ईमेल पता"
+  },
+  "MaxTwoDigits": {
+    "en": "Maximum 2 digits",
+    "hi": "अधिकतम 2 अंक"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "DoctorUpdatedSuccessfully": {
+    "en": "Doctor Updated Successfully",
+    "hi": "डॉक्टर सफलतापूर्वक अद्यतन किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "DoctorAddedSuccessfully": {
+    "en": "Doctor Added Successfully",
+    "hi": "डॉक्टर सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "DoctorUpdation": {
+    "en": "Doctor Updation",
+    "hi": "डॉक्टर अपडेशन"
+  },
+  "EnterEmailID": {
+    "en": "Enter Email ID",
+    "hi": "ईमेल आईडी दर्ज करें"
+  },
+  "EnterAddress": {
+    "en": "Enter Address",
+    "hi": "पता दर्ज करें"
+  },
+  "EnterWhatsAppNo": {
+    "en": "Enter WhatsApp No.",
+    "hi": "व्हाट्सएप नंबर दर्ज करें"
+  },
+  "EnterLicenseNumber": {
+    "en": "Enter License No.",
+    "hi": "लाइसेंस नंबर दर्ज करें"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "DoyoureallywanttodeletethisDoctor": {
+    "en": "Do you really want to delete this Doctor?",
+    "hi": "क्या आप सचमुच इस डॉक्टर को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
+  },
+  "Nocancel": {
+   "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
+  },
+  "Deleted": {
+    "en": "Deleted",
+    "hi": "हटाए गए"
+  },
+  "TheDoctorhasbeendeleted": {
+    "en": "The Doctor has been deleted",
+    "hi": "डॉक्टर को हटा दिया गया है"
+  },
+  "MobileNumber": {
+    "en": "Mobile Number",
+    "hi": "मोबाइल नंबर"
+  },
+  "Actions": {
+    "en": "Actions",
+    "hi": "काम"
+  },
+  "ViewDetails": {
+    "en": "View Details",
+    "hi": "विवरण देखें"
+  },
+  "DeleteDoctor": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "AllDoctors": {
+    "en": "All Doctors",
+    "hi": "सभी डॉक्टर"
+  },
+  "Searchbydoctorname": {
+    "en": "Search by doctor name",
+    "hi": "डॉक्टर के नाम से खोजें"
+  },
+  "Download": {
+    "en": "Download",
+    "hi": "डाउनलोड करना"
+  },
+  "Name": {
+    "en": "Name",
+    "hi": "नाम"
+  },
+  "Age": {
+    "en": "Age",
+    "hi": "आयु"
+  },
+  "EmailID": {
+    "en": "Email ID",
+    "hi": "ईमेल आईडी"
+  },
+  "WhatsAppNumber": {
+    "en": "WhatsApp Number",
+    "hi": "ईमेल आईडी"
+  },
+  "IsActive": {
+    "en": "Is Active?",
+    "hi": "सक्रिय है?"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "Inactive": {
+    "en": "Inactive",
+    "hi": "निष्क्रिय"
+  },
+  "CreatedBy": {
+    "en": "Created By",
+    "hi": "द्वारा बनाई गई"
+  },
+  "UpdateProfile": {
+    "en": "Update Profile",
+    "hi": "प्रोफ़ाइल अपडेट करें"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "View": {
+    "en": "View",
+    "hi": "देखना"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Doctors": {
+    "en": "Doctors",
+    "hi": "डॉक्टरों"
+  },
+  "DoctorDetails": {
+    "en": "Doctor Details",
+    "hi": "डॉक्टर विवरण"
+  },
+  "NotGreaterThan99": {
+    "en": "Not Greater Than 99",
+    "hi": "99 से अधिक नहीं"
+  },
+  "CreatedAt": {
+    "en": "Created At",
+    "hi": "पंजीकृत"
+  },
+  "DoctorsReport": {
+    "en": "Doctors Report",
+    "hi": "डॉक्टरों की रिपोर्ट"
+  },
+  "Value": {
+    "en": "Value",
+    "hi": "कीमत"
+  },
+  "ExportinExcel": {
+    "en": "Export in Excel",
+    "hi": "एक्सेल में निर्यात करें"
+  },
+  "ExportinPDF": {
+    "en": "Export in PDF",
+    "hi": "पीडीएफ में निर्यात करें"
+  },
+  "EndDate": {
+    "en": "End Date",
+    "hi": "अंतिम तिथि"
+  },
+  "StartDate": {
+    "en": "Start Date",
+    "hi": "आरंभ तिथि"
+  }
+}

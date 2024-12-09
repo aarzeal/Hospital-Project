@@ -1,0 +1,214 @@
+{
+  "StaffRegistration": {
+    "en": "Staff Registration",
+    "hi": "स्टाफ पंजीकरण"
+  },
+  "Firstname": {
+    "en": "First name",
+    "hi": "पहला नाम"
+  },
+  "Lastname": {
+    "en": "Last name",
+    "hi": "उपनाम"
+  },
+  "EnterFirstName": {
+    "en": "Enter First Name",
+    "hi": "पहला नाम दर्ज करें"
+  },
+  "EnterLastName": {
+    "en": "Enter Last Name",
+    "hi": "उपनाम दर्ज करें"
+  },
+  "Gender": {
+    "en": "Gender",
+    "hi": "लिंग"
+  },
+  "DateofBirth": {
+    "en": "Date of Birth",
+    "hi": "जन्मतिथि"
+  },
+  "BloodGroup": {
+    "en": "Blood Group",
+    "hi": "ब्लड ग्रुप"
+  },
+  "Age": {
+    "en": "Age",
+    "hi": "आयु"
+  },
+  "YY": {
+    "en": "YY",
+    "hi": "वर्ष"
+  },
+  "MM": {
+    "en": "MM",
+    "hi": "महीना"
+  },
+  "DD": {
+    "en": "DD",
+    "hi": "दिन"
+  },
+  "MobileNumber": {
+    "en": "Mobile Number",
+    "hi": "मोबाइल नंबर"
+  },
+  "EnterMobileNumber": {
+    "en": "Enter Mobile Number",
+    "hi": "मोबाइल नंबर दर्ज करें"
+  },
+  "Email": {
+    "en": "Email",
+    "hi": "ईमेल"
+  },
+  "EnterWhatsappNumber": {
+    "en": "Enter WhatsApp Number",
+    "hi": "व्हाट्सएप नंबर दर्ज करें"
+  },
+  "EnterEmail": {
+    "en": "Enter Email",
+    "hi": "ईमेल"
+  },
+  "WhatsAppNumber": {
+    "en": "WhatsApp Number",
+    "hi": "व्हाट्सएप नंबर"
+  },
+  "EmergencyContactPerson": {
+    "en": "Emergency Contact Person",
+    "hi": "आपातकालीन संपर्क सूत्र"
+  },
+  "EnterEmergencyContactName": {
+    "en": "Enetr Emergency Contact Person Name",
+    "hi": "आपातकालीन संपर्क व्यक्ति का नाम दर्ज करें"
+  },
+  "Emergency Contact Number": {
+    "en": "Emergency Contact Number",
+    "hi": "आपातकालीन संपर्क नंबर"
+  },
+  "EmergencyContactNumber": {
+    "en": "Emergency Contact Number",
+    "hi": "आपातकालीन संपर्क नंबर"
+  },
+  "EnterEmergencyContactPhone": {
+    "en": "Enter Emergency Contact Person's Number",
+    "hi": "आपातकालीन संपर्क व्यक्ति का नंबर दर्ज करें"
+  },
+  "MaritalStatus": {
+    "en": "Marital Status",
+    "hi": "वैवाहिक स्थिति"
+  },
+  "Address": {
+    "en": "Address",
+    "hi": "पता"
+  },
+  "EnterAddress": {
+    "en": "Enter Address",
+    "hi": "पता दर्ज करें"
+  },
+  "Nationality": {
+    "en": "Nationality",
+    "hi": "राष्ट्रीयता"
+  },
+  "Qualification": {
+    "en": "Qualification",
+    "hi": "योग्यता"
+  },
+  "Specialization": {
+    "en": "Specialization",
+    "hi": "विशेषज्ञता"
+  },
+  "Language": {
+    "en": "Language",
+    "hi": "भाषा"
+  },
+  "Enter Language": {
+    "en": "Enter Language",
+    "hi": "भाषा दर्ज करें"
+  },
+  "EnterLanguage": {
+    "en": "Enter Language",
+    "hi": "भाषा दर्ज करें"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "RequiredOnlyLetters": {
+    "en": "Required Only Letters",
+    "hi": "केवल पत्रों की आवश्यकता है"
+  },
+  "InvalidEmail": {
+    "en": "Invalid Email",
+    "hi": "अमान्य ईमेल"
+  },
+  "DatemustbeafterJan11900": {
+    "en": "Date must be after Jan 1 1900",
+    "hi": "दिनांक 1 जनवरी 1900 के बाद की होनी चाहिए"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "StaffAddedSuccessfully": {
+    "en": "Staff Added Successfully",
+    "hi": "स्टाफ़ सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Experience": {
+    "en": "Experience",
+    "hi": "अनुभव"
+  },
+  "EnterExperienceInYears": {
+    "en": "Enter Experience In Years",
+    "hi": "वर्षों में अनुभव दर्ज करें"
+  },
+  "Requiredonlynumbers": {
+    "en": "Required only numbers",
+    "hi": "केवल संख्याएँ आवश्यक हैं"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "StaffUpdatedSuccessfully": {
+    "en": "Staff Updated Successfully",
+    "hi": "स्टाफ़ सफलतापूर्वक अपडेट किया गया"
+  },
+  "StaffUpdation": {
+    "en": "Staff Updation",
+    "hi": "स्टाफ अद्यतनीकरण"
+  },
+  "EnterEmailID": {
+    "en": "Enter Email ID",
+    "hi": "ईमेल आईडी दर्ज करें"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "MiddleName": {
+    "en": "Middle Name",
+    "hi": "मध्य नाम"
+  },
+  "EnterMiddleName": {
+    "en": "Enter Middle Name",
+    "hi": "मध्य नाम दर्ज करें"
+  }
+}

@@ -345,7 +345,7 @@ exports.getAllStaff = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Fetched staff  successfully`, {
 
-
+      statusCode:200,
       executionTime,
       hospitalId: req.hospitalId,
       
@@ -372,7 +372,7 @@ exports.getAllStaff = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error fetching staff list`, {
       errorCode,
-
+      statusCode: 500,
       executionTime,
       hospitalId: req.hospitalId,
 
@@ -460,6 +460,7 @@ exports.getStaffById = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Staff with ID ${id} not found`, {
         errorCode,
+        statusCode: 404,
   
         executionTime,
         hospitalId: req.hospitalId,
@@ -482,7 +483,7 @@ exports.getStaffById = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Fetched staff with ID ${id} successfully`, {
 
-
+      statusCode: 200 ,
       executionTime,
       hospitalId: req.hospitalId,
       
@@ -505,7 +506,7 @@ exports.getStaffById = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error fetching staff with ID ${id}`, {
       errorCode,
-
+      statusCode: 500, 
       executionTime,
       hospitalId: req.hospitalId,
 
@@ -646,26 +647,23 @@ exports.createStaff = async (req, res) => {
   const start = Date.now();
   const errors = validationResult(req);
   const clientIp = await getClientIp(req);
-  
+
   if (!errors.isEmpty()) {
-    
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1011;
 
-    // Log the warning
     logger.logWithMeta("warn", `Validation errors occurred`, {
       errorCode,
-
+      statusCode: 400,
       executionTime,
       hospitalId: req.hospitalId,
-
       ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method   ,  
-      userAgent: req.headers['user-agent'],    // HTTP method
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers['user-agent'],
     });
-    // logger.info('Validation errors occurred', errors);
+    
     return res.status(400).json({
       meta: {
         statusCode: 400,
@@ -700,24 +698,23 @@ exports.createStaff = async (req, res) => {
     const Specialty = require('../models/skillMaster')(req.sequelize);
 
     // Check if email already exists
-    const existingStaff = await StaffMaster.findOne({ where: { Email } });
-    if (existingStaff) {
+    const existingStaffEmail = await StaffMaster.findOne({ where: { Email } });
+    if (existingStaffEmail) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1012;
-  
-      // Log the warning
-      logger.logWithMeta("warn", `email already exists`, {
+
+      logger.logWithMeta("warn", `Email already exists`, {
         errorCode,
-  
+        statusCode: 400,
         executionTime,
         hospitalId: req.hospitalId,
-  
         ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method   ,  
-        userAgent: req.headers['user-agent'],    // HTTP method
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers['user-agent'],
       });
+      
       return res.status(400).json({
         meta: {
           statusCode: 400,
@@ -730,26 +727,54 @@ exports.createStaff = async (req, res) => {
       });
     }
 
+    // Check if mobile number already exists
+    const existingStaffMobile = await StaffMaster.findOne({ where: { MobileNumber } });
+    if (existingStaffMobile) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1016;
+
+      logger.logWithMeta("warn", `Mobile number already exists`, {
+        errorCode,
+        statusCode: 400,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers['user-agent'],
+      });
+      
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode,
+          executionTime: `${end - start}ms`
+        },
+        error: {
+          message: 'Mobile number is already registered'
+        }
+      });
+    }
+
     // Validate Specialization (FK)
     const specializationExists = await Specialty.findByPk(Specialization);
     if (!specializationExists) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1013;
-  
-      // Log the warning
+
       logger.logWithMeta("warn", `Invalid specialization ID`, {
         errorCode,
-  
+        statusCode: 400,
         executionTime,
         hospitalId: req.hospitalId,
-  
         ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method   ,  
-        userAgent: req.headers['user-agent'],    // HTTP method
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers['user-agent'],
       });
-    
+
       return res.status(400).json({
         meta: {
           statusCode: 400,
@@ -764,32 +789,28 @@ exports.createStaff = async (req, res) => {
 
     // Create new staff
     const newStaff = await StaffMaster.create({
-      FirstName, MiddleName, LastName, Email, Address, Age, DOB, BloodGroup: parsedBloodGroup, Gender:parsedGender,
-      EmergencyContactName, EmergencyContactPhone, MaritalStatus :parsedMaritalStatus, Nationality : parsedNationality, Language,
+      FirstName, MiddleName, LastName, Email, Address, Age, DOB, BloodGroup: parsedBloodGroup, Gender: parsedGender,
+      EmergencyContactName, EmergencyContactPhone, MaritalStatus: parsedMaritalStatus, Nationality: parsedNationality, Language,
       MobileNumber, Qualification, Experience, Specialization, WhatsAppNumber,
       HospitalIDR, IsActive: true, CreatedBy, Reserve1, Reserve2, Reserve3, Reserve4
     });
 
-    // logger.info('Created new staff successfully');
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-   
 
-    // Log the warning
-    logger.logWithMeta("warn", `Created new staff successfully`, {
-
-
+    logger.logWithMeta("info", `Created new staff successfully`, {
+      statusCode: 200,
       executionTime,
       hospitalId: req.hospitalId,
-      FirstName:FirstName,
-
+      FirstName,
       ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method   ,  
-      userAgent: req.headers['user-agent'],    // HTTP method
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers['user-agent'],
     });
+
     res.status(200).json({
-      meta: { statusCode: 200, executionTime: `${end - start}ms` },
+      meta: { statusCode: 200, executionTime },
       data: newStaff
     });
 
@@ -797,25 +818,22 @@ exports.createStaff = async (req, res) => {
     const end = Date.now();
 
     if (error.name === 'SequelizeValidationError') {
-      // logger.error('Validation error creating staff:', error.errors);
-      const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1014;
-  
-      // Log the warning
+
       logger.logWithMeta("warn", `Validation error creating staff`, {
         errorCode,
-  
+        statusCode: 400,
         executionTime,
         hospitalId: req.hospitalId,
-  
         ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method   ,  
-        userAgent: req.headers['user-agent'],    // HTTP method
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers['user-agent'],
       });
+
       res.status(400).json({
-        meta: { statusCode: 400, errorCode, executionTime: `${end - start}ms` },
+        meta: { statusCode: 400, errorCode, executionTime },
         error: {
           message: 'Validation errors occurred',
           details: error.errors.map(err => ({
@@ -825,25 +843,22 @@ exports.createStaff = async (req, res) => {
         }
       });
     } else {
-      // logger.error(`Error creating staff: ${error.message}`);
-      const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1015;
-  
-      // Log the warning
+
       logger.logWithMeta("warn", `Error creating staff`, {
         errorCode,
-  
+        statusCode: 500,
         executionTime,
         hospitalId: req.hospitalId,
-  
         ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method   ,  
-        userAgent: req.headers['user-agent'],    // HTTP method
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers['user-agent'],
       });
+
       res.status(500).json({
-        meta: { statusCode: 500, errorCode: 1015, executionTime: `${end - start}ms` },
+        meta: { statusCode: 500, errorCode, executionTime },
         error: { message: 'Failed to create staff due to a server error. Please try again later.' }
       });
     }
@@ -873,7 +888,7 @@ exports.updateStaff = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Staff with ID ${id} not found`, {
         errorCode,
-  
+        statusCode: 404,
         executionTime,
         hospitalId: req.hospitalId,
   
@@ -924,7 +939,7 @@ exports.updateStaff = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Updated staff with ID ${id} successfully`, {
 
-
+      statusCode: 200, 
       executionTime,
       hospitalId: req.hospitalId,
 
@@ -947,7 +962,7 @@ exports.updateStaff = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error updating staff with ID ${id}:`, {
       errorCode,
-
+      statusCode: 500,
       executionTime,
       hospitalId: req.hospitalId,
 
@@ -983,7 +998,7 @@ exports.deleteStaff = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Staff with ID ${id} not found`, {
       errorCode,
-
+      statusCode: 404, 
       executionTime,
       hospitalId: req.hospitalId,
 
@@ -1006,7 +1021,7 @@ exports.deleteStaff = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Deleted staff with ID ${id} successfully`, {
 
-
+      statusCode: 200 , 
       executionTime,
       hospitalId: req.hospitalId,
 
@@ -1030,7 +1045,7 @@ exports.deleteStaff = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error deleting staff with ID ${id}:`, {
       errorCode,
-
+      statusCode: 500, 
       executionTime,
       hospitalId: req.hospitalId,
 
@@ -1067,7 +1082,7 @@ exports.getStaffByHospitalIDR = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `No staff found for HospitalIDR ${hospitalId}`, {
         errorCode,
-  
+        statusCode: 404,
         executionTime,
         hospitalId: req.hospitalId,
   
@@ -1088,7 +1103,7 @@ exports.getStaffByHospitalIDR = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Fetched staff for HospitalIDR ${hospitalId} successfully`, {
 
-
+      statusCode: 200,
       executionTime,
       hospitalId: req.hospitalId,
 
@@ -1112,7 +1127,7 @@ exports.getStaffByHospitalIDR = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error fetching staff for HospitalIDR ${hospitalId}:`, {
       errorCode,
-
+      statusCode: 500, 
       executionTime,
       hospitalId: req.hospitalId,
 
@@ -1156,6 +1171,7 @@ exports.getPaginatedStaff = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `No staff found for the given page and page size:`, {
         errorCode,
+        statusCode: 404,
   
         executionTime,
         hospitalId: req.hospitalId,
@@ -1178,7 +1194,7 @@ exports.getPaginatedStaff = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Fetched staff for page ${page} with pageSize ${pageSize} successfully`, {
 
-
+      statusCode: 200 ,
       executionTime,
       hospitalId: req.hospitalId,
 
@@ -1210,6 +1226,7 @@ exports.getPaginatedStaff = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error fetching staff for page ${page} with pageSize ${pageSize}::`, {
       errorCode,
+      statusCode: 500,
 
       executionTime,
       hospitalId: req.hospitalId,

@@ -38,6 +38,7 @@ exports.getAllDepartments = async (req, res) => {
     logger.logWithMeta("warn", `Fetched all departments successfully`, {
       executionTime,
       hospitalId: req.hospitalId,
+      statusCode:200,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
@@ -55,10 +56,11 @@ exports.getAllDepartments = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1025;
-
+    const statusCode = 500;
     // Log the warning
     logger.logWithMeta("warn", `Error fetching departments ${error.message}`, {
       errorCode,
+      statusCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
@@ -95,10 +97,12 @@ exports.getDepartmentById = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1026;
+      const statusCode = 404;
 
       // Log the warning (No need to use error.message here as there's no error object)
       logger.logWithMeta("warn", `Department with ID ${id} not found`, {
         errorCode,
+        statusCode,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
@@ -118,6 +122,7 @@ exports.getDepartmentById = async (req, res) => {
     const executionTime = `${end - start}ms`;
     logger.logWithMeta("info", `Fetched department with ID ${id} successfully`, {
       executionTime,
+      statusCode:200,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl,
@@ -133,10 +138,12 @@ exports.getDepartmentById = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1027;
+    const statusCode = 500;
 
     // Log the error
     logger.logWithMeta("error", `Error fetching department with ID ${id}: ${error.message}`, {
       errorCode,
+      statusCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
@@ -168,6 +175,7 @@ exports.createDepartment = async (req, res) => {
     const newDepartment = await Department.create({
       DepartmentName,
       DeptCode,
+      statusCode :200,
       IsClinical,
       IsActive: true,
       CreatedBy,
@@ -200,6 +208,7 @@ exports.createDepartment = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1028;
+    const statusCode = 500;
 
     // Log the warning
     logger.logWithMeta("warn", `Error creating department: ${error.message}`, {
@@ -207,7 +216,7 @@ exports.createDepartment = async (req, res) => {
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
@@ -238,10 +247,12 @@ exports.updateDepartment = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1029;
+      const statusCode = 404;
 
       // Log the warning
       logger.logWithMeta("warn", `Department with ID ${id} not found ${error.message}`, {
         errorCode,
+        statusCode,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
@@ -277,7 +288,7 @@ exports.updateDepartment = async (req, res) => {
 
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode:200,
 
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -292,10 +303,12 @@ exports.updateDepartment = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1030;
+    const statusCode = 500;
 
     // Log the warning
     logger.logWithMeta("warn", `Error updating department with ID ${id}: ${error.message}`, {
       errorCode,
+      statusCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
@@ -330,6 +343,7 @@ exports.deleteDepartment = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1031;
+      const statusCode = 404;
 
       // Log the warning
       logger.logWithMeta("warn", `Department with ID ${id} not found,errorCode:${error.message}`, {
@@ -337,7 +351,7 @@ exports.deleteDepartment = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-
+        statusCode,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
@@ -362,7 +376,7 @@ exports.deleteDepartment = async (req, res) => {
 
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode:200,
 
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -378,13 +392,14 @@ exports.deleteDepartment = async (req, res) => {
     const executionTime = `${end - start}ms`;
     const errorCode = 1032;
 
+    const statusCode = 500;
     // Log the warning
     logger.logWithMeta("warn", `Error deleting department with ID ${id}: ${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
@@ -419,7 +434,7 @@ exports.getDepartmentsByHospitalId = async (req, res) => {
 
     // Log the warning
     logger.logWithMeta("warn", `Fetched departments for Hospital ID ${hospitalId} successfully`, {
-
+      statusCode:200,
 
       executionTime,
       hospitalId: req.hospitalId,
@@ -438,6 +453,7 @@ exports.getDepartmentsByHospitalId = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1033;
+    const statusCode = 500;
 
     // Log the warning
     logger.logWithMeta("warn", `Error fetching departments for Hospital ID ${hospitalId}: ${error.message}`, {
@@ -445,7 +461,7 @@ exports.getDepartmentsByHospitalId = async (req, res) => {
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
@@ -488,7 +504,7 @@ exports.getDepartmentsWithPagination = async (req, res) => {
 
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode,
 
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -508,11 +524,13 @@ exports.getDepartmentsWithPagination = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1034;
+    const statusCode = 500;
 
     // Log the warning
     logger.logWithMeta("warn", `Error fetching departments:
        ${error.message}`, {
       errorCode,
+      statusCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,

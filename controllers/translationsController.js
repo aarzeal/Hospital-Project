@@ -25,35 +25,131 @@ async function getClientIp(req) {
 }
 
 // GET API to retrieve labels by language
-const getLabelsByLanguage = async (req, res) => {
-  const clientIp = await getClientIp(req);// Get the HospitalIDR from the decoded token
-    const start = Date.now();
+// const getLabelsByLanguage = async (req, res) => {
+//   const clientIp = await getClientIp(req);// Get the HospitalIDR from the decoded token
+//     const start = Date.now();
   
+//   try {
+//     const { component, language } = req.params;
+//     const pathData = path.join(__dirname, `../Data/${component}.json`);
+
+//     // Check if the component file exists
+//     if (!fs.existsSync(pathData)) {
+
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 1090;
+  
+//       // Log the warning
+//       logger.logWithMeta("warn", `Component file not found${error.message}`, {
+//         errorCode,
+//         errorMessage: error.message,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+  
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method    ,
+//         userAgent: req.headers['user-agent'],     // HTTP method
+//       });
+
+//       return res.status(404).json({
+//         errorCode: 1090,
+//         message: "Component file not found",
+//       });
+//     }
+
+//     const rawData = fs.readFileSync(pathData);
+//     const labels = JSON.parse(rawData);
+
+//     const translations = {};
+
+//     for (const key in labels) {
+//       if (labels[key][language]) {
+//         translations[key] = labels[key][language];
+//       } else {
+//         translations[key] = labels[key]["en"];
+//       }
+//     }
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+  
+//     // Log the warning
+//     logger.logWithMeta("warn", `Translations fetched for component:`, {
+//       executionTime,
+//       component,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method   ,  
+//       userAgent: req.headers['user-agent'],    // HTTP method
+//     });
+   
+//     res.status(200).json(translations);
+//   } catch (error) {
+
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 1091;
+
+//     // Log the warning
+//     logger.logWithMeta("warn", `Error fetching translations ${error.message}`, {
+//       errorCode,
+//       errorMessage: error.message,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method    ,
+//       userAgent: req.headers['user-agent'],     // HTTP method
+//     });
+
+//     res.status(500).json({
+//       errorCode: 1091,
+//       message: "Error fetching translations",
+//       error: error.message,
+//     });
+//   }
+// };
+
+const getLabelsByLanguage = async (req, res) => {
+  const clientIp = getClientIp(req); // Get the client IP
+  const start = Date.now();
+
   try {
     const { component, language } = req.params;
+
+    // Check if component and language are provided
+    if (!component || !language) {
+      return res.status(400).json({
+        errorCode: 1092,
+        message: "Component and language parameters are required",
+      });
+    }
+
     const pathData = path.join(__dirname, `../Data/${component}.json`);
 
     // Check if the component file exists
     if (!fs.existsSync(pathData)) {
-
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1090;
-  
+
       // Log the warning
-      logger.logWithMeta("warn", `Component file not found${error.message}`, {
+      logger.logWithMeta("warn", `Component file not found`, {
         errorCode,
-        errorMessage: error.message,
+        statusCode:404,
         executionTime,
         hospitalId: req.hospitalId,
-  
         ip: clientIp,
         apiName: req.originalUrl, // API name
-        method: req.method    ,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        method: req.method,
+        userAgent: req.headers['user-agent'], // HTTP method
       });
 
       return res.status(404).json({
+        statusCode:404,
         errorCode: 1090,
         message: "Component file not found",
       });
@@ -63,49 +159,46 @@ const getLabelsByLanguage = async (req, res) => {
     const labels = JSON.parse(rawData);
 
     const translations = {};
-
+    
+    // Populate translations with the requested language or fallback to English
     for (const key in labels) {
-      if (labels[key][language]) {
-        translations[key] = labels[key][language];
-      } else {
-        translations[key] = labels[key]["en"];
-      }
+      translations[key] = labels[key][language] || labels[key]["en"];
     }
+
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-  
-    // Log the warning
-    logger.logWithMeta("warn", `Translations fetched for component:`, {
+
+    // Log successful fetch
+    logger.logWithMeta("info", `Translations fetched for component: ${component}`, {
       executionTime,
+      statusCode:200,
       component,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
-      method: req.method   ,  
-      userAgent: req.headers['user-agent'],    // HTTP method
+      method: req.method,
+      userAgent: req.headers['user-agent'], // HTTP method
     });
-   
-    res.status(200).json(translations);
-  } catch (error) {
 
+    return res.status(200).json(translations);
+  } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1091;
 
-    // Log the warning
-    logger.logWithMeta("warn", `Error fetching translations ${error.message}`, {
+    // Log the error
+    logger.logWithMeta("warn", `Error fetching translations: ${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
-
       ip: clientIp,
       apiName: req.originalUrl, // API name
-      method: req.method    ,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      method: req.method,
+      userAgent: req.headers['user-agent'], // HTTP method
     });
 
-    res.status(500).json({
+    return res.status(500).json({
       errorCode: 1091,
       message: "Error fetching translations",
       error: error.message,
@@ -131,6 +224,7 @@ const createOrUpdateComponent = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Invalid data format for component:${component} ${error.message}`, {
         errorCode,
+        statusCode:400,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
@@ -143,6 +237,7 @@ const createOrUpdateComponent = async (req, res) => {
     
       return res.status(400).json({
         errorCode: 1092,
+        statusCode:400,
         message: "Invalid data format. Expected a JSON object.",
       });
     }
@@ -165,6 +260,7 @@ const createOrUpdateComponent = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Component data updated successfully`, {
         executionTime,
+        statusCode:200,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -172,6 +268,7 @@ const createOrUpdateComponent = async (req, res) => {
         userAgent: req.headers['user-agent'],    // HTTP method
       });
       res.status(200).json({
+        statusCode:200,
         message: "Component data updated successfully",
        
       });
@@ -181,9 +278,11 @@ const createOrUpdateComponent = async (req, res) => {
       const end = Date.now();
       logger.logWithMeta("info", `Component file created: ${component}`, {
         executionTime: `${end - start}ms`,
+        statusCode:200,
         component,
       });
       res.status(200).json({
+        statusCode:200,
         message: "Component file created successfully",
         
       });
@@ -196,9 +295,11 @@ const createOrUpdateComponent = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error creating/updating component::${component} ${error.message}`, {
       errorCode,
+      statusCode:500,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
+      
 
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -209,6 +310,7 @@ const createOrUpdateComponent = async (req, res) => {
     
     res.status(500).json({
       errorCode,
+      statusCode:500,
       message: "Error creating/updating component",
       error: error.message,
     });

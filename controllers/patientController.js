@@ -144,6 +144,15 @@ async function getClientIp(req) {
 const { logWithMeta,getIp  } = require('../Middleware/loggerUtility'); // Import the utility
 
 exports.getAllPatients = async (req, res) => {
+  const logId = uuidv4();
+  // const clientIp =  await getClientIp(req);
+  const hospitalId = req.hospitalId || null;
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const apiName = req.originalUrl;
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
   const start = Date.now(); // Start the execution timer
   try {
     const patients = await PatientMaster.findAll(); // Fetch all patients
@@ -170,7 +179,22 @@ exports.getAllPatients = async (req, res) => {
     });
 
     const end = Date.now();
-    logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
+    logWithMeta("info", `Retrieved all patients successfully`, {
+      logId,
+      statusCode: 200,
+      hospitalId,
+      // userId,
+      clientIp,
+      userAgent,
+      apiName,
+      method,
+      
+      // executionTime,
+      // statusCode,
+      authorization
+
+  });
+    // logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -255,122 +279,129 @@ function maskSensitiveData(data) {
   return data ? `${data.substring(0, 6)}...masked` : null;
 }
 
+
 exports.getPatientById = async (req, res) => {
-    const start = Date.now();
-    // const clientIp =  await getClientIp(req);
-    const logId = uuidv4(); // Generate a unique log ID for this request
-    const { id } = req.params;
+  const start = Date.now();
+  const logId = uuidv4(); // Generate a unique log ID for this request
+  const { id } = req.params;
 
-    // Extract metadata from the request to pass to logWithMeta
-    const hospitalId = req.hospitalId || null;
-    // const userId = req.userId || null;
-    const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    const userAgent = req.headers['user-agent'];
-    const apiName = req.originalUrl;
-    const method = req.method;
-    const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+  // Extract metadata from the request to pass to logWithMeta
+  const hospitalId = req.hospitalId || null;
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const apiName = req.originalUrl;
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
 
-    try {
-        const patient = await PatientMaster.findByPk(id);
+  try {
+      const patient = await PatientMaster.findByPk(id);
 
-        if (!patient) {
-            const end = Date.now();
-            const executionTime = `${end - start}ms`;
-            const errorCode = 973;
-            const statusCode = 404
+      if (!patient) {
+          const end = Date.now();
+          const executionTime = `${end - start}ms`;
+          const errorCode = 973;
+          const statusCode = 404;
 
-            // Log the warning with relevant metadata
-            logWithMeta("warn", `Patient with ID ${id} not found`, {
-                logId,
-                hospitalId,
-                // userId,
-                clientIp,
-                userAgent,
-                apiName,
-                method,
-                errorCode,
-                executionTime,
-                statusCode,
-                authorization
+          // Log the warning with relevant metadata
+          logWithMeta("warn", `Patient with ID ${id} not found`, {
+              logId,
+              hospitalId,
+              clientIp,
+              userAgent,
+              apiName,
+              method,
+              errorCode,
+              executionTime,
+              statusCode,
+              authorization
+          });
 
-            });
+          return res.status(statusCode).json({
+              meta: {
+                  statusCode,
+                  errorCode,
+                  logId,
+                  executionTime
+              },
+              error: {
+                  message: 'Patient not found'
+              }
+          });
+      }
 
-            return res.status(statusCode).json({
-                meta: {
-                    statusCode,
-                    errorCode,
-                    logId,
-                    executionTime
-                },
-                error: {
-                    message: 'Patient not found'
-                }
-            });
-        }
+      // Convert the image path to a Base64 string if the image exists
+      let imgBase64 = null;
+      if (patient.img) {
+          const imgPath = path.join(__dirname, '../profile', path.basename(patient.img));
+          if (fs.existsSync(imgPath)) {
+              const imgBuffer = fs.readFileSync(imgPath);
+              imgBase64 = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+          }
+      }
 
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
 
-        // Log success with relevant metadata and patient info
-        logWithMeta("info", `Retrieved patient with ID ${id} successfully`, {
-            logId,
-            hospitalId,
-            // userId,
-            clientIp,
-            userAgent,
-            apiName,
-            method,
-            executionTime
-        }, {
-            PatientID: patient.PatientID,
-            EMRNumber: patient.EMRNumber,
-            PatientFirstName: patient.PatientFirstName
-        });
+      // Log success with relevant metadata and patient info
+      logWithMeta("info", `Retrieved patient with ID ${id} successfully`, {
+          logId,
+          statusCode: 200,
+          hospitalId,
+          clientIp,
+          userAgent,
+          apiName,
+          method,
+          executionTime
+      }, {
+          PatientID: patient.PatientID,
+          EMRNumber: patient.EMRNumber,
+          PatientFirstName: patient.PatientFirstName
+      });
 
-        res.status(200).json({
-            meta: {
-                statusCode: 200,
-                logId,
-                executionTime
-            },
-            data: patient.toJSON()
-        });
-    } catch (error) {
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 974;
-        const statusCode = 500;
-        
+      res.status(200).json({
+          meta: {
+              statusCode: 200,
+              logId,
+              executionTime
+          },
+          data: {
+              ...patient.toJSON(),
+              img: imgBase64 // Include the Base64 image in the response
+          }
+      });
+  } catch (error) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 974;
+      const statusCode = 500;
 
-        // Log the error with relevant metadata
-        logWithMeta("error", `Error retrieving patient`, {
-            logId,
-            hospitalId,
-            // userId,
-            clientIp,
-            userAgent,
-            apiName,
-            method,
-            errorCode,
-            executionTime,
-            statusCode,
-            error: error.message
-        });
+      // Log the error with relevant metadata
+      logWithMeta("error", `Error retrieving patient`, {
+          logId,
+          hospitalId,
+          clientIp,
+          userAgent,
+          apiName,
+          method,
+          errorCode,
+          executionTime,
+          statusCode,
+          error: error.message
+      });
 
-        res.status(statusCode).json({
-            meta: {
-                statusCode,
-                errorCode,
-                logId,
-                executionTime
-            },
-            error: {
-                message: 'Error retrieving patient: ' + error.message
-            }
-        });
-    }
+      res.status(statusCode).json({
+          meta: {
+              statusCode,
+              errorCode,
+              logId,
+              executionTime
+          },
+          error: {
+              message: 'Error retrieving patient: ' + error.message
+          }
+      });
+  }
 };
-
 
 // exports.getPatientById = async (req, res) => {
 //   const start = Date.now();
@@ -816,6 +847,7 @@ exports.createPatient = [
   // Example: body('name').notEmpty().withMessage('Name is required'),
 
   // File upload middleware
+  
   upload.single('img'),
 
   async (req, res) => {
@@ -831,18 +863,20 @@ exports.createPatient = [
 
       const executionTime = `${end - start}ms`;
       const errorCode = 976;
-
+      const statusCode = 400;
       // Ensure that error.message is logged separately if needed
       logger.logWithMeta("warn", `Validation errors occurred`, errors.array(), {
         errorCode,
+        statusCode,
         errorMessage: errors.array(), // Include the error message in meta explicitly
         executionTime,
         hospitalId: req.hospitalId,
       });
       // logger.info('Validation errors occurred', { errors: errors.array(), executionTime: `${end - start}ms` });
-      return res.status(400).json({
+      return res.status(statusCode).json({
         meta: {
-          statusCode: 400,
+          statusCode: statusCode,
+
           errorCode: 976,
           executionTime: `${end - start}ms`
         },
@@ -917,17 +951,19 @@ exports.createPatient = [
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 977;
+        const statusCode = 400;
 
         // Ensure that error.message is logged separately if needed
         logger.logWithMeta("warn", `${duplicateField} already exists`, {
           errorCode,
+          statusCode,
           executionTime,
           hospitalId: req.hospitalId,
         });
         // logger.info(`${duplicateField} already exists`, { executionTime: `${end - start}ms` });
-        return res.status(400).json({
+        return res.status(statusCode).json({
           meta: {
-            statusCode: 400,
+            statusCode: statusCode,
             errorCode: 977,
             executionTime: `${end - start}ms`
           },
@@ -1125,7 +1161,8 @@ exports.createPatient = [
 
       // Log the creation of the new patient
       logger.logWithMeta("info", `Created new patient with ID ${newPatient.PatientID} in ${executionTime} ms`, {
-        executionTime,                         // Execution time in ms
+        executionTime,    
+        statusCode:200,                     // Execution time in ms
         MRNumber: newPatient.EMRNumber,       // EMR Number
         hospitalId: req.hospitalId,          // Hospital ID
         patientId: newPatient.PatientID,      // Patient ID
@@ -1153,10 +1190,11 @@ exports.createPatient = [
       const end = Date.now();
       const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
       const errorCode = 978;
-
+      const statusCode = 500;
       // Log the error
       logger.logWithMeta("warn", `Error creating patient`, {
         errorCode,
+        statusCode,
         error: error.message,
         executionTime,
         hospitalId: req.hospitalId,
@@ -1166,9 +1204,9 @@ exports.createPatient = [
       });
 
       // logger.error('Error creating patient', { error: error.message, executionTime: `${end - start}ms` });
-      res.status(500).json({
+      res.status(statusCode).json({
         meta: {
-          statusCode: 500,
+          statusCode: statusCode,
           errorCode: 978,
           executionTime: `${end - start}ms`
         },
@@ -1186,6 +1224,8 @@ exports.updatePatient = [
 
   // File upload middleware
   upload.single('img'),
+  
+  
 
   async (req, res) => {
     const start = Date.now();
@@ -1197,16 +1237,17 @@ exports.updatePatient = [
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 980;
-
+      const statusCode = 400;
       logger.logWithMeta("warn", "Validation errors occurred while updating patient", errors.array(), {
         errorCode,
+        statusCode,
         executionTime,
         hospitalId: req.hospitalId,
       });
 
-      return res.status(400).json({
+      return res.status(statusCode).json({
         meta: {
-          statusCode: 400,
+          statusCode: statusCode,
           errorCode,
           executionTime,
         },
@@ -1263,16 +1304,17 @@ exports.updatePatient = [
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 981;
-
+        const statusCode = 404;
         logger.logWithMeta("warn", `Patient with ID ${patientId} not found`, {
           errorCode,
+          statusCode,
           executionTime,
           hospitalId: req.hospitalId,
         });
 
-        return res.status(404).json({
+        return res.status(statusCode).json({
           meta: {
-            statusCode: 404,
+            statusCode: statusCode,
             errorCode,
             executionTime,
           },
@@ -1332,6 +1374,8 @@ exports.updatePatient = [
       // Log the patient update action
       logger.logWithMeta("info", `Updated patient with ID ${patient.PatientID} in ${executionTime} ms`, {
         executionTime,
+
+        statusCode:200,
         hospitalId: req.hospitalId,
         patientId: patient.PatientID,
         userId: req.userId,
@@ -1351,18 +1395,19 @@ exports.updatePatient = [
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 982;
-
+      const statusCode = 500;
       // Log the error
       logger.logWithMeta("error", "Error occurred while updating patient", {
         error: error.message,
         errorCode,
+        statusCode,
         executionTime,
         hospitalId: req.hospitalId,
       });
 
-      return res.status(500).json({
+      return res.status(statusCode).json({
         meta: {
-          statusCode: 500,
+          statusCode: statusCode,
           errorCode,
           executionTime,
         },
@@ -1933,6 +1978,7 @@ exports.updatePatient = [
 // };
 exports.deletePatient = async (req, res) => {
   const start = Date.now();
+  const logId = uuidv4(); 
   const { id } = req.params;
   const clientIp = await getClientIp(req);
 
@@ -1943,10 +1989,12 @@ exports.deletePatient = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
       const errorCode = 982;
-
+      const statusCode = 404;
       // Log the error
       logger.logWithMeta("warn", `Patient with ID ${id} not found`, {
         errorCode,
+        statusCode,
+        logId,
         // error: error.message,
         executionTime,
         hospitalId: req.hospitalId,
@@ -1957,9 +2005,9 @@ exports.deletePatient = async (req, res) => {
       });
 
 
-      return res.status(404).json({
+      return res.status(statusCode).json({
         meta: {
-          statusCode: 404,
+          statusCode: statusCode,
           errorCode: 982,
           executionTime,
         },
@@ -1977,7 +2025,8 @@ exports.deletePatient = async (req, res) => {
 
     // Log the error
     logger.logWithMeta("warn", `Deleted patient with ID ${id} successfully`, {
-      
+      statusCode:200,
+      logId,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
@@ -1985,7 +2034,7 @@ exports.deletePatient = async (req, res) => {
       method: req.method,
       userAgent: req.headers['user-agent'],
     });
-    logger.info(`Deleted patient with ID ${id} successfully`);
+    // logger.info(`Deleted patient with ID ${id} successfully`);
     res.status(200).json({
       meta: {
         statusCode: 200,
@@ -1998,10 +2047,12 @@ exports.deletePatient = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
     const errorCode = 983;
-
+    
     // Log the error
     logger.logWithMeta("warn", `Error deleting patient: ${error.message}`, {
       errorCode,
+      logId,
+      statusCode:500,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
@@ -2027,7 +2078,7 @@ exports.deletePatient = async (req, res) => {
 
 // Controller function to fetch patients by HospitalGroupID with pagination
 exports.getPatientsByHospitalGroupID = async (req, res) => {
-  
+  const logId = uuidv4(); 
   const start = Date.now();
   const { id } = req.params;
   let { page, pageSize } = req.query;
@@ -2069,8 +2120,9 @@ exports.getPatientsByHospitalGroupID = async (req, res) => {
 
     // Log the creation of the new patient
     logger.logWithMeta("info", `Retrieved patients for HospitalGroupID ${id} with pagination in ${end - start}ms`, {
-      executionTime,                         // Execution time in ms
-      
+      executionTime,   
+      logId,                      // Execution time in ms
+      statusCode:200,
       hospitalId: req.hospitalId,          // Hospital ID
       
       userId: req.userId,                  // User ID (if available)
@@ -2094,12 +2146,14 @@ exports.getPatientsByHospitalGroupID = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
     const errorCode = 984;
-
+    const statusCode = 500;
     // Log the error
     logger.logWithMeta("warn", `Error fetching patients by HospitalGroupID`, {
       errorCode,
+      logId,
       // error: error.message,
       executionTime,
+      statusCode,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -2110,9 +2164,9 @@ exports.getPatientsByHospitalGroupID = async (req, res) => {
 
     // logger.error('Error fetching patients by HospitalGroupID', { error: error.message, executionTime: `${end - start}ms` });
     console.error('Error fetching patients by HospitalGroupID', error);
-    res.status(500).json({
+    res.status(statusCode).json({
       meta: {
-        statusCode: 500,
+        statusCode: statusCode,
         errorCode: 984,
         executionTime: `${end - start}ms`
       },
@@ -2125,6 +2179,7 @@ exports.getPatientsByHospitalGroupID = async (req, res) => {
 
 exports.getAllPatientsByPagination = async (req, res) => {
   const start = Date.now();
+  const logId = uuidv4(); 
   let { page, limit } = req.query;
   page = parseInt(page) || 1;
   limit = parseInt(limit) || 5; // Default limit is 10
@@ -2145,8 +2200,10 @@ exports.getAllPatientsByPagination = async (req, res) => {
     // Log the error
     logger.logWithMeta("warn", `Retrieved patients for page ${page} with limit ${limit} successfully`, {
       // errorCode,
+      logId,
       // error: error.message,
       executionTime,
+      statusCode:200,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -2169,12 +2226,14 @@ exports.getAllPatientsByPagination = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
     const errorCode = 985;
-
+    const statusCode = 500;
     // Log the error
     logger.logWithMeta("warn", `Error fetching patients by HospitalGroupID`, {
       errorCode,
+      logId,
       // error: error.message,
       executionTime,
+      statusCode,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -2183,9 +2242,9 @@ exports.getAllPatientsByPagination = async (req, res) => {
     });
 
     // logger.error('Error retrieving patients with pagination', { error: error.message });
-    res.status(500).json({
+    res.status(statusCode).json({
       meta: {
-        statusCode: 500,
+        statusCode: statusCode,
         errorCode: 985,
         executionTime: `${end - start}ms`
       },
@@ -2197,7 +2256,9 @@ exports.getAllPatientsByPagination = async (req, res) => {
 };
 
 exports.getPatient = async (req, res) => {
+  const logId = uuidv4(); 
   try {
+    
     const { PatientFirstName, PatientLastName, PatientMiddleName, EMRNumber, Phone } = req.query;
 
     // Build search criteria based on provided parameters
@@ -2228,10 +2289,12 @@ exports.getPatient = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
     const errorCode = 986;
-
+    const statusCode = 500;
     // Log the error
     logger.logWithMeta("warn", `Internal server error: ${error.message}`, {
       errorCode,
+      logId,
+      statusCode,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
@@ -2241,7 +2304,7 @@ exports.getPatient = async (req, res) => {
     });
 
     console.error(error);
-    res.status(500).json({ message: 'Internal server error' ,errorCode});
+    res.status(statusCode).json({ message: 'Internal server error' ,errorCode});
   }
 };
 
@@ -2624,6 +2687,7 @@ exports.getPatientsByHospitalId = async (req, res) => {
     // Log success with relevant metadata and patient info
     logWithMeta("info", `Retrieved patients for hospital ID ${hospitalId} successfully`, {
       logId,
+      statusCode:200,
       hospitalId,
       clientIp,
       userAgent,

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require("moment")
 
 // Utility function to get model based on the collection name
 const getModel = (collectionName) => {
@@ -21,6 +22,109 @@ const getCollectionNameByDate = (date) => {
   const today = new Date(date);
   return `logs_${today.getFullYear()}_${today.getMonth() + 1}_${today.getDate()}`;
 };
+
+exports.getAllDataInRangeDate = async (req, res) => {
+  const start = Date.now();
+  const logId = uuidv4();
+
+  // Extract metadata for logging purposes
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const apiName = req.originalUrl;
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+  // Extract startDate and endDate from the query parameters
+  const { startDate, endDate } = req.query;
+
+  try {
+    // logWithMeta("info", "Fetching collections within date range", {
+    //   logId, clientIp, userAgent, apiName, method, authorization
+    // });
+
+    // Retrieve collections and filter for date-prefixed collections
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    const logCollections = collections
+      .map(col => col.name)
+      .filter(name => name.startsWith('logs_'));
+
+    // Parse startDate and endDate into Moment.js objects
+    const formattedStartDate = moment(startDate, "YYYY-MM-DD-HH:mm");
+    const formattedEndDate = moment(endDate, "YYYY-MM-DD-HH:mm");
+
+    // Filter collections by the date range
+    const filteredCollections = logCollections.filter(collection => {
+      const datePart = collection.split('logs_')[1];
+      const collectionDate = moment(datePart, "YYYY_MM_DD");
+      return collectionDate.isBetween(formattedStartDate, formattedEndDate, 'day', '[]');
+    });
+
+    let allLogs = [];
+
+    // Fetch logs from each filtered collection based on timestamp
+    for (const collectionName of filteredCollections) {
+      const LogModel = getModelName(collectionName);
+
+      // logWithMeta("info", `Fetching logs from collection: ${collectionName}`, {
+      //   logId, clientIp, userAgent, apiName, method, collectionName, authorization
+      // });
+
+      // Create a query only with timestamp
+      const query = {
+        timestamp: {
+          $gte: formattedStartDate.toDate(),
+          $lte: formattedEndDate.toDate()
+        }
+      };
+
+      const logs = await LogModel.find(query);
+      allLogs = allLogs.concat(logs);
+
+      // logWithMeta("info", `Fetched ${logs.length} logs from collection: ${collectionName}`, {
+      //   logId, clientIp, userAgent, apiName, method, collectionName, authorization
+      // });
+    }
+
+    // Check if any logs were retrieved
+
+
+    if (allLogs.length === 0) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      logWithMeta("warn", "No logs found in the specified date range", {
+        logId, clientIp, userAgent, apiName, method, executionTime, authorization
+      });
+      return res.status(404).json({
+        meta: { statusCode: 404, logId, executionTime },
+        error: { message: 'No logs found in the specified date range' }
+      });
+    }
+
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    // logWithMeta("info", "Successfully fetched logs from filtered collections", {
+    //   logId, clientIp, userAgent, apiName, method, executionTime, authorization
+    // }, { logCount: allLogs.length });
+
+    return res.status(200).json({
+      meta: { statusCode: 200, logId, executionTime },
+      data: allLogs
+    });
+
+  } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    // logWithMeta("error", "Error fetching logs from collections", {
+    //   logId, clientIp, userAgent, apiName, method, errorCode: 1230, executionTime, authorization, error: error.message
+    // });
+    return res.status(500).json({
+      meta: { statusCode: 500, logId, executionTime },
+      error: { message: 'Server Error: ' + error.message }
+    });
+  }
+};
+
+
 
 // Fetch all logs from a specific date
 exports.getAllLogs = async (req, res) => {
@@ -239,6 +343,55 @@ const getModelByDate = (date) => {
     }
   };
 
+  exports.getLogsByStatusCodeAndHospitalId = async (req, res) => {
+    const { errorCode, hospitalId, date } = req.query;
+  
+    // Check if required parameters are provided
+    if (!errorCode || !hospitalId) {
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 927, // Custom status code for missing parameters
+        },
+        error: {
+          message: 'errorCode and hospitalId are required',
+        },
+      });
+    }
+  
+    // Parse date or use today's date by default
+    const logDate = date ? new Date(date) : new Date();
+  
+    try {
+      // Get the correct model based on the date
+      const Log = getModelByDate(logDate);
+  
+      // Find logs by errorCode and hospitalId
+      const logs = await Log.find({
+        errorCode: Number(errorCode),
+        hospitalId,
+      });
+  
+      res.status(200).json({
+        meta: {
+          statusCode: 200,
+        },
+        data: logs,
+      });
+    } catch (error) {
+      res.status(500).json({
+        meta: {
+          statusCode: 500,
+          statusCode: 926, // Custom status code for server error
+        },
+        error: {
+          message: `Error retrieving logs: ${error.message}`,
+        },
+      });
+    }
+  };
+  
+
 
 
 
@@ -277,6 +430,8 @@ const { logWithMeta,getIp  } = require('../Middleware/loggerUtility');
 const requestIp = require('request-ip');
 const { v4: uuidv4 } = require('uuid'); // For generating unique log IDs
 const logger = require('../logger');
+const { createLogger } = require('winston');
+const { Console } = require('winston/lib/winston/transports');
 
 
 
@@ -503,6 +658,206 @@ exports.getDataByHospitalId = async (req, res) => {
     });
   }
 };
+exports.getDataByHospitalIdWithRangeDate = async (req, res) => {
+  const start = Date.now();
+  const logId = uuidv4(); // Generate a unique log ID for this request
+
+  const { hospitalId } = req.params; // Get hospitalId from request parameters
+  const { startDate, endDate } = req.query; // Get startDate and endDate from query parameters
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const apiName = req.originalUrl;
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+  try {
+    // Ensure startDate and endDate are provided
+    if (!startDate || !endDate) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1204;
+      const statusCode = 400;
+
+      // Log the warning for missing dates
+      logWithMeta("warn", "Start date and end date are required", {
+        logId,
+        hospitalId,
+        clientIp,
+        userAgent,
+        apiName,
+        method,
+        errorCode,
+        executionTime,
+        statusCode,
+        authorization
+      });
+
+      return res.status(statusCode).json({
+        meta: {
+          statusCode,
+          errorCode,
+          logId,
+          executionTime
+        },
+        error: {
+          message: 'Start date and end date are required'
+        }
+      });
+    }
+
+    // Function to parse date from dd-mm-yyyy-HH-mm format
+    const parseDate = (dateStr) => {
+      const parts = dateStr.split('-');
+      if (parts.length !== 5) {
+        throw new Error('Invalid date format. Use dd-mm-yyyy-HH-mm.');
+      }
+      const [day, month, year, hours, minutes] = parts.map(Number);
+      return new Date(year, month - 1, day, hours, minutes); // month is 0-indexed
+    };
+
+    // Parse the dates from the query parameters
+    const startQueryDate = parseDate(startDate);
+    const endQueryDate = parseDate(endDate);
+
+    // Validate the dates
+    if (isNaN(startQueryDate.getTime()) || isNaN(endQueryDate.getTime())) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1205;
+      const statusCode = 400;
+
+      // Log the warning for invalid date format
+      logWithMeta("warn", "Invalid date format", {
+        logId,
+        hospitalId,
+        clientIp,
+        userAgent,
+        apiName,
+        method,
+        errorCode,
+        executionTime,
+        statusCode,
+        authorization
+      });
+
+      return res.status(statusCode).json({
+        meta: {
+          statusCode,
+          errorCode,
+          logId,
+          executionTime
+        },
+        error: {
+          message: 'Invalid date format. Use dd-mm-yyyy-HH-mm.'
+        }
+      });
+    }
+
+    // Get the dynamic collection name based on the start date
+    const collectionName = getDynamicCollectionName(startQueryDate);
+    console.log('Using collection:', collectionName);
+
+    // Get the model for the dynamic collection
+    const LogModel = getModel(collectionName);
+
+    // Query the dynamic collection by hospitalId and date range
+    const logs = await LogModel.find({
+      hospitalId: String(hospitalId),
+      date: { $gte: startQueryDate, $lte: endQueryDate }
+    });
+
+    // Handle case where no logs are found
+    if (!logs || logs.length === 0) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1207;
+      const statusCode = 404;
+
+      // Log the warning for no logs found
+      logWithMeta("warn", `No logs found for hospital ID ${hospitalId} between the specified dates`, {
+        logId,
+        hospitalId,
+        clientIp,
+        userAgent,
+        apiName,
+        method,
+        errorCode,
+        executionTime,
+        statusCode,
+        authorization
+      });
+
+      return res.status(statusCode).json({
+        meta: {
+          statusCode,
+          errorCode,
+          logId,
+          executionTime
+        },
+        error: {
+          message: 'No logs found for this hospitalId between the specified dates'
+        }
+      });
+    }
+
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+
+    // Log the success response
+    logWithMeta("info", `Retrieved logs for hospital ID ${hospitalId} successfully`, {
+      logId,
+      hospitalId,
+      clientIp,
+      userAgent,
+      apiName,
+      method,
+      executionTime
+    }, {
+      logCount: logs.length
+    });
+
+    // Return the data
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        logId,
+        executionTime
+      },
+      data: logs
+    });
+  } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1206;
+    const statusCode = 500;
+
+    // Log the error
+    logWithMeta("error", `Error fetching logs for hospital ID ${hospitalId}`, {
+      logId,
+      hospitalId,
+      clientIp,
+      userAgent,
+      apiName,
+      method,
+      errorCode,
+      executionTime,
+      statusCode,
+      error: error.message
+    });
+
+    return res.status(statusCode).json({
+      meta: {
+        statusCode,
+        errorCode,
+        logId,
+        executionTime
+      },
+      error: {
+        message: 'Server Error: ' + error.message
+      }
+    });
+  }
+};
 
 
 // exports.getDataByErrorCode = async (req, res) => {
@@ -558,12 +913,240 @@ exports.getDataByHospitalId = async (req, res) => {
 
 
 
+// exports.getDataByErrorCode = async (req, res) => {
+//   const start = Date.now();
+//   const logId = uuidv4(); // Generate a unique log ID for this request
+
+//   // Extract metadata from the request to pass to logWithMeta
+//   const { hospitalId, errorCode, date } = req.params;
+//   const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+//   const userAgent = req.headers['user-agent'];
+//   const apiName = req.originalUrl;
+//   const method = req.method;
+//   const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+//   try {
+//     // Validate errorCode
+//     if (!errorCode || isNaN(Number(errorCode))) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCodeResponse = 1207;
+//       const statusCode = 400;
+
+//       // Log the invalid or missing errorCode
+//       logWithMeta("warn", "Invalid or missing errorCode", {
+//         logId,
+//         hospitalId,
+//         clientIp,
+//         userAgent,
+//         apiName,
+//         method,
+//         errorCode: errorCodeResponse,
+//         executionTime,
+//         statusCode,
+//         authorization
+//       });
+
+//       return res.status(statusCode).json({
+//         meta: {
+//           statusCode,
+//           errorCode: errorCodeResponse,
+//           logId,
+//           executionTime
+//         },
+//         error: {
+//           message: 'Invalid or missing errorCode'
+//         }
+//       });
+//     }
+
+//     // Validate date
+//     if (!date) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCodeResponse = 1208;
+//       const statusCode = 400;
+
+//       // Log the missing date
+//       logWithMeta("warn", "Date is required", {
+//         logId,
+//         hospitalId,
+//         clientIp,
+//         userAgent,
+//         apiName,
+//         method,
+//         errorCode: errorCodeResponse,
+//         executionTime,
+//         statusCode,
+//         authorization
+//       });
+
+//       return res.status(statusCode).json({
+//         meta: {
+//           statusCode,
+//           errorCode: errorCodeResponse,
+//           logId,
+//           executionTime
+//         },
+//         error: {
+//           message: 'Date is required'
+//         }
+//       });
+//     }
+
+//     // Parse the date
+//     const queryDate = new Date(date);
+//     if (isNaN(queryDate.getTime())) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCodeResponse = 1209;
+//       const statusCode = 400;
+
+//       // Log invalid date format
+//       logWithMeta("warn", "Invalid date format", {
+//         logId,
+//         hospitalId,
+//         clientIp,
+//         userAgent,
+//         apiName,
+//         method,
+//         errorCode: errorCodeResponse,
+//         executionTime,
+//         statusCode,
+//         authorization
+//       });
+
+//       return res.status(statusCode).json({
+//         meta: {
+//           statusCode,
+//           errorCode: errorCodeResponse,
+//           logId,
+//           executionTime
+//         },
+//         error: {
+//           message: 'Invalid date format. Use YYYY-MM-DD.'
+//         }
+//       });
+//     }
+
+//     // Get the dynamic collection name based on the provided date
+//     const collectionName = getDynamicCollectionName(queryDate);
+//     console.log('Using collection:', collectionName);
+
+//     // Get the model for the dynamic collection
+//     const LogModel = getModel(collectionName);
+
+//     // Build the query object for errorCode and hospitalId
+//     const query = {
+//       errorCode: Number(errorCode),
+//       hospitalId: String(hospitalId), // Ensure hospitalId is part of the query
+//     };
+
+//     console.log('Query:', query);
+
+//     // Query the dynamic collection
+//     const logs = await LogModel.find(query);
+
+//     // Handle the case where no logs are found
+//     if (!logs || logs.length === 0) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCodeResponse = 1210;
+//       const statusCode = 404;
+
+//       // Log no logs found
+//       logWithMeta("warn", `No logs found for hospital ID ${hospitalId} and error code ${errorCode}`, {
+//         logId,
+//         hospitalId,
+//         clientIp,
+//         userAgent,
+//         apiName,
+//         method,
+//         errorCode: errorCodeResponse,
+//         executionTime,
+//         statusCode,
+//         authorization
+//       });
+
+//       return res.status(statusCode).json({
+//         meta: {
+//           statusCode,
+//           errorCode: errorCodeResponse,
+//           logId,
+//           executionTime
+//         },
+//         error: {
+//           message: 'No logs found for the given hospitalId and errorCode'
+//         }
+//       });
+//     }
+
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+
+//     // Log the success response
+//     logWithMeta("info", `Retrieved logs for hospital ID ${hospitalId} and error code ${errorCode} successfully`, {
+//       logId,
+//       hospitalId,
+//       clientIp,
+//       userAgent,
+//       apiName,
+//       method,
+//       executionTime
+//     }, {
+//       logCount: logs.length
+//     });
+
+//     // Return the found logs
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         logId,
+//         executionTime
+//       },
+//       data: logs
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCodeResponse = 1211;
+//     const statusCode = 500;
+
+//     // Log the error
+//     logWithMeta("error", `Error fetching logs for hospital ID ${hospitalId} and error code ${errorCode}`, {
+//       logId,
+//       hospitalId,
+//       clientIp,
+//       userAgent,
+//       apiName,
+//       method,
+//       errorCode: errorCodeResponse,
+//       executionTime,
+//       statusCode,
+//       error: error.message
+//     });
+
+//     return res.status(statusCode).json({
+//       meta: {
+//         statusCode,
+//         errorCode: errorCodeResponse,
+//         logId,
+//         executionTime
+//       },
+//       error: {
+//         message: 'Server Error: ' + error.message
+//       }
+//     });
+//   }
+// };
+
 exports.getDataByErrorCode = async (req, res) => {
   const start = Date.now();
   const logId = uuidv4(); // Generate a unique log ID for this request
 
   // Extract metadata from the request to pass to logWithMeta
-  const { hospitalId, errorCode, date } = req.params;
+  const { hospitalId, errorCode } = req.params;
+  const { startDate, endDate } = req.query; // Extract startDate and endDate from query parameters
   const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   const userAgent = req.headers['user-agent'];
   const apiName = req.originalUrl;
@@ -605,15 +1188,15 @@ exports.getDataByErrorCode = async (req, res) => {
       });
     }
 
-    // Validate date
-    if (!date) {
+    // Validate startDate and endDate
+    if (!startDate || !endDate) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const errorCodeResponse = 1208;
+      const errorCodeResponse = 1212;
       const statusCode = 400;
 
-      // Log the missing date
-      logWithMeta("warn", "Date is required", {
+      // Log the missing dates
+      logWithMeta("warn", "startDate and endDate are required", {
         logId,
         hospitalId,
         clientIp,
@@ -634,14 +1217,15 @@ exports.getDataByErrorCode = async (req, res) => {
           executionTime
         },
         error: {
-          message: 'Date is required'
+          message: 'startDate and endDate are required'
         }
       });
     }
 
-    // Parse the date
-    const queryDate = new Date(date);
-    if (isNaN(queryDate.getTime())) {
+    // Parse the startDate and endDate
+    const startQueryDate = new Date(startDate);
+    const endQueryDate = new Date(endDate);
+    if (isNaN(startQueryDate.getTime()) || isNaN(endQueryDate.getTime())) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCodeResponse = 1209;
@@ -669,13 +1253,13 @@ exports.getDataByErrorCode = async (req, res) => {
           executionTime
         },
         error: {
-          message: 'Invalid date format. Use YYYY-MM-DD.'
+          message: 'Invalid date format. Use YYYY-MM-DD-HH:mm.'
         }
       });
     }
 
-    // Get the dynamic collection name based on the provided date
-    const collectionName = getDynamicCollectionName(queryDate);
+    // Get the dynamic collection name based on the provided start date
+    const collectionName = getDynamicCollectionName(startQueryDate);
     console.log('Using collection:', collectionName);
 
     // Get the model for the dynamic collection
@@ -685,6 +1269,10 @@ exports.getDataByErrorCode = async (req, res) => {
     const query = {
       errorCode: Number(errorCode),
       hospitalId: String(hospitalId), // Ensure hospitalId is part of the query
+      timestamp: {
+        $gte: startQueryDate, // Greater than or equal to startDate
+        $lte: endQueryDate,   // Less than or equal to endDate
+      }
     };
 
     console.log('Query:', query);
@@ -784,6 +1372,107 @@ exports.getDataByErrorCode = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
+exports.getDataByStatusCodeAndDateRange = async (req, res) => {
+  const start = Date.now();
+  const logId = uuidv4();
+
+  const { statusCode, startDate, endDate } = req.query;
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const apiName = req.originalUrl;
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+  try {
+    // Validate statusCode
+    if (!statusCode || isNaN(Number(statusCode))) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'Invalid or missing statusCode' }
+      });
+    }
+
+    // Validate startDate and endDate
+    if (!startDate || !endDate) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'Both startDate and endDate are required' }
+      });
+    }
+
+    const formattedStartDate = moment(startDate, "YYYY-MM-DD-HH:mm");
+    const formattedEndDate = moment(endDate, "YYYY-MM-DD-HH:mm");
+
+    if (!formattedStartDate.isValid() || !formattedEndDate.isValid()) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'Invalid date format. Use YYYY-MM-DD-HH:MM.' }
+      });
+    }
+
+    // Determine collection names in the date range
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    const logCollections = collections
+      .map(col => col.name)
+      .filter(name => name.startsWith('logs_'));
+
+    const filteredCollections = logCollections.filter(collection => {
+      const datePart = collection.split('logs_')[1];
+      const collectionDate = moment(datePart, "YYYY_MM_DD");
+      return collectionDate.isBetween(formattedStartDate, formattedEndDate, 'day', '[]');
+    });
+
+    let allLogs = [];
+
+    for (const collectionName of filteredCollections) {
+      const LogModel = getModel(collectionName);
+
+      const query = {
+        "meta.statusCode": Number(statusCode),
+        timestamp: {
+          $gte: formattedStartDate.toDate(),
+          $lte: formattedEndDate.toDate()
+        }
+      };
+
+      const logs = await LogModel.find(query);
+      allLogs = allLogs.concat(logs);
+    }
+
+    if (allLogs.length === 0) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(404).json({
+        meta: { statusCode: 404, logId, executionTime },
+        error: { message: 'No logs found for the given statusCode and date range' }
+      });
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+    return res.status(200).json({
+      meta: { statusCode: 200, logId, executionTime },
+      data: allLogs
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    return res.status(500).json({
+      meta: { statusCode: 500, logId, executionTime },
+      error: { message: 'Server Error: ' + error.message }
+    });
+  }
+};
+
+
   
   
   // exports.getDataByMessage = async (req, res) => {
@@ -1387,6 +2076,55 @@ exports.getDataByTimestampAndDate = async (req, res) => {
 //   }
 // };
 
+// exports.getDataByLogIdAndDate = async (req, res) => {
+//   const requestId = uuidv4(); // Generate a unique ID for this request for tracing logs
+
+//   try {
+//     // Extract date and logId from request parameters
+//     const { date, logId } = req.params;
+
+//     // Ensure both date and logId are provided
+//     if (!date || !logId) {
+//       logWithMeta('warn', 'Missing date or logId in request parameters.', { requestId, errorCode: 1221 });
+//       return res.status(400).json({ errorCode: 1221, message: 'Both date and logId are required' });
+//     }
+
+//     // Parse the date from the parameters
+//     const queryDate = new Date(date);
+//     if (isNaN(queryDate.getTime())) {
+//       logWithMeta('warn', 'Invalid date format provided.', { requestId, errorCode: 1222, date });
+//       return res.status(400).json({ errorCode: 1222, message: 'Invalid date format. Use YYYY-MM-DD.' });
+//     }
+
+//     // Get the dynamic collection name based on the provided date
+//     const collectionName = getDynamicCollectionName(queryDate);
+//     logWithMeta('info', `Using collection '${collectionName}' for querying logs.`, { requestId, collectionName });
+
+//     // Get the model for the dynamic collection
+//     const LogModel = getModel(collectionName);
+
+//     // Build the query object for logId
+//     const query = { logId };
+
+//     // Query the collection by logId
+//     const logs = await LogModel.find(query);
+
+//     // Handle case where no logs are found
+//     if (!logs || logs.length === 0) {
+//       logWithMeta('info', 'No logs found for the provided date and logId.', { requestId, errorCode: 1223, date, logId });
+//       return res.status(404).json({ errorCode: 1223, message: 'No logs found for the provided date and logId' });
+//     }
+
+//     // Log the number of logs retrieved
+//     logWithMeta('info', `Retrieved ${logs.length} logs from collection '${collectionName}'.`, { requestId, collectionName });
+
+//     // Return the found logs
+//     return res.status(200).json(logs);
+//   } catch (error) {
+//     logWithMeta('error', 'Error fetching logs.', { requestId, errorCode: 1224, error: error.message });
+//     return res.status(500).json({ errorCode: 1224, message: 'Server Error', error: error.message });
+//   }
+// };
 exports.getDataByLogIdAndDate = async (req, res) => {
   const requestId = uuidv4(); // Generate a unique ID for this request for tracing logs
 
@@ -1415,7 +2153,10 @@ exports.getDataByLogIdAndDate = async (req, res) => {
     const LogModel = getModel(collectionName);
 
     // Build the query object for logId
-    const query = { logId };
+    const query = { "meta.logId": logId }; // Adjusted to match the structure
+
+    // Log the query for debugging
+    logWithMeta('info', `Querying logs with: ${JSON.stringify(query)}`, { requestId });
 
     // Query the collection by logId
     const logs = await LogModel.find(query);
@@ -1436,6 +2177,7 @@ exports.getDataByLogIdAndDate = async (req, res) => {
     return res.status(500).json({ errorCode: 1224, message: 'Server Error', error: error.message });
   }
 };
+
 
 // Controller function to get all logs using date as the collection name
 // exports.getAllData = async (req, res) => {
@@ -1523,17 +2265,6 @@ exports.getAllData = async (req, res) => {
   }
 };
 
-// Function to get or create a model for a specific collection name
-// const getModelName = (collectionName) => {
-//   if (mongoose.models[collectionName]) {
-//     return mongoose.models[collectionName]; // Return existing model
-//   } else {
-//     // Create a new model if it doesn't exist
-//     return mongoose.model(collectionName, new mongoose.Schema({}, { strict: false }), collectionName);
-//   }
-// };
-
-
 
 
 const getModelName = (collectionName) => {
@@ -1542,80 +2273,986 @@ const getModelName = (collectionName) => {
   try {
     // Check if the model already exists in Mongoose
     if (mongoose.models[collectionName]) {
-      logWithMeta("info", `Model for collection '${collectionName}' already exists.`, {
-        logId,
-        collectionName
-      });
+      // logWithMeta("info", `Model for collection '${collectionName}' already exists.`, {
+      //   logId,
+      //   collectionName
+      // });
       return mongoose.models[collectionName]; // Return existing model
     } else {
       // Log model creation process
-      logWithMeta("info", `Creating new model for collection: '${collectionName}'`, {
-        logId,
-        collectionName
-      });
+      // logWithMeta("info", `Creating new model for collection: '${collectionName}'`, {
+      //   logId,
+      //   collectionName
+      // });
 
       // Create a new model with a flexible schema (strict: false allows dynamic fields)
       const newModel = mongoose.model(collectionName, new mongoose.Schema({}, { strict: false }), collectionName);
 
       // Log success of model creation
-      logWithMeta("info", `Successfully created new model for collection: '${collectionName}'`, {
-        logId,
-        collectionName
-      });
+      // logWithMeta("info", `Successfully created new model for collection: '${collectionName}'`, {
+      //   logId,
+      //   collectionName
+      // });
 
       return newModel; // Return newly created model
     }
   } catch (error) {
     // Log error during model creation or retrieval
-    logWithMeta("error", `Error creating or retrieving model for collection: '${collectionName}'`, {
-      logId,
-      collectionName,
-      error: error.message
-    });
+    // logWithMeta("error", `Error creating or retrieving model for collection: '${collectionName}'`, {
+    //   logId,
+    //   collectionName,
+    //   error: error.message
+    // });
 
     throw new Error(`Error creating or retrieving model for collection: ${collectionName} - ${error.message}`);
   }
 };
 
-// Controller function to get all logs from all collections
-// exports.getAllDataFromAllCollections = async (req, res) => {
+exports.getAllDataFromAllCollections = async (req, res) => {
+  const start = Date.now();
+  const logId = uuidv4(); // Generate a unique log ID for this request
+
+  // Extract metadata from the request
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const apiName = req.originalUrl;
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+  try {
+    // Log starting process of fetching all collections
+    // logWithMeta("info", "Fetching all collections from database", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   authorization
+    // });
+
+    // Get the names of all collections in the database
+    const collections = await mongoose.connection.db.listCollections().toArray();
+
+    // Filter collections that match the logs_* format
+    const logCollections = collections
+      .map(col => col.name)
+      .filter(name => name.startsWith('logs_'));
+
+    // Log the filtered collections
+    // logWithMeta("info", "Filtered log collections", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   collections: logCollections,
+    //   authorization
+    // });
+
+    let allLogs = [];
+
+    // Iterate over each log collection and fetch logs
+    for (const collectionName of logCollections) {
+      const LogModel = getModelName(collectionName); // Get or create the model
+
+      // Log start of fetching logs from each collection
+      // logWithMeta("info", `Fetching logs from collection: ${collectionName}`, {
+      //   logId,
+      //   clientIp,
+      //   userAgent,
+      //   apiName,
+      //   method,
+      //   collectionName,
+      //   authorization
+      // });
+
+      // Fetch logs from the current collection
+      const logs = await LogModel.find({});
+      allLogs = allLogs.concat(logs); // Combine logs from all collections
+
+      // Log the number of logs fetched from the collection
+      // logWithMeta("info", `Fetched ${logs.length} logs from collection: ${collectionName}`, {
+      //   logId,
+      //   clientIp,
+      //   userAgent,
+      //   apiName,
+      //   method,
+      //   collectionName,
+      //   authorization
+      // });
+    }
+
+    // Handle case where no logs are found in all collections
+    if (allLogs.length === 0) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCodeResponse = 1229;
+      const statusCode = 404;
+
+      // Log no logs found
+      // logWithMeta("warn", "No logs found in any collection", {
+      //   logId,
+      //   clientIp,
+      //   userAgent,
+      //   apiName,
+      //   method,
+      //   errorCode: errorCodeResponse,
+      //   executionTime,
+      //   statusCode,
+      //   authorization
+      // });
+
+      return res.status(statusCode).json({
+        meta: {
+          statusCode,
+          errorCode: errorCodeResponse,
+          logId,
+          executionTime
+        },
+        error: {
+          message: 'No logs found in any collection'
+        }
+      });
+    }
+
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+
+    // Log successful retrieval of logs
+    // logWithMeta("info", "Successfully fetched logs from all collections", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   executionTime,
+    //   authorization
+    // }, {
+    //   logCount: allLogs.length
+    // });
+
+    // Return all found logs
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        logId,
+        executionTime
+      },
+      data: allLogs
+    });
+  } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCodeResponse = 1230;
+    const statusCode = 500;
+
+    // Log server error
+    // logWithMeta("error", "Error fetching logs from all collections", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   errorCode: errorCodeResponse,
+    //   executionTime,
+    //   statusCode,
+    //   authorization,
+    //   error: error.message
+    // });
+
+    return res.status(statusCode).json({
+      meta: {
+        statusCode,
+        errorCode: errorCodeResponse,
+        logId,
+        executionTime
+      },
+      error: {
+        message: 'Server Error: ' + error.message
+      }
+    });
+  }
+};
+
+exports.getAllDataFromHospitalId = async (req, res) => {
+  const start = Date.now();
+  const logId = uuidv4(); // Generate a unique log ID for this request
+
+  // Extract metadata from the request
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const apiName = req.originalUrl;
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+  // Extract hospitalId from the query parameters
+  const hospitalId = req.query.hospitalId;
+
+  try {
+    // Log starting process of fetching all collections
+    // logWithMeta("info", "Fetching all collections from database", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   authorization
+    // });
+
+    // Get the names of all collections in the database
+    const collections = await mongoose.connection.db.listCollections().toArray();
+
+    // Filter collections that match the logs_* format
+    const logCollections = collections
+      .map(col => col.name)
+      .filter(name => name.startsWith('logs_'));
+
+      console.log("collections::::::", logCollections)
+
+
+    // Log the filtered collections
+    // logWithMeta("info", "Filtered log collections", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   collections: logCollections,
+    //   authorization
+    // });
+
+    let allLogs = [];
+
+    // Iterate over each log collection and fetch logs
+    for (const collectionName of logCollections) {
+      const LogModel = getModelName(collectionName); // Get or create the model
+
+      // Log start of fetching logs from each collection
+      // logWithMeta("info", `Fetching logs from collection: ${collectionName}`, {
+      //   logId,
+      //   clientIp,
+      //   userAgent,
+      //   apiName,
+      //   method,
+      //   collectionName,
+      //   authorization
+      // });
+
+      // Fetch logs from the current collection, filtering by hospitalId if provided
+      const query = hospitalId ? { hospitalId } : {};
+      const logs = await LogModel.find(query);
+      allLogs = allLogs.concat(logs); // Combine logs from all collections
+
+      console.log("allLogs:::::::::", allLogs.length)
+      
+      // Log the number of logs fetched from the collection
+      // logWithMeta("info", `Fetched ${logs.length} logs from collection: ${collectionName}`, {
+      //   logId,
+      //   clientIp,
+      //   userAgent,
+      //   apiName,
+      //   method,
+      //   collectionName,
+      //   authorization
+      // });
+    }
+
+    // Handle case where no logs are found in all collections
+    if (allLogs.length === 0) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCodeResponse = 1229;
+      const statusCode = 404;
+
+      // Log no logs found
+      // logWithMeta("warn", "No logs found in any collection", {
+      //   logId,
+      //   clientIp,
+      //   userAgent,
+      //   apiName,
+      //   method,
+      //   errorCode: errorCodeResponse,
+      //   executionTime,
+      //   statusCode,
+      //   authorization
+      // });
+
+      return res.status(statusCode).json({
+        meta: {
+          statusCode,
+          errorCode: errorCodeResponse,
+          logId,
+          executionTime
+        },
+        error: {
+          message: 'No logs found in any collection'
+        }
+      });
+    }
+
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+
+    // Log successful retrieval of logs
+    // logWithMeta("info", "Successfully fetched logs from all collections", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   executionTime,
+    //   authorization
+    // }, {
+    //   logCount: allLogs.length
+    // });
+
+    // Return all found logs
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        logId,
+        executionTime
+      },
+      data: allLogs
+    });
+  } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCodeResponse = 1230;
+    const statusCode = 500;
+
+    // Log server error
+    // logWithMeta("error", "Error fetching logs from all collections", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   errorCode: errorCodeResponse,
+    //   executionTime,
+    //   statusCode,
+    //   authorization,
+    //   error: error.message
+    // });
+
+    return res.status(statusCode).json({
+      meta: {
+        statusCode,
+        errorCode: errorCodeResponse,
+        logId,
+        executionTime
+      },
+      error: {
+        message: 'Server Error: ' + error.message
+      }
+    });
+  }
+};
+exports.getAllDataFromHospitalIdWithRange = async (req, res) => {
+  const start = Date.now();
+  const logId = uuidv4();
+
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const apiName = req.originalUrl;
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+  const { hospitalId, startDate, endDate } = req.query;
+
+  try {
+    // logWithMeta("info", "Fetching collections within date range", {
+    //   logId, clientIp, userAgent, apiName, method, authorization
+    // });
+
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    const logCollections = collections
+      .map(col => col.name)
+      .filter(name => name.startsWith('logs_'));
+
+    const formattedStartDate = moment(startDate, "YYYY-MM-DD-HH:mm");
+    const formattedEndDate = moment(endDate, "YYYY-MM-DD-HH:mm");
+
+    const filteredCollections = logCollections.filter(collection => {
+      const datePart = collection.split('logs_')[1];
+      const collectionDate = moment(datePart, "YYYY_MM_DD");
+      return collectionDate.isBetween(formattedStartDate, formattedEndDate, 'day', '[]');
+    });
+
+    let allLogs = [];
+
+    for (const collectionName of filteredCollections) {
+      const LogModel = getModelName(collectionName);
+
+      // logWithMeta("info", `Fetching logs from collection: ${collectionName}`, {
+      //   logId, clientIp, userAgent, apiName, method, collectionName, authorization
+      // });
+
+      const query = {
+        ...(hospitalId ? { hospitalId } : {}),
+        timestamp: {
+          $gte: formattedStartDate.toDate(),
+          $lte: formattedEndDate.toDate()
+        }
+      };
+
+      const logs = await LogModel.find(query);
+      allLogs = allLogs.concat(logs);
+
+      // logWithMeta("info", `Fetched ${logs.length} logs from collection: ${collectionName}`, {
+      //   logId, clientIp, userAgent, apiName, method, collectionName, authorization
+      // });
+    }
+
+    if (allLogs.length === 0) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      logWithMeta("warn", "No logs found in the specified date range", {
+        logId, clientIp, userAgent, apiName, method, executionTime, authorization
+      });
+      return res.status(404).json({
+        meta: { statusCode: 404, logId, executionTime },
+        error: { message: 'No logs found in the specified date range' }
+      });
+    }
+
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    // logWithMeta("info", "Successfully fetched logs from filtered collections", {
+    //   logId, clientIp, userAgent, apiName, method, executionTime, authorization
+    // }, { logCount: allLogs.length });
+
+    return res.status(200).json({
+      meta: { statusCode: 200, logId, executionTime },
+      data: allLogs
+    });
+
+  } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    // logWithMeta("error", "Error fetching logs from collections", {
+    //   logId, clientIp, userAgent, apiName, method, errorCode: 1230, executionTime, authorization, error: error.message
+    // });
+    return res.status(500).json({
+      meta: { statusCode: 500, logId, executionTime },
+      error: { message: 'Server Error: ' + error.message }
+    });
+  }
+};
+
+exports.getAllDataFromAllCollectionsByErrorCode = async (req, res) => {
+  const start = Date.now();
+  const logId = uuidv4(); // Generate a unique log ID for this request
+
+  // Extract metadata from the request
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const apiName = req.originalUrl;
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+  // Extract errorCode and date range from the query parameters
+  const errorCode = req.query.errorCode;
+  const startDate = req.query.startDate ? new Date(req.query.startDate) : new Date();
+  const endDate = req.query.endDate ? new Date(req.query.endDate) : new Date();
+
+  // Adjust endDate to the end of the specified day
+  endDate.setHours(23, 59, 59, 999);
+
+  try {
+    // Log starting process of fetching all collections
+    // logWithMeta("info", "Fetching all collections from database", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   authorization
+    // });
+
+    // Get the names of all collections in the database
+    const collections = await mongoose.connection.db.listCollections().toArray();
+
+    // Filter collections that match the logs_* format
+    const logCollections = collections
+      .map(col => col.name)
+      .filter(name => name.startsWith('logs_'));
+
+    console.log("collections::::::", logCollections);
+
+    // Log the filtered collections
+    // logWithMeta("info", "Filtered log collections", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   collections: logCollections,
+    //   authorization
+    // });
+
+    let allLogs = [];
+
+    // Iterate over each log collection and fetch logs
+    for (const collectionName of logCollections) {
+      const LogModel = getModelName(collectionName); // Get or create the model
+
+      // Log start of fetching logs from each collection
+      // logWithMeta("info", `Fetching logs from collection: ${collectionName}`, {
+      //   logId,
+      //   clientIp,
+      //   userAgent,
+      //   apiName,
+      //   method,
+      //   collectionName,
+      //   authorization
+      // });
+
+      // Fetch logs from the current collection, filtering by errorCode and date range if provided
+      const query = {
+        ...(errorCode ? { errorCode } : {}),
+        ...(startDate || endDate ? { date: { $gte: startDate, $lte: endDate } } : {})
+      };
+
+      const logs = await LogModel.find(query);
+      allLogs = allLogs.concat(logs); // Combine logs from all collections
+
+      console.log("allLogs:::::::::", allLogs.length);
+
+      // Log the number of logs fetched from the collection
+      // logWithMeta("info", `Fetched ${logs.length} logs from collection: ${collectionName}`, {
+      //   logId,
+      //   clientIp,
+      //   userAgent,
+      //   apiName,
+      //   method,
+      //   collectionName,
+      //   authorization
+      // });
+    }
+
+    // Handle case where no logs are found in all collections
+    if (allLogs.length === 0) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCodeResponse = 1229;
+      const statusCode = 404;
+
+      // Log no logs found
+      // logWithMeta("warn", "No logs found in any collection", {
+      //   logId,
+      //   clientIp,
+      //   userAgent,
+      //   apiName,
+      //   method,
+      //   errorCode: errorCodeResponse,
+      //   executionTime,
+      //   statusCode,
+      //   authorization
+      // });
+
+      return res.status(statusCode).json({
+        meta: {
+          statusCode,
+          errorCode: errorCodeResponse,
+          logId,
+          executionTime
+        },
+        error: {
+          message: 'No logs found in any collection'
+        }
+      });
+    }
+
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+
+    // Log successful retrieval of logs
+    // logWithMeta("info", "Successfully fetched logs from all collections", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   executionTime,
+    //   authorization
+    // }, {
+    //   logCount: allLogs.length
+    // });
+
+    // Return all found logs
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        logId,
+        executionTime
+      },
+      data: allLogs
+    });
+  } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCodeResponse = 1230;
+    const statusCode = 500;
+
+    // Log server error
+    // logWithMeta("error", "Error fetching logs from all collections", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   errorCode: errorCodeResponse,
+    //   executionTime,
+    //   statusCode,
+    //   authorization,
+    //   error: error.message
+    // });
+
+    return res.status(statusCode).json({
+      meta: {
+        statusCode,
+        errorCode: errorCodeResponse,
+        logId,
+        executionTime
+      },
+      error: {
+        message: 'Server Error: ' + error.message
+      }
+    });
+  }
+};
+
+
+// exports.getAllDataFromAllCollectionsByDateRange = async (req, res) => {
+//   const start = Date.now();
+//   const logId = uuidv4(); // Generate a unique log ID for this request
+  
+
+// // Extract date range from query parameters
+// const startDateParam = req.query.startDate; // e.g., '2024-10-15'
+// const endDateParam = req.query.endDate;     // e.g., '2024-10-28'
+
+// // Parse the dates
+// const startDate = new Date(startDateParam);
+// const endDate = new Date(endDateParam);
+
+//   // Extract metadata from the request
+//   const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+//   const userAgent = req.headers['user-agent'];
+//   const apiName = req.originalUrl;
+//   const method = req.method;
+//   const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+//   try {
+//     // Log starting process of fetching all collections
+//     logWithMeta("info", "Fetching all collections from database", {
+//       logId,
+//       clientIp,
+//       userAgent,
+//       apiName,
+//       method,
+//       authorization
+//     });
+
+//     // Get the names of all collections in the database
+//     const collections = await mongoose.connection.db.listCollections().toArray();
+
+//     // console.log("collections45454545", collections)
+    
+
+//    // Filter collections that match the logs_* format and fall within the date range
+//    const logCollections = collections
+//    .map(col => col.name)
+//    .filter(name => {
+//        if (name.startsWith('logs_')) {
+//            // Extract the date part from the collection name
+//            const datePart = name.split('_').slice(1).join('-'); // Get 'YYYY-MM-DD'
+           
+//            // Create a Date object from the date part
+//            const collectionDate = new Date(datePart);
+           
+//            // Check if the collection date is valid and within the defined range
+//            return !isNaN(collectionDate) && collectionDate >= startDate && collectionDate <= endDate;
+//        }
+//        return false;
+//    });
+//    console.log("collecti", logCollections)
+
+//     // Log the filtered collections
+//     logWithMeta("info", "Filtered log collections", {
+//       logId,
+//       clientIp,
+//       userAgent,
+//       apiName,
+//       method,
+//       collections: logCollections,
+//       authorization
+//     });
+
+//     let allLogs = [];
+
+//     // Fetch logs from all log collections
+//     const logFetchPromises = logCollections.map(async (collectionName) => {
+//       const LogModel = getModelName(collectionName);
+
+//       console.log("LogModel", LogModel)
+//       logWithMeta("info", `Fetching logs from collection: ${collectionName}`, {
+//         logId,
+//         clientIp,
+//         userAgent,
+//         apiName,
+//         method,
+//         collectionName,
+//         authorization
+//       });
+
+//       // console.log("LogModel", LogModel)
+//       // Log the errorCode being queried
+//       // console.log(`Querying for errorCode: ${errorCode} in collection: ${collectionName}`);
+
+//       try {
+//         // Fetch logs from the current collection based on errorCode
+//         const logs = await LogModel.find();
+        
+//         console.log("logsss+++++++", logs.length)
+//         console.log("collection+++++++", collectionName)
+        
+//         // Log how many logs were fetched
+//         logWithMeta("info", `Fetched ${logs.length} logs from collection: ${collectionName}`, {
+//           logId,
+//           clientIp,
+//           userAgent,
+//           apiName,
+//           method,
+//           collectionName,
+//           authorization
+//         });
+
+//         // If no logs found, log that info
+//         if (!logs.length) {
+//           logWithMeta("info", `No logs found in collection: ${collectionName}`, {
+//             logId,
+//             clientIp,
+//             userAgent,
+//             apiName,
+//             method,
+//             collectionName,
+//             authorization
+//           });
+//         }
+
+//         return logs;
+//       } catch (dbError) {
+//         logWithMeta("error", `Database error while querying ${collectionName}: ${dbError.message}`, {
+//           logId,
+//           clientIp,
+//           userAgent,
+//           apiName,
+//           method,
+//           collectionName,
+//           authorization
+//         });
+//         return []; // Return an empty array if there's an error
+//       }
+//     });
+
+
+//     // Await all log fetch promises
+//     const logsArray = await Promise.all(logFetchPromises);
+//     allLogs = logsArray.flat(); // Flatten the array of arrays
+    
+//     // Handle case where no logs are found in all collections
+//     if (allLogs.length === 0) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCodeResponse = 1229;
+//       const statusCode = 404;
+
+//       logWithMeta("warn", "No logs found in any collection", {
+//         logId,
+//         clientIp,
+//         userAgent,
+//         apiName,
+//         method,
+//         errorCode: errorCodeResponse,
+//         executionTime,
+//         statusCode,
+//         authorization
+//       });
+
+//       return res.status(statusCode).json({
+//         meta: {
+//           statusCode,
+//           errorCode: errorCodeResponse,
+//           logId,
+//           executionTime
+//         },
+//         error: {
+//           message: 'No logs found in any collection'
+//         }
+//       });
+//     }
+
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+
+//     logWithMeta("info", "Successfully fetched logs from all collections", {
+//       logId,
+//       clientIp,
+//       userAgent,
+//       apiName,
+//       method,
+//       executionTime,
+//       authorization
+//     }, {
+//       logCount: allLogs.length
+//     });
+
+//     // Return all found logs
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         logId,
+//         executionTime
+//       },
+//       data: allLogs
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCodeResponse = 1230;
+//     const statusCode = 500;
+
+//     logWithMeta("error", "Error fetching logs from all collections", {
+//       logId,
+//       clientIp,
+//       userAgent,
+//       apiName,
+//       method,
+//       errorCode: errorCodeResponse,
+//       executionTime,
+//       statusCode,
+//       authorization,
+//       error: error.message
+//     });
+
+//     return res.status(statusCode).json({
+//       meta: {
+//         statusCode,
+//         errorCode: errorCodeResponse,
+//         logId,
+//         executionTime
+//       },
+//       error: {
+//         message: 'Server Error: ' + error.message
+//       }
+//     });
+//   }
+// };
+
+// exports.getAllDataFromAllCollectionsByDateRange = async (req, res) => {
+//   const start = Date.now();
+//   const logId = uuidv4(); // Generate a unique log ID for this request
+  
+//   // Extract date range from query parameters
+//   const startDateParam = req.query.startDate; // e.g., '2024-10-24 08:30'
+//   const endDateParam = req.query.endDate;     // e.g., '2024-10-28 17:00'
+
+//   // Parse the dates
+//   const startDate = new Date(startDateParam.replace(" ", "T"));
+//   const endDate = new Date(endDateParam.replace(" ", "T"));
+//   endDate.setHours(23, 59, 59, 999); // Set end date to the end of the day
+
+//   // Extract metadata from the request
+//   const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+//   const userAgent = req.headers['user-agent'];
+//   const apiName = req.originalUrl;
+//   const method = req.method;
+//   const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
 //   try {
 //     // Get the names of all collections in the database
 //     const collections = await mongoose.connection.db.listCollections().toArray();
 
-//     // Filter collections that match the logs_* format
+//     // Filter collections that match the logs_* format and fall within the date range
 //     const logCollections = collections
 //       .map(col => col.name)
-//       .filter(name => name.startsWith('logs_'));
+//       .filter(name => {
+//         if (name.startsWith('logs_')) {
+//           const datePart = name.split('_')[1]; // Get 'YYYY-MM-DD'
+//           const collectionDate = new Date(datePart);
+//           return collectionDate >= startDate && collectionDate <= endDate;
+//         }
+//         return false;
+//       });
 
 //     let allLogs = [];
 
-//     // Iterate over each log collection and fetch logs
-//     for (const collectionName of logCollections) {
-//       const LogModel = getModelName(collectionName); // Get or create the model
+//     // Fetch logs from all log collections
+//     const logFetchPromises = logCollections.map(async (collectionName) => {
+//       const LogModel = getModelName(collectionName);
 
-//       // Fetch logs from the current collection
-//       const logs = await LogModel.find({});
-//       allLogs = allLogs.concat(logs); // Combine logs from all collections
-//     }
+//       try {
+//         // Fetch logs from the current collection
+//         const logs = await LogModel.find();
+//         return logs;
+//       } catch (dbError) {
+//         return []; // Return an empty array if there's an error
+//       }
+//     });
 
-//     // Handle case where no logs are found in all collections
+//     // Await all log fetch promises
+//     const logsArray = await Promise.all(logFetchPromises);
+//     allLogs = logsArray.flat(); // Flatten the array of arrays
+    
+//     // Handle case where no logs are found
 //     if (allLogs.length === 0) {
-//       return res.status(404).json({errorCode: 1229, message: 'No logs found in any collection' });
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: 404,
+//           logId,
+//         },
+//         error: {
+//           message: 'No logs found in the specified date range.'
+//         }
+//       });
 //     }
 
 //     // Return all found logs
-//     return res.status(200).json(allLogs);
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         logId,
+//       },
+//       data: allLogs
+//     });
 //   } catch (error) {
-//     console.error('Error fetching logs from all collections:', error);
-//     return res.status(500).json({errorCode: 1230, message: 'Server Error', error: error.message });
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         logId,
+//       },
+//       error: {
+//         message: 'Server Error: ' + error.message
+//       }
+//     });
 //   }
 // };
 
 
-exports.getAllDataFromAllCollections = async (req, res) => {
+exports.getAllDataFromAllCollectionsByDateRange = async (req, res) => {
   const start = Date.now();
   const logId = uuidv4(); // Generate a unique log ID for this request
+  
+  // Extract date range from query parameters
+  const startDateParam = req.query.startDate; // e.g., '2024-10-24 08:30'
+  const endDateParam = req.query.endDate;     // e.g., '2024-10-28 17:00'
+
+  // Parse the dates
+  const startDate = new Date(startDateParam.replace(" ", "T"));
+  const endDate = new Date(endDateParam.replace(" ", "T"));
+  endDate.setHours(23, 59, 59, 999); // Set end date to the end of the day
 
   // Extract metadata from the request
   const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -1638,55 +3275,57 @@ exports.getAllDataFromAllCollections = async (req, res) => {
     // Get the names of all collections in the database
     const collections = await mongoose.connection.db.listCollections().toArray();
 
-    // Filter collections that match the logs_* format
+    // Filter collections that match the logs_* format and fall within the date range
     const logCollections = collections
       .map(col => col.name)
-      .filter(name => name.startsWith('logs_'));
-
-    // Log the filtered collections
-    logWithMeta("info", "Filtered log collections", {
-      logId,
-      clientIp,
-      userAgent,
-      apiName,
-      method,
-      collections: logCollections,
-      authorization
-    });
+      .filter(name => {
+        if (name.startsWith('logs_')) {
+          const datePart = name.split('_')[1]; // Get 'YYYY-MM-DD'
+          const collectionDate = new Date(datePart);
+          // Check if the collection date is valid and within the defined range
+          return !isNaN(collectionDate) && collectionDate >= startDate && collectionDate <= endDate;
+        }
+        return false;
+      });
 
     let allLogs = [];
 
-    // Iterate over each log collection and fetch logs
-    for (const collectionName of logCollections) {
-      const LogModel = getModelName(collectionName); // Get or create the model
+    // Fetch logs from all log collections
+    const logFetchPromises = logCollections.map(async (collectionName) => {
+      const LogModel = getModelName(collectionName);
 
-      // Log start of fetching logs from each collection
-      logWithMeta("info", `Fetching logs from collection: ${collectionName}`, {
-        logId,
-        clientIp,
-        userAgent,
-        apiName,
-        method,
-        collectionName,
-        authorization
-      });
+      try {
+        // Fetch logs from the current collection
+        const logs = await LogModel.find();
+        console.log(`Total logs fetched from ${collectionName}: ${logs.length}`);
+        
+        const filteredLogs = logs.filter(log => {
+          const logDate = new Date(log.date); // Ensure log.date is the correct field
+          console.log(`Log date: ${logDate}, Start date: ${startDate}, End date: ${endDate}`);
+          return logDate >= startDate && logDate <= endDate;
+        });
+        console.log(`Filtered logs count: ${filteredLogs.length}`);
+        
 
-      // Fetch logs from the current collection
-      const logs = await LogModel.find({});
-      allLogs = allLogs.concat(logs); // Combine logs from all collections
+        return filteredLogs;
+      } catch (dbError) {
+        logWithMeta("error", `Database error while querying ${collectionName}: ${dbError.message}`, {
+          logId,
+          clientIp,
+          userAgent,
+          apiName,
+          method,
+          collectionName,
+          authorization
+        });
+        return []; // Return an empty array if there's an error
+      }
+    });
 
-      // Log the number of logs fetched from the collection
-      logWithMeta("info", `Fetched ${logs.length} logs from collection: ${collectionName}`, {
-        logId,
-        clientIp,
-        userAgent,
-        apiName,
-        method,
-        collectionName,
-        authorization
-      });
-    }
-
+    // Await all log fetch promises
+    const logsArray = await Promise.all(logFetchPromises);
+    allLogs = logsArray.flat(); // Flatten the array of arrays
+    
     // Handle case where no logs are found in all collections
     if (allLogs.length === 0) {
       const end = Date.now();
@@ -1694,7 +3333,6 @@ exports.getAllDataFromAllCollections = async (req, res) => {
       const errorCodeResponse = 1229;
       const statusCode = 404;
 
-      // Log no logs found
       logWithMeta("warn", "No logs found in any collection", {
         logId,
         clientIp,
@@ -1723,18 +3361,17 @@ exports.getAllDataFromAllCollections = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
 
-    // Log successful retrieval of logs
-    logWithMeta("info", "Successfully fetched logs from all collections", {
-      logId,
-      clientIp,
-      userAgent,
-      apiName,
-      method,
-      executionTime,
-      authorization
-    }, {
-      logCount: allLogs.length
-    });
+    // logWithMeta("info", "Successfully fetched logs from all collections", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   executionTime,
+    //   authorization
+    // }, {
+    //   logCount: allLogs.length
+    // });
 
     // Return all found logs
     return res.status(200).json({
@@ -1751,19 +3388,18 @@ exports.getAllDataFromAllCollections = async (req, res) => {
     const errorCodeResponse = 1230;
     const statusCode = 500;
 
-    // Log server error
-    logWithMeta("error", "Error fetching logs from all collections", {
-      logId,
-      clientIp,
-      userAgent,
-      apiName,
-      method,
-      errorCode: errorCodeResponse,
-      executionTime,
-      statusCode,
-      authorization,
-      error: error.message
-    });
+    // logWithMeta("error", "Error fetching logs from all collections", {
+    //   logId,
+    //   clientIp,
+    //   userAgent,
+    //   apiName,
+    //   method,
+    //   errorCode: errorCodeResponse,
+    //   executionTime,
+    //   statusCode,
+    //   authorization,
+    //   error: error.message
+    // });
 
     return res.status(statusCode).json({
       meta: {
@@ -1779,7 +3415,600 @@ exports.getAllDataFromAllCollections = async (req, res) => {
   }
 };
 
-  
-  
 
-  
+
+exports.getDataByMessageAndDateRange = async (req, res) => {
+  const start = Date.now();
+  const logId = uuidv4();
+
+  // Extract query parameters
+  const { message, startDate, endDate } = req.query;
+
+  // Extract metadata for logging
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const apiName = req.originalUrl;
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+  try {
+    // Validate message
+    if (!message) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'Message parameter is required' }
+      });
+    }
+
+    // Validate startDate and endDate
+    if (!startDate || !endDate) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'Both startDate and endDate are required' }
+      });
+    }
+
+    const formattedStartDate = moment(startDate, "YYYY-MM-DD-HH:mm");
+    const formattedEndDate = moment(endDate, "YYYY-MM-DD-HH:mm");
+
+    if (!formattedStartDate.isValid() || !formattedEndDate.isValid()) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'Invalid date format. Use YYYY-MM-DD-HH:MM.' }
+      });
+    }
+
+    // Fetch all collections with prefix 'logs_'
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    const logCollections = collections
+      .map(col => col.name)
+      .filter(name => name.startsWith('logs_'));
+
+    const filteredCollections = logCollections.filter(collection => {
+      const datePart = collection.split('logs_')[1];
+      const collectionDate = moment(datePart, "YYYY_MM_DD");
+      return collectionDate.isBetween(formattedStartDate, formattedEndDate, 'day', '[]');
+    });
+
+    let allLogs = [];
+
+    for (const collectionName of filteredCollections) {
+      const LogModel = getModel(collectionName);
+
+      const query = {
+        message: { $regex: message, $options: 'i' }, // Case-insensitive partial match
+        timestamp: {
+          $gte: formattedStartDate.toDate(),
+          $lte: formattedEndDate.toDate()
+        }
+      };
+
+      const logs = await LogModel.find(query);
+      allLogs = allLogs.concat(logs);
+    }
+
+    if (allLogs.length === 0) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(404).json({
+        meta: { statusCode: 404, logId, executionTime },
+        error: { message: 'No logs found for the given message and date range' }
+      });
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+    return res.status(200).json({
+      meta: { statusCode: 200, logId, executionTime },
+      data: allLogs
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    return res.status(500).json({
+      meta: { statusCode: 500, logId, executionTime },
+      error: { message: 'Server Error: ' + error.message }
+    });
+  }
+};
+
+exports.getDataByLogIdAndDateRange = async (req, res) => {
+  const start = Date.now();
+  const logId = req.query.logId;
+  const { startDate, endDate } = req.query;
+
+  try {
+    // Validate logId
+    if (!logId) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          logId: uuidv4(), // Generate a new logId
+          executionTime
+        },
+        error: {
+          message: 'logId is required'
+        }
+      });
+    }
+
+    // Validate startDate and endDate
+    if (!startDate || !endDate) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          logId: uuidv4(), // Generate a new logId
+          executionTime
+        },
+        error: {
+          message: 'Both startDate and endDate are required'
+        }
+      });
+    }
+
+    // Convert startDate and endDate to valid moment objects
+    const formattedStartDate = moment(startDate, "YYYY-MM-DD-HH:mm", true);
+    const formattedEndDate = moment(endDate, "YYYY-MM-DD-HH:mm", true);
+
+    // Validate date formats
+    if (!formattedStartDate.isValid() || !formattedEndDate.isValid()) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          logId: uuidv4(), // Generate a new logId
+          executionTime
+        },
+        error: {
+          message: 'Invalid date format. Use YYYY-MM-DD-HH:mm.'
+        }
+      });
+    }
+
+    // Fetch log collections based on the date range
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    const logCollections = collections
+      .map(col => col.name)
+      .filter(name => name.startsWith('logs_'));
+
+    const filteredCollections = logCollections.filter(collection => {
+      const datePart = collection.split('logs_')[1];
+      const collectionDate = moment(datePart, "YYYY_MM_DD");
+      return collectionDate.isBetween(formattedStartDate, formattedEndDate, 'day', '[]');
+    });
+
+    // Combine logs from all filtered collections
+    let allLogs = [];
+
+    for (const collectionName of filteredCollections) {
+      const LogModel = getModel(collectionName);
+
+      const query = {
+        "meta.logId": logId,  // Search in meta.logId
+        timestamp: {
+          $gte: formattedStartDate.toDate(),
+          $lte: formattedEndDate.toDate()
+        }
+      };
+
+      console.log('Query:', query);
+
+      const logs = await LogModel.find(query);
+      console.log('Logs found in collection', collectionName, ':', logs.length);
+      allLogs = allLogs.concat(logs);
+    }
+
+    // Check if logs were found
+    if (allLogs.length === 0) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(404).json({
+        meta: {
+          statusCode: 404,
+          logId: uuidv4(), // Generate a new logId
+          executionTime
+        },
+        error: {
+          message: 'No logs found for the given logId and date range'
+        }
+      });
+    }
+
+    // Return success response with logs
+    const executionTime = `${Date.now() - start}ms`;
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        logId: uuidv4(), // Generate a new logId
+        executionTime
+      },
+      data: allLogs
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        logId: uuidv4(), // Generate a new logId
+        executionTime
+      },
+      error: {
+        message: 'Server Error: ' + error.message
+      }
+    });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exports.getDataByApiNameAndDateRange = async (req, res) => {
+  const start = Date.now();
+  const logId = uuidv4();
+
+  const { apiName, startDate, endDate } = req.query;
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+  try {
+    // Validate apiName
+    if (!apiName) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'apiName is required' }
+      });
+    }
+
+    // Validate startDate and endDate
+    if (!startDate || !endDate) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'Both startDate and endDate are required' }
+      });
+    }
+
+    const formattedStartDate = moment(startDate, "YYYY-MM-DD-HH:mm");
+    const formattedEndDate = moment(endDate, "YYYY-MM-DD-HH:mm");
+
+    if (!formattedStartDate.isValid() || !formattedEndDate.isValid()) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'Invalid date format. Use YYYY-MM-DD-HH:mm.' }
+      });
+    }
+
+    // Determine collection names in the date range
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    const logCollections = collections
+      .map(col => col.name)
+      .filter(name => name.startsWith('logs_'));
+
+    const filteredCollections = logCollections.filter(collection => {
+      const datePart = collection.split('logs_')[1];
+      const collectionDate = moment(datePart, "YYYY_MM_DD");
+      return collectionDate.isBetween(formattedStartDate, formattedEndDate, 'day', '[]');
+    });
+
+    let allLogs = [];
+
+    for (const collectionName of filteredCollections) {
+      const LogModel = getModel(collectionName);
+
+      const query = {
+        "meta.apiName": apiName, // Ensure the field name matches your logs
+        timestamp: {
+          $gte: formattedStartDate.toDate(),
+          $lte: formattedEndDate.toDate()
+        }
+      };
+      
+      console.log('Query:', query);
+
+     
+  const logs = await LogModel.find(query);
+  console.log('Logs found in collection', collectionName, ':', logs.length);
+  allLogs = allLogs.concat(logs);
+    }
+
+    if (allLogs.length === 0) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(404).json({
+        meta: { statusCode: 404, logId, executionTime },
+        error: { message: 'No logs found for the given apiName and date range' }
+      });
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+    return res.status(200).json({
+      meta: { statusCode: 200, logId, executionTime },
+      data: allLogs
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    return res.status(500).json({
+      meta: { statusCode: 500, logId, executionTime },
+      error: { message: 'Server Error: ' + error.message }
+    });
+  }
+};
+exports.getDataByErrorCodeAndDateRange = async (req, res) => {
+  const start = Date.now();
+  const logId = uuidv4();
+
+  const { errorCode, startDate, endDate } = req.query;
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+  try {
+    // Validate errorCode
+    if (!errorCode) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'errorCode is required' }
+      });
+    }
+
+    // Validate startDate and endDate
+    if (!startDate || !endDate) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'Both startDate and endDate are required' }
+      });
+    }
+
+    const formattedStartDate = moment(startDate, "YYYY-MM-DD-HH:mm").toDate();
+    const formattedEndDate = moment(endDate, "YYYY-MM-DD-HH:mm").toDate();
+
+    // Retrieve collections based on the date range
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    const logCollections = collections
+      .map(col => col.name)
+      .filter(name => name.startsWith('logs_'));
+
+    const filteredCollections = logCollections.filter(collection => {
+      const datePart = collection.split('logs_')[1];
+      const collectionDate = moment(datePart, "YYYY_MM_DD").toDate();
+      return collectionDate >= formattedStartDate && collectionDate <= formattedEndDate;
+    });
+
+    let allLogs = [];
+
+    for (const collectionName of filteredCollections) {
+      const LogModel = mongoose.connection.db.collection(collectionName);
+
+      const query = {
+        "errorCode": parseInt(errorCode, 10),  // Ensure errorCode is an integer if stored as such
+        timestamp: {
+          $gte: formattedStartDate,
+          $lte: formattedEndDate
+        }
+      };
+
+
+
+      const testLogs = await LogModel.find({ "errorCode": errorCode }).toArray();
+console.log(`Basic check for logs in collection ${collectionName}:`, testLogs);
+
+      const logs = await LogModel.find(query).toArray();
+      console.log(`Logs found in collection ${collectionName}:`, logs.length);
+      allLogs = allLogs.concat(logs);
+    }
+
+    if (allLogs.length === 0) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(404).json({
+        meta: { statusCode: 404, logId, executionTime },
+        error: { message: 'No logs found for the given errorCode and date range' }
+      });
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+    return res.status(200).json({
+      meta: { statusCode: 200, logId, executionTime },
+      data: allLogs
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    return res.status(500).json({
+      meta: { statusCode: 500, logId, executionTime },
+      error: { message: 'Server Error: ' + error.message }
+    });
+  }
+};
+// API to get logs by statusCode and date range
+exports.getDataByStatusCodeAndDateRange = async (req, res) => {
+  const start = Date.now();
+  const logId = uuidv4();
+
+  const { statusCode, startDate, endDate } = req.query;
+  const clientIp = await getClientIp(req) || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+  const method = req.method;
+  const authorization = req.headers['authorization'] ? maskSensitiveData(req.headers['authorization']) : null;
+
+  try {
+    // Validate statusCode
+    if (!statusCode) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'statusCode is required' }
+      });
+    }
+
+    // Validate startDate and endDate
+    if (!startDate || !endDate) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'Both startDate and endDate are required' }
+      });
+    }
+
+    const formattedStartDate = moment(startDate, "YYYY-MM-DD-HH:mm");
+    const formattedEndDate = moment(endDate, "YYYY-MM-DD-HH:mm");
+
+    if (!formattedStartDate.isValid() || !formattedEndDate.isValid()) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(400).json({
+        meta: { statusCode: 400, logId, executionTime },
+        error: { message: 'Invalid date format. Use YYYY-MM-DD-HH:mm.' }
+      });
+    }
+
+    // Determine collection names in the date range
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    const logCollections = collections
+      .map(col => col.name)
+      .filter(name => name.startsWith('logs_'));
+
+    const filteredCollections = logCollections.filter(collection => {
+      const datePart = collection.split('logs_')[1];
+      const collectionDate = moment(datePart, "YYYY_MM_DD");
+      return collectionDate.isBetween(formattedStartDate, formattedEndDate, 'day', '[]');
+    });
+
+    let allLogs = [];
+
+    for (const collectionName of filteredCollections) {
+      const LogModel = getModel(collectionName);
+
+      const query = {
+        "meta.statusCode": parseInt(statusCode, 10), // Ensure it's an integer
+        timestamp: {
+          $gte: formattedStartDate.toDate(),
+          $lte: formattedEndDate.toDate()
+        }
+      };
+      
+      console.log('Query:', query);
+
+      const logs = await LogModel.find(query);
+      console.log('Logs found in collection', collectionName, ':', logs.length);
+      allLogs = allLogs.concat(logs);
+    }
+
+    if (allLogs.length === 0) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(404).json({
+        meta: { statusCode: 404, logId, executionTime },
+        error: { message: 'No logs found for the given statusCode and date range' }
+      });
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+    return res.status(200).json({
+      meta: { statusCode: 200, logId, executionTime },
+      data: allLogs
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    return res.status(500).json({
+      meta: { statusCode: 500, logId, executionTime },
+      error: { message: 'Server Error: ' + error.message }
+    });
+  }
+};
+
+

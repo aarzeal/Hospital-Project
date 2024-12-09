@@ -1,7 +1,8 @@
 
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const logger = require('../logger');  // Assuming logger is configured properly in '../logger'
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
@@ -45,6 +46,7 @@ exports.creatmodules = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `User created successfully with username: ${modules_name}`, {
         executionTime,
+        statusCode: 200,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -71,6 +73,7 @@ exports.creatmodules = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Error creating Modules ${error.message}`, {
         errorCode,
+        statusCode: 500,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
@@ -113,6 +116,7 @@ exports.creatmodules = async (req, res) => {
           errorCode,
           errorMessage: error.message,
           executionTime,
+          statusCode: 404,
           hospitalId: req.hospitalId,
           ip: clientIp,
           apiName: req.originalUrl, // API name
@@ -137,6 +141,7 @@ exports.creatmodules = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `User with ID ${modules_Id} retrieved successfully`, {
         executionTime,
+        statusCode: 200,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -163,6 +168,7 @@ exports.creatmodules = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Error retrieving Modules ${error.message}`, {
         errorCode,
+        statusCode: 500,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
@@ -206,6 +212,7 @@ exports.creatmodules = async (req, res) => {
           errorMessage: error.message,
           executionTime,
           hospitalId: req.hospitalId,
+          statusCode: 404,
           ip: clientIp,
           apiName: req.originalUrl, // API name
           method: req.method,
@@ -231,6 +238,7 @@ exports.creatmodules = async (req, res) => {
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
+        statusCode: 200,
         apiName: req.originalUrl, // API name
         method: req.method,
         userAgent: req.headers['user-agent'],    // HTTP method
@@ -258,6 +266,7 @@ exports.creatmodules = async (req, res) => {
         errorCode,
         errorMessage: error.message,
         executionTime,
+        statusCode: 500,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -307,6 +316,7 @@ exports.creatmodules = async (req, res) => {
           // Log the warning
           logger.logWithMeta("warn", `Module with ID ${modules_Id} not found ${error.message}`, {
             errorCode,
+            statusCode: 404,
             errorMessage: error.message,
             executionTime,
             hospitalId: req.hospitalId,
@@ -337,6 +347,7 @@ exports.creatmodules = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Module with ID ${modules_Id} updated successfully`, {
         executionTime,
+        statusCode: 200,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -362,6 +373,7 @@ exports.creatmodules = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Error updating module ${error.message}`, {
         errorCode,
+        statusCode: 500,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,

@@ -1,0 +1,126 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "Designationupdatedsuccessfully": {
+    "en": "Designation updated successfully",
+    "hi": "पदनाम सफलतापूर्वक अद्यतन किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "Designationaddedsuccessfully": {
+    "en": "Designation added successfully",
+    "hi": "पदनाम सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "DoyoureallywanttodeletethisDesignation": {
+    "en": "Do you really want to delete this Designation?",
+    "hi": " क्या आप सचमुच इस पदनाम को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
+  },
+  "Nocancel": {
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
+  },
+  "Deleted": {
+    "en": "Deleted",
+    "hi": " हटाए गए"
+  },
+  "TheDesignationhasbeendeleted": {
+    "en": "The Designation has been deleted",
+    "hi": " यह पदनाम हटा दिया गया है"
+  },
+  "DesignationCode": {
+    "en": "Designation Code",
+    "hi": "पदनाम कोड"
+  },
+  "Designationname": {
+    "en": "Designation name",
+    "hi": " पद नाम"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": " सक्रिय है?"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": " सक्रिय"
+  },
+  "Inactive": {
+    "en": "Inactive",
+    "hi": " निष्क्रिय"
+  },
+  "Actions": {
+    "en": "Actions",
+    "hi": " काम"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "UpdateDesignation": {
+    "en": "Update Designation",
+    "hi": " पदनाम अद्यतन करें"
+  },
+  "RegisterDesignation": {
+    "en": "Register Designation",
+    "hi": " पदनाम पंजीकृत करें"
+  },
+  "EnterDesignationCode": {
+    "en": "Enter Designation Code",
+    "hi": " पदनाम कोड दर्ज करें"
+  },
+  "EnterDesignationName": {
+    "en": "Enter Designation Name",
+    "hi": " पद नाम दर्ज करें"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": " जमा करना"
+  },
+  "SearchbyDesignationcodeName": {
+    "en": "Search by Designation code Name",
+    "hi": " पदनाम कोड नाम से खोजें"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "loading": {
+    "en": "Loading...",
+    "hi": "लोड हो रहा है..."
+  },
+  "DesignationName": {
+    "en": "Designation Name",
+    "hi": "पद नाम"
+  }
+}

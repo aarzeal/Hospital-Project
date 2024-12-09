@@ -1,0 +1,366 @@
+{
+  "PatientDetails": {
+    "en": "Patient Details",
+    "hi": "रोगी विवरण"
+  },
+  "FirstName": {
+    "en": "First Name",
+    "hi": "प्रथम नाम"
+  },
+  "MiddleName": {
+    "en": "Middle Name",
+    "hi": "मध्य नाम"
+  },
+  "LastName": {
+    "en": "Last Name",
+    "hi": "उपनाम"
+  },
+  "Gender": {
+    "en": "Gender",
+    "hi": "लिंग"
+  },
+  "BldGrp": {
+    "en": "Boold Group",
+    "hi": "ब्लड ग्रुप"
+  },
+  "Occupation": {
+    "en": "Occupation",
+    "hi": "पेशा"
+  },
+  "DOB": {
+    "en": "Date of Birth",
+    "hi": "जन्म तिथि"
+  },
+  "Age": {
+    "en": "Age",
+    "hi": "आयु"
+  },
+  "Marital": {
+    "en": "Marital Status",
+    "hi": "वैवाहिक स्थिति"
+  },
+  "Language": {
+    "en": "Language",
+    "hi": "भाषा"
+  },
+  "ContactDetails": {
+    "en": "Contact Details",
+    "hi": "सम्पर्क करने का विवरण"
+  },
+  "ModileNumber": {
+    "en": "Mobile Number",
+    "hi": "मोबाइल नंबर"
+  },
+  "WhatsAppNumber": {
+    "en": "WhatsApp Number",
+    "hi": "व्हाट्सएप नंबर"
+  },
+  "EmergencyContactName": {
+    "en": "Emergency Contact Name",
+    "hi": "आपातकालीन संपर्क नाम"
+  },
+  "EmergencyContactNumber": {
+    "en": "Emergency Contact Number",
+    "hi": "आपातकालीन संपर्क नंबर"
+  },
+  "Email": {
+    "en": "Email",
+    "hi": "ईमेल"
+  },
+  "ResidenceAddress": {
+    "en": "Residence Address",
+    "hi": "निवास का पता"
+  },
+  "Country": {
+    "en": "Country",
+    "hi": "देश"
+  },
+  "State": {
+    "en": "State",
+    "hi": "राज्य"
+  },
+  "City": {
+    "en": "City",
+    "hi": "शहर"
+  },
+  "Nationality": {
+    "en": "Nationality",
+    "hi": "राष्ट्रीयता"
+  },
+  "Address": {
+    "en": "Address",
+    "hi": "पता"
+  },
+  "MedicalHistory": {
+    "en": "Medical History",
+    "hi": "चिकित्सा का इतिहास"
+  },
+  "CurrentMedication": {
+    "en": "Current Medication",
+    "hi": "वर्तमान दवा"
+  },
+  "Allergies": {
+    "en": "Allergies",
+    "hi": "एलर्जी"
+  },
+  "Medical History": {
+    "en": "MedicalHistory",
+    "hi": "चिकित्सा का इतिहास"
+  },
+  "Insurance Details": {
+    "en": "Insurance Details",
+    "hi": "बीमा विवरण"
+  },
+  "InsuranceDetails": {
+    "en": "Insurance Details",
+    "hi": "बीमा विवरण"
+  },
+  "InsuranceProvider": {
+    "en": "Insurance Provider",
+    "hi": "बीमा प्रदाता"
+  },
+  "InsurancePolicyNumber": {
+    "en": "Insurance Policy Number",
+    "hi": "बीमा पॉलिसी संख्या"
+  },
+  "AcceptTerms&Policy": {
+    "en": "Accept Terms & Policy",
+    "hi": "शर्तें और नीति स्वीकार करें"
+  },
+  "AcceptTermsPolicy": {
+    "en": "Accept Terms & Policy",
+    "hi": "शर्तें और नीति स्वीकार करें"
+  },
+  "Is Communication Allowed": {
+    "en": "Is Communication Allowed",
+    "hi": "क्या संचार की अनुमति है?"
+  },
+  "IsCommunicationAllowed": {
+    "en": "Is Communication Allowed",
+    "hi": "क्या संचार की अनुमति है?"
+  },
+  "ProfileImage": {
+    "en": "Profile Image",
+    "hi": "प्रोफ़ाइल छवि"
+  },
+  "UploadImage": {
+    "en": "Upload Image",
+    "hi": "तस्विर अपलोड करना"
+  },
+  "CaptureImage": {
+    "en": "Capture Image",
+    "hi": "छवि कैप्चर करें"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Invalid month": {
+    "en": "Invalid month",
+    "hi": "अमान्य महीना"
+  },
+  "InvalidMonth": {
+    "en": "Invalid month",
+    "hi": "अमान्य महीना"
+  },
+  "DatemustbeafterJanuary11900": {
+    "en": "Date must be after January 1, 1900",
+    "hi": "दिनांक 1 जनवरी, 1900 के बाद की होनी चाहिए"
+  },
+  "Datecannotbeinthefuture": {
+    "en": "Date cannot be in the future",
+    "hi": "दिनांक भविष्य में नहीं हो सकता"
+  },
+  "label": {
+    "en": "label",
+    "hi": "mmmm"
+  },
+  "RequireOnlyLetters": {
+    "en": "Require Only Letters",
+    "hi": "केवल अक्षरों की आवश्यकता है"
+  },
+  "RequireOnlyNumbers": {
+    "en": "Require Only Numbers",
+    "hi": "केवल संख्या की आवश्यकता है"
+  },
+  "InvalidEmailAddress": {
+    "en": "Invalid Email Address",
+    "hi": "अमान्य ईमेल पता"
+  },
+  "PatientRegisteredSuccessfully": {
+    "en": "Patient Registered Successfully",
+    "hi": "मरीज़ सफलतापूर्वक पंजीकृत हो गया"
+  },
+  "Patient": {
+    "en": "Patient",
+    "hi": "मरीज़"
+  },
+  "PrintIDCard": {
+    "en": "Print ID Card",
+    "hi": "आईडी कार्ड प्रिंट करें"
+  },
+  "PrintBarcode": {
+    "en": "Print Patient Barcode",
+    "hi": "बारकोड प्रिंट करें"
+  },
+  "MobileNumber": {
+    "en": "Mobile Number",
+    "hi": "मोबाइल नंबर"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "PatientUpdatedSuccessfully": {
+    "en": "Patient Updated Successfully",
+    "hi": "मरीज़ का अद्यतनीकरण सफलतापूर्वक हुआ"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Enterfirstnamehere": {
+    "en": "Enter first name here",
+    "hi": "यहां पहला नाम दर्ज करें"
+  },
+  "Entermiddlenamehere": {
+    "en": "Enter middle name here",
+    "hi": "यहां मध्य नाम दर्ज करें"
+  },
+  "Enterlastnamehere": {
+    "en": "Enter last name here",
+    "hi": "यहां उपनाम दर्ज करें"
+  },
+  "Enteroccupationhere": {
+    "en": "Enter occupation here",
+    "hi": "यहां पेशा दर्ज करें"
+  },
+  "Enterlanguagehere": {
+    "en": "Enter language here",
+    "hi": "यहां भाषा दर्ज करें"
+  },
+  "EnterMobileNumberhere": {
+    "en": "Enter Mobile Number here",
+    "hi": "यहां मोबाइल नंबर दर्ज करें"
+  },
+  "EnterEmailhere": {
+    "en": "Enter Email here",
+    "hi": "यहां मोबाइल ईमेल दर्ज करें"
+  },
+  "EnterEmergencyContactNamehere": {
+    "en": "Enter Emergency Contact Name here",
+    "hi": "यहां आपातकालीन संपर्क नाम दर्ज करें"
+  },
+  "EnterEmergencyContactNumberhere": {
+    "en": "Enter Emergency Contact Number here",
+    "hi": "यहां आपातकालीन संपर्क नंबर दर्ज करें"
+  },
+  "EnterWhatsAppNumberehere": {
+    "en": "Enter WhatsApp Number here",
+    "hi": "यहां व्हाट्सएप नंबर दर्ज करें"
+  },
+  "PatientContactDetails": {
+    "en": "Patient Contact Details",
+    "hi": "रोगी संपर्क विवरण"
+  },
+  "PatientResidentialDetails": {
+    "en": "Patient Residential Details",
+    "hi": "रोगी आवासीय विवरण"
+  },
+  "EnterAddresshere": {
+    "en": "Enter Address here",
+    "hi": "यहां पता दर्ज करें"
+  },
+  "EnterCurrentMedicationhere": {
+    "en": "Enter Current Medication here",
+    "hi": "यहां वर्तमान दवा दर्ज करें"
+  },
+  "MedicationHistory": {
+    "en": "Medication History",
+    "hi": "दवा का इतिहास"
+  },
+  "EnterAllergieshere": {
+    "en": "Enter Allergies here",
+    "hi": "यहां एलर्जी दर्ज करें"
+  },
+  "EnterMedicalHistoryhere": {
+    "en": "Enter Medical History here",
+    "hi": "यहां चिकित्सा का इतिहास दर्ज करें"
+  },
+  "EnterInsuranceProviderhere": {
+    "en": "Enter Insurance Provider here",
+    "hi": "यहां बीमा प्रदाता दर्ज करें"
+  },
+  "EnterInsurancePolicyNumberhere": {
+    "en": "Enter Insurance Policy Number here",
+    "hi": "यहां बीमा पॉलिसी नंबर प्रदाता दर्ज करें"
+  },
+  "Uploaded": {
+    "en": "Uploaded",
+    "hi": "अपलोड किए गए"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "DateofBirth": {
+    "en": "Date of Birth ",
+    "hi": "जन्मतिथि"
+  },
+  "Racial": {
+    "en": "Racial",
+    "hi": "जातीय"
+  },
+  "DD": {
+    "en": "DD",
+    "hi": "दिन"
+  },
+  "MM": {
+    "en": "MM",
+    "hi": "महीना"
+  },
+  "YY": {
+    "en": "YY",
+    "hi": "वर्ष"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "PatientsRegisteration": {
+    "en": "Patients Registeration",
+    "hi": "मरीजों का पंजीकरण"
+  },
+  "PatientsUpdation": {
+    "en": "Patients Updation",
+    "hi": "मरीजों का अद्यतनीकरण"
+  },
+  "CopyEMRNumber": {
+    "en": "Copy EMR Number",
+    "hi": "ई एम आर नंबर कॉपी करें"
+  },
+  "EMRnumberCopied": {
+    "en": "EMR number Copied",
+    "hi": "ई एम आर नंबर कॉपी किया गया"
+  }
+}

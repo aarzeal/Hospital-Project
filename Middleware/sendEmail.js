@@ -97,6 +97,84 @@
 // module.exports = sendUserEmail;
 
 
+// const nodemailer = require('nodemailer');
+// const ejs = require('ejs');
+// const path = require('path');
+// const logger = require('../logger'); // Ensure you have a logger configured
+// require('dotenv').config(); // Load environment variables
+
+// const sendEmail = async (to, subject, templateName, templateData, attachment) => {
+//   try {
+//     // Create Nodemailer transporter
+//     const transporter = nodemailer.createTransport({
+//       service: 'gmail',
+//       auth: {
+//         user: process.env.EMAIL_USER,
+//         pass: process.env.EMAIL_PASS
+//       }
+//     });
+
+//     // Render the EJS template
+//     const templatePath = path.join(__dirname, '../templates', templateName);
+//     const html = await ejs.renderFile(templatePath, templateData);
+
+//     // Debug: log attachment details
+//     if (attachment) {
+//       logger.info('Attachment details:', {
+//         filename: attachment.originalname,
+//         size: attachment.size,
+//         contentType: attachment.mimetype
+//       });
+//     }
+
+//     // Construct email options
+//     const mailOptions = {
+//       from: process.env.EMAIL_USER,
+//       to: to,
+//       subject: subject,
+//       html: html,
+//       attachments: []
+//     };
+
+//     // Add attachment if provided
+//     if (attachment) {
+//       mailOptions.attachments.push({
+//         filename: attachment.originalname,
+//         content: attachment.buffer,
+//         encoding: 'base64'
+//       });
+//     }
+
+//     // Send email
+//     const info = await transporter.sendMail(mailOptions);
+//     logger.info(`Email sent: ${info.response}`);
+
+//     return {
+//       meta: {
+//         statusCode: 200
+//       },
+//       data: {
+//         message: 'Email sent successfully'
+//       }
+//     };
+//   } catch (error) {
+//     logger.error('Error sending email:', error);
+
+//     throw {
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 954 // Custom error code for email sending failure
+//       },
+//       error: {
+//         message: 'Error sending email',
+//         details: error.message // Include error details for debugging
+//       }
+//     };
+//   }
+// };
+
+// module.exports = sendEmail;
+
 const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 const path = require('path');
@@ -105,6 +183,9 @@ require('dotenv').config(); // Load environment variables
 
 const sendEmail = async (to, subject, templateName, templateData, attachment) => {
   try {
+    // Log initial request details
+    logger.info('Preparing to send email', { to, subject, templateName });
+
     // Create Nodemailer transporter
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -114,9 +195,17 @@ const sendEmail = async (to, subject, templateName, templateData, attachment) =>
       }
     });
 
+    // Ensure environment variables are set
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      throw new Error('Missing email credentials in environment variables');
+    }
+
     // Render the EJS template
     const templatePath = path.join(__dirname, '../templates', templateName);
     const html = await ejs.renderFile(templatePath, templateData);
+
+    // Log template rendering details
+    logger.info('Rendered email template', { templatePath });
 
     // Debug: log attachment details
     if (attachment) {
@@ -158,6 +247,7 @@ const sendEmail = async (to, subject, templateName, templateData, attachment) =>
       }
     };
   } catch (error) {
+    // Log detailed error for troubleshooting
     logger.error('Error sending email:', error);
 
     throw {
@@ -174,4 +264,3 @@ const sendEmail = async (to, subject, templateName, templateData, attachment) =>
 };
 
 module.exports = sendEmail;
-

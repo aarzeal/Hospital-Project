@@ -1,0 +1,474 @@
+{
+  "PersonalInformation": {
+    "en": "Personal Information",
+    "hi": "व्यक्तिगत जानकारी"
+  },
+  "FirstName": {
+    "en": "First Name",
+    "hi": "पहला नाम"
+  },
+  "MiddleName": {
+    "en": "Middle Name",
+    "hi": "मध्य नाम"
+  },
+  "LastName": {
+    "en": "Last Name",
+    "hi": "उपनाम"
+  },
+  "Gender": {
+    "en": "Gender",
+    "hi": "लिंग"
+  },
+  "DateofBirth": {
+    "en": "Date of Birth",
+    "hi": "जन्मतिथि"
+  },
+  "Nationality": {
+    "en": "Nationality",
+    "hi": "राष्ट्रीयता"
+  },
+  "Religion": {
+    "en": "Religion",
+    "hi": "धर्म"
+  },
+  "Caste": {
+    "en": "Caste",
+    "hi": "जाति"
+  },
+  "BloodGroup": {
+    "en": "Blood Group",
+    "hi": "ब्लड ग्रुप"
+  },
+  "MaritalStatus": {
+    "en": "Marital Status",
+    "hi": "वैवाहिक स्थिति"
+  },
+  "NoofChildren": {
+    "en": "No. of Children",
+    "hi": "बच्चों की संख्या"
+  },
+  "RelationWithMiddleName": {
+    "en": "Relation With Middle Name",
+    "hi": "मध्य नाम के साथ संबंध"
+  },
+  "NoofDependant": {
+    "en": "No of Dependant",
+    "hi": "आश्रितों की संख्या"
+  },
+  "EmployeeCategory": {
+    "en": "Employee Category",
+    "hi": "कर्मचारी श्रेणी"
+  },
+  "EmployeeCode": {
+    "en": "Employee Code",
+    "hi": "कर्मचारी कोड"
+  },
+  "EmployeeGroup": {
+    "en": "Employee Group",
+    "hi": "कर्मचारी समूह"
+  },
+  "EmployeeNumber": {
+    "en": "Employee Number",
+    "hi": "कर्मचारी क्रमांक"
+  },
+  "EmployeeType": {
+    "en": "Employee Type",
+    "hi": "कर्मचारी का प्रकार"
+  },
+  "SkillSet": {
+    "en": "Skill Set",
+    "hi": "कौशल"
+  },
+  "Qualification": {
+    "en": "Qualification",
+    "hi": "योग्यता"
+  },
+  "UniqueTaxNumber": {
+    "en": "Unique Tax Number",
+    "hi": "अद्वितीय टैक्स संख्या"
+  },
+  "DateofJoining": {
+    "en": "Date of Joining",
+    "hi": "शामिल होने की तिथि"
+  },
+  "Department": {
+    "en": "Department",
+    "hi": "विभाग"
+  },
+  "Designation": {
+    "en": "Designation",
+    "hi": "पद"
+  },
+  "DateofLeaving": {
+    "en": "Date of Leaving",
+    "hi": "छोड़ने का दिनांक"
+  },
+  "CandidateCode": {
+    "en": "Candidate Code",
+    "hi": "उम्मीदवार कोड"
+  },
+  "DrRegisterationNo": {
+    "en": "Dr Registeration No.",
+    "hi": "डॉ पंजीकरण क्रमांक"
+  },
+  "PracticeNumber": {
+    "en": "Practice Number",
+    "hi": "अभ्यास क्रमांक"
+  },
+  "isEmployeeRetire": {
+    "en": "Is Employee Retire",
+    "hi": "कर्मचारी सेवानिवृत्त है?"
+  },
+  "Wages": {
+    "en": "Wages",
+    "hi": "वेतन"
+  },
+  "RulePlan": {
+    "en": "Rule Plan",
+    "hi": "नियम योजना"
+  },
+  "EmployeeBank": {
+    "en": "Employee Bank",
+    "hi": "कर्मचारी बैंक"
+  },
+  "BankLedger": {
+    "en": "Bank Ledger",
+    "hi": "बैंक बही"
+  },
+  "HoursPerDay": {
+    "en": "Hours Per Day",
+    "hi": "प्रति दिन घंटे"
+  },
+  "BankAccNumber": {
+    "en": "Bank Account Number",
+    "hi": "बैंक खाता संख्या"
+  },
+  "ProhibitionPeriodDate": {
+    "en": "Prohibition Period Date",
+    "hi": "निषेध अवधि दिनांक"
+  },
+  "HealthCardNo": {
+    "en": "Health Card No.",
+    "hi": "स्वास्थ्य कार्ड क्रमांक"
+  },
+  "PassportExpiryDate": {
+    "en": "Passport Expiry Date",
+    "hi": "पासपोर्ट समाप्ति की दिनांक"
+  },
+  "GovernmentPlan": {
+    "en": "Government Plan",
+    "hi": "सरकारी योजना"
+  },
+  "SalaryPlan": {
+    "en": "Salary Plan",
+    "hi": "वेतन योजना"
+  },
+  "DutyScheduleType": {
+    "en": "Duty Schedule Type",
+    "hi": "कर्तव्य अनुसूची प्रकार"
+  },
+  "HospitalIDR": {
+    "en": "Hospital IDR",
+    "hi": "अस्पताल आईडीआर"
+  },
+  "ReasonofLeaving": {
+    "en": "Reason of Leaving",
+    "hi": "छोड़ने का कारण"
+  },
+  "SSF No": {
+    "en": "SSF No.",
+    "hi": "एसएसएफ क्रमंक"
+  },
+  "SSFNo": {
+    "en": "SSF No.",
+    "hi": "एसएसएफ क्रमंक"
+  },
+  "IsSalaryonHold": {
+    "en": "Is Salary on Hold",
+    "hi": "क्या वेतन रुका हुआ है?"
+  },
+  "ProhibitionComplete": {
+    "en": "Prohibition Complete",
+    "hi": "निषेध पूर्ण"
+  },
+  "ProhibitionApplicable": {
+    "en": "Prohibition Applicable",
+    "hi": "निषेधाज्ञा लागू"
+  },
+  "UploadImage": {
+    "en": "Upload Image",
+    "hi": "तस्विर अपलोड करना"
+  },
+  "CaptureImage": {
+    "en": "Capture Image",
+    "hi": "छवि कैप्चर करें"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "SSFApplicable": {
+    "en": "SSF Applicable",
+    "hi": "एसएसएफ लागू"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "RequireOnlycapitalorsmallletters": {
+    "en": "Require Only capital or small letters",
+    "hi": "केवल बड़े या छोटे अक्षरों की आवश्यकता है"
+  },
+  "DatemustbeforeJanuary11900": {
+    "en": "Date must before January 1 1900",
+    "hi": "दिनांक 1 जनवरी 1900 से पहले का होना चाहिए"
+  },
+  "Datecannotbeinfuture": {
+    "en": "Date cannot be in future",
+    "hi": "दिनांक भविष्य में नहीं हो सकता"
+  },
+  "InvalidNumberFormat": {
+    "en": "Invalid Number Format",
+    "hi": "अमान्य संख्या प्रारूप"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "EmployeeUpdatedSuccessfully": {
+    "en": "Employee Updated Successfully",
+    "hi": "कर्मचारी सफलतापूर्वक अद्यतन किया गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "EnterFirstNameHere": {
+    "en": "Enter First Name Here",
+    "hi": "यहां पहला नाम दर्ज करें"
+  },
+  "EnterMiddleNameHere": {
+    "en": "Enter Middle Name Here",
+    "hi": "यहां मध्य नाम दर्ज करें"
+  },
+  "EnterLastNameHere": {
+    "en": "Enter Last Name Here",
+    "hi": "यहां उपनाम दर्ज करें"
+  },
+  "EnterNoofChildrenHere": {
+    "en": "Enter No. of Children here",
+    "hi": "यहां बच्चों की संख्या दर्ज करें"
+  },
+  "EnterRelationWithMiddleNameHere": {
+    "en": "Enter relation with middlename here",
+    "hi": "यहां मध्यनाम के साथ संबंध दर्ज करें"
+  },
+  "EnterNoofDependantHere": {
+    "en": "Enter No. of dependant here",
+    "hi": "यहां आश्रितों की संख्या दर्ज करें"
+  },
+  "EmployeeDetails": {
+    "en": "Employee Details",
+    "hi": "कर्मचारी विवरण"
+  },
+  "EnterEmployeeCodehere": {
+    "en": "Enter employee code here",
+    "hi": "यहां कर्मचारी कोड दर्ज करें"
+  },
+  "EnterEmployeeNumberhere": {
+    "en": "Enter employee number here",
+    "hi": "यहां कर्मचारी नंबर दर्ज करें"
+  },
+  "EnterUniqueTaxNumberhere": {
+    "en": "Enter unique tax number here",
+    "hi": "यहां यूनिक टैक्स नंबर दर्ज करें"
+  },
+  "EnterCandidateCodehere": {
+    "en": "Enter candidate code here",
+    "hi": "यहां उम्मीदवार कोड दर्ज करें"
+  },
+  "EnterDrRegisterationNohere": {
+    "en": "Enter Dr. Registeration No. here",
+    "hi": "यहां डॉ.पंजीकरण दर्ज करें"
+  },
+  "OthersDetails": {
+    "en": "Others Details",
+    "hi": "अन्य विवरण"
+  },
+  "EnterPracticeNumberhere": {
+    "en": "Enter Practice No. here",
+    "hi": "यहां प्रैक्टिस नंबर दर्ज करें"
+  },
+  "EnterEmployeeBankhere": {
+    "en": "Enter employee bank here",
+    "hi": "यहां कर्मचारी बैंक दर्ज करें"
+  },
+  "EnterHoursPerDayhere": {
+    "en": "Enter hours per day here",
+    "hi": "यहां प्रति दिन घंटे दर्ज करें"
+  },
+  "EnterBankAccNumberhere": {
+    "en": "Enter Bank Account No. here",
+    "hi": "यहां बैंक खाता नंबर दर्ज करें"
+  },
+  "EnterHealthCardNohere": {
+    "en": "Enter health card No. here",
+    "hi": "यहां स्वास्थ्य कार्ड नंबर दर्ज करें"
+  },
+  "EnterReasonofLeavinghere": {
+    "en": "Enter reason of leaving here",
+    "hi": "यहां छोड़ने का कारण दर्ज करें"
+  },
+  "EnterSSFNohere": {
+    "en": "Enter SSF No. here",
+    "hi": "यहां एसएसएफ नंबर दर्ज करें"
+  },
+  "EmployeeProfile": {
+    "en": "Employee Profile",
+    "hi": "कर्मचारी प्रोफ़ाइल"
+  },
+  "Uploaded": {
+    "en": "Uploaded",
+    "hi": "अपलोड किए गए"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "DateOfBirth": {
+    "en": "Date Of Birth",
+    "hi": "जन्म तिथि"
+  },
+  "DateOfJoining": {
+    "en": "Date Of Joining",
+    "hi": "शामिल होने की तिथि"
+  },
+  "ViewProfile": {
+    "en": "View Profile",
+    "hi": "प्रोफ़ाइल देखें"
+  },
+  "AllEmployees": {
+    "en": "All Employees",
+    "hi": "सभी कर्मचारी"
+  },
+  "Searchbyemployeecodefirstamelastname": {
+    "en": "Search by employee code, firstame & lastname",
+    "hi": "कर्मचारी कोड, प्रथम नाम और अंतिम नाम के आधार पर खोजें"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "DoyoureallywanttodeletethisEmployee": {
+    "en": "Do you really want to delete this Employee?",
+    "hi": "क्या आप सचमुच इस कर्मचारी को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
+  },
+  "Nocancel": {
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
+  },
+  "Deleted": {
+    "en": "Deleted",
+    "hi": "हटाए गए"
+  },
+  "TheEmployeehasbeendeleted": {
+    "en": "The Employee has been deleted",
+    "hi": "कर्मचारी को हटा दिया गया है"
+  },
+  "Download": {
+    "en": "Download",
+    "hi": "डाउनलोड करना"
+  },
+  "EmployeeName": {
+    "en": "Employee Name",
+    "hi": "कर्मचारी का नाम"
+  },
+  "Age": {
+    "en": "Age",
+    "hi": "आयु"
+  },
+  "EmployeeID": {
+    "en": "Employee ID",
+    "hi": "कर्मचारी आयडी"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "CreatedAt": {
+    "en": "Created At",
+    "hi": "पंजीकृत तिथि"
+  },
+  "UpdatedOn": {
+    "en": "Updated At",
+    "hi": "अद्यतन तिथि"
+  },
+  "CreatedBy": {
+    "en": "Created By",
+    "hi": "द्वारा बनाई गई"
+  },
+  "UpdateEmployee": {
+    "en": "Update Employee",
+    "hi": "कर्मचारी को अद्यतन करें"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "View": {
+    "en": "View",
+    "hi": "देखना"
+  },
+  "Employees": {
+    "en": "Employees",
+    "hi": "कर्मचारी"
+  },
+  "EmployeesRegisteration": {
+    "en": "Employees Registeration",
+    "hi": "कर्मचारी पंजीकरण"
+  },
+  "EmployeesUpdation": {
+    "en": "Employee Updation",
+    "hi": "कर्मचारी अद्यतनीकरण"
+  },
+  "Loading": {
+    "en": "Loading...",
+    "hi": "लोड हो रहा है..."
+  },
+  "StartDate": {
+    "en": "Start Date",
+    "hi": "आरंभ तिथि"
+  },
+  "EndDate": {
+    "en": "End Date",
+    "hi": "अंतिम तिथि"
+  },
+  "SelectCaste": {
+    "en": "Select Caste",
+    "hi": "जाति चुनें"
+  },
+  "General": {
+    "en": "General",
+    "hi": "सामान्य"
+  }
+}

@@ -167,7 +167,7 @@ exports.ensureSequelizeInstance = async (req, res, next) => {
       UserRides
     };
 
-    logger.info('Sequelize instance and models initialized successfully');
+    // logger.info('Sequelize instance and models initialized successfully');
     next();
 
   } catch (error) {

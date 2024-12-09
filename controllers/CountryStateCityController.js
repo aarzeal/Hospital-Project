@@ -1,5 +1,5 @@
-const sequelize = require('../database/connection'); // Ensure correct path
-
+const sequelize = require('../database/connection'); // Ensure correct pathconst logger=require("./")
+const logger=require("../logger")
 console.log('Sequelize instance:', sequelize); // Debugging
 const requestIp = require('request-ip');
 
@@ -37,6 +37,7 @@ exports.getCountries = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1095;
+      const statusCode = 500;
   
       // Log the warning
       logger.logWithMeta("warn", `Error fetching countries${error.message}`, {
@@ -44,6 +45,7 @@ exports.getCountries = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        statusCode,
   
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -115,6 +117,7 @@ exports.getCountries = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1096;
+      const statusCode = 500;
   
       // Log the warning
       logger.logWithMeta("warn", `Error fetching states and cities${error.message}`, {
@@ -122,6 +125,7 @@ exports.getCountries = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        statusCode,
   
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -152,6 +156,7 @@ exports.getStatesOrCities = async (req, res) => {
           const end = Date.now();
           const executionTime = `${end - start}ms`;
           const errorCode = 1097;
+          const statusCode = 404;
       
           // Log the warning
           logger.logWithMeta("warn", `No cities found for this state${error.message}`, {
@@ -159,7 +164,7 @@ exports.getStatesOrCities = async (req, res) => {
             errorMessage: error.message,
             executionTime,
             hospitalId: req.hospitalId,
-      
+            statusCode,
             ip: clientIp,
             apiName: req.originalUrl, // API name
             method: req.method    ,
@@ -178,7 +183,8 @@ exports.getStatesOrCities = async (req, res) => {
         // Log the warning
         logger.logWithMeta("warn", ` fatched state or city successfull:`, {
           executionTime,
-          component,
+          // component,
+          statusCode:200,
           hospitalId: req.hospitalId,
           ip: clientIp,
           apiName: req.originalUrl, // API name
@@ -191,6 +197,7 @@ exports.getStatesOrCities = async (req, res) => {
       const end = Date.now();
           const executionTime = `${end - start}ms`;
           const errorCode = 1098;
+          const statusCode = 500;
       
           // Log the warning
           logger.logWithMeta("warn", `Error fetching data${error.message}`, {
@@ -198,7 +205,7 @@ exports.getStatesOrCities = async (req, res) => {
             errorMessage: error.message,
             executionTime,
             hospitalId: req.hospitalId,
-      
+            statusCode,
             ip: clientIp,
             apiName: req.originalUrl, // API name
             method: req.method    ,
@@ -222,7 +229,8 @@ exports.getAllCities = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", ` Get all city successful:`, {
         executionTime,
-        component,
+        // component,
+        statusCode:200,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -234,6 +242,7 @@ exports.getAllCities = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1099;
+      const statusCode = 500;
   
       // Log the warning
       logger.logWithMeta("warn", `Error fetching cities ${error.message}`, {
@@ -241,7 +250,7 @@ exports.getAllCities = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-  
+        statusCode,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method    ,
@@ -279,7 +288,8 @@ exports.getAllCities = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", ` fetche city successfull:`, {
       executionTime,
-      component,
+      // component,
+      statusCode:200,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -291,6 +301,7 @@ exports.getAllCities = async (req, res) => {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 1100;
+        const statusCode = 404;
     
         // Log the warning
         logger.logWithMeta("warn", `City not found ${error.message}`, {
@@ -298,7 +309,7 @@ exports.getAllCities = async (req, res) => {
           errorMessage: error.message,
           executionTime,
           hospitalId: req.hospitalId,
-    
+          statusCode,
           ip: clientIp,
           apiName: req.originalUrl, // API name
           method: req.method    ,
@@ -313,6 +324,7 @@ exports.getAllCities = async (req, res) => {
   
       // Log the warning
       logger.logWithMeta("warn", `Error fetching city details ${error.message}`, {
+        text:
         errorCode,
         errorMessage: error.message,
         executionTime,
@@ -327,3 +339,4 @@ exports.getAllCities = async (req, res) => {
       res.status(500).json({ success: false, errorCode: 1101, message: 'Error fetching city details', error: error.message });
     }
   };
+  

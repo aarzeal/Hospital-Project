@@ -16,9 +16,9 @@ const validateJSONContentType = require('../Middleware/jsonvalidation');
 // router.put('/hospital/:id', verifyToken(['admin']),updateHospitalValidationRules(), hospitalController.updateHospital);
 // router.delete('/hospital/:id',verifyToken(['admin']), hospitalController.deleteHospital);
 
+const upload = require('../Middleware/hopsitallogo'); 
 
-
-router.post('/hospital', verifyToken(['admin']),createHospitalValidationRules(),  validateJSONContentType, hospitalController.createHospital);
+router.post('/hospital', verifyToken(['admin']),createHospitalValidationRules(),  validateJSONContentType,  hospitalController.createHospital);
 router.get('/hospital',verifyToken(['admin']),  validateJSONContentType, hospitalController.getAllHospitals);
 router.get('/hospital/:id', verifyToken(['admin']),  hospitalController.getHospitalById);
 router.get('/hospital/group/:HospitalGroupIDR', verifyToken(['admin']),hospitalController.getHospitalsByHospitalGroupID);

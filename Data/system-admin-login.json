@@ -1,0 +1,46 @@
+{
+  "AdminLogin": {
+    "en": "Admin Login",
+    "hi": "व्यवस्थापक लॉगिन"
+  },
+  "USERNAME": {
+    "en": "USERNAME",
+    "hi": "उपयोक्तानाम"
+  },
+  "EnterUsernameHere": {
+    "en": "Enter Username Here",
+    "hi": "यहां उपयोगकर्ता नाम दर्ज करें"
+  },
+  "PASSWORD": {
+    "en": "PASSWORD",
+    "hi": "पासवर्ड"
+  },
+  "EnterPasswordHere": {
+    "en": "Enter Password Here",
+    "hi": "यहां पासवर्ड डालें"
+  },
+  "Login": {
+    "en": "Login",
+    "hi": "लॉग इन करें"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "HidePassword": {
+    "en": "Hide Password",
+    "hi": "पासवर्ड छिपाएं"
+  },
+  "ViewPassword": {
+    "en": "View Password",
+    "hi": "पासवर्ड देखें"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Error": {
+    "en": "Submit",
+    "hi": "गलती"
+  }
+}

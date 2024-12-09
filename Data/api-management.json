@@ -1,0 +1,126 @@
+{
+  "APIManagement": {
+    "en": "API Management",
+    "hi": "एपीआई प्रबंधन"
+  },
+  "APIname": {
+    "en": "API Name",
+    "hi": "एपीआई नाम"
+  },
+  "StartDate": {
+    "en": "Start Date",
+    "hi": "आरंभ करने की तिथि"
+  },
+  "EndDate": {
+    "en": "End Date",
+    "hi": "अंतिम तिथि"
+  },
+  "APISummary": {
+    "en": "API Summary",
+    "hi": "एपीआई सारांश"
+  },
+  "APIName": {
+    "en": "API Name",
+    "hi": "एपीआई नाम"
+  },
+  "Method": {
+    "en": "Method",
+    "hi": "तरीका"
+  },
+  "HospitalID": {
+    "en": "Hospital ID",
+    "hi": "अस्पताल आईडी"
+  },
+  "APICallCount": {
+    "en": "API Call Count",
+    "hi": "एपीआई कॉल गिनती"
+  },
+  "ChargeRate": {
+    "en": "Charge Rate",
+    "hi": "शुल्क दर"
+  },
+  "TotalCharges": {
+    "en": "Total Charges",
+    "hi": "कुल शुल्क"
+  },
+  "NA": {
+    "en": "N/A",
+    "hi": "उपलब्ध नहीं है"
+  },
+  "APIDetails": {
+    "en": "API Details",
+    "hi": "एपीआई विवरण"
+  },
+  "createdBy": {
+    "en": "Created By",
+    "hi": "द्वारा बनाई गई"
+  },
+  "createdAt": {
+    "en": "Created At",
+    "hi": "बनाया गया"
+  },
+  "UserAgent": {
+    "en": "User Agent",
+    "hi": "उपयोगकर्ता एजेंट"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "EndDatemustbeafterStartDate": {
+    "en": "End Date must be after Start Date",
+    "hi": "समाप्ति तिथि आरंभ तिथि के बाद होनी चाहिए"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "SearchbyHospitalID": {
+    "en": "Search by Hospital ID",
+    "hi": "अस्पताल आईडी द्वारा खोजें"
+  },
+  "Hospital": {
+    "en": "Hospital",
+    "hi": "अस्पताल"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Search": {
+    "en": "Search",
+    "hi": "खोज"
+  },
+  "Searchbyid": {
+    "en": "Search by ID",
+    "hi": "आईडी से खोजें"
+  },
+  "ID": {
+    "en": "ID",
+    "hi": "आई डी"
+  },
+  "APIChargeRate": {
+    "en": "API Charge Rate",
+    "hi": "एपीआई शुल्क दर"
+  },
+  "Label": {
+    "en": "Label",
+    "hi": "लेबल"
+  },
+  "ExportinPDF": {
+    "en": "Export in PDF",
+    "hi": "पीडीएफ में निर्यात करें"
+  },
+  "ExportinExcel": {
+    "en": "Export in Excel",
+    "hi": "एक्सेल में निर्यात करें"
+  }
+}

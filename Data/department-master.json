@@ -1,0 +1,150 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "Departmentupdatedsuccessfully": {
+    "en": "Department updated successfully",
+    "hi": "विभाग सफलतापूर्वक अद्यतन किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "Departmentaddedsuccessfully": {
+    "en": "Department added successfully",
+    "hi": "विभाग सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "DoyoureallywanttodeletethisDepartment": {
+    "en": "Do you really want to delete this Department?",
+    "hi": "क्या आप सचमुच इस विभाग को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
+  },
+  "Nocancel": {
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
+  },
+  "Deleted": {
+    "en": "Deleted",
+    "hi": "हटाए गए"
+  },
+  "TheDepartmenthasbeendeleted": {
+    "en": "The Department has been deleted",
+    "hi": "इस विभाग को हटा दिया गया है"
+  },
+  "DeptCode": {
+    "en": "Department Code",
+    "hi": "विभागकोड"
+  },
+  "DepartmentName": {
+    "en": "Department Name",
+    "hi": "विभाग का नाम"
+  },
+  "IsClinical": {
+    "en": "Is Clinical",
+    "hi": "क्लिनिकल है?"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है?"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "Inactive": {
+    "en": "Inactive",
+    "hi": "निष्क्रिय"
+  },
+  "Actions": {
+    "en": "Actions",
+    "hi": "कार्रवाई"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "UpdateDepartment": {
+    "en": "Update Department",
+    "hi": "अद्यतन विभाग"
+  },
+  "RegisterDepartment": {
+    "en": "Register Department",
+    "hi": "रजिस्टर विभाग"
+  },
+  "DepartmentCode": {
+    "en": "Department Code",
+    "hi": "विभाग कोड"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "SearchbyDeptcodeName": {
+    "en": "Search by Dept. code & Name",
+    "hi": "विभाग कोड और नाम से खोजें"
+  },
+  "Clinical": {
+    "en": "Clinical",
+    "hi": "क्लीनिकल"
+  },
+  "NonClinical": {
+    "en": "Non-Clinical",
+    "hi": "गैर नैदानिक"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Departments": {
+    "en": "Departments",
+    "hi": "विभागों"
+  },
+  "loading": {
+    "en": "Loading...",
+    "hi": "लोड हो रहा है..."
+  },
+  "EnterDepartmentName": {
+    "en": "Enter Department Name",
+    "hi": "विभाग का नाम दर्ज करें"
+  },
+  "EnterDepartmentCode": {
+    "en": "Enter Department Code",
+    "hi": "विभाग कोड दर्ज करें"
+  }
+}

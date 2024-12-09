@@ -29,7 +29,7 @@ exports.getAllApis = async (req, res) => {
     const apis = await ApisList.findAll();
 
     // Log success message
-    logger.info('Successfully fetched all APIs', { apisCount: apis.length });
+    // logger.info('Successfully fetched all APIs', { apisCount: apis.length });
     if (apis.length === 0) {
         logger.info('No APIs available');
         return res.status(200).json({
@@ -49,6 +49,7 @@ exports.getAllApis = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Apis fetched successfully`, {
         executionTime,
+        statusCode :200,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -68,11 +69,12 @@ exports.getAllApis = async (req, res) => {
     // logger.error('Error fetching APIs', { errorCode: 1104, error: error.message });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    const errorCode = 1112;
+    const statusCode = 1112;
 
     // Log the warning
     logger.logWithMeta("warn", `Error fetching APIs ${error.message}`, {
       errorCode,
+      statusCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
@@ -82,10 +84,10 @@ exports.getAllApis = async (req, res) => {
       method: req.method    ,
       userAgent: req.headers['user-agent'],     // HTTP method
     });
-    return res.status(500).json({
+    return res.status(statusCode).json({
       meta: {
         errorCode: 1112,
-        status: 500,
+        status: statusCode,
         message: 'Internal server error',
         timestamp: new Date().toISOString()
       }
@@ -107,10 +109,11 @@ exports.getApiById = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1113;
-  
+      const statusCode = 404;
       // Log the warning
       logger.logWithMeta("warn", `API with ID ${id} not found ${error.message}`, {
         errorCode,
+        statusCode,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
@@ -122,10 +125,10 @@ exports.getApiById = async (req, res) => {
       });
 
 
-      return res.status(404).json({
+      return res.status(statusCode).json({
         meta: {
           errorCode: 1113,
-          status: 404,
+          status: statusCode,
           message: 'API not found',
           timestamp: new Date().toISOString()
         }
@@ -140,6 +143,7 @@ exports.getApiById = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Successfully fetched API with ID ${id}`, {
         executionTime,
+        statusCode:200,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -150,6 +154,7 @@ exports.getApiById = async (req, res) => {
     return res.status(200).json({
       meta: {
         status: 200,
+
         message: 'API fetched successfully',
         timestamp: new Date().toISOString()
       },
@@ -160,10 +165,11 @@ exports.getApiById = async (req, res) => {
     const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1114;
-  
+      const statusCode = 500;
       // Log the warning
       logger.logWithMeta("warn", `Error fetching API by ID ${id} ${error.message}`, {
         errorCode,
+        statusCode,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
@@ -174,10 +180,10 @@ exports.getApiById = async (req, res) => {
         userAgent: req.headers['user-agent'],     // HTTP method
       });
 
-    return res.status(500).json({
+    return res.status(statusCode).json({
       meta: {
         errorCode: 1114,
-        status: 500,
+        status: statusCode,
         message: 'Internal server error',
         timestamp: new Date().toISOString()
       }

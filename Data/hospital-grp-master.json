@@ -1,0 +1,134 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Invalidnumberformat": {
+    "en": "Invalid number format",
+    "hi": "अमान्य संख्या प्रारूप"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "HospitalGroupUpdatedSuccessfully": {
+    "en": "Hospital Group Updated Successfully",
+    "hi": "अस्पताल समूह सफलतापूर्वक अपडेट किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "HospitalGroupCreatedSuccessfully": {
+    "en": "Hospital Group Created Successfully",
+    "hi": "अस्पताल समूह सफलतापूर्वक बनाया गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure",
+    "hi": "क्या आपको यकीन है"
+  },
+  "DoyoureallywanttodeletethisHospitalGroup": {
+    "en": "Do you really want to delete this Hospital Group?",
+    "hi": "क्या आप सचमुच इस अस्पताल समूह को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
+  },
+  "Nocancel": {
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
+  },
+  "Deleted": {
+    "en": "Deleted",
+    "hi": "हटाए गए"
+  },
+  "TheHospitalGrouphasbeendeleted": {
+    "en": "The Hospital Group has been deleted",
+    "hi": "अस्पताल समूह को हटा दिया गया है"
+  },
+  "HospitalGroupName": {
+    "en": "Hospital Group Name",
+    "hi": "अस्पताल समूह का नाम"
+  },
+  "LicenseHospitalcount": {
+    "en": "License Hospital count",
+    "hi": "लाइसेंस अस्पताल गिनती"
+  },
+  "CreatedAt": {
+    "en": "Created At",
+    "hi": "पर बनाया गया"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Enterhospitalgroupnamehere": {
+    "en": "Enter hospital group name here",
+    "hi": "यहां अस्पताल समूह का नाम दर्ज करें"
+  },
+  "SearchbyHospitalGroupName": {
+    "en": "Search by Hospital Group Name",
+    "hi": "अस्पताल समूह के नाम से खोजें"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "AllHospitalGroup": {
+    "en": "All Hospital Group",
+    "hi": "सभी अस्पताल समूह"
+  },
+  "Hospitals": {
+    "en": "Hospitals",
+    "hi": "अस्पताल"
+  },
+  "HospitalGroup": {
+    "en": "Hospital Group",
+    "hi": "अस्पताल समूह"
+  },
+  "EnterLicenseHospitalcount": {
+    "en": "Enter License Hospital count",
+    "hi": "लाइसेंस अस्पताल की संख्या दर्ज करें"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "InvalidEmail": {
+    "en": "Invalid Email",
+    "hi": "अमान्य ईमेल"
+  },
+  "DatemustbeafterJanuary11900": {
+    "en": "Date must be after January 1 1900",
+    "hi": "दिनांक 1 जनवरी 1900 के बाद की होनी चाहिए"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "OwnersDetails": {
+    "en": "Owner's Details",
+    "hi": "मालिक का विवरण"
+  },
+  "Hospital": {
+    "en": "Hospital",
+    "hi": "अस्पताल"
+  }
+}

@@ -105,12 +105,13 @@ exports.createEmployee = [
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1036;
-
+      const statusCode = 400;
       // Log the validation errors
       logger.logWithMeta("warn", `Validation errors occurred: ${errors.array().map(err => err.msg).join(', ')}`, {
         errorCode,
         errorMessage: 'Validation errors occurred',
         executionTime,
+        statusCode,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl,
@@ -220,6 +221,12 @@ exports.createEmployee = [
         Reserve4
       });
 
+      // let base64String = null;
+      // if (EmployeePhotoPath) {
+      //   const imageData = fs.readFileSync(EmployeePhotoPath);
+      //   base64String = `data:${req.file.mimetype};base64,${imageData.toString('base64')}`;
+      // }
+
       const end = Date.now();
       const executionTime = `${end - start}ms`;
 
@@ -228,6 +235,7 @@ exports.createEmployee = [
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
+        statusCode:200,
         apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers['user-agent'],
@@ -239,16 +247,19 @@ exports.createEmployee = [
           executionTime,
         },
         data: newEmployee,
+       
       });
     } catch (error) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1037;
+      const statusCode = 500;
 
       // Log the error
       logger.logWithMeta("error", `Error creating Employee: ${error.message}`, {
         errorCode,
         errorMessage: error.message,
+        statusCode,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
@@ -571,6 +582,7 @@ exports.getEmployee = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1038;
+      const statusCode = 404;
   
       // Log the warning
       logger.logWithMeta("warn", `Employee with ID ${id} not found ${error.message}`, {
@@ -578,7 +590,7 @@ exports.getEmployee = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-  
+        statusCode,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method    ,
@@ -610,8 +622,22 @@ exports.getEmployee = async (req, res) => {
     employeeData.QualificationIDR = config.Qualification[String(employeeData.QualificationIDR)] || "Unknown";
     employeeData.MaritalStatus = config.MaritalStatus[String(employeeData.MaritalStatus)] || "Unknown";
 
+
+
+
+     // Convert the image path to a Base64 string if the image exists
+     let imgBase64 = null;
+     if (employee.EmployeePhoto) {
+         const imgPath = path.join(__dirname, '../empPhoto', path.basename(employee.EmployeePhoto));
+         if (fs.existsSync(imgPath)) {
+             const imgBuffer = fs.readFileSync(imgPath);
+             imgBase64 = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+         }
+     }
+
     const end = Date.now();
     const executionTime = `${end - start}ms`;
+
    
 
     // Log the warning
@@ -620,7 +646,7 @@ exports.getEmployee = async (req, res) => {
 
       executionTime,
       hospitalId: req.hospitalId,
-      
+      statusCode:200,
 
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -633,12 +659,18 @@ exports.getEmployee = async (req, res) => {
     res.status(200).json({
       
       meta: { statusCode: 200 , executionTime: `${end - start}ms`},
-      data: employeeData
+      
+      data: {
+        ...employee.toJSON(),
+        EmployeePhoto: imgBase64 // Include the Base64 image in the response
+    }
     });
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1039;
+    const statusCode = 500;
+
 
     // Log the warning
     logger.logWithMeta("warn", `Error fetching employee: ${error.message}`, {
@@ -646,7 +678,7 @@ exports.getEmployee = async (req, res) => {
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method    ,
@@ -674,14 +706,14 @@ exports.updateEmployee = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1040;
-  
+      const statusCode = 404;
       // Log the warning
       logger.logWithMeta("warn", `Employee not found: ${error.message}`, {
         errorCode,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-  
+        statusCode,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method    ,
@@ -705,7 +737,7 @@ exports.updateEmployee = async (req, res) => {
 
       executionTime,
       hospitalId: req.hospitalId,
-      
+      statusCode:200,
 
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -722,14 +754,14 @@ exports.updateEmployee = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1041;
-
+    const statusCode = 500;
     // Log the warning
     logger.logWithMeta("warn", `Error updating employee:${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method    ,
@@ -757,6 +789,7 @@ exports.deleteEmployee = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1042;
+      const statusCode = 404;
   
       // Log the warning
       logger.logWithMeta("warn", `Employee not found:${error.message}`, {
@@ -764,7 +797,7 @@ exports.deleteEmployee = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-  
+        statusCode,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method    ,
@@ -789,7 +822,7 @@ exports.deleteEmployee = async (req, res) => {
       executionTime,
       hospitalId: req.hospitalId,
       
-
+      statusCode:200,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method   ,  
@@ -804,6 +837,7 @@ exports.deleteEmployee = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1043;
+    const statusCode = 500;
 
     // Log the warning
     logger.logWithMeta("warn", `Error deleting employee:${error.message}`, {
@@ -811,7 +845,7 @@ exports.deleteEmployee = async (req, res) => {
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method    ,
@@ -857,7 +891,7 @@ exports.getEmployeeWithPagination = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `  employee get with pagination successfully`, {
 
-
+      statusCode:200,
       executionTime,
       hospitalId: req.hospitalId,
       
@@ -881,6 +915,7 @@ exports.getEmployeeWithPagination = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1044;
+    const statusCode = 500;
 
     // Log the warning
     logger.logWithMeta("warn", `Error fetching employees with pagination::${error.message}`, {
@@ -888,7 +923,7 @@ exports.getEmployeeWithPagination = async (req, res) => {
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method    ,
@@ -902,6 +937,7 @@ exports.getEmployeeWithPagination = async (req, res) => {
   }
 }
 
+
 exports.getAllEmployees = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -914,28 +950,29 @@ exports.getAllEmployees = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1045;
-  
-      // Log the warning
-      logger.logWithMeta("warn", `No employees found:${error.message}`, {
+      const statusCode = 404;
+
+      logger.logWithMeta("warn", `No employees found`, {
         errorCode,
-        errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-  
+        statusCode,
         ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method    ,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers['user-agent'],
       });
-      // logger.warn('No employees found');
+
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 1045 , executionTime: `${end - start}ms`},
+        meta: { statusCode, errorCode, executionTime },
         error: { message: 'No employees found' }
       });
     }
 
     const employeeData = employees.map(employee => {
       const data = employee.toJSON();
+
+      // Map config values
       data.Gender = config.Gender[String(data.Gender)] || "Unknown";
       data.BloodGroupIDR = config.BloodGroup[String(data.BloodGroupIDR)] || "Unknown";
       data.NationalityIDR = config.Nationality[String(data.NationalityIDR)] || "Unknown";
@@ -943,50 +980,59 @@ exports.getAllEmployees = async (req, res) => {
       data.CastIDF = config.Cast[String(data.CastIDF)] || "Unknown";
       data.QualificationIDR = config.Qualification[String(data.QualificationIDR)] || "Unknown";
       data.MaritalStatus = config.MaritalStatus[String(data.MaritalStatus)] || "Unknown";
+
+      // Convert EmployeePhoto to Base64 if the photo exists
+      if (data.EmployeePhoto) {
+        const imgPath = path.join(__dirname, '../empPhoto', path.basename(data.EmployeePhoto));
+        if (fs.existsSync(imgPath)) {
+          const imgBuffer = fs.readFileSync(imgPath);
+          data.EmployeePhoto = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+        } else {
+          data.EmployeePhoto = null; // Set to null if the image file does not exist
+        }
+      } else {
+        data.EmployeePhoto = null; // Set to null if no photo is provided
+      }
+
       return data;
     });
+
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-   
 
-    // Log the warning
-    logger.logWithMeta("warn", `   get All employee  successfully`, {
-
-
+    logger.logWithMeta("info", `getAllEmployees executed successfully`, {
       executionTime,
       hospitalId: req.hospitalId,
-      
-
+      statusCode: 200,
       ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method   ,  
-      userAgent: req.headers['user-agent'],    // HTTP method
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers['user-agent'],
     });
 
     res.status(200).json({
-      meta: { statusCode: 200 , executionTime: `${end - start}ms`},
+      meta: { statusCode: 200, executionTime },
       data: employeeData
     });
   } catch (error) {
     const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 1046;
-  
-      // Log the warning
-      logger.logWithMeta("warn", `Error fetching all employees::${error.message}`, {
-        errorCode,
-        errorMessage: error.message,
-        executionTime,
-        hospitalId: req.hospitalId,
-  
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method    ,
-        userAgent: req.headers['user-agent'],     // HTTP method
-      });
-    // logger.error(`Error fetching all employees: ${error.message}`);
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1046;
+    const statusCode = 500;
+
+    logger.logWithMeta("error", `Error fetching all employees: ${error.message}`, {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      statusCode,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers['user-agent'],
+    });
+
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1046, executionTime: `${end - start}ms` },
+      meta: { statusCode, errorCode, executionTime },
       error: { message: 'Failed to fetch employees due to a server error.' }
     });
   }

@@ -290,7 +290,8 @@
 const { body, validationResult } = require('express-validator');
 const HospitalGroup = require('../models/HospitalGroup');
 const sequelize = require('../database/connection');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const logger = require('../logger'); // Assuming logger is configured properly
 const requestIp = require('request-ip');
@@ -332,6 +333,8 @@ exports.login = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Validation errors during login `, {
       errorCode,
+      statusCode: 400,
+      
       // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
@@ -377,6 +380,7 @@ exports.login = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Invalid username or password for user `, {
         errorCode,
+        statusCode: 401,
         // errorMessage: error.message,
         executionTime,
         // hospitalId: req.hospitalId,
@@ -408,6 +412,7 @@ exports.login = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Invalid password for user `, {
         errorCode,
+        statusCode: 401,
         // errorMessage: error.message,
         executionTime,
         // hospitalId: req.hospitalId,
@@ -458,7 +463,8 @@ exports.login = async (req, res) => {
     logger.logWithMeta("warn", `Error during login `, {
       errorCode,
       // errorMessage: error.message,
-      executionTime,
+      executionTime, 
+      statusCode: 500,
       // hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -503,6 +509,7 @@ exports.createHospitalGroup = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error creating hospital group `, {
       errorCode,
+      statusCode: 400,
       // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
@@ -550,6 +557,7 @@ exports.getAllHospitalGroups = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error retrieving hospital groups `, {
       errorCode,
+      statusCode: 500,
       // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
@@ -588,6 +596,7 @@ exports.getHospitalGroupById = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Hospital group with ID ${id} not found `, {
         errorCode,
+        statusCode: 404,
         // errorMessage: error.message,
         executionTime,
         // hospitalId: req.hospitalId,
@@ -628,6 +637,7 @@ exports.getHospitalGroupById = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error retrieving hospital group `, {
       errorCode,
+      statusCode: 500,
       // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
@@ -674,6 +684,7 @@ exports.updateHospitalGroup = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Hospital group with ID ${id} not found for update `, {
         errorCode,
+        statusCode: 404,
         // errorMessage: error.message,
         executionTime,
         // hospitalId: req.hospitalId,
@@ -716,6 +727,7 @@ exports.updateHospitalGroup = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error updating hospital group `, {
       errorCode,
+      statusCode: 500,
       // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
@@ -755,6 +767,7 @@ exports.deleteHospitalGroup = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Hospital group with ID ${id} not found for deletion `, {
         errorCode,
+        statusCode: 404,
         // errorMessage: error.message,
         executionTime,
         // hospitalId: req.hospitalId,
@@ -796,6 +809,7 @@ exports.deleteHospitalGroup = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error deleting hospital group `, {
       errorCode,
+      statusCode: 500,
       // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,
@@ -857,6 +871,7 @@ exports.getAllHospitalGroupsByPagination = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Error retrieving hospital groups with pagination`, {
       errorCode,
+      statusCode: 500,
       // errorMessage: error.message,
       executionTime,
       // hospitalId: req.hospitalId,

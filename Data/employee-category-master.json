@@ -1,0 +1,238 @@
+{
+  "InvalidCategoryName": {
+    "en": "Invalid Category Name",
+    "hi": "अमान्य श्रेणी नाम"
+  },
+  "InvalidCategoryCode": {
+    "en": "Invalid Category Code",
+    "hi": "अमान्य श्रेणी कोड"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "EmployeeCategoryUpdatedSuccessfully": {
+    "en": "Employee Category Updated Successfully",
+    "hi": "कर्मचारी श्रेणी सफलतापूर्वक अपडेट की गई"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "CreatedSuccessfully": {
+    "en": "Created Successfully",
+    "hi": "सफलतापूर्वक बनाया गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "CategoryRegister": {
+    "en": "Category Register",
+    "hi": "श्रेणी रजिस्टर"
+  },
+  "EnterEmployeeCategoryNamehere": {
+    "en": "Enter Employee Category Name here",
+    "hi": "यहां कर्मचारी श्रेणी का नाम दर्ज करें"
+  },
+  "EmployeeCategoryName": {
+    "en": "Employee Category Name",
+    "hi": "कर्मचारी श्रेणी का नाम"
+  },
+  "EnterEmployeeCategoryCodehere": {
+    "en": "Enter Employee Category Code here",
+    "hi": "यहां कर्मचारी श्रेणी कोड दर्ज करें"
+  },
+  "EmployeeCategoryCode": {
+    "en": "Employee Category Code",
+    "hi": "कर्मचारी श्रेणी कोड"
+  },
+  "IsAnnualAllowanceApplicable": {
+    "en": "Is Annual Allowance Applicable",
+    "hi": "क्या वार्षिक भत्ता लागू है"
+  },
+  "NoticePeriod": {
+    "en": "Notice Period",
+    "hi": "नोटिस की अवधि"
+  },
+  "IsNoticePeriodApplicable": {
+    "en": "Is Notice Period Applicable",
+    "hi": "क्या नोटिस अवधि लागू है"
+  },
+  "NoticePeriodType": {
+    "en": "Notice Period Type",
+    "hi": "सूचना अवधि प्रकार"
+  },
+  "NoticePeriodValue": {
+    "en": "Notice Period Value",
+    "hi": "सूचना अवधि मानर"
+  },
+  "ProhibitionPeriod": {
+    "en": "Prohibition Period",
+    "hi": "निषेध अवधि"
+  },
+  "ProbationPeriodType": {
+    "en": "Probation Period Type",
+    "hi": "परिवीक्षा अवधि का प्रकार"
+  },
+  "IsProbationPeriodApplicable": {
+    "en": "Is Probation Period Applicable",
+    "hi": "क्या परिवीक्षा अवधि लागू है"
+  },
+  "ProbationPeriodValue": {
+    "en": "Probation Period Value",
+    "hi": "परिवीक्षा अवधि मूल्य"
+  },
+  "IsRoundingApplicable": {
+    "en": "Is Rounding Applicable",
+    "hi": "क्या पूर्णांकन लागू है?"
+  },
+  "RoundingType": {
+    "en": "Rounding Type",
+    "hi": "गोलाई प्रकार"
+  },
+  "IsNonActive": {
+    "en": "Is Non-Active",
+    "hi": "गैर-सक्रिय है"
+  },
+  "EnterNonCompulsoryLeavehere": {
+    "en": "Enter Non Compulsory Leave here",
+    "hi": "यहां गैर अनिवार्य अवकाश दर्ज करें"
+  },
+  "NonCompulsoryLeave": {
+    "en": "Non Compulsory Leave",
+    "hi": "गैर अनिवार्य अवकाश"
+  },
+  "SalaryHeadLedger": {
+    "en": "Salary Head Ledger",
+    "hi": "वेतन प्रमुख खाता"
+  },
+  "SalaryPayableLedger": {
+    "en": "Salary Payable Ledger",
+    "hi": "वेतन देय खाता बही "
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "CategoryUpdate": {
+    "en": "Category Update",
+    "hi": "श्रेणी अद्यतन"
+  },
+  "DoyoureallywanttodeletethisCategory": {
+    "en": "Do you really want to delete this Category?",
+    "hi": "क्या आप सचमुच इस श्रेणी को हटाना चाहते हैं?"
+  },
+  "Areyousure": {
+    "en": "Are you sure",
+    "hi": "क्या आपको यकीन है"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
+  },
+  "Nocancel": {
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
+  },
+  "Deleted": {
+    "en": "Deleted",
+    "hi": "हटाए गए"
+  },
+  "TheCategoryhasbeendeleted": {
+    "en": "The Category has been deleted successfully",
+    "hi": "श्रेणी सफलतापूर्वक हटा दी गई है"
+  },
+  "CategoryName": {
+    "en": "Category Name",
+    "hi": "श्रेणी नाम"
+  },
+  "CategoryCode": {
+    "en": "Category Code",
+    "hi": "श्रेणी कोड"
+  },
+  "AnnualAllowance": {
+    "en": "Annual Allowance",
+    "hi": "वार्षिक भत्ता"
+  },
+  "Probation Period": {
+    "en": "Probation Period",
+    "hi": "परिवीक्षा अवधि"
+  },
+  "ProbationPeriod": {
+    "en": "Probation Period",
+    "hi": "परिवीक्षा अवधि"
+  },
+  "Actions": {
+    "en": "Actions",
+    "hi": "काम"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "AllCategoriesforEmployee": {
+    "en": "All Categories for Employee",
+    "hi": "कर्मचारी के लिए सभी श्रेणियाँ"
+  },
+  "SearchbyCategoryName": {
+    "en": "Search by Category Name",
+    "hi": "श्रेणी नाम से खोजें"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "ViewCategory": {
+    "en": "View Category",
+    "hi": "श्रेणी देखें"
+  },
+  "UpdateCategory": {
+    "en": "Update Category",
+    "hi": "श्रेणी अद्यतन करें"
+  },
+  "CategoryDetails": {
+    "en": "Category Details",
+    "hi": "श्रेणी विवरण"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "View": {
+    "en": "View",
+    "hi": "देखना"
+  },
+  "EmployeeCategory": {
+    "en": "Employee Category",
+    "hi": "कर्मचारी श्रेणी"
+  },
+  "Download": {
+    "en": "Download",
+    "hi": "डाउनलोड"
+  }
+}

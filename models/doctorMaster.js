@@ -124,7 +124,7 @@ const DoctorMaster = sequelize.define('DoctorMaster', {
     unique: true
   },
   YearsOfExperience: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,  // or use DataTypes.DECIMAL(3, 1) for more precision control
     allowNull: false
   },
   // HospitalGroupIDR: {
