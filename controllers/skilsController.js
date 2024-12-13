@@ -613,7 +613,7 @@ exports.getSkillsWithPagination = async (req, res) => {
 
       executionTime,
       hospitalId: req.hospitalId,
-      ip: clientIp,
+      // ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method         // HTTP method
     });

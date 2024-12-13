@@ -9,7 +9,7 @@ router.get('/designations/:id', authenticate,hospitalController.ensureSequelizeI
 router.post('/designations', authenticate,hospitalController.ensureSequelizeInstance, designationController.createDesignation);
 router.put('/designations/:id', authenticate,hospitalController.ensureSequelizeInstance, designationController.updateDesignation);
 router.delete('/designations/:id', authenticate, hospitalController.ensureSequelizeInstance,designationController.deleteDesignation);
-router.delete('/paginated', authenticate, hospitalController.ensureSequelizeInstance,designationController.getPaginatedDesignations);
+router.get('/paginated', authenticate, hospitalController.ensureSequelizeInstance,designationController.getPaginatedDesignations);
 
 module.exports = router;
 
