@@ -28,6 +28,7 @@ exports.getAllLogs = async (req, res) => {
     const { date } = req.query; // Date in the format YYYY-MM-DD
     const collectionName = getCollectionNameByDate(date || new Date()); // Default to today's logs
     const Log = getModel(collectionName);
+
     
     const logs = await Log.find({});
     res.status(200).json({
@@ -1394,6 +1395,8 @@ exports.getDataByLogIdAndDate = async (req, res) => {
     // Extract date and logId from request parameters
     const { date, logId } = req.params;
 
+    console.log("date & logId++++++++++++++++++++", date, logId)
+
     // Ensure both date and logId are provided
     if (!date || !logId) {
       logWithMeta('warn', 'Missing date or logId in request parameters.', { requestId, errorCode: 1221 });
@@ -1409,6 +1412,7 @@ exports.getDataByLogIdAndDate = async (req, res) => {
 
     // Get the dynamic collection name based on the provided date
     const collectionName = getDynamicCollectionName(queryDate);
+    console.log("collectionName+++++++++",collectionName )
     logWithMeta('info', `Using collection '${collectionName}' for querying logs.`, { requestId, collectionName });
 
     // Get the model for the dynamic collection
@@ -1417,8 +1421,12 @@ exports.getDataByLogIdAndDate = async (req, res) => {
     // Build the query object for logId
     const query = { logId };
 
+    console.log("LogModel++++++++++", LogModel)
+
     // Query the collection by logId
     const logs = await LogModel.find(query);
+
+    console.log("logs++++++++", logs)
 
     // Handle case where no logs are found
     if (!logs || logs.length === 0) {
@@ -1659,6 +1667,8 @@ exports.getAllDataFromAllCollections = async (req, res) => {
     // Iterate over each log collection and fetch logs
     for (const collectionName of logCollections) {
       const LogModel = getModelName(collectionName); // Get or create the model
+
+      console.log("LogModel++++++++", LogModel)
 
       // Log start of fetching logs from each collection
       logWithMeta("info", `Fetching logs from collection: ${collectionName}`, {

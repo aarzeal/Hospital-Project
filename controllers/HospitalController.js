@@ -1418,10 +1418,12 @@ exports.HospitalCode = async (req, res) => {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 914;
+        const statusCode = 400;
         
         // Log the warning
         logger.logWithMeta("warn", `Validation errors occurred during login ${error.message}`, {
           errorCode,
+          statusCode,
           errorMessage: error.message,
           executionTime,
           hospitalId: req.hospitalId,
@@ -1432,7 +1434,7 @@ exports.HospitalCode = async (req, res) => {
         });
         return res.status(400).json({
             meta: {
-                statusCode: 400,
+                statusCode: statusCode,
                 errorCode: 914,
                 executionTime: `${end - start}ms`
             },
@@ -1456,10 +1458,12 @@ exports.HospitalCode = async (req, res) => {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 915;
+        const statusCode = 400;
         
         // Log the warning
         logger.logWithMeta("warn", `Missing encrypted key in the request header ${error.message}`, {
           errorCode,
+          statusCode,
           errorMessage: error.message,
           executionTime,
           hospitalId: req.hospitalId,
@@ -1470,7 +1474,7 @@ exports.HospitalCode = async (req, res) => {
         });
         return res.status(400).json({
             meta: {
-                statusCode: 400,
+                statusCode: statusCode,
                 errorCode: 915,
                 executionTime: `${end - start}ms`
             },
@@ -1486,10 +1490,12 @@ exports.HospitalCode = async (req, res) => {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 916;
+        const statusCode = 500;
         
         // Log the warning
         logger.logWithMeta("warn", `Decryption secret is not defined in environment variables ${error.message}`, {
           errorCode,
+          statusCode,
           errorMessage: error.message,
           executionTime,
           hospitalId: req.hospitalId,
@@ -1500,7 +1506,7 @@ exports.HospitalCode = async (req, res) => {
         });
         return res.status(500).json({
             meta: {
-                statusCode: 500,
+                statusCode: statusCode,
                 errorCode: 916,
                 executionTime: `${end - start}ms`
             },
@@ -1518,11 +1524,12 @@ exports.HospitalCode = async (req, res) => {
             const end = Date.now();
             const executionTime = `${end - start}ms`;
             const errorCode = 917;
+            const statusCode = 404;
             
             // Log the warning
             logger.logWithMeta("warn", `Hospital with HospitalCode ${HospitalCode} not found`, {
               errorCode,
-              
+              statusCode,
               executionTime,
               hospitalId: req.hospitalId,
               ip: clientIp,
@@ -1532,7 +1539,7 @@ exports.HospitalCode = async (req, res) => {
             });
             return res.status(404).json({
                 meta: {
-                    statusCode: 404,
+                    statusCode: statusCode,
                     errorCode: 917,
                     executionTime: `${end - start}ms`
                 },
@@ -1556,11 +1563,12 @@ console.log("Decrypted Key:", decryptedKey);
             const end = Date.now();
             const executionTime = `${end - start}ms`;
             const errorCode = 918;
+            const statusCode = 401;
             
             // Log the warning
             logger.logWithMeta("warn", `Invalid UniqueKey for HospitalCode ${HospitalCode}`, {
               errorCode,
-              
+              statusCode,
               executionTime,
               hospitalId: req.hospitalId,
               ip: clientIp,
@@ -1570,7 +1578,7 @@ console.log("Decrypted Key:", decryptedKey);
             });
             return res.status(401).json({
                 meta: {
-                    statusCode: 401,
+                    statusCode: statusCode,
                     errorCode: 918,
                     executionTime: `${end - start}ms`
                 },
@@ -1624,6 +1632,7 @@ console.log("Decrypted Key:", decryptedKey);
        // Log the warning
         logger.logWithMeta("warn", `Hospital with HospitalCode ${HospitalCode} found successfully`, {
           executionTime,
+          statusCode:200,
           hospitalId: req.hospitalId,
           ip: clientIp,
           apiName: req.originalUrl, // API name
@@ -1660,11 +1669,12 @@ console.log("Decrypted Key:", decryptedKey);
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 919;
+        const statusCode = 500;
         
         // Log the warning
         logger.logWithMeta("warn", `Error finding hospital`, {
           errorCode,
-          
+          statusCode,
           executionTime,
           hospitalId: req.hospitalId,
           ip: clientIp,
@@ -1674,7 +1684,7 @@ console.log("Decrypted Key:", decryptedKey);
         });
         res.status(500).json({
             meta: {
-                statusCode: 500,
+                statusCode: statusCode,
                 errorCode: 919,
                 executionTime: `${end - start}ms`
             },

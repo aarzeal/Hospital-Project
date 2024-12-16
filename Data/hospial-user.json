@@ -1,0 +1,98 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "InvalidNameFormat": {
+    "en": "Invalid Name Format",
+    "hi": "अमान्य नाम प्रारूप"
+  },
+  "InvalidMobileNumberFormat": {
+    "en": "Invalid Mobile Number Format",
+    "hi": "अमान्य मोबाइल नंबर प्रारूप"
+  },
+  "InvalidEmailFormat": {
+    "en": "Invalid Email Format",
+    "hi": "अमान्य ईमेल प्रारूप"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "UsercreatedSuccessfully": {
+    "en": "User created Successfully",
+    "hi": "उपयोगकर्ता सफलतापूर्वक बनाया गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "CreateUser": {
+    "en": "Create User",
+    "hi": "उपयोगकर्ता बनाएं"
+  },
+  "Enterusernamehere": {
+    "en": "Enter username here",
+    "hi": "यहां उपयोगकर्ता नाम दर्ज करें"
+  },
+  "Username": {
+    "en": "Username",
+    "hi": "उपयोगकर्ता नाम"
+  },
+  "Enterpasswordhere": {
+    "en": "Enter password here",
+    "hi": "यहां पासवर्ड डालें"
+  },
+  "Password": {
+    "en": "Password",
+    "hi": "पासवर्ड"
+  },
+  "Name": {
+    "en": "Name",
+    "hi": "नाम"
+  },
+  "Enternamehere": {
+    "en": "Enter name here",
+    "hi": "यहां नाम दर्ज करें"
+  },
+  "EnterMobilenumber": {
+    "en": "Enter Mobile number",
+    "hi": "मोबाइल नंबर दर्ज करें"
+  },
+  "MobileNo": {
+    "en": "Mobile No.",
+    "hi": "मोबाइल नंबर"
+  },
+  "EnterEmailAddress": {
+    "en": "Enter Email Address",
+    "hi": "ईमेल पता दर्ज करें"
+  },
+  "EmailAddress": {
+    "en": "Email Address",
+    "hi": "मेल पता"
+  },
+  "EmployeeID": {
+    "en": "Employee ID",
+    "hi": "कर्मचारी आयडी"
+  },
+  "UserType": {
+    "en": "User Type",
+    "hi": "उपयोगकर्ता का प्रकार"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  }
+}

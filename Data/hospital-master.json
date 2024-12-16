@@ -1,0 +1,398 @@
+{
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "HospitalUpdatedSuccessfully": {
+    "en": "Hospital Updated Successfully",
+    "hi": "अस्पताल सफलतापूर्वक अपडेट किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "HospitalRegisteredSuccessfully": {
+    "en": "Hospital Registered Successfully",
+    "hi": "अस्पताल सफलतापूर्वक पंजीकृत किया गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "HospitalUpdation": {
+    "en": "Hospital Updation",
+    "hi": "अस्पताल अद्यतनीकरण"
+  },
+  "HospitalRegisteration": {
+    "en": "Hospital Registeration",
+    "hi": "अस्पताल पंजीकरण"
+  },
+  "HospitalName": {
+    "en": "Hospital Name",
+    "hi": "अस्पताल का नाम"
+  },
+  "EnterHospitalNameHere": {
+    "en": "Enter hospital name here",
+    "hi": "यहां अस्पताल का नाम दर्ज करें"
+  },
+  "HospitalCode": {
+    "en": "Hospital Code",
+    "hi": "अस्पताल कोड"
+  },
+  "EnterHospitalCodeHere": {
+    "en": "Enter hospital code here",
+    "hi": "यहां अस्पताल कोड दर्ज करें"
+  },
+  "ManagingCompanyName": {
+    "en": "Managing Company Name",
+    "hi": "प्रबंध कंपनी का नाम"
+  },
+  "EnterManagingCompanyNameHere": {
+    "en": "Enter managing company name here",
+    "hi": "यहां प्रबंध कंपनी का नाम दर्ज करें"
+  },
+  "ManagingCompanyAdd1": {
+    "en": "Managing Company Address 1",
+    "hi": "कंपनी का प्रबंधन पता 1"
+  },
+  "EnterManagingCompanyAdd1here": {
+    "en": "Enter managing company address 1 here",
+    "hi": "यहां प्रबंध कंपनी का पता 1 दर्ज करें"
+  },
+  "EnterManagingCompanyAdd2here": {
+    "en": "Enter managing company address 2 here",
+    "hi": "यहां प्रबंध कंपनी का पता 2 दर्ज करें"
+  },
+  "EnterManagingCompanyAdd3here": {
+    "en": "Enter managing company address 3 here",
+    "hi": "यहां प्रबंध कंपनी का पता 3 दर्ज करें"
+  },
+  "ManagingCompanyAdd3": {
+    "en": "Managing Company Address 3",
+    "hi": "कंपनी का प्रबंधन पता 3"
+  },
+  "ManagingCompanyAdd2": {
+    "en": "Managing Company Address 2",
+    "hi": "कंपनी का प्रबंधन पता 2"
+  },
+  "ManagingCompanyEmail": {
+    "en": "Managing Company Email ID",
+    "hi": "प्रबंध कंपनी ईमेल आईडी"
+  },
+  "EnterManagingCompanyEmailHere": {
+    "en": "Enter managing company email id here",
+    "hi": "यहां प्रबंध कंपनी की ईमेल आईडी दर्ज करें"
+  },
+  "ManagingCompanyWebsite": {
+    "en": "Managing Company Website",
+    "hi": "प्रबंध कंपनी की वेबसाइट"
+  },
+  "Country": {
+    "en": "Country",
+    "hi": "देश"
+  },
+  "State": {
+    "en": "State",
+    "hi": "राज्य"
+  },
+  "City": {
+    "en": "City",
+    "hi": "शहर"
+  },
+  "Region": {
+    "en": "Region",
+    "hi": "क्षेत्र"
+  },
+  "EnterRegionHere": {
+    "en": "Enter region here",
+    "hi": "यहां क्षेत्र दर्ज करें"
+  },
+  "HospitalOwner": {
+    "en": "Hospital Owner",
+    "hi": "अस्पताल मालिक"
+  },
+  "EnterHospitalOwnerhere": {
+    "en": "Enter hospital owner here",
+    "hi": "यहां अस्पताल के मालिक का नाम दर्ज करें"
+  },
+  "OwnerName": {
+    "en": "Owner Name",
+    "hi": "मालिक का नाम"
+  },
+  "EnterOwnerNamehere": {
+    "en": "Enter owner name here",
+    "hi": "यहां मालिक का नाम दर्ज करें"
+  },
+  "OwnerAddress1": {
+    "en": "Owner Address 1",
+    "hi": "मालिक का पता 1"
+  },
+  "OwnerAddress2": {
+    "en": "Owner Address 2",
+    "hi": "मालिक का पता 2"
+  },
+  "OwnerAddress3": {
+    "en": "Owner Address 3",
+    "hi": "मालिक का पता 3"
+  },
+  "EnterOwnerAddress1": {
+    "en": "Enter owner address 1 here",
+    "hi": "यहां मालिक का पता 1 दर्ज करें"
+  },
+  "EnterOwnerAddress2": {
+    "en": "Enter owner address 2 here",
+    "hi": "यहां मालिक का पता 2 दर्ज करें"
+  },
+  "EnterOwnerAddress3": {
+    "en": "Enter owner address 3 here",
+    "hi": "यहां मालिक का पता 3 दर्ज करें"
+  },
+  "OwnerCountry": {
+    "en": "Owner Country",
+    "hi": "मालिक का देश"
+  },
+  "Ownerstate": {
+    "en": "Owner State",
+    "hi": "मालिक का राज्य"
+  },
+  "OwnerCity": {
+    "en": "Owner City",
+    "hi": "मालिक का शहर"
+  },
+  "OwnerRegion": {
+    "en": "Owner Region",
+    "hi": "मालिक का क्षेत्र"
+  },
+  "Enterownerregionhere": {
+    "en": "Enter owner region here",
+    "hi": "यहां मालिक का क्षेत्र दर्ज करें"
+  },
+  "OwnerEmail": {
+    "en": "Owner Email",
+    "hi": "मालिक ईमेल"
+  },
+  "EnterOwnerEmail": {
+    "en": "Enter owner email here",
+    "hi": "यहां मालिक का क्ईमेल दर्ज करें"
+  },
+  "TAXNumber": {
+    "en": "TAX Number",
+    "hi": "कर नंबर"
+  },
+  "EnterTAXNumberHere": {
+    "en": "Enter TAX number here",
+    "hi": "यहां टैक्स नंबर दर्ज करें"
+  },
+  "EnterServiceNumberHere": {
+    "en": "Enter service number here",
+    "hi": "यहां सेवा नंबर दर्ज करें"
+  },
+  "ServiceNumber": {
+    "en": "Service Number",
+    "hi": "सेवा नंबर"
+  },
+  "RegistrationNumber": {
+    "en": "Registration Number",
+    "hi": "पंजीकरण संख्या"
+  },
+  "EnterRegistrationNumberHere": {
+    "en": "Enter registration number here",
+    "hi": "यहां रजिस्ट्रेशन नंबर डालें"
+  },
+  "EnterVATNumberHere": {
+    "en": "Enter VAT number here",
+    "hi": "यहां वी ए टी नंबर दर्ज करें"
+  },
+  "VATNumber": {
+    "en": "VAT number",
+    "hi": "वी ए टी नंबर"
+  },
+  "GSTNumber": {
+    "en": "GST number",
+    "hi": "जीएसटी नंबर"
+  },
+  "EnterGSTNumberhere": {
+    "en": "Enter GST number here",
+    "hi": "यहां जीएसटी नंबर दर्ज करें"
+  },
+  "EnterTINNumberhere": {
+    "en": "Enter TIN number here",
+    "hi": "यहां टी आई एन नंबर दर्ज करें"
+  },
+  "TINNumber": {
+    "en": "TIN number ",
+    "hi": " टी आई एन नंबर"
+  },
+  "AccountBookBeginsFrom": {
+    "en": "Account Book Begins From ",
+    "hi": " खाता बही से प्रारंभ होता है"
+  },
+  "OtherRegNo": {
+    "en": "Other Reg No.",
+    "hi": " अन्य पंजीकरण संख्या"
+  },
+  "EnterOtherRegNoHere": {
+    "en": "Enter Other Reg No. here",
+    "hi": " यहां अन्य पंजीकरण संख्या दर्ज करें"
+  },
+  "UploadImage": {
+    "en": "Upload Image",
+    "hi": " तस्विर अपलोड करना"
+  },
+  "Uploaded": {
+    "en": "Uploaded",
+    "hi": " अपलोड किए गए"
+  },
+  "HospitalGroup": {
+    "en": "Hospital Group",
+    "hi": " अस्पताल समूह"
+  },
+  "HospitalDatabase": {
+    "en": "Hospital Database",
+    "hi": " अस्पताल डेटाबेस"
+  },
+  "EnterHospitalDatabasehere": {
+    "en": "Enter Hospital Database here",
+    "hi": "यहां अस्पताल डेटाबेस दर्ज करें"
+  },
+  "EnterUsernamehere": {
+    "en": "Enter username here",
+    "hi": "यहां उपयोगकर्ता नाम दर्ज करें"
+  },
+  "Username": {
+    "en": "Username",
+    "hi": "उपयोगकर्ता नाम"
+  },
+  "Password": {
+    "en": "Password",
+    "hi": "पासवर्ड"
+  },
+  "EnterPasswordhere": {
+    "en": "Enter password here",
+    "hi": "यहां पासवर्ड डालें"
+  },
+  "MFAEnabled": {
+    "en": "MFA Enabled",
+    "hi": "एमएफए सक्षम"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Actions": {
+    "en": "Actions",
+    "hi": "काम"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "DoyoureallywanttodeletethisHospital": {
+    "en": "Do you really want to delete this Hospital?",
+    "hi": "क्या आप सचमुच इस अस्पताल को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it",
+    "hi": "हाँ इसे हटा दें"
+  },
+  "Nocancel": {
+    "en": "Nocancel",
+    "hi": "रद्द करें"
+  },
+  "Deleted": {
+    "en": "Deleted",
+    "hi": "हटाए गए"
+  },
+  "TheHospitalhasbeendeleted": {
+    "en": "The Hospital has been deleted",
+    "hi": "अस्पताल हटा दिया गया है"
+  },
+  "AllHospital": {
+    "en": "All Hospital",
+    "hi": "सभी अस्पताल"
+  },
+  "SearchbyhospitalNameandcode": {
+    "en": "Search by hospital name and code",
+    "hi": "अस्पताल के नाम और कोड के आधार पर खोजें"
+  },
+  "Download": {
+    "en": "Download",
+    "hi": "डाउनलोड करना"
+  },
+  "CreatedDate": {
+    "en": "Created Date",
+    "hi": "सृजित दिनांक"
+  },
+  "ErrorFetchingCity": {
+    "en": "Error Fetching City",
+    "hi": "शहर लाने में त्रुटि"
+  },
+  "ErrorFetchingState": {
+    "en": "Error Fetching State",
+    "hi": "स्थिति प्राप्त करने में त्रुटि"
+  },
+  "HospitalLogo": {
+    "en": "Hospital Logo",
+    "hi": "अस्पताल का लोगो"
+  },
+  "UpdateHospital": {
+    "en": "Update Hospital",
+    "hi": "अद्यतन अस्पताल"
+  },
+  "ENABLED": {
+    "en": "ENABLED",
+    "hi": "सक्षम"
+  },
+  "DISABLED": {
+    "en": "DISABLED",
+    "hi": "अक्षम"
+  },
+  "ViewDetails": {
+    "en": "View Details",
+    "hi": "विवरण देखें"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "View": {
+    "en": "View",
+    "hi": "देखना"
+  },
+  "Hospital": {
+    "en": "Hospital",
+    "hi": "अस्पताल"
+  },
+  "OwnersDetails": {
+    "en": "Owner's Details",
+    "hi": "मालिक का विवरण"
+  },
+  "SpecificationDetails": {
+    "en": "Specification Details",
+    "hi": "विशिष्टता विवरण"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  }
+}

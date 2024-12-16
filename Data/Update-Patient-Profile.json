@@ -1,0 +1,158 @@
+{
+  "UpdatePatientProfile": {
+    "en": "Update Patient Profile",
+    "hi": "रोगी प्रोफ़ाइल अद्यतन करें"
+  },
+  "MiddleName": {
+    "en": "Middle Name",
+    "hi": "मध्य नाम"
+  },
+  "FirstName": {
+    "en": "First Name",
+    "hi": "पहला नाम"
+  },
+  "LastName": {
+    "en": "Last Name",
+    "hi": "उपनाम"
+  },
+  "Gender": {
+    "en": "Gender",
+    "hi": "लिंग"
+  },
+  "BloodGroup": {
+    "en": "Blood Group",
+    "hi": "ब्लड ग्रुप"
+  },
+  "Occupation": {
+    "en": "Occupation",
+    "hi": "पेशा"
+  },
+  "DateofBirth": {
+    "en": "Date of Birth",
+    "hi": "जन्मतिथि"
+  },
+  "MaritalStatus": {
+    "en": "Marital Status",
+    "hi": "वैवाहिक स्थिति"
+  },
+  "Language": {
+    "en": "Language",
+    "hi": "भाषा"
+  },
+  "Nationality": {
+    "en": "Nationality",
+    "hi": "राष्ट्रीयता"
+  },
+  "MobileNo": {
+    "en": "Mobile No.",
+    "hi": "मोबाइल नंबर"
+  },
+  "WhatsAppNo": {
+    "en": "WhatsApp No.",
+    "hi": "व्हाट्सएप नंबर"
+  },
+  "EmergencyName": {
+    "en": "Emergency Name",
+    "hi": "आपातकालीन संपर्क नाम"
+  },
+  "EmergencyContactName": {
+    "en": "Emergency Contact Name",
+    "hi": "आपातकालीन संपर्क नाम"
+  },
+  "EmergencyNo": {
+    "en": "Emergency No.",
+    "hi": "आपातकालीन नंबर"
+  },
+  "EmergencyContactNumber": {
+    "en": "Emergency Contact Number",
+    "hi": "आपातकालीन संपर्क नंबर"
+  },
+  "Email": {
+    "en": "Email",
+    "hi": "ईमेल"
+  },
+  "Country": {
+    "en": "Country",
+    "hi": "देश"
+  },
+  "State": {
+    "en": "State",
+    "hi": "राज्य"
+  },
+  "City": {
+    "en": "City",
+    "hi": "शहर"
+  },
+  "Address": {
+    "en": "Address",
+    "hi": "पता"
+  },
+  "Medication": {
+    "en": "Medication",
+    "hi": "दवाई"
+  },
+  "Current Medication": {
+    "en": "Current Medication",
+    "hi": "वर्तमान दवा"
+  },
+  "CurrentMedication": {
+    "en": "Current Medication",
+    "hi": "वर्तमान दवा"
+  },
+  "Allergies": {
+    "en": "Allergies",
+    "hi": "एलर्जी"
+  },
+  "PolicyNo": {
+    "en": "Policy No.",
+    "hi": "बीमापॉलिसी संख्या"
+  },
+  "InsurancePolicyNumber": {
+    "en": "Insurance Policy Number",
+    "hi": "बीमापॉलिसी संख्या"
+  },
+  "UploadImage": {
+    "en": "Upload Image",
+    "hi": "तस्विर अपलोड करना"
+  },
+  "SaveChanges": {
+    "en": "Save Changes",
+    "hi": "परिवर्तन अद्यतन करें"
+  },
+  "CaptureImage": {
+    "en": "Capture Image",
+    "hi": "तस्विर कैप्चर करें"
+  },
+  "IsCommunicationAllowed": {
+    "en": "Is Communication Allowed",
+    "hi": "क्या संचार की अनुमति है?"
+  },
+  "SpecializationRegistration": {
+    "en": "Specialization Registration",
+    "hi": "विशेषज्ञता पंजीकरण"
+  },
+  "EnterSkillName": {
+    "en": "Enter Skill name",
+    "hi": "कौशल का नाम दर्ज करें"
+  },
+  "IsClinicalSkill": {
+    "en": "Is Clinical Skill",
+    "hi": "क्लिनिकल स्किल है"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "MedicalHistory": {
+    "en": "Medical History",
+    "hi": "चिकित्सा का इतिहास"
+  },
+  "InsuranceProvider": {
+    "en": "Insurance Provider",
+    "hi": "बीमा प्रदाता"
+  }
+}

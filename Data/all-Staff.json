@@ -1,0 +1,166 @@
+{
+  "FirstName": {
+    "en": "First Name",
+    "hi": "प्रथम नाम"
+  },
+  "LastName": {
+    "en": "Last Name",
+    "hi": "उपनाम"
+  },
+  "Gender": {
+    "en": "Gender",
+    "hi": "लिंग"
+  },
+  "DOB": {
+    "en": "Date of Birth",
+    "hi": "जन्मतिथि"
+  },
+  "MobileNumber": {
+    "en": "Mobile Number",
+    "hi": "मोबाइल नंबर"
+  },
+  "ViewDetails": {
+    "en": "View Details",
+    "hi": "विवरण देखें"
+  },
+  "AllStaff": {
+    "en": "All Staff",
+    "hi": "समस्त स्टाफ"
+  },
+  "Email": {
+    "en": "Email",
+    "hi": "ईमेल"
+  },
+  "Actions": {
+    "en": "Actions",
+    "hi": "काम"
+  },
+  "SearchbyFirstNameLastNameIDMobileNumberEmail": {
+    "en": "Search by First Name, Last Name, ID, Mobile No. & Email",
+    "hi": "प्रथम नाम, अंतिम नाम, आईडी, मोबाइल नंबर और ईमेल द्वारा खोजें"
+  },
+  "Experience": {
+    "en": "Experience",
+    "hi": "अनुभव"
+  },
+  "StaffDetails": {
+    "en": "Staff Details",
+    "hi": "स्टाफ विवरण"
+  },
+  "Name": {
+    "en": "Name",
+    "hi": "नाम"
+  },
+  "Age": {
+    "en": "Age",
+    "hi": "आयु"
+  },
+  "EmailID": {
+    "en": "Email ID",
+    "hi": "ईमेल आईडी"
+  },
+  "Nationality": {
+    "en": "Nationality",
+    "hi": "राष्ट्रीयता"
+  },
+  "Address": {
+    "en": "Address",
+    "hi": "पता"
+  },
+  "ExpInYears": {
+    "en": "Experience In Years",
+    "hi": "वर्षों में अनुभव"
+  },
+  "EmergencyContactPersonName": {
+    "en": "Emergency Contact Person Name",
+    "hi": "आपातकालीन संपर्क व्यक्ति का नाम"
+  },
+  "EmergencyContactPersonPhoneNumber": {
+    "en": "Emergency Contact Person Phone Number",
+    "hi": "आपातकालीन संपर्क व्यक्ति फ़ोन नंबर"
+  },
+  "BloodGroup": {
+    "en": "Blood Group",
+    "hi": "ब्लड ग्रुप"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है?"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "Inactive": {
+    "en": "Inactive",
+    "hi": "निष्क्रिय"
+  },
+  "WhatsAppNumber": {
+    "en": "WhatsApp Number",
+    "hi": "व्हाट्सएप नंबर"
+  },
+  "Language": {
+    "en": "Language",
+    "hi": "भाषा"
+  },
+  "Qualification": {
+    "en": "Qualification",
+    "hi": "योग्यता"
+  },
+  "Specialization": {
+    "en": "Specialization",
+    "hi": "विशेषज्ञता"
+  },
+  "CreatedBy": {
+    "en": "Created By",
+    "hi": "के द्वारा बनाई गई"
+  },
+  "UpdateProfile": {
+    "en": "Update Profile",
+    "hi": "प्रोफ़ाइल अपडेट करें"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "DoyoureallywanttodeletethisStaff": {
+    "en": "Do you really want to delete this Staff?",
+    "hi": "क्या आप सचमुच इस स्टाफ़ को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it",
+    "hi": "हाँ इसे हटा दें"
+  },
+  "Nocancel": {
+    "en": "No cancel",
+    "hi": "रद्द करें"
+  },
+  "Deleted": {
+    "en": "Deleted",
+    "hi": "हटाए गए"
+  },
+  "TheStaffhasbeendeleted": {
+    "en": "The Patient has been deleted",
+    "hi": "मरीज को हटा दिया गया है"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "View": {
+    "en": "View",
+    "hi": "देखना"
+  },
+  "Staff": {
+    "en": "Staff",
+    "hi": "कर्मचारी"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "CreatedAt": {
+    "en": "CreatedAt",
+    "hi": "पंजीकृत"
+  }
+}

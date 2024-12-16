@@ -1,0 +1,42 @@
+{
+  "HidePassword": {
+    "en": "Hide Password",
+    "hi": "पासवर्ड छिपाएं"
+  },
+  "ShowPassword": {
+    "en": "Show Password",
+    "hi": "पासवर्ड दिखाए"
+  },
+  "Enternamehere": {
+    "en": "Enter name here",
+    "hi": "यहां नाम दर्ज करें"
+  },
+  "Name": {
+    "en": "Name",
+    "hi": "नाम"
+  },
+  "Therehavebeennodatainthissection": {
+    "en": "There have been no data in this section",
+    "hi": "इस अनुभाग में कोई डेटा नहीं है"
+  },
+  "OOPSPAGENOTFOUND": {
+    "en": "OOPS! PAGE NOT FOUND",
+    "hi": "उफ़! पृष्ठ नहीं मिला"
+  },
+  "Sorrythepageyourelookingfordoesntexist": {
+    "en": "Sorry, the page you're looking for doesn't exist.",
+    "hi": "क्षमा करें, आप जिस पृष्ठ की तलाश कर रहे हैं वह मौजूद नहीं है।"
+  },
+  "RETURNTOHOMEPAGE": {
+    "en": "RETURN TO HOME PAGE",
+    "hi": "होम पेज पर वापस जाएँ"
+  },
+  "Imagecapturedsuccessfully": {
+    "en": "Image captured successfully!",
+    "hi": "छवि सफलतापूर्वक कैप्चर की गई!"
+  },
+  "CaptureImage": {
+    "en": "Capture Image",
+    "hi": "छवि कैप्चर करें"
+  }
+}

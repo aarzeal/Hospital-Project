@@ -2,5 +2,149 @@
   "Specialization": {
     "en": "Specialization",
     "hi": "विशेषज्ञता"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "IsClinicalSkill": {
+    "en": "Is Clinical Skill",
+    "hi": "क्या क्लिनिकल कौशल है?"
+  },
+  "EnterSkillName": {
+    "en": "Enter Skill name",
+    "hi": "कौशल का नाम दर्ज करें"
+  },
+  "SpecializationRegistration": {
+    "en": "Specialization Registration",
+    "hi": "विशेषज्ञता पंजीकरण"
+  },
+  "SkillUpdatedSuccessfully": {
+    "en": "Skill Updated Successfully",
+    "hi": "कौशल सफलतापूर्वक अद्यतन किया गया"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "SkillAddedSuccessfully": {
+    "en": "Skill Added Successfully",
+    "hi": "कौशल सफलतापूर्वक जोड़ा गया"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Doyoureallywanttodeletethisskill": {
+    "en": "Do you really want to delete this skill?",
+    "hi": "क्या आप सचमुच इस कौशल को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
+  },
+  "Nocancel": {
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
+  },
+  "Deleted": {
+    "en": "Deleted",
+    "hi": "हटाए गए"
+  },
+  "Theskillhasbeendeleted": {
+    "en": "The skill has been deleted.",
+    "hi": "कौशल हटा दिया गया है"
+  },
+  "Failedtodeletetheskill": {
+    "en": "Failed to delete the skill.",
+    "hi": "कौशल को हटाने में विफल."
+  },
+  "SkillName": {
+    "en": "Skill Name",
+    "hi": "कौशल का नाम"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "UpdateSkill": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Actions": {
+    "en": "Actions",
+    "hi": "काम"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "skillupdatedsuccessfully": {
+    "en": "Skill updated successfully",
+    "hi": "कौशल सफलतापूर्वक अद्यतन किया गया"
+  },
+  "SpecializationUpdation": {
+    "en": "Specialization Updation",
+    "hi": "विशेषज्ञता अद्यतनीकरण"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "SearchbyskillName": {
+    "en": "Search by skill name",
+    "hi": "कौशल नाम से खोजें"
+  },
+  "Clinical": {
+    "en": "Clinical",
+    "hi": "क्लीनिकल"
+  },
+  "NonClinical": {
+    "en": "Non-clinical",
+    "hi": "गैर नैदानिक"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "InActive": {
+    "en": "In-active",
+    "hi": "निष्क्रिय"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
   }
 }

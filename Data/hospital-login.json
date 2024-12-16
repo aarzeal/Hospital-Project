@@ -16,5 +16,161 @@
     "fr": "Numéro de téléphone",
     "ur": "فون نمبر",
     "mr": "फोन नंबर"
+  },
+  "signin": {
+    "en": "Sign In",
+    "hi": "दाखिल करना"
+  },
+  "hospitalcode": {
+    "en": "Hospital Code",
+    "hi": "अस्पताल कोड"
+  },
+  "enterHospitalCode": {
+    "en": "Enter Hospital Code",
+    "hi": "अस्पताल कोड दर्ज करें"
+  },
+  "enterSecretCode": {
+    "en": "Enter Secret Code",
+    "hi": "गुप्त कोड दर्ज करें"
+  },
+  "submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "submitting": {
+    "en": "Submitting",
+    "hi": "प्रस्तुत करने"
+  },
+  "hospitalCodeisRequired": {
+    "en": "Hospital Code is Required",
+    "hi": "अस्पताल कोड आवश्यक है"
+  },
+  "invalidHospitalCode": {
+    "en": "Invalid Hospital Code",
+    "hi": "अमान्य अस्पताल कोड"
+  },
+  "Username": {
+    "en": "Username",
+    "hi": "उपयोगकर्ता नाम"
+  },
+  "Password": {
+    "en": "Password",
+    "hi": "पासवर्ड"
+  },
+  "usernameisRequired": {
+    "en": "Username is Required",
+    "hi": "उपयोगकर्ता नाम आवश्यक है"
+  },
+  "passwordisRequired": {
+    "en": "Password is Required",
+    "hi": "पासवर्ड आवश्यक है "
+  },
+  "invalidUsernameorPassword": {
+    "en": "Invalid Username or Password",
+    "hi": "अमान्य उपयोगकर्ता नाम या पासवर्ड "
+  },
+  "emailorphonenotverified": {
+    "en": "Email or phone not verified",
+    "hi": "ईमेल या फ़ोन सत्यापित नहीं है "
+  },
+  "userloggedinsuccessfully": {
+    "en": "User logged in successfully",
+    "hi": "उपयोगकर्ता सफलतापूर्वक लॉग इन हुआ"
+  },
+  "Login": {
+    "en": "Login",
+    "hi": "लॉग इन करें"
+  },
+  "Loading": {
+    "en": "Loading...",
+    "hi": "सत्यापन के लिए ईमेल दर्ज करें..."
+  },
+  "VerifyEmail": {
+    "en": "Verify Email",
+    "hi": "ईमेल सत्यापित करें"
+  },
+  "SendOTP": {
+    "en": "Send OTP",
+    "hi": "ओटीपी भेजें"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Emailorphonenotverified": {
+    "en": "Email or phone not verified",
+    "hi": "ईमेल या फ़ोन सत्यापित नहीं है"
+  },
+  "InvalidUsernameorPassword": {
+    "en": "Invalid Username or Password",
+    "hi": "अमान्य उपयोगकर्ता नाम या पासवर्ड"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "SignIn": {
+    "en": "Sign In",
+    "hi": "दाखिल करना"
+  },
+  "HospitalCode": {
+    "en": "Hospital Code",
+    "hi": "अस्पताल कोड"
+  },
+  "EnterHospitalCodeHere": {
+    "en": "Enter Hospital Code Here",
+    "hi": "यहां अस्पताल कोड दर्ज करें"
+  },
+  "InvalidFormat": {
+    "en": "Invalid Format",
+    "hi": "अमान्य प्रारूप"
+  },
+  "Verify": {
+    "en": "Verify",
+    "hi": "सत्यापित करें"
+  },
+  "Checkemailforverification": {
+    "en": "Check email for verification",
+    "hi": "सत्यापन के लिए ईमेल जांचें"
+  },
+  "EmailVerification": {
+    "en": "Email Verification",
+    "hi": "ईमेल सत्यापन"
+  },
+  "EnterEmailforverification": {
+    "en": "Enter Email for verification",
+    "hi": "सत्यापन के लिए ईमेल दर्ज करें"
+  },
+  "TokenExpired": {
+    "en": "Token Expired",
+    "hi": "टोकन समाप्त हो गया"
+  },
+  "YoursessionhasexpiredYouwillbeloggedout": {
+    "en": "Your session has expired. You will be logged out.",
+    "hi": "आपका सत्र समाप्त हो गया है। आपको लॉग आउट कर दिया जाएगा."
+  },
+  "SessionReminder": {
+    "en": "Session Reminder",
+    "hi": "सत्र अनुस्मारक"
+  },
+  "Reauthenticate": {
+    "en": "Re-authenticate",
+    "hi": "पुनः प्रमाणित करें"
+  },
+  "Dismiss": {
+    "en": "Dismiss",
+    "hi": "नकार देना"
   }
 }

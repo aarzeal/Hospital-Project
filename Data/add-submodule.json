@@ -1,0 +1,118 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "SubmoduleAddedSuccessfully": {
+    "en": "Submodule Added Successfully",
+    "hi": "सबमॉड्यूल सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "SubmoduleName": {
+    "en": "Submodule Name",
+    "hi": "सबमॉड्यूल का नाम"
+  },
+  "UpdateSubmodule": {
+    "en": "Update Submodule",
+    "hi": "सबमॉड्यूल अपडेट करें"
+  },
+  "CreateSubmodule": {
+    "en": "Create Submodule",
+    "hi": "सबमॉड्यूल बनाएं"
+  },
+  "EnterSubmodulename": {
+    "en": "Enter Submodule name",
+    "hi": "सबमॉड्यूल नाम दर्ज करें"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "AddSubmodule": {
+    "en": "Add Submodule",
+    "hi": "सबमॉड्यूल जोड़ें"
+  },
+  "searchbysubmoduleName": {
+    "en": "Search by submodule Name",
+    "hi": "सबमॉड्यूल नाम से खोजें"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "SubmoduleUpdatedSuccessfully": {
+    "en": "Submodule Updated Successfully",
+    "hi": "सबमॉड्यूल सफलतापूर्वक अपडेट किया गया"
+  },
+  "UpdateSubmoduleName": {
+    "en": "Update Submodule Name",
+    "hi": "सबमॉड्यूल नाम अपडेट करें"
+  },
+  "EnterupdatedSubmoduleName": {
+    "en": "Enter updated Submodule Name",
+    "hi": "अद्यतन सबमॉड्यूल नाम दर्ज करें"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "DoyoureallywanttodeletethisSubodule?": {
+    "en": "Do you really want to delete this Subodule?",
+    "hi": "क्या आप सचमुच इस सबोड्यूल को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it",
+    "hi": "हाँ इसे हटा दें"
+  },
+  "DoyoureallywanttodeletethisSubodule": {
+    "en": "Do you really want to delete this Subodule?",
+    "hi": "क्या आप सचमुच इस सबोड्यूल को हटाना चाहते हैं?"
+  },
+  "Nocancel": {
+    "en": "No cancel",
+    "hi": "नहीं, इसे रद्द करें"
+  },
+  "Deleted": {
+    "en": "Deleted",
+    "hi": "हटाए गए"
+  },
+  "TheSubmodulehasbeendeleted": {
+    "en": "The Submodule has been deleted",
+    "hi": "सबमॉड्यूल हटा दिया गया है"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Update SubModule": {
+    "en": "Update Submodule ",
+    "hi": "सबमॉड्यूल अपडेट करें"
+  },
+  "UpdateSubModule": {
+    "en": "Update Submodule ",
+    "hi": "सबमॉड्यूल अपडेट करें"
+  }
+}
