@@ -493,6 +493,18 @@ const getModulesAndSubModulesByUserId = async (req, res) => {
       submodules  // Array of submodule names
     }));
 
+    // If the user has no rights
+    if (response.length === 0) {
+      return res.status(200).json({
+        meta: {
+          statusCode: 200,
+          message: 'User has no rights'
+        },
+        data: []
+      });
+    }
+    console.log("resp",response)
+
     // Send JSON response
     res.json({
       meta: {
@@ -501,8 +513,21 @@ const getModulesAndSubModulesByUserId = async (req, res) => {
       },
       data: response
     });
-  } catch (error) {
+  } 
+  catch (error) {
+        // Handle specific table error
+        if (error.message.includes("Table 'umc54.userrights' doesn't exist")) {
+          return res.status(200).json({
+            meta: {
+              statusCode: 200,
+              message: 'User has no rights'
+            },
+            data: []
+          });
+        }
+    
     console.error('Error fetching modules and submodules:', error);
+
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };

@@ -6791,7 +6791,7 @@ exports.getProfile = (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `No token provided${error.message}`, {
       errorCode,
-      logId,
+      // logId,
       statusCode,
       errorMessage: error.message,
       executionTime,
@@ -6818,7 +6818,7 @@ exports.getProfile = (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `get all user successfully`, {
       executionTime,
-      logId,
+      // logId,
       hospitalId: req.hospitalId,
       statusCode: 200,
       // ip: clientIp,
@@ -6851,7 +6851,7 @@ exports.getProfile = (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Failed to authenticate token${error.message}`, {
       errorCode,
-      logId,
+      // logId,
       statusCode,
       errorMessage: error.message,
       executionTime,
