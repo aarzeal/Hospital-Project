@@ -142,5 +142,9 @@
   "UpdateSubmoduleName": {
     "en": "Update Submodule Name",
     "hi": "सबमॉड्यूल नाम अपडेट करें"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
   }
 }

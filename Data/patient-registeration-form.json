@@ -354,5 +354,13 @@
   "PatientsUpdation": {
     "en": "Patients Updation",
     "hi": "मरीजों का अद्यतनीकरण"
+  },
+  "CopyEMRNumber": {
+    "en": "Copy EMR Number",
+    "hi": "ई एम आर नंबर कॉपी करें"
+  },
+  "EMRnumberCopied": {
+    "en": "EMR number Copied",
+    "hi": "ई एम आर नंबर कॉपी किया गया"
   }
 }

@@ -458,8 +458,9 @@ const countApiLogger = async (req, res, next) => {
       hospitalId = decoded.hospitalId || 'Unknown';
       req.hospitalId = hospitalId;
       console.log('Decoded Authorization token:', decoded);
-    } catch (err) {
-      logger.error('Invalid Authorization token provided', { error: err.message });
+    } 
+    catch (err) {
+      // logger.error('Invalid Authorization token provided', { error: err.message });
     }
   }
 
@@ -476,7 +477,7 @@ const countApiLogger = async (req, res, next) => {
     }
   }
 
-  logger.info('Tokens are optional, proceeding even if they are invalid or missing.');
+  // logger.info('Tokens are optional, proceeding even if they are invalid or missing.');
 
   // **Extract only the base API path (excluding IDs and params)**
   // req.baseUrl contains the base path of the mounted router
@@ -518,7 +519,7 @@ const countApiLogger = async (req, res, next) => {
   // Store the log details in the database
   try {
     await CountAPI.create(logDetails);
-    logger.info(`API call logged: ${baseApiName} with method ${method}`);
+    // logger.info(`API call logged: ${baseApiName} with method ${method}`);
   } catch (err) {
     logger.error('Error creating CountAPI entry', { error: err.message, stack: err.stack });
   }

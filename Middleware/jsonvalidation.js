@@ -1,4 +1,9 @@
+
+
+const logger = require("../logger"); 
+
 const validateJSONContentType = (req, res, next) => {
+
   const start = Date.now();
     const contentType = req.headers['content-type'];
     if (!contentType || contentType !== 'application/json') {

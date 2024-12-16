@@ -6,7 +6,6 @@
 // const createDynamicConnection = require('../database/dynamicConnection');
 // const bcrypt = require('bcrypt');
 
-
 // // exports.createHospital = async (req, res) => {
 // //   const errors = validationResult(req);
 // //   if (!errors.isEmpty()) {
@@ -47,7 +46,6 @@
 // //   }
 // // };
 
-
 //   // exports.createHospital = async (req, res) => {
 
 //   //   const errors = validationResult(req);
@@ -76,15 +74,13 @@
 //   //     // Check if database exists (MySQL specific query)
 //   //     // const [databases] = await sequelize.query(`SHOW DATABASES LIKE '${databaseName}'`);
 
-
 //   //     // if (databases.length === 0) {
 //   //       // Create new database
 //   //       await sequelize.query(`CREATE DATABASE \`${databaseName}\``);
 //   //     // }
 
-
 //   //     const { sequelize: dynamicDb, testConnection } = createDynamicConnection(databaseName);
-      
+
 //   //     // Define the models for the new database
 //   //     // const User_Master = createUserMasterModel(dynamicDb);
 //   //     // const Patient_master = createPatientMasterModel(dynamicDb);
@@ -92,7 +88,6 @@
 //   //     await testConnection();
 
 //   //     await dynamicDb.sync();
-     
 
 //   //     // Associate hospital with database (store the association in your application's database)
 //   //     // Add code here if you need to store this association
@@ -115,8 +110,6 @@
 //   //     });
 //   //   }
 //   // };
-
-
 
 //   exports.createHospital = async (req, res) => {
 //     const errors = validationResult(req);
@@ -146,7 +139,7 @@
 //         await sequelize.query(`CREATE DATABASE \`${databaseName}\``);
 
 //         const { sequelize: dynamicDb, testConnection } = createDynamicConnection(databaseName);
-        
+
 //         // Test the connection to the new database
 //         await testConnection();
 
@@ -175,342 +168,308 @@
 //     }
 // };
 
-const validateJSONContentType = require('../Middleware/jsonvalidation');
-const { v4: uuidv4 } = require('uuid');
-const sendEmail = require('../Middleware/sendEmail');
-const sendUserEmail = require('../Middleware/sendUserEmail');
-const { Op } = require('sequelize');
-const express = require('express');
+const validateJSONContentType = require("../Middleware/jsonvalidation");
+const { v4: uuidv4 } = require("uuid");
+const sendEmail = require("../Middleware/sendEmail");
+const sendUserEmail = require("../Middleware/sendUserEmail");
+const { Op } = require("sequelize");
+const express = require("express");
 const router = express.Router();
-const { createUserValidationRules } = require('../validators/hospitalValidator');
 
-const { validationResult } = require('express-validator');
-const Hospital = require('../models/HospitalModel');
-const sequelize = require('../database/connection');
-const createUserMasterModel = require('../models/userMaster');
-const createPatientMasterModel = require('../models/PatientMaster');
-const createDynamicConnection = require('../database/dynamicConnection');
-const bcrypt = require('bcrypt');
-const logger = require('../logger');  // Assuming logger is configured properly in '../logger'
-const jwt = require('jsonwebtoken');
-const {  DataTypes } = require('sequelize');
-const { User } = require('../models/user');
-const CountAPI = require('../models/ApisCounts');
-const redis = require('redis');
-const{ redisClient, getAsync, setAsync }  = require('../Middleware/redisClient'); 
+const multer = require('multer');
+const {
+  createUserValidationRules,
+} = require("../validators/hospitalValidator");
+
+const { validationResult } = require("express-validator");
+const Hospital = require("../models/HospitalModel");
+const sequelize = require("../database/connection");
+const createUserMasterModel = require("../models/userMaster");
+const createPatientMasterModel = require("../models/PatientMaster");
+const createDynamicConnection = require("../database/dynamicConnection");
+// const bcrypt = require('bcrypt');
+const bcrypt = require("bcryptjs");
+const logger = require("../logger"); // Assuming logger is configured properly in '../logger'
+const jwt = require("jsonwebtoken");
+const { DataTypes } = require("sequelize");
+const { User } = require("../models/user");
+const CountAPI = require("../models/ApisCounts");
+const redis = require("redis");
+const path = require('path');
+const fs = require('fs');
+const {
+
+  redisClient,
+  getAsync,
+  setAsync,
+} = require("../Middleware/redisClient");
 
 const client = redis.createClient();
 
-
-const requestIp = require('request-ip');
+const requestIp = require("request-ip");
 async function getClientIp(req) {
-  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+  let clientIp =
+    req.headers["x-forwarded-for"] ||
+    req.headers["x-real-ip"] ||
+    requestIp.getClientIp(req);
 
   // If IP is localhost or private, try fetching the public IP
-  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+  if (
+    clientIp === "::1" ||
+    clientIp === "127.0.0.1" ||
+    clientIp.startsWith("192.168") ||
+    clientIp.startsWith("10.") ||
+    clientIp.startsWith("172.")
+  ) {
     try {
-      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      const ipResponse = await axios.get("https://api.ipify.org?format=json");
       clientIp = ipResponse.data.ip;
     } catch (error) {
+      logger.logWithMeta("Error fetching public IP", {
+        error: error.message,
+        erroerCode: 900,
+      });
 
-      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 900 });
-
-      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+      clientIp = "127.0.0.1"; // Fallback to localhost if IP fetch fails
     }
   }
 
   return clientIp;
 }
 
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     const uploadPath = path.join(__dirname, '../empPhoto');
+//     if (!fs.existsSync(uploadPath)) {
+//       fs.mkdirSync(uploadPath, { recursive: true });
+//     }
+//     cb(null, uploadPath);
+//   },
+//   filename: (req, file, cb) => {
+//     // Construct a filename using the employee's name
+//     const { FName, MName, LName } = req.body;
+//     const employeeName = `${FName}_${MName || ''}_${LName}`.replace(/\s+/g, '_').trim(); // Replace spaces with underscores
+//     const sanitizedFileName = employeeName + path.extname(file.originalname); // Use the original file extension
+//     cb(null, sanitizedFileName);
+//   }
+// });
 
-exports.createHospital = async (req, res) => {
-  const start = Date.now();
-  const clientIp = await getClientIp(req);
-  // let end;
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      
-      
-      const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 901;
-  
-      // Log the warning
-      logger.logWithMeta("warn", `Validation errors occurred `, {
-        errorCode,
-        // errorMessage: error.message,
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
-      });
-  
-        // logger.info('Validation errors occurred', errors);
-        return res.status(400).json({
-            meta: {
-                statusCode: 400,
-                errorCode: 901,
-                // executionTime: `${end - start}ms`
-            },
-            error: {
-                message: 'Validation errors occurred',
-                details: errors.array().map(err => ({
-                    field: err.param,
-                    message: err.msg
-                }))
-            }
-        });
-    }
-    
+// const upload = multer({
+//   storage: storage,
+//   limits: {
+//     fileSize: 50 * 1024 * 1024 // 50 MB limit
+//   }
+// });
 
-    try {
-      const existingHospital = await Hospital.findOne({ where: { ManagingCompanyEmail: req.body.ManagingCompanyEmail } });
-    if (existingHospital) {
-
-      const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 902;
-  
-      // Log the warning
-      logger.logWithMeta("warn", `Managing Company Email already exists ${error.message}`, {
-        errorCode,
-        errorMessage: error.message,
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
-      });
-
-      return res.status(400).json({
-        meta: {
-          statusCode: 400,
-          errorCode: 902,
-                  //  executionTime: `${end - start}ms`
-        },
-        error: {
-          message: 'Managing Company Email already exists'
-        }
-      });
-    }
-        const hospital = await Hospital.create(req.body);
-        logger.info('Hospital created successfully', {
-          hospitalId: hospital.HospitalID,
-          // executionTime: `${end - start}ms`
-        });
-
-        // Generate database name (e.g., from HospitalDatabase field)
-        const databaseName = hospital.HospitalDatabase.replace(/\s+/g, '_').toLowerCase();
-        logger.info(`Generated database name: ${databaseName}`);
-
-        // Create new database
-        await sequelize.query(`CREATE DATABASE \`${databaseName}\``);
-        // logger.info(`Database ${databaseName} created successfully`);
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
-       // Log the warning
-        logger.logWithMeta("warn", `Database ${databaseName} created successfully`, {
-          executionTime,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method,
-          userAgent: req.headers['user-agent'],    // HTTP method
-        });
-
-        // const { sequelize: dynamicDb, testConnection } = createDynamicConnection(databaseName);
-        
-        // Test the connection to the new database
-        // await testConnection();
-        // logger.info(`Connected to database ${databaseName} successfully`);
-
-        // Define and sync the UserMaster model in the new database
-        // const UserMaster = createUserMasterModel(dynamicDb);
-
-        // Sync all models
-        // await dynamicDb.sync();
-        logger.info(`Models synchronized successfully in database ${databaseName}`);
-
-
-
-        const uniqueKey = uuidv4();
-        logger.info(`Generated unique key: ${uniqueKey}`);
-
-        hospital.UniqueKey = uniqueKey;
-         await hospital.save({ fields: ['UniqueKey'] });
-        
-         
-        // Log the warning
-         logger.logWithMeta("warn", `Unique key stored in hospital record successfully`, {
-           executionTime,
-           hospitalId: req.hospitalId,
-           ip: clientIp,
-           apiName: req.originalUrl, // API name
-           method: req.method,
-           userAgent: req.headers['user-agent'],    // HTTP method
-         });
-
-        // logger.info(`Unique key stored in hospital record successfully`);
-        // const end = Date.now();
-        res.status(200).json({
-            meta: {
-                statusCode: 200,
-                    // executionTime: `${end - start}ms`
-            },
-            data: hospital
-        });
-    } catch (error) {
-     
-      const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 903;
-  
-      // Log the warning
-      logger.logWithMeta("warn", `Error creating hospital ${error.message}`, {
-        errorCode,
-        errorMessage: error.message,
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
-      });
-        // logger.error('Error creating hospital', { error: error.message });
-        res.status(400).json({
-            meta: {
-                statusCode: 400,
-                errorCode: 903,
-                          // executionTime: `${end - start}ms`
-            },
-            error: {
-                message: 'Error creating hospital: ' + error.message
-            }
-        });
-    }
-};
-
-
-
-
-// exports.createHospital = async (req, res) => {
-//   const start = Date.now(); // Initialize start time at the beginning
-
-//   // Ensure the res object is correctly defined
-//   if (!res || typeof res.status !== 'function') {
-//     console.error('Response object is not properly defined at the start of the function');
-//     return;
+// const saveBase64Image = (base64String, filename) => {
+//   // Match and extract file extension and data
+//   const matches = base64String.match(/^data:(.+);base64,(.+)$/);
+//   if (!matches || matches.length !== 3) {
+//     throw new Error("Invalid base64 string");
 //   }
 
-//   // Validation Check
+//   const ext = matches[1].split("/")[1]; // Get the extension
+//   const data = matches[2]; // Get the base64 data
+//   const buffer = Buffer.from(data, "base64"); // Decode the base64 data
+
+//   // Create the directory if it doesn't exist
+//   const uploadPath = path.join(__dirname, "../profile");
+//   if (!fs.existsSync(uploadPath)) {
+//     fs.mkdirSync(uploadPath, { recursive: true });
+//   }
+
+//   // Create the full file path with the extension
+//   const filePath = path.join(uploadPath, `${filename}.${ext}`);
+//   fs.writeFileSync(filePath, buffer); // Save the file
+
+//   return filePath; // Return the saved file path
+// };
+
+// exports.createHospital = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   // let end;
 //   const errors = validationResult(req);
 //   if (!errors.isEmpty()) {
 //     const end = Date.now();
-//     logger.info('Validation errors occurred', errors);
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 901;
+
+//     // Log the warning
+//     logger.logWithMeta("warn", `Validation errors occurred `, {
+//       errorCode,
+//       // errorMessage: error.message,
+//       statusCode: 400,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,
+//       userAgent: req.headers["user-agent"], // HTTP method
+//     });
+
+//     // logger.info('Validation errors occurred', errors);
 //     return res.status(400).json({
 //       meta: {
 //         statusCode: 400,
-//         errorCode: 912,
-//         executionTime: `${end - start}ms`
+//         errorCode: 901,
+//         // executionTime: `${end - start}ms`
 //       },
 //       error: {
-//         message: 'Validation errors occurred',
-//         details: errors.array().map(err => ({
+//         message: "Validation errors occurred",
+//         details: errors.array().map((err) => ({
 //           field: err.param,
-//           message: err.msg
-//         }))
-//       }
+//           message: err.msg,
+//         })),
+//       },
 //     });
 //   }
 
 //   try {
-//     // Check for existing hospital by ManagingCompanyEmail
-//     const existingHospital = await Hospital.findOne({ where: { ManagingCompanyEmail: req.body.ManagingCompanyEmail } });
+//     const existingHospital = await Hospital.findOne({
+//       where: { ManagingCompanyEmail: req.body.ManagingCompanyEmail },
+//     });
 //     if (existingHospital) {
 //       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 902;
+
+//       // Log the warning
+//       logger.logWithMeta(
+//         "warn",
+//         `Managing Company Email already exists `,
+//         {
+//           errorCode,
+//           statusCode: 400,
+         
+//           executionTime,
+//           hospitalId: req.hospitalId,
+//           ip: clientIp,
+//           apiName: req.originalUrl, // API name
+//           method: req.method,
+//           userAgent: req.headers["user-agent"], // HTTP method
+//         }
+//       );
+
 //       return res.status(400).json({
 //         meta: {
 //           statusCode: 400,
-//           errorCode: 956,
-//           executionTime: `${end - start}ms`
+//           errorCode: 902,
+//           //  executionTime: `${end - start}ms`
 //         },
 //         error: {
-//           message: 'Managing Company Email already exists'
-//         }
+//           message: "Managing Company Email already exists",
+//         },
 //       });
 //     }
-
-//     // Create Hospital
 //     const hospital = await Hospital.create(req.body);
-//     logger.info('Hospital created successfully', {
+//     logger.info("Hospital created successfully", {
 //       hospitalId: hospital.HospitalID,
-//       executionTime: `${Date.now() - start}ms`
+//       // executionTime: `${end - start}ms`
 //     });
 
-//     // Generate database name from HospitalDatabase field
-//     const databaseName = hospital.HospitalDatabase.replace(/\s+/g, '_').toLowerCase();
+//     // Generate database name (e.g., from HospitalDatabase field)
+//     const databaseName = hospital.HospitalDatabase.replace(
+//       /\s+/g,
+//       "_"
+//     ).toLowerCase();
 //     logger.info(`Generated database name: ${databaseName}`);
 
 //     // Create new database
 //     await sequelize.query(`CREATE DATABASE \`${databaseName}\``);
-//     logger.info(`Database ${databaseName} created successfully`);
+//     // logger.info(`Database ${databaseName} created successfully`);
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     // Log the warning
+//     logger.logWithMeta(
+//       "warn",
+//       `Database ${databaseName} created successfully`,
+//       {
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method,
+//         userAgent: req.headers["user-agent"], // HTTP method
+//       }
+//     );
 
-//     // Create dynamic connection to the new database
-//     const { sequelize: dynamicDb, testConnection } = createDynamicConnection(databaseName);
+//     // const { sequelize: dynamicDb, testConnection } = createDynamicConnection(databaseName);
 
 //     // Test the connection to the new database
-//     await testConnection();
-//     logger.info(`Connected to database ${databaseName} successfully`);
+//     // await testConnection();
+//     // logger.info(`Connected to database ${databaseName} successfully`);
 
 //     // Define and sync the UserMaster model in the new database
-//     const UserMaster = createUserMasterModel(dynamicDb);
-//     await dynamicDb.sync();
-//     logger.info(`Models synchronized successfully in database ${databaseName}, executionTime: ${Date.now() - start}ms`);
+//     // const UserMaster = createUserMasterModel(dynamicDb);
 
-//     // Generate and store unique key in the hospital record
+//     // Sync all models
+//     // await dynamicDb.sync();
+//     logger.info(`Models synchronized successfully in database ${databaseName}`);
+
 //     const uniqueKey = uuidv4();
 //     logger.info(`Generated unique key: ${uniqueKey}`);
-//     hospital.UniqueKey = uniqueKey;
-//     await hospital.save({ fields: ['UniqueKey'] });
-//     logger.info(`Unique key stored in hospital record successfully, executionTime: ${Date.now() - start}ms`);
 
-//     // Send response with successful hospital creation
-//     const end = Date.now();
+//     hospital.UniqueKey = uniqueKey;
+//     await hospital.save({ fields: ["UniqueKey"] });
+
+//     // Log the warning
+//     logger.logWithMeta(
+//       "warn",
+//       `Unique key stored in hospital record successfully`,
+//       {
+//         executionTime,
+//         statusCode: 200,
+//         hospitalId: req.hospitalId,
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method,
+//         userAgent: req.headers["user-agent"], // HTTP method
+//       }
+//     );
+
+//     // logger.info(`Unique key stored in hospital record successfully`);
+//     // const end = Date.now();
 //     res.status(200).json({
 //       meta: {
 //         statusCode: 200,
-//         executionTime: `${end - start}ms`
+//         // executionTime: `${end - start}ms`
 //       },
-//       data: hospital
+//       data: hospital,
+//       // data: newHospital,
+//         // ...newHospital,
+//           // img: logoBase64 
 //     });
 //   } catch (error) {
-//     // Catch any errors that occur during the hospital creation process
 //     const end = Date.now();
-//     logger.error('Error creating hospital', { error: error.message });
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 903;
 
-//     // Log the state of res to diagnose potential issues
-//     console.error('Response object in catch block:', res);
-
-//     // Ensure the response object is correctly handled in the catch block
-//     if (res && typeof res.status === 'function') {
-//       res.status(500).json({
-//         meta: {
-//           statusCode: 500,
-//           errorCode: 913,
-//           executionTime: `${end - start}ms`
-//         },
-//         error: {
-//           message: 'Error creating hospital: ' + error.message
-//         }
-//       });
-//     } else {
-//       console.error('Response object is not properly defined or corrupted in catch block');
-//     }
+//     // Log the warning
+//     logger.logWithMeta("warn", `Error creating hospital `, {
+//       errorCode,
+//       statusCode: 400,
+//       // errorMessage: error.message,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,
+//       userAgent: req.headers["user-agent"], // HTTP method
+//     });
+//     // logger.error('Error creating hospital', { error: error.message });
+//     res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 903,
+//         // executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: "Error creating hospital: " + error.message,
+//       },
+//     });
 //   }
 // };
 
@@ -518,149 +477,1142 @@ exports.createHospital = async (req, res) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+    
+//     const uploadPath = path.join(__dirname, '../profile');
+//     if (!fs.existsSync(uploadPath)) {
+//       fs.mkdirSync(uploadPath, { recursive: true });
+//     }
+//     cb(null, uploadPath);
+//   },
+//   // filename: (req, file, cb) => {
+//   //   cb(null, Date.now() + path.extname(file.originalname));
+//   // }
+//   filename: async (req, file, cb) => {
+//     try {
+//       // Generate EMRNumber before saving the file to use it as 
+//       cb(null, `${'photo'}${path.extname(file.originalname)}`);
+//     } catch (err) {
+//       logger.logWithMeta('Error storing img file path ', { error: err.message, erroerCode: 975 });
+
+//       cb(err);
+//     }
+//   }
+// });
+// const upload = multer({
+//   storage: storage,
+//   limits: {
+//     fileSize: 50 * 1024 * 1024 // 50 MB limit
+//   }})
+// // const upload = multer({ storage });
+
+// // Function to decode base64 image and save it as a file
+// const saveBase64Image = (base64String, filename) => {
+//   // Split the base64 string into parts to get the extension
+//   const matches = base64String.match(/^data:(.+);base64,(.+)$/);
+//   if (!matches || matches.length !== 3) {
+//     throw new Error('Invalid base64 string');
+//   }
+//   const ext = matches[1].split('/')[1]; // Get the extension
+//   const data = matches[2]; // Get the base64 data
+//   const buffer = Buffer.from(data, 'base64'); // Decode the base64 data
+
+//   // Create the directory if it doesn't exist
+//   const uploadPath = path.join(__dirname, '../profile');
+//   if (!fs.existsSync(uploadPath)) {
+//     fs.mkdirSync(uploadPath, { recursive: true });
+//   }
+
+//   // Create the full file path with the extension
+//   const filePath = path.join(uploadPath, `${filename}.${ext}`);
+//   fs.writeFileSync(filePath, buffer); // Save the file
+
+//   return filePath; // Return the saved file path
+// };
+
+// exports.createPatient = [
+//   // Validation middleware (ensure this is used before multer middleware)
+//   // Example: body('name').notEmpty().withMessage('Name is required'),
+
+//   // File upload middleware
+  
+//   upload.single('HospitalLogo'),
+
+//   async (req, res) => {
+//     console.log('Request Body:', req.body);
+//     console.log('Uploaded File:', req.file);
+
+//     const start = Date.now();
+
+//     // Check validation errors
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       const end = Date.now();
+
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 976;
+//       const statusCode = 400;
+//       // Ensure that error.message is logged separately if needed
+//       logger.logWithMeta("warn", `Validation errors occurred`, errors.array(), {
+//         errorCode,
+//         statusCode,
+//         errorMessage: errors.array(), // Include the error message in meta explicitly
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//       });
+//       // logger.info('Validation errors occurred', { errors: errors.array(), executionTime: `${end - start}ms` });
+//       return res.status(statusCode).json({
+//         meta: {
+//           statusCode: statusCode,
+
+//           errorCode: 976,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Validation errors occurred',
+//           details: errors.array().map(err => ({
+//             field: err.param,
+//             message: err.msg
+//           }))
+//         }
+//       });
+//     }
+
+//     // Get file from request
+//     // const img = req.file ? req.file.path : null;
+
+//     // Extract data from request body
+//     console.log(req.body)
+//     const {
+//       HospitalName,
+//       HospitalCode,
+//       ManagingCompany,
+//       ManagingCompanyAdd1,
+//       ManagingCompanyAdd2,
+//       ManagingCompanyAdd3,
+//       ManagingCompanyEmail,
+//       ManagingCompanyWebsite,
+//       City,
+//       Province,
+//       Region,
+//       Country,
+//       HospitalOwner,
+//       OwnerName,
+//       OwnerAdd1,
+//       OwnerAdd2,
+//       OwnerAdd3,
+//       OwnerCity,
+//       OwnerProvince,
+//       OwnerRegion,
+//       OwnerCountry,
+//       OwnerEmail,
+//       HospitalIDNo,
+//       TaxNumber,
+//       ServiceNo,
+//       RegistrationNo,
+//       VATNumber,
+//       GSTNo,
+//       TINNo,
+//       AccBooksBeginFrom,
+//       OtherRegNo,
+//       HospitalLogo,
+//       HospitalGroupIDR,
+//       CreatedDate,
+//       Reserve1,
+//       Reserve2,
+//       Reserve3,
+//       Reserve4,
+//       Reserve5,
+//       Reserve6,
+//       HospitalDatabase,
+//       Username,
+//       Password,
+//       MFAEnabled
+//     } = req.body;
+
+
+    
+
+//     try {
+//       // Check for existing patient
+//       const existingPatient = await Hospital.findOne({
+//         where: {
+//           [Op.or]: [
+            
+//             { ManagingCompanyEmail }
+//           ]
+//         }
+//       });
+
+//       if (existingPatient) {
+
+
+//         const end = Date.now();
+//         const executionTime = `${end - start}ms`;
+//         const errorCode = 977;
+//         const statusCode = 400;
+
+//         // Ensure that error.message is logged separately if needed
+//         logger.logWithMeta("warn", `${duplicateField} already exists`, {
+//           errorCode,
+//           statusCode,
+//           executionTime,
+//           hospitalId: req.hospitalId,
+//         });
+//         // logger.info(`${duplicateField} already exists`, { executionTime: `${end - start}ms` });
+//         return res.status(statusCode).json({
+//           meta: {
+//             statusCode: statusCode,
+//             errorCode: 977,
+//             executionTime: `${end - start}ms`
+//           },
+//           error: {
+//             message: `${duplicateField} already exists`
+//           }
+//         });
+//       }
+
+//       // Generate unique EMR number
+//       let savedImagePath = null;
+//       let imgBase64 = null;
+//       if (HospitalLogo) {
+//         // If img is provided as a Base64 string
+//         imgBase64 = HospitalLogo.startsWith('data:image/jpeg;base64/') ? HospitalLogo.split(',')[1] : HospitalLogo; // Extract base64 part if needed
+//         // imgBase64 = `data:image/jpeg;base64,${imgBuffer.toString('base64')}`;
+//         savedImagePath = saveBase64Image(HospitalLogo, 'pHOTO');
+//         console.log("savedImagePath",savedImagePath)
+//       } else if (req.file) {
+//         // If an image file is uploaded
+//         const imgBuffer = fs.readFileSync(req.file.path);
+//         imgBase64 = imgBuffer.toString('base64'); // Convert to base64
+//       }
+
+//       console.log("imgBase64", imgBase64);
+//       console.log("req.hospitalGroupIDR :", req.hospitalGroupId)
+//       // Create new patient record
+//       const newHospital = await Hospital.create({
+//         HospitalName,
+//       HospitalCode,
+//       ManagingCompany,
+//       ManagingCompanyAdd1,
+//       ManagingCompanyAdd2,
+//       ManagingCompanyAdd3,
+//       ManagingCompanyEmail,
+//       ManagingCompanyWebsite,
+//       City,
+//       Province,
+//       Region,
+//       Country,
+//       HospitalOwner,
+//       OwnerName,
+//       OwnerAdd1,
+//       OwnerAdd2,
+//       OwnerAdd3,
+//       OwnerCity,
+//       OwnerProvince,
+//       OwnerRegion,
+//       OwnerCountry,
+//       OwnerEmail,
+//       HospitalIDNo,
+//       TaxNumber,
+//       ServiceNo,
+//       RegistrationNo,
+//       VATNumber,
+//       GSTNo,
+//       TINNo,
+//       AccBooksBeginFrom,
+//       OtherRegNo,
+//       HospitalGroupIDR,
+//       CreatedDate,
+//       Reserve1,
+//       Reserve2,
+//       Reserve3,
+//       Reserve4,
+//       Reserve5,
+//       Reserve6,
+//       HospitalDatabase,
+//       Username,
+//       Password,
+//       MFAEnabled,
+      
+//         HospitalLogo: savedImagePath
+//       });
+//       // Get the real IP address of the client
+//       let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+
+//       // // If IP is localhost or private, try fetching the public IP
+//       // if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+//       //   try {
+//       //     const ipResponse = await axios.get('https://api.ipify.org?format=json');
+//       //     clientIp = ipResponse.data.ip;
+//       //   } catch (error) {
+//       //     logger.error('Error fetching public IP', { error: error.message });
+//       //     clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+//       //   }
+//       // }
+
+//       // console.log('Client IP:', clientIp);
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       // let clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip;
+
+//       // console.log("clientIp.....",clientIp )
+//       // 
+//       // // Get API name and method
+//       const apiName = req.originalUrl; // This gets the original URL of the request
+//       const method = req.method;         // This gets the HTTP method (GET, POST, etc.)
+
+
+
+
+
+
+//       // Log the creation of the new patient
+//       logger.logWithMeta("info", `Created new patient with ID  in ${executionTime} ms`, {
+//         executionTime,    
+//         statusCode:200,                     // Execution time in ms
+//         // MRNumber: newHospital.EMRNumber,       // EMR Number
+//         // hospitalId: req.hospitalId,          // Hospital ID
+//         // patientId: newHospital.PatientID,      // Patient ID
+//         // patientFirstName: newHospital.PatientFirstName, // Include first name separately if needed
+//         // userId: req.userId,                  // User ID (if available)
+//         // ip: clientIp,                         // Client IP
+//         userAgent: req.headers['user-agent'], // User agent from headers
+//         apiName,                              // API name
+//         method                                // HTTP method
+//       });
+
+
+//     // Generate database name (e.g., from HospitalDatabase field)
+//     const databaseName = Hospital.HospitalDatabase.replace(
+//       /\s+/g,
+//       "_"
+//     ).toLowerCase();
+//     logger.info(`Generated database name: ${databaseName}`);
+
+//     // Create new database
+//     await sequelize.query(`CREATE DATABASE \`${databaseName}\``);
+//     // logger.info(`Database ${databaseName} created successfully`);
+//       // const end = Date.now();
+//       // logger.info(`Created new patient with ID ${newHospital.PatientID} in ${end - start}ms`);
+//       res.status(200).json({
+//         meta: {
+//           statusCode: 200,
+//           executionTime: `${end - start}ms`
+//         },
+//         data: newHospital,
+//         // ...newHospital,
+//         HospitalLogo: imgBase64 
+//       });
+//     } catch (error) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`; // Calculate execution time again for the catch block
+//       const errorCode = 978;
+//       const statusCode = 500;
+//       // Log the error
+//       logger.logWithMeta("warn", `Error creating patient`, {
+//         errorCode,
+//         statusCode,
+//         error: error.message,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//         // ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method
+//       });
+
+//       // logger.error('Error creating patient', { error: error.message, executionTime: `${end - start}ms` });
+//       res.status(statusCode).json({
+//         meta: {
+//           statusCode: statusCode,
+//           errorCode: 978,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Error creating patient: ' + error.message
+//         }
+//       });
+//     }
+//   }
+// ];
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadPath = path.join(__dirname, '../profileImg');
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    const timestamp = Date.now();
+    const sanitizedFilename = file.originalname.replace(/\s+/g, '_'); // Replace spaces in filename
+    cb(null, `${timestamp}_${sanitizedFilename}`);
+  },
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB
+});
+
+// Save Base64 Image
+const saveBase64Image = (base64String, filename) => {
+  const matches = base64String.match(/^data:(.+);base64,(.+)$/);
+  if (!matches || matches.length !== 3) {
+    throw new Error('Invalid base64 string');
+  }
+  const ext = matches[1].split('/')[1];
+  const data = matches[2];
+  const buffer = Buffer.from(data, 'base64');
+
+  const uploadPath = path.join(__dirname, '../profileImg');
+  if (!fs.existsSync(uploadPath)) {
+    fs.mkdirSync(uploadPath, { recursive: true });
+  }
+
+  const filePath = path.join(uploadPath, `${filename}.${ext}`);
+  fs.writeFileSync(filePath, buffer);
+  return filePath;
+};
+
+// Controller
+// exports.createHospital = [
+//   upload.single('HospitalLogo'), // Middleware for handling file upload
+
+//   async (req, res) => {
+//     const start = Date.now();
+//     const errors = validationResult(req);
+   
+//     // Check for validation errors
+//     if (!errors.isEmpty()) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 976;
+//       const statusCode = 400;
+
+//       logger.logWithMeta("warn", "Validation errors occurred", {
+//         errors: errors.array(),
+//         errorCode,
+//         statusCode,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//       });
+
+//       return res.status(statusCode).json({
+//         meta: {
+//           statusCode: statusCode,
+//           errorCode: 976,
+//           executionTime: executionTime
+//         },
+//         error: {
+//           message: 'Validation errors occurred',
+//           details: errors.array().map(err => ({
+//             field: err.param,
+//             message: err.msg
+//           }))
+//         }
+//       });
+//     }
+
+//     // Destructure all the necessary fields from the request body
+//     const {
+//       HospitalName,
+//       HospitalCode,
+//       ManagingCompany,
+//       ManagingCompanyAdd1,
+//       ManagingCompanyAdd2,
+//       ManagingCompanyAdd3,
+//       ManagingCompanyEmail,
+//       ManagingCompanyWebsite,
+//       City,
+//       Province,
+//       Region,
+//       Country,
+//       HospitalOwner,
+//       OwnerName,
+//       OwnerAdd1,
+//       OwnerAdd2,
+//       OwnerAdd3,
+//       OwnerCity,
+//       OwnerProvince,
+//       OwnerRegion,
+//       OwnerCountry,
+//       OwnerEmail,
+//       HospitalIDNo,
+//       TaxNumber,
+//       ServiceNo,
+//       RegistrationNo,
+//       VATNumber,
+//       GSTNo,
+//       TINNo,
+//       AccBooksBeginFrom,
+//       OtherRegNo,
+//       HospitalGroupIDR,
+//       CreatedDate,
+//       Reserve1,
+//       Reserve2,
+//       Reserve3,
+//       Reserve4,
+//       Reserve5,
+//       Reserve6,
+//       HospitalDatabase,
+//       Username,
+//       Password,
+//       MFAEnabled,
+//       HospitalLogo
+//     } = req.body;
+
+//     try {
+//       // Check for existing hospital based on ManagingCompanyEmail
+//       const existingHospital = await Hospital.findOne({
+//         where: {
+//           [Op.or]: [
+//             { ManagingCompanyEmail }
+//           ]
+//         }
+//       });
+
+//       if (existingHospital) {
+//         const end = Date.now();
+//         const executionTime = `${end - start}ms`;
+//         const errorCode = 977;
+//         const statusCode = 400;
+
+//         logger.logWithMeta("warn", "ManagingCompanyEmail already exists", {
+//           errorCode,
+//           statusCode,
+//           executionTime,
+//           hospitalId: req.hospitalId,
+//         });
+
+//         return res.status(statusCode).json({
+//           meta: {
+//             statusCode: statusCode,
+//             errorCode: 977,
+//             executionTime: executionTime
+//           },
+//           error: {
+//             message: 'ManagingCompanyEmail already exists'
+//           }
+//         });
+//       }
+
+//       // Handle image upload (file or base64)
+//       let savedImagePath = null;
+//       let imgBase64 = null;
+
+//       if (HospitalLogo && HospitalLogo.startsWith('data:image')) {
+//         // If HospitalLogo is a base64 string
+//         console.log("-----------------yes-------------")
+//         savedImagePath = saveBase64Image(HospitalLogo, 'photo');
+//       } else if (req.file) {
+//         // If an image file is uploaded via multer
+//         savedImagePath = req.file.path;
+//       }
+
+//       if (savedImagePath) {
+//         const imgBuffer = fs.readFileSync(savedImagePath);
+//         imgBase64 = `data:image/${path.extname(savedImagePath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+//       }
+
+//       // Create new hospital record
+//       const newHospital = await Hospital.create({
+//         HospitalName,
+//         HospitalCode,
+//         ManagingCompany,
+//         ManagingCompanyAdd1,
+//         ManagingCompanyAdd2,
+//         ManagingCompanyAdd3,
+//         ManagingCompanyEmail,
+//         ManagingCompanyWebsite,
+//         City,
+//         Province,
+//         Region,
+//         Country,
+//         HospitalOwner,
+//         OwnerName,
+//         OwnerAdd1,
+//         OwnerAdd2,
+//         OwnerAdd3,
+//         OwnerCity,
+//         OwnerProvince,
+//         OwnerRegion,
+//         OwnerCountry,
+//         OwnerEmail,
+//         HospitalIDNo,
+//         TaxNumber,
+//         ServiceNo,
+//         RegistrationNo,
+//         VATNumber,
+//         GSTNo,
+//         TINNo,
+//         AccBooksBeginFrom,
+//         OtherRegNo,
+//         HospitalGroupIDR,
+//         CreatedDate,
+//         Reserve1,
+//         Reserve2,
+//         Reserve3,
+//         Reserve4,
+//         Reserve5,
+//         Reserve6,
+//         HospitalDatabase,
+//         Username,
+//         Password,
+//         MFAEnabled,
+//         HospitalLogo: savedImagePath
+//       });
+
+//       // Log the creation of the new hospital
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const apiName = req.originalUrl;
+//       const method = req.method;
+//       const clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.ip;
+
+//       logger.logWithMeta("info", `Created new hospital with ID ${newHospital.id} in ${executionTime}`, {
+//         executionTime,
+//         statusCode: 200,
+//         userAgent: req.headers['user-agent'],
+//         apiName,
+//         method,
+//         ip: clientIp
+//       });
+
+//       // Generate database name and create the database
+//       const databaseName = HospitalDatabase.replace(/\s+/g, "_").toLowerCase();
+//       logger.info(`Generated database name: ${databaseName}`);
+
+//       await sequelize.query(`CREATE DATABASE \`${databaseName}\`;`);
+//       logger.info(`Database ${databaseName} created successfully`);
+
+
+
+//       // Respond with the created hospital data
+//       res.status(200).json({
+//         meta: {
+//           statusCode: 200,
+//           executionTime: executionTime
+//         },
+//         data: newHospital,
+//         HospitalLogo: imgBase64
+//       });
+
+//     } catch (error) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 978;
+//       const statusCode = 500;
+
+//       // Log the error
+//       logger.logWithMeta("warn", "Error creating hospital", {
+//         errorCode,
+//         statusCode,
+//         error: error.message,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//         apiName: req.originalUrl,
+//         method: req.method
+//       });
+
+//       res.status(statusCode).json({
+//         meta: {
+//           statusCode: statusCode,
+//           errorCode: 978,
+//           executionTime: executionTime
+//         },
+//         error: {
+//           message: `Error creating hospital: ${error.message}`
+//         }
+//       });
+//     }
+//   }
+// ];
+
+exports.createHospital = [ 
+  upload.single('HospitalLogo'), // Middleware for handling file upload
+  async (req, res) => {
+    const start = Date.now();
+    const errors = validationResult(req); // Check for validation errors
+    
+    if (!errors.isEmpty()) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 976;
+      const statusCode = 400;
+      logger.logWithMeta("warn", "Validation errors occurred", {
+        errors: errors.array(),
+        errorCode,
+        statusCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      return res.status(statusCode).json({
+        meta: { statusCode: statusCode, errorCode: 976, executionTime: executionTime },
+        error: { message: 'Validation errors occurred', details: errors.array().map(err => ({ field: err.param, message: err.msg })) }
+      });
+    }
+
+    // Destructure all the necessary fields from the request body
+    const { 
+      HospitalName, HospitalCode, ManagingCompany, ManagingCompanyAdd1, 
+      ManagingCompanyAdd2, ManagingCompanyAdd3, ManagingCompanyEmail, 
+      ManagingCompanyWebsite, City, Province, Region, Country, HospitalOwner, 
+      OwnerName, OwnerAdd1, OwnerAdd2, OwnerAdd3, OwnerCity, OwnerProvince, 
+      OwnerRegion, OwnerCountry, OwnerEmail, HospitalIDNo, TaxNumber, ServiceNo, 
+      RegistrationNo, VATNumber, GSTNo, TINNo, AccBooksBeginFrom, OtherRegNo, 
+      HospitalGroupIDR, CreatedDate, Reserve1, Reserve2, Reserve3, Reserve4, 
+      Reserve5, Reserve6, HospitalDatabase, Username, Password, MFAEnabled, 
+      HospitalLogo 
+    } = req.body;
+
+    try {
+      // Check for existing hospital based on ManagingCompanyEmail
+      const existingHospital = await Hospital.findOne({
+        where: { [Op.or]: [{ ManagingCompanyEmail }] }
+      });
+      if (existingHospital) {
+        const end = Date.now();
+        const executionTime = `${end - start}ms`;
+        const errorCode = 977;
+        const statusCode = 400;
+        logger.logWithMeta("warn", "ManagingCompanyEmail already exists", {
+          errorCode, statusCode, executionTime, hospitalId: req.hospitalId,
+        });
+        return res.status(statusCode).json({
+          meta: { statusCode: statusCode, errorCode: 977, executionTime: executionTime },
+          error: { message: 'ManagingCompanyEmail already exists' }
+        });
+      }
+
+      // Generate a unique key for the hospital
+      const uniqueKey = uuidv4();
+      logger.info(`Generated unique key: ${uniqueKey}`);
+
+      // Handle image upload (file or base64)
+      let savedImagePath = null;
+      let imgBase64 = null;
+      if (HospitalLogo && HospitalLogo.startsWith('data:image')) {
+        // If HospitalLogo is a base64 string
+        savedImagePath = saveBase64Image(HospitalLogo, HospitalDatabase);
+      } else if (req.file) {
+        // If an image file is uploaded via multer
+        savedImagePath = req.file.path;
+      }
+      if (savedImagePath) {
+        const imgBuffer = fs.readFileSync(savedImagePath);
+        imgBase64 = `data:image/${path.extname(savedImagePath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+      }
+
+      // Create new hospital record
+      const newHospital = await Hospital.create({
+        HospitalName, HospitalCode, ManagingCompany, ManagingCompanyAdd1, ManagingCompanyAdd2, ManagingCompanyAdd3, 
+        ManagingCompanyEmail, ManagingCompanyWebsite, City, Province, Region, Country, HospitalOwner, OwnerName,
+        OwnerAdd1, OwnerAdd2, OwnerAdd3, OwnerCity, OwnerProvince, OwnerRegion, OwnerCountry, OwnerEmail,
+        HospitalIDNo, TaxNumber, ServiceNo, RegistrationNo, VATNumber, GSTNo, TINNo, AccBooksBeginFrom, OtherRegNo,
+        HospitalGroupIDR, CreatedDate, Reserve1, Reserve2, Reserve3, Reserve4, Reserve5, Reserve6, HospitalDatabase,
+        Username, Password, MFAEnabled, HospitalLogo: savedImagePath, UniqueKey: uniqueKey // Save the unique key
+      });
+
+      // Log the creation of the new hospital
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const apiName = req.originalUrl;
+      const method = req.method;
+      const clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.ip;
+      logger.logWithMeta("info", `Created new hospital with ID ${newHospital.id} in ${executionTime}`, {
+        executionTime, statusCode: 200, userAgent: req.headers['user-agent'], apiName, method, ip: clientIp
+      });
+
+      // Generate database name and create the database
+      const databaseName = HospitalDatabase.replace(/\s+/g, "_").toLowerCase();
+      logger.info(`Generated database name: ${databaseName}`);
+      await sequelize.query(`CREATE DATABASE \`${databaseName}\`;`);
+      logger.info(`Database ${databaseName} created successfully`);
+
+      // Respond with the created hospital data
+      res.status(200).json({
+        meta: { statusCode: 200, executionTime: executionTime },
+        data: newHospital,
+        HospitalLogo: imgBase64
+      });
+
+    } catch (error) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 978;
+      const statusCode = 500;
+
+      // Log the error
+      logger.logWithMeta("warn", "Error creating hospital", {
+        errorCode, statusCode, error: error.message, executionTime, hospitalId: req.hospitalId, apiName: req.originalUrl, method: req.method
+      });
+
+      res.status(statusCode).json({
+        meta: { statusCode: statusCode, errorCode: 978, executionTime: executionTime },
+        error: { message: `Error creating hospital: ${error.message}` }
+      });
+    }
+  }
+];
+
+
+
+
 exports.getAllHospitals = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
+  
   try {
     const hospitals = await Hospital.findAll();
-    // logger.info('Retrieved all hospitals successfully');
+    
+    // Read the hospital logo and convert it to base64 if it exists
+    const hospitalsWithLogo = await Promise.all(
+      hospitals.map(async (hospital) => {
+        if (hospital.HospitalLogo) {
+          try {
+            // Check if the logo exists in the path
+            const logoPath = path.resolve(__dirname, `../../uploads/${hospital.HospitalLogo}`);
+            const imgBuffer = fs.readFileSync(logoPath);
+            const imgBase64 = `data:image/${path.extname(logoPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+            hospital.HospitalLogo = imgBase64;
+          } catch (error) {
+            hospital.HospitalLogo = null; // If there's an error reading the logo, set it to null
+          }
+        }
+        return hospital;
+      })
+    );
+    
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-   // Log the warning
+    
+    // Log the request details
     logger.logWithMeta("warn", `Retrieved all hospitals successfully`, {
       executionTime,
+      statusCode: 200,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    
+
     res.json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: executionTime,
       },
-      data: hospitals
+      data: hospitalsWithLogo, // Send the hospitals data with the base64 logo
     });
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 904;
 
-    // Log the warning
-    logger.logWithMeta("warn", `Error retrieving hospitals ${error.message}`, {
+    // Log the error
+    logger.logWithMeta("warn", `Error retrieving hospitals: ${error.message}`, {
       errorCode,
+      statusCode: 500,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    // logger.error('Error retrieving hospitals', { error: error.message });
+
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 904,
-          executionTime: `${end - start}ms`
+        executionTime: executionTime,
       },
       error: {
-        message: 'Error retrieving hospitals: ' + error.message
-      }
+        message: "Error retrieving hospitals: " + error.message,
+      },
     });
   }
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// exports.getAllHospitals = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   try {
+//     const hospitals = await Hospital.findAll();
+//     // logger.info('Retrieved all hospitals successfully');
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     // Log the warning
+//     logger.logWithMeta("warn", `Retrieved all hospitals successfully`, {
+//       executionTime,
+//       statusCode: 200,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,
+//       userAgent: req.headers["user-agent"], // HTTP method
+//     });
+
+//     res.json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`,
+//       },
+//       data: hospitals,
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 904;
+
+//     // Log the warning
+//     logger.logWithMeta("warn", `Error retrieving hospitals ${error.message}`, {
+//       errorCode,
+//       statusCode: 500,
+//       errorMessage: error.message,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,
+//       userAgent: req.headers["user-agent"], // HTTP method
+//     });
+//     // logger.error('Error retrieving hospitals', { error: error.message });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 904,
+//         executionTime: `${end - start}ms`,
+//       },
+//       error: {
+//         message: "Error retrieving hospitals: " + error.message,
+//       },
+//     });
+//   }
+// };
+
 // Get hospital by ID
+
+
+
 exports.getHospitalById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const id = req.params.id;
+
   try {
+    // Retrieve hospital by ID
     const hospital = await Hospital.findByPk(id);
+
     if (!hospital) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 905;
-  
-      // Log the warning
-      logger.logWithMeta("warn", `Hospital with ID ${id} not found ${error.message}`, {
+
+      logger.logWithMeta("warn", `Hospital with ID ${id} not found`, {
         errorCode,
-        errorMessage: error.message,
+        statusCode: 404,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
-        apiName: req.originalUrl, // API name
+        apiName: req.originalUrl,
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"],
       });
-      
-      // logger.warn(`Hospital with ID ${id} not found`);
-      // const end = Date.now(); 
-      res.status(404).json({
+
+      return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 905,
-            executionTime: `${end - start}ms`
+          errorCode,
+          executionTime,
         },
         error: {
-          message: 'Hospital not found'
-        }
-      });
-    } else {
-      const end = Date.now();
-      const executionTime = `${end - start}ms`;
-     // Log the warning
-      logger.logWithMeta("warn", `Retrieved hospital with ID ${id} successfully`, {
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'],    // HTTP method
-      });
-      // logger.info(`Retrieved hospital with ID ${id} successfully`);
-      res.json({
-        meta: {
-          statusCode: 200,
-          executionTime: `${end - start}ms`
-          
+          message: "Hospital not found",
         },
-        data: hospital
       });
     }
+
+    // Handle logo file and convert to Base64 if exists
+    let logoBase64 = null;
+    if (hospital.HospitalLogo) {
+      const logoPath = path.join(__dirname, "../profile", hospital.HospitalLogo); // Adjust the path
+      console.log("logoPath.....",logoPath)
+      if (fs.existsSync(logoPath)) {
+        const logoBuffer = fs.readFileSync(logoPath);
+        logoBase64 = `data:image/${path.extname(logoPath).slice(1)};base64,${logoBuffer.toString("base64")}`;
+      }
+    }
+
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+
+    logger.logWithMeta("info", `Retrieved hospital with ID ${id} successfully`, {
+      executionTime,
+      statusCode: 200,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+
+    res.json({
+      meta: {
+        statusCode: 200,
+        executionTime,
+      },
+      data: hospital,
+      hospitalLogo: logoBase64,
+    });
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 906;
 
-    // Log the warning
-    logger.logWithMeta("warn", `Error retrieving hospital ${error.message}`, {
+    logger.logWithMeta("error", `Error retrieving hospital: ${error.message}`, {
       errorCode,
+      statusCode: 500,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
-      apiName: req.originalUrl, // API name
+      apiName: req.originalUrl,
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"],
     });
-    // const end = Date.now();
-    // logger.error('Error retrieving hospital', { error: error.message });
+
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 906,
-        executionTime: `${end - start}ms`
+        errorCode,
+        executionTime,
       },
       error: {
-        message: 'Error retrieving hospital: ' + error.message
-      }
+        message: `Error retrieving hospital: ${error.message}`,
+      },
     });
   }
 };
+
 
 // Update hospital
 exports.updateHospital = async (req, res) => {
@@ -673,85 +1625,103 @@ exports.updateHospital = async (req, res) => {
     const errorCode = 907;
 
     // Log the warning
-    logger.logWithMeta("warn", `Validation errors occurred while updating hospital ${error.message}`, {
-      errorCode,
-      errorMessage: error.message,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
-    });
+    logger.logWithMeta(
+      "warn",
+      `Validation errors occurred while updating hospital $`,
+      {
+        errorCode,
+        statusCode: 400,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
     // logger.warn('Validation errors occurred while updating hospital', errors);
     // const end = Date.now();
     return res.status(400).json({
       meta: {
         statusCode: 400,
         errorCode: 907,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: errors.array().map(err => err.msg).join(', ')
-      }
+        message: errors
+          .array()
+          .map((err) => err.msg)
+          .join(", "),
+      },
     });
   }
 
   const id = req.params.id;
   try {
     const [updatedRows] = await Hospital.update(req.body, {
-      where: { HospitalID: id }
+      where: { HospitalID: id },
     });
     if (updatedRows === 0) {
-//       const end = Date.now();
-// logger.warn(`Hospital with ID ${id} not found for update, executionTime: ${end - start}ms`);
+      //       const end = Date.now();
+      // logger.warn(`Hospital with ID ${id} not found for update, executionTime: ${end - start}ms`);
 
-const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 908;
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 908;
 
-    // Log the warning
-    logger.logWithMeta("warn", `Hospital with ID ${id} not found for update ${error.message}`, {
-      errorCode,
-      errorMessage: error.message,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
-    });
+      // Log the warning
+      logger.logWithMeta(
+        "warn",
+        `Hospital with ID ${id} not found for update `,
+        {
+          errorCode,
+          statusCode: 404,
+        
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers["user-agent"], // HTTP method
+        }
+      );
       res.status(404).json({
         meta: {
           statusCode: 404,
           errorCode: 908,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Hospital not found'
-        }
+          message: "Hospital not found",
+        },
       });
     } else {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-     // Log the warning
-      logger.logWithMeta("warn", `Hospital with ID ${id} updated successfully`, {
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'],    // HTTP method
-      });
+      // Log the warning
+      logger.logWithMeta(
+        "warn",
+        `Hospital with ID ${id} updated successfully`,
+        {
+          executionTime,
+          statusCode: 200,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers["user-agent"], // HTTP method
+        }
+      );
 
       // logger.info(`Hospital with ID ${id} updated successfully, executionTime: ${end - start}ms`);
-      
+
       res.json({
         meta: {
           statusCode: 200,
-           executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
-        message: 'Hospital updated successfully'
+        message: "Hospital updated successfully",
       });
     }
   } catch (error) {
@@ -762,25 +1732,30 @@ const end = Date.now();
     const errorCode = 909;
 
     // Log the warning
-    logger.logWithMeta("warn", `Error updating hospital, executionTime ${error.message}`, {
-      errorCode,
-      errorMessage: error.message,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
-    });
+    logger.logWithMeta(
+      "warn",
+      `Error updating hospital, executionTime`,
+      {
+        errorCode,
+        statusCode: 500,
+      
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 909,
-         executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error updating hospital: ' + error.message
-      }
+        message: "Error updating hospital: " + error.message,
+      },
     });
   }
 };
@@ -792,86 +1767,96 @@ exports.deleteHospital = async (req, res) => {
   const id = req.params.id;
   try {
     const deletedRows = await Hospital.destroy({
-      where: { HospitalID: id }
+      where: { HospitalID: id },
     });
     if (deletedRows === 0) {
       // const end = Date.now();
-// logger.warn(`Hospital with ID ${id} not found for deletion, executionTime: ${end - start}ms`);
+      // logger.warn(`Hospital with ID ${id} not found for deletion, executionTime: ${end - start}ms`);
 
-const end = Date.now();
-const executionTime = `${end - start}ms`;
-const errorCode = 910;
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 910;
 
-// Log the warning
-logger.logWithMeta("warn", `Hospital with ID ${id} not found for deletion ${error.message}`, {
-  errorCode,
-  errorMessage: error.message,
-  executionTime,
-  hospitalId: req.hospitalId,
-  ip: clientIp,
-  apiName: req.originalUrl, // API name
-  method: req.method,
-  userAgent: req.headers['user-agent'],     // HTTP method
-});
+      // Log the warning
+      logger.logWithMeta(
+        "warn",
+        `Hospital with ID ${id} not found for deletion ${error.message}`,
+        {
+          errorCode,
+          statusCode: 404,
+          errorMessage: error.message,
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers["user-agent"], // HTTP method
+        }
+      );
       res.status(404).json({
         meta: {
           statusCode: 404,
           errorCode: 910,
-           executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Hospital not found'
-        }
+          message: "Hospital not found",
+        },
       });
     } else {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-     // Log the warning
-      logger.logWithMeta("warn", `Hospital with ID ${id} deleted successfully,`, {
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'],    // HTTP method
-      });
-// logger.info(`Hospital with ID ${id} deleted successfully, executionTime: ${end - start}ms`);
+      // Log the warning
+      logger.logWithMeta(
+        "warn",
+        `Hospital with ID ${id} deleted successfully,`,
+        {
+          executionTime,
+          statusCode: 200,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers["user-agent"], // HTTP method
+        }
+      );
+      // logger.info(`Hospital with ID ${id} deleted successfully, executionTime: ${end - start}ms`);
 
-  
       res.json({
         meta: {
           statusCode: 200,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
-        message: 'Hospital deleted successfully'
+        message: "Hospital deleted successfully",
       });
     }
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 911;
-    
+
     // Log the warning
     logger.logWithMeta("warn", `Error deleting hospital ${error.message}`, {
       errorCode,
+      statusCode: 500,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     // const end = Date.now();
     // logger.error('Error deleting hospital', { error: error.message, executionTime: `${end - start}ms` });
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 911
+        errorCode: 911,
       },
       error: {
-        message: 'Error deleting hospital: ' + error.message
-      }
+        message: "Error deleting hospital: " + error.message,
+      },
     });
   }
 };
@@ -883,28 +1868,32 @@ exports.getHospitalsByHospitalGroupID = async (req, res) => {
   const { HospitalGroupIDR } = req.params;
   try {
     const hospitals = await Hospital.findAll({
-      where: { HospitalGroupIDR }
+      where: { HospitalGroupIDR },
     });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-   // Log the warning
-    logger.logWithMeta("warn", `Retrieved hospitals by HospitalGroupIDR: ${HospitalGroupIDR} successfully,`, {
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
-    });
+    // Log the warning
+    logger.logWithMeta(
+      "warn",
+      `Retrieved hospitals by HospitalGroupIDR: ${HospitalGroupIDR} successfully,`,
+      {
+        executionTime,
+        statusCode: 200,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
     // logger.info(`Retrieved hospitals by HospitalGroupIDR: ${HospitalGroupIDR} successfully, executionTime: ${end - start}ms`);
-    
- 
+
     res.json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
-      data: hospitals
+      data: hospitals,
     });
   } catch (error) {
     // const end = Date.now();
@@ -912,31 +1901,36 @@ exports.getHospitalsByHospitalGroupID = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 912;
-    
+
     // Log the warning
-    logger.logWithMeta("warn", `Error retrieving hospitals by HospitalGroupIDR ${error.message}`, {
-      errorCode,
-      errorMessage: error.message,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
-    });
+    logger.logWithMeta(
+      "warn",
+      `Error retrieving hospitals by HospitalGroupIDR ${error.message}`,
+      {
+        errorCode,
+        statusCode: 500,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 912,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error retrieving hospitals by HospitalGroupIDR: ' + error.message
-      }
+        message:
+          "Error retrieving hospitals by HospitalGroupIDR: " + error.message,
+      },
     });
   }
 };
-
 
 exports.getAllHospitalsByPagination = async (req, res) => {
   const start = Date.now();
@@ -955,28 +1949,32 @@ exports.getAllHospitalsByPagination = async (req, res) => {
       // order: [[ 'ASC']] // Example ordering by createdAt, adjust as per your requirement
     });
 
-    
     // logger.info(`Retrieved hospitals for page ${page} with limit ${limit} successfully, executionTime: ${end - start}ms`);
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-   // Log the warning
-    logger.logWithMeta("warn", `Retrieved hospitals for page ${page} with limit ${limit} successfully`, {
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
-    });
+    // Log the warning
+    logger.logWithMeta(
+      "warn",
+      `Retrieved hospitals for page ${page} with limit ${limit} successfully`,
+      {
+        executionTime,
+        statusCode: 200,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
     res.status(200).json({
       meta: {
         statusCode: 200,
         totalCount,
         page,
         limit,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
-      data: hospitals
+      data: hospitals,
     });
   } catch (error) {
     // const end = Date.now();
@@ -984,27 +1982,32 @@ exports.getAllHospitalsByPagination = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 913;
-    
+
     // Log the warning
-    logger.logWithMeta("warn", `Error retrieving hospitals with pagination ${error.message}`, {
-      errorCode,
-      errorMessage: error.message,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
-    });
+    logger.logWithMeta(
+      "warn",
+      `Error retrieving hospitals with pagination ${error.message}`,
+      {
+        errorCode,
+        statusCode: 500,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 913,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error retrieving hospitals with pagination: ' + error.message
-      }
+        message: "Error retrieving hospitals with pagination: " + error.message,
+      },
     });
   }
 };
@@ -1103,10 +2106,7 @@ exports.getAllHospitalsByPagination = async (req, res) => {
 //   }
 //   };
 
-
-
-
-const { Sequelize } = require('sequelize');
+const { Sequelize } = require("sequelize");
 
 // exports.login = async (req, res) => {
 //   const errors = validationResult(req);
@@ -1149,9 +2149,6 @@ const { Sequelize } = require('sequelize');
 //     logger.info(`UniqueKey from request headers: ${uniqueKey}`);
 //     logger.info(`UniqueKey from database: ${hospital.UniqueKey}`);
 //     console.log(hospital.UniqueKey)
-
-
-
 
 //     if (!verifyUniqueKey(uniqueKey, hospital.UniqueKey)) {
 //       logger.warn(`Invalid UniqueKey for hospital with Username ${Username}`);
@@ -1224,15 +2221,11 @@ const { Sequelize } = require('sequelize');
 //   return providedKey === storedKey;
 // };
 
-
-
 const verifyUniqueKey = (providedKey, storedKey) => {
-
   logger.info(`Provided UniqueKey: ${providedKey}`);
   logger.info(`Stored UniqueKey: ${storedKey}`);
   return providedKey === storedKey;
 };
-
 
 // exports.HospitalCode = async (req, res) => {
 //   const start = Date.now();
@@ -1261,11 +2254,7 @@ const verifyUniqueKey = (providedKey, storedKey) => {
 //   const uniqueKey = req.headers['x-unique-key'];
 //   console.log("uniquekey", uniqueKey);
 //   // const encryptedKeyFromHeader = req.headers['x-unique-key'];
-//   // const decryptionSecret = process.env.DECRYPTION_SECRET; 
-
-
-
-
+//   // const decryptionSecret = process.env.DECRYPTION_SECRET;
 
 //   try {
 //     const hospital = await Hospital.findOne({ where: { HospitalCode } });
@@ -1305,8 +2294,6 @@ const verifyUniqueKey = (providedKey, storedKey) => {
 //         }
 //       });
 //     }
-
- 
 
 //     // Check if the hospital already has a valid token in Redis
 //     const existingToken = await getAsync(hospital.HospitalID.toString());
@@ -1366,7 +2353,7 @@ const verifyUniqueKey = (providedKey, storedKey) => {
 //     });
 //   }
 // };
-const CryptoJS = require('crypto-js');
+const CryptoJS = require("crypto-js");
 
 // Secret key should be in a suitable format and length
 const ENCRYPT_SECRET_KEY = process.env.ENCRYPT_SECRET_KEY;
@@ -1374,22 +2361,21 @@ const ENCRYPT_SECRET_KEY2 = process.env.ENCRYPT_SECRET_KEY3;
 
 // Function to decrypt the provided ciphertext
 const decryptValue = (ciphertext) => {
-  
-    try {
-        // Convert the secret key to a suitable format if needed
-        const bytes = CryptoJS.AES.decrypt(ciphertext, ENCRYPT_SECRET_KEY);
-        const originalText = bytes.toString(CryptoJS.enc.Utf8);
+  try {
+    // Convert the secret key to a suitable format if needed
+    const bytes = CryptoJS.AES.decrypt(ciphertext, ENCRYPT_SECRET_KEY);
+    const originalText = bytes.toString(CryptoJS.enc.Utf8);
 
-        // Check if the decrypted text is not empty
-        if (!originalText) {
-            throw new Error('Decryption failed or result is empty.');
-        }
-
-        return originalText;
-    } catch (error) {
-        console.error('Error during decryption:', error.message);
-        return null;
+    // Check if the decrypted text is not empty
+    if (!originalText) {
+      throw new Error("Decryption failed or result is empty.");
     }
+
+    return originalText;
+  } catch (error) {
+    console.error("Error during decryption:", error.message);
+    return null;
+  }
 };
 
 // Encrypted key and secret key provided
@@ -1399,464 +2385,989 @@ const decryptValue = (ciphertext) => {
 // const decryptedKey = decryptValue(encryptedKey);
 // console.log("Decrypted Key:", decryptedKey);
 
-
 // // Example usage
 // const encryptedKey = 'U2FsdGVkX1+NOwStJXC+t32sBUOj6SVR0ChDJOXURFyNz9DHBh3sVY/D+rm8bgSlk9J+r76ziT+8xP8gjMRq1Q==';
 // const decryptedKey = decryptValue("U2FsdGVkX1+NOwStJXC+t32sBUOj6SVR0ChDJOXURFyNz9DHBh3sVY/D+rm8bgSlk9J+r76ziT+8xP8gjMRq1Q==");
 // console.log("Decrypted Key:", decryptedKey);
 
-
 // Example usage in your handler function
+// exports.HospitalCode = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//     const errors = validationResult(req);
+
+//     if (!errors.isEmpty()) {
+//         // const end = Date.now();
+//         // logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
+//         const end = Date.now();
+//         const executionTime = `${end - start}ms`;
+//         const errorCode = 914;
+//         const statusCode = 400;
+//         // Log the warning
+//         logger.logWithMeta("warn", `Validation errors occurred during login ${error.message}`, {
+//           errorCode,
+//           statusCode,
+//           errorMessage: error.message,
+//           executionTime,
+//           hospitalId: req.hospitalId,
+//           ip: clientIp,
+//           apiName: req.originalUrl, // API name
+//           method: req.method,
+//           userAgent: req.headers['user-agent'],     // HTTP method
+//         });
+//         return res.status(400).json({
+//             meta: {
+//                 statusCode: statusCode,
+//                 errorCode: 914,
+//                 executionTime: `${end - start}ms`
+//             },
+//             error: {
+//                 message: 'Validation errors occurred',
+//                 details: errors.array().map(err => ({
+//                     field: err.param,
+//                     message: err.msg
+//                 }))
+//             }
+//         });
+//     }
+
+//     const { HospitalCode } = req.body;
+//     const encryptedKeyFromHeader = req.headers['x-unique-key'];
+
+//     // Validate inputs
+//     if (!encryptedKeyFromHeader) {
+//         // const end = Date.now();
+//         // logger.error('Missing encrypted key in the request header', { executionTime: `${end - start}ms` });
+//         const end = Date.now();
+//         const executionTime = `${end - start}ms`;
+//         const errorCode = 915;
+//         const statusCode = 400;
+
+//         // Log the warning
+//         logger.logWithMeta("warn", `Missing encrypted key in the request header ${error.message}`, {
+//           errorCode,
+//           statusCode,
+//           errorMessage: error.message,
+//           executionTime,
+//           hospitalId: req.hospitalId,
+//           ip: clientIp,
+//           apiName: req.originalUrl, // API name
+//           method: req.method,
+//           userAgent: req.headers['user-agent'],     // HTTP method
+//         });
+//         return res.status(400).json({
+//             meta: {
+//                 statusCode: 400,
+//                 errorCode: 915,
+//                 executionTime: `${end - start}ms`
+//             },
+//             error: {
+//                 message: 'Missing encrypted key in the request header'
+//             }
+//         });
+//     }
+
+//     if (!ENCRYPT_SECRET_KEY) {
+//         // const end = Date.now();
+//         // logger.error('Decryption secret is not defined in environment variables', { executionTime: `${end - start}ms` });
+//         const end = Date.now();
+//         const executionTime = `${end - start}ms`;
+//         const errorCode = 916;
+//         const statusCode = 500;
+//         // Log the warning
+//         logger.logWithMeta("warn", `Decryption secret is not defined in environment variables ${error.message}`, {
+//           errorCode,
+//           statusCode,
+//           errorMessage: error.message,
+//           executionTime,
+//           hospitalId: req.hospitalId,
+//           HospitalName:req.hopsitalName,
+//           ip: clientIp,
+//           apiName: req.originalUrl, // API name
+//           method: req.method,
+//           userAgent: req.headers['user-agent'],     // HTTP method
+//         });
+//         return res.status(500).json({
+//             meta: {
+//                 statusCode: 500,
+//                 errorCode: 916,
+//                 executionTime: `${end - start}ms`
+//             },
+//             error: {
+//                 message: 'Internal Server Error: Decryption secret is not defined'
+//             }
+//         });
+//     }
+
+//     try {
+//         const hospital = await Hospital.findOne({ where: { HospitalCode } });
+//         if (!hospital) {
+//             // const end = Date.now();
+//             // logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
+//             const end = Date.now();
+//             const executionTime = `${end - start}ms`;
+//             const errorCode = 917;
+//             const statusCode = 404;
+
+//             // Log the warning
+//             logger.logWithMeta("warn", `Hospital with HospitalCode ${HospitalCode} not found`, {
+//               errorCode,
+//               statusCode,
+//               executionTime,
+//               hospitalId: req.hospitalId,
+//               ip: clientIp,
+//               apiName: req.originalUrl, // API name
+//               method: req.method,
+//               userAgent: req.headers['user-agent'],     // HTTP method
+//             });
+//             return res.status(404).json({
+//                 meta: {
+//                     statusCode: 404,
+//                     errorCode: 917,
+//                     executionTime: `${end - start}ms`
+//                 },
+//                 error: {
+//                     message: 'Hospital not found'
+//                 }
+//             });
+//         }
+
+//         // const encryptedKey = 'U2FsdGVkX1+NOwStJXC+t32sBUOj6SVR0ChDJOXURFyNz9DHBh3sVY/D+rm8bgSlk9J+r76ziT+8xP8gjMRq1Q==';
+// const decryptedKey = decryptValue(encryptedKeyFromHeader);
+// console.log("Decrypted Key:", decryptedKey);
+
+//         // const decryptedKey = decryptValue(encryptedKeyFromHeader);
+
+//         console.log("Decrypted Key:", decryptedKey);
+
+//         if (decryptedKey !== hospital.UniqueKey) {
+//             // const end = Date.now();
+//             // logger.warn(`Invalid UniqueKey for HospitalCode ${HospitalCode}, executionTime: ${end - start}ms`);
+//             const end = Date.now();
+//             const executionTime = `${end - start}ms`;
+//             const errorCode = 918;
+//             const statusCode = 401;
+
+//             // Log the warning
+//             logger.logWithMeta("warn", `Invalid UniqueKey for HospitalCode ${HospitalCode}`, {
+//               errorCode,
+//               statusCode,
+//               executionTime,
+//               hospitalId: req.hospitalId,
+//               ip: clientIp,
+//               apiName: req.originalUrl, // API name
+//               method: req.method,
+//               userAgent: req.headers['user-agent'],     // HTTP method
+//             });
+//             return res.status(401).json({
+//                 meta: {
+//                     statusCode: 401,
+//                     errorCode: 918,
+//                     executionTime: `${end - start}ms`
+//                 },
+//                 error: {
+//                     message: 'Unauthorized'
+//                 }
+//             });
+//         }
+
+//              console.log("Hospital Name:", hospital.HospitalName);
+
+//       const existingToken = await getAsync(hospital.HospitalID.toString());
+
+//       // const existingToken = await delAsync(hospital.HospitalID.toString());
+
+//       let Hospitaltoken = existingToken;
+
+//       if (!existingToken) {
+//           Hospitaltoken = jwt.sign({
+//               hospitalId: hospital.HospitalID,
+//               hospitalDatabase: hospital.HospitalDatabase,
+//               hospitalGroupIDR: hospital.HospitalGroupIDR,
+//               // hospitalName: hospital.HospitalName,
+//               hospitalName: hospital.HospitalName || "Default Hospital Name",
+
+//               MFAEnabled: hospital?.MFAEnabled ,
+//           }, process.env.JWT_SECRET, { expiresIn: '24h' });
+
+//           await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
+//       }
+
+//       const decodedToken = jwt.verify(Hospitaltoken, process.env.JWT_SECRET);
+
+//       console.log(decodedToken);
+
+//         // logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
+//         const end = Date.now();
+//         const executionTime = `${end - start}ms`;
+//        // Log the warning
+//         logger.logWithMeta("warn", `Hospital with HospitalCode ${HospitalCode} found successfully`, {
+//           executionTime,
+//           statusCode:200,
+//           hospitalId: req.hospitalId,
+//           hopsitalName: req.HospitalName,
+//           ip: clientIp,
+//           apiName: req.originalUrl, // API name
+//           method: req.method,
+//           userAgent: req.headers['user-agent'],    // HTTP method
+//         });
+
+//         // const decodedToken = jwt.decode(Hospitaltoken);
+
+//         console.log("Generated JWT:",(decodedToken));
+
+//         const currentTime = Math.floor(Date.now() / 1000);
+//         const expiresIn = decodedToken.exp - currentTime;
+//         const expiresInMinutes = Math.floor(expiresIn / 60);
+
+//         res.status(200).json({
+//             meta: {
+//                 statusCode: 200,
+//                 executionTime: `${end - start}ms`
+//             },
+//             data: {
+//                 Hospitaltoken,
+//                 expiresInMinutes: `${expiresInMinutes} min`,
+//                 MFAEnabled: hospital.MFAEnabled,
+//                 hospital: {
+//                     hospitalId: hospital.HospitalID,
+//                     hospitalDatabase: hospital.HospitalDatabase,
+//                     hospitalGroupIDR: hospital.HospitalGroupIDR,
+//                     hospitalName: hospital.HospitalName,
+//                 },
+//                 message: 'Database name found successfully'
+//             }
+//         });
+//     } catch (error) {
+//         // const end = Date.now();
+//         // logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
+//         const end = Date.now();
+//         const executionTime = `${end - start}ms`;
+//         const errorCode = 919;
+//         const statusCode = 500;
+//         // Log the warning
+//         logger.logWithMeta("warn", `Error finding hospital`, {
+//           errorCode,
+//           statusCode,
+//           executionTime,
+//           hospitalId: req.hospitalId,
+//           ip: clientIp,
+//           apiName: req.originalUrl, // API name
+//           method: req.method,
+//           userAgent: req.headers['user-agent'],     // HTTP method
+//         });
+//         res.status(500).json({
+//             meta: {
+//                 statusCode: statusCode,
+//                 errorCode: 919,
+//                 executionTime: `${end - start}ms`
+//             },
+//             error: {
+//                 message: 'Error finding hospital: ' + error.message
+//             }
+//         });
+//     }
+// };
+
+// const { promisify } = require('util');
+
+// const delAsync = promisify(client.del).bind(client);
 exports.HospitalCode = async (req, res) => {
   const start = Date.now();
+  const logId = uuidv4();
   const clientIp = await getClientIp(req);
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        // const end = Date.now();
-        // logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 914;
-        const statusCode = 400;
-        
-        // Log the warning
-        logger.logWithMeta("warn", `Validation errors occurred during login ${error.message}`, {
+  const errors = validationResult(req);
+  //
+  if (!errors.isEmpty()) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 914;
+    const statusCode = 400;
+    //
+    // Log validation error
+    logger.logWithMeta("warn", `Validation errors during login`, {
+      errorCode,
+      logId,
+      statusCode,
+      errorMessage: errors
+        .array()
+        .map((err) => err.msg)
+        .join(", "),
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+    //
+    return res.status(400).json({
+      meta: { statusCode, errorCode, executionTime },
+      error: {
+        message: "Validation errors occurred",
+        details: errors
+          .array()
+          .map((err) => ({ field: err.param, message: err.msg })),
+      },
+    });
+  }
+  //
+  const { HospitalCode } = req.body;
+  const encryptedKeyFromHeader = req.headers["x-unique-key"];
+  //
+  if (!encryptedKeyFromHeader) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 915;
+    //
+    // Log missing encrypted key error
+    logger.logWithMeta("warn", `Missing encrypted key in header`, {
+      errorCode,
+      logId,
+      statusCode: 400,
+      errorMessage: "Missing encrypted key",
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+    //
+    return res.status(400).json({
+      meta: { statusCode: 400, errorCode, executionTime },
+      error: { message: "Missing encrypted key in the request header" },
+    });
+  }
+  //
+  if (!ENCRYPT_SECRET_KEY) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 916;
+    //
+    // Log missing decryption secret error
+    logger.logWithMeta("warn", `Decryption secret is not defined`, {
+      errorCode,
+      logId,
+      statusCode: 500,
+      errorMessage: "Decryption secret is missing",
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+    //
+    return res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime },
+      error: {
+        message: "Internal Server Error: Decryption secret is not defined",
+      },
+    });
+  }
+  //
+  try {
+    const hospital = await Hospital.findOne({ where: { HospitalCode } });
+    if (!hospital) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 917;
+      //
+      // Log hospital not found error
+      logger.logWithMeta(
+        "warn",
+        `Hospital with HospitalCode ${HospitalCode} not found`,
+        {
           errorCode,
-          statusCode,
-          errorMessage: error.message,
+          logId,
+          statusCode: 404,
           executionTime,
           hospitalId: req.hospitalId,
           ip: clientIp,
-          apiName: req.originalUrl, // API name
+          apiName: req.originalUrl,
           method: req.method,
-          userAgent: req.headers['user-agent'],     // HTTP method
-        });
-        return res.status(400).json({
-            meta: {
-                statusCode: statusCode,
-                errorCode: 914,
-                executionTime: `${end - start}ms`
-            },
-            error: {
-                message: 'Validation errors occurred',
-                details: errors.array().map(err => ({
-                    field: err.param,
-                    message: err.msg
-                }))
-            }
-        });
-    }
-
-    const { HospitalCode } = req.body;
-    const encryptedKeyFromHeader = req.headers['x-unique-key'];
-
-    // Validate inputs
-    if (!encryptedKeyFromHeader) {
-        // const end = Date.now();
-        // logger.error('Missing encrypted key in the request header', { executionTime: `${end - start}ms` });
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 915;
-        const statusCode = 400;
-        
-        // Log the warning
-        logger.logWithMeta("warn", `Missing encrypted key in the request header ${error.message}`, {
-          errorCode,
-          statusCode,
-          errorMessage: error.message,
-          executionTime,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method,
-          userAgent: req.headers['user-agent'],     // HTTP method
-        });
-        return res.status(400).json({
-            meta: {
-                statusCode: statusCode,
-                errorCode: 915,
-                executionTime: `${end - start}ms`
-            },
-            error: {
-                message: 'Missing encrypted key in the request header'
-            }
-        });
-    }
-
-    if (!ENCRYPT_SECRET_KEY) {
-        // const end = Date.now();
-        // logger.error('Decryption secret is not defined in environment variables', { executionTime: `${end - start}ms` });
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 916;
-        const statusCode = 500;
-        
-        // Log the warning
-        logger.logWithMeta("warn", `Decryption secret is not defined in environment variables ${error.message}`, {
-          errorCode,
-          statusCode,
-          errorMessage: error.message,
-          executionTime,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method,
-          userAgent: req.headers['user-agent'],     // HTTP method
-        });
-        return res.status(500).json({
-            meta: {
-                statusCode: statusCode,
-                errorCode: 916,
-                executionTime: `${end - start}ms`
-            },
-            error: {
-                message: 'Internal Server Error: Decryption secret is not defined'
-            }
-        });
-    }
-
-    try {
-        const hospital = await Hospital.findOne({ where: { HospitalCode } });
-        if (!hospital) {
-            // const end = Date.now();
-            // logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
-            const end = Date.now();
-            const executionTime = `${end - start}ms`;
-            const errorCode = 917;
-            const statusCode = 404;
-            
-            // Log the warning
-            logger.logWithMeta("warn", `Hospital with HospitalCode ${HospitalCode} not found`, {
-              errorCode,
-              statusCode,
-              executionTime,
-              hospitalId: req.hospitalId,
-              ip: clientIp,
-              apiName: req.originalUrl, // API name
-              method: req.method,
-              userAgent: req.headers['user-agent'],     // HTTP method
-            });
-            return res.status(404).json({
-                meta: {
-                    statusCode: statusCode,
-                    errorCode: 917,
-                    executionTime: `${end - start}ms`
-                },
-                error: {
-                    message: 'Hospital not found'
-                }
-            });
+          userAgent: req.headers["user-agent"],
         }
-
-        // const encryptedKey = 'U2FsdGVkX1+NOwStJXC+t32sBUOj6SVR0ChDJOXURFyNz9DHBh3sVY/D+rm8bgSlk9J+r76ziT+8xP8gjMRq1Q==';
-const decryptedKey = decryptValue(encryptedKeyFromHeader);
-console.log("Decrypted Key:", decryptedKey);
-
-        // const decryptedKey = decryptValue(encryptedKeyFromHeader);
-
-        console.log("Decrypted Key:", decryptedKey);
-
-        if (decryptedKey !== hospital.UniqueKey) {
-            // const end = Date.now();
-            // logger.warn(`Invalid UniqueKey for HospitalCode ${HospitalCode}, executionTime: ${end - start}ms`);
-            const end = Date.now();
-            const executionTime = `${end - start}ms`;
-            const errorCode = 918;
-            const statusCode = 401;
-            
-            // Log the warning
-            logger.logWithMeta("warn", `Invalid UniqueKey for HospitalCode ${HospitalCode}`, {
-              errorCode,
-              statusCode,
-              executionTime,
-              hospitalId: req.hospitalId,
-              ip: clientIp,
-              apiName: req.originalUrl, // API name
-              method: req.method,
-              userAgent: req.headers['user-agent'],     // HTTP method
-            });
-            return res.status(401).json({
-                meta: {
-                    statusCode: statusCode,
-                    errorCode: 918,
-                    executionTime: `${end - start}ms`
-                },
-                error: {
-                    message: 'Unauthorized'
-                }
-            });
-        }
-
-        const existingToken = await getAsync(hospital.HospitalID.toString());
-        let Hospitaltoken = existingToken;
-
-        if (!existingToken) {
-
-        //   const tokenPayload = {
-        //     hospitalId: hospital.HospitalID, 
-        //     hospitalDatabase: hospital.HospitalDatabase, 
-        //     hospitalGroupIDR: hospital.HospitalGroupIDR,
-        //     MFAEnabled: hospital.MFAEnabled
-        // };
-        
-        // await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
-        
-        // console.log("Token Payload:", tokenPayload);
-        
-        // Hospitaltoken = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '24h' });
-            Hospitaltoken = jwt.sign(
-                { hospitalId: hospital.HospitalID, 
-                  hospitalDatabase: hospital.HospitalDatabase, 
-                  hospitalGroupIDR: hospital.HospitalGroupIDR,
-                  hospitalName:hospital.hospitalName,
-
-                  MFAEnabled: hospital.MFAEnabled  },
-                process.env.JWT_SECRET,
-                { expiresIn: '24h' }
-            );
-
-            
-
-            await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
-        }
-
-
-        
-      
-
-      
-        // logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
-       // Log the warning
-        logger.logWithMeta("warn", `Hospital with HospitalCode ${HospitalCode} found successfully`, {
-          executionTime,
-          statusCode:200,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method,
-          userAgent: req.headers['user-agent'],    // HTTP method
-        });
-
-        const decodedToken = jwt.decode(Hospitaltoken);
-        console.log("Generated JWT:",(decodedToken));
-        const currentTime = Math.floor(Date.now() / 1000);
-        const expiresIn = decodedToken.exp - currentTime;
-        const expiresInMinutes = Math.floor(expiresIn / 60);
-
-        res.status(200).json({
-            meta: {
-                statusCode: 200,
-                executionTime: `${end - start}ms`
-            },
-            data: {
-                Hospitaltoken,
-                expiresInMinutes: `${expiresInMinutes} min`,
-                MFAEnabled: hospital.MFAEnabled,
-                hospital: {
-                    hospitalId: hospital.HospitalID,
-                    hospitalDatabase: hospital.HospitalDatabase,
-                    hospitalGroupIDR: hospital.HospitalGroupIDR
-                },
-                message: 'Database name found successfully'
-            }
-        });
-    } catch (error) {
-        // const end = Date.now();
-        // logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 919;
-        const statusCode = 500;
-        
-        // Log the warning
-        logger.logWithMeta("warn", `Error finding hospital`, {
-          errorCode,
-          statusCode,
-          executionTime,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method,
-          userAgent: req.headers['user-agent'],     // HTTP method
-        });
-        res.status(500).json({
-            meta: {
-                statusCode: statusCode,
-                errorCode: 919,
-                executionTime: `${end - start}ms`
-            },
-            error: {
-                message: 'Error finding hospital: ' + error.message
-            }
-        });
+      );
+      //
+      return res.status(404).json({
+        meta: { statusCode: 404, errorCode, executionTime },
+        error: { message: "Hospital not found" },
+      });
     }
+    //
+    const decryptedKey = decryptValue(encryptedKeyFromHeader);
+    if (decryptedKey !== hospital.UniqueKey) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 918;
+      //
+      // Log invalid UniqueKey error
+      logger.logWithMeta(
+        "warn",
+        `Invalid UniqueKey for HospitalCode ${HospitalCode}`,
+        {
+          errorCode,
+          logId,
+          statusCode: 401,
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+        }
+      );
+      //
+      return res.status(401).json({
+        meta: { statusCode: 401, errorCode, executionTime },
+        error: { message: "Unauthorized" },
+      });
+    }
+    //
+    console.log("Hospital Name:", hospital.HospitalName);
+    //
+    const existingToken = await getAsync(hospital.HospitalID.toString());
+    //
+    // const existingToken = await delAsync(hospital.HospitalID.toString());
+    //
+    let Hospitaltoken = existingToken;
+    //
+    if (!existingToken) {
+      Hospitaltoken = jwt.sign(
+        {
+          hospitalId: hospital.HospitalID,
+          hospitalDatabase: hospital.HospitalDatabase,
+          hospitalGroupIDR: hospital.HospitalGroupIDR,
+          // hospitalName: hospital.HospitalName,
+          hospitalName: hospital.HospitalName || "Default Hospital Name",
+          //
+          MFAEnabled: hospital?.MFAEnabled,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: "24h" }
+      );
+      //
+      await setAsync(
+        hospital.HospitalID.toString(),
+        Hospitaltoken,
+        "EX",
+        24 * 60 * 60
+      );
+    }
+    //
+    const decodedToken = jwt.verify(Hospitaltoken, process.env.JWT_SECRET);
+    //
+    console.log(decodedToken);
+    //
+    const currentTime = Math.floor(Date.now() / 1000);
+    const expiresIn = decodedToken.exp - currentTime;
+    const expiresInMinutes = Math.floor(expiresIn / 60);
+    //
+    //
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    // Log the warning
+    // logger.logWithMeta(
+    //   "warn",
+    //   `Hospital with HospitalCode ${HospitalCode} found successfully`,
+    //   {
+    //     message: `Execution Time: ${executionTime} ms, Log ID: ${logId}, statusCode: 200, Hospital ID: ${req.hospitalId}, Hospital Name: ${hospital.HospitalName || "Unknown Hospital"}, IP Address: ${clientIp}, API Name: ${req.originalUrl}, Method: ${req.method}, User Agent: ${req.headers["user-agent"]}`
+    //   }
+    // );
+    
+    logger.logWithMeta(
+      "warn",
+      `Hospital with HospitalCode ${HospitalCode} found successfully`,
+      {
+        executionTime,
+        logId,
+        statusCode: 200,
+        hospitalId: req.hospitalId,
+        hospitalName: hospital.HospitalName || "Unknown Hospital", 
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
+    //
+    //
+    //
+    //
+    res.status(200).json({
+      meta: { statusCode: 200, executionTime: `${Date.now() - start}ms` },
+      data: {
+        Hospitaltoken,
+        expiresInMinutes: `${expiresInMinutes} min`,
+        MFAEnabled: hospital.MFAEnabled,
+        hospital: {
+          hospitalId: hospital.HospitalID,
+          hospitalDatabase: hospital.HospitalDatabase,
+          hospitalGroupIDR: hospital.HospitalGroupIDR,
+          hospitalName: hospital.HospitalName,
+        },
+        message: "Database name found successfully",
+      },
+    });
+  } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 919;
+    // Log error finding hospital
+    logger.logWithMeta("warn", `Error finding hospital`, {
+      errorCode,
+      logId,
+      statusCode: 500,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime },
+      error: { message: `Error finding hospital: ${error.message}` },
+    });
+  }
 };
+
+// exports.login = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     // const end = Date.now();
+//     // logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 920;
+//     const statusCode = 400;
+//     // Log the warning
+//     logger.logWithMeta("warn", `Validation errors occurred during login`, {
+//       errorCode,
+//       statusCode,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       hospitalName: req.hospitalName,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,
+//       userAgent: req.headers["user-agent"], // HTTP method
+//     });
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: statusCode,
+//         errorCode: 920,
+//         executionTime: `${end - start}ms`,
+//       },
+//       error: {
+//         message: "Validation errors occurred",
+//         details: errors.array().map((err) => ({
+//           field: err.param,
+//           message: err.msg,
+//         })),
+//       },
+//     });
+//   }
+
+//   const { Username, Password } = req.body;
+
+//   const Hospitaltoken = req.headers["authorization"];
+//   console.log("SessionToken", Hospitaltoken);
+
+//   try {
+//     const hospital = await Hospital.findOne({ where: { Username } });
+//     if (!hospital) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 921;
+//       const statusCode = 404;
+
+//       // Log the warning
+//       logger.logWithMeta(
+//         "warn",
+//         `Hospital with Username "${Username}" not found`,
+//         {
+//           errorCode,
+//           statusCode,
+//           executionTime,
+//           hospitalId: req.hospitalId,
+//           hospitalName: req.hospitalName,
+//           ip: clientIp,
+//           apiName: req.originalUrl, // API name
+//           method: req.method,
+//           userAgent: req.headers["user-agent"], // HTTP method
+//         }
+//       );
+
+//       // logger.warn(`Hospital with Username "${Username}" not found, executionTime: ${end - start}ms`, {
+//       //   errorCode: 924,   // Adding the errorCode directly in the log
+//       //   hospitalId: req.hospitalId || 'N/A'  // Including hospitalId if available, else 'N/A'
+//       // });
+
+//       return res.status(404).json({
+//         meta: {
+//           statusCode: statusCode,
+//           errorCode: 921,
+//           executionTime: `${end - start}ms`,
+//         },
+//         error: {
+//           message: "Hospital not found",
+//         },
+//       });
+//     }
+
+//     // if (hospital.isEmailVerified !== 1) {
+//     //   logger.warn(`Email not verified for hospital with Username ${Username}`);
+//     //   return res.status(401).json({
+//     //     meta: {
+//     //       statusCode: 401,
+//     //       errorCode: 927
+//     //     },
+//     //     error: {
+//     //       message: 'Please verify your email before logging in'
+//     //     }
+//     //   });
+//     // }
+
+//     // logger.info(`UniqueKey from request headers: ${uniqueKey}`);
+//     // logger.info(`UniqueKey from database: ${hospital.UniqueKey}`);
+//     // console.log(hospital.UniqueKey);
+
+//     // Highlighted changes: Replaced direct comparison with verifyUniqueKey function
+//     //     if (!verifyUniqueKey(uniqueKey, hospital.UniqueKey)) {
+//     //       const end = Date.now();
+//     // logger.warn(`Invalid UniqueKey for hospital with Username ${Username}, executionTime: ${end - start}ms`);
+
+//     //       return res.status(401).json({
+//     //         meta: {
+//     //           statusCode: 401,
+//     //           errorCode: 955,
+//     //               executionTime: `${end - start}ms`
+//     //         },
+//     //         error: {
+//     //           message: 'Unauthorized'
+//     //         }
+//     //       });
+//     //     }
+
+//     const passwordMatch = await bcrypt.compare(Password, hospital.Password);
+//     // const passwordMatch = await bcrypt.compare(Password, hospital.Password);
+
+// console.log('Password from request:', Password);
+// console.log('Password from database:', hospital.Password);
+
+
+//     if (!passwordMatch) {
+//       //       const end = Date.now();
+//       // logger.warn(`Incorrect password for hospital with Username ${Username}, executionTime: ${end - start}ms`);
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 922;
+//       const statusCode = 401;
+
+//       // Log the warning
+//       logger.logWithMeta(
+//         "warn",
+//         `Incorrect password for hospital with Username ${Username}`,
+//         {
+//           errorCode,
+//           statusCode,
+//           executionTime,
+//           hospitalId: req.hospitalId,
+//           hospitalName: req.hospitalName,
+//           ip: clientIp,
+//           apiName: req.originalUrl, // API name
+//           method: req.method,
+//           userAgent: req.headers["user-agent"], // HTTP method
+//         }
+//       );
+
+//       return res.status(401).json({
+//         meta: {
+//           statusCode: statusCode,
+//           errorCode: 922,
+//           executionTime: `${end - start}ms`,
+//         },
+//         error: {
+//           message: "Incorrect password",
+//         },
+//       });
+//     }
+
+//     // const Hospitaltoken = jwt.sign(
+//     //   { hospitalId: hospital.HospitalID,
+//     //      hospitalDatabase: hospital.HospitalDatabase,
+//     //      hospitalGroupIDR:hospital.HospitalGroupIDR,
+//     //      hospitalName: hospital.HospitalName },
+//     //   process.env.JWT_SECRET,
+//     //   { expiresIn: '24h' }
+//     // );
+
+//     const existingToken = await getAsync(hospital.HospitalID.toString());
+//     let SessionToken = existingToken;
+
+//     // If token is not present, generate a new one
+//     if (!existingToken) {
+//       SessionToken = jwt.sign(
+//         {
+//           hospitalId: hospital.HospitalID,
+//           hospitalDatabase: hospital.HospitalDatabase,
+//           hospitalGroupIDR: hospital.HospitalGroupIDR,
+//           hospitalName: hospital.HospitalName,
+//           ManagingCompanyAdd1: hospital.ManagingCompanyAdd1,
+//           ManagingCompanyEmail: hospital.ManagingCompanyEmail,
+//         },
+//         process.env.JWT_SECRET,
+//         { expiresIn: "24h" }
+//       );
+
+//       // Store the new token in Redis with an expiration time
+//       await setAsync(
+//         hospital.HospitalID.toString(),
+//         SessionToken,
+//         "EX",
+//         24 * 60 * 60
+//       );
+//     }
+
+//     // const SessionToken = jwt.sign(
+//     //   {
+//     //     hospitalId: hospital.HospitalID,
+//     //     hospitalDatabase: hospital.HospitalDatabase,
+//     //     hospitalGroupIDR: hospital.HospitalGroupIDR,
+//     //     hospitalName: hospital.HospitalName,
+//     //     ManagingCompanyAdd1:hospital.ManagingCompanyAdd1,
+//     //     ManagingCompanyEmail:hospital.ManagingCompanyEmail
+//     //   },
+//     //   process.env.JWT_SECRET,
+//     //   { expiresIn: '24h' }
+//     // );
+
+//     const decodedToken = jwt.verify(SessionToken, process.env.JWT_SECRET);
+
+//     const currentTime = Math.floor(Date.now() / 1000);
+//     const expiresIn = decodedToken.exp - currentTime;
+//     const expiresInMinutes = Math.floor(expiresIn / 60);
+//     console.log(`Token expires in: ${expiresIn} seconds`);
+
+//     console.log("Decoded Token:", decodedToken);
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     // Log the warning
+//     logger.logWithMeta(
+//       "warn",
+//       `Hospital with ID ${decodedToken.hospitalId} logged in successfully`,
+//       {
+//         executionTime,
+//         statusCode: 200,
+//         hospitalId: req.hospitalId,
+//         HospitalName: req.hopsitalName,
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method,
+//         userAgent: req.headers["user-agent"], // HTTP method
+//       }
+//     );
+
+//     // logger.info(`Hospital with ID ${decodedToken.hospitalId} logged in successfully, executionTime: ${end - start}ms`);
+
+//     ////////////////Count apis
+
+//     // const method = req.method;
+//     // const city = req.body.city || 'Unknown';
+//     // // Using the HTTP method from the request
+//     // // try {
+//     //   await CountAPI.create({
+//     //     Apiname: 'login',
+//     //     location: city,
+//     //     createdby: decodedToken.hospitalId,
+//     //     ApiMethod: method,
+//     //     createdname: Username
+//     //   });
+//     // }
+//     //  catch (err) {
+//     //   logger.error('Error creating CountAPI entry', { error: err.message });
+//     // }
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`,
+//       },
+//       data: {
+//         SessionToken,
+//         expiresInMinutes: `${expiresInMinutes} min`,
+
+//         hospital: {
+//           id: decodedToken.hospitalId,
+//           username: hospital.Username,
+//           email: hospital.Email,
+//           hospitalDatabase: hospital.HospitalDatabase,
+//           HospitalGroupIDR: hospital.HospitalGroupIDR,
+//           HospitalName: decodedToken.HospitalName,
+//           ManagingCompanyAdd1: hospital.ManagingCompanyAdd1,
+//           ManagingCompanyEmail: hospital.ManagingCompanyEmail,
+//         },
+//         message: "Login successful and token generated.",
+//       },
+//     });
+//   } catch (error) {
+//     // const end = Date.now();
+//     // logger.error('Error logging in', { error: error.message, executionTime: `${end - start}ms` });
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 923;
+//     const statusCode = 500;
+
+//     // Log the warning
+//     logger.logWithMeta("warn", `Error logging in`, {
+//       errorCode,
+//       statusCode,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,
+//       userAgent: req.headers["user-agent"], // HTTP method
+//     });
+//     res.status(500).json({
+//       meta: {
+//         statusCode: statusCode,
+//         errorCode: 923,
+//         executionTime: `${end - start}ms`,
+//       },
+//       error: {
+//         message: "Error logging in: " + error.message,
+//       },
+//     });
+//   }
+// };
 
 
 exports.login = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const errors = validationResult(req);
+
+  // Check validation errors
   if (!errors.isEmpty()) {
-    // const end = Date.now();
-    // logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 920;
-    
-    // Log the warning
+    const statusCode = 400;
     logger.logWithMeta("warn", `Validation errors occurred during login`, {
       errorCode,
-      
+      statusCode,
       executionTime,
       hospitalId: req.hospitalId,
+      hospitalName: req.hospitalName,
       ip: clientIp,
-      apiName: req.originalUrl, // API name
+      apiName: req.originalUrl,
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"],
     });
     return res.status(400).json({
       meta: {
-        statusCode: 400,
+        statusCode: statusCode,
         errorCode: 920,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Validation errors occurred',
-        details: errors.array().map(err => ({
+        message: "Validation errors occurred",
+        details: errors.array().map((err) => ({
           field: err.param,
-          message: err.msg
-        }))
-      }
+          message: err.msg,
+        })),
+      },
     });
   }
 
   const { Username, Password } = req.body;
 
-  const Hospitaltoken = req.headers['authorization'];
+  const Hospitaltoken = req.headers["authorization"];
   console.log("SessionToken", Hospitaltoken);
 
   try {
     const hospital = await Hospital.findOne({ where: { Username } });
+
+    // Check if hospital is found
     if (!hospital) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 921;
-      
-      // Log the warning
+      const statusCode = 404;
       logger.logWithMeta("warn", `Hospital with Username "${Username}" not found`, {
         errorCode,
-        
+        statusCode,
         executionTime,
         hospitalId: req.hospitalId,
+        hospitalName: req.hospitalName,
         ip: clientIp,
-        apiName: req.originalUrl, // API name
+        apiName: req.originalUrl,
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"],
       });
-
-      // logger.warn(`Hospital with Username "${Username}" not found, executionTime: ${end - start}ms`, {
-      //   errorCode: 924,   // Adding the errorCode directly in the log
-      //   hospitalId: req.hospitalId || 'N/A'  // Including hospitalId if available, else 'N/A'
-      // });
 
       return res.status(404).json({
         meta: {
-          statusCode: 404,
+          statusCode: statusCode,
           errorCode: 921,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Hospital not found'
-        }
+          message: "Hospital not found",
+        },
       });
     }
-    
-    // if (hospital.isEmailVerified !== 1) {
-    //   logger.warn(`Email not verified for hospital with Username ${Username}`);
-    //   return res.status(401).json({
-    //     meta: {
-    //       statusCode: 401,
-    //       errorCode: 927
-    //     },
-    //     error: {
-    //       message: 'Please verify your email before logging in'
-    //     }
-    //   });
-    // }
-    
-    
-    // logger.info(`UniqueKey from request headers: ${uniqueKey}`);
-    // logger.info(`UniqueKey from database: ${hospital.UniqueKey}`);
-    // console.log(hospital.UniqueKey);
 
-    // Highlighted changes: Replaced direct comparison with verifyUniqueKey function
-//     if (!verifyUniqueKey(uniqueKey, hospital.UniqueKey)) {
-//       const end = Date.now();
-// logger.warn(`Invalid UniqueKey for hospital with Username ${Username}, executionTime: ${end - start}ms`);
-
-//       return res.status(401).json({
-//         meta: {
-//           statusCode: 401,
-//           errorCode: 955,
-//               executionTime: `${end - start}ms`
-//         },
-//         error: {
-//           message: 'Unauthorized'
-//         }
-//       });
-//     }
+    // Log and compare passwords
+    console.log('Password from request:', Password);
+    console.log('Password from database:', hospital.Password); // Log the database password
 
     const passwordMatch = await bcrypt.compare(Password, hospital.Password);
-    
-    if (!passwordMatch) {
-//       const end = Date.now();
-// logger.warn(`Incorrect password for hospital with Username ${Username}, executionTime: ${end - start}ms`);
-const end = Date.now();
-const executionTime = `${end - start}ms`;
-const errorCode = 922;
 
-// Log the warning
-logger.logWithMeta("warn", `Incorrect password for hospital with Username ${Username}`, {
-  errorCode,
-  
-  executionTime,
-  hospitalId: req.hospitalId,
-  ip: clientIp,
-  apiName: req.originalUrl, // API name
-  method: req.method,
-  userAgent: req.headers['user-agent'],     // HTTP method
-});
+    // If password doesn't match
+    if (!passwordMatch) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 922;
+      const statusCode = 401;
+
+      // Log the warning for incorrect password
+      logger.logWithMeta("warn", `Incorrect password for hospital with Username ${Username}`, {
+        errorCode,
+        statusCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+        hospitalName: req.hospitalName,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
 
       return res.status(401).json({
         meta: {
-          statusCode: 401,
+          statusCode: statusCode,
           errorCode: 922,
-             executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Incorrect password'
-        }
+          message: "Incorrect password",
+        },
       });
     }
 
-    // const Hospitaltoken = jwt.sign(
-    //   { hospitalId: hospital.HospitalID,
-    //      hospitalDatabase: hospital.HospitalDatabase,
-    //      hospitalGroupIDR:hospital.HospitalGroupIDR,
-    //      hospitalName: hospital.HospitalName },
-    //   process.env.JWT_SECRET,
-    //   { expiresIn: '24h' }
-    // );
-
-
+    // Generate or retrieve session token
     const existingToken = await getAsync(hospital.HospitalID.toString());
     let SessionToken = existingToken;
 
-    // If token is not present, generate a new one
     if (!existingToken) {
       SessionToken = jwt.sign(
         {
@@ -1865,133 +3376,98 @@ logger.logWithMeta("warn", `Incorrect password for hospital with Username ${User
           hospitalGroupIDR: hospital.HospitalGroupIDR,
           hospitalName: hospital.HospitalName,
           ManagingCompanyAdd1: hospital.ManagingCompanyAdd1,
-          ManagingCompanyEmail: hospital.ManagingCompanyEmail
+          ManagingCompanyEmail: hospital.ManagingCompanyEmail,
         },
         process.env.JWT_SECRET,
-        { expiresIn: '24h' }
+        { expiresIn: "24h" }
       );
 
-      // Store the new token in Redis with an expiration time
-      await setAsync(hospital.HospitalID.toString(), SessionToken, 'EX', 24 * 60 * 60);
+      // Store new token in Redis with expiration time
+      await setAsync(hospital.HospitalID.toString(), SessionToken, "EX", 24 * 60 * 60);
     }
 
-
-    // const SessionToken = jwt.sign(
-    //   {
-    //     hospitalId: hospital.HospitalID,
-    //     hospitalDatabase: hospital.HospitalDatabase,
-    //     hospitalGroupIDR: hospital.HospitalGroupIDR,
-    //     hospitalName: hospital.HospitalName,
-    //     ManagingCompanyAdd1:hospital.ManagingCompanyAdd1,
-    //     ManagingCompanyEmail:hospital.ManagingCompanyEmail
-    //   },
-    //   process.env.JWT_SECRET,
-    //   { expiresIn: '24h' }
-    // );
-
-
-
     const decodedToken = jwt.verify(SessionToken, process.env.JWT_SECRET);
-
-
-   
-
-
-
 
     const currentTime = Math.floor(Date.now() / 1000);
     const expiresIn = decodedToken.exp - currentTime;
     const expiresInMinutes = Math.floor(expiresIn / 60);
-    console.log(`Token expires in: ${expiresIn} seconds`);
 
+    console.log(`Token expires in: ${expiresIn} seconds`);
     console.log("Decoded Token:", decodedToken);
+
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-   // Log the warning
-    logger.logWithMeta("warn", `Hospital with ID ${decodedToken.hospitalId} logged in successfully`, {
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
-    });
 
-    // logger.info(`Hospital with ID ${decodedToken.hospitalId} logged in successfully, executionTime: ${end - start}ms`);
-    
-    ////////////////Count apis 
+    // Log successful login
+    logger.logWithMeta(
+      "info",
+      `Hospital with ID ${decodedToken.hospitalId} logged in successfully`,
+      {
+        executionTime,
+        statusCode: 200,
+        hospitalId: req.hospitalId,
+        hospitalName: req.hospitalName,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      }
+    );
 
-
-    // const method = req.method; 
-    // const city = req.body.city || 'Unknown'; 
-    // // Using the HTTP method from the request
-    // // try {
-    //   await CountAPI.create({
-    //     Apiname: 'login',
-    //     location: city,
-    //     createdby: decodedToken.hospitalId,
-    //     ApiMethod: method,
-    //     createdname: Username
-    //   });
-    // }
-    //  catch (err) {
-    //   logger.error('Error creating CountAPI entry', { error: err.message });
-    // }
-
+    // Respond with session token and expiration time
     res.status(200).json({
       meta: {
         statusCode: 200,
-         executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
         SessionToken,
         expiresInMinutes: `${expiresInMinutes} min`,
-        
-        
         hospital: {
           id: decodedToken.hospitalId,
           username: hospital.Username,
           email: hospital.Email,
           hospitalDatabase: hospital.HospitalDatabase,
-          HospitalGroupIDR:hospital.HospitalGroupIDR,
-          HospitalName: hospital.HospitalName,
-          ManagingCompanyAdd1:hospital.ManagingCompanyAdd1,
-        ManagingCompanyEmail:hospital.ManagingCompanyEmail
-         
+          HospitalGroupIDR: hospital.HospitalGroupIDR,
+          HospitalName: decodedToken.hospitalName,
+          ManagingCompanyAdd1: hospital.ManagingCompanyAdd1,
+          ManagingCompanyEmail: hospital.ManagingCompanyEmail,
         },
-        message: 'Login successful and token generated.'
-      }
+        message: "Login successful and token generated.",
+      },
     });
   } catch (error) {
-    // const end = Date.now();
-    // logger.error('Error logging in', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 923;
-    
-    // Log the warning
+    const statusCode = 500;
+
+    // Log error
     logger.logWithMeta("warn", `Error logging in`, {
       errorCode,
-      
+      statusCode,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
-      apiName: req.originalUrl, // API name
+      apiName: req.originalUrl,
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"],
     });
+
     res.status(500).json({
       meta: {
-        statusCode: 500,
+        statusCode: statusCode,
         errorCode: 923,
-                executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error logging in: ' + error.message
-      }
+        message: "Error logging in: " + error.message,
+      },
     });
   }
 };
+
+
 
 
 
@@ -2011,35 +3487,40 @@ exports.requestPasswordReset = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 924;
-    
+    const statusCode = 400;
+
     // Log the warning
-    logger.logWithMeta("warn", `Validation errors occurred during password reset request`, {
-      errorCode,
-      
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
-    });
+    logger.logWithMeta(
+      "warn",
+      `Validation errors occurred during password reset request`,
+      {
+        errorCode,
+        statusCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
     return res.status(400).json({
       meta: {
-        statusCode: 400,
+        statusCode: statusCode,
         errorCode: 924,
-         executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Validation errors occurred',
-        details: errors.array().map(err => ({
+        message: "Validation errors occurred",
+        details: errors.array().map((err) => ({
           field: err.param,
-          message: err.msg
-        }))
-      }
+          message: err.msg,
+        })),
+      },
     });
   }
 
-  const uniqueKey = req.headers['x-unique-key'];
+  const uniqueKey = req.headers["x-unique-key"];
 
   if (!uniqueKey) {
     // const end = Date.now();
@@ -2047,144 +3528,155 @@ exports.requestPasswordReset = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 925;
-    
+    const statusCode = 400;
     // Log the warning
     logger.logWithMeta("warn", `Missing unique key in request headers`, {
       errorCode,
-      
+      statusCode,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    
+
     return res.status(400).json({
       meta: {
-        statusCode: 400,
+        statusCode: statusCode,
         errorCode: 925,
-         executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Missing unique key in request headers'
-      }
+        message: "Missing unique key in request headers",
+      },
     });
   }
 
   try {
     // Find hospital by uniqueKey
-    const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
+    const hospital = await Hospital.findOne({
+      where: { UniqueKey: uniqueKey },
+    });
     if (!hospital) {
       // const end = Date.now();
       // logger.warn(`Hospital with UniqueKey ${uniqueKey} not found`, { executionTime: `${end - start}ms` });
       const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 926;
-    
-    // Log the warning
-    logger.logWithMeta("warn", `Hospital with UniqueKey ${uniqueKey} not found`, {
-      errorCode,
-      
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
-    });
-      
+      const executionTime = `${end - start}ms`;
+      const errorCode = 926;
+      const statusCode = 404;
+
+      // Log the warning
+      logger.logWithMeta(
+        "warn",
+        `Hospital with UniqueKey ${uniqueKey} not found`,
+        {
+          errorCode,
+          statusCode,
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers["user-agent"], // HTTP method
+        }
+      );
+
       return res.status(404).json({
         meta: {
-          statusCode: 404,
+          statusCode: statusCode,
           errorCode: 926,
-          executionTime: `${end - start}ms`
-
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Hospital not found'
-        }
+          message: "Hospital not found",
+        },
       });
     }
 
     // Ensure managingCompanyEmail is available
     const managingCompanyEmail = hospital.ManagingCompanyEmail;
     if (!managingCompanyEmail) {
-//       const end = Date.now();
-// logger.error(`Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail`, { executionTime: `${end - start}ms` });
-const end = Date.now();
-const executionTime = `${end - start}ms`;
-const errorCode = 927;
-
-// Log the warning
-logger.logWithMeta("warn", `Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail`, {
-  errorCode,
-  
-  executionTime,
-  hospitalId: req.hospitalId,
-  ip: clientIp,
-  apiName: req.originalUrl, // API name
-  method: req.method,
-  userAgent: req.headers['user-agent'],     // HTTP method
-});
+      //       const end = Date.now();
+      // logger.error(`Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail`, { executionTime: `${end - start}ms` });
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 927;
+      const statusCode = 400;
+      // Log the warning
+      logger.logWithMeta(
+        "warn",
+        `Hospital with UniqueKey ${uniqueKey} does not have a ManagingCompanyEmail`,
+        {
+          errorCode,
+          statusCode,
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers["user-agent"], // HTTP method
+        }
+      );
       return res.status(400).json({
         meta: {
-          statusCode: 400,
+          statusCode: statusCode,
           errorCode: 927,
-            executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Hospital does not have a managing company email'
-        }
+          message: "Hospital does not have a managing company email",
+        },
       });
     }
-    const crypto = require('crypto');
+    const crypto = require("crypto");
 
-    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetToken = crypto.randomBytes(32).toString("hex");
     const resetTokenExpires = Date.now() + 3600000; // 1 hour from now
 
     hospital.ResetToken = resetToken;
     hospital.ResetTokenExpires = resetTokenExpires;
-    await hospital.save({ fields: ['ResetToken', 'ResetTokenExpires'] });
+    await hospital.save({ fields: ["ResetToken", "ResetTokenExpires"] });
 
     const resetLink = `http://localhost:3000/api/v1/hospital/reset-password${resetToken}`;
 
     // Use the sendEmail function
     const emailResponse = await sendEmail(
       managingCompanyEmail,
-      'Password Reset Request',
+      "Password Reset Request",
       `You requested a password reset. Click the link to reset your password: ${resetLink}`
     );
 
-    if (emailResponse.meta.statusCode !== 200 )
-      {
-        
-
-      throw new Error('Failed to send reset email ');
+    if (emailResponse.meta.statusCode !== 200) {
+      throw new Error("Failed to send reset email ");
     }
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-   // Log the warning
-    logger.logWithMeta("warn", `Password reset link sent to ${managingCompanyEmail}`, {
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
-    });
+    // Log the warning
+    logger.logWithMeta(
+      "warn",
+      `Password reset link sent to ${managingCompanyEmail}`,
+      {
+        executionTime,
+        statusCode: 200,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
 
-// logger.info(`Password reset link sent to ${managingCompanyEmail}`, { executionTime: `${end - start}ms` });
-
+    // logger.info(`Password reset link sent to ${managingCompanyEmail}`, { executionTime: `${end - start}ms` });
 
     res.status(200).json({
       meta: {
         statusCode: 200,
-         executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
-        message: 'Password reset link sent successfully'
-      }
+        message: "Password reset link sent successfully",
+      },
     });
   } catch (error) {
     // const end = Date.now();
@@ -2192,27 +3684,27 @@ logger.logWithMeta("warn", `Hospital with UniqueKey ${uniqueKey} does not have a
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 928;
-    
+    const statusCode = 500;
     // Log the warning
     logger.logWithMeta("warn", `Error requesting password reset`, {
       errorCode,
-      
+      statusCode,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     res.status(500).json({
       meta: {
-        statusCode: 500,
+        statusCode: statusCode,
         errorCode: 928,
-           executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error requesting password reset: ' + error.message
-      }
+        message: "Error requesting password reset: " + error.message,
+      },
     });
   }
 };
@@ -2226,38 +3718,37 @@ exports.resetPassword = async (req, res) => {
     const hospital = await Hospital.findOne({
       where: {
         ResetToken: token,
-        ResetTokenExpires: { [Op.gt]: Date.now() }
-      }
+        ResetTokenExpires: { [Op.gt]: Date.now() },
+      },
     });
 
     if (!hospital) {
-      
       // const end = Date.now();
       // logger.warn('Invalid or expired reset token', { executionTime: `${end - start}ms` });
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 929;
-      
+      const statusCode = 400;
       // Log the warning
       logger.logWithMeta("warn", `Invalid or expired reset token`, {
         errorCode,
-        
+        statusCode,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
-      
+
       return res.status(400).json({
         meta: {
-          statusCode: 400,
-          errorCode: 929
+          statusCode: statusCode,
+          errorCode: 929,
         },
         error: {
-          message: 'Invalid or expired reset token'
-        }
+          message: "Invalid or expired reset token",
+        },
       });
     }
 
@@ -2269,7 +3760,7 @@ exports.resetPassword = async (req, res) => {
 
     // Save the new password
     hospital.Password = newPassword;
-    await hospital.save({ fields: ['Password'] });
+    await hospital.save({ fields: ["Password"] });
 
     // Log the password stored in the database
     const storedPassword = hospital.Password;
@@ -2301,29 +3792,34 @@ exports.resetPassword = async (req, res) => {
     // Clear reset token and expiration time
     hospital.ResetToken = null;
     hospital.ResetTokenExpires = null;
-    await hospital.save({ fields: ['ResetToken', 'ResetTokenExpires'] });
-    logger.info('Reset token and expiration time cleared in the database');
+    await hospital.save({ fields: ["ResetToken", "ResetTokenExpires"] });
+    logger.info("Reset token and expiration time cleared in the database");
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-   // Log the warning
-    logger.logWithMeta("warn", `Password reset successfully for hospital with email ${hospital.Email}`, {
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
-    });
-// logger.info(`Password reset successfully for hospital with email ${hospital.Email}`, { executionTime: `${end - start}ms` });
+    // Log the warning
+    logger.logWithMeta(
+      "warn",
+      `Password reset successfully for hospital with email ${hospital.Email}`,
+      {
+        executionTime,
+        statusCode: 200,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
+    // logger.info(`Password reset successfully for hospital with email ${hospital.Email}`, { executionTime: `${end - start}ms` });
 
     res.status(200).json({
       meta: {
         statusCode: 200,
-         executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
-        message: 'Password reset successfully'
-      }
+        message: "Password reset successfully",
+      },
     });
   } catch (error) {
     // const end = Date.now();
@@ -2331,32 +3827,31 @@ exports.resetPassword = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 930;
-    
+    const statusCode = 500;
     // Log the warning
     logger.logWithMeta("warn", `Error resetting password`, {
       errorCode,
-      
+      statusCode,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    
+
     res.status(500).json({
       meta: {
-        statusCode: 500,
+        statusCode: statusCode,
         errorCode: 930,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error resetting password: ' + error.message
-      }
+        message: "Error resetting password: " + error.message,
+      },
     });
   }
 };
-
 
 exports.changePassword = async (req, res) => {
   const start = Date.now();
@@ -2368,174 +3863,187 @@ exports.changePassword = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 931;
-    
+    const statusCode = 400;
+
     // Log the warning
     logger.logWithMeta("warn", `Validation errors occurred`, {
       errorCode,
-      
+      statusCode,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    
-    
-      return res.status(400).json({
-          meta: {
-              statusCode: 400,
-              errorCode: 931,
-                executionTime: `${end - start}ms`
-          },
-          error: {
-              message: 'Validation errors occurred',
-              details: errors.array().map(err => ({
-                  field: err.param,
-                  message: err.msg
-              }))
-          }
-      });
+
+    return res.status(statusCode).json({
+      meta: {
+        statusCode: statusCode,
+        errorCode: 931,
+        executionTime: `${end - start}ms`,
+      },
+      error: {
+        message: "Validation errors occurred",
+        details: errors.array().map((err) => ({
+          field: err.param,
+          message: err.msg,
+        })),
+      },
+    });
   }
 
   const { currentPassword, newPassword } = req.body;
-  const uniqueKey = req.headers['x-unique-key'];
+  const uniqueKey = req.headers["x-unique-key"];
 
   try {
-      const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
-      if (!hospital) {
-        // const end = Date.now();
-        // logger.warn('Hospital not found with provided unique key', { uniqueKey, executionTime: `${end - start}ms` });
-        
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 932;
-        
-        // Log the warning
-        logger.logWithMeta("warn", `Hospital not found with provided unique key`, {
-          errorCode,
-          
-          executionTime,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method,
-          userAgent: req.headers['user-agent'],     // HTTP method
-        });
-          return res.status(404).json({
-              meta: {
-                  statusCode: 404,
-                  errorCode: 932,
-                    executionTime: `${end - start}ms`
-              },
-              error: {
-                  message: 'Hospital not found'
-              }
-          });
-      }
-
-      // Uncomment this section if you want to verify the current password
-      
-      const passwordMatch = await bcrypt.compare(currentPassword, hospital.Password);
-      if (!passwordMatch) {
-        // const end = Date.now();
-        // logger.warn('Current password is incorrect', { executionTime: `${end - start}ms` });
-        
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 933;
-        
-        // Log the warning
-        logger.logWithMeta("warn", `Current password is incorrect`, {
-          errorCode,
-          
-          executionTime,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method,
-          userAgent: req.headers['user-agent'],     // HTTP method
-        });
-          return res.status(400).json({
-              meta: {
-                  statusCode: 400,
-                  errorCode: 933,
-                  executionTime: `${end - start}ms`
-              },
-              error: {
-                  message: 'Current password is incorrect'
-              }
-          });
-      }
-      
-
-      // const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-      // logger.info(`New password hashed: ${hashedNewPassword}`);
-
-      hospital.Password = newPassword;
-
-      // Save the new password to the database
-      await hospital.save({ fields: ['Password'] });
-
-      // Log the password after it has been saved to the database
-      const updatedHospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
-      logger.info(`New password stored in database: ${updatedHospital.Password}`);
+    const hospital = await Hospital.findOne({
+      where: { UniqueKey: uniqueKey },
+    });
+    if (!hospital) {
+      // const end = Date.now();
+      // logger.warn('Hospital not found with provided unique key', { uniqueKey, executionTime: `${end - start}ms` });
 
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-     // Log the warning
-      logger.logWithMeta("warn", `Password changed successfully for hospital with email ${hospital.ManagingCompanyEmail}`, {
+      const errorCode = 932;
+      const statusCode = 404;
+      // Log the warning
+      logger.logWithMeta(
+        "warn",
+        `Hospital not found with provided unique key`,
+        {
+          errorCode,
+          statusCode,
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers["user-agent"], // HTTP method
+        }
+      );
+      return res.status(statusCode).json({
+        meta: {
+          statusCode: statusCode,
+          errorCode: 932,
+          executionTime: `${end - start}ms`,
+        },
+        error: {
+          message: "Hospital not found",
+        },
+      });
+    }
+
+    // Uncomment this section if you want to verify the current password
+
+    const passwordMatch = await bcrypt.compare(
+      currentPassword,
+      hospital.Password
+    );
+    if (!passwordMatch) {
+      // const end = Date.now();
+      // logger.warn('Current password is incorrect', { executionTime: `${end - start}ms` });
+
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 933;
+      const statusCode = 400;
+      // Log the warning
+      logger.logWithMeta("warn", `Current password is incorrect`, {
+        errorCode,
+        statusCode,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],    // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
-      // logger.info(`Password changed successfully for hospital with email ${hospital.ManagingCompanyEmail}`, { executionTime: `${end - start}ms` });
-      
-      
-      res.status(200).json({
-          meta: {
-              statusCode: 200
-          },
-          data: {
-              message: 'Password changed successfully'
-          }
+      return res.status(statusCode).json({
+        meta: {
+          statusCode: statusCode,
+          errorCode: 933,
+          executionTime: `${end - start}ms`,
+        },
+        error: {
+          message: "Current password is incorrect",
+        },
       });
+    }
+
+    // const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    // logger.info(`New password hashed: ${hashedNewPassword}`);
+
+    hospital.Password = newPassword;
+
+    // Save the new password to the database
+    await hospital.save({ fields: ["Password"] });
+
+    // Log the password after it has been saved to the database
+    const updatedHospital = await Hospital.findOne({
+      where: { UniqueKey: uniqueKey },
+    });
+    logger.info(`New password stored in database: ${updatedHospital.Password}`);
+
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    // Log the warning
+    logger.logWithMeta(
+      "warn",
+      `Password changed successfully for hospital with email ${hospital.ManagingCompanyEmail}`,
+      {
+        executionTime,
+        statusCode: 200,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
+    // logger.info(`Password changed successfully for hospital with email ${hospital.ManagingCompanyEmail}`, { executionTime: `${end - start}ms` });
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+      },
+      data: {
+        message: "Password changed successfully",
+      },
+    });
   } catch (error) {
-//     const end = Date.now();
-// logger.error('Error changing password', { error: error.message, executionTime: `${end - start}ms` });
+    //     const end = Date.now();
+    // logger.error('Error changing password', { error: error.message, executionTime: `${end - start}ms` });
 
-const end = Date.now();
+    const end = Date.now();
 
-        const executionTime = `${end - start}ms`;
-        const errorCode = 934;
-        
-        // Log the warning
-        logger.logWithMeta("warn", `Error changing password`, {
-          errorCode,
-          
-          executionTime,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method,
-          userAgent: req.headers['user-agent'],     // HTTP method
-        });
-      res.status(500).json({
-          meta: {
-              statusCode: 500,
-              errorCode: 934,
-              executionTime: `${end - start}ms`
-          },
-          error: {
-              message: 'Error changing password: ' + error.message
-          }
-      });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 934;
+    const statusCode = 500;
+    // Log the warning
+    logger.logWithMeta("warn", `Error changing password`, {
+      errorCode,
+      statusCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers["user-agent"], // HTTP method
+    });
+    res.status(statusCode).json({
+      meta: {
+        statusCode: statusCode,
+        errorCode: 934,
+        executionTime: `${end - start}ms`,
+      },
+      error: {
+        message: "Error changing password: " + error.message,
+      },
+    });
   }
 };
-
 
 exports.changeEmail = async (req, res) => {
   const start = Date.now();
@@ -2546,176 +4054,166 @@ exports.changeEmail = async (req, res) => {
     // logger.info('Validation errors occurred', errors);
     const executionTime = `${end - start}ms`;
     const errorCode = 935;
-    
+    const statusCode = 400;
     // Log the warning
     logger.logWithMeta("warn", `Validation errors occurred`, {
       errorCode,
-      
+
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    return res.status(400).json({
+    return res.status(statusCode).json({
       meta: {
-        statusCode: 400,
+        statusCode: statusCode,
         errorCode: 935,
-         executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Validation errors occurred',
-        details: errors.array().map(err => ({
+        message: "Validation errors occurred",
+        details: errors.array().map((err) => ({
           field: err.param,
-          message: err.msg
-        }))
-      }
+          message: err.msg,
+        })),
+      },
     });
   }
 
   const { ManagingCompanyEmail } = req.body;
-  const uniqueKey = req.headers['x-unique-key'];
+  const uniqueKey = req.headers["x-unique-key"];
 
   try {
-    const hospital = await Hospital.findOne({ where: { UniqueKey: uniqueKey } });
+    const hospital = await Hospital.findOne({
+      where: { UniqueKey: uniqueKey },
+    });
     if (!hospital) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 935;
-      
+      const statusCode = 404;
       // Log the warning
       logger.logWithMeta("warn", `Validation errors occurred`, {
         errorCode,
-        
+        statusCode,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
-//       const end = Date.now();
-// logger.warn('Hospital not found with provided unique key', { uniqueKey: providedUniqueKey, executionTime: `${end - start}ms` });
+      //       const end = Date.now();
+      // logger.warn('Hospital not found with provided unique key', { uniqueKey: providedUniqueKey, executionTime: `${end - start}ms` });
 
-      return res.status(404).json({
+      return res.status(statusCode).json({
         meta: {
-          statusCode: 404,
+          statusCode: statusCode,
           errorCode: 935,
-           executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Hospital not found'
-        }
+          message: "Hospital not found",
+        },
       });
     }
 
     // Update hospital's email
     hospital.ManagingCompanyEmail = ManagingCompanyEmail;
-    await hospital.save({ fields: ['ManagingCompanyEmail'] });
+    await hospital.save({ fields: ["ManagingCompanyEmail"] });
     const end = Date.now();
-      const executionTime = `${end - start}ms`;
-     // Log the warning
-      logger.logWithMeta("warn", `Email updated successfully for hospital with unique key ${uniqueKey}`, {
+    const executionTime = `${end - start}ms`;
+    // Log the warning
+    logger.logWithMeta(
+      "warn",
+      `Email updated successfully for hospital with unique key ${uniqueKey}`,
+      {
         executionTime,
+        statusCode: 200,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],    // HTTP method
-      });
-// logger.info(`Email updated successfully for hospital with unique key ${uniqueKey}`, { uniqueKey, executionTime: `${end - start}ms` });
-
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
+    // logger.info(`Email updated successfully for hospital with unique key ${uniqueKey}`, { uniqueKey, executionTime: `${end - start}ms` });
 
     res.status(200).json({
       meta: {
         statusCode: 200,
-         executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
-        message: 'Email changed successfully'
-      }
+        message: "Email changed successfully",
+      },
     });
   } catch (error) {
-//     const end = Date.now();
-// logger.error('Error changing email', { error: error.message, executionTime: `${end - start}ms` });
-const end = Date.now();
-const executionTime = `${end - start}ms`;
-const errorCode = 936;
+    //     const end = Date.now();
+    // logger.error('Error changing email', { error: error.message, executionTime: `${end - start}ms` });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 936;
+    const statusCode = 500;
 
-// Log the warning
-logger.logWithMeta("warn", `Error changing email`, {
-  errorCode,
-  
-  executionTime,
-  hospitalId: req.hospitalId,
-  ip: clientIp,
-  apiName: req.originalUrl, // API name
-  method: req.method,
-  userAgent: req.headers['user-agent'],     // HTTP method
-});
+    // Log the warning
+    logger.logWithMeta("warn", `Error changing email`, {
+      errorCode,
+      statusCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers["user-agent"], // HTTP method
+    });
 
-    res.status(500).json({
+    res.status(statusCode).json({
       meta: {
-        statusCode: 500,
-        errorCode: 936
+        statusCode: statusCode,
+        errorCode: 936,
       },
       error: {
-        message: 'Error changing email: ' + error.message
-      }
+        message: "Error changing email: " + error.message,
+      },
     });
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 exports.ensureSequelizeInstance = (req, res, next) => {
   const start = Date.now();
   // const clientIp = await getClientIp(req);
 
   if (!req.hospitalDatabase) {
-   
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 937;
-    
+    const statusCode = 500;
     // Log the warning
     logger.logWithMeta("warn", `Database connection not established`, {
       errorCode,
-      
+      statusCode,
       executionTime,
       hospitalId: req.hospitalId,
       // ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     // logger.error('Database connection not established', { executionTime: `${end - start}ms` });
-    
-    return res.status(500).json({
+
+    return res.status(statusCode).json({
       meta: {
-        statusCode: 500,
+        statusCode: statusCode,
         errorCode: 937,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
-      
+
       error: {
-        
-        message: 'Database connection not established'
-      }
+        message: "Database connection not established",
+      },
     });
   }
 
@@ -2725,35 +4223,35 @@ exports.ensureSequelizeInstance = (req, res, next) => {
     process.env.DB_PASSWORD,
     {
       host: process.env.DB_HOST,
-      dialect: process.env.DB_DIALECT
+      dialect: process.env.DB_DIALECT,
     }
   );
-  
+
   req.sequelize = sequelize;
   // logger.info('Sequelize instance created successfully');
   const end = Date.now();
-      const executionTime = `${end - start}ms`;
-     // Log the warning
-      logger.logWithMeta("warn", `Sequelize instance created successfully`, {
-        executionTime,
-        hospitalId: req.hospitalId,
-        // ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'],    // HTTP method
-      });
+  const executionTime = `${end - start}ms`;
+  // Log the warning
+  // logger.logWithMeta("warn", `Sequelize instance created successfully`, {
+  //   executionTime,
+  //   statusCode: 200,
+  //   hospitalId: req.hospitalId,
+  //   // ip: clientIp,
+  //   apiName: req.originalUrl, // API name
+  //   method: req.method,
+  //   userAgent: req.headers["user-agent"], // HTTP method
+  // });
   next();
 
-  sequelize.sync({ alter: true })
-  .then(() => {
-    console.log('Database synchronized successfully.');
-  })
-  .catch(error => {
-    console.error('Error synchronizing the database:', error);
-  });
-  
+  sequelize
+    .sync({ alter: true })
+    .then(() => {
+      console.log("Database synchronized successfully.");
+    })
+    .catch((error) => {
+      console.error("Error synchronizing the database:", error);
+    });
 };
-
 
 // exports.ensureSequelizeInstance = (req, res, next) => {
 //   const start = Date.now();
@@ -2796,10 +4294,6 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 //       console.error('Error synchronizing the database:', error);
 //     });
 // };
-
-
-
-
 
 //     // Import models
 //     const Hospital = require('../models/HospitalModel')(sequelize, DataTypes);
@@ -2844,7 +4338,6 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 //   }
 // };
 
-
 // exports.createUser = async (req, res) => {
 //   const start = Date.now();
 //   const { name, username, phone, email, password, empid ,usertype,Reserve1, Reserve2, Reserve3, Reserve4} = req.body;
@@ -2859,7 +4352,7 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 //     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the number of salt rounds
 //     const verificationToken = uuidv4();
 //     const tokenExpiration = new Date();
-//     tokenExpiration.setMinutes(tokenExpiration.getMinutes() + 10); 
+//     tokenExpiration.setMinutes(tokenExpiration.getMinutes() + 10);
 //     const User = require('../models/user')(req.sequelize)
 
 //     // Ensure the table exists
@@ -2880,11 +4373,10 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 //     logger.info(`User created successfully with username: ${username}, hospitalId: ${hospitalId}`);
 
 //     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${verificationToken}`; // Replace with your actual verification link
-    
+
 //     await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
 
 //     // In the try block, make sure you are calling `sendUserEmail`:
-
 
 //     const end = Date.now();
 //     res.status(201).json({
@@ -2901,7 +4393,7 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 //   } catch (error) {
 //     const end = Date.now();
 //     logger.error('Error creating user', { error: error.message, executionTime: `${end - start}ms` });
-    
+
 //     res.status(500).json({
 //       meta: {
 //         statusCode: 500,
@@ -2914,7 +4406,6 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 //     });
 //   }
 // };
-
 
 // User Creation Function
 // User Creation Function
@@ -2931,7 +4422,7 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 //     }
 
 //     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
 //     // Create a unique token and include the hospitalDatabase in the token metadata
 //     const verificationToken = uuidv4();
 //     const tokenExpiration = new Date();
@@ -2980,456 +4471,20 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 //   }
 // };
 const ENCRYPT_SECRET_KEY1 = process.env.ENCRYPT_SECRET_KEY2;
-// const ENCRYPT_SECRET_KEY2 = process.env.ENCRYPT_SECRET_KEY3;
-// exports.createUser = async (req, res) => {
-//   const start = Date.now();
-//   const { name, username, phone, email, password, empid, usertype } = req.body;
-//   const hospitalId = req.hospitalId;
-//   const hospitalDatabase = req.hospitalDatabase;
-
-//   try {
-//     if (!password) {
-//       throw new Error('Password is required');
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password, 10);
-    
-//     // Create a unique token and include the hospitalDatabase in the token metadata
-//     const verificationToken = uuidv4();
-//     const tokenExpiration = new Date();
-//     tokenExpiration.setMinutes(tokenExpiration.getMinutes() + 10);
-
-//     const User = require('../models/user')(req.sequelize);
-
-//     // const encrypteddb = CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString();
-
-//     // const encryptedToken = CryptoJS.AES.encrypt(verificationToken, ENCRYPT_SECRET_KEY1).toString();
-
-//     await User.sync();
-
-//     const user = await User.create({
-//       username,
-//       password: hashedPassword,
-//       hospitalId,
-//       name,
-//       phone,
-//       email,
-//       empid,
-//       usertype,
-//       emailtoken: verificationToken,
-//       createdBy: hospitalId,
-//     });
-
-//     // Construct the verification link with token and database name
-//     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${verificationToken}?db=${hospitalDatabase}`;
-
-//     await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
-
-//     res.status(201).json({
-//       meta: {
-//         statusCode: 201,
-//         executionTime: `${Date.now() - start}ms`,
-//         hospitalDatabase // Include hospitalDatabase in the response
-//       },
-//       data: { user },
-//       message: 'User created successfully'
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 928,
-//         executionTime: `${Date.now() - start}ms`,
-//         hospitalDatabase // Include hospitalDatabase in the response even in case of error
-//       },
-//       error: { message: 'Error creating user: ' + error.message },
-//     });
-//   }
-// };
-
-// const ENCRYPT_SECRET_KEY2 = process.env.ENCRYPT_SECRET_KEY2 || 'your-secret-key';
-// const ENCRYPT_SECRET_KEY1 = process.env.ENCRYPT_SECRET_KEY2;
-
-// exports.createUser = async (req, res) => {
-//   const start = Date.now();
-//   const { name, username, phone, email, password, empid, usertype } = req.body;
-//   const hospitalId = req.hospitalId;
-//   const hospitalDatabase = req.hospitalDatabase;
-
-//   try {
-//     if (!password) {
-//       throw new Error('Password is required');
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // Create a unique token
-//     let verificationToken = uuidv4();
-//      // Convert to Base64 and remove special characters
-
-//       verificationToken = Buffer.from(verificationToken).toString('base64')
-//      .replace(/[+/=]/g, '')  // Remove special characters
-//      .replace(/-/g, '')     // Remove any remaining dashes
-//      .replace(/\//g, ''); 
-
-//     // Encrypt the token
-//     let encryptedToken = CryptoJS.AES.encrypt(verificationToken, ENCRYPT_SECRET_KEY1).toString('base64');
-
-//     encryptedToken = encryptedToken
-//     .replace(/\//g, '')  // Remove slashes (/)
-//     .replace(/\+/g, '')  // Remove plus signs (+)
-//     .replace(/=/g, '');  // Remove equal signs (=)
-
-
-//     let encryptedHospitalDatabase = CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString('base64');
-
-//     // Remove special characters from the encrypted hospitalDatabase
-//     encryptedHospitalDatabase = encryptedHospitalDatabase
-//       .replace(/\//g, '')  // Remove slashes (/)
-//       .replace(/\+/g, '')  // Remove plus signs (+)
-//       .replace(/=/g, '');  // Remove equal signs (=)
-
-
-//     const User = require('../models/user')(req.sequelize);
-//     await User.sync();
-
-//     const user = await User.create({
-//       username,
-//       password: hashedPassword,
-//       hospitalId,
-//       name,
-//       phone,
-//       email,
-//       empid,
-//       usertype,
-//       emailtoken: encryptedToken,
-//       createdBy: hospitalId,
-//     });
-
-//     // Construct the verification link
-//     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedToken}?db=${encryptedHospitalDatabase}`;
-
-
-//     await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
-
-//     res.status(201).json({
-//       meta: {
-//         statusCode: 201,
-//         executionTime: `${Date.now() - start}ms`,
-//         hospitalDatabase
-//       },
-//       data: { user },
-//       message: 'User created successfully. Verification email sent.'
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 928,
-//         executionTime: `${Date.now() - start}ms`,
-//         hospitalDatabase
-//       },
-//       error: { message: 'Error creating user: ' + error.message },
-//     });
-//   }
-// };
-
-
-// exports.createUser = async (req, res) => {
-//   const start = Date.now();
-//   const { name, username, phone, email, password, empid, usertype } = req.body;
-//   const hospitalId = req.hospitalId;
-//   const hospitalDatabase = req.hospitalDatabase;
-
-//   try {
-//     if (!password) {
-//       throw new Error('Password is required');
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // Create a unique token
-//     let verificationToken = uuidv4();
-    
-//     // Convert the token to Base64 and remove special characters
-//     verificationToken = Buffer.from(verificationToken)
-//       .toString('base64')
-//       .replace(/[+/=]/g, '')  // Remove special characters
-//       .replace(/-/g, '')      // Remove dashes
-//       .replace(/\//g, '');    // Remove slashes
-
-//     // Encrypt the token
-
-//     const cfg = {
-//       mode: CryptoJS.mode.CBC,
-//       padding: CryptoJS.pad.Pkcs7
-//     };
-//      const encryptAES = (hospitalDatabase, ENCRYPT_SECRET_KEY1) => {
-//       return CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString();
-//     };
-     
-
-
-//     let encryptedDB=encryptAES (hospitalDatabase, ENCRYPT_SECRET_KEY1)
-
-//     encryptedDB = Buffer.from(encryptedDB)
-//       .toString('base64')
-//       .replace(/[+/=]/g, '')  // Remove special characters
-//       .replace(/-/g, '')      // Remove dashes
-//       .replace(/\//g, '');    // Remove slashes
-
-//     console.log("encryptedDB...",encryptedDB)
-
-
-
-
-
-
-
-
-    
-//     let encryptedToken = CryptoJS.AES.encrypt(verificationToken, ENCRYPT_SECRET_KEY1).toString();
-
-//     // let encryptedDB = CryptoJS.AES.encrypt(hospitalDatabase, ENCRYPT_SECRET_KEY1).toString();
-
-//     // console.log("encryptedDB.........",encryptedDB)
-
-//     // Further encode it in Base64 and remove special characters
-//     encryptedToken = Buffer.from(encryptedToken)
-//       .toString('base64')
-//       .replace(/\//g, '')  // Remove slashes (/)
-//       .replace(/\+/g, '')  // Remove plus signs (+)
-//       .replace(/=/g, '');  // Remove equal signs (=)
-
-//     const User = require('../models/user')(req.sequelize);
-//     await User.sync();
-
-//     const user = await User.create({
-//       username,
-//       password: hashedPassword,
-//       hospitalId,
-//       name,
-//       phone,
-//       email,
-//       empid,
-//       usertype,
-//       emailtoken: encryptedToken,
-//       createdBy: hospitalId,
-//     });
-
-//     // Construct the verification link
-//     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedToken}?db=${encryptedDB}`;
-
-//     await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
-
-//     res.status(201).json({
-//       meta: {
-//         statusCode: 201,
-//         executionTime: `${Date.now() - start}ms`,
-//         hospitalDatabase
-//       },
-//       data: { user },
-//       message: 'User created successfully. Verification email sent.'
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 928,
-//         executionTime: `${Date.now() - start}ms`,
-//         hospitalDatabase
-//       },
-//       error: { message: 'Error creating user: ' + error.message },
-//     });
-//   }
-// };
-
-
-////without encrpted
-
-
-// exports.verifyEmail = async (req, res) => {
-//   const start = Date.now();
-//   const { token } = req.params;
-//   const encryptedHospitalDatabase = req.query.db;
-
-//   console.log("Token from URL Params:", token);
-//   console.log("Encrypted Database from Query:", encryptedHospitalDatabase);
-
-//   // Decrypt the hospitalDatabase
-//   let hospitalDatabase;
-//   try {
-//     if (!encryptedHospitalDatabase) {
-//       throw new Error('No encrypted database name provided');
-//     }
-
-//     // Decrypt and convert bytes to string
-//     const decryptedDbBytes = CryptoJS.AES.decrypt(encryptedHospitalDatabase, ENCRYPT_SECRET_KEY1);
-
-//     hospitalDatabase = decryptedDbBytes.toString(CryptoJS.enc.Utf8);
-
-//     if (!hospitalDatabase) {
-//       throw new Error('Decryption failed or resulted in an empty string');
-//     }
-
-//     console.log("Decrypted Database Name:", hospitalDatabase);
-    
-//   } catch (error) {
-//     console.error('Decryption Error:', error.message);
-//     return res.status(400).json({
-//       meta: { statusCode: 400, errorCode: 927, executionTime: `${Date.now() - start}ms` },
-//       error: { message: 'Database name not provided or could not be decrypted' },
-//     });
-//   }
-
-//   try {
-//     // Initialize Sequelize with the decrypted hospitalDatabase name
-//     const sequelize = new Sequelize(
-//       hospitalDatabase,
-//       process.env.DB_USER,
-//       process.env.DB_PASSWORD,
-//       { host: process.env.DB_HOST, dialect: process.env.DB_DIALECT }
-//     );
-
-//     const User = require('../models/user')(sequelize);
-
-//     // Find the user by the provided email token
-//     const user = await User.findOne({ where: { emailtoken: token } });
-//     if (!user) {
-//       return res.status(400).json({
-//         meta: { statusCode: 400, errorCode: 952, executionTime: `${Date.now() - start}ms` },
-//         error: { message: 'Invalid or expired verification token' },
-//       });
-//     }
-
-//     // Update the user's email verification status
-//     user.is_emailVerify = true;
-//     user.emailtoken = null;
-//     await user.save();
-
-//     res.status(200).json({
-//       meta: { statusCode: 200, executionTime: `${Date.now() - start}ms` },
-//       data: { message: 'Email verified successfully' },
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       meta: { statusCode: 500, errorCode: 953, executionTime: `${Date.now() - start}ms` },
-//       error: { message: 'Error verifying email: ' + error.message },
-//     });
-//   }
-// };
-// exports.verifyEmail = async (req, res) => {
-//   const start = Date.now();
-//   const { token } = req.params;
-//   const encryptedHospitalDatabase = req.query.db;
-
-//   console.log("Token from URL Params:", token);
-//   console.log("Encrypted Database from Query:", encryptedHospitalDatabase);
-
-//   // Decode the encrypted database name from the query
-//   let decodedHospitalDatabase;
-//   try {
-//     if (!encryptedHospitalDatabase) {
-//       throw new Error('No encrypted database name provided');
-//     }
-
-//     decodedHospitalDatabase = decodeURIComponent(encryptedHospitalDatabase);
-//     console.log("Decoded Database Name:", decodedHospitalDatabase);
-
-//   } catch (error) {
-//     console.error('Decoding Error:', error.message);
-//     return res.status(400).json({
-//       meta: { statusCode: 400, errorCode: 928, executionTime: `${Date.now() - start}ms` },
-//       error: { message: 'Failed to decode the database name' },
-//     });
-//   }
-
-//   // Decrypt the hospitalDatabase
-//   let hospitalDatabase;
-  
-//   try {
-//     // Decrypt and convert bytes to string
-//     const decryptedDbBytes = CryptoJS.AES.decrypt(decodedHospitalDatabase, ENCRYPT_SECRET_KEY1);
-
-//     hospitalDatabase = decryptedDbBytes.toString(CryptoJS.enc.Utf8);
-
-//     if (!hospitalDatabase) {
-//       throw new Error('Decryption failed or resulted in an empty string');
-//     }
-
-//     console.log("Decrypted Database Name:", hospitalDatabase);
-
-//     // Verify the decrypted database name
-//     if (hospitalDatabase !== 'expectedDatabaseName') {
-//       throw new Error('Database name does not match the expected value');
-//     }
-
-//   } catch (error) {
-//     console.error('Decryption or Verification Error:', error.message);
-//     return res.status(400).json({
-//       meta: { statusCode: 400, errorCode: 927, executionTime: `${Date.now() - start}ms` },
-//       error: { message: 'Database name not provided, could not be decrypted, or verification failed' },
-//     });
-//   }
-
-//   try {
-//     // Initialize Sequelize with the decrypted hospitalDatabase name
-//     const sequelize = new Sequelize(
-//       hospitalDatabase,
-//       process.env.DB_USER,
-//       process.env.DB_PASSWORD,
-//       { host: process.env.DB_HOST, dialect: process.env.DB_DIALECT }
-//     );
-
-//     const User = require('../models/user')(sequelize);
-
-//     // Find the user by the provided email token
-//     const user = await User.findOne({ where: { emailtoken: token } });
-//     if (!user) {
-//       return res.status(400).json({
-//         meta: { statusCode: 400, errorCode: 952, executionTime: `${Date.now() - start}ms` },
-//         error: { message: 'Invalid or expired verification token' },
-//       });
-//     }
-
-//     // Update the user's email verification status
-//     user.is_emailVerify = true;
-//     user.emailtoken = null;
-//     await user.save();
-
-//     res.status(200).json({
-//       meta: { statusCode: 200, executionTime: `${Date.now() - start}ms` },
-//       data: { message: 'Email verified successfully' },
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       meta: { statusCode: 500, errorCode: 953, executionTime: `${Date.now() - start}ms` },
-//       error: { message: 'Error verifying email: ' + error.message },
-//     });
-//   }
-// };
 
 
 const encryptAES = (text, secretKey) => {
-  
   try {
-    console.log('Encrypting text:', text);
-    console.log('Using secret key:', secretKey);
+    console.log("Encrypting text:", text);
+    console.log("Using secret key:", secretKey);
     return CryptoJS.AES.encrypt(text, secretKey).toString();
   } catch (error) {
-    console.error('Encryption Error:', error.message);
-    throw new Error('Error during encryption');
+    console.error("Encryption Error:", error.message);
+    throw new Error("Error during encryption");
   }
 };
 
 
-// Decode Base64
-// const decodeBase64 = (text) => Buffer.from(text, 'base64').toString('utf8');
-
-// Encode text to Base64
-// const encodeBase64 = (text) => Buffer.from(text).toString('base64');
-
-// Define the `createUser` function
 exports.createUser = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -3442,19 +4497,48 @@ exports.createUser = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 938;
-      
+
       // Log the warning
       logger.logWithMeta("warn", `Password is required`, {
         errorCode,
-        
         executionTime,
         hospitalId: req.hospitalId,
-        // ip: clientIp,
-        apiName: req.originalUrl, // API name
+        apiName: req.originalUrl,
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"],
       });
-      throw new Error('Password is required');
+      throw new Error("Password is required");
+    }
+
+    const User = require("../models/user")(req.sequelize);
+    await User.sync();
+
+    // Check if email already exists
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 940;
+
+      // Log the warning
+      logger.logWithMeta("warn", `Email already exists`, {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+
+      return res.status(400).json({
+        meta: {
+          statusCode: 400,
+          errorCode: 940,
+          executionTime,
+          hospitalDatabase,
+        },
+        error: { message: "Email already exists." },
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -3462,34 +4546,16 @@ exports.createUser = async (req, res) => {
     // Create a unique token
     const verificationToken = uuidv4();
 
-    // Encrypt the token and database name
-    // let encryptedToken = encryptAES(verificationToken, ENCRYPT_SECRET_KEY1);
-    // encryptedToken = encodeBase64(encryptedToken);
+    const encodeBase64 = (text) => Buffer.from(text).toString("base64");
 
-    const encodeBase64 = (text) => Buffer.from(text).toString('base64');
-    
     let encryptedDB = encryptAES(hospitalDatabase, ENCRYPT_SECRET_KEY1);
-
-
-
     let encryptedtoken = encryptAES(verificationToken, process.env.ENCRYPT_SECRET_KEY3);
-    encryptedtoken = encodeBase64(encryptedtoken);
-
-    encryptedtoken = encryptedtoken.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-
-
+    encryptedtoken = encodeBase64(encryptedtoken)
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
 
     encryptedDB = encodeBase64(encryptedDB);
-
-  
-
-    // console.log('Generated EncryptedVerification Token:', encryptedtoken);
-
-    // console.log('Encrypted Token:', encryptedToken);
-    console.log('Encrypted DB:', encryptedDB);
-
-    const User = require('../models/user')(req.sequelize);
-    await User.sync();
 
     const user = await User.create({
       username,
@@ -3504,88 +4570,90 @@ exports.createUser = async (req, res) => {
       createdBy: hospitalId,
     });
 
-    // Construct the verification link
     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedtoken}?db=${encryptedDB}`;
 
-    await sendUserEmail(email, 'Verify Your Email', `Click this link to verify your email: ${verificationLink}`);
+    await sendUserEmail(
+      email,
+      "Verify Your Email",
+      `Click this link to verify your email: ${verificationLink}`
+    );
 
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-   // Log the warning
-    logger.logWithMeta("warn", `User created successfully. Verification email sent`, {
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
-    });
+
+    logger.logWithMeta(
+      "warn",
+      `User created successfully. Verification email sent`,
+      {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      }
+    );
     res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${Date.now() - start}ms`,
-        hospitalDatabase
+        executionTime,
+        hospitalDatabase,
       },
       data: { user },
-      message: 'User created successfully. Verification email sent.'
+      message: "User created successfully. Verification email sent.",
     });
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 939;
-    
-    // Log the warning
+
     logger.logWithMeta("warn", `Error creating user`, {
       errorCode,
-      
       executionTime,
       hospitalId: req.hospitalId,
-      // ip: clientIp,
-      apiName: req.originalUrl, // API name
+      apiName: req.originalUrl,
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"],
     });
-    
+
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 939,
-        executionTime: `${Date.now() - start}ms`,
-        hospitalDatabase
+        executionTime,
+        hospitalDatabase,
       },
-      error: { message: 'Error creating user: ' + error.message },
+      error: { message: "Error creating user: " + error.message },
     });
   }
 };
-
-
 
 
 const decryptAES = (encryptedText, secretKey) => {
   const start = Date.now();
   // const clientIp = await getClientIp(req);
   try {
-    console.log('Decrypting text**********:', encryptedText);
-    console.log('Using secret key************:', secretKey);
+    console.log("Decrypting text**********:", encryptedText);
+    console.log("Using secret key************:", secretKey);
 
     if (!encryptedText || !secretKey) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 940;
-      
+
       // Log the warning
       logger.logWithMeta("warn", `Missing encrypted text or secret key`, {
         errorCode,
-        
+
         executionTime,
         hospitalId: req.hospitalId,
         // ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
-    
-      throw new Error('Missing encrypted text or secret key');
+
+      throw new Error("Missing encrypted text or secret key");
     }
 
     const bytes = CryptoJS.AES.decrypt(encryptedText, secretKey);
@@ -3595,19 +4663,19 @@ const decryptAES = (encryptedText, secretKey) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 941;
-      
+
       // Log the warning
       logger.logWithMeta("warn", `Decryption resulted in an empty string`, {
         errorCode,
-        
+
         executionTime,
         hospitalId: req.hospitalId,
         // ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
-      throw new Error('Decryption resulted in an empty string');
+      throw new Error("Decryption resulted in an empty string");
     }
 
     return decrypted;
@@ -3615,26 +4683,24 @@ const decryptAES = (encryptedText, secretKey) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 942;
-    
+
     // Log the warning
     logger.logWithMeta("warn", `Error during decryption`, {
       errorCode,
-      
+
       executionTime,
       hospitalId: req.hospitalId,
       // ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    console.error('Decryption Error:', error.message);
-    throw new Error('Error during decryption');
+    console.error("Decryption Error:", error.message);
+    throw new Error("Error during decryption");
   }
 };
 
-const decodeBase64 = (text) => Buffer.from(text, 'base64').toString('utf8');
-
-
+const decodeBase64 = (text) => Buffer.from(text, "base64").toString("utf8");
 
 // const decryptAEStoken = (encryptedtoken, secretKey) => {
 //   try {
@@ -3661,8 +4727,6 @@ const decodeBase64 = (text) => Buffer.from(text, 'base64').toString('utf8');
 
 // const decodeBase64token = (text) => Buffer.from(text, 'base64').toString('utf8');
 
-
-
 exports.verifyEmail = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -3675,19 +4739,19 @@ exports.verifyEmail = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 943;
-      
+
       // Log the warning
       logger.logWithMeta("warn", `Missing database name or token`, {
         errorCode,
-        
+
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
-      throw new Error('Missing database name or token');
+      throw new Error("Missing database name or token");
     }
 
     const decodedDB = decodeBase64(hospitalDatabase);
@@ -3695,7 +4759,7 @@ exports.verifyEmail = async (req, res) => {
     // const decodetoken = decodeBase64token(token);
     // const decodedToken = decodeBase64(token);
 
-    console.log('Decoded DB//////:', decodedDB);
+    console.log("Decoded DB//////:", decodedDB);
 
     // console.log('Decoded Token////////:', decodetoken);
 
@@ -3703,28 +4767,36 @@ exports.verifyEmail = async (req, res) => {
 
     // const decryptedToken = decryptAEStoken(decodetoken, process.env.ENCRYPT_SECRET_KEY3);
 
-    console.log('Decrypted DB.......:', decryptedDB);
+    console.log("Decrypted DB.......:", decryptedDB);
     // console.log('Decrypted Token......:', decryptedToken);
 
     if (!decryptedDB || !token) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 944;
-      
+
       // Log the warning
-      logger.logWithMeta("warn", `Decryption failed or resulted in an empty string`, {
-        errorCode,
-        
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
-      });
+      logger.logWithMeta(
+        "warn",
+        `Decryption failed or resulted in an empty string`,
+        {
+          errorCode,
+
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers["user-agent"], // HTTP method
+        }
+      );
       return res.status(400).json({
-        meta: { statusCode: 400, errorCode: 944, executionTime: `${Date.now() - start}ms` },
-        error: { message: 'Decryption failed or resulted in an empty string' },
+        meta: {
+          statusCode: 400,
+          errorCode: 944,
+          executionTime: `${Date.now() - start}ms`,
+        },
+        error: { message: "Decryption failed or resulted in an empty string" },
       });
     }
 
@@ -3739,33 +4811,36 @@ exports.verifyEmail = async (req, res) => {
       }
     );
 
-    const User = require('../models/user')(sequelize);
+    const User = require("../models/user")(sequelize);
 
     // const user = await User.findOne({ where: { emailtoken: decryptedToken } });
     const user = await User.findOne({ where: { emailtoken: token } });
 
-    console.log('User found:', user);
-
+    console.log("User found:", user);
 
     if (!user) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 945;
-      
+
       // Log the warning
       logger.logWithMeta("warn", `Invalid or expired verification token`, {
         errorCode,
-        
+
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
       return res.status(400).json({
-        meta: { statusCode: 400, errorCode: 945, executionTime: `${Date.now() - start}ms` },
-        error: { message: 'Invalid or expired verification token' },
+        meta: {
+          statusCode: 400,
+          errorCode: 945,
+          executionTime: `${Date.now() - start}ms`,
+        },
+        error: { message: "Invalid or expired verification token" },
       });
     }
 
@@ -3774,39 +4849,43 @@ exports.verifyEmail = async (req, res) => {
     await user.save();
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-   // Log the warning
+    // Log the warning
     logger.logWithMeta("warn", `Email verified successfully`, {
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     res.status(200).json({
       meta: { statusCode: 200, executionTime: `${Date.now() - start}ms` },
-      data: { message: 'Email verified successfully' },
+      data: { message: "Email verified successfully" },
     });
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 946;
-    
+
     // Log the warning
     logger.logWithMeta("warn", `Error verifying email`, {
       errorCode,
-      
+
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    console.error('Verification Error:', error.message);
+    console.error("Verification Error:", error.message);
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 946, executionTime: `${Date.now() - start}ms` },
-      error: { message: 'Error verifying email: ' + error.message },
+      meta: {
+        statusCode: 500,
+        errorCode: 946,
+        executionTime: `${Date.now() - start}ms`,
+      },
+      error: { message: "Error verifying email: " + error.message },
     });
   }
 };
@@ -3819,8 +4898,7 @@ exports.verifyEmail = async (req, res) => {
 //   const { token } = req.params;
 //   const hospitalDatabase = req.query.db; // Extract the database name from the query string
 //   console.log("Token from URL Params:", token);
-//   console.log("Database from Query:", hospitalDatabase); 
-
+//   console.log("Database from Query:", hospitalDatabase);
 
 //   if (!hospitalDatabase) {
 //     return res.status(400).json({
@@ -3863,18 +4941,17 @@ exports.verifyEmail = async (req, res) => {
 //   }
 // };
 
-
 // exports.verifyEmail = async (req, res) => {
 //   const start = Date.now();
-  
+
 //   console.log("Request Body:", req.body);  // Logs the request body
 //   console.log("Request Params:", req.params);  // Logs URL params
 //   console.log("Request Query:", req.query);  // Logs query string parameters
-  
+
 //   const { token } = req.params;
 //   // const hospitalDatabase = req.query.db; // Extract the database name from the query string
 //   const encryptedDatabase = req.query.db;
-  
+
 //   logger.info('Starting email verification process', { token, encryptedDatabase });
 
 //   if (!token || !encryptedDatabase) {
@@ -3956,39 +5033,6 @@ exports.verifyEmail = async (req, res) => {
 //   }
 // };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //   // console.log("Database from Query:", hospitalDatabase);
 
 //   // Trim the hospitalDatabase string
@@ -4047,7 +5091,6 @@ exports.verifyEmail = async (req, res) => {
 //   }
 // };
 
-
 // Updated verifyEmail function
 // Updated verifyEmail function
 // exports.verifyEmail = async (req, res) => {
@@ -4093,15 +5136,11 @@ exports.verifyEmail = async (req, res) => {
 //   }
 // };
 
-
-
-
-
 // exports.verifyEmail = async (req, res) => {
 //   const start = Date.now();
 //   const { token } = req.params;
- 
-//   const User = require('../models/user')(req.sequelize); 
+
+//   const User = require('../models/user')(req.sequelize);
 
 //   try {
 //     // Find user by email token
@@ -4129,7 +5168,6 @@ exports.verifyEmail = async (req, res) => {
 //     const end = Date.now();
 // logger.info(`User email verified successfully with username: ${user.username}`, { executionTime: `${end - start}ms` });
 
-
 //     res.status(200).json({
 //       meta: {
 //         statusCode: 200,
@@ -4142,7 +5180,7 @@ exports.verifyEmail = async (req, res) => {
 //   } catch (error) {
 //     const end = Date.now();
 //     logger.error('Error verifying email', { error: error.message, executionTime: `${end - start}ms` });
-    
+
 //     res.status(500).json({
 //       meta: {
 //         statusCode: 500,
@@ -4155,8 +5193,6 @@ exports.verifyEmail = async (req, res) => {
 //     });
 //   }
 // };
-
-
 
 // exports.resendVerificationEmail = async (req, res) => {
 //   const start = Date.now();
@@ -4235,10 +5271,6 @@ exports.verifyEmail = async (req, res) => {
 //     });
 //   }
 // };
-
-
-
-
 
 // exports.verifyEmail = async (req, res) => {
 //   const { token } = req.params;
@@ -4338,14 +5370,11 @@ exports.verifyEmail = async (req, res) => {
 //   }
 // };
 
-
-
-
 exports.resendVerificationEmail = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const { email } = req.body;
-  const User = require('../models/user')(req.sequelize);
+  const User = require("../models/user")(req.sequelize);
 
   try {
     // Find the user by email
@@ -4355,27 +5384,27 @@ exports.resendVerificationEmail = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 947;
-      
+
       // Log the warning
       logger.logWithMeta("warn", `Email is not registered`, {
         errorCode,
-        
+
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
       return res.status(404).json({
         meta: {
           statusCode: 404,
           errorCode: 947,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Email is not registered'
-        }
+          message: "Email is not registered",
+        },
       });
     }
 
@@ -4383,27 +5412,27 @@ exports.resendVerificationEmail = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 948;
-      
+
       // Log the warning
       logger.logWithMeta("warn", `Email is already verified`, {
         errorCode,
-        
+
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
       return res.status(200).json({
         meta: {
           statusCode: 200,
           errorCode: 948,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Email is already verified'
-        }
+          message: "Email is already verified",
+        },
       });
     }
 
@@ -4414,21 +5443,22 @@ exports.resendVerificationEmail = async (req, res) => {
     let verificationToken = uuidv4();
 
     // Convert to Base64 and remove special characters
-    const encodeBase64 = (text) => Buffer.from(text).toString('base64');
-    
+    const encodeBase64 = (text) => Buffer.from(text).toString("base64");
+
     let encryptedDB = encryptAES(hospitalDatabase, ENCRYPT_SECRET_KEY1);
 
-
-
-    let encryptedtoken = encryptAES(verificationToken, process.env.ENCRYPT_SECRET_KEY3);
+    let encryptedtoken = encryptAES(
+      verificationToken,
+      process.env.ENCRYPT_SECRET_KEY3
+    );
     encryptedtoken = encodeBase64(encryptedtoken);
 
-    encryptedtoken = encryptedtoken.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-
-
+    encryptedtoken = encryptedtoken
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
 
     encryptedDB = encodeBase64(encryptedDB);
-
 
     // Save the email token to the user
     user.emailtoken = encryptedtoken;
@@ -4438,61 +5468,64 @@ exports.resendVerificationEmail = async (req, res) => {
     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedtoken}?db=${encryptedDB}`;
 
     // Resend the verification email
-    await sendUserEmail(user.email, 'Resend Verification Email', `Click this link to verify your email: ${verificationLink}`);
+    await sendUserEmail(
+      user.email,
+      "Resend Verification Email",
+      `Click this link to verify your email: ${verificationLink}`
+    );
 
     // const end = Date.now();
     // logger.info(`Verification email resent to ${user.email}`, { executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-   // Log the warning
+    // Log the warning
     logger.logWithMeta("warn", `Verification email resent to ${user.email}`, {
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
 
     // Correctly log the error when in the catch block
-   
+
     res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
-        message: 'Verification email resent successfully'
-      }
+        message: "Verification email resent successfully",
+      },
     });
-
   } catch (error) {
     // const end = Date.now();
     // logger.error('Error resending verification email', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 949;
-    
+
     // Log the warning
     logger.logWithMeta("warn", `Error resending verification email`, {
       errorCode,
-      
+
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 949,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error resending verification email: ' + error.message
-      }
+        message: "Error resending verification email: " + error.message,
+      },
     });
   }
 };
@@ -4502,8 +5535,7 @@ exports.getUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-
-    const User = require('../models/user')(req.sequelize);
+    const User = require("../models/user")(req.sequelize);
     const user = await User.findByPk(id);
 
     if (!user) {
@@ -4512,59 +5544,56 @@ exports.getUser = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 950;
-      
+
       // Log the warning
       logger.logWithMeta("warn", `User with ID ${id} not found`, {
         errorCode,
-        
+
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
-      
+
       return res.status(404).json({
         meta: {
           statusCode: 404,
           errorCode: 950,
-        executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'User not found'
-        }
+          message: "User not found",
+        },
       });
     }
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-   // Log the warning
+    // Log the warning
     logger.logWithMeta("warn", `User with ID ${id} retrieved successfully`, {
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
 
-
- 
     // const end = Date.now();
     // logger.info(`User with ID ${id} retrieved successfully`, { executionTime: `${end - start}ms` });
-    
+
     res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
         userId: user.userId,
         username: user.username,
-        name:user.name,
-        phone:user.phone
-
-      }
+        name: user.name,
+        phone: user.phone,
+      },
     });
   } catch (error) {
     // const end = Date.now();
@@ -4582,18 +5611,18 @@ exports.getUser = async (req, res) => {
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
 
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 951,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error retrieving user: ' + error.message
-      }
+        message: "Error retrieving user: " + error.message,
+      },
     });
   }
 };
@@ -4605,38 +5634,41 @@ exports.updateUser = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-
-    const User = require('../models/user')(req.sequelize);
+    const User = require("../models/user")(req.sequelize);
     const user = await User.findByPk(id);
 
     if (!user) {
-//       const end = Date.now();
-// logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
-const end = Date.now();
-const executionTime = `${end - start}ms`;
-const errorCode = 952;
+      //       const end = Date.now();
+      // logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 952;
 
-// Log the warning
-logger.logWithMeta("warn", `User with ID ${id} not found${error.message}`, {
-  errorCode,
-  errorMessage: error.message,
-  executionTime,
-  hospitalId: req.hospitalId,
-  ip: clientIp,
-  apiName: req.originalUrl, // API name
-  method: req.method,
-  userAgent: req.headers['user-agent'],     // HTTP method
-});
+      // Log the warning
+      logger.logWithMeta(
+        "warn",
+        `User with ID ${id} not found${error.message}`,
+        {
+          errorCode,
+          errorMessage: error.message,
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers["user-agent"], // HTTP method
+        }
+      );
 
       return res.status(404).json({
         meta: {
           statusCode: 404,
           errorCode: 952,
-        executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'User not found'
-        }
+          message: "User not found",
+        },
       });
     }
 
@@ -4644,39 +5676,38 @@ logger.logWithMeta("warn", `User with ID ${id} not found${error.message}`, {
     if (password) user.password = await bcrypt.hash(password, 10);
 
     await user.save();
-//     const end = Date.now();
-// logger.info(`User with ID ${id} updated successfully`, { executionTime: `${end - start}ms` });
-const end = Date.now();
-const executionTime = `${end - start}ms`;
-// Log the warning
-logger.logWithMeta("warn", `User with ID ${id} updated successfully`, {
-  executionTime,
-  hospitalId: req.hospitalId,
-  ip: clientIp,
-  apiName: req.originalUrl, // API name
-  method: req.method,
-  userAgent: req.headers['user-agent'],    // HTTP method
-});
-
+    //     const end = Date.now();
+    // logger.info(`User with ID ${id} updated successfully`, { executionTime: `${end - start}ms` });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    // Log the warning
+    logger.logWithMeta("warn", `User with ID ${id} updated successfully`, {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers["user-agent"], // HTTP method
+    });
 
     res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
         userId: user.userId,
-        username: user.username
-      }
+        username: user.username,
+      },
     });
   } catch (error) {
     // const end = Date.now();
     // logger.error('Error updating user', { error: error.message, executionTime: `${end - start}ms` });
-    
+
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 953;
-    
+
     // Log the warning
     logger.logWithMeta("warn", `Error updating user${error.message}`, {
       errorCode,
@@ -4686,17 +5717,17 @@ logger.logWithMeta("warn", `User with ID ${id} updated successfully`, {
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 953,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error updating user: ' + error.message
-      }
+        message: "Error updating user: " + error.message,
+      },
     });
   }
 };
@@ -4707,7 +5738,7 @@ exports.deleteUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const User = require('../models/user')(req.sequelize);
+    const User = require("../models/user")(req.sequelize);
     const user = await User.findByPk(id);
 
     if (!user) {
@@ -4716,33 +5747,36 @@ exports.deleteUser = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 954;
-      
+
       // Log the warning
-      logger.logWithMeta("warn", `User with ID ${id} not found${error.message}`, {
-        errorCode,
-        errorMessage: error.message,
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
-      });
-      
+      logger.logWithMeta(
+        "warn",
+        `User with ID ${id} not found${error.message}`,
+        {
+          errorCode,
+          errorMessage: error.message,
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl, // API name
+          method: req.method,
+          userAgent: req.headers["user-agent"], // HTTP method
+        }
+      );
+
       return res.status(404).json({
         meta: {
           statusCode: 404,
           errorCode: 954,
-        executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'User not found'
-        }
+          message: "User not found",
+        },
       });
     }
 
     await user.destroy();
-
 
     // const end = Date.now();
     // logger.info(`User with ID ${id} deleted successfully`, { executionTime: `${end - start}ms` });
@@ -4755,54 +5789,52 @@ exports.deleteUser = async (req, res) => {
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
 
-// Correctly log the error when in the catch block
-logger.logWithMeta("warn", `User with ID ${id} deleted successfully`, {
- 
-  // errorMessage: error.message,
-  executionTime,
-  hospitalId: req.hospitalId,
-});
+    // Correctly log the error when in the catch block
+    logger.logWithMeta("warn", `User with ID ${id} deleted successfully`, {
+      // errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+    });
 
-    
     res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
-        message: 'User deleted successfully'
-      }
+        message: "User deleted successfully",
+      },
     });
   } catch (error) {
-//     const end = Date.now();
-// logger.error('Error deleting user', { error: error.message, executionTime: `${end - start}ms` });
-const end = Date.now();
-const executionTime = `${end - start}ms`;
-const errorCode = 955;
+    //     const end = Date.now();
+    // logger.error('Error deleting user', { error: error.message, executionTime: `${end - start}ms` });
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 955;
 
-// Log the warning
-logger.logWithMeta("warn", `Error deleting user${error.message}`, {
-  errorCode,
-  errorMessage: error.message,
-  executionTime,
-  hospitalId: req.hospitalId,
-  ip: clientIp,
-  apiName: req.originalUrl, // API name
-  method: req.method,
-  userAgent: req.headers['user-agent'],     // HTTP method
-});
+    // Log the warning
+    logger.logWithMeta("warn", `Error deleting user${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers["user-agent"], // HTTP method
+    });
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 955,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error deleting user: ' + error.message
-      }
+        message: "Error deleting user: " + error.message,
+      },
     });
   }
 };
@@ -4810,12 +5842,12 @@ exports.getAllUsers = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   try {
-    const User = require('../models/user')(req.sequelize);
+    const User = require("../models/user")(req.sequelize);
     const users = await User.findAll();
 
-//     const end = Date.now();
-// logger.info(`Retrieved all users successfully`, { executionTime: `${end - start}ms` });
-const end = Date.now();
+    //     const end = Date.now();
+    // logger.info(`Retrieved all users successfully`, { executionTime: `${end - start}ms` });
+    const end = Date.now();
     const executionTime = `${end - start}ms`;
     // Log the warning
     logger.logWithMeta("warn", `Retrieved all users successfully`, {
@@ -4824,25 +5856,23 @@ const end = Date.now();
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
 
-// Correctly log the error when in the catch block
-
-
+    // Correctly log the error when in the catch block
 
     res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
-      data: users
+      data: users,
     });
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 956;
-    
+
     // Log the warning
     logger.logWithMeta("warn", `Error retrieving all users${error.message}`, {
       errorCode,
@@ -4852,20 +5882,20 @@ const end = Date.now();
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     // const end = Date.now();
     // logger.error('Error retrieving all users', { error: error.message, executionTime: `${end - start}ms` });
-    
+
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 956,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error retrieving all users: ' + error.message
-      }
+        message: "Error retrieving all users: " + error.message,
+      },
     });
   }
 };
@@ -4883,7 +5913,7 @@ exports.getAllUsersByPagination = async (req, res) => {
     const users = await User(req.sequelize).findAll({
       offset,
       limit,
-      order: [['createdAt', 'ASC']] // Example ordering by createdAt, adjust as per your requirement
+      order: [["createdAt", "ASC"]], // Example ordering by createdAt, adjust as per your requirement
     });
     // const end = Date.now();
     // logger.info(`Retrieved users for page ${page} with limit ${limit} successfully`, { executionTime: `${end - start}ms` });
@@ -4896,10 +5926,9 @@ exports.getAllUsersByPagination = async (req, res) => {
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     // Correctly log the error when in the catch block
-    
 
     res.status(200).json({
       meta: {
@@ -4907,692 +5936,153 @@ exports.getAllUsersByPagination = async (req, res) => {
         totalCount,
         page,
         limit,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
-      data: users
+      data: users,
     });
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 957;
-    
-    // Log the warning
-    logger.logWithMeta("warn", `Error retrieving users with pagination${error.message}`, {
-      errorCode,
-      errorMessage: error.message,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
-    });
-//     const end = Date.now();
-// logger.error('Error retrieving users with pagination', { error: error.message, executionTime: `${end - start}ms` });
 
+    // Log the warning
+    logger.logWithMeta(
+      "warn",
+      `Error retrieving users with pagination${error.message}`,
+      {
+        errorCode,
+        errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
+    //     const end = Date.now();
+    // logger.error('Error retrieving users with pagination', { error: error.message, executionTime: `${end - start}ms` });
 
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 957,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error retrieving users with pagination: ' + error.message
-      }
+        message: "Error retrieving users with pagination: " + error.message,
+      },
     });
   }
 };
 
-// exports.loginUser = async (req, res) => {
-//   const start = Date.now();
-//   const { Username, Password } = req.body;
-
-//   if (!Username || !Password) {
-//     const end = Date.now();
-//     logger.error('Username or Password not provided', { executionTime: `${end - start}ms` });
-
-//     return res.status(400).json({
-//       meta: {
-//         statusCode: 400,
-//         errorCode: 930,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Username and Password are required'
-//       }
-//     });
-//   }
-
-//   try {
-//     const User = require('../models/user')(req.sequelize);
-//     console.log('Username:', Username); // Debugging log
-//     const user = await User.findOne({ where: { username: Username } });
-
-//     if (!user || !await bcrypt.compare(Password, user.password)) {
-//       const end = Date.now();
-//       return res.status(401).json({
-//         meta: {
-//           statusCode: 401,
-//           errorCode: 925,
-//           executionTime: `${end - start}ms`
-//         },
-//         error: {
-//           message: 'Invalid username or password'
-//         }
-//       });
-//     }
-
-//     const token = jwt.sign(
-//       { userId: user.userId },
-//       process.env.JWT_SECRET,
-//       { expiresIn: '24h' }
-//     );
-
-//     const end = Date.now();
-//     return res.status(200).json({
-//       meta: {
-//         statusCode: 200,
-//         executionTime: `${end - start}ms`
-//       },
-//       data: {
-//         token,
-//         user: {
-//           id: user.userId,
-//           username: user.username,
-//           email: user.email
-//         },
-//         message: 'Login successful'
-//       }
-//     });
-//   } catch (error) {
-//     const end = Date.now();
-//     return res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 926,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Error logging in: ' + error.message
-//       }
-//     });
-//   }
-// };
-
-
-
-// client.on('error', (err) => {
-//   console.error('Redis error:', err);
-// });
-// exports.HospitalCode = async (req, res) => {
-
-//   const start = Date.now();
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     const end = Date.now();
-//     logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
-
-//     return res.status(400).json({
-//       meta: {
-//         statusCode: 400,
-//         errorCode: 1044,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Validation errors occurred',
-//         details: errors.array().map(err => ({
-//           field: err.param,
-//           message: err.msg
-//         }))
-//       }
-//     });
-//   }
-
-//   const { HospitalCode } = req.body;
-
-//   try {
-//     const hospital = await Hospital.findOne({ where: { HospitalCode } });
-//     if (!hospital) {
-//       const end = Date.now();
-//       logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
-
-//       return res.status(404).json({
-//         meta: {
-//           statusCode: 404,
-//           errorCode: 1045,
-//           executionTime: `${end - start}ms`
-//         },
-//         error: {
-//           message: 'Hospital not found'
-//         }
-//       });
-//     }
-//      // Check if the hospital already has a valid token in Redis
-//     //  client.get(hospital.HospitalID.toString(), (err, existingToken) => {
-//     //   if (err) {
-//     //     const end = Date.now();
-//     //     logger.error('Error checking Redis for existing token', { executionTime: `${end - start}ms`, error: err });
-
-//     //     return res.status(500).json({
-//     //       meta: {
-//     //         statusCode: 500,
-//     //         errorCode: 1050,
-//     //         executionTime: `${end - start}ms`
-//     //       },
-//     //       error: {
-//     //         message: 'Error checking existing login session'
-//     //       }
-//     //     });
-//     //   }
-
-//     //   if (existingToken) {
-//     //     const end = Date.now();
-//     //     return res.status(400).json({
-//     //       meta: {
-//     //         statusCode: 400,
-//     //         errorCode: 1051,
-//     //         executionTime: `${end - start}ms`
-//     //       },
-//     //       error: {
-//     //         message: 'Hospital already logged in'
-//     //       }
-//     //     });
-//     //   }
-//     // })
-//   // Generate a new token
-//     const Hospitaltoken = jwt.sign(
-//       { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
-//       process.env.JWT_SECRET,
-//       { expiresIn: '24h' }
-//     );
-
-//   // // Store the token in Redis with an expiration time
-//   // redisClient.set(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60, (err, reply) => {
-//   //   if (err) {
-//   //     const end = Date.now();
-//   //     logger.error('Error storing token in Redis', { executionTime: `${end - start}ms`, error: err });
-
-//   //     return res.status(500).json({
-//   //       meta: {
-//   //         statusCode: 500,
-//   //         errorCode: 1052,
-//   //         executionTime: `${end - start}ms`
-//   //       },
-//   //       error: {
-//   //         message: 'Error storing login session'
-//   //       }
-//   //     });
-//   //   }
-
-//     const end = Date.now();
-//     logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
-
-//     req.hospitalDatabase = hospital.HospitalDatabase;
-//     const decodedToken = jwt.decode(Hospitaltoken);
-//     const currentTime = Math.floor(Date.now() / 1000);
-//     const expiresIn = decodedToken.exp - currentTime;
-//     const expiresInMinutes = Math.floor(expiresIn / 60);
-//     console.log(`Token expires in: ${expiresIn} seconds`);
-
-//     res.status(200).json({
-//       meta: {
-//         statusCode: 200,
-//         executionTime: `${end - start}ms`
-//       },
-//       data: {
-//         Hospitaltoken,
-//         expiresInMinutes: `${expiresInMinutes} min`,
-//         hospital: {
-//           hospitalId: hospital.HospitalID,
-//           hospitalDatabase: hospital.HospitalDatabase,
-//           hospitalGroupIDR: hospital.HospitalGroupIDR
-//         },
-//         message: 'Database name found successfully'
-//       }
-//     });
-//   // });
-
-//   } catch (error) {
-//     const end = Date.now();
-//     logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
-
-//     res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 1046,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Error finding hospital: ' + error.message
-//       }
-//     });
-//   }
-// };
-
-// exports.HospitalCode = async (req, res) => {
-//   const start = Date.now();
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     const end = Date.now();
-//     logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
-
-//     return res.status(400).json({
-//       meta: {
-//         statusCode: 400,
-//         errorCode: 1044,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Validation errors occurred',
-//         details: errors.array().map(err => ({
-//           field: err.param,
-//           message: err.msg
-//         }))
-//       }
-//     });
-//   }
-
-//   const { HospitalCode } = req.body;
-
-//   try {
-//     const hospital = await Hospital.findOne({ where: { HospitalCode } });
-//     if (!hospital) {
-//       const end = Date.now();
-//       logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
-
-//       return res.status(404).json({
-//         meta: {
-//           statusCode: 404,
-//           errorCode: 1045,
-//           executionTime: `${end - start}ms`
-//         },
-//         error: {
-//           message: 'Hospital not found'
-//         }
-//       });
-//     }
-
-//     // Check if the hospital already has a valid token in Redis
-//     const existingToken = await getAsync(hospital.HospitalID.toString());
-//     if (existingToken) {
-//       const end = Date.now();
-//       return res.status(400).json({
-//         meta: {
-//           statusCode: 400,
-//           errorCode: 1051,
-//           executionTime: `${end - start}ms`
-//         },
-//         error: {
-//           message: 'Hospital already logged in'
-//         }
-//       });
-//     }
-
-//     // Generate a new token
-//     const Hospitaltoken = jwt.sign(
-//       { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
-//       process.env.JWT_SECRET,
-//       { expiresIn: '24h' }
-//     );
-
-//     // Store the token in Redis with an expiration time
-//     await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
-
-//     const end = Date.now();
-//     logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
-
-//     req.hospitalDatabase = hospital.HospitalDatabase;
-//     const decodedToken = jwt.decode(Hospitaltoken);
-//     const currentTime = Math.floor(Date.now() / 1000);
-//     const expiresIn = decodedToken.exp - currentTime;
-//     const expiresInMinutes = Math.floor(expiresIn / 60);
-//     console.log(`Token expires in: ${expiresIn} seconds`);
-
-//     res.status(200).json({
-//       meta: {
-//         statusCode: 200,
-//         executionTime: `${end - start}ms`
-//       },
-//       data: {
-//         Hospitaltoken,
-//         expiresInMinutes: `${expiresInMinutes} min`,
-//         hospital: {
-//           hospitalId: hospital.HospitalID,
-//           hospitalDatabase: hospital.HospitalDatabase,
-//           hospitalGroupIDR: hospital.HospitalGroupIDR
-//         },
-//         message: 'Database name found successfully'
-//       }
-//     });
-//   } catch (error) {
-//     const end = Date.now();
-//     logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
-
-//     res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 1046,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Error finding hospital: ' + error.message
-//       }
-//     });
-//   }
-// };
-
-
-// exports.HospitalCode = async (req, res) => {
-//   const start = Date.now();
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     const end = Date.now();
-//     logger.warn(`Validation errors occurred during login, executionTime: ${end - start}ms`, errors);
-
-//     return res.status(400).json({
-//       meta: {
-//         statusCode: 400,
-//         errorCode: 1044,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Validation errors occurred',
-//         details: errors.array().map(err => ({
-//           field: err.param,
-//           message: err.msg
-//         }))
-//       }
-//     });
-//   }
-
-//   const { HospitalCode } = req.body;
-
-//   try {
-//     const hospital = await Hospital.findOne({ where: { HospitalCode } });
-//     if (!hospital) {
-//       const end = Date.now();
-//       logger.warn(`Hospital with HospitalCode ${HospitalCode} not found, executionTime: ${end - start}ms`);
-
-//       return res.status(404).json({
-//         meta: {
-//           statusCode: 404,
-//           errorCode: 1045,
-//           executionTime: `${end - start}ms`
-//         },
-//         error: {
-//           message: 'Hospital not found'
-//         }
-//       });
-//     }
-
-//     // Check if the hospital already has a valid token in Redis
-//     const existingToken = await getAsync(hospital.HospitalID.toString());
-//     let Hospitaltoken = existingToken;
-
-//     // If token is not present, generate a new one
-//     if (!existingToken) {
-//       Hospitaltoken = jwt.sign(
-//         { hospitalId: hospital.HospitalID, hospitalDatabase: hospital.HospitalDatabase, hospitalGroupIDR: hospital.HospitalGroupIDR },
-//         process.env.JWT_SECRET,
-//         { expiresIn: '24h' }
-//       );
-
-//       // Store the new token in Redis with an expiration time
-//       await setAsync(hospital.HospitalID.toString(), Hospitaltoken, 'EX', 24 * 60 * 60);
-//     }
-
-//     const end = Date.now();
-//     logger.info(`Hospital with HospitalCode ${HospitalCode} found successfully, executionTime: ${end - start}ms`);
-
-//     req.hospitalDatabase = hospital.HospitalDatabase;
-//     const decodedToken = jwt.decode(Hospitaltoken);
-//     const currentTime = Math.floor(Date.now() / 1000);
-//     const expiresIn = decodedToken.exp - currentTime;
-//     const expiresInMinutes = Math.floor(expiresIn / 60);
-//     console.log(`Token expires in: ${expiresIn} seconds`);
-
-//     res.status(200).json({
-//       meta: {
-//         statusCode: 200,
-//         executionTime: `${end - start}ms`
-//       },
-//       data: {
-//         Hospitaltoken,
-//         expiresInMinutes: `${expiresInMinutes} min`,
-//         hospital: {
-//           hospitalId: hospital.HospitalID,
-//           hospitalDatabase: hospital.HospitalDatabase,
-//           hospitalGroupIDR: hospital.HospitalGroupIDR
-//         },
-//         message: 'Database name found successfully'
-//       }
-//     });
-//   } catch (error) {
-//     const end = Date.now();
-//     logger.error('Error finding hospital', { error: error.message, executionTime: `${end - start}ms` });
-
-//     res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 1046,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Error finding hospital: ' + error.message
-//       }
-//     });
-//   }
-// };
-
-// exports.loginUser = async (req, res) => {
-//   const start = Date.now();
-//   const { Username, Password } = req.body;
-
-//   if (!Username || !Password) {
-//     const end = Date.now();
-//     logger.error('Username or Password not provided', { executionTime: `${end - start}ms` });
-
-//     return res.status(400).json({
-//       meta: {
-//         statusCode: 400,
-//         errorCode: 1047,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Username and Password are required'
-//       }
-//     });
-//   }
-
-//   try {
-//     const User = require('../models/user')(req.sequelize);
-//     console.log('Username:', Username); // Debugging log
-//     const user = await User.findOne({ where: { username: Username } });
-
-//     if (!user || !await bcrypt.compare(Password, user.password)) {
-//       const end = Date.now();
-//       return res.status(401).json({
-//         meta: {
-//           statusCode: 401,
-//           errorCode: 1048,
-//           executionTime: `${end - start}ms`
-//         },
-//         error: {
-//           message: 'Invalid username or password'
-//         }
-//       });
-//     }
-//     if (user.is_emailVerify !== '1' || user.phoneverify !== '1') {
-//       const end = Date.now();
-//       return res.status(403).json({
-//         meta: {
-//           statusCode: 403,
-//           errorCode: 1049,
-//           executionTime: `${end - start}ms`
-//         },
-//         error: {
-//           message: 'Email or phone not verified. Please verify email and phone.'
-//         }
-//       });
-//     }
-
-
-//     const AccessToken = jwt.sign(
-//       { userId: user.userId,
-//         username :user.username,
-//         HospitalId :user.hospitalId
-
-
-
-//        },
-//       process.env.JWT_SECRET,
-//       { expiresIn: '24h' }
-//     );
-
-//     const decodedToken = jwt.decode(AccessToken);
-//     const currentTime = Math.floor(Date.now() / 1000);
-//     const expiresIn = decodedToken.exp - currentTime;
-//     const expiresInMinutes = Math.floor(expiresIn / 60);
-//     console.log(`Token expires in: ${expiresIn} seconds`);
-
-
-
-//     const end = Date.now();
-//     return res.status(200).json({
-//       meta: {
-//         statusCode: 200,
-//         executionTime: `${end - start}ms`
-//       },
-//       data: {
-//         AccessToken,
-//       expiresInMinutes: `${expiresInMinutes} min`,
-//         user: {
-//           id: user.userId,
-//           username: user.username,
-//           email: user.email
-//         },
-//         message: 'Login successful'
-//       }
-//     });
-//   } catch (error) {
-//     const end = Date.now();
-//     return res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 1050,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Error logging in: ' + error.message
-//       }
-//     });
-//   }
-// };
-
-
-
 exports.loginUser = async (req, res) => {
   const start = Date.now();
+  const logId = uuidv4();
   const clientIp = await getClientIp(req);
   const { Username, Password } = req.body;
 
   if (!Username || !Password) {
-    // const end = Date.now();
-    // logger.error('Username or Password not provided', { executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 958;
-    
+    const statusCode = 400;
     // Log the warning
-    logger.logWithMeta("warn", `Username or Password not provided${error.message}`, {
+    logger.logWithMeta("warn", `Username or Password not provided`, {
       errorCode,
-      errorMessage: error.message,
+      logId,
+      statusCode,
+      errorMessage: "Username and Password are required",
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
-      apiName: req.originalUrl, // API name
+      apiName: req.originalUrl,
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"],
     });
 
-    return res.status(400).json({
+    return res.status(statusCode).json({
       meta: {
-        statusCode: 400,
+        statusCode: statusCode,
         errorCode: 958,
-        executionTime: `${end - start}ms`
+        executionTime,
       },
       error: {
-        message: 'Username and Password are required'
-      }
+        message: "Username and Password are required",
+      },
     });
   }
 
   try {
-    const User = require('../models/user')(req.sequelize);
-    console.log('Username:', Username); // Debugging log
+    const User = require("../models/user")(req.sequelize);
     const user = await User.findOne({ where: { username: Username } });
 
-    if (!user || !await bcrypt.compare(Password, user.password)) {
-      // const end = Date.now();
-      // logger.error('Invalid username or password', { executionTime: `${end - start}ms` });
+    if (!user || !(await bcrypt.compare(Password, user.password))) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 959;
-      
+      const statusCode = 401;
       // Log the warning
-      logger.logWithMeta("warn", `Invalid username or password${error.message}`, {
+      logger.logWithMeta("warn", `Invalid username or password`, {
         errorCode,
-        errorMessage: error.message,
+        logId,
+        statusCode,
+        errorMessage: "Invalid username or password",
         executionTime,
         hospitalId: req.hospitalId,
+        hospitalName: req.hospitalName,
+        username: Username,
         ip: clientIp,
-        apiName: req.originalUrl, // API name
+        apiName: req.originalUrl,
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"],
       });
-  
 
-      return res.status(401).json({
+      return res.status(statusCode).json({
         meta: {
-          statusCode: 401,
+          statusCode: statusCode,
           errorCode: 959,
-          executionTime: `${end - start}ms`
+          executionTime,
         },
         error: {
-          message: 'Invalid username or password'
-        }
+          message: "Invalid username or password",
+        },
       });
     }
 
-    if (user.is_emailVerify !== '1' || user.phoneverify !== '1') {
-      // const end = Date.now();
-      // logger.error('Email or phone not verified', { executionTime: `${end - start}ms` });
+    if (user.is_emailVerify !== "1" || user.phoneverify !== "1") {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 960;
-      
+      const statusCode = 403;
+
       // Log the warning
-      logger.logWithMeta("warn", `Email or phone not verified${error.message}`, {
+      logger.logWithMeta("warn", `Email or phone not verified`, {
         errorCode,
-        errorMessage: error.message,
+        logId,
+        statusCode,
+        errorMessage: "Email or phone not verified",
         executionTime,
         hospitalId: req.hospitalId,
+        username: Username,
+        hospitalName: req.hospitalName,
+        username: Username,
         ip: clientIp,
-        apiName: req.originalUrl, // API name
+        apiName: req.originalUrl,
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"],
       });
 
-      return res.status(403).json({
+      return res.status(statusCode).json({
         meta: {
-          statusCode: 403,
+          statusCode: statusCode,
           errorCode: 960,
-          executionTime: `${end - start}ms`
+          executionTime,
         },
         error: {
-          message: 'Email or phone not verified. Please verify email and phone.'
-        }
+          message:
+            "Email or phone not verified. Please verify email and phone.",
+        },
       });
     }
 
@@ -5602,189 +6092,308 @@ exports.loginUser = async (req, res) => {
 
     // If token is not present, generate a new one
     if (!existingToken) {
-      // Define payload for JWT
-      const payload = { 
-        userId: user.userId, 
-        username: user.username, 
-        HospitalId: user.hospitalId, 
-        email: user.email 
+      const payload = {
+        userId: user.userId,
+        username: user.username,
+        HospitalId: user.hospitalId,
+        email: user.email,
       };
-    
-         // Generate AccessToken with 24-hour expiration
-         AccessToken = jwt.sign(
-          payload,
-          process.env.JWT_SECRET,
-          { expiresIn: '24h' }  // 24 hours expiration time
-        );
-      
-        // Store the new token in Redis with an expiration time of 24 hours
-        await setAsync(user.userId.toString(), AccessToken, 'EX', 24 * 60 * 60);  // 24 * 60 * 60 seconds = 24 hours
-      }
-  
-    
-    // Decode the token to verify its content
+
+      AccessToken = jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: "24h",
+      });
+      await setAsync(user.userId.toString(), AccessToken, "EX", 24 * 60 * 60);
+    }
+
     const decodedToken = jwt.decode(AccessToken);
-    
-    console.log("decodedToken.....", decodedToken);
-    
-
-
-
-  
-    
-    // console.log("Payload before signing:", payload);
-    
-    // AccessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
-    
-
-
-
-
-
-
     const currentTime = Math.floor(Date.now() / 1000);
     const expiresIn = decodedToken.exp - currentTime;
     const expiresInMinutes = Math.floor(expiresIn / 60);
-    console.log(`Token expires in: ${expiresIn} seconds`);
 
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    // Log the warning
-    logger.logWithMeta("warn", `Login successful`, {
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
-    });
-    
 
-    
+    // Log success
+    logger.logWithMeta("info", `Login successful`, {
+      executionTime,
+      logId,
+      statusCode: 200,
+      hospitalId: req.hospitalId,
+      hospitalName: req.hospitalName,
+      username: Username,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
 
     return res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime,
       },
-
       data: {
         AccessToken,
         expiresInMinutes: `${expiresInMinutes} min`,
         user: {
           id: user.userId,
           username: user.username,
-          email: user.email
+          email: user.email,
         },
-        message: 'Login successful'
-      }
+        message: "Login successful",
+      },
     });
   } catch (error) {
-    // const end = Date.now();
-    // logger.error('Error logging in', { error: error.message, executionTime: `${end - start}ms` });
     const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 961;
-      
-      // Log the warning
-      logger.logWithMeta("warn", `Error logging in${error.message}`, {
-        errorCode,
-        errorMessage: error.message,
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
-      });
+    const executionTime = `${end - start}ms`;
+    const errorCode = 961;
+    const statusCode = 500;
+    // Log the warning
+    logger.logWithMeta("warn", `Error logging in: ${error.message}`, {
+      errorCode,
+      logId,
+      statusCode,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      hospitalName: req.hospitalName,
+      username: Username,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
 
-
-    return res.status(500).json({
+    return res.status(statusCode).json({
       meta: {
-        statusCode: 500,
+        statusCode: statusCode,
         errorCode: 961,
-        executionTime: `${end - start}ms`
+        executionTime,
       },
       error: {
-        message: 'Error logging in: ' + error.message
-      }
+        message: "Error logging in: " + error.message,
+      },
     });
   }
 };
 
+// exports.sendOtp = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+
+//   // Extract token from headers
+//   const token = req.headers['accesstoken'];
+
+//   if (!token) {
+//     // const end = Date.now();
+//     // logger.error('No access token provided', { executionTime: `${end - start}ms` });
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 962;
+
+//     // Log the warning
+//     logger.logWithMeta("warn", `No access token provided${error.message}`, {
+//       errorCode,
+//       errorMessage: error.message,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,
+//       userAgent: req.headers['user-agent'],     // HTTP method
+//     });
+
+//     return res.status(401).json({
+
+//       meta: {
+//         statusCode: 401,
+//         errorCode: 962,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Access token is required'
+//       }
+//     });
+//   }
+
+//   try {
+//     // Verify and decode the JWT token (assuming Bearer format)
+//     const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
+//     logger.info('Decoded token:', decoded); // Debugging log
+
+//     const email = decoded.email;
+
+//     if (!email) {
+//       // const end = Date.now();
+//       // logger.error('No email found in access token', { executionTime: `${end - start}ms` });
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 963;
+
+//       // Log the warning
+//       logger.logWithMeta("warn", `No email found in access token${error.message}`, {
+//         errorCode,
+//         errorMessage: error.message,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method,
+//         userAgent: req.headers['user-agent'],     // HTTP method
+//       });
+//       return res.status(400).json({
+//         meta: {
+//           statusCode: 400,
+//           errorCode: 963,
+//           executionTime: `${end - start}ms`
+//         },
+//         error: {
+//           message: 'Email is required in the access token'
+//         }
+//       });
+//     }
+
+//     // Generate a 6-digit OTP using Math.random
+//     const otp = Math.floor(100000 + Math.random() * 900000); // Generates a number between 100000 and 999999
+
+//     // Store OTP in Redis with a 5-minute expiration
+//     const userId = decoded.userId; // Assuming userId is part of the token
+//     const expirationTime = 5 * 60; // 5 minutes in seconds
+//     await setAsync(`otp_${userId}`, otp.toString(), 'EX', expirationTime);
+
+//     // Prepare email content
+//     const emailSubject = 'Your OTP Code';
+//     const emailBody = `Your OTP code is ${otp}. It is valid for 5 minutes.`;
+
+//     // Send email
+//     await sendUserEmail(email, emailSubject, emailBody);
+
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     // Log the warning
+//     logger.logWithMeta("warn", `OTP sent successfully to your email`, {
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,
+//       userAgent: req.headers['user-agent'],    // HTTP method
+//     });
+
+//     // const end = Date.now();
+//     // logger.info('OTP sent successfully', { executionTime: `${end - start}ms` });
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime: `${end - start}ms`
+//       },
+//       data: {
+//         message: 'OTP sent successfully to your email'
+//       }
+//     });
+//   } catch (error) {
+
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 964;
+
+//     // Log the warning
+//     logger.logWithMeta("warn", `Error sending OTP ${error.message}`, {
+//       errorCode,
+//       errorMessage: error.message,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,
+//       userAgent: req.headers['user-agent'],     // HTTP method
+//     });
+//     // const end = Date.now();
+//     // logger.error('Error sending OTP', { error: error.message, executionTime: `${end - start}ms` });
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 964,
+//         executionTime: `${end - start}ms`
+//       },
+//       error: {
+//         message: 'Error sending OTP: ' + error.message
+//       }
+//     });
+//   }
+// };
 exports.sendOtp = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
-
+  const logId = uuidv4();
   // Extract token from headers
-  const token = req.headers['accesstoken'];
+  const token = req.headers["accesstoken"];
 
   if (!token) {
-    // const end = Date.now();
-    // logger.error('No access token provided', { executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 962;
-    
+    const statusCode = 401;
     // Log the warning
-    logger.logWithMeta("warn", `No access token provided${error.message}`, {
+    logger.logWithMeta("warn", "No access token provided", {
       errorCode,
-      errorMessage: error.message,
+      logId,
+      statusCode,
+      errorMessage: "Access token is required",
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // User agent
     });
 
-    return res.status(401).json({
-
+    return res.status(statusCode).json({
       meta: {
-        statusCode: 401,
+        statusCode: statusCode,
         errorCode: 962,
-        executionTime: `${end - start}ms`
+        executionTime,
       },
       error: {
-        message: 'Access token is required'
-      }
+        message: "Access token is required",
+      },
     });
   }
 
   try {
     // Verify and decode the JWT token (assuming Bearer format)
-    const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
-    logger.info('Decoded token:', decoded); // Debugging log
+    const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
 
     const email = decoded.email;
 
     if (!email) {
-      // const end = Date.now();
-      // logger.error('No email found in access token', { executionTime: `${end - start}ms` });
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 963;
-      
+      const statusCode = 400;
       // Log the warning
-      logger.logWithMeta("warn", `No email found in access token${error.message}`, {
+      logger.logWithMeta("warn", "No email found in access token", {
         errorCode,
-        errorMessage: error.message,
+        logId,
+        statusCode,
+        errorMessage: "Email is required in the access token",
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // User agent
       });
-      return res.status(400).json({
+
+      return res.status(statusCode).json({
         meta: {
-          statusCode: 400,
+          statusCode: statusCode,
           errorCode: 963,
-          executionTime: `${end - start}ms`
+          executionTime,
         },
         error: {
-          message: 'Email is required in the access token'
-        }
+          message: "Email is required in the access token",
+        },
       });
     }
 
@@ -5794,136 +6403,131 @@ exports.sendOtp = async (req, res) => {
     // Store OTP in Redis with a 5-minute expiration
     const userId = decoded.userId; // Assuming userId is part of the token
     const expirationTime = 5 * 60; // 5 minutes in seconds
-    await setAsync(`otp_${userId}`, otp.toString(), 'EX', expirationTime);
+    await setAsync(`otp_${userId}`, otp.toString(), "EX", expirationTime);
 
     // Prepare email content
-    const emailSubject = 'Your OTP Code';
+    const emailSubject = "Your OTP Code";
     const emailBody = `Your OTP code is ${otp}. It is valid for 5 minutes.`;
 
     // Send email
     await sendUserEmail(email, emailSubject, emailBody);
 
-
-
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    // Log the warning
-    logger.logWithMeta("warn", `OTP sent successfully to your email`, {
+
+    // Log success message
+    logger.logWithMeta("info", "OTP sent successfully to email", {
       executionTime,
+      statusCode: 200,
+      logId,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // User agent
     });
-    
 
- 
-
-    // const end = Date.now();
-    // logger.info('OTP sent successfully', { executionTime: `${end - start}ms` });
     return res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime,
       },
       data: {
-        message: 'OTP sent successfully to your email'
-      }
+        message: "OTP sent successfully to your email",
+      },
     });
   } catch (error) {
-
-
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 964;
-    
-    // Log the warning
-    logger.logWithMeta("warn", `Error sending OTP ${error.message}`, {
+    const statusCode = 500;
+    // Log the error with error message
+    logger.logWithMeta("warn", `Error sending OTP: ${error.message}`, {
       errorCode,
-      errorMessage: error.message,
+      statusCode,
+      logId,
+      errorMessage: error.message, // Properly access error message
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // User agent
     });
-    // const end = Date.now();
-    // logger.error('Error sending OTP', { error: error.message, executionTime: `${end - start}ms` });
-    return res.status(500).json({
+
+    return res.status(statusCode).json({
       meta: {
-        statusCode: 500,
+        statusCode: statusCode,
         errorCode: 964,
-        executionTime: `${end - start}ms`
+        executionTime,
       },
       error: {
-        message: 'Error sending OTP: ' + error.message
-      }
+        message: `Error sending OTP: ${error.message}`,
+      },
     });
   }
 };
 
-
 exports.verifyOtp = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
+  const logId = uuidv4();
 
   // Extract token from headers
-  const token = req.headers['accesstoken'];
+  const token = req.headers["accesstoken"];
 
   if (!token) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 965;
-    
+    const statusCode = 401;
     // Log the warning
     logger.logWithMeta("warn", `No access token provided ${error.message}`, {
       errorCode,
+      logId,
+      statusCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     // const end = Date.now();
     // logger.error('No access token provided', { executionTime: `${end - start}ms` });
-    return res.status(401).json({
+    return res.status(statusCode).json({
       meta: {
-        statusCode: 401,
+        statusCode: statusCode,
         errorCode: 965,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Access token is required'
-      }
+        message: "Access token is required",
+      },
     });
   }
 
   try {
     // Verify and decode the JWT token
-    const tokenParts = token.split(' ');
-    if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer')
-      
-       {
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 1212;
-    
-        // Correctly log the error when in the catch block
-        logger.logWithMeta("warn", `Invalid token format`, {
-          errorCode,
-          // errorMessage: error.message,
-          executionTime,
-          hospitalId: req.hospitalId,
-        });
-      throw new Error('Invalid token format');
+    const tokenParts = token.split(" ");
+    if (tokenParts.length !== 2 || tokenParts[0] !== "Bearer") {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1212;
+
+      // Correctly log the error when in the catch block
+      logger.logWithMeta("warn", `Invalid token format`, {
+        errorCode,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+      });
+      throw new Error("Invalid token format");
     }
 
     const decoded = jwt.verify(tokenParts[1], process.env.JWT_SECRET);
-    logger.info('Decoded token:', decoded);
+    logger.info("Decoded token:", decoded);
 
     const userId = decoded.userId; // Get userId from decoded token
     console.log("userId*******", userId);
@@ -5933,29 +6537,32 @@ exports.verifyOtp = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 966;
-      
+      const statusCode = 400;
+
       // Log the warning
       logger.logWithMeta("warn", `No OTP provided ${error.message}`, {
         errorCode,
+        logId,
+        statusCode,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
       // const end = Date.now();
       // logger.error('No OTP provided', { executionTime: `${end - start}ms` });
-      return res.status(400).json({
+      return res.status(statusCode).json({
         meta: {
-          statusCode: 400,
+          statusCode: statusCode,
           errorCode: 966,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'OTP is required'
-        }
+          message: "OTP is required",
+        },
       });
     }
 
@@ -5967,29 +6574,31 @@ exports.verifyOtp = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 967;
-      
+      const statusCode = 400;
       // Log the warning
       logger.logWithMeta("warn", `OTP expired or not found ${error.message}`, {
         errorCode,
+        logId,
+        statusCode,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
       // const end = Date.now();
       // logger.error('OTP expired or not found', { executionTime: `${end - start}ms` });
-      return res.status(400).json({
+      return res.status(statusCode).json({
         meta: {
-          statusCode: 400,
+          statusCode: statusCode,
           errorCode: 967,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'OTP expired or not found'
-        }
+          message: "OTP expired or not found",
+        },
       });
     }
 
@@ -5997,28 +6606,30 @@ exports.verifyOtp = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 968;
-      
+      const statusCode = 400;
       // Log the warning
       logger.logWithMeta("warn", `Invalid OTP ${error.message}`, {
         errorCode,
+        statusCode,
+        logId,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
       // logger.error('Invalid OTP', { executionTime: `${end - start}ms` });
-      return res.status(400).json({
+      return res.status(statusCode).json({
         meta: {
-          statusCode: 400,
+          statusCode: statusCode,
           errorCode: 968,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Invalid OTP'
-        }
+          message: "Invalid OTP",
+        },
       });
     }
     const end = Date.now();
@@ -6026,13 +6637,14 @@ exports.verifyOtp = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `OTP verified successfully`, {
       executionTime,
+      logId,
+      statusCode: 200,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    
 
     // // Correctly log the error when in the catch block
     // logger.logWithMeta("warn", `OTP verified successfully`, {
@@ -6044,49 +6656,44 @@ exports.verifyOtp = async (req, res) => {
     return res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
-        message: 'OTP verified successfully'
-      }
+        message: "OTP verified successfully",
+      },
     });
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 969;
-    
+    const statusCode = 500;
     // Log the warning
-    logger.logWithMeta("warn", `Error verifying OTP ${error.message}`, {
+    logger.logWithMeta("warn", `Error verifying OTP `, {
       errorCode,
-      errorMessage: error.message,
+      statusCode,
+      logId,
+      // errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     // const end = Date.now();
     // logger.error('Error verifying OTP', { error: error.message, executionTime: `${end - start}ms` });
-    return res.status(500).json({
+    return res.status(statusCode).json({
       meta: {
-        statusCode: 500,
+        statusCode: statusCode,
         errorCode: 969,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error verifying OTP: ' + error.message
-      }
+        message: "Error verifying OTP: " ,
+      },
     });
   }
 };
-
-
-
-
-
-
-
 
 // exports.verifyOtp = async (req, res) => {
 //   const start = Date.now();
@@ -6171,100 +6778,96 @@ exports.verifyOtp = async (req, res) => {
 //   }
 // };
 
-
-
-
-
-
-
-
-
-
 exports.getProfile = (req, res) => {
   const start = Date.now();
   // const clientIp = await getClientIp(req);
-  const token = req.headers['authorization'];
-  
+  const token = req.headers["authorization"];
+
   if (!token) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 970;
-    
+    const statusCode = 401;
     // Log the warning
     logger.logWithMeta("warn", `No token provided${error.message}`, {
       errorCode,
+      // logId,
+      statusCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
       // ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    logger.warn('No token provided');
-    return res.status(401).json({
+    logger.warn("No token provided");
+    return res.status(statusCode).json({
       meta: {
-        statusCode: 401,
+        statusCode: statusCode,
         errorCode: 970,
-        message: 'No token provided'
-      }
+        message: "No token provided",
+      },
     });
   }
 
   try {
-    const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET); // Adjust the secret as necessary
+    const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET); // Adjust the secret as necessary
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     // Log the warning
     logger.logWithMeta("warn", `get all user successfully`, {
       executionTime,
+      // logId,
       hospitalId: req.hospitalId,
+      statusCode: 200,
       // ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    
 
     // // Correctly log the error when in the catch block
     // logger.logWithMeta("warn", ` get all user successfully`, {
-      
+
     //   executionTime,
     //   // hospitalId: req.hospitalId,
     // });
     res.status(200).json({
       meta: {
-        statusCode: 200
+        statusCode: 200,
       },
       data: {
-        userId: decoded.userId || 'Unknown',
-        hospitalId: decoded.hospitalId || 'Unknown',
+        userId: decoded.userId || "Unknown",
+        hospitalId: decoded.hospitalId || "Unknown",
         // Add other fields you have in the token
-      }
+      },
     });
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1155;
-    
+    const statusCode = 500;
     // Log the warning
     logger.logWithMeta("warn", `Failed to authenticate token${error.message}`, {
       errorCode,
+      // logId,
+      statusCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
       // ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     // logger.error('Failed to authenticate token', { error: error.message });
-    res.status(500).json({
+    res.status(statusCode).json({
       meta: {
-        statusCode: 500,
+        statusCode: statusCode,
         errorCode: 1155,
-        message: 'Failed to authenticate token'
-      }
+        message: "Failed to authenticate token",
+      },
     });
   }
 };
@@ -6272,72 +6875,77 @@ exports.getProfile = (req, res) => {
 exports.requestUserPasswordReset = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
-  const { User } = require('../models/user');
-  
+  const { User } = require("../models/user");
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1156;
-    
+
     // Log the warning
-    logger.logWithMeta("warn", `Validation errors occurred during password reset request`, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
-    });
+    logger.logWithMeta(
+      "warn",
+      `Validation errors occurred during password reset request`,
+      {
+        errorCode,
+        logId,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
     // logger.warn('Validation errors occurred during password reset request', { errors, executionTime: `${end - start}ms` });
 
     return res.status(400).json({
       meta: {
         statusCode: 400,
         errorCode: 1156,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Validation errors occurred',
-        details: errors.array().map(err => ({
+        message: "Validation errors occurred",
+        details: errors.array().map((err) => ({
           field: err.param,
-          message: err.msg
-        }))
-      }
+          message: err.msg,
+        })),
+      },
     });
   }
 
   const { email } = req.body;
 
   if (!email) {
-   
-    logger.error('Email not provided', { executionTime: `${end - start}ms` });
+    logger.error("Email not provided", { executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1157;
-    
+
     // Log the warning
     logger.logWithMeta("warn", `Email is required`, {
       errorCode,
+      logId,
       // errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     return res.status(400).json({
       meta: {
         statusCode: 400,
         errorCode: 1157,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Email is required'
-      }
+        message: "Email is required",
+      },
     });
   }
 
@@ -6346,35 +6954,38 @@ exports.requestUserPasswordReset = async (req, res) => {
 
     if (!user) {
       const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 1158;
-    
-    // Log the warning
-    logger.logWithMeta("warn", `User with email ${email} not found`, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
-    });
-      logger.warn(`User with email ${email} not found`, { executionTime: `${end - start}ms` });
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1158;
+
+      // Log the warning
+      logger.logWithMeta("warn", `User with email ${email} not found`, {
+        errorCode,
+        logId,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      });
+      logger.warn(`User with email ${email} not found`, {
+        executionTime: `${end - start}ms`,
+      });
 
       return res.status(404).json({
         meta: {
           statusCode: 404,
           errorCode: 1158,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'User not found'
-        }
+          message: "User not found",
+        },
       });
     }
 
-    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetToken = crypto.randomBytes(32).toString("hex");
     const resetTokenExpiry = Date.now() + 3600000; // 1 hour from now
 
     user.resetToken = resetToken;
@@ -6385,12 +6996,12 @@ exports.requestUserPasswordReset = async (req, res) => {
 
     const emailResponse = await sendEmail(
       email,
-      'Password Reset Request',
+      "Password Reset Request",
       `You requested a password reset. Click the link to reset your password: ${resetLink}`
     );
 
     if (emailResponse.meta.statusCode !== 200) {
-      throw new Error('Failed to send reset email');
+      throw new Error("Failed to send reset email");
     }
 
     // logger.info(`Password reset link sent to ${email}`, { executionTime: `${end - start}ms` });
@@ -6399,50 +7010,54 @@ exports.requestUserPasswordReset = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Password reset link sent to ${email}`, {
       executionTime,
+      logId,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    
 
     res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
-        message: 'Password reset link sent successfully'
-      }
+        message: "Password reset link sent successfully",
+      },
     });
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1159;
-    
+
     // Log the warning
     logger.logWithMeta("warn", `Error requesting password reset`, {
       errorCode,
+      logId,
       // errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
-    logger.error('Error requesting password reset', { error: error.message, executionTime: `${end - start}ms` });
+    logger.error("Error requesting password reset", {
+      error: error.message,
+      executionTime: `${end - start}ms`,
+    });
 
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 1159,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error requesting password reset: ' + error.message
-      }
+        message: "Error requesting password reset: " + error.message,
+      },
     });
   }
 };
@@ -6454,33 +7069,41 @@ exports.resetuserPassword = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1160;
-    
+
     // Log the warning
-    logger.logWithMeta("warn", `Validation errors occurred during password reset`, {
-      errorCode,
-      // errorMessage: error.message,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+    logger.logWithMeta(
+      "warn",
+      `Validation errors occurred during password reset`,
+      {
+        errorCode,
+        logId,
+        // errorMessage: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
+    logger.warn("Validation errors occurred during password reset", {
+      errors,
+      executionTime: `${end - start}ms`,
     });
-    logger.warn('Validation errors occurred during password reset', { errors, executionTime: `${end - start}ms` });
 
     return res.status(400).json({
       meta: {
         statusCode: 400,
         errorCode: 1160,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Validation errors occurred',
-        details: errors.array().map(err => ({
+        message: "Validation errors occurred",
+        details: errors.array().map((err) => ({
           field: err.param,
-          message: err.msg
-        }))
-      }
+          message: err.msg,
+        })),
+      },
     });
   }
 
@@ -6490,37 +7113,40 @@ exports.resetuserPassword = async (req, res) => {
     const user = await User.findOne({
       where: {
         resetToken: token,
-        resetTokenExpiry: { [Op.gt]: Date.now() }
-      }
+        resetTokenExpiry: { [Op.gt]: Date.now() },
+      },
     });
 
     if (!user) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1161;
-      
+
       // Log the warning
       logger.logWithMeta("warn", `Invalid or expired reset token`, {
         errorCode,
+        logId,
         // errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        userAgent: req.headers["user-agent"], // HTTP method
       });
-      logger.warn('Invalid or expired reset token', { executionTime: `${end - start}ms` });
+      logger.warn("Invalid or expired reset token", {
+        executionTime: `${end - start}ms`,
+      });
 
       return res.status(400).json({
         meta: {
           statusCode: 400,
           errorCode: 1161,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Invalid or expired reset token'
-        }
+          message: "Invalid or expired reset token",
+        },
       });
     }
 
@@ -6535,40 +7161,45 @@ exports.resetuserPassword = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     // Log the warning
-    logger.logWithMeta("warn", `Password reset successfully for user with email ${user.email}`, {
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
-    });
+    logger.logWithMeta(
+      "warn",
+      `Password reset successfully for user with email ${user.email}`,
+      {
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      }
+    );
     // logger.info(`Password reset successfully for user with email ${user.email}`, { executionTime: `${end - start}ms` });
 
     res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
-        message: 'Password reset successfully'
-      }
+        message: "Password reset successfully",
+      },
     });
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1162;
-    
+
     // Log the warning
     logger.logWithMeta("warn", `Error resetting password'`, {
       errorCode,
+      logId,
       // errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],     // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     // logger.error('Error resetting password', { error: error.message, executionTime: `${end - start}ms` });
 
@@ -6576,85 +7207,88 @@ exports.resetuserPassword = async (req, res) => {
       meta: {
         statusCode: 500,
         errorCode: 1162,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error resetting password: ' + error.message
-      }
+        message: "Error resetting password: " + error.message,
+      },
     });
   }
 };
 
-
-
-
-
 exports.decodeToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const start = Date.now();
+  
+
   // const clientIp = await getClientIp(req);
   if (!authHeader) {
-    return res.status(401).json({ error: 'Unauthorized: No token provided' });
+    return res.status(401).json({ error: "Unauthorized: No token provided" });
   }
 
-  const AccessToken = authHeader.split(' ')[1]; // Assuming the token is in the format "Bearer <token>"
+  const AccessToken = authHeader.split(" ")[1]; // Assuming the token is in the format "Bearer <token>"
 
   try {
     const decoded = jwt.verify(AccessToken, process.env.JWT_SECRET);
-    console.log('Decoded token:', decoded); // Debugging log
+    console.log("Decoded token:", decoded); // Debugging log
     req.user = decoded; // Attach the decoded token to the request object
     next();
   } catch (error) {
-    console.error('Token verification failed:', error); // Debugging log
-    res.status(401).json({ error: 'Unauthorized: Invalid token' });
+    console.error("Token verification failed:", error); // Debugging log
+    res.status(401).json({ error: "Unauthorized: Invalid token" });
   }
 };
 
 // Import the User model at the top of your controller file
 // const User = require('../models/user'); // Adjust path as needed
 
-exports.changePassword = async (req, res) => {
+exports.changeuserPassword = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const { oldPassword, newPassword, ConfirmPassword } = req.body;
 
   if (!oldPassword || !newPassword || !ConfirmPassword) {
     const end = Date.now();
-    logger.error('All password fields are required', { executionTime: `${end - start}ms` });
+    logger.error("All password fields are required", {
+      executionTime: `${end - start}ms`,
+    });
 
     return res.status(400).json({
       meta: {
         statusCode: 400,
         errorCode: 1050,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Old password, new password, and re-enter new password are required'
-      }
+        message:
+          "Old password, new password, and re-enter new password are required",
+      },
     });
   }
 
   if (newPassword !== ConfirmPassword) {
     const end = Date.now();
-    logger.error('New passwords do not match', { executionTime: `${end - start}ms` });
+    logger.error("New passwords do not match", {
+      executionTime: `${end - start}ms`,
+    });
 
     return res.status(400).json({
       meta: {
         statusCode: 400,
         errorCode: 1051,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'New passwords do not match'
-      }
+        message: "New passwords do not match",
+      },
     });
   }
 
   try {
-    console.log('req.user:', req.user); // Debugging log to check if req.user is set
+    console.log("req.user:", req.user); // Debugging log to check if req.user is set
 
     if (!req.user) {
-      throw new Error('User ID is not defined in the token');
+      throw new Error("User ID is not defined in the token");
     }
 
     // Check if User model is loaded correctly
@@ -6663,19 +7297,19 @@ exports.changePassword = async (req, res) => {
     // }
 
     const user = await User.findOne({ where: { userId: req.user.userId } });
+    console.log("user,ConfirmPassword", user)
 
-
-    if (!user || !await bcrypt.compare(oldPassword, user.password)) {
+    if (!user || !(await bcrypt.compare(oldPassword, user.password))) {
       const end = Date.now();
       return res.status(401).json({
         meta: {
           statusCode: 401,
           errorCode: 1052,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Old password is incorrect'
-        }
+          message: "Old password is incorrect",
+        },
       });
     }
 
@@ -6690,34 +7324,32 @@ exports.changePassword = async (req, res) => {
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     return res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
-        message: 'Password updated successfully'
-      }
+        message: "Password updated successfully",
+      },
     });
   } catch (error) {
-    console.error('Error in changePassword:', error); // Debugging log
+    console.error("Error in changePassword:", error); // Debugging log
     const end = Date.now();
     return res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 1053,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error updating password: ' + error.message
-      }
+        message: "Error updating password: " + error.message,
+      },
     });
   }
 };
-
-
 
 exports.forgotPassword = async (req, res) => {
   const start = Date.now();
@@ -6726,17 +7358,17 @@ exports.forgotPassword = async (req, res) => {
 
   if (!email) {
     const end = Date.now();
-    logger.error('Email not provided', { executionTime: `${end - start}ms` });
+    logger.error("Email not provided", { executionTime: `${end - start}ms` });
 
     return res.status(400).json({
       meta: {
         statusCode: 400,
         errorCode: 970,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Email is required'
-      }
+        message: "Email is required",
+      },
     });
   }
 
@@ -6744,22 +7376,25 @@ exports.forgotPassword = async (req, res) => {
     const user = await User.findOne({ where: { email } });
     if (!user) {
       const end = Date.now();
-      logger.warn('User not found with provided email', { email, executionTime: `${end - start}ms` });
+      logger.warn("User not found with provided email", {
+        email,
+        executionTime: `${end - start}ms`,
+      });
 
       return res.status(404).json({
         meta: {
           statusCode: 404,
           errorCode: 971,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'User not found'
-        }
+          message: "User not found",
+        },
       });
     }
 
     // Generate a reset token
-    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetToken = crypto.randomBytes(32).toString("hex");
     const resetTokenExpires = Date.now() + 3600000; // Token expires in 1 hour
 
     // Save token and expiration to user
@@ -6769,26 +7404,25 @@ exports.forgotPassword = async (req, res) => {
 
     // Send email with the reset token
     const transporter = nodemailer.createTransport({
-      service: 'Gmail', // Use your email service
+      service: "Gmail", // Use your email service
       auth: {
         user: process.env.EMAIL, // Your email
-        pass: process.env.EMAIL_PASSWORD // Your email password
-      }
+        pass: process.env.EMAIL_PASSWORD, // Your email password
+      },
     });
 
     const mailOptions = {
       to: email,
       from: process.env.EMAIL,
-      subject: 'Password Reset',
+      subject: "Password Reset",
       text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
       Please click on the following link, or paste this into your browser to complete the process:\n\n
       http://${req.headers.host}/reset/${resetToken}\n\n
-      If you did not request this, please ignore this email and your password will remain unchanged.\n`
+      If you did not request this, please ignore this email and your password will remain unchanged.\n`,
     };
 
     await transporter.sendMail(mailOptions);
 
-    
     // logger.info(`Password reset token sent to ${email}`, { email, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
@@ -6799,31 +7433,34 @@ exports.forgotPassword = async (req, res) => {
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
 
     return res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
-        message: 'Password reset token sent successfully'
-      }
+        message: "Password reset token sent successfully",
+      },
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error in forgot password', { error: error.message, executionTime: `${end - start}ms` });
+    logger.error("Error in forgot password", {
+      error: error.message,
+      executionTime: `${end - start}ms`,
+    });
 
     return res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 972,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error in forgot password: ' + error.message
-      }
+        message: "Error in forgot password: " + error.message,
+      },
     });
   }
 };
@@ -6835,36 +7472,46 @@ exports.resetPassword = async (req, res) => {
 
   if (!token || !newPassword) {
     const end = Date.now();
-    logger.error('Token or new password not provided', { executionTime: `${end - start}ms` });
+    logger.error("Token or new password not provided", {
+      executionTime: `${end - start}ms`,
+    });
 
     return res.status(400).json({
       meta: {
         statusCode: 400,
         errorCode: 973,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Token and new password are required'
-      }
+        message: "Token and new password are required",
+      },
     });
   }
 
   try {
-    const user = await User.findOne({ where: { resetPasswordToken: token, resetPasswordExpires: { [Op.gt]: Date.now() } } });
+    const user = await User.findOne({
+      where: {
+        resetPasswordToken: token,
+        resetPasswordExpires: { [Op.gt]: Date.now() },
+      },
+    });
 
     if (!user) {
       const end = Date.now();
-      logger.warn('Invalid or expired token', { token, executionTime: `${end - start}ms` });
+      logger.warn("Invalid or expired token", {
+        token,
+        executionTime: `${end - start}ms`,
+      });
 
       return res.status(400).json({
         meta: {
           statusCode: 400,
           errorCode: 974,
-          executionTime: `${end - start}ms`
+          executionTime: `${end - start}ms`,
         },
         error: {
-          message: 'Invalid or expired token'
-        }
+          message: "Invalid or expired token",
+        },
       });
     }
 
@@ -6877,7 +7524,6 @@ exports.resetPassword = async (req, res) => {
     user.resetPasswordExpires = null;
     await user.save();
 
-  
     // logger.info('Password reset successfully', { userId: user.userId, executionTime: `${end - start}ms` });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
@@ -6888,32 +7534,33 @@ exports.resetPassword = async (req, res) => {
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],    // HTTP method
+      userAgent: req.headers["user-agent"], // HTTP method
     });
     return res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       data: {
-        message: 'Password reset successfully'
-      }
+        message: "Password reset successfully",
+      },
     });
   } catch (error) {
     const end = Date.now();
-    logger.error('Error in resetting password', { error: error.message, executionTime: `${end - start}ms` });
+    logger.error("Error in resetting password", {
+      error: error.message,
+      executionTime: `${end - start}ms`,
+    });
 
     return res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 975,
-        executionTime: `${end - start}ms`
+        executionTime: `${end - start}ms`,
       },
       error: {
-        message: 'Error in resetting password: ' + error.message
-      }
+        message: "Error in resetting password: " + error.message,
+      },
     });
   }
 };
-
-

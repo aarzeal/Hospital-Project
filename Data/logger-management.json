@@ -1,0 +1,102 @@
+{
+  "SelectHospitalID": {
+    "en": "Select Hospital ID",
+    "hi": "हॉस्पिटल आईडी चुनें"
+  },
+  "Selectsearchby": {
+    "en": "Select search by",
+    "hi": "इसके द्वारा खोजें का चयन करें"
+  },
+  "ErrorCode": {
+    "en": "Error Code",
+    "hi": "त्रुटि कोड"
+  },
+  "LogID": {
+    "en": "Log ID",
+    "hi": "लॉग आईडी"
+  },
+  "HospitalID": {
+    "en": "Hospital ID",
+    "hi": "अस्पताल आईडी"
+  },
+  "APIName": {
+    "en": "API Name",
+    "hi": "एपीआई नाम"
+  },
+  "LoggerManagement": {
+    "en": "Logger Management",
+    "hi": "लकड़हारा प्रबंधन"
+  },
+  "EndDate": {
+    "en": "End Date",
+    "hi": "अंतिम तिथि"
+  },
+  "Searchby": {
+    "en": "Search by",
+    "hi": "खोज से"
+  },
+  "SelectHospital": {
+    "en": "Select Hospital",
+    "hi": "अस्पताल का चयन करें"
+  },
+  "Entererrorcode": {
+    "en": "Enter error code",
+    "hi": "त्त्रुटि कोड दर्ज करें"
+  },
+  "Code": {
+    "en": "Enter error code",
+    "hi": "त्त्रुटि कोड दर्ज करें"
+  },
+  "StatusCode": {
+    "en": "Status Code",
+    "hi": "स्थिति कोड"
+  },
+  "Enterstatuscode": {
+    "en": "Enter status code",
+    "hi": "स्थिति कोड दर्ज करें"
+  },
+  "SelectAPIname": {
+    "en": "Select API name",
+    "hi": "एपीआई नाम चुनें"
+  },
+  "StartDate": {
+    "en": "Start Date",
+    "hi": "आरंभ करने की तिथि"
+  },
+  "LogManagement": {
+    "en": "Log Management",
+    "hi": "लॉग प्रबंधन"
+  },
+  "Search": {
+    "en": "Search",
+    "hi": "खोज"
+  },
+  "DateAndTime": {
+    "en": "Date And Time",
+    "hi": "दिनांक और समय"
+  },
+  "Description": {
+    "en": "Description",
+    "hi": "विवरण"
+  },
+  "SelectAPI": {
+    "en": "Select API",
+    "hi": "एपीआई चुनें"
+  },
+  "logId": {
+    "en": "Log ID",
+    "hi": "लॉग आईडी"
+  },
+  "Message": {
+    "en": "Message",
+    "hi": "संदेश"
+  },
+  "EnterMessage": {
+    "en": "Enter Message",
+    "hi": "संदेश दर्ज करें"
+  },
+  "EnterLogID": {
+    "en": "Enter Log ID",
+    "hi": "लॉग आईडी दर्ज करें"
+  }
+}

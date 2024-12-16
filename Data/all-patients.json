@@ -176,12 +176,12 @@
     "hi": "क्या आप सचमुच इस रोगी को हटाना चाहते हैं?"
   },
   "Yesdeleteit": {
-    "en": "Yes delete it!",
-    "hi": "हाँ इसे हटा दें"
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
   },
   "Nocancel": {
-    "en": "No cancel",
-    "hi": "रद्द करें"
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
   },
   "Deleted": {
     "en": "Deleted",
@@ -270,5 +270,21 @@
   "SearchPatientHere": {
     "en": "Search Patient Here",
     "hi": "यहां मरीज खोजें"
+  },
+  "ViewBracode": {
+    "en": "View Bracode",
+    "hi": "बारकोड देखें"
+  },
+  "country": {
+    "en": "Country",
+    "hi": "देश"
+  },
+  "state": {
+    "en": "State",
+    "hi": "राज्य"
+  },
+  "City": {
+    "en": "City",
+    "hi": "शहर"
   }
 }

@@ -421,9 +421,9 @@ exports.createDoctorValidationRules = () => {
     body('LicenseNumber')
       .notEmpty().withMessage('License Number is required')
       .isLength({ max: 50 }).withMessage('License Number cannot exceed 50 characters'),
-    body('YearsOfExperience')
-      .optional()
-      .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
+    // body('YearsOfExperience')
+    //   .optional()
+    //   .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
   ];
 };
 
@@ -472,9 +472,9 @@ exports.updateDoctorValidationRules = () => {
     body('LicenseNumber')
       .optional()
       .isLength({ max: 50 }).withMessage('License Number cannot exceed 50 characters'),
-    body('YearsOfExperience')
-      .optional()
-      .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
+    // body('YearsOfExperience')
+    //   .optional()
+    //   .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
   ];
 };
 
@@ -645,9 +645,9 @@ exports.createDoctorValidationRules = () => {
     //   .isIn(['Male', 'Female', 'Other']).withMessage('Gender must be one of "Male", "Female", or "Other"'),
     body('LicenseNumber')
       .notEmpty().withMessage('License Number is required'),
-    body('YearsOfExperience')
-      .notEmpty().withMessage('Years of Experience is required')
-      .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
+    // body('YearsOfExperience')
+    //   .notEmpty().withMessage('Years of Experience is required')
+    //   .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
     // body('HospitalGroupIDR')
     //   .notEmpty().withMessage('Hospital Group IDR is required')
     //   .isInt().withMessage('Hospital Group IDR must be an integer'),
@@ -705,9 +705,9 @@ exports.updateDoctorValidationRules = () => {
     body('LicenseNumber')
       .optional()
       .notEmpty().withMessage('License Number is required'),
-    body('YearsOfExperience')
-      .optional()
-      .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
+    // body('YearsOfExperience')
+    //   .optional()
+    //   .isInt({ min: 0 }).withMessage('Years of Experience must be a non-negative integer'),
     body('HospitalGroupIDR')
       .optional()
       .isInt().withMessage('Hospital Group IDR must be an integer'),

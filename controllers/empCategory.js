@@ -61,7 +61,7 @@ exports.createEmpCategory= async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Created new EmpCategory successfully `, {
   
-  
+        statusCode: 200 ,
         executionTime,
         hospitalId: req.hospitalId,
         
@@ -72,7 +72,7 @@ exports.createEmpCategory= async (req, res) => {
         userAgent: req.headers['user-agent'],    // HTTP method
       });
       // logger.info(`Created new EmpCategory successfully in ${Date.now() - startTime}ms`);
-      res.status(201).json({
+      res.status(200).json({
         meta: { statusCode: 200 },
         data: newEmpCategory
       });
@@ -87,7 +87,7 @@ exports.createEmpCategory= async (req, res) => {
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode: 500,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method    ,
@@ -121,7 +121,7 @@ exports.getEmpCategoryById = async (req, res) => {
           errorMessage: error.message,
           executionTime,
           hospitalId: req.hospitalId,
-    
+          statusCode: 404, 
           ip: clientIp,
           apiName: req.originalUrl, // API name
           method: req.method    ,
@@ -139,7 +139,7 @@ exports.getEmpCategoryById = async (req, res) => {
   
       // Log the warning
       logger.logWithMeta("warn", `Fetched Employee Category with ID ${id} successfully`, {
-  
+        statusCode: 200 ,
   
         executionTime,
         hospitalId: req.hospitalId,
@@ -166,7 +166,7 @@ exports.getEmpCategoryById = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-  
+        statusCode: 500, 
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method    ,
@@ -201,7 +201,7 @@ exports.getEmpCategoryById = async (req, res) => {
         executionTime,
         hospitalId: req.hospitalId,
         
-  
+        statusCode: 200 ,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method   ,  
@@ -223,7 +223,7 @@ exports.getEmpCategoryById = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-  
+        statusCode: 500, 
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method    ,
@@ -275,7 +275,7 @@ exports.getEmpCategoryById = async (req, res) => {
         // Log the warning
         logger.logWithMeta("warn", `Updated Employee Category with ID ${id} successfully`, {
     
-    
+          statusCode: 200 ,
           executionTime,
           hospitalId: req.hospitalId,
           
@@ -301,7 +301,7 @@ exports.getEmpCategoryById = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-  
+        statusCode: 404,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method    ,
@@ -324,7 +324,7 @@ exports.getEmpCategoryById = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-  
+        statusCode: 500, 
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method    ,
@@ -357,7 +357,7 @@ exports.getEmpCategoryById = async (req, res) => {
     
         // Log the warning
         logger.logWithMeta("warn", `Deleted Employee Category with ID ${id} successfully`, {
-    
+          statusCode: 200 ,
     
           executionTime,
           hospitalId: req.hospitalId,
@@ -384,7 +384,7 @@ exports.getEmpCategoryById = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-  
+        statusCode: 404,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method    ,
@@ -407,7 +407,7 @@ exports.getEmpCategoryById = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-  
+        statusCode: 500,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method    ,

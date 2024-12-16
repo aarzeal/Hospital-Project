@@ -128,20 +128,20 @@
     "hi": "क्या आप सचमुच इस स्टाफ़ को हटाना चाहते हैं?"
   },
   "Yesdeleteit": {
-    "en": "Yes delete it",
-    "hi": "हाँ इसे हटा दें"
+   "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
   },
   "Nocancel": {
-    "en": "No cancel",
-    "hi": "रद्द करें"
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
   },
   "Deleted": {
     "en": "Deleted",
     "hi": "हटाए गए"
   },
   "TheStaffhasbeendeleted": {
-    "en": "The Patient has been deleted",
-    "hi": "मरीज को हटा दिया गया है"
+    "en": "The Staff has been deleted",
+    "hi": "स्टाफ़ को हटा दिया गया है"
   },
   "Delete": {
     "en": "Delete",

@@ -341,9 +341,9 @@ exports.getSkillById = async (req, res) => {
 // POST create a new skill
 exports.createSkill = async (req, res) => {
   const start = Date.now();
-  const { SkillName, IsClinicalSkill, Reserve1, Reserve2, Reserve3, Reserve4 } = req.body;
+  const { SkillName, IsClinicalSkill, Reserve1, Reserve2, Reserve3, Reserve4 ,CreatedBy} = req.body;
   const HospitalIDR = req.hospitalId; // Get the HospitalIDR from the decoded token
-  const CreatedBy = req.user.userId
+  // const CreatedBy = req.user.userId
   console.log("CreatedBy*******",CreatedBy)
 
   try {
@@ -407,13 +407,13 @@ exports.createSkill = async (req, res) => {
 // PUT update an existing skill
 exports.updateSkill = async (req, res) => {
   const start = Date.now();
+  const clientIp = await getClientIp(req);
   const { id } = req.params;
   const { SkillName, IsClinicalSkill, EditedBy, HospitalIDR } = req.body;
 
   try {
     const Skill = require('../models/skillMaster')(req.sequelize);
     let skill = await Skill.findByPk(id);
-    const clientIp = await getClientIp(req);
 
     if (!skill) {
       const end = Date.now();
@@ -421,19 +421,17 @@ exports.updateSkill = async (req, res) => {
       const errorCode = 992;
   
       // Log the warning
-      logger.logWithMeta("warn", `Skill with ID ${id} not found in ${end - start}ms:`, {
+      logger.logWithMeta("warn", `Skill with ID ${id} not found`, {
         errorCode,
-  
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method         // HTTP method
+        apiName: req.originalUrl,
+        method: req.method,
       });
 
-      // logger.warn(`Skill with ID ${id} not found in ${end - start}ms`);
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 992, executionTime: `${end - start}ms` },
+        meta: { statusCode: 404, errorCode, executionTime },
         error: { message: `Skill with ID ${id} not found. Please check the ID and try again.` }
       });
     }
@@ -446,18 +444,18 @@ exports.updateSkill = async (req, res) => {
     });
 
     const end = Date.now();
-    logger.logWithMeta("warn", `Updated skill with ID ${id} successfully in ${end - start}ms`, {
-      
-
+    const executionTime = `${end - start}ms`;
+    
+    logger.logWithMeta("info", `Updated skill with ID ${id} successfully`, {
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method         // HTTP method
+      apiName: req.originalUrl,
+      method: req.method,
     });
-    logger.info(`Updated skill with ID ${id} successfully in ${end - start}ms`);
+
     res.json({
-      meta: { statusCode: 200, executionTime: `${end - start}ms` },
+      meta: { statusCode: 200, executionTime },
       data: skill
     });
   } catch (error) {
@@ -465,95 +463,110 @@ exports.updateSkill = async (req, res) => {
     const executionTime = `${end - start}ms`;
     const errorCode = 993;
 
-    // Log the warning
-    logger.logWithMeta("warn", `Error updating skill with ID ${id}: ${error.message} in ${end - start}ms`, {
+    logger.logWithMeta("error", `Error updating skill with ID ${id}: ${error.message}`, {
       errorCode,
-
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method         // HTTP method
+      apiName: req.originalUrl,
+      method: req.method,
     });
-    // logger.error(`Error updating skill with ID ${id}: ${error.message} in ${end - start}ms`);
+
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 993, executionTime: `${end - start}ms` },
+      meta: { statusCode: 500, errorCode, executionTime },
       error: { message: `Failed to update skill with ID ${id} due to a server error. Please try again later.` }
     });
   }
 };
 
+
 // DELETE delete a skill
 exports.deleteSkill = async (req, res) => {
   const start = Date.now();
-
+  const clientIp = await getClientIp(req);
   const { id } = req.params;
 
   try {
-    const clientIp = await getClientIp(req);
     const Skill = require('../models/skillMaster')(req.sequelize);
-    const skill = await Skill.findByPk(id);
+    const Doctor = require('../models/doctorMaster')(req.sequelize); // Assuming a model for DoctorMaster exists
 
+    const skill = await Skill.findByPk(id);
     if (!skill) {
-      const end = Date.now();
-      const executionTime = `${end - start}ms`;
+      const executionTime = `${Date.now() - start}ms`;
       const errorCode = 994;
-  
-      // Log the warning
-      logger.logWithMeta("warn", `Skill with ID ${id} not found in ${end - start}ms`, {
+      logger.logWithMeta("warn", `Skill with ID ${id} not found`, {
         errorCode,
-  
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method         // HTTP method
+        apiName: req.originalUrl,
+        method: req.method
       });
-      // logger.warn(`Skill with ID ${id} not found in ${end - start}ms`);
+
       return res.status(404).json({
-        meta: { statusCode: 404, errorCode: 994, executionTime: `${end - start}ms` },
+        meta: { statusCode: 404, errorCode, executionTime },
         error: { message: `Skill with ID ${id} not found. Please check the ID and try again.` }
       });
     }
 
-    await skill.destroy();
-    const end = Date.now();
-    logger.logWithMeta("warn", `Deleted skill with ID ${id} successfully in ${end - start}ms`, {
-   
+    // Check if any doctor references this skill
+    const dependentDoctors = await Doctor.findOne({ where: { Specialization: id } });
+    if (dependentDoctors) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 996;
 
+      logger.logWithMeta("warn", `Cannot delete skill with ID ${id} as it is referenced in Doctor records`, {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method
+      });
+
+      return res.status(409).json({
+        meta: { statusCode: 409, errorCode, executionTime },
+        error: { message: `Skill with ID ${id} cannot be deleted as it is referenced in Doctor records. Please remove the dependencies first.` }
+      });
+    }
+
+    // Proceed to delete if no dependencies are found
+    await skill.destroy();
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", `Deleted skill with ID ${id} successfully`, {
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method         // HTTP method
+      apiName: req.originalUrl,
+      method: req.method
     });
-    logger.info(`Deleted skill with ID ${id} successfully in ${end - start}ms`);
+
     res.json({
-      meta: { statusCode: 200, executionTime: `${end - start}ms` },
+      meta: { statusCode: 200, executionTime },
       message: 'Skill deleted successfully'
     });
   } catch (error) {
-    const end = Date.now();
-    const executionTime = `${end - start}ms`;
+    const executionTime = `${Date.now() - start}ms`;
     const errorCode = 995;
 
-    // Log the warning
-    logger.logWithMeta("warn", `Error deleting skill with ID ${id}: ${error.message} in ${end - start}ms`, {
+    logger.logWithMeta("error", `Error deleting skill with ID ${id}: ${error.message}`, {
       errorCode,
-
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method         // HTTP method
+      apiName: req.originalUrl,
+      method: req.method,
+      stack: error.stack
     });
-    // logger.error(`Error deleting skill with ID ${id}: ${error.message} in ${end - start}ms`);
+
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 995, executionTime: `${end - start}ms` },
+      meta: { statusCode: 500, errorCode, executionTime },
       error: { message: `Failed to delete skill with ID ${id} due to a server error. Please try again later.` }
     });
   }
 };
+
 
 exports.getSkillsWithPagination = async (req, res) => {
   const start = Date.now();
@@ -600,7 +613,7 @@ exports.getSkillsWithPagination = async (req, res) => {
 
       executionTime,
       hospitalId: req.hospitalId,
-      ip: clientIp,
+      // ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method         // HTTP method
     });

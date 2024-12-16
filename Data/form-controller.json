@@ -38,5 +38,13 @@
   "CaptureImage": {
     "en": "Capture Image",
     "hi": "छवि कैप्चर करें"
+  },
+  "NoAccess": {
+    "en": "No Access",
+    "hi": "अनुमति नहीं है"
+  },
+  "YoudonthaveaccesstotheprovidedrouteKindlycontacttheadministration": {
+    "en": "You don't have access to the provided route. Kindly contact the administration",
+    "hi": "आपके पास दिए गए मार्ग तक पहुंच नहीं है. कृपया प्रशासन से संपर्क करें"
   }
 }

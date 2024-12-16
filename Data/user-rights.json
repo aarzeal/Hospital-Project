@@ -1,0 +1,74 @@
+{
+  "userRights": {
+    "en": "User Rights",
+    "hi": "प्रयोगकर्ता के अधिकार"
+  },
+  "SelectEmployee": {
+    "en": "Select Employee",
+    "hi": "कर्मचारी का चयन करें"
+  },
+  "NoOption": {
+    "en": "No Option",
+    "hi": "कोई विकल्प नहीं"
+  },
+  "EmployeeName": {
+    "en": "Employee Name",
+    "hi": "कर्मचारी का नाम"
+  },
+  "SelectFormtoupdaterights": {
+    "en": "Select Form to update rights",
+    "hi": "अधिकार अद्यतन करने के लिए फ़ॉर्म का चयन करें"
+  },
+  "Select": {
+    "en": "Select",
+    "hi": "चयन करें"
+  },
+  "YoucanselectmultipleEmployees": {
+    "en": "You can select multiple Employees",
+    "hi": "आप अनेक कर्मचारियों का चयन कर सकते हैं"
+  },
+  "SelectForm": {
+    "en": "Select Form",
+    "hi": "फॉर्म का चयन करें"
+  },
+  "EmployeeBaseAccessContorl": {
+    "en": "Employee Base Access Control",
+    "hi": "कर्मचारी आधार अभिगम नियंत्रण"
+  },
+  "RoleBaseAccessContorl": {
+    "en": "Role Base Access Control",
+    "hi": "रोल बेस एक्सेस कॉन्टोरल"
+  },
+  "PatientRegistrationForm": {
+    "en": "Patient Registration Form",
+    "hi": "रोगी पंजीकरण प्रपत्र"
+  },
+  "SelectRole": {
+    "en": "Select Role",
+    "hi": "भूमिका चुनें"
+  },
+  "YoucanselectmultipleRoles": {
+    "en": "You can select multiple Role",
+    "hi": "आप एकाधिक भूमिकाएँ चुन सकते हैं"
+  },
+  "Label": {
+    "en": "Label",
+    "hi": "नाम-पत्र"
+  },
+  "Disabled": {
+    "en": "Disabled",
+    "hi": "अक्षम"
+  },
+  "Read": {
+    "en": "Read",
+    "hi": "पढ़ना"
+  },
+  "Write": {
+    "en": "Write",
+    "hi": "लिखना"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  }
+}

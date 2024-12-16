@@ -63,6 +63,7 @@ const authenticate = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded Token:", decoded);
     req.hospitalName = decoded.hospitalName;
     req.hospitalId = decoded.hospitalId;
     req.hospitalGroupId = decoded.hospitalGroupIDR
@@ -70,10 +71,10 @@ const authenticate = (req, res, next) => {
     
     req.MFAEnabled= decoded.MFAEnabled,
 
-    console.log("req.MFAEnabled......",req.MFAEnabled)
-    console.log("req.hospitalDatabase......",req.hospitalDatabase)
-    console.log("req.hospitalGroupId......",req.hospitalGroupId)
-    console.log("req.hospitalName......",req.hospitalName)
+    // console.log("req.MFAEnabled......",req.MFAEnabled)
+    // console.log("req.hospitalDatabase......",req.hospitalDatabase)
+    // console.log("req.hospitalGroupId......",req.hospitalGroupId)
+    // console.log("req.hospitalName......",req.hospitalName)
 
     next();
 

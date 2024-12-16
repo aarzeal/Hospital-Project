@@ -270,6 +270,7 @@ exports.createSubmodules = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Submodule created successfully with name: ${submodule_name}`, {
         executionTime,
+        statusCode: 200,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -301,6 +302,7 @@ exports.createSubmodules = async (req, res) => {
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
+      statusCode: 500,
       apiName: req.originalUrl, // API name
       method: req.method,
       userAgent: req.headers['user-agent'],     // HTTP method
@@ -341,6 +343,7 @@ exports.getSubModule = async (req, res) => {
       errorCode,
       errorMessage: error.message,
       executionTime,
+      statusCode: 404,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -367,6 +370,7 @@ exports.getSubModule = async (req, res) => {
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
+        statusCode: 200,
         apiName: req.originalUrl, // API name
         method: req.method,
         userAgent: req.headers['user-agent'],    // HTTP method
@@ -392,6 +396,7 @@ exports.getSubModule = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Submodule with ID ${submodule_id} not found ${error.message}`, {
       errorCode,
+      statusCode: 500,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
@@ -431,6 +436,7 @@ exports.getAllSubModules = async (req, res) => {
           // Log the warning
           logger.logWithMeta("warn", `No submodules found ${error.message}`, {
             errorCode,
+            statusCode: 404,
             errorMessage: error.message,
             executionTime,
             hospitalId: req.hospitalId,
@@ -458,6 +464,7 @@ exports.getAllSubModules = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `All submodules retrieved successfully`, {
         executionTime,
+        statusCode: 200,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -485,6 +492,7 @@ exports.getAllSubModules = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Error retrieving all submodules ${error.message}`, {
         errorCode,
+        statusCode: 500,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
@@ -531,6 +539,7 @@ console.log('Request Body:', req.body);
         // Log the warning
         logger.logWithMeta("warn", `Submodule with ID ${submodule_id} not found ${error.message}`, {
           errorCode,
+          statusCode: 404,
           errorMessage: error.message,
           executionTime,
           hospitalId: req.hospitalId,
@@ -564,6 +573,7 @@ console.log('Request Body:', req.body);
       logger.logWithMeta("warn", `Submodule with ID ${submodule_id} updated successfully`, {
         executionTime,
         hospitalId: req.hospitalId,
+        statusCode: 200,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
@@ -588,6 +598,7 @@ console.log('Request Body:', req.body);
       // Log the warning
       logger.logWithMeta("warn", `Error updating submodule ${error.message}`, {
         errorCode,
+        statusCode: 500,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
@@ -628,6 +639,7 @@ exports.getSubModulesByModuleId = async (req, res) => {
         errorCode,
         errorMessage: error.message,
         executionTime,
+        statusCode: 400,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -662,6 +674,7 @@ exports.getSubModulesByModuleId = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Module with ID ${modules_Id} not found ${error.message}`, {
         errorCode,
+        statusCode: 404,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
@@ -694,6 +707,7 @@ exports.getSubModulesByModuleId = async (req, res) => {
         // Log the warning
         logger.logWithMeta("warn", `Submodules for module ID ${modules_Id} not found ${error.message}`, {
           errorCode,
+          statusCode: 404,
           errorMessage: error.message,
           executionTime,
           hospitalId: req.hospitalId,
@@ -731,6 +745,7 @@ exports.getSubModulesByModuleId = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Submodules for module ID ${modules_Id} retrieved successfully`, {
         executionTime,
+        statusCode: 200,
         hospitalId: req.hospitalId,
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -756,6 +771,7 @@ exports.getSubModulesByModuleId = async (req, res) => {
       errorCode,
       errorMessage: error.message,
       executionTime,
+      statusCode: 500,
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name

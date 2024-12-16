@@ -202,5 +202,13 @@
   "SomethingWentWrong": {
     "en": "Something Went Wrong",
     "hi": "कुछ गलत हो गया"
+  },
+  "MiddleName": {
+    "en": "Middle Name",
+    "hi": "मध्य नाम"
+  },
+  "EnterMiddleName": {
+    "en": "Enter Middle Name",
+    "hi": "मध्य नाम दर्ज करें"
   }
 }

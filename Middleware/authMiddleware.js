@@ -51,7 +51,7 @@ exports.verifyToken = (requiredRoles = []) => {
         // errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-        ip: clientIp,
+        // ip: clientIp,
         // apiName: req.originalUrl, // API name
         // method: req.method,
         userAgent: req.headers['user-agent'],     // HTTP method

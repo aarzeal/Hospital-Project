@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const departmentController = require('../controllers/departmentController');
 
-const authenticate = require('../middleware/verifyAccesstoken'); // Adjust path as needed
+const authenticate = require('../Middleware/verifyAccesstoken'); // Adjust path as needed
 const hospitalController = require('../controllers/HospitalController');
 
 router.get('/departments',authenticate,hospitalController.ensureSequelizeInstance, departmentController.getAllDepartments);

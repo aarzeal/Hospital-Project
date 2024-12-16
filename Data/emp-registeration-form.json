@@ -376,12 +376,12 @@
     "hi": "क्या आप सचमुच इस कर्मचारी को हटाना चाहते हैं?"
   },
   "Yesdeleteit": {
-    "en": "Yesdeleteit",
-    "hi": "हाँ इसे हटा दें"
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
   },
   "Nocancel": {
-    "en": "No cancel",
-    "hi": "नहीं, इसे रद्द करें"
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
   },
   "Deleted": {
     "en": "Deleted",
@@ -462,5 +462,13 @@
   "EndDate": {
     "en": "End Date",
     "hi": "अंतिम तिथि"
+  },
+  "SelectCaste": {
+    "en": "Select Caste",
+    "hi": "जाति चुनें"
+  },
+  "General": {
+    "en": "General",
+    "hi": "सामान्य"
   }
 }

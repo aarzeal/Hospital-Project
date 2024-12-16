@@ -148,12 +148,12 @@
     "hi": "क्या आपको यकीन है"
   },
   "Yesdeleteit": {
-    "en": "Yes delete it",
-    "hi": "हाँ इसे हटा दें"
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
   },
   "Nocancel": {
-    "en": "No cancel",
-    "hi": "रद्द न करें"
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
   },
   "Deleted": {
     "en": "Deleted",

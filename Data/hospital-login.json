@@ -82,8 +82,8 @@
     "hi": "लॉग इन करें"
   },
   "Loading": {
-    "en": "Loading...",
-    "hi": "सत्यापन के लिए ईमेल दर्ज करें..."
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
   },
   "VerifyEmail": {
     "en": "Verify Email",
@@ -172,5 +172,45 @@
   "Dismiss": {
     "en": "Dismiss",
     "hi": "नकार देना"
+  },
+  "EmailAddress": {
+    "en": "Email Address",
+    "hi": "ईमेल"
+  },
+  "Alert": {
+    "en": "Alert",
+    "hi": "चेतावनी"
+  },
+  "EmailisAlreadyVerified": {
+    "en": "Email is Already Verified",
+    "hi": "ईमेल पहले से ही सत्यापित है"
+  },
+  "RequiredonlyNumbers": {
+    "en": "Required only Numbers",
+    "hi": "केवल संख्याएँ आवश्यक हैं"
+  },
+  "Sent": {
+    "en": "Sent",
+    "hi": "भेजा"
+  },
+  "OTPSharedtoyourregisteredemailsuccessfully": {
+    "en": "OTP Shared to your registered email successfully",
+    "hi": "ओटीपी आपके पंजीकृत ईमेल पर सफलतापूर्वक साझा किया गया"
+  },
+  "VerifyYourOTP": {
+    "en": "Verify Your OTP",
+    "hi": "अपना ओटीपी सत्यापित करें"
+  },
+  "EnterOTP": {
+    "en": "Enter OTP",
+    "hi": "ओटीपी दर्ज करें"
+  },
+  "EnterOTPforverification": {
+    "en": "Enter OTP for verification",
+    "hi": "सत्यापन के लिए ओटीपी दर्ज करें"
+  },
+  "VerifyOTP": {
+    "en": "Verify OTP",
+    "hi": "ओटीपी सत्यापित करें"
   }
 }

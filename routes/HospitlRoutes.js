@@ -16,10 +16,10 @@ const validateJSONContentType = require('../Middleware/jsonvalidation');
 // router.put('/hospital/:id', verifyToken(['admin']),updateHospitalValidationRules(), hospitalController.updateHospital);
 // router.delete('/hospital/:id',verifyToken(['admin']), hospitalController.deleteHospital);
 
+const upload = require('../Middleware/hopsitallogo'); 
 
-
-router.post('/hospital', verifyToken(['admin']),createHospitalValidationRules(),  validateJSONContentType, hospitalController.createHospital);
-router.get('/hospital',verifyToken(['admin']),  validateJSONContentType, hospitalController.getAllHospitals);
+router.post('/hospital', verifyToken(['admin']),createHospitalValidationRules(),  validateJSONContentType,  hospitalController.createHospital);
+router.get('/hospital',verifyToken(['admin']), hospitalController.getAllHospitals);
 router.get('/hospital/:id', verifyToken(['admin']),  hospitalController.getHospitalById);
 router.get('/hospital/group/:HospitalGroupIDR', verifyToken(['admin']),hospitalController.getHospitalsByHospitalGroupID);
 router.put('/hospital/:id', verifyToken(['admin']),updateHospitalValidationRules(),  validateJSONContentType, hospitalController.updateHospital);
@@ -48,6 +48,8 @@ router.put('/user/:id', createUserValidationRules(),authenticate,   validateJSON
 router.delete('/user/:id', authenticate,  hospitalController.ensureSequelizeInstance, hospitalController.deleteUser);
 router.get('/users', authenticate,hospitalController.ensureSequelizeInstance, hospitalController.getAllUsers);
 //   router.post('/create-user', hospitalController.ensureSequelizeInstance, hospitalController.createUser);
+
+
 router.get('/verify/:token', hospitalController.verifyEmail);
 // router.get('/verify/:token/:hospitalDatabase', authenticate, ensureSequelizeInstance.ensureSequelizeInstance, hospitalController.verifyEmail);
 router.post('/reverify',authenticate, hospitalController.ensureSequelizeInstance,hospitalController.resendVerificationEmail);

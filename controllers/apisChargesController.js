@@ -43,10 +43,11 @@ exports.createCharge = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1103;
-  
+      const statusCode = 400;
       // Log the warning
       logger.logWithMeta("warn", `Charge creation failed: Missing required fields ${error.message}`, {
         errorCode,
+        statusCode,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
@@ -57,8 +58,9 @@ exports.createCharge = async (req, res) => {
         userAgent: req.headers['user-agent'],     // HTTP method
       });
       // logger.warn('Charge creation failed: Missing required fields', { errorCode: 1096 });
-      return res.status(400).json({
+      return res.status(statusCode).json({
         errorCode: 1103,
+        statusCode,
         message: 'All fields (Apiname, hospitalId, chargeRate) are required.'
       });
     }
@@ -78,6 +80,7 @@ exports.createCharge = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", ` Charge created successfully:`, {
         executionTime,
+        statusCode:200,
         chargeRate,
         hospitalId: req.hospitalId,
         ip: clientIp,
@@ -98,10 +101,11 @@ exports.createCharge = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1104;
-
+    const statusCode = 500;
     // Log the warning
     logger.logWithMeta("warn", `Error creating charge ${error.message}`, {
       errorCode,
+      statusCode,
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
@@ -112,8 +116,9 @@ exports.createCharge = async (req, res) => {
       userAgent: req.headers['user-agent'],     // HTTP method
     });
     // Return internal server error with proper error code
-    return res.status(500).json({
+    return res.status(statusCode).json({
       errorCode: 1104,
+      statusCode,
       message: 'Internal server error. Unable to create charge.'
     });
   }
@@ -494,10 +499,11 @@ exports.calculateChargeswithDetails = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1107;
-
+      const statusCode = 400;
       // Log the warning
       logger.logWithMeta("warn", `Missing required field: hospitalId`, {
         errorCode,
+        statusCode,
         errorMessage: 'hospitalId is required',
         executionTime,
         hospitalId: req.hospitalId,
@@ -506,8 +512,10 @@ exports.calculateChargeswithDetails = async (req, res) => {
         method: req.method,
         userAgent: req.headers['user-agent'],
       });
-      return res.status(400).json({
+      return res.status(statusCode).json({
         errorCode: 1107,
+
+        statusCode,
         message: 'Missing required field: hospitalId'
       });
     }
@@ -546,10 +554,11 @@ exports.calculateChargeswithDetails = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1108;
-
+      const statusCode = 404;
       // Log the warning
       logger.logWithMeta("warn", `No API calls found for the given parameters`, {
         errorCode,
+        statusCode,
         errorMessage: 'No API calls found',
         executionTime,
         hospitalId: req.hospitalId,
@@ -558,8 +567,9 @@ exports.calculateChargeswithDetails = async (req, res) => {
         method: req.method,
         userAgent: req.headers['user-agent'],
       });
-      return res.status(404).json({
+      return res.status(statusCode).json({
         errorCode: 1108,
+        statusCode,
         message: 'No API calls found for the given parameters'
       });
     }

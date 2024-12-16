@@ -35,14 +35,14 @@ exports.createCurrency = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1116;
-  
+      const statusCode = 400;
       // Log the warning
       logger.logWithMeta("warn", `Error creating currency: Missing currency name or code, ${error.message}`, {
         errorCode,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
-  
+        statusCode,
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method    ,
@@ -65,6 +65,7 @@ exports.createCurrency = async (req, res) => {
       // Log the warning
       logger.logWithMeta("warn", `Currency created successfully`, {
         executionTime,
+        statusCode:200,
         data: newCurrency,
         hospitalId: req.hospitalId,
         ip: clientIp,
@@ -81,6 +82,7 @@ exports.createCurrency = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1117;
+    const statusCode = 500;
 
     // Log the warning
     logger.logWithMeta("warn", `Error creating currency: ${error.message}`, {
@@ -88,7 +90,7 @@ exports.createCurrency = async (req, res) => {
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method    ,
@@ -112,7 +114,9 @@ exports.getAllCurrencies = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Currencies retrieved successfully`, {
       executionTime,
+      statusCode:200,
       data: currencies,
+
       hospitalId: req.hospitalId,
       ip: clientIp,
       apiName: req.originalUrl, // API name
@@ -128,6 +132,8 @@ exports.getAllCurrencies = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1118;
+    const statusCode = 500;
+
 
     // Log the warning
     logger.logWithMeta("warn", `Error fetching currencies: ${error.message}`, {
@@ -135,7 +141,7 @@ exports.getAllCurrencies = async (req, res) => {
       errorMessage: error.message,
       executionTime,
       hospitalId: req.hospitalId,
-
+      statusCode,
       ip: clientIp,
       apiName: req.originalUrl, // API name
       method: req.method    ,
@@ -161,6 +167,7 @@ exports.getCurrencyByCode = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1119;
+      const statusCode = 404;
   
       // Log the warning
       logger.logWithMeta("warn", `Currency not found: ${error.message}`, {
@@ -168,6 +175,7 @@ exports.getCurrencyByCode = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        statusCode,
   
         ip: clientIp,
         apiName: req.originalUrl, // API name
@@ -183,6 +191,7 @@ exports.getCurrencyByCode = async (req, res) => {
     // Log the warning
     logger.logWithMeta("warn", `Currency retrieved successfully`, {
       executionTime,
+      statusCode:200,
       data: currency,
       hospitalId: req.hospitalId,
       ip: clientIp,
@@ -200,6 +209,7 @@ exports.getCurrencyByCode = async (req, res) => {
     const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1120;
+      const statusCode = 500;
   
       // Log the warning
       logger.logWithMeta("warn", `Error fetching currency: ${error.message}`, {
@@ -207,6 +217,7 @@ exports.getCurrencyByCode = async (req, res) => {
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
+        statusCode,
   
         ip: clientIp,
         apiName: req.originalUrl, // API name

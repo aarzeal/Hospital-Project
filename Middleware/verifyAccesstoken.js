@@ -1,4 +1,5 @@
 // const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 // exports.verifyToken = () => {
 //   return (req, res, next) => {

@@ -80,16 +80,16 @@
     "hi": "क्या आप सचमुच इस सबोड्यूल को हटाना चाहते हैं?"
   },
   "Yesdeleteit": {
-    "en": "Yes delete it",
-    "hi": "हाँ इसे हटा दें"
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
   },
   "DoyoureallywanttodeletethisSubodule": {
-    "en": "Do you really want to delete this Subodule?",
-    "hi": "क्या आप सचमुच इस सबोड्यूल को हटाना चाहते हैं?"
+    "en": "Do you really want to delete this Submodule?",
+    "hi": "क्या आप सचमुच इस सबमॉड्यूल को हटाना चाहते हैं?"
   },
   "Nocancel": {
-    "en": "No cancel",
-    "hi": "नहीं, इसे रद्द करें"
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
   },
   "Deleted": {
     "en": "Deleted",
@@ -114,5 +114,9 @@
   "UpdateSubModule": {
     "en": "Update Submodule ",
     "hi": "सबमॉड्यूल अपडेट करें"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
   }
 }

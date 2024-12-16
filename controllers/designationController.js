@@ -36,6 +36,7 @@ exports.getAllDesignations = async (req, res) => {
     logger.logWithMeta("info", `Fetched all designations successfully`, {
       executionTime,
       hospitalId: req.hospitalId,
+      statusCode:200,
       // patientFirstName: patient.PatientFirstName, // Adjust to match actual field
       userId: req.userId,
       ip: clientIp, // Correctly log the client IP
@@ -56,11 +57,12 @@ exports.getAllDesignations = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 998;
+      const statusCode = 500;
   
       // Log the warning
       logger.logWithMeta("warn", `Error fetching designations:`, {
         errorCode,
-  
+        statusCode,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
@@ -86,11 +88,11 @@ exports.getAllDesignations = async (req, res) => {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 999;
-    
+        const statusCode = 404;
         // Log the warning
         logger.logWithMeta("warn", `Designation with ID ${id} not found,errorCode:`, {
           errorCode,
-    
+          statusCode,
           executionTime,
           hospitalId: req.hospitalId,
           ip: clientIp,
@@ -108,6 +110,7 @@ exports.getAllDesignations = async (req, res) => {
       // logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
       logger.logWithMeta("info", `Fetched designation with ID ${id} successfully`, {
         executionTime,
+        statusCode:200,
         hospitalId: req.hospitalId,
         // patientFirstName: patient.PatientFirstName, // Adjust to match actual field
         userId: req.userId,
@@ -125,11 +128,12 @@ exports.getAllDesignations = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1000;
+      const statusCode = 500;
   
       // Log the warning
       logger.logWithMeta("warn", `Error fetching designation with ID ${id}:`, {
         errorCode,
-  
+        statusCode,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
@@ -165,6 +169,7 @@ exports.getAllDesignations = async (req, res) => {
       // logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
       logger.logWithMeta("info", `Created new designation successfully`, {
         executionTime,
+        statusCode:200,
         hospitalId: req.hospitalId,
         // patientFirstName: patient.PatientFirstName, // Adjust to match actual field
         userId: req.userId,
@@ -182,11 +187,12 @@ exports.getAllDesignations = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1001;
+      const statusCode = 500;
   
       // Log the warning
       logger.logWithMeta("warn", `Error creating designation:`, {
         errorCode,
-  
+        statusCode,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
@@ -217,11 +223,12 @@ exports.getAllDesignations = async (req, res) => {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 1002;
+        const statusCode = 404;
     
         // Log the warning
         logger.logWithMeta("warn", `Designation with ID ${id} not found,errorCode:`, {
           errorCode,
-    
+          statusCode, 
           executionTime,
           hospitalId: req.hospitalId,
           ip: clientIp,
@@ -245,6 +252,7 @@ exports.getAllDesignations = async (req, res) => {
       // logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
       logger.logWithMeta("info", `Updated designation with ID ${id} successfully`, {
         executionTime,
+        statusCode:200,
         hospitalId: req.hospitalId,
         // patientFirstName: patient.PatientFirstName, // Adjust to match actual field
         userId: req.userId,
@@ -262,11 +270,12 @@ exports.getAllDesignations = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1003;
+      const statusCode = 500;
   
       // Log the warning
       logger.logWithMeta("warn", `Error updating designation with ID ${id}:`, {
         errorCode,
-  
+        statusCode,
         executionTime,
         hospitalId: req.hospitalId,
         ip: clientIp,
@@ -295,11 +304,12 @@ exports.getAllDesignations = async (req, res) => {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 1004;
+        const statusCode = 404;
     
         // Log the warning
         logger.logWithMeta("warn", `Designation with ID ${id} not found,errorCode:`, {
           errorCode,
-    
+          statusCode,
           executionTime,
           hospitalId: req.hospitalId,
           ip: clientIp,
@@ -318,6 +328,7 @@ exports.getAllDesignations = async (req, res) => {
       // logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
       logger.logWithMeta("info", `Deleted designation with ID ${id} successfully`, {
         executionTime,
+        statusCode:200,
         hospitalId: req.hospitalId,
         // patientFirstName: patient.PatientFirstName, // Adjust to match actual field
         userId: req.userId,
@@ -336,11 +347,11 @@ exports.getAllDesignations = async (req, res) => {
       const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 1005;
-    
+        const statusCode = 500;
         // Log the warning
         logger.logWithMeta("warn", `Error deleting designation with ID ${id}:`, {
           errorCode,
-    
+          statusCode,
           executionTime,
           hospitalId: req.hospitalId,
           ip: clientIp,
@@ -375,6 +386,7 @@ exports.getPaginatedDesignations = async (req, res) => {
     // logger.info('Retrieved all patients successfully', { executionTime: `${end - start}ms` });
     logger.logWithMeta("info", `Fetched page ${page} of designations successfully`, {
       executionTime,
+      statusCode:200,
       hospitalId: req.hospitalId,
       // patientFirstName: patient.PatientFirstName, // Adjust to match actual field
       userId: req.userId,
@@ -397,11 +409,12 @@ exports.getPaginatedDesignations = async (req, res) => {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 1006;
+    const statusCode = 500;
 
     // Log the warning
     logger.logWithMeta("warn", `Error fetching paginated designations:`, {
       errorCode,
-
+      statusCode,
       executionTime,
       hospitalId: req.hospitalId,
 

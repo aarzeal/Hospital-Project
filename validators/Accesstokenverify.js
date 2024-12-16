@@ -51,7 +51,7 @@ const verifyAccessToken = (req, res, next) => {
     console.log("decoded",  req.userId)
 
 
-    logger.info('Token verified successfully', { executionTime: `${end - start}ms` });
+    // logger.info('Token verified successfully', { executionTime: `${end - start}ms` });
     
     next(); // Proceed to the next middleware/route handler
   });

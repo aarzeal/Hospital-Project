@@ -48,11 +48,11 @@ const sendEmail = async () => {
     fs.readdir(directoryPath, (err, files) => {
       if (err) {
         // logger.error('Error reading the directory', { message: err.message, stack: err.stack });
-        
+
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 1073;
-    
+
         // Log the warning
 
         logger.logWithMeta("warn", `Error reading the directory:${err.message}`, {
@@ -60,7 +60,7 @@ const sendEmail = async () => {
           errorMessage: err.message,
           executionTime,
           // hospitalId: req.hospitalId,
-    
+
           // ip: clientIp,
           // apiName: req.originalUrl, // API name
           // method: req.method    ,
@@ -93,15 +93,15 @@ const sendEmail = async () => {
           const end = Date.now();
           const executionTime = `${end - start}ms`;
           const errorCode = 1074;
-      
+
           // Log the warning
-  
+
           logger.logWithMeta("warn", `Error reading the file:${err.message}`, {
             errorCode,
             errorMessage: err.message,
             executionTime,
             // hospitalId: req.hospitalId,
-      
+
             // ip: clientIp,
             // apiName: req.originalUrl, // API name
             // method: req.method    ,
@@ -146,15 +146,15 @@ const sendEmail = async () => {
               const end = Date.now();
               const executionTime = `${end - start}ms`;
               const errorCode = 1075;
-          
+
               // Log the warning
-      
+
               logger.logWithMeta("warn", `Error sending email:${err.message}`, {
                 errorCode,
                 // errorMessage: err.message,
                 executionTime,
                 // hospitalId: req.hospitalId,
-          
+
                 // ip: clientIp,
                 // apiName: req.originalUrl, // API name
                 // method: req.method    ,
@@ -174,7 +174,7 @@ const sendEmail = async () => {
               // Log the warning
               logger.logWithMeta("warn", `Email sent successfully`, {
 
-
+                statusCode: 200,
                 executionTime,
                 // hospitalId: req.hospitalId,
 
@@ -192,46 +192,46 @@ const sendEmail = async () => {
                 if (err) {
                   // logger.error('Error deleting the file', { message: err.message, stack: err.stack });
                   const end = Date.now();
-              const executionTime = `${end - start}ms`;
-              const errorCode = 1076;
-          
-              // Log the warning
-      
-              logger.logWithMeta("warn", `Error deleting the file:${err.message}`, {
-                errorCode,
-                errorMessage: err.message,
-                executionTime,
-                // hospitalId: req.hospitalId,
-          
-                // ip: clientIp,
-                // apiName: req.originalUrl, // API name
-                // method: req.method    ,
-                // userAgent: req.headers['user-agent'],     // HTTP method
-              });
+                  const executionTime = `${end - start}ms`;
+                  const errorCode = 1076;
+
+                  // Log the warning
+
+                  logger.logWithMeta("warn", `Error deleting the file:${err.message}`, {
+                    errorCode,
+                    errorMessage: err.message,
+                    executionTime,
+                    // hospitalId: req.hospitalId,
+
+                    // ip: clientIp,
+                    // apiName: req.originalUrl, // API name
+                    // method: req.method    ,
+                    // userAgent: req.headers['user-agent'],     // HTTP method
+                  });
                   reject({ statusCode: 500, errorCode: 1076, data: { message: 'Error deleting the file' } });
                 } else {
                   // logger.info('File deleted successfully');
                   const end = Date.now();
-              const executionTime = `${end - start}ms`;
+                  const executionTime = `${end - start}ms`;
 
 
-              // Log the warning
-              logger.logWithMeta("warn", `File deleted successfully`, {
+                  // Log the warning
+                  logger.logWithMeta("warn", `File deleted successfully`, {
 
 
-                executionTime,
-                // hospitalId: req.hospitalId,
+                    executionTime,
+                    // hospitalId: req.hospitalId,
 
 
-                // ip: clientIp,
-                // apiName: req.originalUrl, // API name
-                // method: req.method,
-                // userAgent: req.headers['user-agent'],  
-                
-                
-                
-                // HTTP method
-              });
+                    // ip: clientIp,
+                    // apiName: req.originalUrl, // API name
+                    // method: req.method,
+                    // userAgent: req.headers['user-agent'],  
+
+
+
+                    // HTTP method
+                  });
                   resolve({ statusCode: 200, data: { message: 'Email sent and file deleted successfully' } });
                 }
               });
@@ -242,15 +242,15 @@ const sendEmail = async () => {
           const end = Date.now();
           const executionTime = `${end - start}ms`;
           const errorCode = 1077;
-      
+
           // Log the warning
-  
+
           logger.logWithMeta("warn", `Error in processing email sending:${err.message}`, {
             errorCode,
             errorMessage: err.message,
             executionTime,
             // hospitalId: req.hospitalId,
-      
+
             // ip: clientIp,
             // apiName: req.originalUrl, // API name
             // method: req.method    ,
@@ -264,10 +264,10 @@ const sendEmail = async () => {
 };
 
 // Schedule the email to be sent every 60 minutes
-const job = schedule.scheduleJob('*/20 * * * *', () => {
+const job = schedule.scheduleJob('*/60 * * * *', () => {
   const start = Date.now();
-  
-  logger.info('Scheduled email job started');
+
+  // logger.info('Scheduled email job started');
   sendEmail()
     .then(response => {
       logger.info(response.data.message);
@@ -276,7 +276,7 @@ const job = schedule.scheduleJob('*/20 * * * *', () => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1078;
-  
+
       // Log the warning
 
       logger.logWithMeta("warn", `Error occurred:${err.message}`, {
@@ -284,7 +284,7 @@ const job = schedule.scheduleJob('*/20 * * * *', () => {
         errorMessage: err.message,
         executionTime,
         // hospitalId: req.hospitalId,
-  
+
         // ip: clientIp,
         // apiName: req.originalUrl, // API name
         // method: req.method    ,

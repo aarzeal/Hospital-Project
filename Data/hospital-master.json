@@ -308,12 +308,12 @@
     "hi": "क्या आप सचमुच इस अस्पताल को हटाना चाहते हैं?"
   },
   "Yesdeleteit": {
-    "en": "Yes delete it",
-    "hi": "हाँ इसे हटा दें"
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
   },
   "Nocancel": {
-    "en": "Nocancel",
-    "hi": "रद्द करें"
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
   },
   "Deleted": {
     "en": "Deleted",
@@ -394,5 +394,49 @@
   "Required": {
     "en": "Required",
     "hi": "आवश्यक"
+  },
+  "AddressLine1": {
+    "en": "Address Line 1",
+    "hi": "पता पंक्ति 1"
+  },
+  "AddressLine2": {
+    "en": "Address Line 2",
+    "hi": "पता पंक्ति 2"
+  },
+  "AddressLine3": {
+    "en": "Address Line 3",
+    "hi": "पता पंक्ति 3"
+  },
+  "ConfirmPassword": {
+    "en": "Confirm Password",
+    "hi": "पासवर्ड की पुष्टि कीजिये"
+  },
+  "ReenterPassword": {
+    "en": "Re-enter Password",
+    "hi": "पासवर्ड फिर से दर्ज करें"
+  },
+  "Passwordsismismatch": {
+    "en": "Passwords is mismatch",
+    "hi": "पासवर्ड ग़लत है"
+  },
+  "SelectHospitalGroup": {
+    "en": "Select Hospital Group",
+    "hi": "अस्पताल समूह का चयन करें"
+  },
+  "SelectCountry": {
+    "en": "Select Country",
+    "hi": "देश चुनें"
+  },
+  "SelectState": {
+    "en": "Select State",
+    "hi": "राज्य चुनें"
+  },
+  "SelectCity": {
+    "en": "Select City",
+    "hi": "शहर चुनें"
+  },
+  "Passwordismismatch": {
+    "en": "Password is mismatch",
+    "hi": "पासवर्ड मेल नहीं खाता"
   }
 }

@@ -40,12 +40,12 @@
     "hi": "क्या आप सचमुच इस विभाग को हटाना चाहते हैं?"
   },
   "Yesdeleteit": {
-    "en": "Yes delete it",
-    "hi": "हाँ इसे हटा दें"
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
   },
   "Nocancel": {
-    "en": "Nocancel it",
-    "hi": "रद्द करें"
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
   },
   "Deleted": {
     "en": "Deleted",
@@ -60,8 +60,8 @@
     "hi": "विभागकोड"
   },
   "DepartmentName": {
-    "en": "Enter Department Name",
-    "hi": "विभाग का नाम दर्ज करें"
+    "en": "Department Name",
+    "hi": "विभाग का नाम"
   },
   "IsClinical": {
     "en": "Is Clinical",
@@ -108,8 +108,8 @@
     "hi": "रजिस्टर विभाग"
   },
   "DepartmentCode": {
-    "en": "Enter Department Code",
-    "hi": "विभाग कोड दर्ज करें"
+    "en": "Department Code",
+    "hi": "विभाग कोड"
   },
   "Submit": {
     "en": "Submit",
@@ -138,5 +138,13 @@
   "loading": {
     "en": "Loading...",
     "hi": "लोड हो रहा है..."
+  },
+  "EnterDepartmentName": {
+    "en": "Enter Department Name",
+    "hi": "विभाग का नाम दर्ज करें"
+  },
+  "EnterDepartmentCode": {
+    "en": "Enter Department Code",
+    "hi": "विभाग कोड दर्ज करें"
   }
 }

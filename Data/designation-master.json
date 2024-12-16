@@ -40,12 +40,12 @@
     "hi": " क्या आप सचमुच इस पदनाम को हटाना चाहते हैं?"
   },
   "Yesdeleteit": {
-    "en": "Yes delete it",
-    "hi": " हाँ इसे हटा दें"
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
   },
   "Nocancel": {
-    "en": "No cancel",
-    "hi": " रद्द करें"
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
   },
   "Deleted": {
     "en": "Deleted",
@@ -57,7 +57,7 @@
   },
   "DesignationCode": {
     "en": "Designation Code",
-    "hi": " पदनाम कोड"
+    "hi": "पदनाम कोड"
   },
   "Designationname": {
     "en": "Designation name",
@@ -118,5 +118,9 @@
   "loading": {
     "en": "Loading...",
     "hi": "लोड हो रहा है..."
+  },
+  "DesignationName": {
+    "en": "Designation Name",
+    "hi": "पद नाम"
   }
 }
