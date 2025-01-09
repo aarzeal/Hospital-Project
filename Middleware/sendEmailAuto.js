@@ -73,7 +73,7 @@ const sendEmail = async () => {
       logger.info('Files in directory:', files);
 
       // Filter for files with specific extensions
-      const filteredFiles = files.filter(file => ['.pdf', '.xlsx', '.jpg'].includes(path.extname(file)));
+      const filteredFiles = files.filter(file => ['.pdf', '.xlsx', '.jpg','.png'].includes(path.extname(file)));
       if (filteredFiles.length === 0) {
         logger.info('No files found, skipping email sending.');
         resolve({ statusCode: 200, data: { message: 'No files found, skipping email sending' } });

@@ -22,13 +22,14 @@ const empCategoryRoutes = require('./routes/empCategoryRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
 const countApiLogger = require('./Middleware/countApiLogger');
 const job = require('./Middleware/sendEmailAuto');
-const sendEmail = require('./Middleware/sendEmailEventbase');
+const {sendEmail} = require('./Middleware/sendEmailEventbase');
 const locationRoutes = require('./routes/CountryStateCityroute');
 const translationsRoutes = require('./routes/translationsRoutes');
 const apisRatesRoutes = require('./routes/apisRatesRoutes');
 const ApisListRoutes =require("./routes/ApisListRoutes")
 const CurrencyRoutes =require("./routes/currencyRoutes")
 const logRoutes = require('./routes/logRoutes');
+const roomRoutes = require("./routes/MRDRoomRoutes");
 const multer = require('multer');
 const cors = require('cors');
 // Middleware for parsing JSON bodies
@@ -92,9 +93,13 @@ app.use('/api/v1',ApisListRoutes)
 app.use('/api/v1',CurrencyRoutes)
 app.use('/api/v1', logRoutes);
 
-
 app.use('/api/v1/location', locationRoutes);
 app.use('/api/v1', translationsRoutes);
+
+
+sendEmail();
+
+app.use(roomRoutes);
 
 
 // Start server

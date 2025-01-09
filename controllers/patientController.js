@@ -1094,6 +1094,7 @@ exports.createPatient = [
 
 
       /**************send sms working function start */
+
       // if (newPatient && newPatient.Phone && newPatient.PatientFirstName && newPatient.EMRNumber) {
       //   sendSMS(newPatient.Phone, newPatient.PatientFirstName, newPatient.EMRNumber)
       //     .then(response => {

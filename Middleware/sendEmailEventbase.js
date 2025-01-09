@@ -103,25 +103,26 @@ const emailConfig = require('../config/emailCofig.json');
 const logger = require('../logger'); // Adjust the path to your logger
 
 const requestIp = require('request-ip');
+// const clientIp = require('clientIp');
 
-async function getClientIp(req) {
-  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+// async function getClientIp(req) {
+//   let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
 
-  // If IP is localhost or private, try fetching the public IP
-  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
-    try {
-      const ipResponse = await axios.get('https://api.ipify.org?format=json');
-      clientIp = ipResponse.data.ip;
-    } catch (error) {
+//   // If IP is localhost or private, try fetching the public IP
+//   if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+//     try {
+//       const ipResponse = await axios.get('https://api.ipify.org?format=json');
+//       clientIp = ipResponse.data.ip;
+//     } catch (error) {
 
-      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 1079 });
+//       logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 1079 });
 
-      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
-    }
-  }
+//       clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+//     }
+//   }
 
-  return clientIp;
-}
+//   return clientIp;
+// }
 
 // Configure the email transporter
 const transporter = nodemailer.createTransport({
@@ -134,7 +135,7 @@ const transporter = nodemailer.createTransport({
 
 // Function to send an email with a PDF attachment
 const sendEmail = async (filePath, fileName) => {
-  const clientIp = await getClientIp(req);
+  // const clientIp = await getClientIp(req);
   const start = Date.now();
   const maxRetries = 5;
   const retryDelay = 1000; // 1 second
@@ -180,12 +181,12 @@ const sendEmail = async (filePath, fileName) => {
             errorCode,
             errorMessage: err.message,
             executionTime,
-            hospitalId: req.hospitalId,
+            // hospitalId: req.hospitalId,
       
-            ip: clientIp,
+            // ip: clientIp,
             // apiName: req.originalUrl, // API name
             // method: req.method    ,
-            userAgent: req.headers['user-agent'],  
+            // userAgent: req.headers['user-agent'],  /
             data: { message: err.data?.message }   // HTTP method
           });
           throw { statusCode: 500, errorCode: 1080, data: { message: 'Error sending email' } };
@@ -209,12 +210,12 @@ const sendEmail = async (filePath, fileName) => {
                 errorCode,
                 errorMessage: err.message,
                 executionTime,
-                hospitalId: req.hospitalId,
+                // hospitalId: req.hospitalId,
           
-                ip: clientIp,
-                apiName: req.originalUrl, // API name
-                method: req.method    ,
-                userAgent: req.headers['user-agent'],  
+                // ip: clientIp,
+                // apiName: req.originalUrl, // API name
+                // method: req.method    ,
+                // userAgent: req.headers['user-agent'],  
                 data: { message: err.data?.message }   // HTTP method
               });
               throw { statusCode: 500, errorCode: 1081, data: { message: 'Error deleting the PDF file' } };
@@ -229,13 +230,13 @@ const sendEmail = async (filePath, fileName) => {
 
 
                 executionTime,
-                hospitalId: req.hospitalId,
+                // hospitalId: req.hospitalId,
 
 
-                ip: clientIp,
-                apiName: req.originalUrl, // API name
-                method: req.method,
-                userAgent: req.headers['user-agent'],    // HTTP method
+                // ip: clientIp,
+                // apiName: req.originalUrl, // API name
+                // method: req.method,
+                // userAgent: req.headers['user-agent'],    // HTTP method
               });
               logger.info({ statusCode: 200, data: { message: 'Email sent and PDF file deleted successfully' } });
             }
@@ -258,12 +259,12 @@ const sendEmail = async (filePath, fileName) => {
           errorCode,
           errorMessage: err.message,
           executionTime,
-          hospitalId: req.hospitalId,
+          // hospitalId: req.hospitalId,/
     
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method    ,
-          userAgent: req.headers['user-agent'],  
+          // ip: clientIp,
+          // apiName: req.originalUrl, // API name
+          // method: req.method    ,
+          // userAgent: req.headers['user-agent'],  
           data: { message: err.data?.message }   // HTTP method
         });
         throw { statusCode: 500, errorCode: 1082, data: { message: 'Error reading the PDF file' } };
@@ -279,7 +280,7 @@ const sendEmail = async (filePath, fileName) => {
 };
 
 // Watch for new files in the directory
-const directoryPath = path.join(__dirname, 'programfile');
+const directoryPath = path.join(__dirname, './programfile');
 
 fs.watch(directoryPath, (eventType, fileName) => {
   if (eventType === 'rename' && fileName.endsWith('.pdf')) {

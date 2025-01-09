@@ -1156,12 +1156,191 @@ const saveBase64Image = (base64String, filename) => {
 //   }
 // ];
 
-exports.createHospital = [ 
-  upload.single('HospitalLogo'), // Middleware for handling file upload
+// exports.createHospital = [ 
+//   upload.single('HospitalLogo'), // Middleware for handling file upload
+//   async (req, res) => {
+//     const start = Date.now();
+//     const errors = validationResult(req); // Check for validation errors
+    
+//     if (!errors.isEmpty()) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 976;
+//       const statusCode = 400;
+//       logger.logWithMeta("warn", "Validation errors occurred", {
+//         errors: errors.array(),
+//         errorCode,
+//         statusCode,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//       });
+//       return res.status(statusCode).json({
+//         meta: { statusCode: statusCode, errorCode: 976, executionTime: executionTime },
+//         error: { message: 'Validation errors occurred', details: errors.array().map(err => ({ field: err.param, message: err.msg })) }
+//       });
+//     }
+
+//     // Destructure all the necessary fields from the request body
+//     const { 
+//       HospitalName, HospitalCode, ManagingCompany, ManagingCompanyAdd1, 
+//       ManagingCompanyAdd2, ManagingCompanyAdd3, ManagingCompanyEmail, 
+//       ManagingCompanyWebsite, City, Province, Region, Country, HospitalOwner, 
+//       OwnerName, OwnerAdd1, OwnerAdd2, OwnerAdd3, OwnerCity, OwnerProvince, 
+//       OwnerRegion, OwnerCountry, OwnerEmail, HospitalIDNo, TaxNumber, ServiceNo, 
+//       RegistrationNo, VATNumber, GSTNo, TINNo, AccBooksBeginFrom, OtherRegNo, 
+//       HospitalGroupIDR, CreatedDate, Reserve1, Reserve2, Reserve3, Reserve4, 
+//       Reserve5, Reserve6, HospitalDatabase, Username, Password, MFAEnabled, 
+//       HospitalLogo 
+//     } = req.body;
+
+//     try {
+//       // Check for existing hospital based on ManagingCompanyEmail
+//       const existingHospital = await Hospital.findOne({
+//         where: { [Op.or]: [{ ManagingCompanyEmail }] }
+//       });
+//       if (existingHospital) {
+//         const end = Date.now();
+//         const executionTime = `${end - start}ms`;
+//         const errorCode = 977;
+//         const statusCode = 400;
+//         logger.logWithMeta("warn", "ManagingCompanyEmail already exists", {
+//           errorCode, statusCode, executionTime, hospitalId: req.hospitalId,
+//         });
+//         return res.status(statusCode).json({
+//           meta: { statusCode: statusCode, errorCode: 977, executionTime: executionTime },
+//           error: { message: 'ManagingCompanyEmail already exists' }
+//         });
+//       }
+
+//       // Generate a unique key for the hospital
+//       const uniqueKey = uuidv4();
+//       logger.info(`Generated unique key***************: ${uniqueKey}`);
+
+//       const apiKeyFilePath = path.join(__dirname, 'config', 'apikey.json');
+
+//       const storeApiKey = () => {
+//         try {
+//           // Ensure config directory exists
+//           const configDir = path.dirname(apiKeyFilePath);
+//           if (!fs.existsSync(configDir)) {
+//             fs.mkdirSync(configDir, { recursive: true });
+//           }
+      
+//           const apiKeyData = { [HospitalCode]: uniqueKey }; // New entry
+//           fs.writeFileSync(apiKeyFilePath, JSON.stringify(apiKeyData, null, 2)); // Overwrite or create the file
+//           logger.info(`Stored new entry in apiKey.json with HospitalCode":::::::::: ${HospitalCode} and UniqueKey: ${uniqueKey}`);
+//         } catch (err) {
+//           logger.error(`Error writing to apiKey.json: ${err.message}`);
+//           throw err; // Re-throw to be caught in the outer try-catch block
+//         }
+//       };
+      
+//       storeApiKey();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//       // Handle image upload (file or base64)
+//       let savedImagePath = null;
+//       let imgBase64 = null;
+//       if (HospitalLogo && HospitalLogo.startsWith('data:image')) {
+//         // If HospitalLogo is a base64 string
+//         savedImagePath = saveBase64Image(HospitalLogo, HospitalDatabase);
+//       } else if (req.file) {
+//         // If an image file is uploaded via multer
+//         savedImagePath = req.file.path;
+//       }
+//       if (savedImagePath) {
+//         const imgBuffer = fs.readFileSync(savedImagePath);
+//         imgBase64 = `data:image/${path.extname(savedImagePath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+//       }
+
+//       // Create new hospital record
+//       const newHospital = await Hospital.create({
+//         HospitalName, HospitalCode, ManagingCompany, ManagingCompanyAdd1, ManagingCompanyAdd2, ManagingCompanyAdd3, 
+//         ManagingCompanyEmail, ManagingCompanyWebsite, City, Province, Region, Country, HospitalOwner, OwnerName,
+//         OwnerAdd1, OwnerAdd2, OwnerAdd3, OwnerCity, OwnerProvince, OwnerRegion, OwnerCountry, OwnerEmail,
+//         HospitalIDNo, TaxNumber, ServiceNo, RegistrationNo, VATNumber, GSTNo, TINNo, AccBooksBeginFrom, OtherRegNo,
+//         HospitalGroupIDR, CreatedDate, Reserve1, Reserve2, Reserve3, Reserve4, Reserve5, Reserve6, HospitalDatabase,
+//         Username, Password, MFAEnabled, HospitalLogo: savedImagePath, UniqueKey: uniqueKey // Save the unique key
+//       });
+
+//       // Log the creation of the new hospital
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const apiName = req.originalUrl;
+//       const method = req.method;
+//       const clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.ip;
+//       logger.logWithMeta("info", `Created new hospital with ID ${newHospital.id} in ${executionTime}`, {
+//         executionTime, statusCode: 200, userAgent: req.headers['user-agent'], apiName, method, ip: clientIp
+//       });
+
+//       // Generate database name and create the database
+//       const databaseName = HospitalDatabase.replace(/\s+/g, "_").toLowerCase();
+//       logger.info(`Generated database name: ${databaseName}`);
+//       await sequelize.query(`CREATE DATABASE \`${databaseName}\`;`);
+//       logger.info(`Database ${databaseName} created successfully`);
+
+//       // Respond with the created hospital data
+//       res.status(200).json({
+//         meta: { statusCode: 200, executionTime: executionTime },
+//         data: newHospital,
+//         HospitalLogo: imgBase64
+//       });
+
+//     } catch (error) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 978;
+//       const statusCode = 500;
+
+//       // Log the error
+//       logger.logWithMeta("warn", "Error creating hospital", {
+//         errorCode, statusCode, error: error.message, executionTime, hospitalId: req.hospitalId, apiName: req.originalUrl, method: req.method
+//       });
+
+//       res.status(statusCode).json({
+//         meta: { statusCode: statusCode, errorCode: 978, executionTime: executionTime },
+//         error: { message: `Error creating hospital: ${error.message}` }
+//       });
+//     }
+//   }
+// ];
+
+
+exports.createHospital = [
+  upload.single('HospitalLogo'),
   async (req, res) => {
     const start = Date.now();
-    const errors = validationResult(req); // Check for validation errors
-    
+    const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
@@ -1175,93 +1354,112 @@ exports.createHospital = [
         hospitalId: req.hospitalId,
       });
       return res.status(statusCode).json({
-        meta: { statusCode: statusCode, errorCode: 976, executionTime: executionTime },
-        error: { message: 'Validation errors occurred', details: errors.array().map(err => ({ field: err.param, message: err.msg })) }
+        meta: { statusCode, errorCode, executionTime },
+        error: {
+          message: 'Validation errors occurred',
+          details: errors.array().map((err) => ({ field: err.param, message: err.msg })),
+        },
       });
     }
 
-    // Destructure all the necessary fields from the request body
-    const { 
-      HospitalName, HospitalCode, ManagingCompany, ManagingCompanyAdd1, 
-      ManagingCompanyAdd2, ManagingCompanyAdd3, ManagingCompanyEmail, 
-      ManagingCompanyWebsite, City, Province, Region, Country, HospitalOwner, 
-      OwnerName, OwnerAdd1, OwnerAdd2, OwnerAdd3, OwnerCity, OwnerProvince, 
-      OwnerRegion, OwnerCountry, OwnerEmail, HospitalIDNo, TaxNumber, ServiceNo, 
-      RegistrationNo, VATNumber, GSTNo, TINNo, AccBooksBeginFrom, OtherRegNo, 
-      HospitalGroupIDR, CreatedDate, Reserve1, Reserve2, Reserve3, Reserve4, 
-      Reserve5, Reserve6, HospitalDatabase, Username, Password, MFAEnabled, 
-      HospitalLogo 
+    const {
+      HospitalName,
+      HospitalCode,
+      ManagingCompanyEmail,
+      HospitalDatabase,
+      HospitalLogo,
+      ...otherFields
     } = req.body;
 
     try {
-      // Check for existing hospital based on ManagingCompanyEmail
       const existingHospital = await Hospital.findOne({
-        where: { [Op.or]: [{ ManagingCompanyEmail }] }
+        where: { [Op.or]: [{ ManagingCompanyEmail }] },
       });
+
       if (existingHospital) {
         const end = Date.now();
         const executionTime = `${end - start}ms`;
         const errorCode = 977;
         const statusCode = 400;
         logger.logWithMeta("warn", "ManagingCompanyEmail already exists", {
-          errorCode, statusCode, executionTime, hospitalId: req.hospitalId,
+          errorCode,
+          statusCode,
+          executionTime,
+          hospitalId: req.hospitalId,
         });
         return res.status(statusCode).json({
-          meta: { statusCode: statusCode, errorCode: 977, executionTime: executionTime },
-          error: { message: 'ManagingCompanyEmail already exists' }
+          meta: { statusCode, errorCode, executionTime },
+          error: { message: 'ManagingCompanyEmail already exists' },
         });
       }
 
-      // Generate a unique key for the hospital
       const uniqueKey = uuidv4();
       logger.info(`Generated unique key: ${uniqueKey}`);
 
-      // Handle image upload (file or base64)
+    // Function to store the unique key in the existing apikey.json file inside the config folder
+    const storeApiKey = () => {
+      try {
+        const configDir = path.join(__dirname, '../../Hospital_gateway-main/Hospital_gateway/config');
+        const apiKeyFilePath = path.join(configDir, 'apikey.json');
+
+        let apiKeyData = {};
+
+        if (fs.existsSync(apiKeyFilePath)) {
+          const existingData = fs.readFileSync(apiKeyFilePath, 'utf8');
+          apiKeyData = JSON.parse(existingData);
+        }
+
+        apiKeyData[HospitalCode] =   uniqueKey ;
+
+        fs.writeFileSync(apiKeyFilePath, JSON.stringify(apiKeyData, null, 2));
+        logger.info(`Stored unique key in file: ${apiKeyFilePath}`);
+      } catch (err) {
+        logger.error(`Error writing to file for unique key: ${err.message}`);
+        throw err;
+      }
+    };
+
+    storeApiKey();
+
       let savedImagePath = null;
       let imgBase64 = null;
+
       if (HospitalLogo && HospitalLogo.startsWith('data:image')) {
-        // If HospitalLogo is a base64 string
         savedImagePath = saveBase64Image(HospitalLogo, HospitalDatabase);
       } else if (req.file) {
-        // If an image file is uploaded via multer
         savedImagePath = req.file.path;
       }
+
       if (savedImagePath) {
         const imgBuffer = fs.readFileSync(savedImagePath);
         imgBase64 = `data:image/${path.extname(savedImagePath).slice(1)};base64,${imgBuffer.toString('base64')}`;
       }
 
-      // Create new hospital record
       const newHospital = await Hospital.create({
-        HospitalName, HospitalCode, ManagingCompany, ManagingCompanyAdd1, ManagingCompanyAdd2, ManagingCompanyAdd3, 
-        ManagingCompanyEmail, ManagingCompanyWebsite, City, Province, Region, Country, HospitalOwner, OwnerName,
-        OwnerAdd1, OwnerAdd2, OwnerAdd3, OwnerCity, OwnerProvince, OwnerRegion, OwnerCountry, OwnerEmail,
-        HospitalIDNo, TaxNumber, ServiceNo, RegistrationNo, VATNumber, GSTNo, TINNo, AccBooksBeginFrom, OtherRegNo,
-        HospitalGroupIDR, CreatedDate, Reserve1, Reserve2, Reserve3, Reserve4, Reserve5, Reserve6, HospitalDatabase,
-        Username, Password, MFAEnabled, HospitalLogo: savedImagePath, UniqueKey: uniqueKey // Save the unique key
+        HospitalName,
+        HospitalCode,
+        ManagingCompanyEmail,
+        HospitalDatabase,
+        HospitalLogo: savedImagePath,
+        UniqueKey: uniqueKey,
+        ...otherFields,
       });
 
-      // Log the creation of the new hospital
       const end = Date.now();
       const executionTime = `${end - start}ms`;
-      const apiName = req.originalUrl;
-      const method = req.method;
-      const clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.ip;
-      logger.logWithMeta("info", `Created new hospital with ID ${newHospital.id} in ${executionTime}`, {
-        executionTime, statusCode: 200, userAgent: req.headers['user-agent'], apiName, method, ip: clientIp
-      });
-
-      // Generate database name and create the database
       const databaseName = HospitalDatabase.replace(/\s+/g, "_").toLowerCase();
+
       logger.info(`Generated database name: ${databaseName}`);
       await sequelize.query(`CREATE DATABASE \`${databaseName}\`;`);
       logger.info(`Database ${databaseName} created successfully`);
 
-      // Respond with the created hospital data
+      console.log("uniqueKey",uniqueKey)
+
+
       res.status(200).json({
-        meta: { statusCode: 200, executionTime: executionTime },
+        meta: { statusCode: 200, executionTime },
         data: newHospital,
-        HospitalLogo: imgBase64
+        HospitalLogo: imgBase64,
       });
 
     } catch (error) {
@@ -1270,18 +1468,22 @@ exports.createHospital = [
       const errorCode = 978;
       const statusCode = 500;
 
-      // Log the error
       logger.logWithMeta("warn", "Error creating hospital", {
-        errorCode, statusCode, error: error.message, executionTime, hospitalId: req.hospitalId, apiName: req.originalUrl, method: req.method
+        errorCode,
+        statusCode,
+        error: error.message,
+        executionTime,
+        hospitalId: req.hospitalId,
       });
 
       res.status(statusCode).json({
-        meta: { statusCode: statusCode, errorCode: 978, executionTime: executionTime },
-        error: { message: `Error creating hospital: ${error.message}` }
+        meta: { statusCode, errorCode, executionTime },
+        error: { message: `Error creating hospital: ${error.message}` },
       });
     }
-  }
+  },
 ];
+
 
 
 
@@ -5631,40 +5833,34 @@ exports.updateUser = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const { id } = req.params;
-  const { username, password } = req.body;
+  const { name, phone, email, empid, usertype } = req.body;
 
   try {
     const User = require("../models/user")(req.sequelize);
     const user = await User.findByPk(id);
 
     if (!user) {
-      //       const end = Date.now();
-      // logger.warn(`User with ID ${id} not found`, { executionTime: `${end - start}ms` });
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 952;
 
       // Log the warning
-      logger.logWithMeta(
-        "warn",
-        `User with ID ${id} not found${error.message}`,
-        {
-          errorCode,
-          errorMessage: error.message,
-          executionTime,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method,
-          userAgent: req.headers["user-agent"], // HTTP method
-        }
-      );
+      logger.logWithMeta("warn", `User with ID ${id} not found`, {
+        errorCode,
+        errorMessage: "User not found",
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl, // API name
+        method: req.method,
+        userAgent: req.headers["user-agent"], // HTTP method
+      });
 
       return res.status(404).json({
         meta: {
           statusCode: 404,
-          errorCode: 952,
-          executionTime: `${end - start}ms`,
+          errorCode,
+          executionTime,
         },
         error: {
           message: "User not found",
@@ -5672,16 +5868,20 @@ exports.updateUser = async (req, res) => {
       });
     }
 
-    if (username) user.username = username;
-    if (password) user.password = await bcrypt.hash(password, 10);
+    // Update fields if provided
+    if (name) user.name = name;
+    if (phone) user.phone = phone;
+    if (email) user.email = email;
+    if (empid) user.empid = empid;
+    if (usertype) user.usertype = usertype;
 
     await user.save();
-    //     const end = Date.now();
-    // logger.info(`User with ID ${id} updated successfully`, { executionTime: `${end - start}ms` });
+
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    // Log the warning
-    logger.logWithMeta("warn", `User with ID ${id} updated successfully`, {
+
+    // Log the success message
+    logger.logWithMeta("info", `User with ID ${id} updated successfully`, {
       executionTime,
       hospitalId: req.hospitalId,
       ip: clientIp,
@@ -5693,23 +5893,24 @@ exports.updateUser = async (req, res) => {
     res.status(200).json({
       meta: {
         statusCode: 200,
-        executionTime: `${end - start}ms`,
+        executionTime,
       },
       data: {
-        userId: user.userId,
-        username: user.username,
+        userId: user.id,
+        name: user.name,
+        phone: user.phone,
+        email: user.email,
+        empid: user.empid,
+        usertype: user.usertype,
       },
     });
   } catch (error) {
-    // const end = Date.now();
-    // logger.error('Error updating user', { error: error.message, executionTime: `${end - start}ms` });
-
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 953;
 
-    // Log the warning
-    logger.logWithMeta("warn", `Error updating user${error.message}`, {
+    // Log the error
+    logger.logWithMeta("error", `Error updating user: ${error.message}`, {
       errorCode,
       errorMessage: error.message,
       executionTime,
@@ -5719,18 +5920,20 @@ exports.updateUser = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"], // HTTP method
     });
+
     res.status(500).json({
       meta: {
         statusCode: 500,
-        errorCode: 953,
-        executionTime: `${end - start}ms`,
+        errorCode,
+        executionTime,
       },
       error: {
-        message: "Error updating user: " + error.message,
+        message: `Error updating user: ${error.message}`,
       },
     });
   }
 };
+
 
 exports.deleteUser = async (req, res) => {
   const start = Date.now();
@@ -5751,7 +5954,7 @@ exports.deleteUser = async (req, res) => {
       // Log the warning
       logger.logWithMeta(
         "warn",
-        `User with ID ${id} not found${error.message}`,
+        `User with ID ${id} not found}`,
         {
           errorCode,
           errorMessage: error.message,
