@@ -322,170 +322,6 @@ async function getClientIp(req) {
 
 
 // Login
-// exports.login = async (req, res) => {
-//   const start = Date.now();
-//   const clientIp = await getClientIp(req);
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     const end = Date.now();
-//     const executionTime = `${end - start}ms`;
-//     const errorCode = 1122;
-
-//     // Log the warning
-//     logger.logWithMeta("warn", `Validation errors during login `, {
-//       errorCode,
-//       statusCode: 400,
-      
-//       // errorMessage: error.message,
-//       executionTime,
-//       // hospitalId: req.hospitalId,
-//       ip: clientIp,
-//       apiName: req.originalUrl, // API name
-//       method: req.method,
-//       userAgent: req.headers['user-agent'],     // HTTP method
-//     });
-
-//     // logger.warn('Validation errors during login', errors.array());
-//     return res.status(400).json({
-//       meta: {
-//         statusCode: 400,
-//         errorCode: 1122,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'Validation errors occurred',
-//         details: errors.array().map(err => ({
-//           field: err.param,
-//           message: err.msg
-//         }))
-//       }
-//     });
-//   }
-
-//   const { SysUserName, SysUserPwd } = req.body;
-
-//   try {
-//     const [user] = await sequelize.query(
-//       `SELECT * FROM tblsysuser WHERE SysUserName = ? AND Active = ?`,
-//       {
-//         replacements: [SysUserName, 'true'],
-//         type: sequelize.QueryTypes.SELECT
-//       }
-//     );
-
-//     if (!user) {
-//       const end = Date.now();
-//       const executionTime = `${end - start}ms`;
-//       const errorCode = 1123;
-  
-//       // Log the warning
-//       logger.logWithMeta("warn", `Invalid username or password for user `, {
-//         errorCode,
-//         statusCode: 401,
-//         // errorMessage: error.message,
-//         executionTime,
-//         // hospitalId: req.hospitalId,
-//         ip: clientIp,
-//         apiName: req.originalUrl, // API name
-//         method: req.method,
-//         userAgent: req.headers['user-agent'],     // HTTP method
-//       });
-
-//       // logger.warn(`Invalid username or password for user: ${SysUserName}`);
-//       return res.status(401).json({
-//         meta: {
-//           statusCode: 401,
-//           errorCode: 1123,
-//         executionTime: `${end - start}ms`
-//         },
-//         error: {
-//           message: 'Invalid username or password'
-//         }
-//       });
-//     }
-
-//     const isPasswordValid = await bcrypt.compare(SysUserPwd, user.SysUserPwd);
-//     if (!isPasswordValid) {
-//       const end = Date.now();
-//       const executionTime = `${end - start}ms`;
-//       const errorCode = 1124;
-  
-//       // Log the warning
-//       logger.logWithMeta("warn", `Invalid password for user `, {
-//         errorCode,
-//         statusCode: 401,
-//         // errorMessage: error.message,
-//         executionTime,
-//         // hospitalId: req.hospitalId,
-//         ip: clientIp,
-//         apiName: req.originalUrl, // API name
-//         method: req.method,
-//         userAgent: req.headers['user-agent'],     // HTTP method
-//       });
-
-
-//       // logger.warn(`Invalid password for user: ${SysUserName}`);
-//       return res.status(401).json({
-//         meta: {
-//           statusCode: 401,
-//           errorCode: 1124,
-//         executionTime: `${end - start}ms`
-//         },
-//         error: {
-//           message: 'Invalid username or password'
-//         }
-//       });
-//     }
-
-//     const authenticationToken = jwt.sign(
-//       { userId: user.SysUserID, userType: user.UserType },
-//       process.env.SUPERCLIENTSECRET,
-//       { expiresIn: '24h' }
-//     );
-
-//     const end = Date.now();
-//     logger.info(`User ${SysUserName} logged in successfully`);
-//     res.json({
-//       meta: {
-//         statusCode: 200,
-//         errorCode: 0,
-//         executionTime: `${end - start}ms`
-//       },
-//       data: {
-//         token: authenticationToken
-//       }
-//     });
-//   } catch (error) {
-//     const end = Date.now();
-//     const executionTime = `${end - start}ms`;
-//     const errorCode = 1125;
-
-//     // Log the warning
-//     logger.logWithMeta("warn", `Error during login `, {
-//       errorCode,
-//       // errorMessage: error.message,
-//       executionTime, 
-//       statusCode: 500,
-//       // hospitalId: req.hospitalId,
-//       ip: clientIp,
-//       apiName: req.originalUrl, // API name
-//       method: req.method,
-//       userAgent: req.headers['user-agent'],     // HTTP method
-//     });
-//     // logger.error('Error during login', { error: error.message });
-//     res.status(500).json({
-//       meta: {
-//         statusCode: 500,
-//         errorCode: 1125,
-//         executionTime: `${end - start}ms`
-//       },
-//       error: {
-//         message: 'An unexpected error occurred: ' + error.message
-//       }
-//     });
-//   }
-// };
-
 exports.login = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -496,29 +332,33 @@ exports.login = async (req, res) => {
     const errorCode = 1122;
 
     // Log the warning
-    logger.logWithMeta("warn", `Validation errors during login`, {
+    logger.logWithMeta("warn", `Validation errors during login `, {
       errorCode,
       statusCode: 400,
+      
+      // errorMessage: error.message,
       executionTime,
+      // hospitalId: req.hospitalId,
       ip: clientIp,
-      apiName: req.originalUrl,
+      apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
 
+    // logger.warn('Validation errors during login', errors.array());
     return res.status(400).json({
       meta: {
         statusCode: 400,
         errorCode: 1122,
-        executionTime: `${end - start}ms`,
+        executionTime: `${end - start}ms`
       },
       error: {
         message: 'Validation errors occurred',
         details: errors.array().map(err => ({
           field: err.param,
-          message: err.msg,
-        })),
-      },
+          message: err.msg
+        }))
+      }
     });
   }
 
@@ -529,7 +369,7 @@ exports.login = async (req, res) => {
       `SELECT * FROM tblsysuser WHERE SysUserName = ? AND Active = ?`,
       {
         replacements: [SysUserName, 'true'],
-        type: sequelize.QueryTypes.SELECT,
+        type: sequelize.QueryTypes.SELECT
       }
     );
 
@@ -537,59 +377,63 @@ exports.login = async (req, res) => {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1123;
-
+  
       // Log the warning
-      logger.logWithMeta("warn", `Invalid username or password for user`, {
+      logger.logWithMeta("warn", `Invalid username or password for user `, {
         errorCode,
         statusCode: 401,
+        // errorMessage: error.message,
         executionTime,
+        // hospitalId: req.hospitalId,
         ip: clientIp,
-        apiName: req.originalUrl,
+        apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
 
+      // logger.warn(`Invalid username or password for user: ${SysUserName}`);
       return res.status(401).json({
         meta: {
           statusCode: 401,
           errorCode: 1123,
-          executionTime: `${end - start}ms`,
+        executionTime: `${end - start}ms`
         },
         error: {
-          message: 'Invalid username or password',
-        },
+          message: 'Invalid username or password'
+        }
       });
     }
 
-    // Decrypt the SysUserPwd before comparing it
-    const decryptedPassword = CryptoJS.AES.decrypt(SysUserPwd, process.env.PASSWORD_SECRET_KEY).toString(CryptoJS.enc.Utf8);
-
-    const isPasswordValid = await bcrypt.compare(decryptedPassword, user.SysUserPwd);
+    const isPasswordValid = await bcrypt.compare(SysUserPwd, user.SysUserPwd);
     if (!isPasswordValid) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1124;
-
+  
       // Log the warning
-      logger.logWithMeta("warn", `Invalid password for user`, {
+      logger.logWithMeta("warn", `Invalid password for user `, {
         errorCode,
         statusCode: 401,
+        // errorMessage: error.message,
         executionTime,
+        // hospitalId: req.hospitalId,
         ip: clientIp,
-        apiName: req.originalUrl,
+        apiName: req.originalUrl, // API name
         method: req.method,
-        userAgent: req.headers['user-agent'],
+        userAgent: req.headers['user-agent'],     // HTTP method
       });
 
+
+      // logger.warn(`Invalid password for user: ${SysUserName}`);
       return res.status(401).json({
         meta: {
           statusCode: 401,
           errorCode: 1124,
-          executionTime: `${end - start}ms`,
+        executionTime: `${end - start}ms`
         },
         error: {
-          message: 'Invalid username or password',
-        },
+          message: 'Invalid username or password'
+        }
       });
     }
 
@@ -605,11 +449,11 @@ exports.login = async (req, res) => {
       meta: {
         statusCode: 200,
         errorCode: 0,
-        executionTime: `${end - start}ms`,
+        executionTime: `${end - start}ms`
       },
       data: {
-        token: authenticationToken,
-      },
+        token: authenticationToken
+      }
     });
   } catch (error) {
     const end = Date.now();
@@ -617,28 +461,184 @@ exports.login = async (req, res) => {
     const errorCode = 1125;
 
     // Log the warning
-    logger.logWithMeta("warn", `Error during login`, {
+    logger.logWithMeta("warn", `Error during login `, {
       errorCode,
-      executionTime,
+      // errorMessage: error.message,
+      executionTime, 
       statusCode: 500,
+      // hospitalId: req.hospitalId,
       ip: clientIp,
-      apiName: req.originalUrl,
+      apiName: req.originalUrl, // API name
       method: req.method,
-      userAgent: req.headers['user-agent'],
+      userAgent: req.headers['user-agent'],     // HTTP method
     });
-
+    // logger.error('Error during login', { error: error.message });
     res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode: 1125,
-        executionTime: `${end - start}ms`,
+        executionTime: `${end - start}ms`
       },
       error: {
-        message: 'An unexpected error occurred: ' + error.message,
-      },
+        message: 'An unexpected error occurred: ' + error.message
+      }
     });
   }
 };
+
+// exports.login = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 1122;
+
+//     // Log the warning
+//     logger.logWithMeta("warn", `Validation errors during login`, {
+//       errorCode,
+//       statusCode: 400,
+//       executionTime,
+//       ip: clientIp,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers['user-agent'],
+//     });
+
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 1122,
+//         executionTime: `${end - start}ms`,
+//       },
+//       error: {
+//         message: 'Validation errors occurred',
+//         details: errors.array().map(err => ({
+//           field: err.param,
+//           message: err.msg,
+//         })),
+//       },
+//     });
+//   }
+
+//   const { SysUserName, SysUserPwd } = req.body;
+
+//   try {
+//     const [user] = await sequelize.query(
+//       `SELECT * FROM tblsysuser WHERE SysUserName = ? AND Active = ?`,
+//       {
+//         replacements: [SysUserName, 'true'],
+//         type: sequelize.QueryTypes.SELECT,
+//       }
+//     );
+
+//     if (!user) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 1123;
+
+//       // Log the warning
+//       logger.logWithMeta("warn", `Invalid username or password for user`, {
+//         errorCode,
+//         statusCode: 401,
+//         executionTime,
+//         ip: clientIp,
+//         apiName: req.originalUrl,
+//         method: req.method,
+//         userAgent: req.headers['user-agent'],
+//       });
+
+//       return res.status(401).json({
+//         meta: {
+//           statusCode: 401,
+//           errorCode: 1123,
+//           executionTime: `${end - start}ms`,
+//         },
+//         error: {
+//           message: 'Invalid username or password',
+//         },
+//       });
+//     }
+
+//     // Decrypt the SysUserPwd before comparing it
+//     const decryptedPassword = CryptoJS.AES.decrypt(SysUserPwd, process.env.PASSWORD_SECRET_KEY).toString(CryptoJS.enc.Utf8);
+
+//     const isPasswordValid = await bcrypt.compare(decryptedPassword, user.SysUserPwd);
+//     if (!isPasswordValid) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 1124;
+
+//       // Log the warning
+//       logger.logWithMeta("warn", `Invalid password for user`, {
+//         errorCode,
+//         statusCode: 401,
+//         executionTime,
+//         ip: clientIp,
+//         apiName: req.originalUrl,
+//         method: req.method,
+//         userAgent: req.headers['user-agent'],
+//       });
+
+//       return res.status(401).json({
+//         meta: {
+//           statusCode: 401,
+//           errorCode: 1124,
+//           executionTime: `${end - start}ms`,
+//         },
+//         error: {
+//           message: 'Invalid username or password',
+//         },
+//       });
+//     }
+
+//     const authenticationToken = jwt.sign(
+//       { userId: user.SysUserID, userType: user.UserType },
+//       process.env.SUPERCLIENTSECRET,
+//       { expiresIn: '24h' }
+//     );
+
+//     const end = Date.now();
+//     logger.info(`User ${SysUserName} logged in successfully`);
+//     res.json({
+//       meta: {
+//         statusCode: 200,
+//         errorCode: 0,
+//         executionTime: `${end - start}ms`,
+//       },
+//       data: {
+//         token: authenticationToken,
+//       },
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 1125;
+
+//     // Log the warning
+//     logger.logWithMeta("warn", `Error during login`, {
+//       errorCode,
+//       executionTime,
+//       statusCode: 500,
+//       ip: clientIp,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers['user-agent'],
+//     });
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 1125,
+//         executionTime: `${end - start}ms`,
+//       },
+//       error: {
+//         message: 'An unexpected error occurred: ' + error.message,
+//       },
+//     });
+//   }
+// };
 
 // Create Hospital Group
 exports.createHospitalGroup = async (req, res) => {
