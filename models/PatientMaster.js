@@ -19,7 +19,7 @@ try {
 }
 
 
-const PatientMaster = sequelize.define('Patient_masternew', {
+const PatientMaster = sequelize.define('tblpatient', {
   PatientID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -287,7 +287,7 @@ const PatientMaster = sequelize.define('Patient_masternew', {
     //   }
     // }
 }, {
-  tableName: 'Patient_masternew', // Specify the table name if different from the model name
+  tableName: 'tblpatient', // Specify the table name if different from the model name
   timestamps: true // Enable timestamps (createdAt, updatedAt)
 });
 
