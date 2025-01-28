@@ -4772,7 +4772,8 @@ exports.createUser = async (req, res) => {
       createdBy: hospitalId,
     });
 
-    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedtoken}?db=${encryptedDB}`;
+    // const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedtoken}?db=${encryptedDB}`;
+    const verificationLink = `http://${process.env.HOST}:3000/api/v1/hospital/verify/${encryptedtoken}?db=${encryptedDB}`;
 
     await sendUserEmail(
       email,
@@ -5578,7 +5579,11 @@ exports.resendVerificationEmail = async (req, res) => {
   const { email } = req.body;
   const User = require("../models/user")(req.sequelize);
 
+  
+
   try {
+
+  
     // Find the user by email
     const user = await User.findOne({ where: { email } });
 
