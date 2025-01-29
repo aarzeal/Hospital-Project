@@ -30,6 +30,8 @@ const ApisListRoutes =require("./routes/ApisListRoutes")
 const CurrencyRoutes =require("./routes/currencyRoutes")
 const logRoutes = require('./routes/logRoutes');
 const roomRoutes = require("./routes/MRDRoomRoutes");
+const masterSubRoutes = require("./routes/MasterSubModulesRoute");
+const masterRoutes = require("./routes/MasterModuleRoutes");
 const multer = require('multer');
 const cors = require('cors');
 // Middleware for parsing JSON bodies
@@ -95,6 +97,8 @@ app.use('/api/v1', logRoutes);
 
 app.use('/api/v1/location', locationRoutes);
 app.use('/api/v1', translationsRoutes);
+app.use('/api/v1', masterSubRoutes);
+app.use('/api/v1', masterRoutes);
 
 
 sendEmail();

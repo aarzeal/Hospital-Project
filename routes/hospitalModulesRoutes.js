@@ -6,7 +6,7 @@ const modulesController = require('../controllers/hopsitalModuleController');
 
 // const moduleController = require('../controllers/hopsitalModuleController');
 
-// router.post('/modules', moduleController.createModule);
+// router.post('/modules', modulesController.creatmodules);
 // router.get('/modules', moduleController.getModules);
 // router.get('/modules/:id', moduleController.getModuleById);
 // router.put('/modules/:id', moduleController.updateModule);

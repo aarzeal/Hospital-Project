@@ -9,18 +9,21 @@ const dotenv = require('dotenv');
 const requestIp = require('request-ip');
 dotenv.config();
 async function getClientIp(req) {
-  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+  // Get client IP from headers or request
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.connection.remoteAddress;
 
-  // If IP is localhost or private, try fetching the public IP
-  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+  // Check if the IP is a local or private network
+  if (clientIp === '' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
     try {
+      // Fetch the public IP dynamically using ipify if it's local/private
       const ipResponse = await axios.get('https://api.ipify.org?format=json');
       clientIp = ipResponse.data.ip;
     } catch (error) {
+      // Log error if fetching the public IP fails
+      logger.logWithMeta('Error fetching public IP', { error: error.message, errorCode: 1135 });
 
-      logger.logWithMeta('Error fetching public IP', { error: error.message, erroerCode: 1135 });
-
-      clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+      // Fallback to localhost if API call fails
+      clientIp = '127.0.0.1';
     }
   }
 
@@ -395,7 +398,3 @@ exports.creatmodules = async (req, res) => {
         });
     }
 };
-
-
-
-
