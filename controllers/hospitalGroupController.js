@@ -73,17 +73,20 @@ exports.login = async (req, res) => {
   const { SysUserName, SysUserPwd } = req.body;
 
   try {
-    const decryptedPassword = CryptoJS.AES.decrypt(SysUserPwd, process.env.SYSTEM_SECRET_KEY
 
-    ).toString(CryptoJS.enc.Utf8);
-
-    if (!decryptedPassword) {
-      console.error('Decryption failed. Encrypted input:', SysUserPwd);
-      throw new Error('Password decryption failed');
-    }
+    // const secretKey = "mKJDnzbwLQxPriGj";  // Replace with actual key
+    // const plainText = "Pass@123";
+    const secretKey = process.env.SYSTEM_SECRET_KEY;
     
+    // Encrypt
+    // const encrypted = CryptoJS.AES.encrypt(SysUserPwd, secretKey).toString();
+    // console.log('Encrypted:', encrypted);
+    
+    // Decrypt
+    const decryptedBytes = CryptoJS.AES.decrypt(SysUserPwd, secretKey);
+    const decryptedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
-    console.log('Decrypted Password:', decryptedPassword);
+    console.log('Decrypted:', decryptedPassword);
 
     // Fetch user from the database
     const [user] = await sequelize.query(
@@ -160,6 +163,9 @@ exports.login = async (req, res) => {
     const end = Date.now();
     logger.info(`User ${SysUserName} logged in successfully`);
 
+
+
+
     res.json({
       meta: {
         statusCode: 200,
@@ -170,6 +176,7 @@ exports.login = async (req, res) => {
         token: authenticationToken,
       },
     });
+    
   } catch (error) {
 
     const end = Date.now();

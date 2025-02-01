@@ -3492,10 +3492,28 @@ exports.login = async (req, res) => {
 
   const { Username, Password } = req.body;
 
+
   const Hospitaltoken = req.headers["authorization"];
   console.log("SessionToken", Hospitaltoken);
 
   try {
+
+   
+    // const secretKey = "mKJDnzbwLQxPriGj";  // Replace with actual key
+    // const plainText = "Pass123";
+    const secretKey = process.env.SYSTEM_SECRET_KEY;
+    
+    // Encrypt
+    // const encrypted = CryptoJS.AES.encrypt(Password, secretKey).toString();
+    // console.log('Encrypted:', encrypted);
+    
+    // Decrypt
+    const decryptedBytes = CryptoJS.AES.decrypt(Password, secretKey);
+    const decryptedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+    console.log('Decrypted:', decryptedPassword);
+
+
     const hospital = await Hospital.findOne({ where: { Username } });
 
     // Check if hospital is found
@@ -3532,7 +3550,7 @@ exports.login = async (req, res) => {
     console.log('Password from request:', Password);
     console.log('Password from database:', hospital.Password); // Log the database password
 
-    const passwordMatch = await bcrypt.compare(Password, hospital.Password);
+    const passwordMatch = await bcrypt.compare(decryptedPassword, hospital.Password);
 
     // If password doesn't match
     if (!passwordMatch) {
@@ -5674,6 +5692,29 @@ exports.resendVerificationEmail = async (req, res) => {
     // Construct the verification link
     const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedtoken}?db=${encryptedDB}`;
 
+/////////////
+
+const secretKey = process.env.SYSTEM_SECRET_KEY;
+const encrypted = CryptoJS.AES.encrypt(verificationLink, secretKey).toString();
+const urlSafeEncrypted = encodeURIComponent(encrypted); // Make it URL-safe
+
+console.log("Encrypted (URL Safe):", urlSafeEncrypted);
+
+// Decrypt
+const decryptedBytes = CryptoJS.AES.decrypt(decodeURIComponent(urlSafeEncrypted), secretKey);
+const decryptedLink = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+console.log("Decrypted Link:", decryptedLink);
+
+
+///////////////
+
+
+
+
+
+
+
     // Resend the verification email
     await sendUserEmail(
       user.email,
@@ -6190,7 +6231,21 @@ exports.loginUser = async (req, res) => {
   const clientIp = await getClientIp(req);
   const { Username, Password } = req.body;
 
-  if (!Username || !Password) {
+
+  const secretKey = process.env.SYSTEM_SECRET_KEY;
+  //   const Pass="1234"
+  // // Encrypt
+  // const encrypted = CryptoJS.AES.encrypt(Password, secretKey).toString();
+  // console.log('Encrypted00000000000:', encrypted);
+  
+  // Decrypt
+  const decryptedBytes = CryptoJS.AES.decrypt(Password, secretKey);
+  const decryptedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+  console.log('Decrypted0000:', decryptedPassword);
+
+
+  if (!Username || !decryptedPassword) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 958;
@@ -6225,7 +6280,7 @@ exports.loginUser = async (req, res) => {
     const User = require("../models/user")(req.sequelize);
     const user = await User.findOne({ where: { username: Username } });
 
-    if (!user || !(await bcrypt.compare(Password, user.password))) {
+    if (!user || !(await bcrypt.compare(decryptedPassword, user.password))) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 959;

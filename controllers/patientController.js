@@ -998,6 +998,8 @@ exports.createPatient = [
 
       console.log("imgBase64", imgBase64);
       console.log("req.hospitalGroupIDR :", req.hospitalGroupId)
+
+      // const createdBy = req.headers['createdby'];
       // Create new patient record
       const newPatient = await PatientMaster.create({
         PatientMiddleName,
@@ -1030,7 +1032,8 @@ exports.createPatient = [
         country,
         city,
         state,
-        img: savedImagePath
+        img: savedImagePath,
+        // createdBy
       });
 
       // Send SMS and email
@@ -1366,7 +1369,10 @@ exports.updatePatient = [
         country,
         city,
         state,
+        
         img: savedImagePath,
+        
+        
       });
 
       const end = Date.now();

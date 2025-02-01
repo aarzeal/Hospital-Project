@@ -692,88 +692,212 @@ exports.getEmployee = async (req, res) => {
   }
 };
 // Update Employee
-exports.updateEmployee = async (req, res) => {
-  const start = Date.now();
-  const { id } = req.params;
-  const clientIp = await getClientIp(req);
-  const updateData = req.body;
+// exports.updateEmployee = async (req, res) => {
+//   const start = Date.now();
+//   const { id } = req.params;
+//   const clientIp = await getClientIp(req);
+//   const updateData = req.body;
 
-  try {
-    const Employee = require('../models/tblEmployee')(req.sequelize);
-    const employee = await Employee.findByPk(id);
+//   try {
+//     const Employee = require('../models/tblEmployee')(req.sequelize);
+//     const employee = await Employee.findByPk(id);
 
-    if (!employee) {
+//     if (!employee) {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 1040;
+//       const statusCode = 404;
+//       // Log the warning
+//       logger.logWithMeta("warn", `Employee not found: ${error.message}`, {
+//         errorCode,
+//         errorMessage: error.message,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//         statusCode,
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method    ,
+//         userAgent: req.headers['user-agent'],     // HTTP method
+//       });
+//       return res.status(404).json({
+//         meta: { statusCode: 404, errroCode :1040 , executionTime: `${end - start}ms`},
+//         error: { message: 'Employee not found' }
+//       });
+//     }
+
+//     await employee.update(updateData);
+//     // logger.info('Updated employee successfully');
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+   
+
+//     // Log the warning
+//     logger.logWithMeta("warn", ` Updated employee successfully`, {
+
+
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       statusCode:200,
+
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method   ,  
+//       userAgent: req.headers['user-agent'],    // HTTP method
+//     });
+//     res.status(200).json({
+//       meta: { statusCode: 200 },
+//       message: 'Updated employee successfully' ,
+//       data: employee
+
+//     });
+//   } catch (error) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 1041;
+//     const statusCode = 500;
+//     // Log the warning
+//     logger.logWithMeta("warn", `Error updating employee:${error.message}`, {
+//       errorCode,
+//       errorMessage: error.message,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       statusCode,
+//       ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method    ,
+//       userAgent: req.headers['user-agent'],     // HTTP method
+//     });
+//     // logger.error(`Error updating employee: ${error.message}`);
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode: 1041 , executionTime: `${end - start}ms`},
+//       error: { message: 'Failed to update employee due to a server error.' }
+//     });
+//   }
+// };
+
+exports.updateEmployee = [
+  upload.single('EmployeePhoto'), // Multer middleware for handling photo uploads
+  
+  async (req, res) => {
+    const start = Date.now();
+    const { id } = req.params;
+    const clientIp = await getClientIp(req);
+    const errors = validationResult(req);
+
+    // Check for validation errors
+    if (!errors.isEmpty()) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 1040;
-      const statusCode = 404;
-      // Log the warning
-      logger.logWithMeta("warn", `Employee not found: ${error.message}`, {
+      const statusCode = 400;
+      
+      logger.logWithMeta("warn", `Validation errors: ${errors.array().map(err => err.msg).join(', ')}`, {
+        errorCode,
+        errorMessage: 'Validation errors occurred',
+        executionTime,
+        statusCode,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers['user-agent'],
+      });
+
+      return res.status(400).json({
+        meta: { statusCode, errorCode, executionTime },
+        error: {
+          message: 'Validation errors occurred',
+          details: errors.array().map(err => ({
+            field: err.param,
+            message: err.msg,
+          })),
+        },
+      });
+    }
+
+    try {
+      const Employee = require('../models/tblEmployee')(req.sequelize);
+      const employee = await Employee.findByPk(id);
+
+      if (!employee) {
+        const end = Date.now();
+        const executionTime = `${end - start}ms`;
+        const errorCode = 1041;
+        const statusCode = 404;
+
+        logger.logWithMeta("warn", `Employee not found with ID: ${id}`, {
+          errorCode,
+          errorMessage: 'Employee not found',
+          executionTime,
+          hospitalId: req.hospitalId,
+          statusCode,
+          ip: clientIp,
+          apiName: req.originalUrl,
+          method: req.method,
+          userAgent: req.headers['user-agent'],
+        });
+
+        return res.status(404).json({
+          meta: { statusCode, errorCode, executionTime },
+          error: { message: 'Employee not found' },
+        });
+      }
+
+      // Handle EmployeePhoto update
+      let EmployeePhotoPath = employee.EmployeePhoto;
+      if (req.file) {
+        EmployeePhotoPath = req.file.path; // Uploaded file
+      } else if (req.body.EmployeePhoto) {
+        EmployeePhotoPath = saveBase64Image(req.body.EmployeePhoto, employee.EmployeeCode); // Base64 image
+      }
+
+      // Update employee data
+      await employee.update({ ...req.body, EmployeePhoto: EmployeePhotoPath });
+
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+
+      logger.logWithMeta("info", `Updated employee successfully`, {
+        executionTime,
+        hospitalId: req.hospitalId,
+        statusCode: 200,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers['user-agent'],
+      });
+
+      res.status(200).json({
+        meta: { statusCode: 200, executionTime },
+        data: employee,
+        message: 'Employee updated successfully',
+      });
+
+    } catch (error) {
+      const end = Date.now();
+      const executionTime = `${end - start}ms`;
+      const errorCode = 1042;
+      const statusCode = 500;
+
+      logger.logWithMeta("error", `Error updating employee: ${error.message}`, {
         errorCode,
         errorMessage: error.message,
         executionTime,
         hospitalId: req.hospitalId,
         statusCode,
         ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method    ,
-        userAgent: req.headers['user-agent'],     // HTTP method
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers['user-agent'],
       });
-      return res.status(404).json({
-        meta: { statusCode: 404, errroCode :1040 , executionTime: `${end - start}ms`},
-        error: { message: 'Employee not found' }
+
+      res.status(500).json({
+        meta: { statusCode, errorCode, executionTime },
+        error: { message: 'Failed to update Employee due to a server error.' },
       });
     }
-
-    await employee.update(updateData);
-    // logger.info('Updated employee successfully');
-    const end = Date.now();
-    const executionTime = `${end - start}ms`;
-   
-
-    // Log the warning
-    logger.logWithMeta("warn", ` Updated employee successfully`, {
-
-
-      executionTime,
-      hospitalId: req.hospitalId,
-      statusCode:200,
-
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method   ,  
-      userAgent: req.headers['user-agent'],    // HTTP method
-    });
-    res.status(200).json({
-      meta: { statusCode: 200 },
-      message: 'Updated employee successfully' ,
-      data: employee
-
-    });
-  } catch (error) {
-    const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 1041;
-    const statusCode = 500;
-    // Log the warning
-    logger.logWithMeta("warn", `Error updating employee:${error.message}`, {
-      errorCode,
-      errorMessage: error.message,
-      executionTime,
-      hospitalId: req.hospitalId,
-      statusCode,
-      ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method    ,
-      userAgent: req.headers['user-agent'],     // HTTP method
-    });
-    // logger.error(`Error updating employee: ${error.message}`);
-    res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1041 , executionTime: `${end - start}ms`},
-      error: { message: 'Failed to update employee due to a server error.' }
-    });
   }
-};
+];
 
 // Delete Employee
 exports.deleteEmployee = async (req, res) => {
