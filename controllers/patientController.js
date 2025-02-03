@@ -171,6 +171,8 @@ exports.getAllPatients = async (req, res) => {
         }
       }
 
+
+
       // Return a plain object representation of the patient with the image
       return {
         ...patient.get(), // Use patient.get() to convert Sequelize instance to a plain object
@@ -819,6 +821,7 @@ const upload = multer({
 // const upload = multer({ storage });
 
 // Function to decode base64 image and save it as a file
+
 const saveBase64Image = (base64String, filename) => {
   // Split the base64 string into parts to get the extension
   const matches = base64String.match(/^data:(.+);base64,(.+)$/);
@@ -842,13 +845,32 @@ const saveBase64Image = (base64String, filename) => {
   return filePath; // Return the saved file path
 };
 
-exports.createPatient = [
-  // Validation middleware (ensure this is used before multer middleware)
-  // Example: body('name').notEmpty().withMessage('Name is required'),
+const saveBase64PDF = (base64String, filename) => {
+  // Validate and extract Base64 data
+  const matches = base64String.match(/^data:(.+);base64,(.+)$/);
+  if (!matches || matches.length !== 3) {
+    throw new Error('Invalid base64 string');
+  }
+  const ext = matches[1].split('/')[1]; // Extract file extension
+  const data = matches[2]; // Extract base64 data
+  const buffer = Buffer.from(data, 'base64'); // Convert to Buffer
 
-  // File upload middleware
-  
-  upload.single('img'),
+  // Create directory if not exists
+  const uploadPath = path.join(__dirname, '../MRDReportpdf');
+  if (!fs.existsSync(uploadPath)) {
+    fs.mkdirSync(uploadPath, { recursive: true });
+  }
+
+  // Generate file path
+  const filePath = path.join(uploadPath, `${filename}.${ext}`);
+  fs.writeFileSync(filePath, buffer); // Save file
+
+  return filePath; // Return saved file path
+};
+
+exports.createPatient = [
+
+  upload.single('img','uploadDocument'),
 
   async (req, res) => {
     console.log('Request Body:', req.body);
@@ -890,10 +912,6 @@ exports.createPatient = [
       });
     }
 
-    // Get file from request
-    // const img = req.file ? req.file.path : null;
-
-    // Extract data from request body
     console.log(req.body)
     const {
       PatientMiddleName,
@@ -923,7 +941,8 @@ exports.createPatient = [
       country,
       city,
       state,
-      img
+      img,
+      uploadDocument
     } = req.body;
 
 
@@ -976,14 +995,15 @@ exports.createPatient = [
       // Generate unique EMR number
       const EMRNumber = await generateEMRNumber();
 
-      // let savedImagePath = null;
-      // let imgBase64 = null;
-      // if (img) {
-      //   savedImagePath = saveBase64Image(img, EMRNumber); // Save the image using EMRNumber as the filename
-      //   imgBase64 = savedImagePath.toString('base64'); // Convert to base64
+
       // }
       let savedImagePath = null;
+      let savedocumentPath = null;
+
+
       let imgBase64 = null;
+      let uploadDocumentBase64=null
+
       if (img) {
         // If img is provided as a Base64 string
         imgBase64 = img.startsWith('data:image/jpeg;base64/') ? img.split(',')[1] : img; // Extract base64 part if needed
@@ -999,8 +1019,27 @@ exports.createPatient = [
       console.log("imgBase64", imgBase64);
       console.log("req.hospitalGroupIDR :", req.hospitalGroupId)
 
-      // const createdBy = req.headers['createdby'];
-      // Create new patient record
+      const filename = req.body.filename || "document";
+      
+
+      if (uploadDocument) {
+        // If img is provided as a Base64 string
+        uploadDocumentBase64 = uploadDocument.startsWith('data:application/pdf;base64,') ? uploadDocument.split(',')[1] : uploadDocument; // Extract base64 part if needed
+        // imgBase64 = `data:image/jpeg;base64,${imgBuffer.toString('base64')}`;
+        savedocumentPath = saveBase64PDF(uploadDocument, filename);
+
+        console.log("uploadDocument",savedocumentPath)
+      } else if (req.file) {
+        // If an image file is uploaded
+        const pdfBuffer = fs.readFileSync(req.file.path);
+        
+        uploadDocumentBase64 = pdfBuffer.toString('base64'); // Convert to base64
+      }
+
+      console.log("pdfBase64", uploadDocumentBase64);
+
+     
+ 
       const newPatient = await PatientMaster.create({
         PatientMiddleName,
         EMRNumber,
@@ -1033,6 +1072,7 @@ exports.createPatient = [
         city,
         state,
         img: savedImagePath,
+        uploadDocument:savedocumentPath
         // createdBy
       });
 
@@ -1188,7 +1228,8 @@ exports.createPatient = [
         },
         data: newPatient,
         // ...newPatient,
-          img: imgBase64 
+          img: imgBase64 ,
+          uploadDocument:uploadDocumentBase64
       });
     } catch (error) {
       const end = Date.now();

@@ -273,7 +273,11 @@ const PatientMaster = sequelize.define('tblpatient', {
       type: DataTypes.STRING, // Path to the image file
       allowNull: true
     }
-  
+  ,
+  uploadDocument: {
+    type: DataTypes.STRING, // Path to the image file
+    allowNull: true
+  }
     // sequelize,
     // modelName: 'PatientMaster',
     // tableName: 'Patient_master',
@@ -303,7 +307,7 @@ async function syncDatabase() {
 }
 
 syncDatabase().then(() => {
-  console.log('Database synced');
+  console.log('Database synced..');
 }).catch(err => {
   console.error('Failed to sync database:', err);
 }
