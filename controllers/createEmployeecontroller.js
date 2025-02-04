@@ -150,6 +150,9 @@ exports.createEmployee = [
 
     const HospitalIDR = req.hospitalId;
 
+    const  EmployeePhotobase64 = req.body.EmployeePhoto
+
+    // console.log("Base64 Image String:",EmployeePhoto);
     try {
       const Employee = require('../models/tblEmployee')(req.sequelize);
       await Employee.sync();
@@ -158,11 +161,18 @@ exports.createEmployee = [
       let EmployeePhotoPath = null;
       if (req.file) {
         EmployeePhotoPath = req.file.path; // Get the uploaded file path
+        
       } else if (req.body.EmployeePhoto) {
+        
+       
         // Handle base64 image if provided in the request body
-        EmployeePhotoPath = saveBase64Image(req.body.EmployeePhoto, req.body.EMRNumber);
+        EmployeePhotoPath = saveBase64Image(EmployeePhotobase64, req.body.EMRNumber);
       }
 
+
+
+
+      
       // Create a new employee record
       const newEmployee = await Employee.create({
         FName,
@@ -247,6 +257,8 @@ exports.createEmployee = [
           executionTime,
         },
         data: newEmployee,
+        EmployeePhotobase64:EmployeePhotobase64
+
        
       });
     } catch (error) {
@@ -842,13 +854,13 @@ exports.updateEmployee = [
           error: { message: 'Employee not found' },
         });
       }
-
+const photobase64= req.body.EmployeePhoto
       // Handle EmployeePhoto update
       let EmployeePhotoPath = employee.EmployeePhoto;
       if (req.file) {
         EmployeePhotoPath = req.file.path; // Uploaded file
       } else if (req.body.EmployeePhoto) {
-        EmployeePhotoPath = saveBase64Image(req.body.EmployeePhoto, employee.EmployeeCode); // Base64 image
+        EmployeePhotoPath = saveBase64Image(photobase64, employee.EmployeeCode); // Base64 image
       }
 
       // Update employee data
@@ -870,6 +882,7 @@ exports.updateEmployee = [
       res.status(200).json({
         meta: { statusCode: 200, executionTime },
         data: employee,
+        empPhotobase64 :photobase64,
         message: 'Employee updated successfully',
       });
 

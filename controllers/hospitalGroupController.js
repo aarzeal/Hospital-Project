@@ -79,8 +79,8 @@ exports.login = async (req, res) => {
     const secretKey = process.env.SYSTEM_SECRET_KEY;
     
     // Encrypt
-    // const encrypted = CryptoJS.AES.encrypt(SysUserPwd, secretKey).toString();
-    // console.log('Encrypted:', encrypted);
+    const encrypted = CryptoJS.AES.encrypt(SysUserPwd, secretKey).toString();
+    console.log('Encrypted:', encrypted);
     
     // Decrypt
     const decryptedBytes = CryptoJS.AES.decrypt(SysUserPwd, secretKey);

@@ -4,6 +4,7 @@ const multer = require('multer');
 // const authenticate = require('../Middleware/verifyAccesstoken');
 const  authenticate  = require('../validators/authenticate');
 const patientController = require('../controllers/patientController');
+
 const { createPatientValidationRules, updatePatientValidationRules } = require('../validators/hospitalValidator');
 const validateJSONContentType = require('../Middleware/jsonvalidation');
 const upload = multer();
@@ -17,8 +18,8 @@ router.get('/patients/hospital/:hospitalId', authenticate, patientController.get
 
 // POST create a new patient
 // router.post('/patients',  authenticate, createPatientValidationRules(),validateJSONContentType, patientController.createPatient);
-router.post('/patients',  authenticate, 
-     patientController.createPatient);
+router.post('/patients',  authenticate,upload.single('uploadDocument'),
+     patientController.createPatient, patientController.processAndProtectPDF);
      
      
 

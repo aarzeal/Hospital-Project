@@ -1434,6 +1434,8 @@ exports.createHospital = [
         const imgBuffer = fs.readFileSync(savedImagePath);
         imgBase64 = `data:image/${path.extname(savedImagePath).slice(1)};base64,${imgBuffer.toString('base64')}`;
       }
+ 
+
 
       const newHospital = await Hospital.create({
         HospitalName,
@@ -1494,24 +1496,41 @@ exports.getAllHospitals = async (req, res) => {
   
   try {
     const hospitals = await Hospital.findAll();
-    
+    let imgBase64 = null;
     // Read the hospital logo and convert it to base64 if it exists
     const hospitalsWithLogo = await Promise.all(
       hospitals.map(async (hospital) => {
-        if (hospital.HospitalLogo) {
-          try {
-            // Check if the logo exists in the path
-            const logoPath = path.resolve(__dirname, `../../uploads/${hospital.HospitalLogo}`);
-            const imgBuffer = fs.readFileSync(logoPath);
-            const imgBase64 = `data:image/${path.extname(logoPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
-            hospital.HospitalLogo = imgBase64;
-          } catch (error) {
-            hospital.HospitalLogo = null; // If there's an error reading the logo, set it to null
-          }
-        }
+        // if (hospital.HospitalLogo) {
+        //   console.log("hospital.HospitalLogo",hospital.HospitalLogo)
+        //   try {
+          
+        //     const logoPath = path.resolve(__dirname, `../../uploads/${hospital.HospitalLogo}`);
+        //     const imgBuffer = fs.readFileSync(logoPath);
+        //     const imgBase64 = `data:image/${path.extname(logoPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+        //     hospital.HospitalLogo = imgBase64;
+            
+
+        //   } catch (error) {
+        //     hospital.HospitalLogo = null; // If there's an error reading the logo, set it to null
+        //   }
+        // }
+           
+              if (hospital.HospitalLogo) {
+                  const imgPath = path.join(__dirname, '../profileImg', path.basename(hospital.HospitalLogo));
+                  if (fs.existsSync(imgPath)) {
+                      const imgBuffer = fs.readFileSync(imgPath);
+                     
+                      imgBase64 = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+                      hospital.HospitalLogo = imgBase64;
+                  }
+
+              }
+              
         return hospital;
       })
     );
+    // console.log("imgBase640000000000",imgBase64)
+    
     
     const end = Date.now();
     const executionTime = `${end - start}ms`;
@@ -1532,7 +1551,8 @@ exports.getAllHospitals = async (req, res) => {
         statusCode: 200,
         executionTime: executionTime,
       },
-      data: hospitalsWithLogo, // Send the hospitals data with the base64 logo
+      data: hospitalsWithLogo,
+       
     });
   } catch (error) {
     const end = Date.now();
@@ -1754,15 +1774,41 @@ exports.getHospitalById = async (req, res) => {
     }
 
     // Handle logo file and convert to Base64 if exists
-    let logoBase64 = null;
+    // let logoBase64 = null;
+    // if (hospital.HospitalLogo) {
+    //   const logoPath = path.join(__dirname, "../profile", hospital.HospitalLogo); // Adjust the path
+    //   console.log("logoPath.....",logoPath)
+    //   if (fs.existsSync(logoPath)) {
+    //     const logoBuffer = fs.readFileSync(logoPath);
+    //     logoBase64 = `data:image/${path.extname(logoPath).slice(1)};base64,${logoBuffer.toString("base64")}`;
+    //   }
+    // }
+
+
+    let imgBase64 = null;
     if (hospital.HospitalLogo) {
-      const logoPath = path.join(__dirname, "../profile", hospital.HospitalLogo); // Adjust the path
-      console.log("logoPath.....",logoPath)
-      if (fs.existsSync(logoPath)) {
-        const logoBuffer = fs.readFileSync(logoPath);
-        logoBase64 = `data:image/${path.extname(logoPath).slice(1)};base64,${logoBuffer.toString("base64")}`;
-      }
+        const imgPath = path.join(__dirname, '../profileImg', path.basename(hospital.HospitalLogo));
+        console.log("Checking file path:", imgPath);
+    
+        if (fs.existsSync(imgPath)) {
+            try {
+                const imgBuffer = fs.readFileSync(imgPath);
+                const ext = path.extname(imgPath).slice(1) || 'png'; // Default to png if empty
+                imgBase64 = `data:image/${ext};base64,${imgBuffer.toString('base64')}`;
+            } catch (error) {
+                console.error("Error reading file:", error);
+            }
+        } else {
+            console.warn("File not found:", imgPath);
+        }
     }
+    console.log("Final imgBase64:", imgBase64);
+
+
+
+
+
+
 
     const end = Date.now();
     const executionTime = `${end - start}ms`;
@@ -1783,7 +1829,7 @@ exports.getHospitalById = async (req, res) => {
         executionTime,
       },
       data: hospital,
-      hospitalLogo: logoBase64,
+      hospitalLogo: imgBase64,
     });
   } catch (error) {
     const end = Date.now();

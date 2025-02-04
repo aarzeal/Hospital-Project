@@ -11,6 +11,7 @@ const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 const requestIp = require('request-ip');
+const { exec } = require('child_process');
 
 
 
@@ -868,11 +869,17 @@ const saveBase64PDF = (base64String, filename) => {
   return filePath; // Return saved file path
 };
 
+
+// Async function to process and protect PDF
+
 exports.createPatient = [
 
-  upload.single('img','uploadDocument'),
+  // upload.single('img','uploadDocument'),
+  upload.fields([{ name: 'img', maxCount: 1 }, { name: 'uploadDocument', maxCount: 1 }]),
+
 
   async (req, res) => {
+
     console.log('Request Body:', req.body);
     console.log('Uploaded File:', req.file);
 
@@ -1003,6 +1010,8 @@ exports.createPatient = [
 
       let imgBase64 = null;
       let uploadDocumentBase64=null
+      const protectedDir = path.resolve(__dirname, 'passwordpdf');
+      const protectedFilePath = path.join(protectedDir, 'protected_document.pdf');
 
       if (img) {
         // If img is provided as a Base64 string
@@ -1017,18 +1026,50 @@ exports.createPatient = [
       }
 
       console.log("imgBase64", imgBase64);
-      console.log("req.hospitalGroupIDR :", req.hospitalGroupId)
 
       const filename = req.body.filename || "document";
-      
-
-      if (uploadDocument) {
+             if (uploadDocument) {
         // If img is provided as a Base64 string
         uploadDocumentBase64 = uploadDocument.startsWith('data:application/pdf;base64,') ? uploadDocument.split(',')[1] : uploadDocument; // Extract base64 part if needed
         // imgBase64 = `data:image/jpeg;base64,${imgBuffer.toString('base64')}`;
         savedocumentPath = saveBase64PDF(uploadDocument, filename);
+         console.log("uploadDocument",savedocumentPath)
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //  const qpdfPath = "C:\\Program Files\\qpdf 11.9.1\\bin\\qpdf.exe"; 
+    
 
-        console.log("uploadDocument",savedocumentPath)
+        //  const command = `"${qpdfPath}" --encrypt "${password}" "${password}" 256 -- "${savedocumentPath}" "${protectedFilePath}"`;
+         
+        //  exec(command, (error, stdout, stderr) => {
+        //    if (error) {
+        //      console.error('Error applying password protection:', error);
+        //      return res.status(500).json({ message: 'Error applying password protection', error: error.message });
+        //    }
+        //  });
+        //      exec(command, (error, stdout, stderr) => {
+        //        if (error) {
+        //          console.error('Error applying password protection:', error);
+        //          return res.status(500).json({ message: 'Error applying password protection', error: error.message });
+        //        }
+         
+        //        // Check if protected file exists
+        //        if (fs.existsSync(protectedFilePath)) {
+        //          console.log('Protected PDF saved:', protectedFilePath);
+        //          res.status(200).json({
+        //            message: 'Document uploaded and password protected successfully',
+        //            filePath: protectedFilePath,
+        //          });
+         
+        //          // Delete the temporary file after protection
+        //          fs.unlinkSync(savedocumentPath);
+        //        } else {
+        //          console.error('Failed to save protected PDF.');
+        //          res.status(500).json({ message: 'Failed to save protected PDF' });
+        //        }
+        //      });
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
       } else if (req.file) {
         // If an image file is uploaded
         const pdfBuffer = fs.readFileSync(req.file.path);
@@ -1038,8 +1079,7 @@ exports.createPatient = [
 
       console.log("pdfBase64", uploadDocumentBase64);
 
-     
- 
+
       const newPatient = await PatientMaster.create({
         PatientMiddleName,
         EMRNumber,
