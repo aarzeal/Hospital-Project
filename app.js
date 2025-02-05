@@ -32,6 +32,7 @@ const logRoutes = require('./routes/logRoutes');
 const roomRoutes = require("./routes/MRDRoomRoutes");
 const masterSubRoutes = require("./routes/MasterSubModulesRoute");
 const masterRoutes = require("./routes/MasterModuleRoutes");
+const pdfRoutes = require('./routes/passwordProtectedpdf');
 const multer = require('multer');
 const cors = require('cors');
 // Middleware for parsing JSON bodies
@@ -99,6 +100,8 @@ app.use('/api/v1/location', locationRoutes);
 app.use('/api/v1', translationsRoutes);
 app.use('/api/v1', masterSubRoutes);
 app.use('/api/v1', masterRoutes);
+app.use('/api/v1', pdfRoutes);
+
 
 
 sendEmail();

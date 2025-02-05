@@ -1027,12 +1027,12 @@ exports.createPatient = [
 
       console.log("imgBase64", imgBase64);
 
-      const filename = req.body.filename || "document";
+      // const filename = req.body.filename || "document";
              if (uploadDocument) {
         // If img is provided as a Base64 string
         uploadDocumentBase64 = uploadDocument.startsWith('data:application/pdf;base64,') ? uploadDocument.split(',')[1] : uploadDocument; // Extract base64 part if needed
         // imgBase64 = `data:image/jpeg;base64,${imgBuffer.toString('base64')}`;
-        savedocumentPath = saveBase64PDF(uploadDocument, filename);
+        savedocumentPath = saveBase64PDF(uploadDocument, EMRNumber);
          console.log("uploadDocument",savedocumentPath)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //  const qpdfPath = "C:\\Program Files\\qpdf 11.9.1\\bin\\qpdf.exe"; 

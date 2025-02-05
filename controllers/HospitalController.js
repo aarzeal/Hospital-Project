@@ -1400,7 +1400,7 @@ exports.createHospital = [
     const storeApiKey = () => {
       try {
         const configDir = path.join(__dirname, '../../Hospital_gateway-main/Hospital_gateway/config');
-        const apiKeyFilePath = path.join(configDir, 'apikey.json');
+        const apiKeyFilePath = path.join(configDir, 'apiKey.json');
 
         let apiKeyData = {};
 
