@@ -1240,33 +1240,6 @@ const saveBase64Image = (base64String, filename) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //       // Handle image upload (file or base64)
 //       let savedImagePath = null;
 //       let imgBase64 = null;
@@ -1586,95 +1559,6 @@ exports.getAllHospitals = async (req, res) => {
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // exports.getAllHospitals = async (req, res) => {
 //   const start = Date.now();
 //   const clientIp = await getClientIp(req);
@@ -1862,151 +1746,283 @@ exports.getHospitalById = async (req, res) => {
 };
 
 
-// Update hospital
+
 exports.updateHospital = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 907;
 
-    // Log the warning
-    logger.logWithMeta(
-      "warn",
-      `Validation errors occurred while updating hospital $`,
-      {
-        errorCode,
-        statusCode: 400,
-        // errorMessage: error.message,
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers["user-agent"], // HTTP method
-      }
-    );
-    // logger.warn('Validation errors occurred while updating hospital', errors);
-    // const end = Date.now();
+    logger.logWithMeta("warn", "Validation errors occurred while updating hospital", {
+      errorCode,
+      statusCode: 400,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+
     return res.status(400).json({
-      meta: {
-        statusCode: 400,
-        errorCode: 907,
-        executionTime: `${end - start}ms`,
-      },
+      meta: { statusCode: 400, errorCode, executionTime },
       error: {
-        message: errors
-          .array()
-          .map((err) => err.msg)
-          .join(", "),
+        message: errors.array().map((err) => err.msg).join(", "),
       },
     });
   }
 
-  const id = req.params.id;
-  try {
-    const [updatedRows] = await Hospital.update(req.body, {
-      where: { HospitalID: id },
-    });
-    if (updatedRows === 0) {
-      //       const end = Date.now();
-      // logger.warn(`Hospital with ID ${id} not found for update, executionTime: ${end - start}ms`);
+  const { HospitalLogo, ...updateFields } = req.body;
+  const hospitalId = req.params.id;
 
+  try {
+    const hospital = await Hospital.findOne({ where: { HospitalID: hospitalId } });
+
+    if (!hospital) {
       const end = Date.now();
       const executionTime = `${end - start}ms`;
       const errorCode = 908;
 
-      // Log the warning
-      logger.logWithMeta(
-        "warn",
-        `Hospital with ID ${id} not found for update `,
-        {
-          errorCode,
-          statusCode: 404,
-        
-          executionTime,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method,
-          userAgent: req.headers["user-agent"], // HTTP method
-        }
-      );
-      res.status(404).json({
-        meta: {
-          statusCode: 404,
-          errorCode: 908,
-          executionTime: `${end - start}ms`,
-        },
-        error: {
-          message: "Hospital not found",
-        },
+      logger.logWithMeta("warn", `Hospital with ID ${hospitalId} not found for update`, {
+        errorCode,
+        statusCode: 404,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
       });
-    } else {
-      const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      // Log the warning
-      logger.logWithMeta(
-        "warn",
-        `Hospital with ID ${id} updated successfully`,
-        {
-          executionTime,
-          statusCode: 200,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl, // API name
-          method: req.method,
-          userAgent: req.headers["user-agent"], // HTTP method
-        }
-      );
 
-      // logger.info(`Hospital with ID ${id} updated successfully, executionTime: ${end - start}ms`);
-
-      res.json({
-        meta: {
-          statusCode: 200,
-          executionTime: `${end - start}ms`,
-        },
-        message: "Hospital updated successfully",
+      return res.status(404).json({
+        meta: { statusCode: 404, errorCode, executionTime },
+        error: { message: "Hospital not found" },
       });
     }
+
+    let savedImagePath = hospital.HospitalLogo;
+    let imgBase64 = null;
+
+    if (HospitalLogo && HospitalLogo.startsWith("data:image")) {
+      savedImagePath = saveBase64Image(HospitalLogo, hospital.HospitalDatabase);
+    } else if (req.file) {
+      savedImagePath = req.file.path;
+    }
+
+    if (savedImagePath) {
+      const imgBuffer = fs.readFileSync(savedImagePath);
+      imgBase64 = `data:image/${path.extname(savedImagePath).slice(1)};base64,${imgBuffer.toString("base64")}`;
+    }
+
+    updateFields.HospitalLogo = savedImagePath;
+
+    await Hospital.update(updateFields, { where: { HospitalID: hospitalId } });
+
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+
+    logger.logWithMeta("info", `Hospital with ID ${hospitalId} updated successfully`, {
+      statusCode: 200,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+
+    res.json({
+      meta: { statusCode: 200, executionTime },
+      message: "Hospital updated successfully",
+      imgBase64,
+    });
   } catch (error) {
-    // const end = Date.now();
-    // logger.error(`Error updating hospital, executionTime: ${end - start}ms`, { error: error.message });
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 909;
 
-    // Log the warning
-    logger.logWithMeta(
-      "warn",
-      `Error updating hospital, executionTime`,
-      {
-        errorCode,
-        statusCode: 500,
-      
-        executionTime,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers["user-agent"], // HTTP method
-      }
-    );
+    logger.logWithMeta("error", "Error updating hospital", {
+      errorCode,
+      statusCode: 500,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      error: error.message,
+    });
+
     res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode: 909,
-        executionTime: `${end - start}ms`,
-      },
-      error: {
-        message: "Error updating hospital: " + error.message,
-      },
+      meta: { statusCode: 500, errorCode, executionTime },
+      error: { message: `Error updating hospital: ${error.message}` },
     });
   }
 };
+
+
+// Update hospital
+// exports.updateHospital = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 907;
+
+//     // Log the warning
+//     logger.logWithMeta(
+//       "warn",
+//       `Validation errors occurred while updating hospital $`,
+//       {
+//         errorCode,
+//         statusCode: 400,
+//         // errorMessage: error.message,
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method,
+//         userAgent: req.headers["user-agent"], // HTTP method
+//       }
+//     );
+//     // logger.warn('Validation errors occurred while updating hospital', errors);
+//     // const end = Date.now();
+//     return res.status(400).json({
+//       meta: {
+//         statusCode: 400,
+//         errorCode: 907,
+//         executionTime: `${end - start}ms`,
+//       },
+//       error: {
+//         message: errors
+//           .array()
+//           .map((err) => err.msg)
+//           .join(", "),
+//       },
+//     });
+//   }
+
+//   const id = req.params.id;
+//   try {
+//     const [updatedRows] = await Hospital.update(req.body, {
+//       where: { HospitalID: id },
+//     });
+
+//      let savedImagePath = hospital.HospitalLogo; // Use the existing image if no new image is uploaded
+//           let imgBase64 = null;
+    
+//           if (HospitalLogo) {
+//             imgBase64 = img.startsWith('data:image/jpeg;base64/') ? HospitalLogo.split(',')[1] : HospitalLogo;
+//             savedImagePath = saveBase64Image(img, );
+//           } else if (req.file) {
+//             const imgBuffer = fs.readFileSync(req.file.path);
+//             imgBase64 = imgBuffer.toString('base64');
+//           }
+    
+//     if (updatedRows === 0) {
+//       //       const end = Date.now();
+//       // logger.warn(`Hospital with ID ${id} not found for update, executionTime: ${end - start}ms`);
+
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       const errorCode = 908;
+
+//       // Log the warning
+//       logger.logWithMeta(
+//         "warn",
+//         `Hospital with ID ${id} not found for update `,
+//         {
+//           errorCode,
+//           statusCode: 404,
+        
+//           executionTime,
+//           hospitalId: req.hospitalId,
+//           ip: clientIp,
+//           apiName: req.originalUrl, // API name
+//           method: req.method,
+//           userAgent: req.headers["user-agent"], // HTTP method
+//         }
+//       );
+//       res.status(404).json({
+//         meta: {
+//           statusCode: 404,
+//           errorCode: 908,
+//           executionTime: `${end - start}ms`,
+//         },
+//         error: {
+//           message: "Hospital not found",
+//         },
+//       });
+//     } else {
+//       const end = Date.now();
+//       const executionTime = `${end - start}ms`;
+//       // Log the warning
+//       logger.logWithMeta(
+//         "warn",
+//         `Hospital with ID ${id} updated successfully`,
+//         {
+//           executionTime,
+//           statusCode: 200,
+//           hospitalId: req.hospitalId,
+//           ip: clientIp,
+//           apiName: req.originalUrl, // API name
+//           method: req.method,
+//           userAgent: req.headers["user-agent"], // HTTP method
+//         }
+//       );
+
+//       // logger.info(`Hospital with ID ${id} updated successfully, executionTime: ${end - start}ms`);
+
+//       res.json({
+//         meta: {
+//           statusCode: 200,
+//           executionTime: `${end - start}ms`,
+//         },
+//         message: "Hospital updated successfully",
+//         imgBase64:imgBase64
+//       });
+//     }
+//   } catch (error) {
+//     // const end = Date.now();
+//     // logger.error(`Error updating hospital, executionTime: ${end - start}ms`, { error: error.message });
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 909;
+
+//     // Log the warning
+//     logger.logWithMeta(
+//       "warn",
+//       `Error updating hospital, executionTime`,
+//       {
+//         errorCode,
+//         statusCode: 500,
+      
+//         executionTime,
+//         hospitalId: req.hospitalId,
+//         ip: clientIp,
+//         apiName: req.originalUrl, // API name
+//         method: req.method,
+//         userAgent: req.headers["user-agent"], // HTTP method
+//       }
+//     );
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode: 909,
+//         executionTime: `${end - start}ms`,
+//       },
+//       error: {
+//         message: "Error updating hospital: " + error.message,
+//       },
+//     });
+//   }
+// };
 
 // Delete hospital
 exports.deleteHospital = async (req, res) => {
