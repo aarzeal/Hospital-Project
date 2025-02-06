@@ -19,7 +19,7 @@ router.get('/patients/hospital/:hospitalId', authenticate, patientController.get
 // POST create a new patient
 // router.post('/patients',  authenticate, createPatientValidationRules(),validateJSONContentType, patientController.createPatient);
 router.post('/patients',  authenticate,upload.single('uploadDocument'),
-     patientController.createPatient, patientController.processAndProtectPDF);
+     patientController.createPatient);
      
      
 

@@ -13,7 +13,7 @@ const modulesController = require('../controllers/hopsitalModuleController');
 // router.delete('/modules/:id', moduleController.deleteModule);
 
 router.post('/create-modules', authenticate, hospitalController.ensureSequelizeInstance, modulesController.creatmodules);
-router.get('/module', authenticate, hospitalController.ensureSequelizeInstance, modulesController.getModule);
+router.get('/module/:id', authenticate, hospitalController.ensureSequelizeInstance, modulesController.getModule);
 router.get('/Allmodule', authenticate, hospitalController.ensureSequelizeInstance, modulesController.getAllModules);
 router.put('/module/:id', authenticate, hospitalController.ensureSequelizeInstance, modulesController.updateModule);
 
