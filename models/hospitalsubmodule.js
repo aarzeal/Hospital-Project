@@ -100,7 +100,7 @@ module.exports = (sequelize) => {
     },
     hospitalId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     }
   }, {
     tableName: 'userSubModules',

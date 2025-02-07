@@ -98,7 +98,7 @@ app.use('/api/v1', logRoutes);
 app.use('/api/v1/location', locationRoutes);
 app.use('/api/v1', translationsRoutes);
 app.use('/api/v1', masterSubRoutes);
-app.use('/api/v1', masterRoutes);
+app.use('/api/v1/master-module', masterRoutes);
 
 
 sendEmail();

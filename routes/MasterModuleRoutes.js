@@ -12,7 +12,7 @@ router.get("/modules/:id",  moduleController.getModules);
 router.post('/createHospitalModules', moduleController.ensureSequelizeInstance, moduleController.creatmodules);
 router.get('/moduleHospitalModules', moduleController.ensureSequelizeInstance, moduleController.getModule);
 router.get('/AllmoduleHospitalModules', moduleController.ensureSequelizeInstance, moduleController.getAllModules);
-router.put('/moduleHospitalModules/:id', moduleController.ensureSequelizeInstance, moduleController.updateModule);
+router.put('/moduleHospitalModules', moduleController.ensureSequelizeInstance, moduleController.updateModule);
 
 // router.post('/connection', moduleController.ensureSequelizeInstance);
 
