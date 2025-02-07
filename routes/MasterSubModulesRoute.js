@@ -11,6 +11,7 @@ router.get("/submodules/:id", moduleController.getSubModules);
 router.post('/createHospitalsubmodules',  moduleController.ensureSequelizeInstance, moduleController.createSubmodules);
 router.get('/Hospitalsubmodule',  moduleController.ensureSequelizeInstance, moduleController.getSubModule);
 router.get('/Hospitalsubmodules',  moduleController.ensureSequelizeInstance, moduleController.getAllSubModules);
+router.get('/HospitalAllsubmoduleswithmodules',  moduleController.ensureSequelizeInstance, moduleController.getAllModulesWithSubModules);
 router.put('/Hospitalsubmodule',  moduleController.ensureSequelizeInstance, moduleController.updateSubModule);
 
 
