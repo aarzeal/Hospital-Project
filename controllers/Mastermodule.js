@@ -177,72 +177,93 @@ exports.ensureSequelizeInstance = (req, res, next) => {
 exports.creatmodules = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
-    const { modules_name } = req.body;
-    // const hospitalId = req.hospitalId;
-  
-    try {
-     
-     
-      const UserModules = require('../models/HospitalModules')(req.sequelize);
-  
-      // Ensure the table exists
-      await UserModules.sync();
-  
-      const userModules = await UserModules.create({ modules_name  });
-      const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      // Log the warning
-      logger.logWithMeta("warn", `User created successfully with username: ${modules_name}`, {
-        executionTime,
-        statusCode: 200,
-        hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'],    // HTTP method
-      });
-      // logger.info(`User created successfully with username: ${modules_name}, hospitalId: ${hospitalId}, executionTime: ${end - start}ms`);
-  
-      res.status(200).json({
-        meta: {
-          statusCode: 200,
-          executionTime: `${end - start}ms`
-        },
-        data: {
-            modules_Id: userModules.modules_Id,
-          modules_name: userModules.modules_name
-        }
-      });
-    } catch (error) {
-      const end = Date.now();
-      const executionTime = `${end - start}ms`;
-      const errorCode = 1136;
-      
-      // Log the warning
-      logger.logWithMeta("warn", `Error creating Modules ${error.message}`, {
-        errorCode,
-        statusCode: 500,
-        errorMessage: error.message,
-        executionTime,
-        // hospitalId: req.hospitalId,
-        ip: clientIp,
-        apiName: req.originalUrl, // API name
-        method: req.method,
-        userAgent: req.headers['user-agent'],     // HTTP method
-      });
-      // logger.error('Error creating Modules',{ errorCode }, { error: error.message, executionTime: `${end - start}ms` });
-      res.status(500).json({
-        meta: {
-          statusCode: 500,
-          errorCode: 1136,
-          executionTime: `${end - start}ms`
-        },
-        error: {
-          message: 'Error creating modules: ' + error.message
-        }
+  const { modules_name,status } = req.body; // Can be a single string or an array of names
+
+  try {
+    const UserModules = require("../models/HospitalModules")(req.sequelize);
+
+    // Ensure the table exists
+    await UserModules.sync();
+
+    let createdModules;
+    
+    if (Array.isArray(modules_name)) {
+      // If multiple module names are provided, insert in bulk
+      const modulesData = modules_name.map(name => ({
+        modules_name: name,
+        status: status || "active" 
+      }));
+      createdModules = await UserModules.bulkCreate(modulesData);
+    } else {
+      // If a single module name is provided
+      createdModules = await UserModules.create({
+        modules_name,
+        status: status || "active" , // Default status
       });
     }
-  };
+
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+
+    // Logging
+    logger.logWithMeta("warn", `Modules created successfully`, {
+      executionTime,
+      statusCode: 200,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime,
+      },
+      data: Array.isArray(createdModules)
+        ? createdModules.map(module => ({
+            modules_Id: module.modules_Id,
+            modules_name: module.modules_name,
+            status: module.status,
+          }))
+        : {
+            modules_Id: createdModules.modules_Id,
+            modules_name: createdModules.modules_name,
+            status: createdModules.status,
+          },
+    });
+  } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1136;
+
+    // Error Logging
+    logger.logWithMeta("warn", `Error creating modules`, {
+      errorCode,
+      statusCode: 500,
+      errorMessage: error.message,
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode,
+        executionTime,
+      },
+      error: {
+        message: "Error creating modules: " + error.message,
+      },
+    });
+  }
+};
+
   exports.getModule = async (req, res) => {
     
     const start = Date.now();
@@ -302,6 +323,7 @@ exports.creatmodules = async (req, res) => {
         data: {
           modules_Id: userModules.modules_Id,
           modules_name: userModules.modules_name,
+          status: userModules.status,
         },
       });
     } catch (error) {
@@ -389,7 +411,8 @@ exports.creatmodules = async (req, res) => {
           },
           data: allModules.map(module => ({
             modules_Id: module.modules_Id,
-            modules_name: module.modules_name
+            modules_name: module.modules_name,
+            status: module.status,
           }))
         });
       } catch (error) {
@@ -427,7 +450,7 @@ exports.creatmodules = async (req, res) => {
       const clientIp = await getClientIp(req);
       const start = Date.now();
       const { modules_Id } = req.query; // Extract module ID from query parameters
-      const { modules_name } = req.body;
+      const { modules_name, status } = req.body; // Get modules_name and status from req body
   
       if (!modules_Id) {
           return res.status(400).json({
@@ -454,7 +477,7 @@ exports.creatmodules = async (req, res) => {
           if (!userModules) {
               const executionTime = `${Date.now() - start}ms`;
               const errorCode = 1141;
-              
+  
               logger.logWithMeta("warn", `Module with ID ${modules_Id} not found`, {
                   errorCode,
                   statusCode: 404,
@@ -478,7 +501,14 @@ exports.creatmodules = async (req, res) => {
               });
           }
   
+          // ✅ Update name if provided
           if (modules_name) userModules.modules_name = modules_name;
+          
+          // ✅ Update status if provided and valid
+          if (status && ["active", "inactive"].includes(status)) {
+              userModules.status = status;
+          }
+  
           await userModules.save();
   
           const executionTime = `${Date.now() - start}ms`;
@@ -499,7 +529,8 @@ exports.creatmodules = async (req, res) => {
               },
               data: {
                   modules_Id: userModules.modules_Id,
-                  modules_name: userModules.modules_name
+                  modules_name: userModules.modules_name,
+                  status: userModules.status,
               }
           });
       } catch (error) {
@@ -530,4 +561,3 @@ exports.creatmodules = async (req, res) => {
           });
       }
   };
-  

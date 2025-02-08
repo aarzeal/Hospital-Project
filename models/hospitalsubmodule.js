@@ -101,7 +101,12 @@ module.exports = (sequelize) => {
     hospitalId: {
       type: DataTypes.INTEGER,
       allowNull: true
-    }
+    },
+    status: {
+      type: DataTypes.ENUM("active", "inactive"), // Stores only 'active' or 'inactive'
+      allowNull: false,
+      defaultValue: "active", // Default value is 'active'
+    },
   }, {
     tableName: 'userSubModules',
     timestamps: false
