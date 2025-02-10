@@ -11,3 +11,18 @@ const Module = sequelize.define(
 );
 
 module.exports = Module;
+// const { DataTypes } = require("sequelize");
+
+
+// module.exports = (sequelize) => {
+//   return sequelize.define(
+//     "Module",
+//     {
+//       modules_Id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+//       modules_name: { type: DataTypes.STRING, allowNull: false },
+//       status: { type: DataTypes.BOOLEAN, defaultValue: true }
+//     },
+//     { tableName: "usermodules", timestamps: false }
+//   );
+// };
+

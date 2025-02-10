@@ -26,112 +26,146 @@ async function getClientIp(req) {
 
   return clientIp;
 }
-exports.getSubModules = async (req, res) => {
-  const start = Date.now();
-  const clientIp = await getClientIp(req);
-  const submoduleId = req.params.id;
-
+exports.getSubmodulesByModuleId = async (req, res) => {
   try {
-    const SubModule = require("../models/hospitalsubmodule")(req.sequelize);
-    let result;
+    const { moduleId } = req.params;
 
-    if (submoduleId) {
-      result = await SubModule.findByPk(submoduleId);
-      if (!result) {
-        logger.logWithMeta("warn", `SubModule not found`, {
-          errorCode: 1234,
-          executionTime: `${Date.now() - start}ms`,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          statusCode: 404,
-          apiName: req.originalUrl,
-          method: req.method,
-          userAgent: req.headers["user-agent"],
-        });
-
-        return res.status(404).json({
-          meta: {
-            statusCode: 404,
-            errorCode: 1234,
-            executionTime: `${Date.now() - start}ms`,
-          },
-          error: {
-            message: "SubModule not found",
-          },
-        });
-      }
-    } else {
-      result = await SubModule.findAll();
+    if (!moduleId) {
+      return res.status(400).json({ success: false, message: "Module ID is required!" });
     }
 
-    const executionTime = `${Date.now() - start}ms`;
+   
+    const Submodule = require("../models/MasterSubmodule");
 
-    logger.logWithMeta("info", `SubModules fetched successfully`, {
-      executionTime,
-      statusCode: 200,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl,
-      method: req.method,
-      userAgent: req.headers["user-agent"],
+    const submodules = await Submodule.findAll({
+      where: { module_id: moduleId },
+      attributes: ["submodule_id", "submodule_name"],
     });
 
-    res.status(200).json({
-      meta: {
-        statusCode: 200,
-        executionTime,
-      },
-      data: result,
-    });
+    if (!submodules || submodules.length === 0) {
+      return res.status(404).json({ success: false, message: "No submodules found for the given Module ID" });
+    }
+
+    return res.status(200).json({ success: true, data: submodules });
+
   } catch (error) {
-    const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 1235;
-
-    logger.logWithMeta("error", `Error fetching SubModules: ${error.message}`, {
-      errorCode,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      statusCode: 500,
-      apiName: req.originalUrl,
-      method: req.method,
-      userAgent: req.headers["user-agent"],
-    });
-
-    res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode,
-        executionTime,
-      },
-      error: {
-        message: "Database error",
-      },
-    });
+    console.error("❌ Error fetching submodules:", error);
+    return res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
 
 // exports.getSubModules = async (req, res) => {
-//   try {
-//     const submoduleId = req.params.id;
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const submoduleId = req.params.id;
 
+//   try {
+//     const SubModule = require("../models/MasterSubmodule")(req.sequelize);
 //     let result;
+
 //     if (submoduleId) {
-//       result = await submodule.findByPk(submoduleId);
+//       result = await SubModule.findByPk(submoduleId);
 //       if (!result) {
-//         return res.status(404).json({ success: false, message: "subModule not found" });
+//         logger.logWithMeta("warn", `SubModule not found`, {
+//           errorCode: 1234,
+//           executionTime: `${Date.now() - start}ms`,
+//           hospitalId: req.hospitalId,
+//           ip: clientIp,
+//           statusCode: 404,
+//           apiName: req.originalUrl,
+//           method: req.method,
+//           userAgent: req.headers["user-agent"],
+//         });
+
+//         return res.status(404).json({
+//           meta: {
+//             statusCode: 404,
+//             errorCode: 1234,
+//             executionTime: `${Date.now() - start}ms`,
+//           },
+//           error: {
+//             message: "SubModule not found",
+//           },
+//         });
 //       }
 //     } else {
-//       result = await submodule.findAll();
+//       result = await SubModule.findAll();
 //     }
 
-//     res.status(200).json({ success: true, data: result });
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     logger.logWithMeta("info", `SubModules fetched successfully`, {
+//       executionTime,
+//       statusCode: 200,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//     });
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//       },
+//       data: result,
+//     });
 //   } catch (error) {
-//     console.error("Error fetching submodules:", error);
-//     res.status(500).json({ success: false, message: "Database error" });
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 1235;
+
+//     logger.logWithMeta("error", `Error fetching SubModules: ${error.message}`, {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       statusCode: 500,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//     });
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode,
+//         executionTime,
+//       },
+//       error: {
+//         message: "Database error",
+//       },
+//     });
 //   }
 // };
+
+exports.getSubModules = async (req, res) => {
+  try {
+    const submoduleId = req.params.id;
+
+    let result;
+    if (submoduleId) {
+      result = await submodule.findByPk(submoduleId);
+      if (!result) {
+        return res.status(404).json({ success: false, message: "subModule not found" });
+      }
+    } else {
+      result = await submodule.findAll();
+    }
+
+    res.status(200).json({ success: true, data: result });
+  } catch (error) {
+    console.error("Error fetching submodules:", error);
+    res.status(500).json({ success: false, message: "Database error" });
+  }
+};
 exports.ensureSequelizeInstance = (req, res, next) => {
+
+
+
+
+
+  
   const start = Date.now();
 
   const hospitalDatabase = req.headers["hospitaldatabase"]; // Fetch from headers (case-sensitive)
@@ -215,6 +249,7 @@ exports.createSubmodules = async (req, res) => {
 
   try {
     const UserSubModules = require("../models/hospitalsubmodule")(req.sequelize);
+
     await UserSubModules.sync({ alter: true }); 
 
     // Prepare bulk insert data
@@ -686,5 +721,147 @@ exports.getAllModulesWithSubModules = async (req, res) => {
       });
   }
 };
+
+exports.createModulesWithSubmodules = async (req, res) => {
+  try {
+    const modulesData = req.body;
+
+    if (!Array.isArray(modulesData) || modulesData.length === 0) {
+      return res.status(400).json({ success: false, message: "Invalid input data!" });
+    }
+
+    const sequelize = req.sequelize;
+    if (!sequelize) {
+      return res.status(500).json({ success: false, message: "Database instance not found!" });
+    }
+
+    const Module = require("../models/masterModule")(sequelize);
+    const Submodule = require("../models/MasterSubmodule")(sequelize);
+    
+    await Module.sync({ alter: true }); 
+    await Submodule.sync({ alter: true }); 
+
+
+    const transaction = await sequelize.transaction();
+
+    try {
+      const createdModules = [];
+
+      for (const moduleData of modulesData) {
+        const { modules_name, status = true, submodules } = moduleData;
+
+        if (!modules_name || !Array.isArray(submodules) || submodules.length === 0) {
+          throw new Error("Invalid module data! Each module must have a name and at least one submodule.");
+        }
+
+        // ✅ Create module
+        const module = await Module.create({ modules_name: modules_name, status }, { transaction });
+
+        // ✅ Create submodules
+        const submoduleData = submodules.map(sub => ({
+          submodule_name: sub.submodule_name,
+          modules_Id: module.modules_Id,
+          status: sub.status ?? true, // ✅ Default true if not provided
+        }));
+
+        const createdSubmodules = await Submodule.bulkCreate(submoduleData, { transaction });
+
+        createdModules.push({
+          modules_Id: module.modules_Id,
+          modules_name: module.modules_name,
+          status: module.status,
+          submodules: createdSubmodules.map(sub => ({
+            submodule_id: sub.submodule_id,
+            submodule_name: sub.submodule_name,
+            status: sub.status,
+          })),
+        });
+      }
+
+      await transaction.commit();
+
+      return res.status(200).json({
+        success: true,
+        message: "Modules and submodules added successfully!",
+        data: createdModules,
+      });
+
+    } catch (error) {
+      await transaction.rollback();
+      console.error("❌ Error adding modules and submodules:", error);
+      return res.status(500).json({ success: false, message: "Failed to create modules and submodules" });
+    }
+  } catch (error) {
+    console.error("❌ Internal server error:", error);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+
+// exports.createModuleWithSubmodules = async (req, res) => {
+//   try {
+//     const { modules_name,status = true, submodules } = req.body;
+//     if (!modules_name || !Array.isArray(submodules) || submodules.length === 0) {
+//       return res.status(400).json({ success: false, message: "Invalid input data!" });
+//     }
+
+//     // ✅ Get the Sequelize instance from the request
+//     const sequelize = req.sequelize;
+//     if (!sequelize) {
+//       return res.status(500).json({ success: false, message: "Database instance not found!" });
+//     }
+
+//     // ✅ Correct model import (initialize with Sequelize instance)
+//     const Module = require("../models/masterModule")(sequelize);
+//     const Submodule = require("../models/MasterSubmodule")(sequelize);
+    
+//     await Module.sync({ alter: true }); 
+//     await Submodule.sync({ alter: true }); 
+
+//     // ✅ Start a transaction
+//     const transaction = await sequelize.transaction();
+
+//     try {
+//       // ✅ Create the module
+//       const module = await Module.create({ modules_name ,status }, { transaction });
+
+//       // ✅ Create submodules with the newly created module_id
+//       const submoduleData = submodules.map((sub) => ({
+//         submodule_name: sub.submodule_name,
+//         modules_Id: module.modules_Id,
+//         status: sub.status ?? true,
+//       }));
+
+//       const createdSubmodules = await Submodule.bulkCreate(submoduleData, { transaction });
+
+//       // ✅ Commit transaction
+//       await transaction.commit();
+
+//       return res.status(201).json({
+//         success: true,
+//         message: "Module and submodules added successfully!",
+//         data: {
+//           modules_Id: module.modules_Id,
+//           modules_name: module.modules_name,
+//           status: module.status,
+//           submodules: createdSubmodules.map((sub) => ({
+//             submodule_id: sub.submodule_id,
+//             submodule_name: sub.submodule_name,
+//             status: sub.status,
+//           })),
+//         },
+//       });
+
+//     } catch (error) {
+//       // ✅ Rollback in case of failure
+//       await transaction.rollback();
+//       console.error("❌ Error adding module and submodules:", error);
+//       return res.status(500).json({ success: false, message: "Failed to create module and submodules" });
+//     }
+//   } catch (error) {
+//     console.error("❌ Internal server error:", error);
+//     return res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// };
 
 

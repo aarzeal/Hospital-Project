@@ -30,110 +30,110 @@ async function getClientIp(req) {
   return clientIp;
 }
 
-// exports.getModules = async (req, res) => {
-//   try {
-//     const moduleId = req.params.id;
-
-//     let result;
-//     if (moduleId) {
-//       result = await Module.findByPk(moduleId);
-//       if (!result) {
-//         return res.status(404).json({ success: false, message: "Module not found" });
-//       }
-//     } else {
-//       result = await Module.findAll();
-//     }
-
-//     res.status(200).json({ success: true, data: result });
-//   } catch (error) {
-//     console.error("Error fetching modules:", error);
-//     res.status(500).json({ success: false, message: "Database error" });
-//   }
-// };
 exports.getModules = async (req, res) => {
-  const start = Date.now();
-  const clientIp = await getClientIp(req);
-  const moduleId = req.params.id;
-
   try {
-    const Module = require("../models/module")(req.sequelize);
-    let result;
+    const moduleId = req.params.id;
 
+    let result;
     if (moduleId) {
       result = await Module.findByPk(moduleId);
       if (!result) {
-        logger.logWithMeta("warn", `Module not found`, {
-          errorCode: 1220,
-          executionTime: `${Date.now() - start}ms`,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          statusCode: 404,
-          apiName: req.originalUrl,
-          method: req.method,
-          userAgent: req.headers["user-agent"],
-        });
-
-        return res.status(404).json({
-          meta: {
-            statusCode: 404,
-            errorCode: 1220,
-            executionTime: `${Date.now() - start}ms`,
-          },
-          error: {
-            message: "Module not found",
-          },
-        });
+        return res.status(404).json({ success: false, message: "Module not found" });
       }
     } else {
       result = await Module.findAll();
     }
 
-    const executionTime = `${Date.now() - start}ms`;
-
-    logger.logWithMeta("info", `Modules fetched successfully`, {
-      executionTime,
-      statusCode: 200,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      apiName: req.originalUrl,
-      method: req.method,
-      userAgent: req.headers["user-agent"],
-    });
-
-    res.status(200).json({
-      meta: {
-        statusCode: 200,
-        executionTime,
-      },
-      data: result,
-    });
+    res.status(200).json({ success: true, data: result });
   } catch (error) {
-    const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 1221;
-
-    logger.logWithMeta("error", `Error fetching modules: ${error.message}`, {
-      errorCode,
-      executionTime,
-      hospitalId: req.hospitalId,
-      ip: clientIp,
-      statusCode: 500,
-      apiName: req.originalUrl,
-      method: req.method,
-      userAgent: req.headers["user-agent"],
-    });
-
-    res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode,
-        executionTime,
-      },
-      error: {
-        message: "Database error",
-      },
-    });
+    console.error("Error fetching modules:", error);
+    res.status(500).json({ success: false, message: "Database error" });
   }
 };
+// exports.getModules = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const moduleId = req.params.id;
+
+//   try {
+//     const Module = require("../models/masterModule")(req.sequelize);
+//     let result;
+
+//     if (moduleId) {
+//       result = await Module.findByPk(moduleId);
+//       if (!result) {
+//         logger.logWithMeta("warn", `Module not found`, {
+//           errorCode: 1220,
+//           executionTime: `${Date.now() - start}ms`,
+//           hospitalId: req.hospitalId,
+//           ip: clientIp,
+//           statusCode: 404,
+//           apiName: req.originalUrl,
+//           method: req.method,
+//           userAgent: req.headers["user-agent"],
+//         });
+
+//         return res.status(404).json({
+//           meta: {
+//             statusCode: 404,
+//             errorCode: 1220,
+//             executionTime: `${Date.now() - start}ms`,
+//           },
+//           error: {
+//             message: "Module not found",
+//           },
+//         });
+//       }
+//     } else {
+//       result = await Module.findAll();
+//     }
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     logger.logWithMeta("info", `Modules fetched successfully`, {
+//       executionTime,
+//       statusCode: 200,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//     });
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//       },
+//       data: result,
+//     });
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 1221;
+
+//     logger.logWithMeta("error", `Error fetching modules: ${error.message}`, {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       statusCode: 500,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//     });
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode,
+//         executionTime,
+//       },
+//       error: {
+//         message: "Database error",
+//       },
+//     });
+//   }
+// };
 
 exports.ensureSequelizeInstance = (req, res, next) => {
   const start = Date.now();
