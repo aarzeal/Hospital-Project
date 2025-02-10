@@ -738,8 +738,8 @@ exports.getAllModulesWithSubModules = async (req, res) => {
 //     const Module = require("../models/masterModule")(sequelize);
 //     const Submodule = require("../models/MasterSubmodule")(sequelize);
     
-//     await Module.sync({ alter: true }); 
-//     await Submodule.sync({ alter: true }); 
+    // await Module.sync({ alter: true }); 
+    // await Submodule.sync({ alter: true }); 
 
 
 //     const transaction = await sequelize.transaction();
@@ -813,6 +813,8 @@ exports.createModulesWithSubmodules = async (req, res) => {
 
     const Module = require("../models/HospitalModules")(sequelize);
     const Submodule = require("../models/hospitalsubmodule")(sequelize);
+    await Module.sync({ alter: true }); 
+    await Submodule.sync({ alter: true });
 
     const transaction = await sequelize.transaction();
 
