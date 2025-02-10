@@ -35,7 +35,7 @@ module.exports = (sequelize) => {
     },
     modules_name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     hospitalId: {
       type: DataTypes.INTEGER,

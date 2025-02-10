@@ -722,6 +722,82 @@ exports.getAllModulesWithSubModules = async (req, res) => {
   }
 };
 
+// exports.createModulesWithSubmodules = async (req, res) => {
+//   try {
+//     const modulesData = req.body;
+
+//     if (!Array.isArray(modulesData) || modulesData.length === 0) {
+//       return res.status(400).json({ success: false, message: "Invalid input data!" });
+//     }
+
+//     const sequelize = req.sequelize;
+//     if (!sequelize) {
+//       return res.status(500).json({ success: false, message: "Database instance not found!" });
+//     }
+
+//     const Module = require("../models/masterModule")(sequelize);
+//     const Submodule = require("../models/MasterSubmodule")(sequelize);
+    
+//     await Module.sync({ alter: true }); 
+//     await Submodule.sync({ alter: true }); 
+
+
+//     const transaction = await sequelize.transaction();
+
+//     try {
+//       const createdModules = [];
+
+//       for (const moduleData of modulesData) {
+//         const { modules_name, status = true, submodules } = moduleData;
+
+//         if (!modules_name || !Array.isArray(submodules) || submodules.length === 0) {
+//           throw new Error("Invalid module data! Each module must have a name and at least one submodule.");
+//         }
+
+//         // ✅ Create module
+//         const module = await Module.create({ modules_name: modules_name, status }, { transaction });
+
+//         // ✅ Create submodules
+//         const submoduleData = submodules.map(sub => ({
+//           submodule_name: sub.submodule_name,
+//           modules_Id: module.modules_Id,
+//           status: sub.status ?? true, // ✅ Default true if not provided
+//         }));
+
+//         const createdSubmodules = await Submodule.bulkCreate(submoduleData, { transaction });
+
+//         createdModules.push({
+//           modules_Id: module.modules_Id,
+//           modules_name: module.modules_name,
+//           status: module.status,
+//           submodules: createdSubmodules.map(sub => ({
+//             submodule_id: sub.submodule_id,
+//             submodule_name: sub.submodule_name,
+//             status: sub.status,
+//           })),
+//         });
+//       }
+
+//       await transaction.commit();
+
+//       return res.status(200).json({
+//         success: true,
+//         message: "Modules and submodules added successfully!",
+//         data: createdModules,
+//       });
+
+//     } catch (error) {
+//       await transaction.rollback();
+//       console.error("❌ Error adding modules and submodules:", error);
+//       return res.status(500).json({ success: false, message: "Failed to create modules and submodules" });
+//     }
+//   } catch (error) {
+//     console.error("❌ Internal server error:", error);
+//     return res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// };
+
+
 exports.createModulesWithSubmodules = async (req, res) => {
   try {
     const modulesData = req.body;
@@ -735,12 +811,8 @@ exports.createModulesWithSubmodules = async (req, res) => {
       return res.status(500).json({ success: false, message: "Database instance not found!" });
     }
 
-    const Module = require("../models/masterModule")(sequelize);
-    const Submodule = require("../models/MasterSubmodule")(sequelize);
-    
-    await Module.sync({ alter: true }); 
-    await Submodule.sync({ alter: true }); 
-
+    const Module = require("../models/HospitalModules")(sequelize);
+    const Submodule = require("../models/hospitalsubmodule")(sequelize);
 
     const transaction = await sequelize.transaction();
 
@@ -755,7 +827,7 @@ exports.createModulesWithSubmodules = async (req, res) => {
         }
 
         // ✅ Create module
-        const module = await Module.create({ modules_name: modules_name, status }, { transaction });
+        const module = await Module.create({ module_name: modules_name, status }, { transaction });
 
         // ✅ Create submodules
         const submoduleData = submodules.map(sub => ({
@@ -768,7 +840,7 @@ exports.createModulesWithSubmodules = async (req, res) => {
 
         createdModules.push({
           modules_Id: module.modules_Id,
-          modules_name: module.modules_name,
+          module_name: module.module_name,
           status: module.status,
           submodules: createdSubmodules.map(sub => ({
             submodule_id: sub.submodule_id,
@@ -796,72 +868,4 @@ exports.createModulesWithSubmodules = async (req, res) => {
     return res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
-
-
-// exports.createModuleWithSubmodules = async (req, res) => {
-//   try {
-//     const { modules_name,status = true, submodules } = req.body;
-//     if (!modules_name || !Array.isArray(submodules) || submodules.length === 0) {
-//       return res.status(400).json({ success: false, message: "Invalid input data!" });
-//     }
-
-//     // ✅ Get the Sequelize instance from the request
-//     const sequelize = req.sequelize;
-//     if (!sequelize) {
-//       return res.status(500).json({ success: false, message: "Database instance not found!" });
-//     }
-
-//     // ✅ Correct model import (initialize with Sequelize instance)
-//     const Module = require("../models/masterModule")(sequelize);
-//     const Submodule = require("../models/MasterSubmodule")(sequelize);
-    
-//     await Module.sync({ alter: true }); 
-//     await Submodule.sync({ alter: true }); 
-
-//     // ✅ Start a transaction
-//     const transaction = await sequelize.transaction();
-
-//     try {
-//       // ✅ Create the module
-//       const module = await Module.create({ modules_name ,status }, { transaction });
-
-//       // ✅ Create submodules with the newly created module_id
-//       const submoduleData = submodules.map((sub) => ({
-//         submodule_name: sub.submodule_name,
-//         modules_Id: module.modules_Id,
-//         status: sub.status ?? true,
-//       }));
-
-//       const createdSubmodules = await Submodule.bulkCreate(submoduleData, { transaction });
-
-//       // ✅ Commit transaction
-//       await transaction.commit();
-
-//       return res.status(201).json({
-//         success: true,
-//         message: "Module and submodules added successfully!",
-//         data: {
-//           modules_Id: module.modules_Id,
-//           modules_name: module.modules_name,
-//           status: module.status,
-//           submodules: createdSubmodules.map((sub) => ({
-//             submodule_id: sub.submodule_id,
-//             submodule_name: sub.submodule_name,
-//             status: sub.status,
-//           })),
-//         },
-//       });
-
-//     } catch (error) {
-//       // ✅ Rollback in case of failure
-//       await transaction.rollback();
-//       console.error("❌ Error adding module and submodules:", error);
-//       return res.status(500).json({ success: false, message: "Failed to create module and submodules" });
-//     }
-//   } catch (error) {
-//     console.error("❌ Internal server error:", error);
-//     return res.status(500).json({ success: false, message: "Internal server error" });
-//   }
-// };
-
 
