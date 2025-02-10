@@ -829,7 +829,7 @@ exports.createModulesWithSubmodules = async (req, res) => {
         }
 
         // ✅ Create module
-        const module = await Module.create({ module_name: modules_name, status }, { transaction });
+        const module = await Module.create({ modules_name: modules_name, status }, { transaction });
 
         // ✅ Create submodules
         const submoduleData = submodules.map(sub => ({
@@ -842,7 +842,7 @@ exports.createModulesWithSubmodules = async (req, res) => {
 
         createdModules.push({
           modules_Id: module.modules_Id,
-          module_name: module.module_name,
+          modules_name: module.modules_name,
           status: module.status,
           submodules: createdSubmodules.map(sub => ({
             submodule_id: sub.submodule_id,
