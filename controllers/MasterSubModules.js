@@ -27,11 +27,30 @@ async function getClientIp(req) {
   return clientIp;
 }
 exports.getSubmodulesByModuleId = async (req, res) => {
+  const start = Date.now();
+    const clientIp = req.ip;
   try {
     const { moduleId } = req.params;
 
     if (!moduleId) {
-      return res.status(400).json({ success: false, message: "Module ID is required!" });
+      logger.logWithMeta("warn", "Module ID is required", {
+        errorCode: 1252,
+        statusCode: 400,
+        executionTime: `${Date.now() - start}ms`,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"]
+    });
+    return res.status(400).json({
+      meta: {
+          statusCode: 400,
+          errorCode: 1252,
+          executionTime: `${Date.now() - start}ms`
+      },
+      error: { message: "Module ID is required!" }
+  });
     }
 
    
@@ -39,20 +58,64 @@ exports.getSubmodulesByModuleId = async (req, res) => {
 
     const submodules = await Submodule.findAll({
       where: { module_id: moduleId },
-      attributes: ["submodule_id", "submodule_name"],
+      attributes: ["submodule_id", "submodule_name","module_id"],
     });
 
     if (!submodules || submodules.length === 0) {
-      return res.status(404).json({ success: false, message: "No submodules found for the given Module ID" });
+      logger.logWithMeta("warn", "No submodules found for the given Module ID", {
+        errorCode: 1253,
+        statusCode: 404,
+        executionTime: `${Date.now() - start}ms`,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"]
+    });
+    return res.status(404).json({
+      meta: {
+          statusCode: 404,
+          errorCode: 1253,
+          executionTime: `${Date.now() - start}ms`
+      },
+      error: { message: "No submodules found for the given Module ID" }
+  });
     }
+
+    logger.logWithMeta("info", "Submodules retrieved successfully", {
+      executionTime: `${Date.now() - start}ms`,
+      statusCode: 200,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"]
+  });
 
     return res.status(200).json({ success: true, data: submodules });
 
-  } catch (error) {
-    console.error("❌ Error fetching submodules:", error);
-    return res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};
+  }catch (error) {
+    logger.logWithMeta("error", `Error fetching submodules: ${error.message}`, {
+        errorCode: 1254,
+        statusCode: 500,
+        executionTime: `${Date.now() - start}ms`,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"]
+    });
+
+    return res.status(500).json({
+        meta: {
+            statusCode: 500,
+            errorCode: 1254,
+            executionTime: `${Date.now() - start}ms`
+        },
+        error: { message: "Internal server error" }
+    });
+} 
+}; 
 
 // exports.getSubModules = async (req, res) => {
 //   const start = Date.now();
@@ -799,17 +862,46 @@ exports.getAllModulesWithSubModules = async (req, res) => {
 
 
 exports.createModulesWithSubmodules = async (req, res) => {
+  const start = Date.now();
+  const clientIp = req.ip;
+
   try {
     const modulesData = req.body;
-
+   
     if (!Array.isArray(modulesData) || modulesData.length === 0) {
-      return res.status(400).json({ success: false, message: "Invalid input data!" });
+      logger.logWithMeta("warn", "Invalid input data", {
+        statusCode: 400,
+        errorCode: 1248,
+        executionTime: `${Date.now() - start}ms`,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+      return res.status(400).json({
+        meta: { statusCode: 400, errorCode: 1248, executionTime: `${Date.now() - start}ms` },
+        error: { message: "Invalid input data!" },
+      });
     }
 
     const sequelize = req.sequelize;
     if (!sequelize) {
-      return res.status(500).json({ success: false, message: "Database instance not found!" });
-    }
+      logger.logWithMeta("error", "Database instance not found", {
+        statusCode: 500,
+        errorCode: 1249,
+        executionTime: `${Date.now() - start}ms`,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+      return res.status(500).json({
+        meta: { statusCode: 500, errorCode: 1249, executionTime: `${Date.now() - start}ms` },
+        error: { message: "Database instance not found!" },
+      });
+        }
 
     const Module = require("../models/HospitalModules")(sequelize);
     const Submodule = require("../models/hospitalsubmodule")(sequelize);
@@ -854,6 +946,17 @@ exports.createModulesWithSubmodules = async (req, res) => {
 
       await transaction.commit();
 
+      const executionTime = `${Date.now() - start}ms`;
+      logger.logWithMeta("info", "Modules and submodules added successfully", {
+        statusCode: 200,
+        executionTime,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+
       return res.status(200).json({
         success: true,
         message: "Modules and submodules added successfully!",
@@ -862,12 +965,38 @@ exports.createModulesWithSubmodules = async (req, res) => {
 
     } catch (error) {
       await transaction.rollback();
-      console.error("❌ Error adding modules and submodules:", error);
-      return res.status(500).json({ success: false, message: "Failed to create modules and submodules" });
+
+      logger.logWithMeta("error", `Failed to create modules and submodules: ${error.message}`, {
+        statusCode: 500,
+        errorCode: 1250,
+        executionTime: `${Date.now() - start}ms`,
+        hospitalId: req.hospitalId,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+
+      return res.status(500).json({
+        meta: { statusCode: 500, errorCode: 1250, executionTime: `${Date.now() - start}ms` },
+        error: { message: "Failed to create modules and submodules" },
+      });
     }
   } catch (error) {
-    console.error("❌ Internal server error:", error);
-    return res.status(500).json({ success: false, message: "Internal server error" });
+    logger.logWithMeta("error", `Internal server error: ${error.message}`, {
+      statusCode: 500,
+      errorCode: 1251,
+      executionTime: `${Date.now() - start}ms`,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+
+    return res.status(500).json({
+      meta: { statusCode: 500, errorCode: 1251, executionTime: `${Date.now() - start}ms` },
+      error: { message: "Internal server error" },
+    });
   }
 };
-
