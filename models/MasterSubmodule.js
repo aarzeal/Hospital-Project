@@ -20,7 +20,7 @@ const Submodule = sequelize.define(
 );
 
   Module.hasMany(Submodule, { foreignKey: "module_id", onDelete: "CASCADE" });
-  Submodule.belongsTo(Module, { foreignKey: "module_id" });
+  Submodule.belongsTo(Module, { foreignKey: "module_id" ,as: "Module"});
 
 module.exports = Submodule;
 

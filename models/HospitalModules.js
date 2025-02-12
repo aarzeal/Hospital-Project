@@ -42,9 +42,9 @@ module.exports = (sequelize) => {
       allowNull: true
     },
     status: {
-      type: DataTypes.ENUM("active", "inactive"), // Stores only 'active' or 'inactive'
+      type: DataTypes.BOOLEAN, // Changed from ENUM to BOOLEAN
       allowNull: false,
-      defaultValue: "active", // Default value is 'active'
+      defaultValue: true // 1 (true) for active, 0 (false) for inactive
     },
   }, {
     tableName: 'userModules',

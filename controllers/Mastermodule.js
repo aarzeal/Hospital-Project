@@ -202,14 +202,14 @@ exports.creatmodules = async (req, res) => {
       // If multiple module names are provided, insert in bulk
       const modulesData = modules_name.map(name => ({
         modules_name: name,
-        status: status || "active"
+        status: status || "true"
       }));
       createdModules = await UserModules.bulkCreate(modulesData);
     } else {
       // If a single module name is provided
       createdModules = await UserModules.create({
         modules_name,
-        status: status || "active", // Default status
+        status: status || "true", // Default status
       });
     }
 
