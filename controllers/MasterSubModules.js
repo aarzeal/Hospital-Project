@@ -1,4 +1,5 @@
 const submodule = require("../models/MasterSubmodule");
+const Module = require("../models/masterModule");
 const { Sequelize } = require("sequelize");
 const logger = require('../logger');
 const dotenv = require('dotenv');
@@ -204,19 +205,35 @@ exports.getSubmodulesByModuleId = async (req, res) => {
 
 exports.getSubModules = async (req, res) => {
   try {
-    const submoduleId = req.params.id;
+    const submodules = await submodule.findAll({
+      include: [
+        {
+          model: Module,
+          as: "Module",
+          attributes: ["module_name"],
+        },
+      ],
+      attributes: ["submodule_id", "submodule_name"],
+    });
 
-    let result;
-    if (submoduleId) {
-      result = await submodule.findByPk(submoduleId);
-      if (!result) {
-        return res.status(404).json({ success: false, message: "subModule not found" });
-      }
-    } else {
-      result = await submodule.findAll();
+    if (!submodules.length) {
+      return res.status(404).json({ success: false, message: "No submodules found" });
     }
 
-    res.status(200).json({ success: true, data: result });
+    // Group submodules by module name
+    const groupedSubmodules = {};
+    submodules.forEach((submodule) => {
+      const moduleName = submodule.Module.module_name;
+      if (!groupedSubmodules[moduleName]) {
+        groupedSubmodules[moduleName] = [];
+      }
+      groupedSubmodules[moduleName].push({
+        submodule_id: submodule.submodule_id,
+        submodule_name: submodule.submodule_name,
+      });
+    });
+
+    res.status(200).json({ success: true, data: groupedSubmodules });
   } catch (error) {
     console.error("Error fetching submodules:", error);
     res.status(500).json({ success: false, message: "Database error" });
