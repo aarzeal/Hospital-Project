@@ -1,10 +1,11 @@
-const express = require("express");
-const { createService,getAllAndGetById,updateService } = require("../controllers/serviceController");
+// const express = require("express");
+// const { createService,getAllAndGetById,updateService,deleteService,ensureSequelizeInstance } = require("../controllers/serviceController");
+// const authenticate = require('../Middleware/verifyAccesstoken');
+// const router = express.Router();
 
-const router = express.Router();
+// router.post("/create_service",authenticate,ensureSequelizeInstance, createService);
+// router.get("/service",getAllAndGetById );
+// router.put("/update/:service_id", updateService);
+// router.delete("/delete/:service_id", deleteService);
 
-router.post("/create_service", createService);
-router.get("/create_service",getAllAndGetById );
-router.put("/update/:service_id", updateService);
-
-module.exports = router;
+// module.exports = router;

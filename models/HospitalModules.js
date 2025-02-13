@@ -42,9 +42,9 @@ module.exports = (sequelize) => {
       allowNull: true
     },
     status: {
-      type: DataTypes.BOOLEAN, // Changed from ENUM to BOOLEAN
+      type: DataTypes.BOOLEAN, 
       allowNull: false,
-      defaultValue: true // 1 (true) for active, 0 (false) for inactive
+      defaultValue: true 
     },
   }, {
     tableName: 'userModules',

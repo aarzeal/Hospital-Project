@@ -1,8 +1,8 @@
-const express = require("express");
-const { createLedger } = require("../controllers/accLedgerController");
+// const express = require("express");
+// const { createLedger } = require("../controllers/accLedgerController");
 
-const router = express.Router();
+// const router = express.Router();
 
-router.post("/create_accLedger", createLedger);
+// router.post("/create_accLedger", createLedger);
 
-module.exports = router;
+// module.exports = router;

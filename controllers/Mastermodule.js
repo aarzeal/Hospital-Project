@@ -515,11 +515,9 @@ exports.updateModule = async (req, res) => {
     // ✅ Update name if provided
     if (modules_name) userModules.modules_name = modules_name;
 
-    // ✅ Update status if provided and valid
-    if (status && ["active", "inactive"].includes(status)) {
+    if (typeof status === "boolean") {
       userModules.status = status;
-    }
-
+    } 
     await userModules.save();
 
     const executionTime = `${Date.now() - start}ms`;

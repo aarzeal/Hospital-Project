@@ -122,68 +122,74 @@ const initializeUserRides = require('../models/hospitalUserRights');
 // };
 
 
-exports.ensureSequelizeInstance = async (req, res, next) => {
+exports.ensureSequelizeInstance = (req, res) => {
   const start = Date.now();
+  // const clientIp = await getClientIp(req);
 
   if (!req.hospitalDatabase) {
     const end = Date.now();
-    logger.error('Database connection not established', { executionTime: `${end - start}ms` });
-    return res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode: 927,
-        executionTime: `${end - start}ms`
-      },
-      error: {
-        message: 'Database connection not established'
-      }
+    const executionTime = `${end - start}ms`;
+    const errorCode = 937;
+    const statusCode = 500;
+    // Log the warning
+    logger.logWithMeta("warn", `Database connection not established`, {
+      errorCode,
+      statusCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      // ip: clientIp,
+      apiName: req.originalUrl, // API name
+      method: req.method,
+      userAgent: req.headers["user-agent"], // HTTP method
     });
+    // logger.error('Database connection not established', { executionTime: `${end - start}ms` });
+
+    // return res.status(statusCode).json({
+    //   meta: {
+    //     statusCode: statusCode,
+    //     errorCode: 937,
+    //     executionTime: `${end - start}ms`,
+    //   },
+
+    //   error: {
+    //     message: "Database connection not established",
+    //   },
+    // });
   }
 
-  try {
-    const sequelize = new Sequelize(
-      req.hospitalDatabase,
-      process.env.DB_USER,
-      process.env.DB_PASSWORD,
-      {
-        host: process.env.DB_HOST,
-        dialect: process.env.DB_DIALECT
-      }
-    );
+  const sequelize = new Sequelize(
+    req.hospitalDatabase,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
+      host: process.env.DB_HOST,
+      dialect: process.env.DB_DIALECT,
+    }
+  );
 
-    const UserModules = initializeUserModules(sequelize);
-    const UserSubModules = initializeUserSubModules(sequelize);
-    const UserRides = initializeUserRides(sequelize);
+  req.sequelize = sequelize;
+  // logger.info('Sequelize instance created successfully');
+  const end = Date.now();
+  const executionTime = `${end - start}ms`;
+  // Log the warning
+  // logger.logWithMeta("warn", `Sequelize instance created successfully`, {
+  //   executionTime,
+  //   statusCode: 200,
+  //   hospitalId: req.hospitalId,
+  //   // ip: clientIp,
+  //   apiName: req.originalUrl, // API name
+  //   method: req.method,
+  //   userAgent: req.headers["user-agent"], // HTTP method
+  // });
+  // next();
 
-    // Define associations
-    UserModules.hasMany(UserSubModules, { as: 'submodules', foreignKey: 'modules_Id' });
-    UserRides.belongsTo(UserModules, { as: 'module', foreignKey: 'modules_Id' });
-    UserRides.belongsTo(UserSubModules, { as: 'submodule', foreignKey: 'submodule_id' });
-
-    req.sequelize = sequelize;
-    req.models = {
-      UserModules,
-      UserSubModules,
-      UserRides
-    };
-
-    // logger.info('Sequelize instance and models initialized successfully');
-    next();
-
-  } catch (error) {
-    const end = Date.now();
-    logger.error('Error initializing Sequelize instance', { error, executionTime: `${end - start}ms` });
-    res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode: 928,
-        executionTime: `${end - start}ms`
-      },
-      error: {
-        message: 'Failed to initialize Sequelize instance'
-      }
+  sequelize
+    .sync({ alter: true })
+    .then(() => {
+      console.log("Database synchronized successfully.");
+    })
+    .catch((error) => {
+      console.error("Error synchronizing the database:", error);
     });
-  }
 };
-
 
