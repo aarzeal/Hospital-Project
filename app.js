@@ -32,8 +32,8 @@ const logRoutes = require('./routes/logRoutes');
 const roomRoutes = require("./routes/MRDRoomRoutes");
 const masterSubRoutes = require("./routes/MasterSubModulesRoute");
 const masterRoutes = require("./routes/MasterModuleRoutes");
-// const accLedgerRoutes = require("./routes/accLedgerRoutes");
-// const serviceRoutes = require("./routes/serviceRoutes");
+const accLedgerRoutes = require("./routes/accLedgerRoutes");
+const serviceRoutes = require("./routes/serviceRoutes");
 const serviceCategory = require("./routes/serviceCategoryRoutes");
 const multer = require('multer');
 const cors = require('cors');
@@ -102,8 +102,8 @@ app.use('/api/v1/location', locationRoutes);
 app.use('/api/v1', translationsRoutes);
 app.use('/api/v1/master-submodule', masterSubRoutes);
 app.use('/api/v1/master-module', masterRoutes);
-// app.use('/api/v1/accLedger', accLedgerRoutes);
-// app.use('/api/v1/service', serviceRoutes);
+app.use('/api/v1/accLedger', accLedgerRoutes);
+app.use('/api/v1/service', serviceRoutes);
 app.use('/api/v1/serviceCategory', serviceCategory);
 
 

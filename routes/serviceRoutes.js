@@ -9,3 +9,16 @@
 // router.delete("/delete/:service_id", deleteService);
 
 // module.exports = router;
+
+const express = require('express');
+const router = express.Router();
+const serviceController = require('../controllers/serviceController');
+const authenticate = require('../validators/authenticate');
+
+router.post('/service', authenticate,serviceController.ensureSequelizeInstance,serviceController.createService);
+router.get('/service', authenticate,serviceController.ensureSequelizeInstance,serviceController.getService);
+router.get('/service/:id', authenticate,serviceController.ensureSequelizeInstance,serviceController.getService);
+router.put("/update/:id", authenticate,serviceController.ensureSequelizeInstance,serviceController.updateService);
+
+
+module.exports = router;
