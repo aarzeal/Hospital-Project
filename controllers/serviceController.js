@@ -447,6 +447,7 @@ const dotenv = require('dotenv');
 const requestIp = require('request-ip');
 const { Sequelize } = require("sequelize");
 const Group = require("../models/HospitalGroup");
+// const Service_category = require("../models/HospitalGroup");
 
 // const AccLedgermodel = require("../models/AccLedger"); 
 dotenv.config();
@@ -708,10 +709,7 @@ exports.updateService = async (req, res) => {
 
     try {
         const Service = require("../models/ser")(req.sequelize);
-        const Group = require("../models/HospitalGroup")(req.sequelize);
-        const Service_category = require("../models/servicecategory")(req.sequelize);
-        const AccLedger = require("../models/AccLedger")(req.sequelize);
-
+       
         // 🔍 Validate Service Exists
         let service = await Service.findByPk(id);
         if (!service) return res.status(404).json({ message: "Service not found" });
@@ -720,13 +718,28 @@ exports.updateService = async (req, res) => {
         const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR } });
         if (!group) return res.status(400).json({ message: "Invalid HospitalGroupID, not found in MasterDB" });
 
-        // 🔍 Validate Service Category
-        const service_category = await Service_category.findOne({ where: { servicecategoryId: service_category_IDR } });
-        if (!service_category) return res.status(400).json({ message: "Invalid Service Category ID, not found in MasterDB" });
+        
+        const AccLedger = require("../models/AccLedger")(req.sequelize);
 
-        // 🔍 Validate Ledger
-        const accLedger = await AccLedger.findOne({ where: { ledger_id: ledger_IDR } });
-        if (!accLedger) return res.status(400).json({ message: "Invalid ledger_IDR, not found in MasterDB" });
+        const accLedger = await AccLedger.findOne({
+            where: { ledger_id: ledger_IDR}
+        });
+
+        if (!accLedger) {
+            return res.status(400).json({ message: "Invalid Service AccLedger ID, not found in MasterDB" });
+        }
+        
+
+
+        const Service_category = require("../models/servicecategory")(req.sequelize);
+
+        const service_category = await Service_category.findOne({
+            where: { servicecategoryId: service_category_IDR }
+        });
+
+        if (!service_category) {
+            return res.status(400).json({ message: "Invalid Service Category ID, not found in MasterDB" });
+        }
 
         // **UPDATE SERVICE**
         await service.update({ service_code, service_name, service_type, service_category_IDR, service_charge_applicable, service_tax_applicable, non_active, ledger_IDR, HospitalGroupIDR });
@@ -766,6 +779,62 @@ exports.updateService = async (req, res) => {
         res.status(500).json({
             meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
             error: { message: "Error updating service: " + error.message },
+        });
+    }
+};
+exports.deleteService = async (req, res) => {
+    const start = Date.now();
+    const clientIp = await getClientIp(req);
+    const { service_id } = req.params;
+    const hospitalDatabase = req.hospitalDatabase;
+
+    try {
+        const Service = require("../models/ser")(req.sequelize);
+        await Service.sync();
+
+        const service = await Service.findOne({ where: { service_id } });
+        
+        if (!service) {
+            return res.status(404).json({ message: "Service not found" });
+        }
+
+        await service.destroy();
+        
+        const executionTime = `${Date.now() - start}ms`;
+
+        logger.logWithMeta("info", "Service deleted successfully", {
+            executionTime,
+            hospitalId: req.hospitalId,
+            ip: clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+        });
+
+        res.status(200).json({
+            meta: {
+                statusCode: 200,
+                executionTime,
+                hospitalDatabase,
+            },
+            message: "Service deleted successfully",
+        });
+    } catch (error) {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 940;
+
+        logger.logWithMeta("error", "Error deleting service", {
+            errorCode,
+            executionTime,
+            hospitalId: req.hospitalId,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+        });
+
+        res.status(500).json({
+            meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+            error: { message: "Error deleting service: " + error.message },
         });
     }
 };

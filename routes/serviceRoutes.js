@@ -14,11 +14,14 @@ const express = require('express');
 const router = express.Router();
 const serviceController = require('../controllers/serviceController');
 const authenticate = require('../validators/authenticate');
+const validateJSONContentType = require('../Middleware/jsonvalidation');
+const ensureSequelizeInstance = require('../util/databasedyanamic');
 
-router.post('/service', authenticate,serviceController.ensureSequelizeInstance,serviceController.createService);
-router.get('/service', authenticate,serviceController.ensureSequelizeInstance,serviceController.getService);
-router.get('/service/:id', authenticate,serviceController.ensureSequelizeInstance,serviceController.getService);
-router.put("/update/:id", authenticate,serviceController.ensureSequelizeInstance,serviceController.updateService);
+router.post('/service', validateJSONContentType,authenticate,ensureSequelizeInstance,serviceController.createService);
+router.get('/service', authenticate,ensureSequelizeInstance,serviceController.getService);
+router.get('/service/:id', authenticate,ensureSequelizeInstance,serviceController.getService);
+router.put("/update/:id", validateJSONContentType,authenticate,ensureSequelizeInstance,serviceController.updateService);
+router.delete("/delete/:service_id", authenticate,ensureSequelizeInstance,serviceController.deleteService);
 
 
 module.exports = router;

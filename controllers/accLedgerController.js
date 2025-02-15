@@ -1,61 +1,3 @@
-// const AccLedger = require("../models/AccLedger");
-// const HospitalGroup = require("../models/HospitalGroup");
-
-// // Create a new ledger
-// const createLedger = async (req, res) => {
-//   try {
-//     const {
-//       ledger_name,
-//       ledger_alias,
-//       ledger_cheque,
-//       maintain_bill_wise,
-//       isdiscount_ledger,
-//       remark,
-//       is_tax_aplicable,
-//       taxplan_IDR,
-//       creditperied,
-//       hospital_group_IDR,
-//     } = req.body;
-
-//     // Validate required fields
-//     if (!ledger_name) {
-//       return res.status(400).json({ success: false, message: "Ledger name is required." });
-//     }
-
-//     // Check if hospital group exists if hospital_group_IDR is provided
-//     if (hospital_group_IDR) {
-//       const hospitalGroup = await HospitalGroup.findByPk(hospital_group_IDR);
-//       if (!hospitalGroup) {
-//         return res.status(404).json({ success: false, message: "Hospital group not found." });
-//       }
-//     }
-
-//     // Create ledger entry
-//     const newLedger = await AccLedger.create({
-//       ledger_name,
-//       ledger_alias,
-//       ledger_cheque,
-//       maintain_bill_wise,
-//       isdiscount_ledger,
-//       remark,
-//       is_tax_aplicable,
-//       taxplan_IDR,
-//       creditperied,
-//       hospital_group_IDR,
-//     });
-
-//     res.status(201).json({
-//       success: true,
-//       message: "Ledger created successfully",
-//       data: newLedger,
-//     });
-//   } catch (error) {
-//     console.error("Error creating ledger:", error);
-//     res.status(500).json({ success: false, message: "Internal Server Error", error: error.message });
-//   }
-// };
-
-// module.exports = { createLedger };
 
 
 const logger = require('../logger');
@@ -271,4 +213,128 @@ exports.getAccLedger = async (req, res) => {
     });
   }
 };
+exports.getAccLedgerById = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const { id } = req.params;
+
+  try {
+    const AccLedger = require("../models/AccLedger")(req.sequelize);
+    const accLedger = await AccLedger.findByPk(id);
+
+    if (!accLedger) {
+      return res.status(404).json({ message: "AccLedger not found" });
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+    res.status(200).json({
+      meta: { statusCode: 200, executionTime },
+      data: accLedger,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving AccLedger", error: error.message });
+  }
+};
+
+exports.deleteAccLedger = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const { id } = req.params;
+
+  try {
+    const AccLedger = require("../models/AccLedger")(req.sequelize);
+    const accLedger = await AccLedger.findByPk(id);
+
+    if (!accLedger) {
+      return res.status(404).json({ message: "AccLedger not found" });
+    }
+
+    await accLedger.destroy();
+
+    const executionTime = `${Date.now() - start}ms`;
+    
+    logger.logWithMeta("info", "AccLedger deleted successfully", {
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+
+    res.status(200).json({
+      meta: { statusCode: 200, executionTime },
+      message: "AccLedger deleted successfully",
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 940;
+
+    logger.logWithMeta("error", "Error deleting AccLedger", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime },
+      error: { message: "Error deleting AccLedger: " + error.message },
+    });
+  }
+};
+exports.updateAccLedger = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const { id } = req.params;
+  const updateData = req.body;
+
+  try {
+    const AccLedger = require("../models/AccLedger")(req.sequelize);
+    const accLedger = await AccLedger.findByPk(id);
+
+    if (!accLedger) {
+      return res.status(404).json({ message: "AccLedger not found" });
+    }
+
+    await accLedger.update(updateData);
+
+    const executionTime = `${Date.now() - start}ms`;
+    logger.logWithMeta("info", "AccLedger updated successfully", {
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+
+    res.status(200).json({
+      meta: { statusCode: 200, executionTime },
+      message: "AccLedger updated successfully",
+      data: accLedger,
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 942;
+
+    logger.logWithMeta("error", "Error updating AccLedger", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime },
+      error: { message: "Error updating AccLedger: " + error.message },
+    });
+  }
+};
+
+
+
+
 

@@ -1,7 +1,7 @@
 const Module = require("../models/masterModule");
 const logger = require('../logger');
 const bcrypt = require('bcryptjs');
-// Assuming logger is configured properly in '../logger'
+
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const requestIp = require('request-ip');
@@ -231,7 +231,7 @@ exports.updateServiceCategory = async (req, res) => {
   try {
     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
 
-    let serviceCategory = await ServiceCategory.findOne({ where: { id: servicecategoryId } });
+    let serviceCategory = await ServiceCategory.findOne({ where: { servicecategoryId } });
     if (!serviceCategory) {
       return res.status(404).json({ message: "Service category not found" });
     }
@@ -276,5 +276,62 @@ exports.updateServiceCategory = async (req, res) => {
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
       error: { message: "Error updating service category: " + error.message },
     });
+  }
+};
+
+exports.deleteServiceCategory = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const { servicecategoryId } = req.params;
+  const hospitalDatabase = req.hospitalDatabase;
+
+  try {
+      const ServiceCategory = require("../models/servicecategory")(req.sequelize);
+      await ServiceCategory.sync();
+
+      const serviceCategory = await ServiceCategory.findOne({ where: { servicecategoryId } });
+      
+      if (!serviceCategory) {
+          return res.status(404).json({ message: "Service category not found" });
+      }
+
+      await serviceCategory.destroy();
+      
+      const executionTime = `${Date.now() - start}ms`;
+
+      logger.logWithMeta("info", "Service category deleted successfully", {
+          executionTime,
+          hospitalId: req.hospitalId,
+          ip: clientIp,
+          apiName: req.originalUrl,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+      });
+
+      res.status(200).json({
+          meta: {
+              statusCode: 200,
+              executionTime,
+              hospitalDatabase,
+          },
+          message: "Service category deleted successfully",
+      });
+  } catch (error) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 941;
+
+      logger.logWithMeta("error", "Error deleting service category", {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalId,
+          apiName: req.originalUrl,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+      });
+
+      res.status(500).json({
+          meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+          error: { message: "Error deleting service category: " + error.message },
+      });
   }
 };
