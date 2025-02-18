@@ -29,77 +29,81 @@ async function getClientIp(req) {
 
   return clientIp;
 }
-exports.ensureSequelizeInstance = (req, res, next) => {
-  const start = Date.now();
-  // const clientIp = await getClientIp(req);
+// exports.ensureSequelizeInstance = (req, res, next) => {
+//   const start = Date.now();
+//   // const clientIp = await getClientIp(req);
 
-  if (!req.hospitalDatabase) {
-    const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 937;
-    const statusCode = 500;
-    // Log the warning
-    logger.logWithMeta("warn", `Database connection not established`, {
-      errorCode,
-      statusCode,
-      executionTime,
-      hospitalId: req.hospitalId,
-      // ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers["user-agent"], // HTTP method
-    });
-    // logger.error('Database connection not established', { executionTime: `${end - start}ms` });
+//   if (!req.hospitalDatabase) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 937;
+//     const statusCode = 500;
+//     // Log the warning
+//     logger.logWithMeta("warn", `Database connection not established`, {
+//       errorCode,
+//       statusCode,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       // ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,
+//       userAgent: req.headers["user-agent"], // HTTP method
+//     });
+//     // logger.error('Database connection not established', { executionTime: `${end - start}ms` });
 
-    return res.status(statusCode).json({
-      meta: {
-        statusCode: statusCode,
-        errorCode: 937,
-        executionTime: `${end - start}ms`,
-      },
+//     return res.status(statusCode).json({
+//       meta: {
+//         statusCode: statusCode,
+//         errorCode: 937,
+//         executionTime: `${end - start}ms`,
+//       },
 
-      error: {
-        message: "Database connection not established",
-      },
-    });
-  }
+//       error: {
+//         message: "Database connection not established",
+//       },
+//     });
+//   }
 
-  const sequelize = new Sequelize(
-    req.hospitalDatabase,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-      host: process.env.DB_HOST,
-      dialect: process.env.DB_DIALECT,
-      logging: false,
-    }
-  );
+//   const sequelize = new Sequelize(
+//     req.hospitalDatabase,
+//     process.env.DB_USER,
+//     process.env.DB_PASSWORD,
+//     {
+//       host: process.env.DB_HOST,
+//       dialect: process.env.DB_DIALECT,
+//       logging: false,
+//     }
+//   );
 
-  req.sequelize = sequelize;
-  // logger.info('Sequelize instance created successfully');
-  const end = Date.now();
-  const executionTime = `${end - start}ms`;
-  // Log the warning
-  // logger.logWithMeta("warn", `Sequelize instance created successfully`, {
-  //   executionTime,
-  //   statusCode: 200,
-  //   hospitalId: req.hospitalId,
-  //   // ip: clientIp,
-  //   apiName: req.originalUrl, // API name
-  //   method: req.method,
-  //   userAgent: req.headers["user-agent"], // HTTP method
-  // });
-  next();
+//   req.sequelize = sequelize;
+//   // logger.info('Sequelize instance created successfully');
+//   const end = Date.now();
+//   const executionTime = `${end - start}ms`;
+//   // Log the warning
+//   // logger.logWithMeta("warn", `Sequelize instance created successfully`, {
+//   //   executionTime,
+//   //   statusCode: 200,
+//   //   hospitalId: req.hospitalId,
+//   //   // ip: clientIp,
+//   //   apiName: req.originalUrl, // API name
+//   //   method: req.method,
+//   //   userAgent: req.headers["user-agent"], // HTTP method
+//   // });
+//   next();
 
-  sequelize
-    .sync({ alter: true })
-    .then(() => {
-      console.log("Database synchronized successfully.");
-    })
-    .catch((error) => {
-      console.error("Error synchronizing the database:", error);
-    });
-};
+//   sequelize
+//     .sync({ alter: true })
+//     .then(() => {
+//       console.log("Database synchronized successfully.");
+//     })
+//     .catch((error) => {
+//       console.error("Error synchronizing the database:", error);
+//     });
+// };
+
+
+
+
 exports.createServiceCategory = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -109,15 +113,22 @@ exports.createServiceCategory = async (req, res) => {
   try {
     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
 
-
     const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR} });
 
-    console.log("group0000000000",group)
-
     if (!group) {
-      return res.status(400).json({ message: "Invalid HospitalGroupID, not found in MasterDB" });
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1260;
+  
+      logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+      return res.status(400).json({errorCode, message: "Invalid HospitalGroupID, not found in MasterDB" });
     }
-
 
     const serviceCategory = await ServiceCategory.create({
       servicecategoryname,
@@ -135,9 +146,9 @@ exports.createServiceCategory = async (req, res) => {
       userAgent: req.headers["user-agent"],
     });
 
-    res.status(201).json({
+    res.status(200).json({
       meta: {
-        statusCode: 201,
+        statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
@@ -145,7 +156,7 @@ exports.createServiceCategory = async (req, res) => {
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 939;
+    const errorCode = 1261;
 
     logger.logWithMeta("error", "Error creating service category", {
       errorCode,
@@ -162,10 +173,11 @@ exports.createServiceCategory = async (req, res) => {
     });
   }
 };
+
 exports.getServiceCategories = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
-  const { servicecategoryId } = req.query; // Get the optional ID from query params
+  const { servicecategoryId } = req.query;
   const hospitalDatabase = req.hospitalDatabase;
 
   try {
@@ -175,7 +187,19 @@ exports.getServiceCategories = async (req, res) => {
     if (servicecategoryId) {
       data = await ServiceCategory.findOne({ where: { servicecategoryId } });
       if (!data) {
-        return res.status(404).json({ message: "Service category not found" });
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 1262;
+
+        logger.logWithMeta("error", "Service category not found", {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalId,
+          apiName: req.originalUrl,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+        });
+
+        return res.status(404).json({errorCode, message: "Service category not found" });
       }
     } else {
       data = await ServiceCategory.findAll();
@@ -202,7 +226,7 @@ exports.getServiceCategories = async (req, res) => {
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 940;
+    const errorCode = 1263;
 
     logger.logWithMeta("error", "Error fetching service categories", {
       errorCode,
@@ -233,7 +257,18 @@ exports.updateServiceCategory = async (req, res) => {
 
     let serviceCategory = await ServiceCategory.findOne({ where: { servicecategoryId } });
     if (!serviceCategory) {
-      return res.status(404).json({ message: "Service category not found" });
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1264;
+  
+      logger.logWithMeta("error", "Service category not found", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+      return res.status(404).json({ errorCode,message: "Service category not found" });
     }
 
     serviceCategory.servicecategoryname = servicecategoryname;
@@ -261,7 +296,7 @@ exports.updateServiceCategory = async (req, res) => {
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 941;
+    const errorCode = 1265;
 
     logger.logWithMeta("error", "Error updating service category", {
       errorCode,
@@ -292,7 +327,20 @@ exports.deleteServiceCategory = async (req, res) => {
       const serviceCategory = await ServiceCategory.findOne({ where: { servicecategoryId } });
       
       if (!serviceCategory) {
-          return res.status(404).json({ message: "Service category not found" });
+
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 1266;
+  
+        logger.logWithMeta("error", "Service category not found", {
+            errorCode,
+            executionTime,
+            hospitalId: req.hospitalId,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+        });
+  
+          return res.status(404).json({errorCode, message: "Service category not found" });
       }
 
       await serviceCategory.destroy();
@@ -318,7 +366,7 @@ exports.deleteServiceCategory = async (req, res) => {
       });
   } catch (error) {
       const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 941;
+      const errorCode = 1267;
 
       logger.logWithMeta("error", "Error deleting service category", {
           errorCode,

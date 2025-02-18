@@ -28,80 +28,80 @@ async function getClientIp(req) {
 
   return clientIp;
 }
-exports.ensureSequelizeInstance = (req, res, next) => {
-  const start = Date.now();
-  // const clientIp = await getClientIp(req);
+// exports.ensureSequelizeInstance = (req, res, next) => {
+//   const start = Date.now();
+//   // const clientIp = await getClientIp(req);
 
-  if (!req.hospitalDatabase) {
-    const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    const errorCode = 937;
-    const statusCode = 500;
-    // Log the warning
-    logger.logWithMeta("warn", `Database connection not established`, {
-      errorCode,
-      statusCode,
-      executionTime,
-      hospitalId: req.hospitalId,
-      // ip: clientIp,
-      apiName: req.originalUrl, // API name
-      method: req.method,
-      userAgent: req.headers["user-agent"], // HTTP method
-    });
-    // logger.error('Database connection not established', { executionTime: `${end - start}ms` });
+//   if (!req.hospitalDatabase) {
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     const errorCode = 937;
+//     const statusCode = 500;
+//     // Log the warning
+//     logger.logWithMeta("warn", `Database connection not established`, {
+//       errorCode,
+//       statusCode,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       // ip: clientIp,
+//       apiName: req.originalUrl, // API name
+//       method: req.method,
+//       userAgent: req.headers["user-agent"], // HTTP method
+//     });
+//     // logger.error('Database connection not established', { executionTime: `${end - start}ms` });
 
-    return res.status(statusCode).json({
-      meta: {
-        statusCode: statusCode,
-        errorCode: 937,
-        executionTime: `${end - start}ms`,
-      },
+//     return res.status(statusCode).json({
+//       meta: {
+//         statusCode: statusCode,
+//         errorCode: 937,
+//         executionTime: `${end - start}ms`,
+//       },
 
-      error: {
-        message: "Database connection not established",
-      },
-    });
-  }
+//       error: {
+//         message: "Database connection not established",
+//       },
+//     });
+//   }
 
-  const sequelize = new Sequelize(
-    req.hospitalDatabase,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-      host: process.env.DB_HOST,
-      dialect: process.env.DB_DIALECT,
-      logging: false,
-    }
-  );
+//   const sequelize = new Sequelize(
+//     req.hospitalDatabase,
+//     process.env.DB_USER,
+//     process.env.DB_PASSWORD,
+//     {
+//       host: process.env.DB_HOST,
+//       dialect: process.env.DB_DIALECT,
+//       logging: false,
+//     }
+//   );
 
-  req.sequelize = sequelize;
-  // logger.info('Sequelize instance created successfully');
-  const end = Date.now();
-  const executionTime = `${end - start}ms`;
-  // Log the warning
-  // logger.logWithMeta("warn", `Sequelize instance created successfully`, {
-  //   executionTime,
-  //   statusCode: 200,
-  //   hospitalId: req.hospitalId,
-  //   // ip: clientIp,
-  //   apiName: req.originalUrl, // API name
-  //   method: req.method,
-  //   userAgent: req.headers["user-agent"], // HTTP method
-  // });
+//   req.sequelize = sequelize;
+//   // logger.info('Sequelize instance created successfully');
+//   const end = Date.now();
+//   const executionTime = `${end - start}ms`;
+//   // Log the warning
+//   // logger.logWithMeta("warn", `Sequelize instance created successfully`, {
+//   //   executionTime,
+//   //   statusCode: 200,
+//   //   hospitalId: req.hospitalId,
+//   //   // ip: clientIp,
+//   //   apiName: req.originalUrl, // API name
+//   //   method: req.method,
+//   //   userAgent: req.headers["user-agent"], // HTTP method
+//   // });
   
-  next();
+//   next();
 
-  sequelize
-    .sync({ alter: true })
+//   sequelize
+//     .sync({ alter: true })
     
-    .then(() => {
-      console.log("Database synchronized successfully.");
-    })
+//     .then(() => {
+//       console.log("Database synchronized successfully.");
+//     })
     
-    .catch((error) => {
-      console.error("Error synchronizing the database:", error);
-    });
-};
+//     .catch((error) => {
+//       console.error("Error synchronizing the database:", error);
+//     });
+// };
 exports.createAccLedger = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -114,10 +114,21 @@ exports.createAccLedger = async (req, res) => {
 
     const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR} });
 
-    console.log("group0000000000",group)
+    // console.log("group0000000000",group)
 
     if (!group) {
-      return res.status(400).json({ message: "Invalid HospitalGroupID, not found in MasterDB" });
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1268;
+  
+      logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+      return res.status(400).json({errorCode, message: "Invalid HospitalGroupID, not found in MasterDB" });
     }
 
     await AccLedger.sync();
@@ -138,9 +149,9 @@ exports.createAccLedger = async (req, res) => {
       userAgent: req.headers["user-agent"],
     });
 
-    res.status(201).json({
+    res.status(200).json({
       meta: {
-        statusCode: 201,
+        statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
@@ -148,7 +159,7 @@ exports.createAccLedger = async (req, res) => {
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 939;
+    const errorCode = 1269;
 
     logger.logWithMeta("error", "Error creating accLedger", {
       errorCode,
@@ -180,7 +191,18 @@ exports.getAccLedger = async (req, res) => {
       // Fetch single record by ID
       const accLedger = await AccLedger.findOne({ where: { ledger_id } });
       if (!accLedger) {
-        return res.status(404).json({ message: "AccLedger not found" });
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 1270;
+    
+        logger.logWithMeta("error", "Error fetching AccLedger", {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalId,
+          apiName: req.originalUrl,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+        });
+        return res.status(404).json({errorCode, message: "AccLedger not found" });
       }
       return res.status(200).json({
         meta: { statusCode: 200, hospitalDatabase },
@@ -196,7 +218,7 @@ exports.getAccLedger = async (req, res) => {
     }
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 940;
+    const errorCode = 1271;
 
     logger.logWithMeta("error", "Error fetching AccLedger", {
       errorCode,
@@ -223,7 +245,18 @@ exports.getAccLedgerById = async (req, res) => {
     const accLedger = await AccLedger.findByPk(id);
 
     if (!accLedger) {
-      return res.status(404).json({ message: "AccLedger not found" });
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1272;
+  
+      logger.logWithMeta("error", "AccLedger not found", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+      return res.status(404).json({ errorCode,message: "AccLedger not found" });
     }
 
     const executionTime = `${Date.now() - start}ms`;
@@ -232,7 +265,18 @@ exports.getAccLedgerById = async (req, res) => {
       data: accLedger,
     });
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving AccLedger", error: error.message });
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1273;
+
+    logger.logWithMeta("error", "Error retrieving AccLedger", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+    res.status(500).json({errorCode, message: "Error retrieving AccLedger", error: error.message });
   }
 };
 
@@ -246,7 +290,18 @@ exports.deleteAccLedger = async (req, res) => {
     const accLedger = await AccLedger.findByPk(id);
 
     if (!accLedger) {
-      return res.status(404).json({ message: "AccLedger not found" });
+      const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1274;
+
+    logger.logWithMeta("error", "AccLedger not found", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+      return res.status(404).json({errorCode, message: "AccLedger not found" });
     }
 
     await accLedger.destroy();
@@ -267,7 +322,7 @@ exports.deleteAccLedger = async (req, res) => {
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 940;
+    const errorCode = 1275;
 
     logger.logWithMeta("error", "Error deleting AccLedger", {
       errorCode,
@@ -295,6 +350,19 @@ exports.updateAccLedger = async (req, res) => {
     const accLedger = await AccLedger.findByPk(id);
 
     if (!accLedger) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1276;
+  
+      logger.logWithMeta("error", "AccLedger not found", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+  
+
       return res.status(404).json({ message: "AccLedger not found" });
     }
 
@@ -316,7 +384,7 @@ exports.updateAccLedger = async (req, res) => {
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 942;
+    const errorCode = 1277;
 
     logger.logWithMeta("error", "Error updating AccLedger", {
       errorCode,

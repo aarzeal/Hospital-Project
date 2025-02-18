@@ -25,7 +25,7 @@
 //       errorCode,
 //       statusCode,
 //       executionTime,
-//       hospitalId: req.hospitalId,
+//       hospitalName: req.hospitalName,
 //       // ip: clientIp,
 //       apiName: req.originalUrl, // API name
 //       method: req.method,
@@ -64,7 +64,7 @@
 //   // logger.logWithMeta("warn", `Sequelize instance created successfully`, {
 //   //   executionTime,
 //   //   statusCode: 200,
-//   //   hospitalId: req.hospitalId,
+//   //   hospitalName: req.hospitalName,
 //   //   // ip: clientIp,
 //   //   apiName: req.originalUrl, // API name
 //   //   method: req.method,
@@ -442,8 +442,10 @@
 
 
 const logger = require('../logger');
+const { v4: uuidv4 } = require("uuid");
 
 const dotenv = require('dotenv');
+const axios = require('axios');
 const requestIp = require('request-ip');
 const { Sequelize } = require("sequelize");
 const Group = require("../models/HospitalGroup");
@@ -452,104 +454,113 @@ const Group = require("../models/HospitalGroup");
 // const AccLedgermodel = require("../models/AccLedger"); 
 dotenv.config();
 async function getClientIp(req) {
-    // Get client IP from headers or request
-    let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.connection.remoteAddress;
+  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
 
-    // Check if the IP is a local or private network
-    if (clientIp === '' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
-        try {
-            // Fetch the public IP dynamically using ipify if it's local/private
-            const ipResponse = await axios.get('https://api.ipify.org?format=json');
-            clientIp = ipResponse.data.ip;
-        } catch (error) {
-            // Log error if fetching the public IP fails
-            logger.logWithMeta('Error fetching public IP', { error: error.message, errorCode: 1219 });
-
-            // Fallback to localhost if API call fails
-            clientIp = '127.0.0.1';
-        }
+  // If IP is localhost or private, try fetching the public IP
+  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+    try {
+      const ipResponse = await axios.get('https://api.ipify.org?format=json');
+      clientIp = ipResponse.data.ip;
+    } catch (error) {
+      logger.logWithMeta('Error fetching public IP', { error: error.message, errorCode: 971 });
+    //   clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
     }
+  }
 
-    return clientIp;
+  return clientIp;
 }
-exports.ensureSequelizeInstance = (req, res, next) => {
-    const start = Date.now();
-    // const clientIp = await getClientIp(req);
+// exports.ensureSequelizeInstance = (req, res, next) => {
+//     const start = Date.now();
+//     // const clientIp = await getClientIp(req);
 
-    if (!req.hospitalDatabase) {
-        const end = Date.now();
-        const executionTime = `${end - start}ms`;
-        const errorCode = 937;
-        const statusCode = 500;
-        // Log the warning
-        logger.logWithMeta("warn", `Database connection not established`, {
-            errorCode,
-            statusCode,
-            executionTime,
-            hospitalId: req.hospitalId,
-            // ip: clientIp,
-            apiName: req.originalUrl, // API name
-            method: req.method,
-            userAgent: req.headers["user-agent"], // HTTP method
-        });
-        // logger.error('Database connection not established', { executionTime: `${end - start}ms` });
+//     if (!req.hospitalDatabase) {
+//         const end = Date.now();
+//         const executionTime = `${end - start}ms`;
+//         const errorCode = 937;
+//         const statusCode = 500;
+//         // Log the warning
+//         logger.logWithMeta("warn", `Database connection not established`, {
+//             errorCode,
+//             statusCode,
+//             executionTime,
+//             hospitalName: req.hospitalName,
+//             // ip: clientIp,
+//             apiName: req.originalUrl, // API name
+//             method: req.method,
+//             userAgent: req.headers["user-agent"], // HTTP method
+//         });
+//         // logger.error('Database connection not established', { executionTime: `${end - start}ms` });
 
-        return res.status(statusCode).json({
-            meta: {
-                statusCode: statusCode,
-                errorCode: 937,
-                executionTime: `${end - start}ms`,
-            },
+//         return res.status(statusCode).json({
+//             meta: {
+//                 statusCode: statusCode,
+//                 errorCode: 937,
+//                 executionTime: `${end - start}ms`,
+//             },
 
-            error: {
-                message: "Database connection not established",
-            },
-        });
-    }
+//             error: {
+//                 message: "Database connection not established",
+//             },
+//         });
+//     }
 
-    const sequelize = new Sequelize(
-        req.hospitalDatabase,
-        process.env.DB_USER,
-        process.env.DB_PASSWORD,
-        {
-            host: process.env.DB_HOST,
-            dialect: process.env.DB_DIALECT,
-            logging: false,
-        }
-    );
+//     const sequelize = new Sequelize(
+//         req.hospitalDatabase,
+//         process.env.DB_USER,
+//         process.env.DB_PASSWORD,
+//         {
+//             host: process.env.DB_HOST,
+//             dialect: process.env.DB_DIALECT,
+//             logging: false,
+//         }
+//     );
 
-    req.sequelize = sequelize;
-    // logger.info('Sequelize instance created successfully');
-    const end = Date.now();
-    const executionTime = `${end - start}ms`;
-    // Log the warning
-    // logger.logWithMeta("warn", `Sequelize instance created successfully`, {
-    //   executionTime,
-    //   statusCode: 200,
-    //   hospitalId: req.hospitalId,
-    //   // ip: clientIp,
-    //   apiName: req.originalUrl, // API name
-    //   method: req.method,
-    //   userAgent: req.headers["user-agent"], // HTTP method
-    // });
+//     req.sequelize = sequelize;
+//     // logger.info('Sequelize instance created successfully');
+//     const end = Date.now();
+//     const executionTime = `${end - start}ms`;
+//     // Log the warning
+//     // logger.logWithMeta("warn", `Sequelize instance created successfully`, {
+//     //   executionTime,
+//     //   statusCode: 200,
+//     //   hospitalName: req.hospitalName,
+//     //   // ip: clientIp,
+//     //   apiName: req.originalUrl, // API name
+//     //   method: req.method,
+//     //   userAgent: req.headers["user-agent"], // HTTP method
+//     // });
 
-    next();
+//     next();
 
-    sequelize
-        .sync({ alter: true })
+//     sequelize
+//         .sync({ alter: true })
 
-        .then(() => {
-            console.log("Database synchronized successfully.");
-        })
+//         .then(() => {
+//             console.log("Database synchronized successfully.");
+//         })
 
-        .catch((error) => {
-            console.error("Error synchronizing the database:", error);
-        });
-};
+//         .catch((error) => {
+//             console.error("Error synchronizing the database:", error);
+//         });
+// };
 
 exports.createService = async (req, res) => {
     const start = Date.now();
     const clientIp = await getClientIp(req);
+  console.log('Client IP:', clientIp);
+    const logId = uuidv4();
+
+    let locationData = { city: 'Unknown' };
+
+     try {
+       const locationResponse = await axios.get(`http://ip-api.com/json/${clientIp}`);
+       locationData = locationResponse.data;
+       console.log('Location Data:', locationData);
+     } catch (error) {
+       logger.error('Error fetching location data', { error: error.message });
+     }
+
+
     const { service_code, service_name, service_type, service_category_IDR, service_charge_applicable, service_tax_applicable, non_active, ledger_IDR, HospitalGroupIDR } = req.body;
     const hospitalDatabase = req.hospitalDatabase;
 
@@ -560,10 +571,21 @@ exports.createService = async (req, res) => {
         const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR } });
 
 
-        console.log("group0000000000", group)
+        // console.log("group0000000000", group)
 
 
         if (!group) {
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 1278;
+    
+            logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", {
+                errorCode,
+                executionTime,
+                hospitalName: req.hospitalName,
+                apiName: req.originalUrl,
+                method: req.method,
+                userAgent: req.headers["user-agent"],
+            });
             return res.status(400).json({ message: "Invalid HospitalGroupID, not found in MasterDB" });
         }
 
@@ -576,7 +598,18 @@ exports.createService = async (req, res) => {
         });
 
         if (!service_category) {
-            return res.status(400).json({ message: "Invalid Service Category ID, not found in MasterDB" });
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 1279;
+    
+            logger.logWithMeta("error", "Invalid Service Category ID, not found in MasterDB", {
+                errorCode,
+                executionTime,
+                hospitalName: req.hospitalName,
+                apiName: req.originalUrl,
+                method: req.method,
+                userAgent: req.headers["user-agent"],
+            });
+            return res.status(400).json({errorCode, message: "Invalid Service Category ID, not found in MasterDB" });
         }
 
 
@@ -587,6 +620,18 @@ exports.createService = async (req, res) => {
         });
 
         if (!accLedger) {
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 1280;
+    
+            logger.logWithMeta("error", "Invalid ledger_IDR, not found in MasterDB", {
+                errorCode,
+                executionTime,
+                hospitalName: req.hospitalName,
+                apiName: req.originalUrl,
+                method: req.method,
+                userAgent: req.headers["user-agent"],
+            });
+
             return res.status(400).json({ message: "Invalid ledger_IDR, not found in MasterDB" });
         }
 
@@ -609,16 +654,32 @@ exports.createService = async (req, res) => {
 
         logger.logWithMeta("info", "service created successfully", {
             executionTime,
-            hospitalId: req.hospitalId,
+            logId,
+            hospitalName: req.hospitalName,
             ip: clientIp,
+          city: locationData?.city,
+          country: locationData?.country,
+          regionName: locationData?.regionName,
+          zip: locationData?.zip,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            
+            
+            data: [
+                {
+                    service_code: service_code,
+                    service_name: service_name,
+                    service_type:service_type
+
+                }
+            ]
+            
         });
 
-        res.status(201).json({
+        res.status(200).json({
             meta: {
-                statusCode: 201,
+                statusCode: 200,
                 executionTime,
                 hospitalDatabase,
             },
@@ -626,12 +687,12 @@ exports.createService = async (req, res) => {
         });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 939;
+        const errorCode = 1281;
 
         logger.logWithMeta("error", "Error creating service", {
             errorCode,
             executionTime,
-            hospitalId: req.hospitalId,
+            hospitalName: req.hospitalName,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
@@ -656,7 +717,18 @@ exports.getService = async (req, res) => {
         if (id) {
             response = await Service.findOne({ where: { service_id: id } });
             if (!response) {
-                return res.status(404).json({ message: "Service not found" });
+                const executionTime = `${Date.now() - start}ms`;
+                const errorCode = 1282;
+        
+                logger.logWithMeta("error", `Service not found"}`, {
+                    errorCode,
+                    executionTime,
+                    hospitalName: req.hospitalName,
+                    apiName: req.originalUrl,
+                    method: req.method,
+                    userAgent: req.headers["user-agent"],
+                });
+                return res.status(404).json({errorCode, message: "Service not found" });
             }
         } else {
             response = await Service.findAll();
@@ -666,7 +738,7 @@ exports.getService = async (req, res) => {
 
         logger.logWithMeta("info", `Fetched ${id ? "service by ID" : "all services"} successfully`, {
             executionTime,
-            hospitalId: req.hospitalId,
+            hospitalName: req.hospitalName,
             ip: clientIp,
             apiName: req.originalUrl,
             method: req.method,
@@ -683,12 +755,12 @@ exports.getService = async (req, res) => {
         });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 942;
+        const errorCode = 1282;
 
         logger.logWithMeta("error", `Error fetching ${id ? "service by ID" : "all services"}`, {
             errorCode,
             executionTime,
-            hospitalId: req.hospitalId,
+            hospitalName: req.hospitalName,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
@@ -726,7 +798,19 @@ exports.updateService = async (req, res) => {
         });
 
         if (!accLedger) {
-            return res.status(400).json({ message: "Invalid Service AccLedger ID, not found in MasterDB" });
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 1283;
+    
+            logger.logWithMeta("error", "Invalid Service AccLedger ID, not found in MasterDB", {
+                errorCode,
+                executionTime,
+                hospitalName: req.hospitalName,
+                apiName: req.originalUrl,
+                method: req.method,
+                userAgent: req.headers["user-agent"],
+            });
+    
+            return res.status(400).json({errorCode, message: "Invalid Service AccLedger ID, not found in MasterDB" });
         }
         
 
@@ -738,7 +822,19 @@ exports.updateService = async (req, res) => {
         });
 
         if (!service_category) {
-            return res.status(400).json({ message: "Invalid Service Category ID, not found in MasterDB" });
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 1284;
+    
+            logger.logWithMeta("error", "Invalid Service Category ID, not found in MasterDB", {
+                errorCode,
+                executionTime,
+                hospitalName: req.hospitalName,
+                apiName: req.originalUrl,
+                method: req.method,
+                userAgent: req.headers["user-agent"],
+            });
+    
+            return res.status(400).json({ errorCode,message: "Invalid Service Category ID, not found in MasterDB" });
         }
 
         // **UPDATE SERVICE**
@@ -748,8 +844,9 @@ exports.updateService = async (req, res) => {
 
         logger.logWithMeta("info", "Service updated successfully", {
             executionTime,
-            hospitalId: req.hospitalId,
+            hospitalName: req.hospitalName,
             ip: clientIp,
+            // city: locationData?.city,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
@@ -765,12 +862,12 @@ exports.updateService = async (req, res) => {
         });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 940;
+        const errorCode = 1285;
 
         logger.logWithMeta("error", "Error updating service", {
             errorCode,
             executionTime,
-            hospitalId: req.hospitalId,
+            hospitalName: req.hospitalName,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
@@ -795,7 +892,19 @@ exports.deleteService = async (req, res) => {
         const service = await Service.findOne({ where: { service_id } });
         
         if (!service) {
-            return res.status(404).json({ message: "Service not found" });
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 1286;
+    
+            logger.logWithMeta("error", "Service not found", {
+                errorCode,
+                executionTime,
+                hospitalName: req.hospitalName,
+                apiName: req.originalUrl,
+                method: req.method,
+                userAgent: req.headers["user-agent"],
+            });
+    
+            return res.status(404).json({errorCode, message: "Service not found" });
         }
 
         await service.destroy();
@@ -804,7 +913,7 @@ exports.deleteService = async (req, res) => {
 
         logger.logWithMeta("info", "Service deleted successfully", {
             executionTime,
-            hospitalId: req.hospitalId,
+            hospitalName: req.hospitalName,
             ip: clientIp,
             apiName: req.originalUrl,
             method: req.method,
@@ -821,12 +930,12 @@ exports.deleteService = async (req, res) => {
         });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 940;
+        const errorCode = 1287;
 
         logger.logWithMeta("error", "Error deleting service", {
             errorCode,
             executionTime,
-            hospitalId: req.hospitalId,
+            hospitalName: req.hospitalName,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
