@@ -548,6 +548,7 @@ exports.createService = async (req, res) => {
     const start = Date.now();
     const clientIp = await getClientIp(req);
   console.log('Client IP:', clientIp);
+
     const logId = uuidv4();
 
     let locationData = { city: 'Unknown' };
@@ -582,6 +583,11 @@ exports.createService = async (req, res) => {
                 errorCode,
                 executionTime,
                 hospitalName: req.hospitalName,
+                ip: clientIp,
+              city: locationData?.city,
+              country: locationData?.country,
+              regionName: locationData?.regionName,
+              zip: locationData?.zip,
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
@@ -605,6 +611,11 @@ exports.createService = async (req, res) => {
                 errorCode,
                 executionTime,
                 hospitalName: req.hospitalName,
+                ip: clientIp,
+              city: locationData?.city,
+              country: locationData?.country,
+              regionName: locationData?.regionName,
+              zip: locationData?.zip,
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
@@ -627,6 +638,11 @@ exports.createService = async (req, res) => {
                 errorCode,
                 executionTime,
                 hospitalName: req.hospitalName,
+                ip: clientIp,
+              city: locationData?.city,
+              country: locationData?.country,
+              regionName: locationData?.regionName,
+              zip: locationData?.zip,
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
@@ -693,6 +709,11 @@ exports.createService = async (req, res) => {
             errorCode,
             executionTime,
             hospitalName: req.hospitalName,
+            ip: clientIp,
+          city: locationData?.city,
+          country: locationData?.country,
+          regionName: locationData?.regionName,
+          zip: locationData?.zip,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
@@ -707,6 +728,17 @@ exports.createService = async (req, res) => {
 exports.getService = async (req, res) => {
     const start = Date.now();
     const clientIp = await getClientIp(req);
+
+    let locationData = { city: 'Unknown' };
+
+    try {
+      const locationResponse = await axios.get(`http://ip-api.com/json/${clientIp}`);
+      locationData = locationResponse.data;
+      console.log('Location Data:', locationData);
+    } catch (error) {
+      logger.error('Error fetching location data', { error: error.message });
+    }
+
     const { id } = req.params;  // If an ID is provided, it will fetch by ID; otherwise, it fetches all
     const hospitalDatabase = req.hospitalDatabase;
 
@@ -724,6 +756,11 @@ exports.getService = async (req, res) => {
                     errorCode,
                     executionTime,
                     hospitalName: req.hospitalName,
+                    ip: clientIp,
+                  city: locationData?.city,
+                  country: locationData?.country,
+                  regionName: locationData?.regionName,
+                  zip: locationData?.zip,
                     apiName: req.originalUrl,
                     method: req.method,
                     userAgent: req.headers["user-agent"],
@@ -739,6 +776,11 @@ exports.getService = async (req, res) => {
         logger.logWithMeta("info", `Fetched ${id ? "service by ID" : "all services"} successfully`, {
             executionTime,
             hospitalName: req.hospitalName,
+            ip: clientIp,
+          city: locationData?.city,
+          country: locationData?.country,
+          regionName: locationData?.regionName,
+          zip: locationData?.zip,
             ip: clientIp,
             apiName: req.originalUrl,
             method: req.method,
@@ -761,6 +803,11 @@ exports.getService = async (req, res) => {
             errorCode,
             executionTime,
             hospitalName: req.hospitalName,
+            ip: clientIp,
+          city: locationData?.city,
+          country: locationData?.country,
+          regionName: locationData?.regionName,
+          zip: locationData?.zip,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
@@ -775,6 +822,16 @@ exports.getService = async (req, res) => {
 exports.updateService = async (req, res) => {
     const start = Date.now();
     const clientIp = await getClientIp(req);
+    let locationData = { city: 'Unknown' };
+
+    try {
+      const locationResponse = await axios.get(`http://ip-api.com/json/${clientIp}`);
+      locationData = locationResponse.data;
+      console.log('Location Data:', locationData);
+    } catch (error) {
+      logger.error('Error fetching location data', { error: error.message });
+    }
+
     const { id } = req.params;
     const { service_code, service_name, service_type, service_category_IDR, service_charge_applicable, service_tax_applicable, non_active, ledger_IDR, HospitalGroupIDR } = req.body;
     const hospitalDatabase = req.hospitalDatabase;
@@ -805,6 +862,11 @@ exports.updateService = async (req, res) => {
                 errorCode,
                 executionTime,
                 hospitalName: req.hospitalName,
+                ip: clientIp,
+              city: locationData?.city,
+              country: locationData?.country,
+              regionName: locationData?.regionName,
+              zip: locationData?.zip,
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
@@ -829,6 +891,11 @@ exports.updateService = async (req, res) => {
                 errorCode,
                 executionTime,
                 hospitalName: req.hospitalName,
+                ip: clientIp,
+              city: locationData?.city,
+              country: locationData?.country,
+              regionName: locationData?.regionName,
+              zip: locationData?.zip,
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
@@ -846,7 +913,10 @@ exports.updateService = async (req, res) => {
             executionTime,
             hospitalName: req.hospitalName,
             ip: clientIp,
-            // city: locationData?.city,
+          city: locationData?.city,
+          country: locationData?.country,
+          regionName: locationData?.regionName,
+          zip: locationData?.zip,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
@@ -868,6 +938,11 @@ exports.updateService = async (req, res) => {
             errorCode,
             executionTime,
             hospitalName: req.hospitalName,
+            ip: clientIp,
+          city: locationData?.city,
+          country: locationData?.country,
+          regionName: locationData?.regionName,
+          zip: locationData?.zip,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
@@ -881,6 +956,16 @@ exports.updateService = async (req, res) => {
 };
 exports.deleteService = async (req, res) => {
     const start = Date.now();
+    let locationData = { city: 'Unknown' };
+
+    try {
+      const locationResponse = await axios.get(`http://ip-api.com/json/${clientIp}`);
+      locationData = locationResponse.data;
+      console.log('Location Data:', locationData);
+    } catch (error) {
+      logger.error('Error fetching location data', { error: error.message });
+    }
+
     const clientIp = await getClientIp(req);
     const { service_id } = req.params;
     const hospitalDatabase = req.hospitalDatabase;
@@ -899,6 +984,11 @@ exports.deleteService = async (req, res) => {
                 errorCode,
                 executionTime,
                 hospitalName: req.hospitalName,
+                ip: clientIp,
+              city: locationData?.city,
+              country: locationData?.country,
+              regionName: locationData?.regionName,
+              zip: locationData?.zip,
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
@@ -914,6 +1004,11 @@ exports.deleteService = async (req, res) => {
         logger.logWithMeta("info", "Service deleted successfully", {
             executionTime,
             hospitalName: req.hospitalName,
+            ip: clientIp,
+          city: locationData?.city,
+          country: locationData?.country,
+          regionName: locationData?.regionName,
+          zip: locationData?.zip,
             ip: clientIp,
             apiName: req.originalUrl,
             method: req.method,
@@ -936,6 +1031,11 @@ exports.deleteService = async (req, res) => {
             errorCode,
             executionTime,
             hospitalName: req.hospitalName,
+            ip: clientIp,
+          city: locationData?.city,
+          country: locationData?.country,
+          regionName: locationData?.regionName,
+          zip: locationData?.zip,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
