@@ -35,7 +35,7 @@ const masterRoutes = require("./routes/MasterModuleRoutes");
 const accLedgerRoutes = require("./routes/accLedgerRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const serviceCategory = require("./routes/serviceCategoryRoutes");
-
+const Tax = require("./routes/Tax_Routes");
 const multer = require('multer');
 const cors = require('cors');
 // Middleware for parsing JSON bodies
@@ -106,7 +106,7 @@ app.use('/api/v1/master-module', masterRoutes);
 app.use('/api/v1/accLedger', accLedgerRoutes);
 app.use('/api/v1/service', serviceRoutes);
 app.use('/api/v1/serviceCategory', serviceCategory);
-
+app.use('/api/v1/tax', Tax);
 
 
 sendEmail();
