@@ -1,0 +1,154 @@
+{
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "AccountLedgerupdatedsuccessfully": {
+    "en": "Account ledger updated successfully",
+    "hi": "खाता बही सफलतापूर्वक अद्यतन किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "Accountledgeraddedsuccessfully": {
+    "en": "Account ledger added successfully",
+    "hi": "खाता बही सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Doyoureallywanttodeletethisaccountledger": {
+    "en": "Do you really want to delete this account ledger?",
+    "hi": "क्या आप सचमुच इस खाता बही को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it!",
+    "hi": "हाँ इसे हटा दो!"
+  },
+  "Nocancel": {
+    "en": "No, cancel",
+    "hi": "नहीं, रद्द करें"
+  },
+  "Theaccountledgerhasbeendeleted": {
+    "en": "The account ledger has been deleted",
+    "hi": "खाता बही हटा दिया गया है"
+  },
+  "SerialNo": {
+    "en": "Serial No",
+    "hi": "सीरीयल नम्बर"
+  },
+  "Ledgername": {
+    "en": "Ledger name",
+    "hi": "बहीखाता का नाम"
+  },
+  "LedgerAlias": {
+    "en": "Ledger Alias",
+    "hi": "लेजर उपनाम"
+  },
+  "Maintainbillwise": {
+    "en": "Maintain bill wise",
+    "hi": "बिल का हिसाब-किताब रखें"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "Isdiscountledger": {
+    "en": "Is discount ledger?",
+    "hi": "छूट खाता है?"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "AccountLedger": {
+    "en": "Account Ledger",
+    "hi": "खाता बही"
+  },
+  "LedgerDetails": {
+    "en": "Ledger Details",
+    "hi": "बही विवरण"
+  },
+  "Enterledgernamehere": {
+    "en": "Enter ledger name here",
+    "hi": "यहां खाता बही का नाम दर्ज करें"
+  },
+  "Ledgeralias": {
+    "en": "Ledger alias",
+    "hi": "लेजर उपनाम"
+  },
+  "Enterledgeraliashere": {
+    "en": "Enter ledger alias here",
+    "hi": "यहां खाता बही उपनाम दर्ज करें"
+  },
+  "Ledgercheque": {
+    "en": "Ledger cheque",
+    "hi": "बहीखाता जांच"
+  },
+  "Enterledgerchequehere": {
+    "en": "Enter ledger cheque here",
+    "hi": "यहां खाता बही जांच दर्ज करें"
+  },
+  "TaxDetails": {
+    "en": "Tax Details",
+    "hi": "कर विवरण"
+  },
+  "Enterremarkshere": {
+    "en": "Enter remarks here",
+    "hi": "यहां टिप्पणियाँ दर्ज करें"
+  },
+  "Remarks": {
+    "en": "Remarks",
+    "hi": "टिप्पणी"
+  },
+  "Istaxapplicable": {
+    "en": "Is tax applicable",
+    "hi": "क्या टैक्स लागू है"
+  },
+  "Taxplan": {
+    "en": "Tax plan",
+    "hi": "टैक्स योजना"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "AllAccountLedger": {
+    "en": "All Account Ledger",
+    "hi": "सभी खाता बही"
+  },
+  "SearchbyAccountledgerName": {
+    "en": "Search by Account ledger Name",
+    "hi": "खाता बही नाम से खोजें"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  }
+}

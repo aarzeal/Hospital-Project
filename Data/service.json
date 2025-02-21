@@ -1,0 +1,214 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "ServiceCategoryupdatedsuccessfully": {
+    "en": "Service category updated successfully",
+    "hi": "सेवा श्रेणी सफलतापूर्वक अपडेट की गई"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "ServiceCategoryaddedsuccessfully": {
+    "en": "Service category added successfully",
+    "hi": "सेवा श्रेणी सफलतापूर्वक जोड़ी गई"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Doyoureallywanttodeletethisservicecategory": {
+    "en": "Do you really want to delete this service category?",
+    "hi": "क्या आप वाकई इस सेवा श्रेणी को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it!",
+    "hi": "हाँ इसे हटा दो!"
+  },
+  "Nocancel": {
+    "en": "No, cancel",
+    "hi": "नहीं, रद्द करें"
+  },
+  "Theservicecategoryhasbeendeleted": {
+    "en": "The service category has been deleted",
+    "hi": "सेवा श्रेणी हटा दी गई है"
+  },
+  "SerialNo": {
+    "en": "Serial No.",
+    "hi": "सीरीयल नम्बर"
+  },
+  "servicecategoryname": {
+    "en": "Service category name",
+    "hi": "सेवा श्रेणी का नाम"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "ServiceCategoryUpdation": {
+    "en": "Service Category Updation",
+    "hi": "सेवा श्रेणी अद्यतनीकरण"
+  },
+  "ServiceCategoryRegistration": {
+    "en": "Service Category Registration",
+    "hi": "सेवा श्रेणी पंजीकरण"
+  },
+  "Enterservicecategoryname": {
+    "en": "Enter service category name",
+    "hi": "सेवा श्रेणी का नाम दर्ज करें"
+  },
+  "ServiceCategory": {
+    "en": "Service Category",
+    "hi": "सेवा श्रेणी"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "SearchbyservicecategoryName": {
+    "en": "Search by service category name",
+    "hi": "सेवा श्रेणी के नाम से खोजें"
+  },
+  "Serviceupdatedsuccessfully": {
+    "en": "Service updated successfully",
+    "hi": "सेवा सफलतापूर्वक अपडेट की गई"
+  },
+  "Serviceaddedsuccessfully": {
+    "en": "Service added successfully",
+    "hi": "सेवा सफलतापूर्वक जोड़ी गई"
+  },
+  "youreallywanttodeletethisservice": {
+    "en": "Service added successfully",
+    "hi": "सेवा सफलतापूर्वक जोड़ी गई"
+  },
+  "Doyoureallywanttodeletethisservice": {
+    "en": "Do you really want to delete this service",
+    "hi": "क्या आप वाकई इस सेवा को हटाना चाहते हैं"
+  },
+  "Theservicehasbeendeleted": {
+    "en": "The service has been deleted",
+    "hi": "सेवा हटा दी गई है"
+  },
+  "Servicecode": {
+    "en": "Service code",
+    "hi": "सेवा कोड"
+  },
+  "ServiceName": {
+    "en": "Service Name",
+    "hi": "सेवा का नाम"
+  },
+  "ServiceType": {
+    "en": "Service Type",
+    "hi": "सेवा प्रकार"
+  },
+  "ServiceChargeApplicable": {
+    "en": "Service Charge Applicable",
+    "hi": "सेवा शुल्क लागू"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "ServiceTaxApplicable": {
+    "en": "Service Tax Applicable",
+    "hi": "सेवा कर लागू"
+  },
+  "Status": {
+    "en": "Status",
+    "hi": "स्थिति"
+  },
+  "NonActive": {
+    "en": "Non Active",
+    "hi": "गैर सक्रिय"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "Services": {
+    "en": "Services",
+    "hi": "सेवाएं"
+  },
+  "Enterservicecodehere": {
+    "en": "Enter service code here",
+    "hi": "यहां सेवा कोड दर्ज करें"
+  },
+  "Servicename": {
+    "en": "Service name",
+    "hi": "सेवा का नाम"
+  },
+  "Enterservicenamehere": {
+    "en": "Enter service name here",
+    "hi": "यहां सेवा का नाम दर्ज करें"
+  },
+  "Servicetype": {
+    "en": "Service type",
+    "hi": "सेवा प्रकार"
+  },
+  "Enterservicetypehere": {
+    "en": "Enter service type here",
+    "hi": "यहां सेवा प्रकार दर्ज करें"
+  },
+  "Servicecategory": {
+    "en": "Service category",
+    "hi": "सेवा श्रेणी"
+  },
+  "Servicechargeapplicable": {
+    "en": "Service charge applicable",
+    "hi": "सेवा शुल्क लागू"
+  },
+  "Servicetaxapplicable": {
+    "en": "Service tax applicable",
+    "hi": "सेवा कर लागू"
+  },
+  "Nonactive": {
+    "en": "Non active",
+    "hi": "गैर सक्रिय"
+  },
+  "Ledger": {
+    "en": "Ledger",
+    "hi": "खाता बही"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "AllServices": {
+    "en": "All Services",
+    "hi": "सभी सेवाएँ"
+  },
+  "SearchbyserviceName": {
+    "en": "Search by service Name",
+    "hi": "सेवा के नाम से खोजें"
+  }
+}
