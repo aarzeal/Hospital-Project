@@ -210,5 +210,9 @@
   "SearchbyserviceName": {
     "en": "Search by service Name",
     "hi": "सेवा के नाम से खोजें"
+  },
+  "Invalidcharactersdetected": {
+    "en": "Invalid characters detected",
+    "hi": "अमान्य वर्णों का पता चला"
   }
 }

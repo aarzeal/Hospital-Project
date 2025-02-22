@@ -150,5 +150,9 @@
   "Required": {
     "en": "Required",
     "hi": "आवश्यक"
+  },
+  "Invalidcharactersdetected": {
+    "en": "Invalid characters detected",
+    "hi": "अमान्य वर्णों का पता चला"
   }
 }
