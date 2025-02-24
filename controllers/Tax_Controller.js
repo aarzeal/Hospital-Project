@@ -1,4 +1,5 @@
 const logger = require('../logger');
+const { validationResult } = require('express-validator');
 
 const dotenv = require('dotenv');
 const requestIp = require('request-ip');
@@ -27,10 +28,15 @@ async function getClientIp(req) {
   return clientIp;
 }
 exports.createTax = async (req, res) => {
+  const errors = validationResult(req);
     const start = Date.now();
     const clientIp = await getClientIp(req);
     const { tax_name,tax_rate,is_active,HospitalIDR,} = req.body;
     const hospitalDatabase = req.hospitalDatabase;
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+  }
   
     try {
       const Tax = require("../models/Tax_Model")(req.sequelize);
@@ -203,10 +209,14 @@ exports.createTax = async (req, res) => {
     }
   };
   exports.updateTax = async (req, res) => {
+    const errors = validationResult(req);
     const start = Date.now();
     const clientIp = await getClientIp(req);
     const { id } = req.params;
     const updateData = req.body;
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+  }
   
     try {
       const tax = require("../models/Tax_Model")(req.sequelize);

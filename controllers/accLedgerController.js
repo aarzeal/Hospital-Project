@@ -1,6 +1,7 @@
 
 
 const logger = require('../logger');
+const { validationResult } = require('express-validator');
 
 const dotenv = require('dotenv');
 const requestIp = require('request-ip');
@@ -103,10 +104,14 @@ async function getClientIp(req) {
 //     });
 // };
 exports.createAccLedger = async (req, res) => {
+  const errors = validationResult(req);
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const { ledger_name,ledger_alias,ledger_cheque,maintain_bill_wise,isdiscount_ledger,remark,is_tax_aplicable,taxplan_IDR,creditperied, HospitalGroupIDR } = req.body;
   const hospitalDatabase = req.hospitalDatabase;
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+}
 
   try {
     const AccLedger = require("../models/AccLedger")(req.sequelize);
@@ -340,11 +345,15 @@ exports.deleteAccLedger = async (req, res) => {
   }
 };
 exports.updateAccLedger = async (req, res) => {
+  const errors = validationResult(req);
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const { id } = req.params;
   const updateData = req.body;
 
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+}
   try {
     const AccLedger = require("../models/AccLedger")(req.sequelize);
     const accLedger = await AccLedger.findByPk(id);

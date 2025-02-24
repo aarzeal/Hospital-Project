@@ -449,6 +449,7 @@ const axios = require('axios');
 const requestIp = require('request-ip');
 const { Sequelize } = require("sequelize");
 const Group = require("../models/HospitalGroup");
+const { validationResult } = require('express-validator');
 // const Service_category = require("../models/HospitalGroup");
 
 // const AccLedgermodel = require("../models/AccLedger"); 
@@ -545,6 +546,8 @@ async function getClientIp(req) {
 // };
 
 exports.createService = async (req, res) => {
+ const errors = validationResult(req);
+
     const start = Date.now();
     const clientIp = await getClientIp(req);
   console.log('Client IP:', clientIp);
@@ -552,6 +555,10 @@ exports.createService = async (req, res) => {
     const logId = uuidv4();
 
     let locationData = { city: 'Unknown' };
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+  }
 
      try {
        const locationResponse = await axios.get(`http://ip-api.com/json/${clientIp}`);
@@ -567,6 +574,7 @@ exports.createService = async (req, res) => {
 
     try {
         const Service = require("../models/ser")(req.sequelize);
+        
 
 
         const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR } });
@@ -820,9 +828,15 @@ exports.getService = async (req, res) => {
     }
 };
 exports.updateService = async (req, res) => {
+  
+  const errors = validationResult(req);
     const start = Date.now();
     const clientIp = await getClientIp(req);
     let locationData = { city: 'Unknown' };
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+  }
 
     try {
       const locationResponse = await axios.get(`http://ip-api.com/json/${clientIp}`);

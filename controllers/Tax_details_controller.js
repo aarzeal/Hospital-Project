@@ -1,5 +1,5 @@
 const logger = require('../logger');
-
+const { validationResult } = require('express-validator');
 const dotenv = require('dotenv');
 const requestIp = require('request-ip');
 const { Sequelize } = require("sequelize");
@@ -28,11 +28,15 @@ async function getClientIp(req) {
   return clientIp;
 }
 exports.createTaxDetails = async (req, res) => {
+    const errors = validationResult(req);
   const start = Date.now();
   let locationData = { city: 'Unknown' };
   const clientIp = await getClientIp(req);
   const { Tax_IDR, tax_rate, is_active, Ledger_IDR, From_Date, To_Date, Tax_Details_Leble, Serial_Number, Is_Primary_Tax, Calculate_On, Is_Current } = req.body;
   const hospitalDatabase = req.hospitalDatabase;
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+}
 
   try {
       // Ensure dynamic initialization of models
@@ -196,10 +200,14 @@ exports.getTaxDetailsById = async (req, res) => {
   }
 };
 exports.updateTaxDetails = async (req, res) => {
+    const errors = validationResult(req);
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const { id } = req.params;
   const hospitalDatabase = req.hospitalDatabase;
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+}
 
   try {
       const Tax_Details = require("../models/Tax_Details_model")(req.sequelize, Sequelize.DataTypes);

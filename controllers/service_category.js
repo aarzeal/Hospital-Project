@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const requestIp = require('request-ip');
 const { Sequelize } = require("sequelize");
 const Group = require("../models/HospitalGroup"); 
+const { validationResult } = require('express-validator');
 dotenv.config();
 async function getClientIp(req) {
   // Get client IP from headers or request
@@ -105,10 +106,16 @@ async function getClientIp(req) {
 
 
 exports.createServiceCategory = async (req, res) => {
+  const errors = validationResult(req);
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const { servicecategoryname, HospitalGroupIDR } = req.body;
   const hospitalDatabase = req.hospitalDatabase;
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+}
+
 
   try {
     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
@@ -246,11 +253,16 @@ exports.getServiceCategories = async (req, res) => {
 
 
 exports.updateServiceCategory = async (req, res) => {
+  const errors = validationResult(req);
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const { servicecategoryId } = req.params;
   const { servicecategoryname, HospitalGroupIDR } = req.body;
   const hospitalDatabase = req.hospitalDatabase;
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+}
 
   try {
     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
