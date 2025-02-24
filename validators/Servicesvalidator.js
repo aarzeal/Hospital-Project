@@ -10,8 +10,8 @@ exports.validateService = [
         .isLength({ max: 100 }).withMessage('Service name must be at most 100 characters'),
 
     body('service_type')
-        .notEmpty().withMessage('Service type is required')
-        .isLength({ max: 50 }).withMessage('Service type must be at most 50 characters'),
+        .notEmpty().withMessage('Service type is required'),
+        
 
     body('service_category_IDR')
         .optional().isInt().withMessage('Service category ID must be an integer'),
@@ -42,7 +42,7 @@ exports.validateServiceUpdate = [
 
     body('service_type')
         .notEmpty().withMessage('Service type is required')
-        .isLength({ max: 50 }).withMessage('Service type must be at most 50 characters'),
+       ,
 
     body('service_category_IDR')
         .optional().isInt().withMessage('Service category ID must be an integer'),
