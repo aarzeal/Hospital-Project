@@ -210,129 +210,129 @@ exports.getItemId = async (req, res) => {
   }
 };
 
-// exports.deleteAccLedger = async (req, res) => {
-//   const start = Date.now();
-//   const clientIp = await getClientIp(req);
-//   const { id } = req.params;
+exports.deleteItem = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const { id } = req.params;
 
-//   try {
-//     const AccLedger = require("../models/AccLedger")(req.sequelize);
-//     const item = await AccLedger.findByPk(id);
+  try {
+    const Item = require("../models/Item_Model")(req.sequelize);
+    const item = await Item.findByPk(id);
 
-//     if (!item) {
-//       const executionTime = `${Date.now() - start}ms`;
-//     const errorCode = 1274;
+    if (!item) {
+      const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1274;
 
-//     logger.logWithMeta("error", "AccLedger not found", {
-//       errorCode,
-//       executionTime,
-//       hospitalId: req.hospitalId,
-//       apiName: req.originalUrl,
-//       method: req.method,
-//       userAgent: req.headers["user-agent"],
-//     });
-//       return res.status(404).json({errorCode, message: "AccLedger not found" });
-//     }
+    logger.logWithMeta("error", "Item not found", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
+      return res.status(404).json({errorCode, message: "Item not found" });
+    }
 
-//     await item.destroy();
+    await item.destroy();
 
-//     const executionTime = `${Date.now() - start}ms`;
+    const executionTime = `${Date.now() - start}ms`;
     
-//     logger.logWithMeta("info", "AccLedger deleted successfully", {
-//       executionTime,
-//       hospitalId: req.hospitalId,
-//       apiName: req.originalUrl,
-//       method: req.method,
-//       userAgent: req.headers["user-agent"],
-//     });
+    logger.logWithMeta("info", "Item deleted successfully", {
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
 
-//     res.status(200).json({
-//       meta: { statusCode: 200, executionTime },
-//       message: "AccLedger deleted successfully",
-//     });
-//   } catch (error) {
-//     const executionTime = `${Date.now() - start}ms`;
-//     const errorCode = 1275;
+    res.status(200).json({
+      meta: { statusCode: 200, executionTime },
+      message: "Item deleted successfully",
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1275;
 
-//     logger.logWithMeta("error", "Error deleting AccLedger", {
-//       errorCode,
-//       executionTime,
-//       hospitalId: req.hospitalId,
-//       apiName: req.originalUrl,
-//       method: req.method,
-//       userAgent: req.headers["user-agent"],
-//     });
+    logger.logWithMeta("error", "Error deleting Item", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
 
-//     res.status(500).json({
-//       meta: { statusCode: 500, errorCode, executionTime },
-//       error: { message: "Error deleting AccLedger: " + error.message },
-//     });
-//   }
-// };
-// exports.updateAccLedger = async (req, res) => {
-//   const errors = validationResult(req);
-//   const start = Date.now();
-//   const clientIp = await getClientIp(req);
-//   const { id } = req.params;
-//   const updateData = req.body;
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime },
+      error: { message: "Error deleting Item: " + error.message },
+    });
+  }
+};
+exports.updateItem = async (req, res) => {
+  const errors = validationResult(req);
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const { id } = req.params;
+  const updateData = req.body;
 
-//   if (!errors.isEmpty()) {
-//     return res.status(400).json({ errors: errors.array() });
-// }
-//   try {
-//     const AccLedger = require("../models/AccLedger")(req.sequelize);
-//     const item = await AccLedger.findByPk(id);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+}
+  try {
+    const Item = require("../models/Item_Model")(req.sequelize);
+    const item = await Item.findByPk(id);
 
-//     if (!item) {
-//       const executionTime = `${Date.now() - start}ms`;
-//       const errorCode = 1276;
+    if (!item) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1276;
   
-//       logger.logWithMeta("error", "AccLedger not found", {
-//         errorCode,
-//         executionTime,
-//         hospitalId: req.hospitalId,
-//         apiName: req.originalUrl,
-//         method: req.method,
-//         userAgent: req.headers["user-agent"],
-//       });
+      logger.logWithMeta("error", "Item not found", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
   
 
-//       return res.status(404).json({ message: "AccLedger not found" });
-//     }
+      return res.status(404).json({ message: "Item not found" });
+    }
 
-//     await item.update(updateData);
+    await item.update(updateData);
 
-//     const executionTime = `${Date.now() - start}ms`;
-//     logger.logWithMeta("info", "AccLedger updated successfully", {
-//       executionTime,
-//       hospitalId: req.hospitalId,
-//       apiName: req.originalUrl,
-//       method: req.method,
-//       userAgent: req.headers["user-agent"],
-//     });
+    const executionTime = `${Date.now() - start}ms`;
+    logger.logWithMeta("info", "Item updated successfully", {
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
 
-//     res.status(200).json({
-//       meta: { statusCode: 200, executionTime },
-//       message: "AccLedger updated successfully",
-//       data: item,
-//     });
-//   } catch (error) {
-//     const executionTime = `${Date.now() - start}ms`;
-//     const errorCode = 1277;
+    res.status(200).json({
+      meta: { statusCode: 200, executionTime },
+      message: "Item updated successfully",
+      data: item,
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1277;
 
-//     logger.logWithMeta("error", "Error updating AccLedger", {
-//       errorCode,
-//       executionTime,
-//       hospitalId: req.hospitalId,
-//       apiName: req.originalUrl,
-//       method: req.method,
-//       userAgent: req.headers["user-agent"],
-//     });
+    logger.logWithMeta("error", "Error updating Item", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+    });
 
-//     res.status(500).json({
-//       meta: { statusCode: 500, errorCode, executionTime },
-//       error: { message: "Error updating AccLedger: " + error.message },
-//     });
-//   }
-// };
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime },
+      error: { message: "Error updating Item: " + error.message },
+    });
+  }
+};
 

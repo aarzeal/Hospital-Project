@@ -1,15 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const Tax_map_Controller = require('../controllers/Itom_TaxMap_controller');
+const MapController = require('../controllers/Itom_TaxMap_controller');
 const authenticate = require('../validators/authenticate');
 const validateJSONContentType = require('../Middleware/jsonvalidation');
 const ensureSequelizeInstance = require('../util/databasedyanamic');
+const validateService  = require('../validators/Servicesvalidator');
 
-router.post('/create_tax_map', validateJSONContentType,authenticate,ensureSequelizeInstance,Tax_map_Controller.createTaxDetails);
-router.get('/get_tax_map', authenticate,ensureSequelizeInstance,Tax_map_Controller.getAllTaxDetails);
-router.get('/get_tax_map/:id', authenticate,ensureSequelizeInstance,Tax_map_Controller.getTaxDetailsById);
-router.put('/put_tax_map/:id', authenticate,ensureSequelizeInstance,Tax_map_Controller.updateTaxDetails);
-router.delete('/delete_tax_map/:id', authenticate,ensureSequelizeInstance,Tax_map_Controller.deleteTaxDetails);
+router.post('/TaxMap-create',validateJSONContentType,authenticate,ensureSequelizeInstance,MapController.createTaxMap);
+router.get('/TaxMap-get',authenticate,ensureSequelizeInstance,MapController.getAllTaxMaps);
+router.get('/TaxMap-get/:taxMap_id',authenticate,ensureSequelizeInstance,MapController.getTaxMapById);
+router.put('/TaxMap-update/:taxMap_id',validateJSONContentType,authenticate,ensureSequelizeInstance,MapController.updateTaxMap);
+router.delete('/TaxMap-delete/:taxMap_id',authenticate,ensureSequelizeInstance,MapController.deleteTaxMap);
+
+
+
+
+
 
 
 module.exports = router;

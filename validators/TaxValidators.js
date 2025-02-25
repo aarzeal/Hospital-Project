@@ -101,3 +101,43 @@ exports.validateTaxDetailsupdate = [
     body('Is_Current')
         .isInt().withMessage('Is Current must be an integer'),
 ];
+
+exports.validateItem = [
+    body('Item_name')
+        .notEmpty().withMessage('Item name is required')
+        .isLength({ max: 50 }).withMessage('Item name must be at most 50 characters'),
+
+    body('Item_alias')
+        .optional().isLength({ max: 50 }).withMessage('Item alias must be at most 50 characters'),
+
+    body('Item_Description')
+        .optional().isLength({ max: 250 }).withMessage('Item description must be at most 250 characters'),
+
+    body('Item_Code')
+        .optional().isLength({ max: 50 }).withMessage('Item code must be at most 50 characters'),
+
+    body('Non_Active')
+        .isBoolean().withMessage('Non Active must be a boolean'),
+
+    body('HospitalGroupIDR')
+        .notEmpty().withMessage('Hospital Group ID is required'),
+];
+exports.validateItemupdate = [
+    body('Item_name')
+        .notEmpty().withMessage('Item name is required')
+        .isLength({ max: 50 }).withMessage('Item name must be at most 50 characters'),
+
+    body('Item_alias')
+        .optional().isLength({ max: 50 }).withMessage('Item alias must be at most 50 characters'),
+
+    body('Item_Description')
+        .optional().isLength({ max: 250 }).withMessage('Item description must be at most 250 characters'),
+
+    body('Item_Code')
+        .optional().isLength({ max: 50 }).withMessage('Item code must be at most 50 characters'),
+
+    body('Non_Active')
+        .isBoolean().withMessage('Non Active must be a boolean'),
+
+
+];
