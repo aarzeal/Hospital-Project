@@ -39,6 +39,20 @@ const Tax = require("./routes/Tax_Routes");
 const Tax_Deatils = require("./routes/Tax_details_routes");
 const Item = require("./routes/Item_Routes");
 const ItemMap = require("./routes/Itom_TaxMap_routes");
+const ServicePriceList = require("./routes/Service_PriceList_Routes");
+const Financial_Year = require("./routes/Financial_Year_Routes");
+const Fin_Year_Details = require("./routes/fin-Details-Routes");
+const Fin_group = require("./routes/Fin-group");
+
+
+
+
+
+
+
+
+
+
 const multer = require('multer');
 const cors = require('cors');
 // Middleware for parsing JSON bodies
@@ -113,6 +127,10 @@ app.use('/api/v1/tax', Tax);
 app.use('/api/v1/tax-deatils', Tax_Deatils);
 app.use('/api/v1/item', Item);
 app.use('/api/v1/itemMap', ItemMap);
+app.use('/api/v1/servicePriceList', ServicePriceList);
+app.use('/api/v1/Financial-year', Financial_Year);
+app.use('/api/v1/fin-details', Fin_Year_Details);
+app.use('/api/v1/fin-group', Fin_group);
 
 
 sendEmail();

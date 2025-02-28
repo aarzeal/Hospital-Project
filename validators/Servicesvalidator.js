@@ -138,3 +138,110 @@ exports.validateAccLedgerUpdate = [
 
     
 ];
+exports.validateServicePriceList = [
+    body('service_IDR')
+        .notEmpty().withMessage('Service ID is required')
+        .isInt().withMessage('Service ID must be an integer'),
+
+    body('First_Emergency_Rate')
+        .notEmpty().withMessage('First Emergency Rate is required')
+        .isInt().withMessage('First Emergency Rate must be an integer'),
+
+    body('Second_Emergency_Rate')
+        .notEmpty().withMessage('Second Emergency Rate is required')
+        .isInt().withMessage('Second Emergency Rate must be an integer'),
+
+    body('From_Date')
+        .optional().isISO8601().withMessage('From Date must be a valid date'),
+
+    body('To_Date')
+        .optional().isISO8601().withMessage('To Date must be a valid date'),
+
+    body('is_current_Format')
+        .optional().isLength({ max: 50 }).withMessage('Current Format must be at most 50 characters'),
+
+    body('hospitalIDR')
+        .notEmpty().withMessage('Hospital ID is required')
+        .isInt().withMessage('Hospital ID must be an integer'),
+];
+exports.validateServicePriceListUpdate = [
+    body('service_IDR')
+        .notEmpty().withMessage('Service ID is required')
+        .isInt().withMessage('Service ID must be an integer'),
+
+    body('First_Emergency_Rate')
+        .notEmpty().withMessage('First Emergency Rate is required')
+        .isInt().withMessage('First Emergency Rate must be an integer'),
+
+    body('Second_Emergency_Rate')
+        .notEmpty().withMessage('Second Emergency Rate is required')
+        .isInt().withMessage('Second Emergency Rate must be an integer'),
+
+    body('From_Date')
+        .optional().isISO8601().withMessage('From Date must be a valid date'),
+
+    body('To_Date')
+        .optional().isISO8601().withMessage('To Date must be a valid date'),
+
+    body('is_current_Format')
+        .optional().isLength({ max: 50 }).withMessage('Current Format must be at most 50 characters'),
+
+
+];
+exports.validateFinYear = [
+    body('fin_year')
+        .notEmpty().withMessage('fin_yearis required')
+        
+
+];
+
+exports.validateFinYearDetails = [
+    body('fin_code_IDR')
+        .notEmpty().withMessage('Financial Code ID is required')
+        .isInt().withMessage('Financial Code ID must be an integer'),
+
+    body('startMonth')
+        .notEmpty().withMessage('Start Month is required')
+        .isISO8601().withMessage('Start Month must be a valid date'),
+
+    body('endMonth')
+        .notEmpty().withMessage('End Month is required')
+        .isISO8601().withMessage('End Month must be a valid date'),
+
+    body('lock')
+        .notEmpty().withMessage('Lock status is required')
+        .isLength({ max: 50 }).withMessage('Lock status must be at most 50 characters'),
+
+    body('is_Active')
+        .isBoolean().withMessage('Is Active must be a boolean'),
+
+    body('hospitalIDR')
+        .notEmpty().withMessage('Hospital ID is required')
+        .isInt().withMessage('Hospital ID must be an integer'),
+
+    body('hospitalGroupIDR')
+        .notEmpty().withMessage('Hospital Group ID is required')
+        .isInt().withMessage('Hospital Group ID must be an integer'),
+];
+exports.validateFinYearDetailsupdate = [
+    body('fin_code_IDR')
+        .notEmpty().withMessage('Financial Code ID is required')
+        .isInt().withMessage('Financial Code ID must be an integer'),
+
+    body('startMonth')
+        .notEmpty().withMessage('Start Month is required')
+        .isISO8601().withMessage('Start Month must be a valid date'),
+
+    body('endMonth')
+        .notEmpty().withMessage('End Month is required')
+        .isISO8601().withMessage('End Month must be a valid date'),
+
+    body('lock')
+        .notEmpty().withMessage('Lock status is required')
+        .isLength({ max: 50 }).withMessage('Lock status must be at most 50 characters'),
+
+    body('is_Active')
+        .isBoolean().withMessage('Is Active must be a boolean'),
+
+   
+];

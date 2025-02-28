@@ -6,24 +6,25 @@ const requestIp = require('request-ip');
 const { Sequelize } = require("sequelize");
 const HospitalId = require("../models/HospitalModel");
 const { validationResult } = require('express-validator');
+const getClientIp = require('../util/clientip');
 
 dotenv.config();
-async function getClientIp(req) {
-  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+// async function getClientIp(req) {
+//   let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
 
-  // If IP is localhost or private, try fetching the public IP
-  if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
-    try {
-      const ipResponse = await axios.get('https://api.ipify.org?format=json');
-      clientIp = ipResponse.data.ip;
-    } catch (error) {
-      logger.logWithMeta('Error fetching public IP', { error: error.message, errorCode: 971 });
-    //   clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
-    }
-  }
+//   // If IP is localhost or private, try fetching the public IP
+//   if (clientIp === '::1' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+//     try {
+//       const ipResponse = await axios.get('https://api.ipify.org?format=json');
+//       clientIp = ipResponse.data.ip;
+//     } catch (error) {
+//       logger.logWithMeta('Error fetching public IP', { error: error.message, errorCode: 971 });
+//     //   clientIp = '127.0.0.1'; // Fallback to localhost if IP fetch fails
+//     }
+//   }
 
-  return clientIp;
-}
+//   return clientIp;
+// }
 
 exports.createTaxMap = async (req, res) => {
  const errors = validationResult(req);
@@ -58,7 +59,7 @@ exports.createTaxMap = async (req, res) => {
     
         const tax_map = await HospitalId.findOne({ where: { hospitalId: hospital_IDR } });
 
-        console.log("tax_map0000000000", tax_map)
+        // console.log("tax_map0000000000", tax_map)
 
 
         if (!tax_map) {

@@ -8,28 +8,29 @@ const requestIp = require('request-ip');
 const { Sequelize } = require("sequelize");
 const Group = require("../models/HospitalGroup"); 
 const { validationResult } = require('express-validator');
+const getClientIp = require('../util/clientip');
 dotenv.config();
-async function getClientIp(req) {
-  // Get client IP from headers or request
-  let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.connection.remoteAddress;
+// async function getClientIp(req) {
+//   // Get client IP from headers or request
+//   let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.connection.remoteAddress;
 
-  // Check if the IP is a local or private network
-  if (clientIp === '' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
-    try {
-      // Fetch the public IP dynamically using ipify if it's local/private
-      const ipResponse = await axios.get('https://api.ipify.org?format=json');
-      clientIp = ipResponse.data.ip;
-    } catch (error) {
-      // Log error if fetching the public IP fails
-      logger.logWithMeta('Error fetching public IP', { error: error.message, errorCode: 1219 });
+//   // Check if the IP is a local or private network
+//   if (clientIp === '' || clientIp === '127.0.0.1' || clientIp.startsWith('192.168') || clientIp.startsWith('10.') || clientIp.startsWith('172.')) {
+//     try {
+//       // Fetch the public IP dynamically using ipify if it's local/private
+//       const ipResponse = await axios.get('https://api.ipify.org?format=json');
+//       clientIp = ipResponse.data.ip;
+//     } catch (error) {
+//       // Log error if fetching the public IP fails
+//       logger.logWithMeta('Error fetching public IP', { error: error.message, errorCode: 1219 });
 
-      // Fallback to localhost if API call fails
-      clientIp = '127.0.0.1';
-    }
-  }
+//       // Fallback to localhost if API call fails
+//       clientIp = '127.0.0.1';
+//     }
+//   }
 
-  return clientIp;
-}
+//   return clientIp;
+// }
 // exports.ensureSequelizeInstance = (req, res, next) => {
 //   const start = Date.now();
 //   // const clientIp = await getClientIp(req);

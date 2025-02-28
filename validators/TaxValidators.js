@@ -141,3 +141,32 @@ exports.validateItemupdate = [
 
 
 ];
+
+exports.validateTaxMap = [
+    body('item_IDR')
+        .notEmpty().withMessage('Item ID is required')
+        .isInt().withMessage('Item ID must be an integer'),
+
+    body('tax_IDR')
+        .notEmpty().withMessage('Tax ID is required')
+        .isInt().withMessage('Tax ID must be an integer'),
+
+    body('hospital_IDR')
+        .optional().isInt().withMessage('Hospital ID must be an integer'),
+
+    body('type')
+        .optional().isLength({ max: 50 }).withMessage('Type must be at most 50 characters'),
+];
+exports.validateTaxMapupdate = [
+    body('item_IDR')
+        .notEmpty().withMessage('Item ID is required')
+        .isInt().withMessage('Item ID must be an integer'),
+
+    body('tax_IDR')
+        .notEmpty().withMessage('Tax ID is required')
+        .isInt().withMessage('Tax ID must be an integer'),
+
+   
+    body('type')
+        .optional().isLength({ max: 50 }).withMessage('Type must be at most 50 characters'),
+];
