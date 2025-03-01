@@ -7,10 +7,10 @@ const ensureSequelizeInstance = require('../util/databasedyanamic');
 const validateService  = require('../validators/Servicesvalidator');
 
 router.post('/fin-group', validateJSONContentType,authenticate,ensureSequelizeInstance,fin_year.createGroup);
-// router.get('/financial-year', authenticate,ensureSequelizeInstance,fin_year.getAllFinYears);
-// router.get('/financial-year/:fin_year_code_id', authenticate,ensureSequelizeInstance,fin_year.getFinYearById);
-// router.put('/financial-year/:fin_year_code_id', validateService.validateServicePriceList,validateJSONContentType,authenticate,ensureSequelizeInstance,fin_year.updateFinYear);
-// router.delete('/financial-year/:fin_year_code_id',authenticate,ensureSequelizeInstance,fin_year.deleteFinYear);
+router.get('/fin-group', authenticate,ensureSequelizeInstance,fin_year.getGroup);
+router.get('/fin-group/:fin_group_id', authenticate,ensureSequelizeInstance,fin_year.getGroup);
+router.put('/fin-group/:fin_group_id',validateJSONContentType,authenticate,ensureSequelizeInstance,fin_year.updateGroup);
+router.delete('/fin-group/:fin_group_id',authenticate,ensureSequelizeInstance,fin_year.deleteGroup);
 
 
 module.exports = router;
