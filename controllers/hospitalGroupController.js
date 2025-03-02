@@ -80,6 +80,7 @@ exports.login = async (req, res) => {
     
     // Encrypt
     const encrypted = CryptoJS.AES.encrypt(SysUserPwd, secretKey).toString();
+
     console.log('Encrypted:', encrypted);
     
     // Decrypt

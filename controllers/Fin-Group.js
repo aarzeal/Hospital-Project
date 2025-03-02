@@ -8,6 +8,7 @@ const { Sequelize } = require("sequelize");
 const Group = require("../models/HospitalGroup");
 const getClientIp = require('../util/clientip');
 const { validationResult } = require('express-validator');
+const getLocationData = require("../util/locationHelper"); 
 
 dotenv.config();
 
@@ -19,18 +20,32 @@ exports.createGroup = async (req, res) => {
     console.log("Client IP:", clientIp);
     const logId = uuidv4();
 
-    let locationData = { city: "Unknown" };
+    // let locationData = { city: "Unknown" };
+    
 
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 1001; // Define a specific error code for validation errors
+
+        logger.logWithMeta("error", "Validation error in createGroup", {
+            errorCode,
+            executionTime,
+            hospitalName: req.hospitalName || "Unknown",
+            ip: clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            validationErrors: errors.array(),
+        });
+
+        return res.status(400).json({ 
+            message: "Validation failed", 
+            errors: errors.array() 
+        });
     }
 
-    try {
-        const locationResponse = await axios.get(`http://ip-api.com/json/${clientIp}`);
-        locationData = locationResponse.data;
-    } catch (error) {
-        logger.error("Error fetching location data", { error: error.message });
-    }
+
+    const locationData = await getLocationData(clientIp); // Fetch location data
 
     const { 
         fin_group_name, 
@@ -74,6 +89,7 @@ exports.createGroup = async (req, res) => {
             return res.status(400).json({ message: "Invalid HospitalGroupID, not found in MasterDB" });
         }
 
+        
         // Check if master_group_IDR exists, otherwise set to NULL
         let Master_group_IDR = null;
 
@@ -177,15 +193,7 @@ exports.getGroup = async (req, res) => {
     const start = Date.now();
     const clientIp = await getClientIp(req);
 
-    let locationData = { city: 'Unknown' };
-
-    try {
-      const locationResponse = await axios.get(`http://ip-api.com/json/${clientIp}`);
-      locationData = locationResponse.data;
-      console.log('Location Data:', locationData);
-    } catch (error) {
-      logger.error('Error fetching location data', { error: error.message });
-    }
+    const locationData = await getLocationData(clientIp);
 
     const { fin_group_id } = req.params;  // If an ID is provided, it will fetch by ID; otherwise, it fetches all
     const hospitalDatabase = req.hospitalDatabase;
@@ -277,18 +285,13 @@ exports.updateGroup = async (req, res) => {
     const logId = uuidv4();
     const { fin_group_id } = req.params;  
 
-    let locationData = { city: "Unknown" };
+   
 
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    try {
-        const locationResponse = await axios.get(`http://ip-api.com/json/${clientIp}`);
-        locationData = locationResponse.data;
-    } catch (error) {
-        logger.error("Error fetching location data", { error: error.message });
-    }
+    const locationData = await getLocationData(clientIp);
 
     const { 
         
@@ -444,14 +447,7 @@ exports.deleteGroup = async (req, res) => {
     console.log("Client IP:", clientIp);
     const logId = uuidv4();
 
-    let locationData = { city: "Unknown" };
-
-    try {
-        const locationResponse = await axios.get(`http://ip-api.com/json/${clientIp}`);
-        locationData = locationResponse.data;
-    } catch (error) {
-        logger.error("Error fetching location data", { error: error.message });
-    }
+    const locationData = await getLocationData(clientIp); // Fetch location data
 
     const { fin_group_id } = req.params;
     const hospitalDatabase = req.hospitalDatabase;

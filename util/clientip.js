@@ -20,10 +20,17 @@
 
 // module.exports = getClientIp;
 
-const requestIp = require('request-ip');
+const requestIp = require("request-ip");
 
-async function getClientIp(req) {
-  return req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
+function getClientIp(req) {
+  let clientIp = req.headers["x-forwarded-for"] || req.headers["x-real-ip"] || requestIp.getClientIp(req);
+
+  // If multiple IPs exist in `x-forwarded-for`, take the first one (real client IP)
+  if (clientIp && clientIp.includes(",")) {
+    clientIp = clientIp.split(",")[0].trim();
+  }
+
+  return clientIp;
 }
 
 module.exports = getClientIp;
