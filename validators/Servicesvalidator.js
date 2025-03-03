@@ -245,3 +245,111 @@ exports.validateFinYearDetailsupdate = [
 
    
 ];
+exports. finGroupValidationRules = [
+    body("fin_group_name")
+      .isString()
+      .notEmpty()
+      .withMessage("Financial group name is required and must be a string.")
+      .isLength({ max: 250 })
+      .withMessage("Financial group name must not exceed 250 characters."),
+  
+    body("group_category")
+      .isInt()
+      .withMessage("Group category must be an integer."),
+  
+    body("types_of_group")
+      .isInt()
+      .withMessage("Types of group must be an integer."),
+  
+    body("is_primary_group")
+      .isInt({ min: 0, max: 1 })
+      .withMessage("Primary group must be 0 or 1."),
+  
+    body("under_group_IDR")
+      .isInt()
+      .withMessage("Under group IDR must be an integer."),
+  
+    body("master_group_IDR")
+      .optional({ nullable: true })
+      .isInt()
+      .withMessage("Master group IDR must be an integer if provided."),
+  
+    body("group_level")
+      .isBoolean()
+      .withMessage("Group level must be a boolean value."),
+  
+    body("is_system_group")
+      .isBoolean()
+      .withMessage("Is system group must be a boolean value."),
+  
+    body("for_jv_settelment")
+      .isBoolean()
+      .withMessage("For JV settlement must be a boolean value."),
+  
+    body("remark")
+      .isString()
+      .notEmpty()
+      .withMessage("Remark is required and must be a string.")
+      .isLength({ max: 250 })
+      .withMessage("Remark must not exceed 250 characters."),
+  
+    body("hospitalIDR")
+      .isInt()
+      .withMessage("Hospital IDR must be an integer."),
+  
+    body("hospitalGroupIDR")
+      .isInt()
+      .withMessage("Hospital Group IDR must be an integer."),
+  ];
+exports. finGroupUpdateValidationRules = [
+    body("fin_group_name")
+      .isString()
+      .notEmpty()
+      .withMessage("Financial group name is required and must be a string.")
+      .isLength({ max: 250 })
+      .withMessage("Financial group name must not exceed 250 characters."),
+  
+    body("group_category")
+      .isInt()
+      .withMessage("Group category must be an integer."),
+  
+    body("types_of_group")
+      .isInt()
+      .withMessage("Types of group must be an integer."),
+  
+    body("is_primary_group")
+      .isInt({ min: 0, max: 1 })
+      .withMessage("Primary group must be 0 or 1."),
+  
+    body("under_group_IDR")
+      .isInt()
+      .withMessage("Under group IDR must be an integer."),
+  
+    body("master_group_IDR")
+      .optional({ nullable: true })
+      .isInt()
+      .withMessage("Master group IDR must be an integer if provided."),
+  
+    body("group_level")
+      .isBoolean()
+      .withMessage("Group level must be a boolean value."),
+  
+    body("is_system_group")
+      .isBoolean()
+      .withMessage("Is system group must be a boolean value."),
+  
+    body("for_jv_settelment")
+      .isBoolean()
+      .withMessage("For JV settlement must be a boolean value."),
+  
+    body("remark")
+      .isString()
+      .notEmpty()
+      .withMessage("Remark is required and must be a string.")
+      .isLength({ max: 250 })
+      .withMessage("Remark must not exceed 250 characters."),
+  
+ 
+
+  ];
+  

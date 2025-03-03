@@ -25,7 +25,7 @@ exports.createGroup = async (req, res) => {
 
     if (!errors.isEmpty()) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 1001; // Define a specific error code for validation errors
+        const errorCode = 9000; // Define a specific error code for validation errors
 
         logger.logWithMeta("error", "Validation error in createGroup", {
             errorCode,
@@ -74,7 +74,7 @@ exports.createGroup = async (req, res) => {
 
         if (!group) {
             const executionTime = `${Date.now() - start}ms`;
-            const errorCode = 1278;
+            const errorCode = 9001;
 
             logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", {
                 errorCode,
@@ -110,7 +110,7 @@ exports.createGroup = async (req, res) => {
 
         if (!hospitalRecord) {
             const executionTime = `${Date.now() - start}ms`;
-            const errorCode = 1280;
+            const errorCode = 9002;
 
             logger.logWithMeta("error", "Invalid hospitalID, not found in MasterDB", {
                 errorCode,
@@ -167,7 +167,7 @@ exports.createGroup = async (req, res) => {
         });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 1281;
+        const errorCode = 9003;
 
         logger.logWithMeta("error", "Error creating Fin group", 
             {
@@ -206,7 +206,7 @@ exports.getGroup = async (req, res) => {
             response = await Fin_Group.findOne({ where: { fin_group_id: fin_group_id } });
             if (!response) {
                 const executionTime = `${Date.now() - start}ms`;
-                const errorCode = 1282;
+                const errorCode = 9004;
         
                 logger.logWithMeta("error", `Fin_Group not found"}`, {
                     errorCode,
@@ -253,9 +253,9 @@ exports.getGroup = async (req, res) => {
         });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 1282;
+        const errorCode = 9005;
 
-        logger.logWithMeta("error", `Error fetching ${fin_group_id ? "service by ID" : "all services"}`, {
+        logger.logWithMeta("error", `Error fetching fin group }`, {
             errorCode,
             executionTime,
             hospitalName: req.hospitalName,
@@ -271,7 +271,7 @@ exports.getGroup = async (req, res) => {
 
         res.status(500).json({
             meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-            error: { message: `Error fetching ${fin_group_id ? "service by ID" : "services"}: ` + error.message },
+            error: { message: `Error fetching fin group "}: ` + error.message },
         });
     }
 };
@@ -288,9 +288,25 @@ exports.updateGroup = async (req, res) => {
    
 
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 9006; // Define a specific error code for validation errors
 
+        logger.logWithMeta("error", "Validation error in update", {
+            errorCode,
+            executionTime,
+            hospitalName: req.hospitalName || "Unknown",
+            ip: clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            validationErrors: errors.array(),
+        });
+
+        return res.status(400).json({ 
+            message: "Validation failed", 
+            errors: errors.array() 
+        });
+    }
     const locationData = await getLocationData(clientIp);
 
     const { 
@@ -320,7 +336,7 @@ exports.updateGroup = async (req, res) => {
         const existingGroup = await fin_group.findOne({ where: { fin_group_id } });
         if (!existingGroup) {
             const executionTime = `${Date.now() - start}ms`;
-            const errorCode = 1279;
+            const errorCode = 9007;
 
             logger.logWithMeta("error", "Fin group not found", {
                 errorCode,
@@ -339,7 +355,7 @@ exports.updateGroup = async (req, res) => {
         const group = await Group.findOne({ where: { HospitalGroupID: hospitalGroupIDR } });
         if (!group) {
             const executionTime = `${Date.now() - start}ms`;
-            const errorCode = 1278;
+            const errorCode = 9008;
 
             logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", {
                 errorCode,
@@ -367,7 +383,7 @@ exports.updateGroup = async (req, res) => {
         const hospitalRecord = await HospitalModel.findOne({ where: { hospitalID: hospitalIDR } });
         if (!hospitalRecord) {
             const executionTime = `${Date.now() - start}ms`;
-            const errorCode = 1280;
+            const errorCode = 9009;
 
             logger.logWithMeta("error", "Invalid hospitalID, not found in MasterDB", {
                 errorCode,
@@ -421,7 +437,7 @@ exports.updateGroup = async (req, res) => {
         });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 1281;
+        const errorCode = 9010;
 
         logger.logWithMeta("error", "Error updating Fin group", {
             errorCode,
@@ -459,7 +475,7 @@ exports.deleteGroup = async (req, res) => {
         const existingGroup = await fin_group.findOne({ where: { fin_group_id } });
         if (!existingGroup) {
             const executionTime = `${Date.now() - start}ms`;
-            const errorCode = 1279;
+            const errorCode = 9011;
 
             logger.logWithMeta("error", "Fin group not found", {
                 errorCode,
@@ -500,7 +516,7 @@ exports.deleteGroup = async (req, res) => {
         });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 1282;
+        const errorCode = 9012;
 
         logger.logWithMeta("error", "Error deleting Fin group", {
             errorCode,

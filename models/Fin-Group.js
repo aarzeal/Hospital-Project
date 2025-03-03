@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+
 module.exports = (sequelize) => {
     return sequelize.define("fin_group", {
       fin_group_id: {

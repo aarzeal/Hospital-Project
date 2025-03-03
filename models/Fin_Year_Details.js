@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       lock: {
-        type: DataTypes.STRING,
+        type: DataTypes.BOOLEAN,
         allowNull: false,
       },
       is_Active: {
