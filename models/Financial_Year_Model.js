@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
         primaryKey: true,
       },
       fin_year: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       
