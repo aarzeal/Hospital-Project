@@ -22,7 +22,8 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       is_primary_group: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BOOLEAN
+        ,
         allowNull: false,
       },
       under_group_IDR: {
