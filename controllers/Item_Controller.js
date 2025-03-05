@@ -66,7 +66,7 @@ exports.createItem = async (req, res) => {
 
   try {
       const Item = require("../models/Item_Model")(req.sequelize);
-      const Group = require("../models/Group_Model")(req.sequelize); // Assuming Group model exists
+      const Group = require("../models/HospitalGroup")(req.sequelize); // Assuming Group model exists
 
       // 🔍 Validate Hospital Group
       const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR } });

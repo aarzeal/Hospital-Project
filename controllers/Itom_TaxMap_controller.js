@@ -28,350 +28,347 @@ dotenv.config();
 //   return clientIp;
 // }
 
-exports.createTaxMap = async (req, res) => {
-  const errors = validationResult(req);
-  const start = Date.now();
-  const clientIp = await getClientIp(req);
-  const locationData = await getLocationData(clientIp);
-  const logId = uuidv4();
-
-  if (!errors.isEmpty()) {
-      const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 9140;
-
-      logger.logWithMeta("error", "Validation error in createTaxMap", {
-          errorCode,
-          executionTime,
-          logId,
-          hospitalName: req.hospitalName || "Unknown",
-          ip: clientIp,
-          city: locationData?.city,
-          country: locationData?.country,
-          apiName: req.originalUrl,
-          method: req.method,
-          userAgent: req.headers["user-agent"],
-          validationErrors: errors.array(),
-      });
-
-      return res.status(400).json({
-          meta: { statusCode: 400, errorCode, executionTime },
-          error: { message: "Validation failed", errors: errors.array() },
-      });
-  }
-
-  const { item_IDR, tax_IDR, hospital_IDR, type } = req.body;
-  const hospitalDatabase = req.hospitalDatabase;
-
-  try {
-      // Load Sequelize models dynamically
-      const TaxMap = require("../models/Itom_TaxMap_model")(req.sequelize);
-      const Hospital = require("../models/HospitalModel")(req.sequelize);
-      const Item = require("../models/Item_Model")(req.sequelize);
-      const Tax = require("../models/Tax_Model")(req.sequelize);
-
-      // Validate Hospital
-      const hospital = await Hospital.findOne({ where: { hospitalId: hospital_IDR } });
-      if (!hospital) {
-          const executionTime = `${Date.now() - start}ms`;
-          const errorCode = 9141;
-
-          logger.logWithMeta("error", "Invalid hospital_IDR, not found in MasterDB", {
-              errorCode,
-              executionTime,
-              logId,
-              hospitalName: req.hospitalName,
-              ip: clientIp,
-              city: locationData?.city,
-              country: locationData?.country,
-              apiName: req.originalUrl,
-              method: req.method,
-              userAgent: req.headers["user-agent"],
-          });
-
-          return res.status(400).json({ meta: { statusCode: 400, errorCode, executionTime }, error: { message: "Invalid hospital_IDR, not found in MasterDB" } });
-      }
-
-      // Validate Item
-      const item = await Item.findOne({ where: { Item_id: item_IDR } });
-      if (!item) {
-          const executionTime = `${Date.now() - start}ms`;
-          const errorCode = 9142;
-
-          logger.logWithMeta("error", "Invalid item_IDR, not found in MasterDB", {
-              errorCode,
-              executionTime,
-              logId,
-              hospitalName: req.hospitalName,
-              ip: clientIp,
-              city: locationData?.city,
-              country: locationData?.country,
-              apiName: req.originalUrl,
-              method: req.method,
-              userAgent: req.headers["user-agent"],
-          });
-
-          return res.status(400).json({ meta: { statusCode: 400, errorCode, executionTime }, error: { message: "Invalid item_IDR, not found in MasterDB" } });
-      }
-
-      // Validate Tax
-      const tax = await Tax.findOne({ where: { tax_id: tax_IDR } });
-      if (!tax) {
-          const executionTime = `${Date.now() - start}ms`;
-          const errorCode = 9143;
-
-          logger.logWithMeta("error", "Invalid tax_IDR, not found in MasterDB", {
-              errorCode,
-              executionTime,
-              logId,
-              hospitalName: req.hospitalName,
-              ip: clientIp,
-              city: locationData?.city,
-              country: locationData?.country,
-              apiName: req.originalUrl,
-              method: req.method,
-              userAgent: req.headers["user-agent"],
-          });
-
-          return res.status(400).json({ meta: { statusCode: 400, errorCode, executionTime }, error: { message: "Invalid tax_IDR, not found in MasterDB" } });
-      }
-
-      // Create TaxMap entry
-      await TaxMap.sync();
-      const taxMapEntry = await TaxMap.create({ item_IDR, tax_IDR, hospital_IDR, type });
-
-      const executionTime = `${Date.now() - start}ms`;
-
-      logger.logWithMeta("info", "Tax Map entry created successfully", {
-          executionTime,
-          logId,
-          hospitalName: req.hospitalName,
-          ip: clientIp,
-          city: locationData?.city,
-          country: locationData?.country,
-          apiName: req.originalUrl,
-          method: req.method,
-          userAgent: req.headers["user-agent"],
-      });
-
-      res.status(200).json({
-          meta: { statusCode: 200, executionTime, hospitalDatabase },
-          data: taxMapEntry,
-      });
-  } catch (error) {
-      const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 9144;
-
-      logger.logWithMeta("error", "Error creating tax map entry", {
-          errorCode,
-          executionTime,
-          logId,
-          hospitalName: req.hospitalName,
-          ip: clientIp,
-          city: locationData?.city,
-          country: locationData?.country,
-          apiName: req.originalUrl,
-          method: req.method,
-          userAgent: req.headers["user-agent"],
-          errorMessage: error.message,
-      });
-
-      res.status(500).json({
-          meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-          error: { message: "Error creating tax map entry: " + error.message },
-      });
-  }
-};
-
 // exports.createTaxMap = async (req, res) => {
-//  const errors = validationResult(req);
+//   const errors = validationResult(req);
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const logId = uuidv4();
 
-//     const start = Date.now();
-//     const clientIp = await getClientIp(req);
-//   console.log('Client IP:', clientIp);
+//   if (!errors.isEmpty()) {
+//       const executionTime = `${Date.now() - start}ms`;
+//       const errorCode = 9140;
 
-//     // const logId = uuidv4();
-
-//     const locationData = await getLocationData(clientIp);
-//     const logId = uuidv4();
-
-//     if (!errors.isEmpty()) {
-//         const executionTime = `${Date.now() - start}ms`;
-//         const errorCode = 9028; // Validation error
-
-//         logger.logWithMeta("error", "Validation error in createFinYrDetails", {
-//             errorCode,
-//             executionTime,
-//             hospitalName: req.hospitalName || "Unknown",
-//             ip: clientIp,
-//             apiName: req.originalUrl,
-//             method: req.method,
-//             userAgent: req.headers["user-agent"],
-//             validationErrors: errors.array(),
-//         });
-
-//         return res.status(400).json({ 
-//             message: "Validation failed", 
-//             statusCode: 400,
-//             errorCode,
-//             errors: errors.array(),
-//         });
-//     }
-
-
-//     const { item_IDR,tax_IDR,hospital_IDR,type } = req.body;
-    
-//     const hospitalDatabase = req.hospitalDatabase;
-
-//     try {
-//         const Tax_map = require("../models/Itom_TaxMap_model")(req.sequelize);
-    
-//         const tax_map = await HospitalId.findOne({ where: { hospitalId: hospital_IDR } });
-
-//         // console.log("tax_map0000000000", tax_map)
-
-
-//         if (!tax_map) {
-//             const executionTime = `${Date.now() - start}ms`;
-//             const errorCode = 1278;
-    
-//             logger.logWithMeta("error", "Invalid HospitalId, not found in MasterDB", {
-//                 errorCode,
-//                 executionTime,
-//                 hospitalName: req.hospitalName,
-//                 ip: clientIp,
-//               city: locationData?.city,
-//               country: locationData?.country,
-//               regionName: locationData?.regionName,
-//               zip: locationData?.zip,
-//                 apiName: req.originalUrl,
-//                 method: req.method,
-//                 userAgent: req.headers["user-agent"],
-//             });
-//             return res.status(400).json({ message: "Invalid HospitalId, not found in MasterDB" });
-//         }
-
-
-
-//         const item_ID = require("../models/Item_Model")(req.sequelize);
-
-//         const Item_IDR = await item_ID.findOne({
-//             where: {Item_id : item_IDR }
-//         });
-
-//         if (!Item_IDR) {
-//             const executionTime = `${Date.now() - start}ms`;
-//             const errorCode = 1279;
-    
-//             logger.logWithMeta("error", "Invalid Item_IDR  not found in MasterDB", {
-//                 errorCode,
-//                 executionTime,
-//                 hospitalName: req.hospitalName,
-//                 ip: clientIp,
-//               city: locationData?.city,
-//               country: locationData?.country,
-//               regionName: locationData?.regionName,
-//               zip: locationData?.zip,
-//                 apiName: req.originalUrl,
-//                 method: req.method,
-//                 userAgent: req.headers["user-agent"],
-//             });
-//             return res.status(400).json({errorCode, message: "Invalid Item_IDR, not found in MasterDB" });
-//         }
-
-
-//         const tax_ID = require("../models/Tax_Model")(req.sequelize);
-
-//         const Tax_IDR = await tax_ID.findOne({
-//             where: { tax_id: tax_IDR }
-//         });
-
-//         if (!Tax_IDR) {
-//             const executionTime = `${Date.now() - start}ms`;
-//             const errorCode = 1280;
-    
-//             logger.logWithMeta("error", "Invalid Tax_IDR, not found in MasterDB", {
-//                 errorCode,
-//                 executionTime,
-//                 hospitalName: req.hospitalName,
-//                 ip: clientIp,
-//               city: locationData?.city,
-//               country: locationData?.country,
-//               regionName: locationData?.regionName,
-//               zip: locationData?.zip,
-//                 apiName: req.originalUrl,
-//                 method: req.method,
-//                 userAgent: req.headers["user-agent"],
-//             });
-
-//             return res.status(400).json({ message: "Invalid Tax_IDR, not found in MasterDB" });
-//         }
-
-
-
-
-
-//         await Tax_map.sync();
-
-//         const service = await Tax_map.create({
-//           item_IDR,tax_IDR,hospital_IDR,type
-//         });
-
-
-
-
-
-
-//         const executionTime = `${Date.now() - start}ms`;
-
-//         logger.logWithMeta("info", "service created successfully", {
-//             executionTime,
-//             // logId,
-//             hospitalName: req.hospitalName,
-//             ip: clientIp,
+//       logger.logWithMeta("error", "Validation error in createTaxMap", {
+//           errorCode,
+//           executionTime,
+//           logId,
+//           hospitalName: req.hospitalName || "Unknown",
+//           ip: clientIp,
 //           city: locationData?.city,
 //           country: locationData?.country,
-//           regionName: locationData?.regionName,
-//           zip: locationData?.zip,
-//             apiName: req.originalUrl,
-//             method: req.method,
-//             userAgent: req.headers["user-agent"],
-            
-      
-            
-//         });
+//           apiName: req.originalUrl,
+//           method: req.method,
+//           userAgent: req.headers["user-agent"],
+//           validationErrors: errors.array(),
+//       });
 
-//         res.status(200).json({
-//             meta: {
-//                 statusCode: 200,
-//                 executionTime,
-//                 hospitalDatabase,
-//             },
-//             data: { service },
-//         });
-//     } catch (error) {
-//         const executionTime = `${Date.now() - start}ms`;
-//         const errorCode = 1281;
+//       return res.status(400).json({
+//           meta: { statusCode: 400, errorCode, executionTime },
+//           error: { message: "Validation failed", errors: errors.array() },
+//       });
+//   }
 
-//         logger.logWithMeta("error", "Error creating service", {
-//             errorCode,
-//             executionTime,
-//             hospitalName: req.hospitalName,
-//             ip: clientIp,
+//   const { item_IDR, tax_IDR, hospital_IDR, type } = req.body;
+//   const hospitalDatabase = req.hospitalDatabase;
+
+//   try {
+//       // Load Sequelize models dynamically
+//       const TaxMap = require("../models/Itom_TaxMap_model")(req.sequelize);
+//       const Hospital = require("../models/HospitalModel")(req.sequelize);
+//       const Item = require("../models/Item_Model")(req.sequelize);
+//       const Tax = require("../models/Tax_Model")(req.sequelize);
+
+//       // Validate Hospital
+//       const hospital = await Hospital.findOne({ where: { hospitalId: hospital_IDR } });
+//       if (!hospital) {
+//           const executionTime = `${Date.now() - start}ms`;
+//           const errorCode = 9141;
+
+//           logger.logWithMeta("error", "Invalid hospital_IDR, not found in MasterDB", {
+//               errorCode,
+//               executionTime,
+//               logId,
+//               hospitalName: req.hospitalName,
+//               ip: clientIp,
+//               city: locationData?.city,
+//               country: locationData?.country,
+//               apiName: req.originalUrl,
+//               method: req.method,
+//               userAgent: req.headers["user-agent"],
+//           });
+
+//           return res.status(400).json({ meta: { statusCode: 400, errorCode, executionTime }, error: { message: "Invalid hospital_IDR, not found in MasterDB" } });
+//       }
+
+//       // Validate Item
+//       const item = await Item.findOne({ where: { Item_id: item_IDR } });
+//       if (!item) {
+//           const executionTime = `${Date.now() - start}ms`;
+//           const errorCode = 9142;
+
+//           logger.logWithMeta("error", "Invalid item_IDR, not found in MasterDB", {
+//               errorCode,
+//               executionTime,
+//               logId,
+//               hospitalName: req.hospitalName,
+//               ip: clientIp,
+//               city: locationData?.city,
+//               country: locationData?.country,
+//               apiName: req.originalUrl,
+//               method: req.method,
+//               userAgent: req.headers["user-agent"],
+//           });
+
+//           return res.status(400).json({ meta: { statusCode: 400, errorCode, executionTime }, error: { message: "Invalid item_IDR, not found in MasterDB" } });
+//       }
+
+//       // Validate Tax
+//       const tax = await Tax.findOne({ where: { tax_id: tax_IDR } });
+//       if (!tax) {
+//           const executionTime = `${Date.now() - start}ms`;
+//           const errorCode = 9143;
+
+//           logger.logWithMeta("error", "Invalid tax_IDR, not found in MasterDB", {
+//               errorCode,
+//               executionTime,
+//               logId,
+//               hospitalName: req.hospitalName,
+//               ip: clientIp,
+//               city: locationData?.city,
+//               country: locationData?.country,
+//               apiName: req.originalUrl,
+//               method: req.method,
+//               userAgent: req.headers["user-agent"],
+//           });
+
+//           return res.status(400).json({ meta: { statusCode: 400, errorCode, executionTime }, error: { message: "Invalid tax_IDR, not found in MasterDB" } });
+//       }
+
+//       // Create TaxMap entry
+//       await TaxMap.sync();
+//       const taxMapEntry = await TaxMap.create({ item_IDR, tax_IDR, hospital_IDR, type });
+
+//       const executionTime = `${Date.now() - start}ms`;
+
+//       logger.logWithMeta("info", "Tax Map entry created successfully", {
+//           executionTime,
+//           logId,
+//           hospitalName: req.hospitalName,
+//           ip: clientIp,
 //           city: locationData?.city,
 //           country: locationData?.country,
-//           regionName: locationData?.regionName,
-//           zip: locationData?.zip,
-//             apiName: req.originalUrl,
-//             method: req.method,
-//             userAgent: req.headers["user-agent"],
-//         });
+//           apiName: req.originalUrl,
+//           method: req.method,
+//           userAgent: req.headers["user-agent"],
+//       });
 
-//         res.status(500).json({
-//             meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-//             error: { message: "Error creating service: " + error.message },
-//         });
-//     }
+//       res.status(200).json({
+//           meta: { statusCode: 200, executionTime, hospitalDatabase },
+//           data: taxMapEntry,
+//       });
+//   } catch (error) {
+//       const executionTime = `${Date.now() - start}ms`;
+//       const errorCode = 9144;
+
+//       logger.logWithMeta("error", "Error creating tax map entry", {
+//           errorCode,
+//           executionTime,
+//           logId,
+//           hospitalName: req.hospitalName,
+//           ip: clientIp,
+//           city: locationData?.city,
+//           country: locationData?.country,
+//           apiName: req.originalUrl,
+//           method: req.method,
+//           userAgent: req.headers["user-agent"],
+//           errorMessage: error.message,
+//       });
+
+//       res.status(500).json({
+//           meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+//           error: { message: "Error creating tax map entry: " + error.message },
+//       });
+//   }
 // };
+
+exports.createTaxMap = async (req, res) => {
+ const errors = validationResult(req);
+
+    const start = Date.now();
+    const clientIp = await getClientIp(req);
+  console.log('Client IP:', clientIp);
+
+    // const logId = uuidv4();
+
+    const locationData = await getLocationData(clientIp);
+    const logId = uuidv4();
+
+    if (!errors.isEmpty()) {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 9140;
+  
+        logger.logWithMeta("error", "Validation error in createTaxMap", {
+            errorCode,
+            executionTime,
+            logId,
+            hospitalName: req.hospitalName || "Unknown",
+            ip: clientIp,
+            city: locationData?.city,
+            country: locationData?.country,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            validationErrors: errors.array(),
+        });
+
+        return res.status(400).json({ 
+            message: "Validation failed", 
+            statusCode: 400,
+            errorCode,
+            errors: errors.array(),
+        });
+    }
+
+
+    const { item_IDR,tax_IDR,hospital_IDR,type } = req.body;
+    
+    const hospitalDatabase = req.hospitalDatabase;
+
+    try {
+        const Tax_map = require("../models/Itom_TaxMap_model")(req.sequelize);
+    
+        const tax_map = await HospitalId.findOne({ where: { hospitalId: hospital_IDR } });
+
+        // console.log("tax_map0000000000", tax_map)
+
+
+        if (!tax_map) {
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 9141;
+  
+            logger.logWithMeta("error", "Invalid hospital_IDR, not found in MasterDB", {
+                errorCode,
+                executionTime,
+                logId,
+                hospitalName: req.hospitalName,
+                ip: clientIp,
+                city: locationData?.city,
+                country: locationData?.country,
+                apiName: req.originalUrl,
+                method: req.method,
+                userAgent: req.headers["user-agent"],
+            });
+  
+            return res.status(400).json({ meta: { statusCode: 400, errorCode, executionTime }, error: { message: "Invalid hospital_IDR, not found in MasterDB" } });
+        }
+
+
+
+        const item_ID = require("../models/Item_Model")(req.sequelize);
+
+        const Item_IDR = await item_ID.findOne({
+            where: {Item_id : item_IDR }
+        });
+
+        if (!Item_IDR) {
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 9142;
+  
+            logger.logWithMeta("error", "Invalid item_IDR, not found in MasterDB", {
+                errorCode,
+                executionTime,
+                logId,
+                hospitalName: req.hospitalName,
+                ip: clientIp,
+                city: locationData?.city,
+                country: locationData?.country,
+                apiName: req.originalUrl,
+                method: req.method,
+                userAgent: req.headers["user-agent"],
+            });
+  
+            return res.status(400).json({ meta: { statusCode: 400, errorCode, executionTime }, error: { message: "Invalid item_IDR, not found in MasterDB" } });
+        }
+
+
+        const tax_ID = require("../models/Tax_Model")(req.sequelize);
+
+        const Tax_IDR = await tax_ID.findOne({
+            where: { tax_id: tax_IDR }
+        });
+
+        if (!Tax_IDR) {
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 9143;
+  
+            logger.logWithMeta("error", "Invalid tax_IDR, not found in MasterDB", {
+                errorCode,
+                executionTime,
+                logId,
+                hospitalName: req.hospitalName,
+                ip: clientIp,
+                city: locationData?.city,
+                country: locationData?.country,
+                apiName: req.originalUrl,
+                method: req.method,
+                userAgent: req.headers["user-agent"],
+            });
+  
+            return res.status(400).json({ meta: { statusCode: 400, errorCode, executionTime }, error: { message: "Invalid tax_IDR, not found in MasterDB" } });
+        }
+
+
+
+
+
+        await Tax_map.sync();
+
+        const service = await Tax_map.create({
+          item_IDR,tax_IDR,hospital_IDR,type
+        });
+
+
+
+
+
+
+        const executionTime = `${Date.now() - start}ms`;
+
+        logger.logWithMeta("info", "Tax Map entry created successfully", {
+            executionTime,
+            logId,
+            hospitalName: req.hospitalName,
+            ip: clientIp,
+            city: locationData?.city,
+            country: locationData?.country,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+        });
+
+        res.status(200).json({
+            meta: {
+                statusCode: 200,
+                executionTime,
+                hospitalDatabase,
+            },
+            data: { service },
+        });
+    } catch (error)  {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 9144;
+  
+        logger.logWithMeta("error", "Error creating tax map entry", {
+            errorCode,
+            executionTime,
+            logId,
+            hospitalName: req.hospitalName,
+            ip: clientIp,
+            city: locationData?.city,
+            country: locationData?.country,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            errorMessage: error.message,
+        });
+  
+        res.status(500).json({
+            meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+            error: { message: "Error creating tax map entry: " + error.message },
+        });
+    }
+};
 
 exports.getAllTaxMaps = async (req, res) => {
   const start = Date.now();
