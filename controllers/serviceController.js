@@ -303,7 +303,7 @@ dotenv.config();
 
 exports.createService = async (req, res) => {
  const errors = validationResult(req);
-
+ const start = Date.now();
     
  const clientIp = await getClientIp(req);
  const locationData = await getLocationData(clientIp);
@@ -311,7 +311,7 @@ exports.createService = async (req, res) => {
 
  if (!errors.isEmpty()) {
      const executionTime = `${Date.now() - start}ms`;
-     const errorCode = 9028; // Validation error
+     const errorCode = 9047; // Validation error
 
      logger.logWithMeta("error", "Validation error in createFinYrDetails", {
          errorCode,
@@ -352,7 +352,7 @@ exports.createService = async (req, res) => {
 
         if (!group) {
             const executionTime = `${Date.now() - start}ms`;
-            const errorCode = 1278;
+            const errorCode = 9048;
     
             logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", {
                 errorCode,
@@ -380,7 +380,7 @@ exports.createService = async (req, res) => {
 
         if (!service_category) {
             const executionTime = `${Date.now() - start}ms`;
-            const errorCode = 1279;
+            const errorCode = 9049;
     
             logger.logWithMeta("error", "Invalid Service Category ID, not found in MasterDB", {
                 errorCode,
@@ -407,7 +407,7 @@ exports.createService = async (req, res) => {
 
         if (!accLedger) {
             const executionTime = `${Date.now() - start}ms`;
-            const errorCode = 1280;
+            const errorCode = 9050;
     
             logger.logWithMeta("error", "Invalid ledger_IDR, not found in MasterDB", {
                 errorCode,
@@ -478,7 +478,7 @@ exports.createService = async (req, res) => {
         });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 1281;
+        const errorCode = 9051;
 
         logger.logWithMeta("error", "Error creating service", {
             errorCode,
