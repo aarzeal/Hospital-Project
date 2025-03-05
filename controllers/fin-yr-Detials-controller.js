@@ -360,28 +360,26 @@ exports.getFinYrDetails = async (req, res) => {
         const Fin_yr_Details = require("../models/Fin_Year_Details")(req.sequelize);
         const finYearDetails = await Fin_yr_Details.findAll();
 
-        if (!finYearDetails || finYearDetails.length === 0) {
-            const executionTime = `${Date.now() - start}ms`;
-            const errorCode = 9035; // No financial year details found
+        // if (!finYearDetails || finYearDetails.length === 0) {
+        //     const executionTime = `${Date.now() - start}ms`;
+        //     const errorCode = 9035; // No financial year details found
 
-            logger.logWithMeta("error", "No Financial Year Details found", {
-                errorCode,
-                executionTime,
-                hospitalName: req.hospitalName,
-                ip: clientIp,
-                city: locationData?.city,
-                country: locationData?.country,
-                apiName: req.originalUrl,
-                method: req.method,
-                userAgent: req.headers["user-agent"],
-            });
+        //     logger.logWithMeta("error", "No Financial Year Details found", {
+        //         errorCode,
+        //         executionTime,
+        //         hospitalName: req.hospitalName,
+        //         ip: clientIp,
+        //         city: locationData?.city,
+        //         country: locationData?.country,
+        //         apiName: req.originalUrl,
+        //         method: req.method,
+        //         userAgent: req.headers["user-agent"],
+        //     });
 
-            return res.status(404).json({ 
-                message: "No Financial Year Details found",
-                statusCode: 404,
-                errorCode
-            });
-        }
+        //     return res.status(200).json({ 
+        //         data:[]
+        //     });
+        // }
 
         const executionTime = `${Date.now() - start}ms`;
 
