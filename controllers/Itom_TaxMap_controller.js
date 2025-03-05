@@ -8,6 +8,7 @@ const HospitalId = require("../models/HospitalModel");
 const { validationResult } = require('express-validator');
 const getClientIp = require('../util/clientip');
 const getLocationData = require("../util/locationHelper");
+const { v4: uuidv4 } = require("uuid");
 
 dotenv.config();
 // async function getClientIp(req) {

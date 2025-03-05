@@ -1,5 +1,6 @@
 const logger = require('../logger');
 const { validationResult } = require('express-validator');
+const { v4: uuidv4 } = require("uuid");
 const dotenv = require('dotenv');
 const requestIp = require('request-ip');
 const { Sequelize } = require("sequelize");
