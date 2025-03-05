@@ -6,7 +6,8 @@ const dotenv = require('dotenv');
 const axios = require('axios');
 const requestIp = require('request-ip');
 const { Sequelize } = require("sequelize");
-const getClientIp = require('../util/clientip');
+const getClientIp = require('../util/clientip')
+const getLocationData = require("../util/locationHelper");;
 
 const { validationResult } = require('express-validator');
 
