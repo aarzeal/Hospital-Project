@@ -31,240 +31,251 @@ dotenv.config();
 //   return clientIp;
 // }
 
-exports.createTax = async (req, res) => {
-  const errors = validationResult(req);
-  const start = Date.now();
-  
-  const { tax_name, tax_rate, is_active, HospitalIDR } = req.body;
-  const hospitalDatabase = req.hospitalDatabase;
-
-  const clientIp = await getClientIp(req);
-  const locationData = await getLocationData(clientIp);
-  const logId = uuidv4();
-
-  if (!errors.isEmpty()) {
-      const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 9084; // Validation error
-
-      logger.logWithMeta("error", "Validation error in createTax", {
-          errorCode,
-          executionTime,
-          hospitalName: req.hospitalName || "Unknown",
-          ip: clientIp,
-          apiName: req.originalUrl,
-          method: req.method,
-          userAgent: req.headers["user-agent"],
-          validationErrors: errors.array(),
-      });
-
-      return res.status(400).json({ 
-          message: "Validation failed", 
-          statusCode: 400,
-          errorCode,
-          errors: errors.array(),
-      });
-  }
-
-  try {
-      if (!req.sequelize) {
-          const executionTime = `${Date.now() - start}ms`;
-          const errorCode = 9085; // Database connection error
-
-          logger.logWithMeta("error", "Database connection not found", {
-              errorCode,
-              executionTime,
-              hospitalName: req.hospitalName || "Unknown",
-              ip: clientIp,
-              apiName: req.originalUrl,
-              method: req.method,
-              userAgent: req.headers["user-agent"],
-          });
-
-          return res.status(500).json({
-              message: "Database connection not found",
-              statusCode: 500,
-              errorCode
-          });
-      }
-
-      const Tax = require("../models/Tax_Model")(req.sequelize);
-      const Hospital = require("../models/HospitalModel")(req.sequelize);
-
-      // **Validate HospitalID**
-      const hospital = await Hospital.findOne({ where: { HospitalID: HospitalIDR } });
-
-      if (!hospital) {
-          const executionTime = `${Date.now() - start}ms`;
-          const errorCode = 9086; // HospitalID not found
-
-          logger.logWithMeta("error", "Invalid HospitalID, not found in hospital table", {
-              errorCode,
-              executionTime,
-              hospitalId: HospitalIDR,
-              apiName: req.originalUrl,
-              method: req.method,
-              userAgent: req.headers["user-agent"],
-              ip: clientIp
-          });
-
-          return res.status(400).json({
-              errorCode,
-              message: "Invalid HospitalID, not found in hospital table",
-          });
-      }
-
-      await Tax.sync();
-
-      // **Create Tax Entry**
-      const tax = await Tax.create({
-          tax_name, tax_rate, is_active, HospitalIDR
-      });
-
-      const executionTime = `${Date.now() - start}ms`;
-
-      logger.logWithMeta("info", "Tax created successfully", {
-          executionTime,
-          logId,
-          hospitalId: HospitalIDR,
-          hospitalName: req.hospitalName,
-          ip: clientIp,
-          apiName: req.originalUrl,
-          method: req.method,
-          userAgent: req.headers["user-agent"],
-      });
-
-      res.status(200).json({
-          meta: {
-              statusCode: 200,
-              executionTime,
-              hospitalDatabase,
-          },
-          data: tax,
-      });
-
-  } catch (error) {
-      const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 9087; // General error in tax creation
-
-      logger.logWithMeta("error", "Error creating Tax", {
-          errorCode,
-          executionTime,
-          hospitalId: HospitalIDR,
-          hospitalName: req.hospitalName,
-          ip: clientIp,
-          apiName: req.originalUrl,
-          method: req.method,
-          userAgent: req.headers["user-agent"],
-          errorMessage: error.message
-      });
-
-      res.status(500).json({
-          meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-          error: { message: "Error creating Tax: " + error.message },
-      });
-  }
-};
 // exports.createTax = async (req, res) => {
 //   const errors = validationResult(req);
-//     const start = Date.now();
-    
-//     const { tax_name,tax_rate,is_active,HospitalIDR,} = req.body;
-//     const hospitalDatabase = req.hospitalDatabase;
+//   const start = Date.now();
+  
+//   const { tax_name, tax_rate, is_active, HospitalIDR } = req.body;
+//   const hospitalDatabase = req.hospitalDatabase;
 
-//     const clientIp = await getClientIp(req);
-//     const locationData = await getLocationData(clientIp);
-//     const logId = uuidv4();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const logId = uuidv4();
 
-//     if (!errors.isEmpty()) {
-//         const executionTime = `${Date.now() - start}ms`;
-//         const errorCode = 9047; // Validation error
+//   if (!errors.isEmpty()) {
+//       const executionTime = `${Date.now() - start}ms`;
+//       const errorCode = 9084; // Validation error
 
-//         logger.logWithMeta("error", "Validation error in createService", {
-//             errorCode,
-//             executionTime,
-//             hospitalName: req.hospitalName || "Unknown",
-//             ip: clientIp,
-//             apiName: req.originalUrl,
-//             method: req.method,
-//             userAgent: req.headers["user-agent"],
-//             validationErrors: errors.array(),
-//         });
-
-//         return res.status(400).json({ 
-//             message: "Validation failed", 
-//             statusCode: 400,
-//             errorCode,
-//             errors: errors.array(),
-//         });
-//     }
-  
-//     try {
-//       const Tax = require("../models/Tax_Model")(req.sequelize);
-  
-  
-//       const group = await Group.findOne({ where: { HospitalID: HospitalIDR} });
-  
-//       // console.log("group0000000000",group)
-  
-//       if (!group) {
-//         const executionTime = `${Date.now() - start}ms`;
-//         const errorCode = 1268;
-    
-//         logger.logWithMeta("error", "Invalid HospitalID, not found in hospitaltable", {
+//       logger.logWithMeta("error", "Validation error in createTax", {
 //           errorCode,
+//           logId,
 //           executionTime,
-//           hospitalId: req.hospitalId,
+//           hospitalName: req.hospitalName || "Unknown",
+//           ip: clientIp,
 //           apiName: req.originalUrl,
 //           method: req.method,
 //           userAgent: req.headers["user-agent"],
-//         });
-//         return res.status(400).json({errorCode, message: "Invalid HospitalID, not found in hospitaltable" });
+//           validationErrors: errors.array(),
+//       });
+
+//       return res.status(400).json({ 
+//           message: "Validation failed", 
+//           statusCode: 400,
+//           errorCode,
+//           errors: errors.array(),
+//       });
+//   }
+
+//   try {
+//       if (!req.sequelize) {
+//           const executionTime = `${Date.now() - start}ms`;
+//           const errorCode = 9085; // Database connection error
+
+//           logger.logWithMeta("error", "Database connection not found", {
+//               errorCode,
+//               executionTime,
+//               hospitalName: req.hospitalName || "Unknown",
+//               ip: clientIp,
+//               apiName: req.originalUrl,
+//               method: req.method,
+//               userAgent: req.headers["user-agent"],
+//           });
+
+//           return res.status(500).json({
+//               message: "Database connection not found",
+//               statusCode: 500,
+//               errorCode
+//           });
 //       }
-  
+
+//       const Tax = require("../models/Tax_Model")(req.sequelize);
+//       const Hospital = require("../models/HospitalModel")(req.sequelize);
+
+//       // **Validate HospitalID**
+//       const hospital = await Hospital.findOne({ where: { HospitalID: HospitalIDR } });
+
+//       if (!hospital) {
+//           const executionTime = `${Date.now() - start}ms`;
+//           const errorCode = 9086; // HospitalID not found
+
+//           logger.logWithMeta("error", "Invalid HospitalID, not found in hospital table", {
+//               errorCode,
+//               executionTime,
+//               hospitalId: HospitalIDR,
+//               apiName: req.originalUrl,
+//               method: req.method,
+//               userAgent: req.headers["user-agent"],
+//               ip: clientIp
+//           });
+
+//           return res.status(400).json({
+//               errorCode,
+//               message: "Invalid HospitalID, not found in hospital table",
+//           });
+//       }
+
 //       await Tax.sync();
-  
+
+//       // **Create Tax Entry**
 //       const tax = await Tax.create({
-//         tax_name,tax_rate,is_active,HospitalIDR
+//           tax_name, tax_rate, is_active, HospitalIDR
 //       });
-  
+
 //       const executionTime = `${Date.now() - start}ms`;
-  
+
 //       logger.logWithMeta("info", "Tax created successfully", {
-//         executionTime,
-//         hospitalId: req.hospitalId,
-//         ip: clientIp,
-//         apiName: req.originalUrl,
-//         method: req.method,
-//         userAgent: req.headers["user-agent"],
-//       });
-  
-//       res.status(200).json({
-//         meta: {
-//           statusCode: 200,
 //           executionTime,
-//           hospitalDatabase,
-//         },
-//         data: { Tax },
+//           logId,
+//           hospitalId: HospitalIDR,
+//           hospitalName: req.hospitalName,
+//           ip: clientIp,
+//           apiName: req.originalUrl,
+//           method: req.method,
+//           userAgent: req.headers["user-agent"],
 //       });
-//     } catch (error) {
+
+//       res.status(200).json({
+//           meta: {
+//               statusCode: 200,
+//               executionTime,
+//               hospitalDatabase,
+//           },
+//           data: tax,
+//       });
+
+//   } catch (error) {
 //       const executionTime = `${Date.now() - start}ms`;
-//       const errorCode = 1269;
-  
+//       const errorCode = 9087; // General error in tax creation
+
 //       logger.logWithMeta("error", "Error creating Tax", {
-//         errorCode,
-//         executionTime,
-//         hospitalId: req.hospitalId,
-//         apiName: req.originalUrl,
-//         method: req.method,
-//         userAgent: req.headers["user-agent"],
+//           errorCode,
+//           executionTime,
+//           hospitalId: HospitalIDR,
+//           hospitalName: req.hospitalName,
+//           ip: clientIp,
+//           apiName: req.originalUrl,
+//           method: req.method,
+//           userAgent: req.headers["user-agent"],
+//           errorMessage: error.message
 //       });
-  
+
 //       res.status(500).json({
-//         meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-//         error: { message: "Error creating Tax: " + error.message },
+//           meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+//           error: { message: "Error creating Tax: " + error.message },
 //       });
-//     }
-//   };
+//   }
+// };
+exports.createTax = async (req, res) => {
+  const errors = validationResult(req);
+    const start = Date.now();
+    
+    const { tax_name,tax_rate,is_active,HospitalIDR,} = req.body;
+    const hospitalDatabase = req.hospitalDatabase;
+
+    const clientIp = await getClientIp(req);
+    const locationData = await getLocationData(clientIp);
+    const logId = uuidv4();
+
+    if (!errors.isEmpty()) {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 9084; // Validation error
+  
+        logger.logWithMeta("error", "Validation error in createTax", {
+            errorCode,
+            logId,
+            executionTime,
+            hospitalName: req.hospitalName || "Unknown",
+            ip: clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            validationErrors: errors.array(),
+        });
+  
+        return res.status(400).json({ 
+            message: "Validation failed", 
+            statusCode: 400,
+            errorCode,
+            errors: errors.array(),
+        });
+    }
+  
+  
+    try {
+      const Tax = require("../models/Tax_Model")(req.sequelize);
+  
+  
+      const group = await Group.findOne({ where: { HospitalID: HospitalIDR} });
+  
+      // console.log("group0000000000",group)
+  
+      if (!group) {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 9086; // HospitalID not found
+
+        logger.logWithMeta("error", "Invalid HospitalID, not found in hospital table", {
+            errorCode,
+            executionTime,
+            hospitalId: HospitalIDR,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            ip: clientIp
+        });
+
+        return res.status(400).json({
+            errorCode,
+            message: "Invalid HospitalID, not found in hospital table",
+        });
+    }
+      await Tax.sync();
+  
+      const tax = await Tax.create({
+        tax_name,tax_rate,is_active,HospitalIDR
+      });
+  
+      const executionTime = `${Date.now() - start}ms`;
+  
+      logger.logWithMeta("info", "Tax created successfully", {
+        executionTime,
+        logId,
+        hospitalId: HospitalIDR,
+        hospitalName: req.hospitalName,
+        ip: clientIp,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+    });
+      res.status(200).json({
+        meta: {
+          statusCode: 200,
+          executionTime,
+          hospitalDatabase,
+        },
+        data: { Tax },
+      });
+    } catch (error) {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 9087; // General error in tax creation
+  
+        logger.logWithMeta("error", "Error creating Tax", {
+            errorCode,
+            executionTime,
+            hospitalId: HospitalIDR,
+            hospitalName: req.hospitalName,
+            ip: clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            errorMessage: error.message
+        });
+  
+        res.status(500).json({
+            meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+            error: { message: "Error creating Tax: " + error.message },
+        });
+    }
+  };
 exports.gettax = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
