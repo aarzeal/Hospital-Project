@@ -89,7 +89,20 @@ exports.createGroup = async (req, res) => {
             return res.status(400).json({ message: "Invalid HospitalGroupID, not found in MasterDB" });
         }
 
-        
+          // **Check if the group name is unique for the given hospitalGroupIDR**
+          const existingGroup = await fin_group.findOne({
+            where: { fin_group_name, hospitalGroupIDR }
+        });
+
+        if (existingGroup) {
+            return res.status(409).json({ message: "Group name already exists. Please use a different name." });
+        }
+
+
+
+
+
+
         // Check if master_group_IDR exists, otherwise set to NULL
         let Master_group_IDR = null;
 

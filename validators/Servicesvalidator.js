@@ -318,7 +318,7 @@ exports. finGroupUpdateValidationRules = [
       .withMessage("Types of group must be an integer."),
   
     body("is_primary_group")
-      .isInt({ min: 0, max: 1 })
+    .isBoolean()
       .withMessage("Primary group must be 0 or 1."),
   
     body("under_group_IDR")

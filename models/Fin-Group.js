@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
       },
       under_group_IDR: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       master_group_IDR: {
         type: DataTypes.INTEGER,

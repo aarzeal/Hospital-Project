@@ -145,6 +145,17 @@ exports.createService = async (req, res) => {
 
             return res.status(400).json({ message: "Invalid ledger_IDR, not found in MasterDB", errorCode });
         }
+        
+        const existingService = await Service.findOne({
+            where: { service_name, HospitalGroupIDR }
+        });
+
+        if (existingService) {
+            return res.status(409).json({ 
+                message: "Service name already exists. Please use a different name.", 
+                errorCode: 9154 
+            });
+        }
 
         await Service.sync();
 

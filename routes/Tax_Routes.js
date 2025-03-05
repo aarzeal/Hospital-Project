@@ -10,6 +10,6 @@ router.post('/create_tax', validateJSONContentType,validateTax.validateTax,authe
 router.get('/get_tax', authenticate,ensureSequelizeInstance,TaxController.gettax);
 router.get('/get_tax/:id', authenticate,ensureSequelizeInstance,TaxController.getTaxById);
 router.put('/update_tax/:id', authenticate,ensureSequelizeInstance,validateTax.validateTaxupdate,TaxController.updateTax);
-router.delete('/delete_tax/:id', authenticate,ensureSequelizeInstance,TaxController.deletetax);
+router.delete('/delete_tax/:id', authenticate,ensureSequelizeInstance,TaxController.deleteTax);
 
 module.exports = router;
