@@ -5,6 +5,7 @@ const sendEmail = require("../Middleware/sendEmail");
 const sendUserEmail = require("../Middleware/sendUserEmail");
 const { Op } = require("sequelize");
 const express = require("express");
+const axios = require("axios");
 const router = express.Router();
 
 const multer = require('multer');
@@ -3396,11 +3397,11 @@ exports.loginUser = async (req, res) => {
   const secretKey = process.env.SYSTEM_SECRET_KEY;
   //   const Pass="1234"
   // // Encrypt
-  // const encrypted = CryptoJS.AES.encrypt(Password, secretKey).toString();
-  // console.log('Encrypted00000000000:', encrypted);
+  const encrypted = CryptoJS.AES.encrypt(Password, secretKey).toString();
+  console.log('Encrypted00000000000:', encrypted);
   
   // Decrypt
-  const decryptedBytes = CryptoJS.AES.decrypt(Password, secretKey);
+  const decryptedBytes = CryptoJS.AES.decrypt(encrypted, secretKey);
   const decryptedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
   console.log('Decrypted0000:', decryptedPassword);

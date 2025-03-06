@@ -142,20 +142,9 @@ exports.ensureSequelizeInstance = (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"], // HTTP method
     });
-    // logger.error('Database connection not established', { executionTime: `${end - start}ms` });
-
-    // return res.status(statusCode).json({
-    //   meta: {
-    //     statusCode: statusCode,
-    //     errorCode: 937,
-    //     executionTime: `${end - start}ms`,
-    //   },
-
-    //   error: {
-    //     message: "Database connection not established",
-    //   },
-    // });
+   
   }
+  console.log("req.hospitalDatabase",req.hospitalDatabase)
 
   const sequelize = new Sequelize(
     req.hospitalDatabase,

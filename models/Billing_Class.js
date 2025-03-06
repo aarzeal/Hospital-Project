@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     contact_Person: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     billing_Class_Category: {
@@ -41,7 +41,7 @@ ledger_IDR: {
       defaultValue: false,
     },
     is_Reimbursement: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BOOLEAN,
       allowNull: true,
     },
     is_Pharamcy_Cash_Allowed: {
@@ -123,11 +123,11 @@ ledger_IDR: {
       defaultValue: false,
     },
     phone1: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     phone2: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     Mobile: {
