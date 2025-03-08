@@ -36,7 +36,17 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
    
-    }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    createdBy: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
   
   }, {
     tableName: 'tbl_Item',

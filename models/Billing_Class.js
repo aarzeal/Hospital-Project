@@ -162,11 +162,16 @@ ledger_IDR: {
       allowNull: false,
    
     },
+    createdBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+   
+    },
 
   
   }, {
     tableName: 'tbl_billing_class',
-    timestamps: false
+    timestamps: true
   });
 
   return billing_class;

@@ -11,7 +11,7 @@ exports.createBillingClass = async (req, res) => {
 
     if (!errors.isEmpty()) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 9001;
+        const errorCode = 9154;
 
         logger.logWithMeta("error", "Validation error in createBillingClass", {
             logId,
@@ -40,11 +40,12 @@ exports.createBillingClass = async (req, res) => {
             state,
             Mobile,
             whatapp_Number,
-            rate_baseOn
+            rate_baseOn,
+            createdBy
         } = req.body;
 
         const BillingClass = require('../models/Billing_Class')(req.sequelize);
-
+        await BillingClass.sync({ alter: true });
         // Check if billing_Class_name, billing_Class_Code, email, or Mobile already exists
         const existingBillingClass = await BillingClass.findOne({
             where: {
@@ -58,15 +59,19 @@ exports.createBillingClass = async (req, res) => {
         });
         if (existingBillingClass) {
             if (existingBillingClass.billing_Class_name === billing_Class_name) {
-    throw { errorCode: 9006, message: "Billing class name already exists" };
-} else if (existingBillingClass.billing_Class_Code === billing_Class_Code) {
-    throw { errorCode: 9007, message: "Billing class code already exists" };
-} else if (existingBillingClass.email === email) {
-    throw { errorCode: 9008, message: "Email already exists" };
-} else if (existingBillingClass.Mobile === Mobile) {
-    throw { errorCode: 9009, message: "Mobile number already exists" };
-}
+                throw { errorCode: 9155, message: "Billing class name already exists" };
+            }
+            if (existingBillingClass.billing_Class_Code === billing_Class_Code) {
+                throw { errorCode: 9156, message: "Billing class code already exists" };
+            }
+            if (existingBillingClass.email === email) {
+                throw { errorCode: 9157, message: "Email already exists" };
+            }
+            if (existingBillingClass.Mobile === Mobile) {
+                throw { errorCode: 9158, message: "Mobile number already exists" };
+            }
         }
+        
 
         // Check foreign key dependencies
         const Ledger = require('../models/AccLedger')(req.sequelize);
@@ -75,20 +80,22 @@ exports.createBillingClass = async (req, res) => {
 
         const ledgerExists = await Ledger.findByPk(ledger_IDR);
         if (!ledgerExists) {
-            throw { errorCode: 9002, message: "Invalid ledger_IDR, not found in Ledger table" };
+            throw { errorCode: 9159, message: "Invalid ledger_IDR, not found in Ledger table" };
         }
 
         const hospitalExists = await Hospital.findByPk(hospital_IDR);
         if (!hospitalExists) {
-            throw { errorCode: 9003, message: "Invalid hospital_IDR, not found in Hospital table" };
+            throw { errorCode: 9160, message: "Invalid hospital_IDR, not found in Hospital table" };
         }
 
         if (hospitalGroup_IDR) {
             const hospitalGroupExists = await HospitalGroup.findByPk(hospitalGroup_IDR);
             if (!hospitalGroupExists) {
-                throw { errorCode: 9004, message: "Invalid hospitalGroup_IDR, not found in HospitalGroup table" };
+                throw { errorCode: 9161, message: "Invalid hospitalGroup_IDR, not found in HospitalGroup table" };
             }
         }
+
+
 
         // Create billing class entry
         const newBillingClass = await BillingClass.create({
@@ -104,7 +111,9 @@ exports.createBillingClass = async (req, res) => {
             state,
             Mobile,
             whatapp_Number,
-            rate_baseOn
+            rate_baseOn,
+              createdBy,
+            
         });
 
         const executionTime = `${Date.now() - start}ms`;
@@ -117,14 +126,14 @@ exports.createBillingClass = async (req, res) => {
             billingClassId: newBillingClass.billing_Class_ID,
         });
 
-        res.status(201).json({
-            meta: { statusCode: 201, executionTime },
+        res.status(200).json({
+            meta: { statusCode: 200, executionTime },
             message: "Billing class created successfully",
             data: newBillingClass,
         });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = error.errorCode || 9005;
+        const errorCode =  9162;
 
         logger.logWithMeta("error", "Error creating billing class", {
             logId,
@@ -143,30 +152,89 @@ exports.createBillingClass = async (req, res) => {
 exports.getBillingClassById = async (req, res) => {
     const start = Date.now();
     const logId = uuidv4();
-    const clientIp = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const clientIp = req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 
     try {
         const { id } = req.params;
-        const BillingClass = require('../models/Billing_Class')(req.sequelize);
+        const BillingClass = require("../models/Billing_Class")(req.sequelize);
         const billingClass = await BillingClass.findByPk(id);
 
         if (!billingClass) {
-            throw { errorCode: 9007, message: "Billing class not found" };
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 9163;
+
+            logger.logWithMeta("error", "Billing class not found", {
+                logId,
+                errorCode,
+                executionTime,
+                clientIp,
+                apiName: req.originalUrl,
+                method: req.method,
+            });
+
+            return res.status(404).json({ errorCode, message: "Billing class not found" });
         }
 
         const executionTime = `${Date.now() - start}ms`;
-        logger.logWithMeta("info", "Billing class retrieved successfully", { logId, executionTime, clientIp, apiName: req.originalUrl, method: req.method, billingClassId: id });
+        logger.logWithMeta("info", "Billing class retrieved successfully", {
+            logId,
+            executionTime,
+            clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            billingClassId: id,
+        });
 
-        res.status(200).json({ meta: { statusCode: 200, executionTime }, message: "Billing class retrieved successfully", data: billingClass });
+        res.status(200).json({
+            meta: { statusCode: 200, executionTime },
+            message: "Billing class retrieved successfully",
+            data: billingClass,
+        });
 
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = error.errorCode || 9008;
-        logger.logWithMeta("error", "Error retrieving billing class", { logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        const errorCode = error.errorCode || 9164;
 
-        res.status(404).json({ errorCode, message: error.message });
+        logger.logWithMeta("error", "Error retrieving billing class", {
+            logId,
+            errorCode,
+            executionTime,
+            clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            errorMessage: error.message,
+        });
+
+        res.status(500).json({ errorCode, message: "Internal server error" });
     }
 };
+// exports.getBillingClassById = async (req, res) => {
+//     const start = Date.now();
+//     const logId = uuidv4();
+//     const clientIp = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+//     try {
+//         const { id } = req.params;
+//         const BillingClass = require('../models/Billing_Class')(req.sequelize);
+//         const billingClass = await BillingClass.findByPk(id);
+
+//         if (!billingClass) {
+//             throw { errorCode: 9163, message: "Billing class not found" };
+//         }
+
+//         const executionTime = `${Date.now() - start}ms`;
+//         logger.logWithMeta("info", "Billing class retrieved successfully", { logId, executionTime, clientIp, apiName: req.originalUrl, method: req.method, billingClassId: id });
+
+//         res.status(200).json({ meta: { statusCode: 200, executionTime }, message: "Billing class retrieved successfully", data: billingClass });
+
+//     } catch (error) {
+//         const executionTime = `${Date.now() - start}ms`;
+//         const errorCode = error.errorCode || 9164;
+//         logger.logWithMeta("error", "Error retrieving billing class", { logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+
+//         res.status(404).json({ errorCode, message: error.message });
+//     }
+// };
 
 // Get All Billing Classes
 exports.getAllBillingClasses = async (req, res) => {
@@ -185,7 +253,7 @@ exports.getAllBillingClasses = async (req, res) => {
 
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = error.errorCode || 9009;
+        const errorCode = error.errorCode || 9165;
         logger.logWithMeta("error", "Error retrieving billing classes", { logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
 
         res.status(500).json({ errorCode, message: error.message });
@@ -193,72 +261,186 @@ exports.getAllBillingClasses = async (req, res) => {
 };
 
 // Update Billing Class
+// exports.updateBillingClass = async (req, res) => {
+//     const errors = validationResult(req);
+//     const start = Date.now();
+//     const logId = uuidv4();
+//     const clientIp = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+//     if (!errors.isEmpty()) {
+//         const executionTime = `${Date.now() - start}ms`;
+//         const errorCode = 9166;
+//         logger.logWithMeta("error", "Validation error in updateBillingClass", { logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, validationErrors: errors.array() });
+
+//         return res.status(400).json({ errorCode, message: "Validation failed", errors: errors.array() });
+//     }
+
+//     try {
+//         const { id } = req.params;
+//         const BillingClass = require('../models/Billing_Class')(req.sequelize);
+//         const billingClass = await BillingClass.findByPk(id);
+
+//         if (!billingClass) {
+//             throw { errorCode: 9167, message: "Billing class not found" };
+//         }
+
+//         await billingClass.update(req.body);
+
+//         const executionTime = `${Date.now() - start}ms`;
+//         logger.logWithMeta("info", "Billing class updated successfully", { logId, executionTime, clientIp, apiName: req.originalUrl, method: req.method, billingClassId: id });
+
+//         res.status(200).json({ meta: { statusCode: 200, executionTime }, message: "Billing class updated successfully", data: billingClass });
+
+//     } catch (error) {
+//         const executionTime = `${Date.now() - start}ms`;
+//         const errorCode = error.errorCode || 9168;
+//         logger.logWithMeta("error", "Error updating billing class", { logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+
+//         res.status(500).json({ errorCode, message: error.message });
+//     }
+// };
+
 exports.updateBillingClass = async (req, res) => {
-    const errors = validationResult(req);
     const start = Date.now();
     const logId = uuidv4();
-    const clientIp = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const clientIp = req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 
+    // Validate request
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 9010;
-        logger.logWithMeta("error", "Validation error in updateBillingClass", { logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, validationErrors: errors.array() });
+        const errorCode = 9166;
 
-        return res.status(400).json({ errorCode, message: "Validation failed", errors: errors.array() });
+        logger.logWithMeta("error", "Validation error in updateBillingClass", {
+            logId,
+            errorCode,
+            executionTime,
+            clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            validationErrors: errors.array(),
+        });
+
+        return res.status(400).json({
+            errorCode,
+            message: "Validation failed",
+            errors: errors.array(),
+        });
     }
 
     try {
         const { id } = req.params;
-        const BillingClass = require('../models/Billing_Class')(req.sequelize);
+        const BillingClass = require("../models/Billing_Class")(req.sequelize);
         const billingClass = await BillingClass.findByPk(id);
 
         if (!billingClass) {
-            throw { errorCode: 9011, message: "Billing class not found" };
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 9167;
+
+            logger.logWithMeta("error", "Billing class not found", {
+                logId,
+                errorCode,
+                executionTime,
+                clientIp,
+                apiName: req.originalUrl,
+                method: req.method,
+            });
+
+            return res.status(404).json({ errorCode, message: "Billing class not found" });
         }
 
         await billingClass.update(req.body);
 
         const executionTime = `${Date.now() - start}ms`;
-        logger.logWithMeta("info", "Billing class updated successfully", { logId, executionTime, clientIp, apiName: req.originalUrl, method: req.method, billingClassId: id });
+        logger.logWithMeta("info", "Billing class updated successfully", {
+            logId,
+            executionTime,
+            clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            billingClassId: id,
+        });
 
-        res.status(200).json({ meta: { statusCode: 200, executionTime }, message: "Billing class updated successfully", data: billingClass });
+        res.status(200).json({
+            meta: { statusCode: 200, executionTime },
+            message: "Billing class updated successfully",
+            data: billingClass,
+        });
 
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = error.errorCode || 9012;
-        logger.logWithMeta("error", "Error updating billing class", { logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        const errorCode = error.errorCode || 9168;
 
-        res.status(500).json({ errorCode, message: error.message });
+        logger.logWithMeta("error", "Error updating billing class", {
+            logId,
+            errorCode,
+            executionTime,
+            clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            errorMessage: error.message,
+        });
+
+        res.status(500).json({ errorCode, message: "Internal server error" });
     }
 };
-
 // Delete Billing Class
 exports.deleteBillingClass = async (req, res) => {
     const start = Date.now();
     const logId = uuidv4();
-    const clientIp = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const clientIp = req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 
     try {
         const { id } = req.params;
-        const BillingClass = require('../models/Billing_Class')(req.sequelize);
+        const BillingClass = require("../models/Billing_Class")(req.sequelize);
         const billingClass = await BillingClass.findByPk(id);
 
         if (!billingClass) {
-            throw { errorCode: 9013, message: "Billing class not found" };
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 9169; // Correct error handling
+
+            logger.logWithMeta("error", "Billing class not found", {
+                logId,
+                errorCode,
+                executionTime,
+                clientIp,
+                apiName: req.originalUrl,
+                method: req.method,
+            });
+
+            return res.status(404).json({ errorCode, message: "Billing class not found" });
         }
 
         await billingClass.destroy();
 
         const executionTime = `${Date.now() - start}ms`;
-        logger.logWithMeta("info", "Billing class deleted successfully", { logId, executionTime, clientIp, apiName: req.originalUrl, method: req.method, billingClassId: id });
+        logger.logWithMeta("info", "Billing class deleted successfully", {
+            logId,
+            executionTime,
+            clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            billingClassId: id,
+        });
 
-        res.status(200).json({ meta: { statusCode: 200, executionTime }, message: "Billing class deleted successfully" });
-
+        res.status(200).json({
+            meta: { statusCode: 200, executionTime },
+            message: "Billing class deleted successfully",
+        });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = error.errorCode || 9014;
-        logger.logWithMeta("error", "Error deleting billing class", { logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        const errorCode = error.errorCode || 9170;
 
-        res.status(500).json({ errorCode, message: error.message });
+        logger.logWithMeta("error", "Error deleting billing class", {
+            logId,
+            errorCode,
+            executionTime,
+            clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            errorMessage: error.message,
+        });
+
+        res.status(500).json({ errorCode, message: "Internal server error" });
     }
 };

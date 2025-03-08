@@ -44,6 +44,8 @@ const Financial_Year = require("./routes/Financial_Year_Routes");
 const Fin_Year_Details = require("./routes/fin-Details-Routes");
 const Fin_group = require("./routes/Fin-group");
 const Billing_Class = require("./routes/Billing_Routes");
+const unit = require("./routes/Unit_Routes");
+const item_category = require("./routes/item_category_Routes");
 
 
 
@@ -133,6 +135,9 @@ app.use('/api/v1/Financial-year', Financial_Year);
 app.use('/api/v1/fin-details', Fin_Year_Details);
 app.use('/api/v1/fin-group', Fin_group);
 app.use('/api/v1/billing_Class', Billing_Class);
+app.use('/api/v1/unit', unit);
+app.use('/api/v1/item-category', item_category);
+
 
 
 sendEmail();
