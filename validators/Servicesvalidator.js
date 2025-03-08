@@ -76,67 +76,66 @@ exports.validateServiceCategoryupdate = [
     
 ];
 exports.validateAccLedger = [
-    body('ledger_name')
-        .notEmpty().withMessage('Ledger name is required')
-        .isLength({ max: 50 }).withMessage('Ledger name must be at most 50 characters'),
+    body("ledger_name")
+        .notEmpty().withMessage("Ledger name is required")
+        .isLength({ max: 50 }).withMessage("Ledger name must be at most 50 characters"),
 
-    body('ledger_alias')
-        .optional().isLength({ max: 50 }).withMessage('Ledger alias must be at most 50 characters'),
+    body("ledger_alias")
+        .optional().isLength({ max: 50 }).withMessage("Ledger alias must be at most 50 characters"),
 
-    body('ledger_cheque')
-        .optional().isLength({ max: 50 }).withMessage('Ledger cheque must be at most 50 characters'),
+    body("ledger_cheque")
+        .optional().isLength({ max: 50 }).withMessage("Ledger cheque must be at most 50 characters"),
 
-    body('maintain_bill_wise')
-        .isBoolean().withMessage('Maintain bill wise must be a boolean'),
+    body("maintain_bill_wise")
+        .optional().isBoolean().withMessage("Maintain bill wise must be a boolean"),
 
-    body('isdiscount_ledger')
-        .isBoolean().withMessage('Is discount ledger must be a boolean'),
+    body("isdiscount_ledger")
+        .optional().isBoolean().withMessage("Is discount ledger must be a boolean"),
 
-    body('remark')
-        .optional().isLength({ max: 50 }).withMessage('Remark must be at most 50 characters'),
+    body("remark")
+        .optional().isLength({ max: 50 }).withMessage("Remark must be at most 50 characters"),
 
-    body('is_tax_aplicable')
-        .isBoolean().withMessage('Is tax applicable must be a boolean'),
+    body("is_tax_applicable")
+        .optional().isBoolean().withMessage("Is tax applicable must be a boolean"),
 
-    body('taxplan_IDR')
-        .optional().isInt().withMessage('Tax plan ID must be an integer'),
+    body("taxplan_IDR")
+        .optional().isInt().withMessage("Tax plan ID must be an integer"),
 
-    body('creditperied')
-        .optional().isLength({ max: 50 }).withMessage('Credit period must be at most 50 characters'),
+    body("credit_period")
+        .optional().isLength({ max: 50 }).withMessage("Credit period must be at most 50 characters"),
 
-    body('HospitalGroupIDR')
-        .notEmpty().withMessage('Hospital Group ID is required'),
+    body("HospitalGroupIDR")
+        .notEmpty().withMessage("Hospital Group ID is required")
+        .isInt().withMessage("Hospital Group ID must be an integer"),
 ];
+
 exports.validateAccLedgerUpdate = [
-    body('ledger_name')
-        .notEmpty().withMessage('Ledger name is required')
-        .isLength({ max: 50 }).withMessage('Ledger name must be at most 50 characters'),
+    body("ledger_name")
+        .optional().isLength({ max: 50 }).withMessage("Ledger name must be at most 50 characters"),
 
-    body('ledger_alias')
-        .optional().isLength({ max: 50 }).withMessage('Ledger alias must be at most 50 characters'),
+    body("ledger_alias")
+        .optional().isLength({ max: 50 }).withMessage("Ledger alias must be at most 50 characters"),
 
-    body('ledger_cheque')
-        .optional().isLength({ max: 50 }).withMessage('Ledger cheque must be at most 50 characters'),
+    body("ledger_cheque")
+        .optional().isLength({ max: 50 }).withMessage("Ledger cheque must be at most 50 characters"),
 
-    body('maintain_bill_wise')
-        .isBoolean().withMessage('Maintain bill wise must be a boolean'),
+    body("maintain_bill_wise")
+        .optional().isBoolean().withMessage("Maintain bill wise must be a boolean"),
 
-    body('isdiscount_ledger')
-        .isBoolean().withMessage('Is discount ledger must be a boolean'),
+    body("isdiscount_ledger")
+        .optional().isBoolean().withMessage("Is discount ledger must be a boolean"),
 
-    body('remark')
-        .optional().isLength({ max: 50 }).withMessage('Remark must be at most 50 characters'),
+    body("remark")
+        .optional().isLength({ max: 50 }).withMessage("Remark must be at most 50 characters"),
 
-    body('is_tax_aplicable')
-        .isBoolean().withMessage('Is tax applicable must be a boolean'),
+    body("is_tax_applicable")
+        .optional().isBoolean().withMessage("Is tax applicable must be a boolean"),
 
-    body('taxplan_IDR')
-        .optional().isInt().withMessage('Tax plan ID must be an integer'),
+    body("taxplan_IDR")
+        .optional().isInt().withMessage("Tax plan ID must be an integer"),
 
-    body('creditperied')
-        .optional().isLength({ max: 50 }).withMessage('Credit period must be at most 50 characters'),
-
-    
+    body("credit_period")
+        .optional().isLength({ max: 50 }).withMessage("Credit period must be at most 50 characters"),
 ];
 exports.validateServicePriceList = [
     body('service_IDR')
@@ -381,7 +380,7 @@ exports. finGroupUpdateValidationRules = [
     body("is_Pharamcy_Cash_Allowed").optional().isBoolean().withMessage("is_Pharamcy_Cash_Allowed must be a boolean"),
     body("is_Pharamcy_Cashless_Allowed").optional().isBoolean().withMessage("is_Pharamcy_Cashless_Allowed must be a boolean"),
 
-    body("cashless_Applicable_On").optional().withMessage("cashless_Applicable_On must be a string"),
+    body("cashless_Applicable_On").optional(),
 
     body("issTax_Applicable").optional().isBoolean().withMessage("issTax_Applicable must be a boolean"),
     body("sTax_On_Billtype").notEmpty().isBoolean().withMessage("sTax_On_Billtype must be a boolean"),
@@ -395,9 +394,9 @@ exports. finGroupUpdateValidationRules = [
 
     body("address1").optional().isString().withMessage("Address1 must be a string"),
     body("address2").optional().isString().withMessage("Address2 must be a string"),
-    body("city").notEmpty().withMessage("City is required").withMessage("City must be a string"),
-    body("state").notEmpty().withMessage("State is required").withMessage("State must be a string"),
-    body("country").optional().withMessage("Country must be a string"),
+    body("city").notEmpty().withMessage("City is required"),
+    body("state").notEmpty().withMessage("State is required"),
+    body("country").optional(),
 
     body("zip")
         .notEmpty().withMessage("Zip is required")
@@ -445,7 +444,7 @@ exports. finGroupUpdateValidationRules = [
     body("is_Pharamcy_Cash_Allowed").optional().isBoolean().withMessage("is_Pharamcy_Cash_Allowed must be a boolean"),
     body("is_Pharamcy_Cashless_Allowed").optional().isBoolean().withMessage("is_Pharamcy_Cashless_Allowed must be a boolean"),
 
-    body("cashless_Applicable_On").optional().withMessage("cashless_Applicable_On must be a string"),
+    body("cashless_Applicable_On").optional(),
 
     body("issTax_Applicable").optional().isBoolean().withMessage("issTax_Applicable must be a boolean"),
     body("sTax_On_Billtype").notEmpty().isBoolean().withMessage("sTax_On_Billtype must be a boolean"),
@@ -459,9 +458,9 @@ exports. finGroupUpdateValidationRules = [
 
     body("address1").optional().isString().withMessage("Address1 must be a string"),
     body("address2").optional().isString().withMessage("Address2 must be a string"),
-    body("city").notEmpty().withMessage("City is required").withMessage("City must be a string"),
-    body("state").notEmpty().withMessage("State is required").withMessage("State must be a string"),
-    body("country").optional().withMessage("Country must be a string"),
+    body("city").notEmpty().withMessage("City is required"),
+    body("state").notEmpty().withMessage("State is required"),
+    body("country").optional(),
 
     body("zip")
         .notEmpty().withMessage("Zip is required")
