@@ -395,9 +395,9 @@ exports. finGroupUpdateValidationRules = [
 
     body("address1").optional().isString().withMessage("Address1 must be a string"),
     body("address2").optional().isString().withMessage("Address2 must be a string"),
-    body("city").notEmpty().withMessage("City is required"),
-    body("state").notEmpty().withMessage("State is required"),
-    body("country").optional(),
+    body("city").notEmpty().withMessage("City is required").isString().withMessage("City must be a string"),
+    body("state").notEmpty().withMessage("State is required").isString().withMessage("State must be a string"),
+    body("country").optional().isString().withMessage("Country must be a string"),
 
     body("zip")
         .notEmpty().withMessage("Zip is required")
@@ -459,9 +459,9 @@ exports. finGroupUpdateValidationRules = [
 
     body("address1").optional().isString().withMessage("Address1 must be a string"),
     body("address2").optional().isString().withMessage("Address2 must be a string"),
-    body("city").notEmpty().withMessage("City is required"),
-    body("state").notEmpty().withMessage("State is required"),
-    body("country").optional(),
+    body("city").notEmpty().withMessage("City is required").withMessage("City must be a string"),
+    body("state").notEmpty().withMessage("State is required").withMessage("State must be a string"),
+    body("country").optional().withMessage("Country must be a string"),
 
     body("zip")
         .notEmpty().withMessage("Zip is required")
