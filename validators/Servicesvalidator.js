@@ -381,7 +381,7 @@ exports. finGroupUpdateValidationRules = [
     body("is_Pharamcy_Cash_Allowed").optional().isBoolean().withMessage("is_Pharamcy_Cash_Allowed must be a boolean"),
     body("is_Pharamcy_Cashless_Allowed").optional().isBoolean().withMessage("is_Pharamcy_Cashless_Allowed must be a boolean"),
 
-    body("cashless_Applicable_On").optional().isString().withMessage("cashless_Applicable_On must be a string"),
+    body("cashless_Applicable_On").optional().withMessage("cashless_Applicable_On must be a string"),
 
     body("issTax_Applicable").optional().isBoolean().withMessage("issTax_Applicable must be a boolean"),
     body("sTax_On_Billtype").notEmpty().isBoolean().withMessage("sTax_On_Billtype must be a boolean"),
@@ -395,9 +395,9 @@ exports. finGroupUpdateValidationRules = [
 
     body("address1").optional().isString().withMessage("Address1 must be a string"),
     body("address2").optional().isString().withMessage("Address2 must be a string"),
-    body("city").notEmpty().withMessage("City is required").isString().withMessage("City must be a string"),
-    body("state").notEmpty().withMessage("State is required").isString().withMessage("State must be a string"),
-    body("country").optional().isString().withMessage("Country must be a string"),
+    body("city").notEmpty().withMessage("City is required"),
+    body("state").notEmpty().withMessage("State is required"),
+    body("country").optional(),
 
     body("zip")
         .notEmpty().withMessage("Zip is required")
@@ -445,7 +445,7 @@ exports. finGroupUpdateValidationRules = [
     body("is_Pharamcy_Cash_Allowed").optional().isBoolean().withMessage("is_Pharamcy_Cash_Allowed must be a boolean"),
     body("is_Pharamcy_Cashless_Allowed").optional().isBoolean().withMessage("is_Pharamcy_Cashless_Allowed must be a boolean"),
 
-    body("cashless_Applicable_On").optional().isString().withMessage("cashless_Applicable_On must be a string"),
+    body("cashless_Applicable_On").optional().withMessage("cashless_Applicable_On must be a string"),
 
     body("issTax_Applicable").optional().isBoolean().withMessage("issTax_Applicable must be a boolean"),
     body("sTax_On_Billtype").notEmpty().isBoolean().withMessage("sTax_On_Billtype must be a boolean"),
@@ -459,9 +459,9 @@ exports. finGroupUpdateValidationRules = [
 
     body("address1").optional().isString().withMessage("Address1 must be a string"),
     body("address2").optional().isString().withMessage("Address2 must be a string"),
-    body("city").notEmpty().withMessage("City is required").isString().withMessage("City must be a string"),
-    body("state").notEmpty().withMessage("State is required").isString().withMessage("State must be a string"),
-    body("country").optional().isString().withMessage("Country must be a string"),
+    body("city").notEmpty().withMessage("City is required"),
+    body("state").notEmpty().withMessage("State is required"),
+    body("country").optional(),
 
     body("zip")
         .notEmpty().withMessage("Zip is required")
@@ -479,4 +479,58 @@ exports. finGroupUpdateValidationRules = [
 
     body("currancy").optional().isString().withMessage("Currency must be a string"),
     body("rate_baseOn").notEmpty().isString().withMessage("Rate Base On is required and must be a string"),
+];
+
+
+exports.validateUnit = [
+    body("unit_name")
+        .notEmpty().withMessage("Unit Name is required")
+        .isString().withMessage("Unit Name must be a string")
+        .isLength({ max: 50 }).withMessage("Unit Name should not exceed 50 characters"),
+
+    body("decimal")
+        .optional()
+        .isInt({ min: 0 }).withMessage("Decimal must be a non-negative integer"),
+
+    body("remarks")
+        .optional()
+        .isString().withMessage("Remarks must be a string"),
+
+    body("hospitalIDR")
+        .notEmpty().withMessage("Hospital ID is required")
+        .isInt().withMessage("Hospital ID must be an integer"),
+
+    body("hospitalGroupIDR")
+        .notEmpty().withMessage("Hospital Group ID is required")
+        .isInt().withMessage("Hospital Group ID must be an integer"),
+
+    body("createdBy")
+        .optional()
+        .isString().withMessage("Created By must be a string"),
+];
+exports.validateUnitUpdate = [
+    body("unit_name")
+        .notEmpty().withMessage("Unit Name is required")
+        .isString().withMessage("Unit Name must be a string")
+        .isLength({ max: 50 }).withMessage("Unit Name should not exceed 50 characters"),
+
+    body("decimal")
+        .optional()
+        .isInt({ min: 0 }).withMessage("Decimal must be a non-negative integer"),
+
+    body("remarks")
+        .optional()
+        .isString().withMessage("Remarks must be a string"),
+
+    body("hospitalIDR")
+        .notEmpty().withMessage("Hospital ID is required")
+        .isInt().withMessage("Hospital ID must be an integer"),
+
+    body("hospitalGroupIDR")
+        .notEmpty().withMessage("Hospital Group ID is required")
+        .isInt().withMessage("Hospital Group ID must be an integer"),
+
+    body("createdBy")
+        .optional()
+        .isString().withMessage("Created By must be a string"),
 ];
