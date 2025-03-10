@@ -342,6 +342,7 @@ exports.createService = async (req, res) => {
     try {
         const Service = require("../models/ser")(req.sequelize);
         
+        await Service.sync({ force: false });
 
 
         const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR } });
@@ -430,7 +431,7 @@ exports.createService = async (req, res) => {
 
 
 
-        await Service.sync();
+        // await Service.sync();
 
         const service = await Service.create({
             service_code, service_name, service_type, service_category_IDR, service_charge_applicable, service_tax_applicable, non_active, ledger_IDR, HospitalGroupIDR

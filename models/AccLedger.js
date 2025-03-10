@@ -137,11 +137,21 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
    
-    }
+    },
+    createdBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+   
+    },
+    updatedBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+   
+    },
   
   }, {
     tableName: 'tbl_acc_ledger',
-    timestamps: false
+    timestamps: true
   });
 
   return AccLedger;

@@ -36,10 +36,20 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      createdBy: {
+        type: DataTypes.STRING,
+        allowNull: true,
+     
+      },
+      updatedBy: {
+        type: DataTypes.STRING,
+        allowNull: true,
+     
+      },
       
       
     }, {
       tableName: "tbl_fin_year_Details",
-      timestamps: false,
+      timestamps: true,
     });
   };

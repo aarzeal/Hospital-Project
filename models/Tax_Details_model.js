@@ -58,11 +58,21 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
    
-    }
+    },
+    createdBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+   
+    },
+    updatedBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+   
+    },
   
   }, {
     tableName: 'tbl_Tax_Details',
-    timestamps: false
+    timestamps: true
   });
 
   return Tax_Details;

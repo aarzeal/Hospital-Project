@@ -185,6 +185,9 @@ exports.createItem = async (req, res) => {
     const Item = require("../models/Item_Model")(req.sequelize);
 
 
+    await Item.sync({ force: false });
+
+
     const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR} });
 
     // console.log("group0000000000",group)
@@ -212,7 +215,7 @@ exports.createItem = async (req, res) => {
       });
   }
 
-    await Item.sync();
+    // await Item.sync();
 
     const item = await Item.create({
         Item_name,Item_alias,Item_Description,Item_Code,Non_Active, HospitalGroupIDR

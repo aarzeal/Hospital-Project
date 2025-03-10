@@ -14,7 +14,7 @@ exports.createItemGroup = async (req, res) => {
     const logId = uuidv4();
 
     try {
-        const { group_name,parent_groupIDR,hospitalIDR,Non_Active,HospitalGroupIDR,createdBy } = req.body;
+        const { group_name,parent_groupIDR,hospitalIDR,Non_Active,HospitalGroupIDR } = req.body;
         const ItemGroup = require('../models/ItemGroupModel')(req.sequelize);
         const Hospital = require('../models/HospitalModel');
         const HospitalGroup = require('../models/HospitalGroup');
@@ -51,13 +51,13 @@ exports.createItemGroup = async (req, res) => {
         
          await ItemGroup.sync();
         
-        const newGroup = await ItemGroup.create({group_name,parent_groupIDR,hospitalIDR,Non_Active,HospitalGroupIDR,createdBy });
+        const newGroup = await ItemGroup.create({group_name,parent_groupIDR,hospitalIDR,Non_Active,HospitalGroupIDR,createdBy: req.username,});
         
-        logger.logWithMeta("info", "Item Group created successfully", { logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method ,createdBy:createdBy,locationData});
+        logger.logWithMeta("info", "Item Group created successfully", { logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method ,createdBy: req.username,locationData});
         
         return res.status(200).json({ message: "Item Group created successfully", data: newGroup });
     } catch (error) {
-        logger.logWithMeta("error", "Error in createItemGroup", { logId, errorCode: error.errorCode || 9173, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message ,locationData});
+        logger.logWithMeta("error", "Error in createItemGroup", { logId, errorCode: error.errorCode || 9173, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message ,createdBy: req.username,locationData});
         return res.status(400).json({ errorCode: error.errorCode || 9173, message: error.message });
     }
 };

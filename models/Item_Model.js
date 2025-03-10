@@ -44,13 +44,17 @@ module.exports = (sequelize) => {
     },
     createdBy: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
+    },
+    updatedBy: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
 
   
   }, {
     tableName: 'tbl_Item',
-    timestamps: false
+    timestamps: true
   });
 
   return Item;

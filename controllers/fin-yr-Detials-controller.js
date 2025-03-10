@@ -206,6 +206,9 @@ exports.createFinYrDetails = async (req, res) => {
         const HospitalGroup = require("../models/HospitalGroup");
         const fin_code = require("../models/Financial_Year_Model")(req.sequelize);
 
+
+        await Fin_yr_Details.sync({ force: false });
+
         // Validate Hospital ID
         const hospital = await Hospital.findOne({ where: { HospitalID: hospitalIDR } });
         if (!hospital) {

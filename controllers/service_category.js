@@ -120,6 +120,7 @@ exports.createServiceCategory = async (req, res) => {
 
   try {
     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
+    await ServiceCategory.sync({ force: false });
 
     const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR} });
 

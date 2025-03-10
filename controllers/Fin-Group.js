@@ -69,6 +69,8 @@ exports.createGroup = async (req, res) => {
         const Group = require("../models/HospitalGroup");
         const HospitalModel = require("../models/HospitalModel");
 
+        await fin_group.sync({ force: false });
+
         // Check if HospitalGroupID exists
         const group = await Group.findOne({ where: { HospitalGroupID: hospitalGroupIDR } });
 
@@ -139,7 +141,7 @@ exports.createGroup = async (req, res) => {
             return res.status(400).json({ message: "Invalid hospitalID, not found in MasterDB" });
         }
 
-        await fin_group.sync();
+        // await fin_group.sync();
 
         const groupData = await fin_group.create({
             fin_group_name, 

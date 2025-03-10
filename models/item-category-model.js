@@ -56,6 +56,11 @@ purches_ledger_IDR: {
       allowNull: true,
    
     },
+    updatedBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+   
+    },
 
   
   }, {

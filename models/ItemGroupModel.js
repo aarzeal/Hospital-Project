@@ -38,6 +38,11 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+  
+    updatedBy: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
 
   
   }, {

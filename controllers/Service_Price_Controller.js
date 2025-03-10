@@ -91,6 +91,8 @@ exports.createServicePriceList = async (req, res) => {
         const Hospital = require("../models/HospitalModel")(req.sequelize);
         const Service = require("../models/ser")(req.sequelize);
 
+        await Service_Price_List.sync({ force: false });
+
         // Validate Hospital ID
         const hospital = await Hospital.findOne({ where: { HospitalID: hospitalIDR } });
         if (!hospital) {
@@ -143,7 +145,7 @@ exports.createServicePriceList = async (req, res) => {
             });
         }
 
-        await Service_Price_List.sync();
+        // await Service_Price_List.sync();
       
         const servicePricelist = await Service_Price_List.create({
             service_IDR, First_Emergency_Rate, Second_Emergency_Rate, From_Date, To_Date, is_current_Format, hospitalIDR

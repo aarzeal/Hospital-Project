@@ -37,9 +37,19 @@ module.exports = (sequelize) => {
         allowNull: false,
         
       },
+      createdBy: {
+        type: DataTypes.STRING,
+        allowNull: true,
+     
+      },
+      updatedBy: {
+        type: DataTypes.STRING,
+        allowNull: true,
+     
+      },
       
     }, {
       tableName: "tbl_service_price_List",
-      timestamps: false,
+      timestamps: true,
     });
   };

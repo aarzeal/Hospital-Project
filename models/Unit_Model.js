@@ -37,6 +37,11 @@ hospitalGroupIDR: {
       allowNull: true,
    
     },
+    updatedBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+   
+    },
 
   
   }, {

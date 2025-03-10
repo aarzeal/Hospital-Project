@@ -76,6 +76,8 @@ exports.createTaxDetails = async (req, res) => {
         const AccLedger = require("../models/AccLedger")(req.sequelize, Sequelize.DataTypes);
         const Tax = require("../models/Tax_Model")(req.sequelize, Sequelize.DataTypes);
 
+
+        await Tax_Details.sync({ force: false });
         // Validate Ledger_IDR
         const ledger = await AccLedger.findOne({ where: { ledger_id: Ledger_IDR } });
 
@@ -127,7 +129,7 @@ exports.createTaxDetails = async (req, res) => {
         }
 
         // Create Tax Details
-        await Tax_Details.sync();
+        // await Tax_Details.sync();
         const taxDetails = await Tax_Details.create({
             Tax_IDR, tax_rate, is_active, Ledger_IDR, 
             From_Date, To_Date, Tax_Details_Leble, 

@@ -227,6 +227,9 @@ exports.createTaxMap = async (req, res) => {
 
     try {
         const Tax_map = require("../models/Itom_TaxMap_model")(req.sequelize);
+
+
+        await Tax_map.sync({ force: false });
     
         const tax_map = await HospitalId.findOne({ where: { hospitalId: hospital_IDR } });
 
@@ -312,7 +315,7 @@ exports.createTaxMap = async (req, res) => {
 
 
 
-        await Tax_map.sync();
+        // await Tax_map.sync();
 
         const service = await Tax_map.create({
           item_IDR,tax_IDR,hospital_IDR,type

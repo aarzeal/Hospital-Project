@@ -20,10 +20,20 @@ module.exports = (sequelize) => {
       allowNull: false,
    
     }
+    , createdBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+   
+    },
+    updatedBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+   
+    },
 
   }, {
     tableName: 'tbl_service_category',
-    timestamps: false
+    timestamps: true
   });
 
   return servicecategory;

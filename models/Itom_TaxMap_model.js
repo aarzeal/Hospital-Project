@@ -23,9 +23,19 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      createdBy: {
+        type: DataTypes.STRING,
+        allowNull: true,
+     
+      },
+      updatedBy: {
+        type: DataTypes.STRING,
+        allowNull: true,
+     
+      },
     
     }, {
       tableName: "tbl_ItemTax_Map",
-      timestamps: false,
+      timestamps: true,
     });
   };
