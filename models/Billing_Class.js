@@ -123,20 +123,20 @@ ledger_IDR: {
      
     },
     phone1: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(20),
       allowNull: true,
     },
     phone2: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(20),
       allowNull: true,
     },
     Mobile: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(20),
       allowNull: true,
    
     },
     whatapp_Number: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(20),
       allowNull: true,
     
     },

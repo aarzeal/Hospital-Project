@@ -423,18 +423,7 @@ exports. finGroupUpdateValidationRules = [
     body("zip")
         .optional().isInt().withMessage("Zip must be an integer"),
 
-    body("phone1")
-        .optional().isInt().withMessage("Phone1 must be an integer"),
-
-    body("phone2")
-        .optional().isInt().withMessage("Phone2 must be an integer"),
-
-    body("Mobile")
-        .optional().isInt().withMessage("Mobile must be an integer"),
-
-    body("whatapp_Number")
-        .optional().isInt().withMessage("WhatsApp Number must be an integer"),
-
+    
     body("email")
         .optional().isEmail().withMessage("Email must be a valid email address"),
 

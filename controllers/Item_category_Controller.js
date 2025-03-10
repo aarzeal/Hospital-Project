@@ -18,34 +18,34 @@ exports.createItemCategory = async (req, res) => {
         // Validate foreign keys
         const hospitalExists = await Hospital.findOne({ where: { HospitalID: hospital_IDR } });
         if (!hospitalExists) {
-            throw { errorCode: 9180, message: "Invalid hospital_IDR, not found in Hospital table" };
+            throw { errorCode: 9181, message: "Invalid hospital_IDR, not found in Hospital table" };
         }
         
         if (hospitalGroup_IDR) {
             const hospitalGroupExists = await HospitalGroup.findOne({ where: { HospitalGroupID: hospitalGroup_IDR } });
             if (!hospitalGroupExists) {
-                throw { errorCode: 9181, message: "Invalid hospitalGroup_IDR, not found in HospitalGroup table" };
+                throw { errorCode: 9182, message: "Invalid hospitalGroup_IDR, not found in HospitalGroup table" };
             }
         }
         
         const purchaseLedgerExists = await Ledger.findOne({ where: { ledger_id: purches_ledger_IDR } });
         if (!purchaseLedgerExists) {
-            throw { errorCode: 9182, message: "Invalid purches_ledger_IDR, not found in Ledger table" };
+            throw { errorCode: 9183, message: "Invalid purches_ledger_IDR, not found in Ledger table" };
         }
         
         const saleLedgerExists = await Ledger.findOne({ where: { ledger_id: sale_ledger_IDR } });
         if (!saleLedgerExists) {
-            throw { errorCode: 9183, message: "Invalid sale_ledger_IDR, not found in Ledger table" };
+            throw { errorCode: 9184, message: "Invalid sale_ledger_IDR, not found in Ledger table" };
         }
         
         const newCategory = await ItemCategory.create({ item_Category_name, item_Category_Code, is_PharamaItem, is_LabItem, purches_ledger_IDR, sale_ledger_IDR, discount_Allowed, hospital_IDR, hospitalGroup_IDR, createdBy });
         
         logger.logWithMeta("info", "Item category created successfully", { logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method });
         
-        return res.status(201).json({ message: "Item category created successfully", data: newCategory });
+        return res.status(200).json({ message: "Item category created successfully", data: newCategory });
     } catch (error) {
-        logger.logWithMeta("error", "Error in createItemCategory", { logId, errorCode: error.errorCode || 9184, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
-        return res.status(400).json({ errorCode: error.errorCode || 9184, message: error.message });
+        logger.logWithMeta("error", "Error in createItemCategory", { logId, errorCode: error.errorCode || 9185, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        return res.status(400).json({ errorCode: error.errorCode || 9185, message: error.message });
     }
 };
 
@@ -91,7 +91,7 @@ exports.createItemCategory = async (req, res) => {
         
 //         return res.status(201).json({ message: "Item category created successfully", data: newCategory });
 //     } catch (error) {
-//         logger.logWithMeta("error", "Error in createItemCategory", { logId, errorCode: error.errorCode || 9184, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+//         logger.logWithMeta("error", "Error in createItemCategory", { logId, errorCode: error.errorCode || 9185, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
 //         return res.status(400).json({ errorCode: error.errorCode || 9184, message: error.message });
 //     }
 // };
@@ -103,8 +103,8 @@ exports.getAllItemCategories = async (req, res) => {
         const categories = await ItemCategory.findAll();
         return res.status(200).json({ message: "Item categories fetched successfully", data: categories });
     } catch (error) {
-        logger.logWithMeta("error", "Error fetching item categories", { logId, errorCode: 9185, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
-        return res.status(500).json({ errorCode: 9185, message: "Error fetching item categories" });
+        logger.logWithMeta("error", "Error fetching item categories", { logId, errorCode: 9187, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        return res.status(500).json({ errorCode: 9187, message: "Error fetching item categories" });
     }
 };
 
@@ -119,8 +119,8 @@ exports.getItemCategoryById = async (req, res) => {
         }
         return res.status(200).json({ message: "Item category fetched successfully", data: category });
     } catch (error) {
-        logger.logWithMeta("error", "Error fetching item category", { logId, errorCode: error.errorCode || 9187, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
-        return res.status(500).json({ errorCode: error.errorCode || 9187, message: "Error fetching item category" });
+        logger.logWithMeta("error", "Error fetching item category", { logId, errorCode: error.errorCode || 9188, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        return res.status(500).json({ errorCode: error.errorCode || 9188, message: "Error fetching item category" });
     }
 };
 
@@ -131,13 +131,13 @@ exports.updateItemCategory = async (req, res) => {
         const ItemCategory = require('../models/item_category')(req.sequelize);
         const category = await ItemCategory.findByPk(id);
         if (!category) {
-            throw { errorCode: 9188, message: "Item category not found" };
+            throw { errorCode: 9189, message: "Item category not found" };
         }
         await category.update(req.body);
         return res.status(200).json({ message: "Item category updated successfully", data: category });
     } catch (error) {
-        logger.logWithMeta("error", "Error updating item category", { logId, errorCode: error.errorCode || 9189, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
-        return res.status(500).json({ errorCode: error.errorCode || 9189, message: "Error updating item category" });
+        logger.logWithMeta("error", "Error updating item category", { logId, errorCode: error.errorCode || 9190, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        return res.status(500).json({ errorCode: error.errorCode || 9190, message: "Error updating item category" });
     }
 };
 
@@ -148,12 +148,12 @@ exports.deleteItemCategory = async (req, res) => {
         const ItemCategory = require('../models/item_category')(req.sequelize);
         const category = await ItemCategory.findByPk(id);
         if (!category) {
-            throw { errorCode: 9190, message: "Item category not found" };
+            throw { errorCode: 9191, message: "Item category not found" };
         }
         await category.destroy();
         return res.status(200).json({ message: "Item category deleted successfully" });
     } catch (error) {
-        logger.logWithMeta("error", "Error deleting item category", { logId, errorCode: error.errorCode || 9191, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
-        return res.status(500).json({ errorCode: error.errorCode || 9191, message: "Error deleting item category" });
+        logger.logWithMeta("error", "Error deleting item category", { logId, errorCode: error.errorCode || 9192, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        return res.status(500).json({ errorCode: error.errorCode || 9192, message: "Error deleting item category" });
     }
 };
