@@ -46,6 +46,7 @@ const Fin_group = require("./routes/Fin-group");
 const Billing_Class = require("./routes/Billing_Routes");
 const unit = require("./routes/Unit_Routes");
 const item_category = require("./routes/item_category_Routes");
+const item_group = require("./routes/itemGroup_routes");
 
 
 
@@ -137,6 +138,7 @@ app.use('/api/v1/fin-group', Fin_group);
 app.use('/api/v1/billing_Class', Billing_Class);
 app.use('/api/v1/unit', unit);
 app.use('/api/v1/item-category', item_category);
+app.use('/api/v1/itemgroup', item_group);
 
 
 

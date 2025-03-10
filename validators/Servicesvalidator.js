@@ -353,131 +353,151 @@ exports. finGroupUpdateValidationRules = [
   ];
   exports.validateBillingClass = [
     body("billing_Class_name")
-        .notEmpty().withMessage("Billing Class Name is required")
-        .isString().withMessage("Billing Class Name must be a string")
-        .isLength({ max: 50 }).withMessage("Billing Class Name should not exceed 50 characters"),
+        .notEmpty().withMessage("Billing class name is required")
+        .isLength({ max: 50 }).withMessage("Billing class name must be at most 50 characters"),
 
     body("billing_Class_Code")
-        .optional()
-        .isString().withMessage("Billing Class Code must be a string")
-        .isLength({ max: 50 }).withMessage("Billing Class Code should not exceed 50 characters"),
+        .notEmpty().withMessage("Billing class code is required")
+        .isLength({ max: 50 }).withMessage("Billing class code must be at most 50 characters"),
 
     body("contact_Person")
-        .optional()
-        .isString().withMessage("Contact Person must be a string"),
+        .optional().isString().withMessage("Contact person must be a string"),
 
     body("billing_Class_Category")
-        .notEmpty().withMessage("Billing Class Category is required")
-        .isString().withMessage("Billing Class Category must be a string"),
+        .notEmpty().withMessage("Billing class category is required")
+        .isString().withMessage("Billing class category must be a string"),
 
     body("ledger_IDR")
         .notEmpty().withMessage("Ledger ID is required")
         .isInt().withMessage("Ledger ID must be an integer"),
 
-    body("is_Cashless").optional().isBoolean().withMessage("is_Cashless must be a boolean"),
-    body("Cost_Base").notEmpty().isBoolean().withMessage("Cost Base must be a boolean"),
-    body("is_Reimbursement").optional().isBoolean().withMessage("is_Reimbursement must be a boolean"),
-    body("is_Pharamcy_Cash_Allowed").optional().isBoolean().withMessage("is_Pharamcy_Cash_Allowed must be a boolean"),
-    body("is_Pharamcy_Cashless_Allowed").optional().isBoolean().withMessage("is_Pharamcy_Cashless_Allowed must be a boolean"),
+    body("is_Cashless")
+        .optional().isBoolean().withMessage("Is Cashless must be a boolean"),
 
-    body("cashless_Applicable_On").optional(),
+    body("Cost_Base")
+        .optional().isBoolean().withMessage("Cost Base must be a boolean"),
 
-    body("issTax_Applicable").optional().isBoolean().withMessage("issTax_Applicable must be a boolean"),
-    body("sTax_On_Billtype").notEmpty().isBoolean().withMessage("sTax_On_Billtype must be a boolean"),
-    body("sTax_On_OPD").optional().isBoolean().withMessage("sTax_On_OPD must be a boolean"),
-    body("sTax_On_IPD").optional().isBoolean().withMessage("sTax_On_IPD must be a boolean"),
-    body("sTax_On_CheckUp").optional().isBoolean().withMessage("sTax_On_CheckUp must be a boolean"),
+    body("is_Reimbursement")
+        .optional().isBoolean().withMessage("Is Reimbursement must be a boolean"),
 
-    body("is_Copay_AllowedOn_OPD").notEmpty().isBoolean().withMessage("is_Copay_AllowedOn_OPD must be a boolean"),
-    body("is_Copay_AllowedOn_IPD").optional().isBoolean().withMessage("is_Copay_AllowedOn_IPD must be a boolean"),
-    body("is_Copay_AllowedOn_Pharamcy").notEmpty().isBoolean().withMessage("is_Copay_AllowedOn_Pharamcy must be a boolean"),
+    body("is_Pharamcy_Cash_Allowed")
+        .optional().isBoolean().withMessage("Pharmacy Cash Allowed must be a boolean"),
 
-    body("address1").optional().isString().withMessage("Address1 must be a string"),
-    body("address2").optional().isString().withMessage("Address2 must be a string"),
-    body("city").notEmpty().withMessage("City is required"),
-    body("state").notEmpty().withMessage("State is required"),
-    body("country").optional(),
+    body("is_Pharamcy_Cashless_Allowed")
+        .optional().isBoolean().withMessage("Pharmacy Cashless Allowed must be a boolean"),
+
+    body("cashless_Applicable_On")
+        .notEmpty().withMessage("Cashless Applicable On is required")
+        .isString().withMessage("Cashless Applicable On must be a string"),
+
+    body("issTax_Applicable")
+        .optional().isBoolean().withMessage("Tax Applicable must be a boolean"),
+
+    body("sTax_On_Billtype")
+        .optional().isBoolean().withMessage("Tax on Bill Type must be a boolean"),
+
+    body("sTax_On_OPD")
+        .optional().isBoolean().withMessage("Tax on OPD must be a boolean"),
+
+    body("sTax_On_IPD")
+        .optional().isBoolean().withMessage("Tax on IPD must be a boolean"),
+
+    body("sTax_On_CheckUp")
+        .optional().isBoolean().withMessage("Tax on Checkup must be a boolean"),
+
+    body("is_Copay_AllowedOn_OPD")
+        .optional().isBoolean().withMessage("Copay Allowed on OPD must be a boolean"),
+
+    body("is_Copay_AllowedOn_IPD")
+        .optional().isBoolean().withMessage("Copay Allowed on IPD must be a boolean"),
+
+    body("is_Copay_AllowedOn_Pharamcy")
+        .optional().isBoolean().withMessage("Copay Allowed on Pharmacy must be a boolean"),
+
+    body("address1")
+        .optional().isString().withMessage("Address1 must be a string"),
+
+    body("address2")
+        .optional().isString().withMessage("Address2 must be a string"),
 
     body("zip")
-        .notEmpty().withMessage("Zip is required")
-        .isInt().withMessage("Zip must be an integer"),
+        .optional().isInt().withMessage("Zip must be an integer"),
 
-    body("phone1").optional().isInt().withMessage("Phone1 must be a number"),
-    body("phone2").optional().isInt().withMessage("Phone2 must be a number"),
-    body("Mobile").notEmpty().isInt().withMessage("Mobile must be a number"),
-    body("whatapp_Number").notEmpty().isInt().withMessage("WhatsApp Number must be a number"),
+    body("phone1")
+        .optional().isInt().withMessage("Phone1 must be an integer"),
 
-    body("email").optional().isEmail().withMessage("Invalid email format"),
+    body("phone2")
+        .optional().isInt().withMessage("Phone2 must be an integer"),
 
-    body("hospital_IDR").notEmpty().isInt().withMessage("Hospital ID is required and must be an integer"),
-    body("hospitalGroup_IDR").optional().isInt().withMessage("Hospital Group ID must be an integer"),
+    body("Mobile")
+        .optional().isInt().withMessage("Mobile must be an integer"),
 
-    body("currancy").optional().isString().withMessage("Currency must be a string"),
-    body("rate_baseOn").notEmpty().isString().withMessage("Rate Base On is required and must be a string"),
+    body("whatapp_Number")
+        .optional().isInt().withMessage("WhatsApp Number must be an integer"),
+
+    body("email")
+        .optional().isEmail().withMessage("Email must be a valid email address"),
+
+    body("hospital_IDR")
+        .notEmpty().withMessage("Hospital ID is required")
+        .isInt().withMessage("Hospital ID must be an integer"),
+
+    body("hospitalGroup_IDR")
+        .optional().isInt().withMessage("Hospital Group ID must be an integer"),
+
+    body("currancy")
+        .notEmpty().withMessage("Currency is required")
+        .isString().withMessage("Currency must be a string"),
+
+    body("rate_baseOn")
+        .notEmpty().withMessage("Rate base on is required")
+        .isString().withMessage("Rate base on must be a string"),
+
+    body("createdBy")
+        .optional().isString().withMessage("Created By must be a string"),
+    body("updatedBy")
+        .optional().isString().withMessage("updated By must be a string"),
 ];
-  exports.validateBillingClassUpdate = [
+
+exports.validateBillingClassUpdate = [
     body("billing_Class_name")
-        .notEmpty().withMessage("Billing Class Name is required")
-        .isString().withMessage("Billing Class Name must be a string")
-        .isLength({ max: 50 }).withMessage("Billing Class Name should not exceed 50 characters"),
+        .optional().isLength({ max: 50 }).withMessage("Billing class name must be at most 50 characters"),
 
     body("billing_Class_Code")
-        .optional()
-        .isString().withMessage("Billing Class Code must be a string")
-        .isLength({ max: 50 }).withMessage("Billing Class Code should not exceed 50 characters"),
+        .optional().isLength({ max: 50 }).withMessage("Billing class code must be at most 50 characters"),
 
     body("contact_Person")
-        .optional()
-        .isString().withMessage("Contact Person must be a string"),
+        .optional().isString().withMessage("Contact person must be a string"),
 
     body("billing_Class_Category")
-        .notEmpty().withMessage("Billing Class Category is required")
-        .isString().withMessage("Billing Class Category must be a string"),
+        .optional().isString().withMessage("Billing class category must be a string"),
 
     body("ledger_IDR")
-        .notEmpty().withMessage("Ledger ID is required")
-        .isInt().withMessage("Ledger ID must be an integer"),
+        .optional().isInt().withMessage("Ledger ID must be an integer"),
 
-    body("is_Cashless").optional().isBoolean().withMessage("is_Cashless must be a boolean"),
-    body("Cost_Base").notEmpty().isBoolean().withMessage("Cost Base must be a boolean"),
-    body("is_Reimbursement").optional().isBoolean().withMessage("is_Reimbursement must be a boolean"),
-    body("is_Pharamcy_Cash_Allowed").optional().isBoolean().withMessage("is_Pharamcy_Cash_Allowed must be a boolean"),
-    body("is_Pharamcy_Cashless_Allowed").optional().isBoolean().withMessage("is_Pharamcy_Cashless_Allowed must be a boolean"),
+    body("is_Cashless")
+        .optional().isBoolean().withMessage("Is Cashless must be a boolean"),
 
-    body("cashless_Applicable_On").optional(),
+    body("Cost_Base")
+        .optional().isBoolean().withMessage("Cost Base must be a boolean"),
 
-    body("issTax_Applicable").optional().isBoolean().withMessage("issTax_Applicable must be a boolean"),
-    body("sTax_On_Billtype").notEmpty().isBoolean().withMessage("sTax_On_Billtype must be a boolean"),
-    body("sTax_On_OPD").optional().isBoolean().withMessage("sTax_On_OPD must be a boolean"),
-    body("sTax_On_IPD").optional().isBoolean().withMessage("sTax_On_IPD must be a boolean"),
-    body("sTax_On_CheckUp").optional().isBoolean().withMessage("sTax_On_CheckUp must be a boolean"),
+    body("is_Reimbursement")
+        .optional().isBoolean().withMessage("Is Reimbursement must be a boolean"),
 
-    body("is_Copay_AllowedOn_OPD").notEmpty().isBoolean().withMessage("is_Copay_AllowedOn_OPD must be a boolean"),
-    body("is_Copay_AllowedOn_IPD").optional().isBoolean().withMessage("is_Copay_AllowedOn_IPD must be a boolean"),
-    body("is_Copay_AllowedOn_Pharamcy").notEmpty().isBoolean().withMessage("is_Copay_AllowedOn_Pharamcy must be a boolean"),
+    body("is_Pharamcy_Cash_Allowed")
+        .optional().isBoolean().withMessage("Pharmacy Cash Allowed must be a boolean"),
 
-    body("address1").optional().isString().withMessage("Address1 must be a string"),
-    body("address2").optional().isString().withMessage("Address2 must be a string"),
-    body("city").notEmpty().withMessage("City is required"),
-    body("state").notEmpty().withMessage("State is required"),
-    body("country").optional(),
+    body("is_Pharamcy_Cashless_Allowed")
+        .optional().isBoolean().withMessage("Pharmacy Cashless Allowed must be a boolean"),
 
-    body("zip")
-        .notEmpty().withMessage("Zip is required")
-        .isInt().withMessage("Zip must be an integer"),
+    body("cashless_Applicable_On")
+        .optional().isString().withMessage("Cashless Applicable On must be a string"),
 
-    body("phone1").optional().isInt().withMessage("Phone1 must be a number"),
-    body("phone2").optional().isInt().withMessage("Phone2 must be a number"),
-    body("Mobile").notEmpty().isInt().withMessage("Mobile must be a number"),
-    body("whatapp_Number").notEmpty().isInt().withMessage("WhatsApp Number must be a number"),
+    body("issTax_Applicable")
+        .optional().isBoolean().withMessage("Tax Applicable must be a boolean"),
 
-    body("email").optional().isEmail().withMessage("Invalid email format"),
-
-    body("hospital_IDR").notEmpty().isInt().withMessage("Hospital ID is required and must be an integer"),
-    body("hospitalGroup_IDR").optional().isInt().withMessage("Hospital Group ID must be an integer"),
-
-    body("currancy").optional().isString().withMessage("Currency must be a string"),
-    body("rate_baseOn").notEmpty().isString().withMessage("Rate Base On is required and must be a string"),
+    body("rate_baseOn")
+        .optional().isString().withMessage("Rate base on must be a string"),
 ];
 
 

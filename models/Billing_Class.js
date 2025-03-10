@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
     },
     billing_Class_Code: {
       type: DataTypes.STRING(50),
-      allowNull: true,
+      allowNull: false,
     },
     contact_Person: {
       type: DataTypes.STRING,
@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
 ledger_IDR: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: false,
+     
     },
     is_Cashless: {
       type: DataTypes.BOOLEAN,
@@ -37,8 +37,8 @@ ledger_IDR: {
     },
     Cost_Base: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
+      allowNull: true,
+      
     },
     is_Reimbursement: {
       type: DataTypes.BOOLEAN,
@@ -55,7 +55,7 @@ ledger_IDR: {
     },
     cashless_Applicable_On: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     
     },
     issTax_Applicable: {
@@ -64,8 +64,8 @@ ledger_IDR: {
     },
    sTax_On_Billtype: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
+      allowNull: true,
+  
     },
     sTax_On_OPD: {
       type: DataTypes.BOOLEAN,
@@ -83,7 +83,7 @@ ledger_IDR: {
     ,
     is_Copay_AllowedOn_OPD: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: true
     
     },
     is_Copay_AllowedOn_IPD: {
@@ -92,8 +92,8 @@ ledger_IDR: {
     },
     is_Copay_AllowedOn_Pharamcy: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
+      allowNull: true,
+      
     },
     address1: {
       type: DataTypes.STRING,
@@ -104,23 +104,23 @@ ledger_IDR: {
       allowNull: true,
     },
     city: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.INTEGER,
+      allowNull: true,
    
     },
     state: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.INTEGER,
+      allowNull: true,
     
     },
     country: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
    zip: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: false,
+      allowNull: true
+     
     },
     phone1: {
       type: DataTypes.INTEGER,
@@ -132,12 +132,12 @@ ledger_IDR: {
     },
     Mobile: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
    
     },
     whatapp_Number: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     
     },
     email: {
@@ -147,7 +147,7 @@ ledger_IDR: {
    hospital_IDR: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: false,
+   
     },
     hospitalGroup_IDR: {
       type: DataTypes.INTEGER,
@@ -155,7 +155,7 @@ ledger_IDR: {
     },
     currancy: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     rate_baseOn: {
       type: DataTypes.STRING,
@@ -163,6 +163,11 @@ ledger_IDR: {
    
     },
     createdBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+   
+    },
+    updatedBy: {
       type: DataTypes.STRING,
       allowNull: true,
    
