@@ -140,13 +140,13 @@ exports.createAccLedger = async (req, res) => {
 
     await AccLedger.sync();
 
-    let updatedBy=null;
+    // let updatedBy=null;
     
     const accLedger = await AccLedger.create({
       ledger_name,ledger_alias,ledger_cheque,maintain_bill_wise,isdiscount_ledger,remark,is_tax_aplicable,taxplan_IDR,creditperied,
         HospitalGroupIDR,
         createdBy: req.username,  // Assign username from token
-            updatedBy,
+        // updatedAt: null,
     });
 
     const executionTime = `${Date.now() - start}ms`;
@@ -399,7 +399,13 @@ exports.updateAccLedger = async (req, res) => {
       return res.status(404).json({ message: "AccLedger not found" });
     }
 
-    await accLedger.update(updateData);
+    // await accLedger.update(updateData);
+     // ✅ Ensure updatedAt is explicitly set when updating
+     await accLedger.update({
+      ...updateData,
+      updatedBy: req.username, // Track who updated it
+      updatedAt: new Date(), // ✅ Manually set updatedAt
+    });
 
     const executionTime = `${Date.now() - start}ms`;
     logger.logWithMeta("info", "AccLedger updated successfully", {

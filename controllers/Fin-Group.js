@@ -159,7 +159,7 @@ exports.createGroup = async (req, res) => {
             hospitalIDR, 
             hospitalGroupIDR,
             createdBy: req.username,
-            updatedBy:req.username
+            
         });
 
         const executionTime = `${Date.now() - start}ms`;
@@ -445,7 +445,9 @@ exports.updateGroup = async (req, res) => {
             for_jv_settelment, 
             remark, 
             hospitalIDR, 
-            hospitalGroupIDR
+            hospitalGroupIDR,
+            updatedBy: req.username, // Track who updated it
+            updatedAt: new Date(),
         });
 
         const executionTime = `${Date.now() - start}ms`;
