@@ -40,6 +40,7 @@ module.exports = (sequelize) => {
       createdBy: {
         type: DataTypes.STRING,
         allowNull: true,
+        field: "createdBy",
      
       },
       updatedBy: {

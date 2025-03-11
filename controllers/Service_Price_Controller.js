@@ -50,8 +50,8 @@ exports.createServicePriceList = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
-            createdBy: req.username,
-            updatedBy:req.username
+            // createdBy: req.username,
+            // updatedBy:req.username
         });
 
         return res.status(400).json({ 
@@ -62,7 +62,7 @@ exports.createServicePriceList = async (req, res) => {
         });
     }
 
-    const { service_IDR, First_Emergency_Rate, Second_Emergency_Rate, From_Date, To_Date, is_current_Format, hospitalIDR } = req.body;
+    const { service_IDR, First_Emergency_Rate, Second_Emergency_Rate, From_Date, To_Date, is_current_Format, hospitalIDR ,createdBy } = req.body;
     const hospitalDatabase = req.hospitalDatabase;
 
     try {
@@ -80,8 +80,8 @@ exports.createServicePriceList = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                createdBy: req.username,
-                updatedBy:req.username
+                // createdBy: req.username,
+                // updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -92,10 +92,10 @@ exports.createServicePriceList = async (req, res) => {
         }
 
         const Service_Price_List = require("../models/Service_PriceList_Model")(req.sequelize);
-        const Hospital = require("../models/HospitalModel")(req.sequelize);
+        const Hospital = require("../models/HospitalModel");
         const Service = require("../models/ser")(req.sequelize);
 
-        await Service_Price_List.sync({ force: false });
+        await Service_Price_List.sync({ force: true });
 
         // Validate Hospital ID
         const hospital = await Hospital.findOne({ where: { HospitalID: hospitalIDR } });
@@ -114,7 +114,7 @@ exports.createServicePriceList = async (req, res) => {
                 method: req.method,
                 userAgent: req.headers["user-agent"],
                 hospitalIDR,
-                createdBy: req.username,
+                createdBy,
                 updatedBy:req.username
             });
 
