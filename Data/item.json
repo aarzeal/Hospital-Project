@@ -1,0 +1,206 @@
+{
+  "Item": {
+    "en": "Item",
+    "hi": "वस्तु"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "Itemupdatedsuccessfully": {
+    "en": "Item updated successfully",
+    "hi": "आइटम सफलतापूर्वक अपडेट किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "Itemaddedsuccessfully": {
+    "en": "Item added successfully",
+    "hi": "आइटम सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Doyoureallywanttodeletethisitem": {
+    "en": "Do you really want to delete this item?",
+    "hi": "क्या आप सचमुच इस आइटम को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
+  },
+  "Nocancel": {
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
+  },
+  "Theitemhasbeendeleted": {
+    "en": "The item has been deleted",
+    "hi": "आइटम हटा दिया गया है"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "Itemname": {
+    "en": "Item name",
+    "hi": "आइटम का नाम"
+  },
+  "ItemCode": {
+    "en": "Item Code",
+    "hi": "आइटम का कोड"
+  },
+  "Itemalias": {
+    "en": "Item alias",
+    "hi": "आइटम का उपनाम"
+  },
+  "ItemDescription": {
+    "en": "Item Description",
+    "hi": "आइटम का विवरण"
+  },
+  "NonActive": {
+    "en": "Non Active",
+    "hi": "गैर सक्रिय"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Enteritemnamehere": {
+    "en": "Enter item name here",
+    "hi": "यहां आइटम का नाम दर्ज करें"
+  },
+  "Enteritemaliashere": {
+    "en": "Enter item alias here",
+    "hi": "यहां आइटम का उपनाम दर्ज करें"
+  },
+  "Enteritemdescriptionhere": {
+    "en": "Enter item description here",
+    "hi": "यहां आइटम का विवरण दर्ज करें"
+  },
+  "Enteritemcodehere": {
+    "en": "Enter item code here",
+    "hi": "यहां आइटम का कोड दर्ज करें"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Allitems": {
+    "en": "All items",
+    "hi": "सभी वस्तुएं"
+  },
+  "Searchbyitemdetails": {
+    "en": "Search by item details",
+    "hi": "आइटम विवरण के आधार पर खोजें"
+  },
+  "Itemmappingupdatedsuccessfully": {
+    "en": "Item mapping updated successfully",
+    "hi": "आइटम मैपिंग सफलतापूर्वक अपडेट की गई"
+  },
+  "Itemmappingaddedsuccessfully": {
+    "en": "Item mapping added successfully",
+    "hi": "आइटम मैपिंग सफलतापूर्वक जोड़ी गई"
+  },
+  "Doyoureallywanttodeletethisitemmapping": {
+    "en": "Do you really want to delete this item mapping?",
+    "hi": "क्या आप सचमुच इस आइटम मैपिंग को हटाना चाहते हैं?"
+  },
+  "Themappeditemhasbeendeleted": {
+    "en": "The mapped item has been deleted",
+    "hi": "मैप किया गया आइटम हटा दिया गया है"
+  },
+  "Tax": {
+    "en": "Tax",
+    "hi": "कर"
+  },
+  "Type": {
+    "en": "Type",
+    "hi": "प्रकार"
+  },
+  "ItemMapping": {
+    "en": "Item Mapping",
+    "hi": "आइटम मैपिंग"
+  },
+  "Enteritemtypehere": {
+    "en": "Enter item type here",
+    "hi": "यहां आइटम प्रकार दर्ज करें"
+  },
+  "AllItemDetails": {
+    "en": "All Item Details",
+    "hi": "सभी आइटम विवरण"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Invalidcharactersdetected": {
+    "en": "Invalid characters detected",
+    "hi": "अमान्य वर्णों का पता चला"
+  },
+  "Itemnamelengthmustgreaterthan1": {
+    "en": "Item name length must greater than 1",
+    "hi": "आइटम नाम वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Itemnamelengthmustlessthan50": {
+    "en": "Item name length must less than 50",
+    "hi": "आइटम नाम वर्ण 50 से कम होना चाहिए"
+  },
+  "Itemaliaslengthmustlessthan50": {
+    "en": "Item alias length must less than 50",
+    "hi": "आइटम उपनाम वर्ण 50 से कम होना चाहिए"
+  },
+  "Itemdescriptionlengthmustgreaterthan1": {
+    "en": "Item description length must greater than 1",
+    "hi": "आइटम विवरण वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Itemdescriptionlengthmustlessthan50": {
+    "en": "Item description length must less than 50",
+    "hi": "आइटम विवरण वर्ण 50 से कम होना चाहिए"
+  },
+  "Itemcodelengthmustgreaterthan1": {
+    "en": "Item code length must greater than 1",
+    "hi": "आइटम कोड वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Itemcodelengthmustlessthan50": {
+    "en": "Item code length must less than 50",
+    "hi": "आइटम कोड वर्ण 50 से कम होना चाहिए"
+  },
+  "Typelengthmustgreaterthan1": {
+    "en": "Type length must greater than 1",
+    "hi": "प्रकार वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Typelengthmustlessthan50": {
+    "en": "Type length must less than 50",
+    "hi": "प्रकार वर्ण 50 से कम होना चाहिए"
+  }
+}

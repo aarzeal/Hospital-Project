@@ -1,0 +1,178 @@
+{
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "Financialyeardetailsupdatedsuccessfully": {
+    "en": "Financial year details updated successfully",
+    "hi": "वित्तीय वर्ष का विवरण सफलतापूर्वक अपडेट किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "Financialyeardetailsaddedsuccessfully": {
+    "en": "Financial year details added successfully",
+    "hi": "वित्तीय वर्ष का विवरण सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Doyoureallywanttodeletethisfinancialyeardetails": {
+    "en": "Do you really want to delete this financial year details?",
+    "hi": "क्या आप सचमुच इस वित्तीय वर्ष का विवरण हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दो!"
+  },
+  "Nocancel": {
+    "en": "No, cancel",
+    "hi": "नहीं, रद्द करें"
+  },
+  "Thefinancialyeardetailshasbeendeleted": {
+    "en": "The financial year details has been deleted",
+    "hi": "वित्तीय वर्ष का विवरण हटा दिया गया है"
+  },
+  "FinancialYear": {
+    "en": "Financial Year",
+    "hi": "वित्तीय वर्ष"
+  },
+  "StartMonth": {
+    "en": "Start Month",
+    "hi": "महीना प्रारंभ करें"
+  },
+  "EndMonth": {
+    "en": "End Month",
+    "hi": "माह समाप्ति"
+  },
+  "Lock": {
+    "en": "Lock",
+    "hi": "बंद"
+  },
+  "Locked": {
+    "en": "Locked",
+    "hi": "बंद"
+  },
+  "Unlocked": {
+    "en": "Unlocked",
+    "hi": "खुला"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "NonActive": {
+    "en": "Non Active",
+    "hi": "गैर सक्रिय"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "FinancialYearDetails": {
+    "en": "Financial Year Details",
+    "hi": "वित्तीय वर्ष विवरण"
+  },
+  "Selectfinancialyear": {
+    "en": "Select financial year",
+    "hi": "वित्तीय वर्ष चुनें"
+  },
+  "Startmonth": {
+    "en": "Start month",
+    "hi": "माह प्रारंभ"
+  },
+  "Endmonth": {
+    "en": "End month",
+    "hi": "माह समाप्ति"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "AllFinancialYearDetails": {
+    "en": "All Financial Year Details",
+    "hi": "सभी वित्तीय वर्ष विवरण"
+  },
+  "Searchbyfinancialyeardetails": {
+    "en": "Search by financial year details",
+    "hi": "वित्तीय वर्ष विवरण के आधार पर खोजें"
+  },
+  "Invalidformat": {
+    "en": "Invalid format (YYYY-YYYY)",
+    "hi": "अमान्य प्रारूप (YYYY-YYYY)"
+  },
+  "InvalidrangeStartyearmustbelessthanEndyear": {
+    "en": "Invalid range: Start year must be less than End year",
+    "hi": "अमान्य श्रेणी: आरंभ वर्ष, अंतिम वर्ष से कम होना चाहिए"
+  },
+  "Endyearcannotbegreaterthanthedate": {
+    "en": "End year cannot be greater than the",
+    "hi": "अंतिम वर्ष की अवधि इससे अधिक नहीं हो सकती"
+  },
+  "Financialyearupdatedsuccessfully": {
+    "en": "Financial year updated successfully",
+    "hi": "वित्तीय वर्ष सफलतापूर्वक अद्यतन किया गया"
+  },
+  "Financialyearaddedsuccessfully": {
+    "en": "Financial year added successfully",
+    "hi": "वित्तीय वर्ष सफलतापूर्वक जोड़ा गया"
+  },
+  "Doyoureallywanttodeletethisfinancialyear": {
+    "en": "Do you really want to delete this financial year?",
+    "hi": "क्या आप सचमुच इस वित्तीय वर्ष को हटाना चाहते हैं?"
+  },
+  "Thefinancialyearhasbeendeleted": {
+    "en": "The financial year has been deleted",
+    "hi": "वित्तीय वर्ष हटा दिया गया है"
+  },
+  "Financialyear": {
+    "en": "Financial year",
+    "hi": "वित्तीय वर्ष"
+  },
+  "eg20242025": {
+    "en": "eg : 2024-2025",
+    "hi": "उदाहरण : 2024-2025"
+  },
+  "AllFinancialYears": {
+    "en": "All Financial Years",
+    "hi": "सभी वित्तीय वर्ष"
+  },
+  "Searchbyyear": {
+    "en": "Search by year",
+    "hi": "वर्ष के अनुसार खोजें"
+  }
+}

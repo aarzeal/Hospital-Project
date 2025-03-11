@@ -108,7 +108,7 @@
     "hi": "उम्मीदवार कोड"
   },
   "DrRegisterationNo": {
-    "en": "Dr Registeration No.",
+    "en": "Dr Registration No.",
     "hi": "डॉ पंजीकरण क्रमांक"
   },
   "PracticeNumber": {
@@ -144,8 +144,8 @@
     "hi": "बैंक खाता संख्या"
   },
   "ProhibitionPeriodDate": {
-    "en": "Prohibition Period Date",
-    "hi": "निषेध अवधि दिनांक"
+    "en": "Probation Period Date",
+    "hi": "परिवीक्षा अवधि तिथि"
   },
   "HealthCardNo": {
     "en": "Health Card No.",
@@ -188,12 +188,12 @@
     "hi": "क्या वेतन रुका हुआ है?"
   },
   "ProhibitionComplete": {
-    "en": "Prohibition Complete",
-    "hi": "निषेध पूर्ण"
+    "en": "Probation Complete",
+    "hi": "परिवीक्षा पूर्ण"
   },
   "ProhibitionApplicable": {
-    "en": "Prohibition Applicable",
-    "hi": "निषेधाज्ञा लागू"
+    "en": "Probation Applicable",
+    "hi": "परिवीक्षा लागू"
   },
   "UploadImage": {
     "en": "Upload Image",
@@ -296,8 +296,8 @@
     "hi": "यहां उम्मीदवार कोड दर्ज करें"
   },
   "EnterDrRegisterationNohere": {
-    "en": "Enter Dr. Registeration No. here",
-    "hi": "यहां डॉ.पंजीकरण दर्ज करें"
+    "en": "Enter Dr. Registration No. here",
+    "hi": "यहां डॉ पंजीकरण क्रमांक दर्ज करें"
   },
   "OthersDetails": {
     "en": "Others Details",
@@ -444,7 +444,7 @@
     "hi": "कर्मचारी"
   },
   "EmployeesRegisteration": {
-    "en": "Employees Registeration",
+    "en": "Employees Registration",
     "hi": "कर्मचारी पंजीकरण"
   },
   "EmployeesUpdation": {
@@ -470,5 +470,13 @@
   "General": {
     "en": "General",
     "hi": "सामान्य"
+  },
+  "PassportNumber": {
+    "en": "Passport Number",
+    "hi": "पासपोर्ट नंबर"
+  },
+  "EnterPassportNumberHere": {
+    "en": "Enter Passport Number Here",
+    "hi": "यहां पासपोर्ट नंबर दर्ज करें"
   }
 }
