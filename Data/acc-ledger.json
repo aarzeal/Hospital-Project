@@ -182,5 +182,9 @@
   "Remarklengthmustlessthan50": {
     "en": "Remarklengthmustlessthan50",
     "hi": "टिप्पणी का अक्षर 50 से कम होना चाहिए"
+  },
+  "Creditperiod": {
+    "en": "Credit period",
+    "hi": "ऋण अवधि"
   }
 }
