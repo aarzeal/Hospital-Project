@@ -170,3 +170,134 @@ exports.validateTaxMapupdate = [
     body('type')
         .optional().isLength({ max: 50 }).withMessage('Type must be at most 50 characters'),
 ];
+
+
+
+
+exports.validateItemCategory = [
+    body("item_Category_name")
+        .notEmpty().withMessage("Item category name is required")
+        .isLength({ max: 50 }).withMessage("Item category name must be at most 50 characters"),
+
+    body("item_Category_Code")
+        .optional().isLength({ max: 50 }).withMessage("Item category code must be at most 50 characters"),
+
+    body("is_PharamaItem")
+        .optional().isBoolean().withMessage("Is Pharma Item must be a boolean"),
+
+    body("is_LabItem")
+        .optional().isBoolean().withMessage("Is Lab Item must be a boolean"),
+
+    body("purches_ledger_IDR")
+        .notEmpty().withMessage("Purchase ledger ID is required")
+        .isInt().withMessage("Purchase ledger ID must be an integer"),
+
+    body("sale_ledger_IDR")
+        .notEmpty().withMessage("Sale ledger ID is required")
+        .isInt().withMessage("Sale ledger ID must be an integer"),
+
+    body("discount_Allowed")
+        .notEmpty().withMessage("Discount allowed is required")
+        .isBoolean().withMessage("Discount allowed must be a boolean"),
+
+    body("hospital_IDR")
+        .notEmpty().withMessage("Hospital ID is required")
+        .isInt().withMessage("Hospital ID must be an integer"),
+
+    body("hospitalGroup_IDR")
+        .optional().isInt().withMessage("Hospital Group ID must be an integer"),
+
+    body("createdBy")
+        .optional().isString().withMessage("Created by must be a string"),
+
+    body("updatedBy")
+        .optional().isString().withMessage("Updated by must be a string"),
+];
+
+exports.validateItemCategoryUpdate = [
+    body("item_Category_name")
+        .optional().isLength({ max: 50 }).withMessage("Item category name must be at most 50 characters"),
+
+    body("item_Category_Code")
+        .optional().isLength({ max: 50 }).withMessage("Item category code must be at most 50 characters"),
+
+    body("is_PharamaItem")
+        .optional().isBoolean().withMessage("Is Pharma Item must be a boolean"),
+
+    body("is_LabItem")
+        .optional().isBoolean().withMessage("Is Lab Item must be a boolean"),
+
+    body("purches_ledger_IDR")
+        .optional().isInt().withMessage("Purchase ledger ID must be an integer"),
+
+    body("sale_ledger_IDR")
+        .optional().isInt().withMessage("Sale ledger ID must be an integer"),
+
+    body("discount_Allowed")
+        .optional().isBoolean().withMessage("Discount allowed must be a boolean"),
+
+    body("hospital_IDR")
+        .optional().isInt().withMessage("Hospital ID must be an integer"),
+
+    body("hospitalGroup_IDR")
+        .optional().isInt().withMessage("Hospital Group ID must be an integer"),
+
+    body("createdBy")
+        .optional().isString().withMessage("Created by must be a string"),
+
+    body("updatedBy")
+        .optional().isString().withMessage("Updated by must be a string"),
+];
+
+
+
+exports.validateItemGroup = [
+    body("group_name")
+        .notEmpty().withMessage("Group name is required")
+        .isLength({ max: 50 }).withMessage("Group name must be at most 50 characters"),
+
+    body("parent_groupIDR")
+        .optional().isInt().withMessage("Parent group ID must be an integer"),
+
+    body("hospitalIDR")
+        .optional().isInt().withMessage("Hospital ID must be an integer"),
+
+    body("Non_Active")
+        .notEmpty().withMessage("Non Active status is required")
+        .isBoolean().withMessage("Non Active must be a boolean"),
+
+    body("HospitalGroupIDR")
+        .notEmpty().withMessage("Hospital Group ID is required")
+        .isInt().withMessage("Hospital Group ID must be an integer"),
+
+    body("createdBy")
+        .notEmpty().withMessage("Created by is required")
+        .isString().withMessage("Created by must be a string"),
+
+    body("updatedBy")
+        .notEmpty().withMessage("Updated by is required")
+        .isString().withMessage("Updated by must be a string"),
+];
+
+exports.validateItemGroupUpdate = [
+    body("group_name")
+        .optional().isLength({ max: 50 }).withMessage("Group name must be at most 50 characters"),
+
+    body("parent_groupIDR")
+        .optional().isInt().withMessage("Parent group ID must be an integer"),
+
+    body("hospitalIDR")
+        .optional().isInt().withMessage("Hospital ID must be an integer"),
+
+    body("Non_Active")
+        .optional().isBoolean().withMessage("Non Active must be a boolean"),
+
+    body("HospitalGroupIDR")
+        .optional().isInt().withMessage("Hospital Group ID must be an integer"),
+
+    body("createdBy")
+        .optional().isString().withMessage("Created by must be a string"),
+
+    body("updatedBy")
+        .optional().isString().withMessage("Updated by must be a string"),
+];

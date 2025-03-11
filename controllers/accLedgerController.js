@@ -140,11 +140,13 @@ exports.createAccLedger = async (req, res) => {
 
     await AccLedger.sync();
 
+    let updatedBy=null;
+    
     const accLedger = await AccLedger.create({
       ledger_name,ledger_alias,ledger_cheque,maintain_bill_wise,isdiscount_ledger,remark,is_tax_aplicable,taxplan_IDR,creditperied,
         HospitalGroupIDR,
         createdBy: req.username,  // Assign username from token
-            updatedBy: req.username
+            updatedBy,
     });
 
     const executionTime = `${Date.now() - start}ms`;

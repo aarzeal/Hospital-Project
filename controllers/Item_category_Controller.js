@@ -102,7 +102,7 @@ exports.createItemCategory = async (req, res) => {
 exports.getAllItemCategories = async (req, res) => {
     const logId = uuidv4();
     try {
-        const ItemCategory = require('../models/item_category')(req.sequelize);
+        const ItemCategory = require('../models/item-category-model')(req.sequelize);
         const categories = await ItemCategory.findAll();
         return res.status(200).json({ message: "Item categories fetched successfully", data: categories });
     } catch (error) {
@@ -116,7 +116,7 @@ exports.getItemCategoryById = async (req, res) => {
     const logId = uuidv4();
     try {
         const { id } = req.params;
-        const ItemCategory = require('../models/item_category')(req.sequelize);
+        const ItemCategory = require('../models/item-category-model')(req.sequelize);
         const category = await ItemCategory.findByPk(id);
         if (!category) {
             throw { errorCode: 9186, message: "Item category not found" };
@@ -133,7 +133,7 @@ exports.updateItemCategory = async (req, res) => {
     const logId = uuidv4();
     try {
         const { id } = req.params;
-        const ItemCategory = require('../models/item_category')(req.sequelize);
+        const ItemCategory = require('../models/item-category-model')(req.sequelize);
         const category = await ItemCategory.findByPk(id);
         if (!category) {
             throw { errorCode: 9189, message: "Item category not found" };
@@ -151,7 +151,7 @@ exports.deleteItemCategory = async (req, res) => {
     const logId = uuidv4();
     try {
         const { id } = req.params;
-        const ItemCategory = require('../models/item_category')(req.sequelize);
+        const ItemCategory = require('../models/item-category-model')(req.sequelize);
         const category = await ItemCategory.findByPk(id);
         if (!category) {
             throw { errorCode: 9191, message: "Item category not found" };
