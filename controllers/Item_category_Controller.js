@@ -38,13 +38,16 @@ exports.createItemCategory = async (req, res) => {
             throw { errorCode: 9184, message: "Invalid sale_ledger_IDR, not found in Ledger table" };
         }
         
-        const newCategory = await ItemCategory.create({ item_Category_name, item_Category_Code, is_PharamaItem, is_LabItem, purches_ledger_IDR, sale_ledger_IDR, discount_Allowed, hospital_IDR, hospitalGroup_IDR, createdBy });
+        const newCategory = await ItemCategory.create({ item_Category_name, item_Category_Code, is_PharamaItem, is_LabItem, purches_ledger_IDR, sale_ledger_IDR, discount_Allowed, hospital_IDR, hospitalGroup_IDR,  createdBy: req.username,
+            updatedBy:req.username });
         
-        logger.logWithMeta("info", "Item category created successfully", { logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method });
+        logger.logWithMeta("info", "Item category created successfully", { logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, createdBy: req.username,
+        updatedBy:req.username });
         
         return res.status(200).json({ message: "Item category created successfully", data: newCategory });
     } catch (error) {
-        logger.logWithMeta("error", "Error in createItemCategory", { logId, errorCode: error.errorCode || 9185, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        logger.logWithMeta("error", "Error in createItemCategory", { logId, errorCode: error.errorCode || 9185, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, createdBy: req.username,
+        updatedBy:req.username });
         return res.status(400).json({ errorCode: error.errorCode || 9185, message: error.message });
     }
 };
@@ -103,7 +106,8 @@ exports.getAllItemCategories = async (req, res) => {
         const categories = await ItemCategory.findAll();
         return res.status(200).json({ message: "Item categories fetched successfully", data: categories });
     } catch (error) {
-        logger.logWithMeta("error", "Error fetching item categories", { logId, errorCode: 9187, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        logger.logWithMeta("error", "Error fetching item categories", { logId, errorCode: 9187, apiName: req.originalUrl, method: req.method, errorMessage: error.message, createdBy: req.username,
+            updatedBy:req.username });
         return res.status(500).json({ errorCode: 9187, message: "Error fetching item categories" });
     }
 };
@@ -119,7 +123,8 @@ exports.getItemCategoryById = async (req, res) => {
         }
         return res.status(200).json({ message: "Item category fetched successfully", data: category });
     } catch (error) {
-        logger.logWithMeta("error", "Error fetching item category", { logId, errorCode: error.errorCode || 9188, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        logger.logWithMeta("error", "Error fetching item category", { logId, errorCode: error.errorCode || 9188, apiName: req.originalUrl, method: req.method, errorMessage: error.message , createdBy: req.username,
+            updatedBy:req.username});
         return res.status(500).json({ errorCode: error.errorCode || 9188, message: "Error fetching item category" });
     }
 };
@@ -136,7 +141,8 @@ exports.updateItemCategory = async (req, res) => {
         await category.update(req.body);
         return res.status(200).json({ message: "Item category updated successfully", data: category });
     } catch (error) {
-        logger.logWithMeta("error", "Error updating item category", { logId, errorCode: error.errorCode || 9190, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        logger.logWithMeta("error", "Error updating item category", { logId, errorCode: error.errorCode || 9190, apiName: req.originalUrl, method: req.method, errorMessage: error.message, createdBy: req.username,
+            updatedBy:req.username });
         return res.status(500).json({ errorCode: error.errorCode || 9190, message: "Error updating item category" });
     }
 };
@@ -153,7 +159,8 @@ exports.deleteItemCategory = async (req, res) => {
         await category.destroy();
         return res.status(200).json({ message: "Item category deleted successfully" });
     } catch (error) {
-        logger.logWithMeta("error", "Error deleting item category", { logId, errorCode: error.errorCode || 9192, apiName: req.originalUrl, method: req.method, errorMessage: error.message });
+        logger.logWithMeta("error", "Error deleting item category", { logId, errorCode: error.errorCode || 9192, apiName: req.originalUrl, method: req.method, errorMessage: error.message , createdBy: req.username,
+            updatedBy:req.username});
         return res.status(500).json({ errorCode: error.errorCode || 9192, message: "Error deleting item category" });
     }
 };

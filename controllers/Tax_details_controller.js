@@ -60,6 +60,8 @@ exports.createTaxDetails = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(400).json({ 
@@ -95,6 +97,8 @@ exports.createTaxDetails = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(400).json({ 
@@ -120,6 +124,8 @@ exports.createTaxDetails = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(400).json({ 
@@ -133,7 +139,9 @@ exports.createTaxDetails = async (req, res) => {
         const taxDetails = await Tax_Details.create({
             Tax_IDR, tax_rate, is_active, Ledger_IDR, 
             From_Date, To_Date, Tax_Details_Leble, 
-            Serial_Number, Is_Primary_Tax, Calculate_On, Is_Current
+            Serial_Number, Is_Primary_Tax, Calculate_On, Is_Current,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         const executionTime = `${Date.now() - start}ms`;
@@ -148,6 +156,8 @@ exports.createTaxDetails = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -175,6 +185,8 @@ exports.createTaxDetails = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -345,6 +357,8 @@ exports.getAllTaxDetails = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -372,6 +386,8 @@ exports.getAllTaxDetails = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -438,6 +454,8 @@ exports.getTaxDetailsById = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -458,6 +476,8 @@ exports.getTaxDetailsById = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -485,6 +505,8 @@ exports.getTaxDetailsById = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -552,6 +574,8 @@ exports.updateTaxDetails = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(400).json({
@@ -580,6 +604,8 @@ exports.updateTaxDetails = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -602,6 +628,8 @@ exports.updateTaxDetails = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -630,6 +658,8 @@ exports.updateTaxDetails = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -706,6 +736,8 @@ exports.deleteTaxDetails = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -728,6 +760,8 @@ exports.deleteTaxDetails = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -755,6 +789,8 @@ exports.deleteTaxDetails = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({

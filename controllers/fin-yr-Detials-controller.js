@@ -174,7 +174,7 @@ exports.createFinYrDetails = async (req, res) => {
         });
     }
 
-    const { fin_code_IDR, startMonth, endMonth, lock, is_Active, hospitalGroupIDR, hospitalIDR } = req.body;
+    const { fin_code_IDR, startMonth, endMonth, lock, is_Active, hospitalGroupIDR, hospitalIDR, } = req.body;
     const hospitalDatabase = req.hospitalDatabase;
 
     try {
@@ -223,7 +223,9 @@ exports.createFinYrDetails = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                hospitalIDR
+                hospitalIDR,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(400).json({ 
@@ -247,7 +249,9 @@ exports.createFinYrDetails = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                hospitalGroupIDR
+                hospitalGroupIDR,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(400).json({ 
@@ -271,7 +275,9 @@ exports.createFinYrDetails = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                fin_code_IDR
+                fin_code_IDR,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(400).json({ 
@@ -284,7 +290,9 @@ exports.createFinYrDetails = async (req, res) => {
         await Fin_yr_Details.sync();
       
         const finYrDetail = await Fin_yr_Details.create({
-            fin_code_IDR, startMonth, endMonth, lock, is_Active, hospitalGroupIDR, hospitalIDR
+            fin_code_IDR, startMonth, endMonth, lock, is_Active, hospitalGroupIDR, hospitalIDR,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         const executionTime = `${Date.now() - start}ms`;
@@ -299,6 +307,8 @@ exports.createFinYrDetails = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(201).json({
@@ -320,7 +330,9 @@ exports.createFinYrDetails = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -351,6 +363,8 @@ exports.getFinYrDetails = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({ 
@@ -396,6 +410,8 @@ exports.getFinYrDetails = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -417,7 +433,9 @@ exports.getFinYrDetails = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -494,6 +512,8 @@ exports.getFinYrDetailsById = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({ 
@@ -520,7 +540,9 @@ exports.getFinYrDetailsById = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                fin_year_Detail_id
+                fin_year_Detail_id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({ 
@@ -542,7 +564,9 @@ exports.getFinYrDetailsById = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            fin_year_Detail_id
+            fin_year_Detail_id,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -565,7 +589,9 @@ exports.getFinYrDetailsById = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             fin_year_Detail_id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -596,6 +622,8 @@ exports.updateFinYrDetails = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(400).json({
@@ -621,6 +649,8 @@ exports.updateFinYrDetails = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -647,7 +677,9 @@ exports.updateFinYrDetails = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                fin_year_Detail_id
+                fin_year_Detail_id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -670,7 +702,9 @@ exports.updateFinYrDetails = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            fin_year_Detail_id
+            fin_year_Detail_id,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -694,7 +728,9 @@ exports.updateFinYrDetails = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             fin_year_Detail_id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -758,6 +794,8 @@ exports.deleteFinYrDetails = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -784,7 +822,9 @@ exports.deleteFinYrDetails = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                fin_year_Detail_id
+                fin_year_Detail_id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -807,7 +847,9 @@ exports.deleteFinYrDetails = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            fin_year_Detail_id
+            fin_year_Detail_id,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -830,7 +872,9 @@ exports.deleteFinYrDetails = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             fin_year_Detail_id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({

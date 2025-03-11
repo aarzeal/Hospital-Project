@@ -322,6 +322,10 @@ exports.createService = async (req, res) => {
          method: req.method,
          userAgent: req.headers["user-agent"],
          validationErrors: errors.array(),
+         createdBy: req.username,
+         updatedBy:req.username
+
+
      });
 
      return res.status(400).json({ 
@@ -367,6 +371,8 @@ exports.createService = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
             return res.status(400).json({ message: "Invalid HospitalGroupID, not found in MasterDB" });
         }
@@ -395,6 +401,8 @@ exports.createService = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
             return res.status(400).json({errorCode, message: "Invalid Service Category ID, not found in MasterDB" });
         }
@@ -422,6 +430,8 @@ exports.createService = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(400).json({ message: "Invalid ledger_IDR, not found in MasterDB" });
@@ -434,7 +444,9 @@ exports.createService = async (req, res) => {
         // await Service.sync();
 
         const service = await Service.create({
-            service_code, service_name, service_type, service_category_IDR, service_charge_applicable, service_tax_applicable, non_active, ledger_IDR, HospitalGroupIDR
+            service_code, service_name, service_type, service_category_IDR, service_charge_applicable, service_tax_applicable, non_active, ledger_IDR, HospitalGroupIDR,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
 
@@ -456,6 +468,8 @@ exports.createService = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username,
             
             
             data: [
@@ -493,6 +507,8 @@ exports.createService = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -526,6 +542,8 @@ exports.getService = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -555,7 +573,9 @@ exports.getService = async (req, res) => {
                     apiName: req.originalUrl,
                     method: req.method,
                     userAgent: req.headers["user-agent"],
-                    service_id: id
+                    service_id: id,
+                    createdBy: req.username,
+                    updatedBy:req.username
                 });
 
                 return res.status(404).json({
@@ -580,6 +600,8 @@ exports.getService = async (req, res) => {
                     apiName: req.originalUrl,
                     method: req.method,
                     userAgent: req.headers["user-agent"],
+                    createdBy: req.username,
+                    updatedBy:req.username
                 });
 
                 return res.status(404).json({
@@ -602,7 +624,9 @@ exports.getService = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            service_id: id || "all"
+            service_id: id || "all",
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -629,7 +653,9 @@ exports.getService = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             service_id: id || "all",
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -987,6 +1013,8 @@ exports.updateService = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(400).json({
@@ -1036,6 +1064,8 @@ exports.updateService = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
     
             return res.status(400).json({errorCode, message: "Invalid Service AccLedger ID, not found in MasterDB" });
@@ -1066,6 +1096,8 @@ exports.updateService = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
     
             return res.status(400).json({ errorCode,message: "Invalid Service Category ID, not found in MasterDB" });
@@ -1088,6 +1120,8 @@ exports.updateService = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -1115,6 +1149,8 @@ exports.updateService = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -1148,6 +1184,8 @@ exports.deleteService = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -1177,7 +1215,9 @@ exports.deleteService = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                service_id
+                service_id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -1202,7 +1242,9 @@ exports.deleteService = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            service_id
+            service_id,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -1230,7 +1272,9 @@ exports.deleteService = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             service_id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({

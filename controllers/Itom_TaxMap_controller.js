@@ -210,6 +210,8 @@ exports.createTaxMap = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(400).json({ 
@@ -251,6 +253,8 @@ exports.createTaxMap = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
   
             return res.status(400).json({ meta: { statusCode: 400, errorCode, executionTime }, error: { message: "Invalid hospital_IDR, not found in MasterDB" } });
@@ -279,6 +283,8 @@ exports.createTaxMap = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
   
             return res.status(400).json({ meta: { statusCode: 400, errorCode, executionTime }, error: { message: "Invalid item_IDR, not found in MasterDB" } });
@@ -306,6 +312,8 @@ exports.createTaxMap = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
   
             return res.status(400).json({ meta: { statusCode: 400, errorCode, executionTime }, error: { message: "Invalid tax_IDR, not found in MasterDB" } });
@@ -318,7 +326,9 @@ exports.createTaxMap = async (req, res) => {
         // await Tax_map.sync();
 
         const service = await Tax_map.create({
-          item_IDR,tax_IDR,hospital_IDR,type
+          item_IDR,tax_IDR,hospital_IDR,type,
+          createdBy: req.username,
+          updatedBy:req.username
         });
 
 
@@ -338,6 +348,8 @@ exports.createTaxMap = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -364,6 +376,8 @@ exports.createTaxMap = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
   
         res.status(500).json({
@@ -405,6 +419,8 @@ exports.getAllTaxMaps = async (req, res) => {
                   apiName: req.originalUrl,
                   method: req.method,
                   userAgent: req.headers["user-agent"],
+                  createdBy: req.username,
+                  updatedBy:req.username
               });
 
               return res.status(404).json({ meta: { statusCode: 404, errorCode, executionTime }, error: { message: "TaxMap entry not found" } });
@@ -426,6 +442,8 @@ exports.getAllTaxMaps = async (req, res) => {
           apiName: req.originalUrl,
           method: req.method,
           userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(200).json({
@@ -448,6 +466,8 @@ exports.getAllTaxMaps = async (req, res) => {
           method: req.method,
           userAgent: req.headers["user-agent"],
           errorMessage: error.message,
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(500).json({
@@ -549,6 +569,8 @@ exports.getTaxMapById = async (req, res) => {
               apiName: req.originalUrl,
               method: req.method,
               userAgent: req.headers["user-agent"],
+              createdBy: req.username,
+              updatedBy:req.username
           });
 
           return res.status(404).json({ 
@@ -569,6 +591,8 @@ exports.getTaxMapById = async (req, res) => {
           apiName: req.originalUrl,
           method: req.method,
           userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(200).json({
@@ -591,6 +615,8 @@ exports.getTaxMapById = async (req, res) => {
           method: req.method,
           userAgent: req.headers["user-agent"],
           errorMessage: error.message,
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(500).json({
@@ -688,6 +714,8 @@ exports.deleteTaxMap = async (req, res) => {
               apiName: req.originalUrl,
               method: req.method,
               userAgent: req.headers["user-agent"],
+              createdBy: req.username,
+              updatedBy:req.username
           });
 
           return res.status(404).json({ 
@@ -709,6 +737,8 @@ exports.deleteTaxMap = async (req, res) => {
           apiName: req.originalUrl,
           method: req.method,
           userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(200).json({
@@ -731,6 +761,8 @@ exports.deleteTaxMap = async (req, res) => {
           method: req.method,
           userAgent: req.headers["user-agent"],
           errorMessage: error.message,
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(500).json({
@@ -833,6 +865,8 @@ exports.updateTaxMap = async (req, res) => {
           method: req.method,
           userAgent: req.headers["user-agent"],
           validationErrors: errors.array(),
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       return res.status(400).json({
@@ -860,7 +894,10 @@ exports.updateTaxMap = async (req, res) => {
               country: locationData?.country,
               apiName: req.originalUrl,
               method: req.method,
+
               userAgent: req.headers["user-agent"],
+              createdBy: req.username,
+              updatedBy:req.username
           });
 
           return res.status(404).json({
@@ -883,6 +920,8 @@ exports.updateTaxMap = async (req, res) => {
           apiName: req.originalUrl,
           method: req.method,
           userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(200).json({
@@ -906,6 +945,8 @@ exports.updateTaxMap = async (req, res) => {
           method: req.method,
           userAgent: req.headers["user-agent"],
           errorMessage: error.message,
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(500).json({

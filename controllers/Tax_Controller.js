@@ -190,6 +190,8 @@ exports.createTax = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
+            createdBy: req.username,
+            updatedBy:req.username
         });
   
         return res.status(400).json({ 
@@ -231,7 +233,9 @@ exports.createTax = async (req, res) => {
       await Tax.sync();
   
       const tax = await Tax.create({
-        tax_name,tax_rate,is_active,HospitalIDR
+        tax_name,tax_rate,is_active,HospitalIDR,
+        createdBy: req.username,
+        updatedBy:req.username
       });
   
       const executionTime = `${Date.now() - start}ms`;
@@ -245,6 +249,8 @@ exports.createTax = async (req, res) => {
         apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy:req.username
     });
       res.status(200).json({
         meta: {
@@ -267,7 +273,9 @@ exports.createTax = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
   
         res.status(500).json({
@@ -299,6 +307,8 @@ exports.gettax = async (req, res) => {
               apiName: req.originalUrl,
               method: req.method,
               userAgent: req.headers["user-agent"],
+              createdBy: req.username,
+              updatedBy:req.username
           });
 
           return res.status(500).json({
@@ -329,7 +339,9 @@ exports.gettax = async (req, res) => {
                   apiName: req.originalUrl,
                   method: req.method,
                   userAgent: req.headers["user-agent"],
-                  tax_id
+                  tax_id,
+                  createdBy: req.username,
+                  updatedBy:req.username
               });
 
               return res.status(404).json({
@@ -355,7 +367,9 @@ exports.gettax = async (req, res) => {
           apiName: req.originalUrl,
           method: req.method,
           userAgent: req.headers["user-agent"],
-          tax_id
+          tax_id,
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(200).json({
@@ -378,7 +392,9 @@ exports.gettax = async (req, res) => {
           method: req.method,
           userAgent: req.headers["user-agent"],
           tax_id,
-          errorMessage: error.message
+          errorMessage: error.message,
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(500).json({
@@ -471,6 +487,8 @@ exports.gettax = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -497,7 +515,9 @@ exports.gettax = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                tax_id: id
+                tax_id: id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -519,7 +539,9 @@ exports.gettax = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            tax_id: id
+            tax_id: id,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -542,7 +564,9 @@ exports.gettax = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             tax_id: id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -620,6 +644,8 @@ exports.gettax = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(400).json({
@@ -645,6 +671,8 @@ exports.gettax = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -671,7 +699,9 @@ exports.gettax = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                tax_id: id
+                tax_id: id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -695,7 +725,9 @@ exports.gettax = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            tax_id: id
+            tax_id: id,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -719,7 +751,9 @@ exports.gettax = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             tax_id: id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -877,6 +911,8 @@ exports.gettax = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -903,7 +939,9 @@ exports.gettax = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                tax_id: id
+                tax_id: id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -927,7 +965,9 @@ exports.gettax = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            tax_id: id
+            tax_id: id,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -950,7 +990,9 @@ exports.gettax = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             tax_id: id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({

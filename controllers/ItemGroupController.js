@@ -51,13 +51,16 @@ exports.createItemGroup = async (req, res) => {
         
          await ItemGroup.sync();
         
-        const newGroup = await ItemGroup.create({group_name,parent_groupIDR,hospitalIDR,Non_Active,HospitalGroupIDR,createdBy: req.username,});
+        const newGroup = await ItemGroup.create({group_name,parent_groupIDR,hospitalIDR,Non_Active,HospitalGroupIDR, createdBy: req.username,
+            updatedBy:req.username});
         
-        logger.logWithMeta("info", "Item Group created successfully", { logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method ,createdBy: req.username,locationData});
+        logger.logWithMeta("info", "Item Group created successfully", { logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method ,createdBy: req.username,locationData, createdBy: req.username,
+        updatedBy:req.username});
         
         return res.status(200).json({ message: "Item Group created successfully", data: newGroup });
     } catch (error) {
-        logger.logWithMeta("error", "Error in createItemGroup", { logId, errorCode: error.errorCode || 9173, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message ,createdBy: req.username,locationData});
+        logger.logWithMeta("error", "Error in createItemGroup", { logId, errorCode: error.errorCode || 9173, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message ,createdBy: req.username,locationData, createdBy: req.username,
+        updatedBy:req.username});
         return res.status(400).json({ errorCode: error.errorCode || 9173, message: error.message });
     }
 };
@@ -70,10 +73,12 @@ exports.getAllItemGroup = async (req, res) => {
     try {
         const ItemGroup = require('../models/ItemGroupModel')(req.sequelize);
         const itemgroup = await ItemGroup.findAll();
-        logger.logWithMeta("info", "Item itemgroup fetched successfully", { logId, apiName: req.originalUrl, method: req.method ,locationData,createdBy:req.hospitalName});
+        logger.logWithMeta("info", "Item itemgroup fetched successfully", { logId, apiName: req.originalUrl, method: req.method ,locationData,createdBy:req.hospitalName, createdBy: req.username,
+            updatedBy:req.username});
         return res.status(200).json({ message: "Item itemgroup fetched successfully", data: itemgroup });
     } catch (error) {
-        logger.logWithMeta("error", "Error fetching item itemgroup", { logId, errorCode: 9174, apiName: req.originalUrl, method: req.method, errorMessage: error.message ,locationData});
+        logger.logWithMeta("error", "Error fetching item itemgroup", { logId, errorCode: 9174, apiName: req.originalUrl, method: req.method, errorMessage: error.message ,locationData, createdBy: req.username,
+            updatedBy:req.username});
         return res.status(500).json({ errorCode: 9174, message: "Error fetching item itemgroup" });
     }
 };
@@ -96,7 +101,9 @@ exports.getItemGroupById = async (req, res) => {
                 apiName: req.originalUrl, 
                 method: req.method, 
                 clientIp, 
-                locationData
+                locationData,
+                createdBy: req.username,
+                updatedBy:req.username
             });
             return res.status(404).json({ errorCode: 9175, message: "Item Group not found" });
         }
@@ -107,7 +114,9 @@ exports.getItemGroupById = async (req, res) => {
             method: req.method, 
             clientIp, 
             locationData,
-            data: itemGroup
+            data: itemGroup,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(200).json({ message: "Item Group fetched successfully", data: itemGroup });
@@ -119,7 +128,9 @@ exports.getItemGroupById = async (req, res) => {
             method: req.method, 
             clientIp, 
             errorMessage: error.message, 
-            locationData 
+            locationData ,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(500).json({ errorCode: 9176, message: "Error fetching Item Group", error: error.message });
@@ -144,7 +155,9 @@ exports.updateItemGroup = async (req, res) => {
                 apiName: req.originalUrl, 
                 method: req.method, 
                 clientIp, 
-                locationData
+                locationData,
+                createdBy: req.username,
+                updatedBy:req.username
             });
             return res.status(404).json({ errorCode: 9177, message: "Item Group not found" });
         }
@@ -157,7 +170,9 @@ exports.updateItemGroup = async (req, res) => {
             method: req.method, 
             clientIp, 
             locationData, 
-            data: itemGroup
+            data: itemGroup,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(200).json({ message: "Item Group updated successfully", data: itemGroup });
@@ -169,7 +184,9 @@ exports.updateItemGroup = async (req, res) => {
             method: req.method, 
             clientIp, 
             errorMessage: error.message, 
-            locationData
+            locationData,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(500).json({ errorCode: 9178, message: "Error updating Item Group", error: error.message });
@@ -194,7 +211,9 @@ exports.deleteItemGroup = async (req, res) => {
                 apiName: req.originalUrl, 
                 method: req.method, 
                 clientIp, 
-                locationData
+                locationData,
+                createdBy: req.username,
+                updatedBy:req.username
             });
             return res.status(404).json({ errorCode: 9179, message: "Item Group not found" });
         }
@@ -206,7 +225,9 @@ exports.deleteItemGroup = async (req, res) => {
             apiName: req.originalUrl, 
             method: req.method, 
             clientIp, 
-            locationData
+            locationData,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(200).json({ message: "Item Group deleted successfully" });
@@ -218,7 +239,9 @@ exports.deleteItemGroup = async (req, res) => {
             method: req.method, 
             clientIp, 
             errorMessage: error.message, 
-            locationData
+            locationData,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(500).json({ errorCode: 9180, message: "Error deleting Item Group", error: error.message });

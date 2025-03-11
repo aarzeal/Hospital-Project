@@ -50,6 +50,8 @@ exports.createServicePriceList = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(400).json({ 
@@ -78,6 +80,8 @@ exports.createServicePriceList = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -109,7 +113,9 @@ exports.createServicePriceList = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                hospitalIDR
+                hospitalIDR,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(400).json({ 
@@ -135,7 +141,9 @@ exports.createServicePriceList = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                service_IDR
+                service_IDR,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(400).json({ 
@@ -148,7 +156,9 @@ exports.createServicePriceList = async (req, res) => {
         // await Service_Price_List.sync();
       
         const servicePricelist = await Service_Price_List.create({
-            service_IDR, First_Emergency_Rate, Second_Emergency_Rate, From_Date, To_Date, is_current_Format, hospitalIDR
+            service_IDR, First_Emergency_Rate, Second_Emergency_Rate, From_Date, To_Date, is_current_Format, hospitalIDR,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         const executionTime = `${Date.now() - start}ms`;
@@ -163,6 +173,8 @@ exports.createServicePriceList = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(201).json({
@@ -184,7 +196,9 @@ exports.createServicePriceList = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -316,6 +330,8 @@ exports.getAllServicePriceLists = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -342,6 +358,8 @@ exports.getAllServicePriceLists = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -363,6 +381,8 @@ exports.getAllServicePriceLists = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -384,7 +404,9 @@ exports.getAllServicePriceLists = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -449,6 +471,8 @@ exports.getServicePriceListById = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -475,7 +499,9 @@ exports.getServicePriceListById = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                service_price_id
+                service_price_id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -497,7 +523,9 @@ exports.getServicePriceListById = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            service_price_id
+            service_price_id,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -520,7 +548,9 @@ exports.getServicePriceListById = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             service_price_id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -594,6 +624,8 @@ exports.updateServicePriceList = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -620,7 +652,9 @@ exports.updateServicePriceList = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                service_price_id
+                service_price_id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -653,7 +687,9 @@ exports.updateServicePriceList = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            service_price_id
+            service_price_id,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -677,7 +713,9 @@ exports.updateServicePriceList = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             service_price_id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -763,6 +801,8 @@ exports.deleteServicePriceList = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -789,7 +829,9 @@ exports.deleteServicePriceList = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                service_price_id
+                service_price_id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -814,7 +856,9 @@ exports.deleteServicePriceList = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
-            service_price_id
+            service_price_id,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -837,7 +881,9 @@ exports.deleteServicePriceList = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             service_price_id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({

@@ -173,6 +173,8 @@ exports.createItem = async (req, res) => {
         method: req.method,
         userAgent: req.headers["user-agent"],
         validationErrors: errors.array(),
+        createdBy: req.username,
+        updatedBy:req.username
     });
 
     return res.status(400).json({
@@ -207,6 +209,8 @@ exports.createItem = async (req, res) => {
           apiName: req.originalUrl,
           method: req.method,
           userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       return res.status(400).json({
@@ -218,7 +222,8 @@ exports.createItem = async (req, res) => {
     // await Item.sync();
 
     const item = await Item.create({
-        Item_name,Item_alias,Item_Description,Item_Code,Non_Active, HospitalGroupIDR
+        Item_name,Item_alias,Item_Description,Item_Code,Non_Active, HospitalGroupIDR, createdBy: req.username,
+        updatedBy:req.username
     });
 
     const executionTime = `${Date.now() - start}ms`;
@@ -233,6 +238,8 @@ exports.createItem = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy:req.username
   });
 
     res.status(200).json({
@@ -259,6 +266,8 @@ exports.createItem = async (req, res) => {
         method: req.method,
         userAgent: req.headers["user-agent"],
         errorMessage: error.message,
+        createdBy: req.username,
+        updatedBy:req.username
     });
 
     res.status(500).json({
@@ -299,6 +308,8 @@ exports.getItem = async (req, res) => {
                   apiName: req.originalUrl,
                   method: req.method,
                   userAgent: req.headers["user-agent"],
+                  createdBy: req.username,
+                  updatedBy:req.username
               });
 
               return res.status(404).json({
@@ -319,6 +330,8 @@ exports.getItem = async (req, res) => {
               apiName: req.originalUrl,
               method: req.method,
               userAgent: req.headers["user-agent"],
+              createdBy: req.username,
+              updatedBy:req.username
           });
 
           return res.status(200).json({
@@ -341,6 +354,8 @@ exports.getItem = async (req, res) => {
               apiName: req.originalUrl,
               method: req.method,
               userAgent: req.headers["user-agent"],
+              createdBy: req.username,
+              updatedBy:req.username
           });
 
           return res.status(200).json({
@@ -364,6 +379,8 @@ exports.getItem = async (req, res) => {
           method: req.method,
           userAgent: req.headers["user-agent"],
           errorMessage: error.message,
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(500).json({
@@ -462,6 +479,8 @@ exports.getItemId = async (req, res) => {
               apiName: req.originalUrl,
               method: req.method,
               userAgent: req.headers["user-agent"],
+              createdBy: req.username,
+              updatedBy:req.username
           });
 
           return res.status(404).json({
@@ -482,6 +501,8 @@ exports.getItemId = async (req, res) => {
           apiName: req.originalUrl,
           method: req.method,
           userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(200).json({
@@ -504,6 +525,8 @@ exports.getItemId = async (req, res) => {
           method: req.method,
           userAgent: req.headers["user-agent"],
           errorMessage: error.message,
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(500).json({
@@ -588,6 +611,8 @@ exports.deleteItem = async (req, res) => {
         apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy:req.username
       });
 
       return res.status(404).json({
@@ -610,6 +635,8 @@ exports.deleteItem = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy:req.username
     });
 
     res.status(200).json({
@@ -632,6 +659,8 @@ exports.deleteItem = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"],
       errorMessage: error.message,
+      createdBy: req.username,
+      updatedBy:req.username
     });
 
     res.status(500).json({
@@ -729,6 +758,8 @@ exports.updateItem = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"],
       validationErrors: errors.array(),
+      createdBy: req.username,
+      updatedBy:req.username
     });
 
     return res.status(400).json({
@@ -757,6 +788,8 @@ exports.updateItem = async (req, res) => {
         apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy:req.username
       });
 
       return res.status(404).json({
@@ -779,6 +812,8 @@ exports.updateItem = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy:req.username
     });
 
     res.status(200).json({
@@ -802,6 +837,8 @@ exports.updateItem = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"],
       errorMessage: error.message,
+      createdBy: req.username,
+      updatedBy:req.username
     });
 
     res.status(500).json({

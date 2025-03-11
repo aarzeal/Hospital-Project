@@ -159,6 +159,8 @@ exports.createFinYear = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         return res.status(400).json({ 
@@ -188,6 +190,8 @@ exports.createFinYear = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({ 
@@ -200,7 +204,8 @@ exports.createFinYear = async (req, res) => {
         const Financial_Year = require("../models/Financial_Year_Model")(req.sequelize);
         await Financial_Year.sync();
 
-        const finYearRecord = await Financial_Year.create({ fin_year });
+        const finYearRecord = await Financial_Year.create({ fin_year, createdBy: req.username,
+            updatedBy:req.username });
         const executionTime = `${Date.now() - start}ms`;
 
         logger.logWithMeta("info", "Financial Year created successfully", {
@@ -213,6 +218,8 @@ exports.createFinYear = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(201).json({
@@ -235,6 +242,8 @@ exports.createFinYear = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -294,6 +303,8 @@ exports.getAllFinYears = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({ 
@@ -320,6 +331,8 @@ exports.getAllFinYears = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({ 
@@ -341,6 +354,8 @@ exports.getAllFinYears = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -363,6 +378,8 @@ exports.getAllFinYears = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -393,6 +410,8 @@ exports.getFinYearById = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -419,7 +438,9 @@ exports.getFinYearById = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                fin_year_code_id
+                fin_year_code_id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -464,7 +485,9 @@ exports.getFinYearById = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             fin_year_code_id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -533,6 +556,8 @@ exports.updateFinYear = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -559,7 +584,9 @@ exports.updateFinYear = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                fin_year_code_id
+                fin_year_code_id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -583,6 +610,8 @@ exports.updateFinYear = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             fin_year_code_id,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -606,7 +635,9 @@ exports.updateFinYear = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             fin_year_code_id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({
@@ -717,6 +748,8 @@ exports.deleteFinYear = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(500).json({
@@ -743,7 +776,9 @@ exports.deleteFinYear = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
-                fin_year_code_id
+                fin_year_code_id,
+                createdBy: req.username,
+                updatedBy:req.username
             });
 
             return res.status(404).json({
@@ -767,6 +802,8 @@ exports.deleteFinYear = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             fin_year_code_id,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(200).json({
@@ -789,7 +826,9 @@ exports.deleteFinYear = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             fin_year_code_id,
-            errorMessage: error.message
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         res.status(500).json({

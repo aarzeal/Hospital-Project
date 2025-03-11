@@ -135,6 +135,8 @@ exports.createServiceCategory = async (req, res) => {
         apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy:req.username
       });
       return res.status(400).json({errorCode, message: "Invalid HospitalGroupID, not found in MasterDB" });
     }
@@ -142,6 +144,8 @@ exports.createServiceCategory = async (req, res) => {
     const serviceCategory = await ServiceCategory.create({
       servicecategoryname,
         HospitalGroupIDR,
+        createdBy: req.username,
+        updatedBy:req.username
     });
 
     const executionTime = `${Date.now() - start}ms`;
@@ -153,6 +157,8 @@ exports.createServiceCategory = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy:req.username
     });
 
     res.status(200).json({
@@ -174,6 +180,8 @@ exports.createServiceCategory = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy:req.username
     });
 
     res.status(500).json({
@@ -206,6 +214,8 @@ exports.getServiceCategories = async (req, res) => {
           apiName: req.originalUrl,
           method: req.method,
           userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy:req.username
         });
 
         return res.status(404).json({errorCode, message: "Service category not found" });
@@ -223,6 +233,8 @@ exports.getServiceCategories = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy:req.username
     });
 
     res.status(200).json({
@@ -244,6 +256,8 @@ exports.getServiceCategories = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy:req.username
     });
 
     res.status(500).json({
@@ -281,6 +295,8 @@ exports.updateServiceCategory = async (req, res) => {
         apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy:req.username
       });
       return res.status(404).json({ errorCode,message: "Service category not found" });
     }
@@ -298,6 +314,8 @@ exports.updateServiceCategory = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy:req.username
     });
 
     res.status(200).json({
@@ -319,6 +337,8 @@ exports.updateServiceCategory = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy:req.username
     });
 
     res.status(500).json({
@@ -352,6 +372,8 @@ exports.deleteServiceCategory = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy:req.username
         });
   
           return res.status(404).json({errorCode, message: "Service category not found" });
@@ -368,6 +390,8 @@ exports.deleteServiceCategory = async (req, res) => {
           apiName: req.originalUrl,
           method: req.method,
           userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(200).json({
@@ -389,6 +413,8 @@ exports.deleteServiceCategory = async (req, res) => {
           apiName: req.originalUrl,
           method: req.method,
           userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy:req.username
       });
 
       res.status(500).json({

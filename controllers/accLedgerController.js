@@ -132,6 +132,8 @@ exports.createAccLedger = async (req, res) => {
         apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
+        createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
       });
       return res.status(400).json({errorCode, message: "Invalid HospitalGroupID, not found in MasterDB" });
     }
@@ -141,6 +143,8 @@ exports.createAccLedger = async (req, res) => {
     const accLedger = await AccLedger.create({
       ledger_name,ledger_alias,ledger_cheque,maintain_bill_wise,isdiscount_ledger,remark,is_tax_aplicable,taxplan_IDR,creditperied,
         HospitalGroupIDR,
+        createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
     });
 
     const executionTime = `${Date.now() - start}ms`;
@@ -152,6 +156,8 @@ exports.createAccLedger = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
     });
 
     res.status(200).json({
@@ -173,6 +179,8 @@ exports.createAccLedger = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
     });
 
     res.status(500).json({
@@ -206,6 +214,8 @@ exports.getAccLedger = async (req, res) => {
           apiName: req.originalUrl,
           method: req.method,
           userAgent: req.headers["user-agent"],
+          createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
         });
         return res.status(404).json({errorCode, message: "AccLedger not found" });
       }
@@ -232,6 +242,8 @@ exports.getAccLedger = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
     });
 
     res.status(500).json({
@@ -260,6 +272,8 @@ exports.getAccLedgerById = async (req, res) => {
         apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
+        createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
       });
       return res.status(404).json({ errorCode,message: "AccLedger not found" });
     }
@@ -280,6 +294,8 @@ exports.getAccLedgerById = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
     });
     res.status(500).json({errorCode, message: "Error retrieving AccLedger", error: error.message });
   }
@@ -305,6 +321,8 @@ exports.deleteAccLedger = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
     });
       return res.status(404).json({errorCode, message: "AccLedger not found" });
     }
@@ -336,6 +354,8 @@ exports.deleteAccLedger = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
     });
 
     res.status(500).json({
@@ -369,6 +389,8 @@ exports.updateAccLedger = async (req, res) => {
         apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
+        createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
       });
   
 
@@ -384,6 +406,8 @@ exports.updateAccLedger = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
     });
 
     res.status(200).json({
@@ -402,6 +426,8 @@ exports.updateAccLedger = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
+      createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
     });
 
     res.status(500).json({

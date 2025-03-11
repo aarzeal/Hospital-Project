@@ -59,7 +59,8 @@ exports.createGroup = async (req, res) => {
         for_jv_settelment, 
         remark, 
         hospitalIDR, 
-        hospitalGroupIDR 
+        hospitalGroupIDR ,
+        updatedBy
     } = req.body;
 
     const hospitalDatabase = req.hospitalDatabase;
@@ -156,7 +157,9 @@ exports.createGroup = async (req, res) => {
             for_jv_settelment, 
             remark, 
             hospitalIDR, 
-            hospitalGroupIDR
+            hospitalGroupIDR,
+            createdBy: req.username,
+            updatedBy:req.username
         });
 
         const executionTime = `${Date.now() - start}ms`;
@@ -169,7 +172,9 @@ exports.createGroup = async (req, res) => {
             ...locationData,
             apiName: req.originalUrl,
             method: req.method,
-            userAgent: req.headers["user-agent"]
+            userAgent: req.headers["user-agent"],
+            createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
         });
 
         res.status(200).json({
@@ -194,6 +199,8 @@ exports.createGroup = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
         });
 
         res.status(500).json({
@@ -235,6 +242,8 @@ exports.getGroup = async (req, res) => {
                     apiName: req.originalUrl,
                     method: req.method,
                     userAgent: req.headers["user-agent"],
+                    createdBy: req.username,  // Assign username from token
+                    updatedBy: req.username
                 });
                 return res.status(404).json({errorCode, message: "Fin_Group not found" });
             }
@@ -256,6 +265,8 @@ exports.getGroup = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
         });
 
         res.status(200).json({
@@ -282,6 +293,8 @@ exports.getGroup = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
         });
 
         res.status(500).json({
@@ -315,6 +328,8 @@ exports.updateGroup = async (req, res) => {
             method: req.method,
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
+            createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
         });
 
         return res.status(400).json({ 
@@ -362,6 +377,8 @@ exports.updateGroup = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,  // Assign username from token
+                updatedBy: req.username
             });
             return res.status(404).json({ message: "Fin group not found" });
         }
@@ -409,6 +426,8 @@ exports.updateGroup = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,  // Assign username from token
+                updatedBy: req.username
             });
             return res.status(400).json({ message: "Invalid hospitalID, not found in MasterDB" });
         }
@@ -439,7 +458,9 @@ exports.updateGroup = async (req, res) => {
             ...locationData,
             apiName: req.originalUrl,
             method: req.method,
-            userAgent: req.headers["user-agent"]
+            userAgent: req.headers["user-agent"],
+            createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
         });
 
         res.status(200).json({
@@ -463,6 +484,8 @@ exports.updateGroup = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
         });
 
         res.status(500).json({
@@ -501,6 +524,8 @@ exports.deleteGroup = async (req, res) => {
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
+                createdBy: req.username,  // Assign username from token
+                updatedBy: req.username
             });
             return res.status(404).json({ message: "Fin group not found" });
         }
@@ -518,7 +543,9 @@ exports.deleteGroup = async (req, res) => {
             ...locationData,
             apiName: req.originalUrl,
             method: req.method,
-            userAgent: req.headers["user-agent"]
+            userAgent: req.headers["user-agent"],
+            createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
         });
 
         res.status(200).json({
@@ -542,6 +569,8 @@ exports.deleteGroup = async (req, res) => {
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
+            createdBy: req.username,  // Assign username from token
+            updatedBy: req.username
         });
 
         res.status(500).json({
