@@ -1,0 +1,154 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Invalidcharactersdetected": {
+    "en": "Invalid characters detected",
+    "hi": "अमान्य वर्ण पाए गए"
+  },
+  "Groupnamelengthmustgreaterthan1": {
+    "en": "Group name length must greater than 1",
+    "hi": "समूह नाम वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Groupnamelengthmustlessthan50": {
+    "en": "Group name length must less than 50",
+    "hi": "समूह नाम वर्ण 50 से कम होना चाहि"
+  },
+  "Remarklengthmustlessthan250": {
+    "en": "Remark length must less than 250",
+    "hi": "टिप्पणी वर्ण 250 से कम होना चाहि"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "Financegroupaddedsuccessfully": {
+    "en": "Finance group added successfully",
+    "hi": "वित्त समूह सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Doyoureallywanttodeletethisfinancegroup": {
+    "en": "Do you really want to delete this finance group?",
+    "hi": "क्या आप सचमुच इस वित्त समूह को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दो!"
+  },
+  "Nocancel": {
+    "en": "No, cancel",
+    "hi": "नहीं, रद्द करें"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "Financegroupname": {
+    "en": "Finance group name",
+    "hi": "वित्त समूह का नाम"
+  },
+  "GroupCategory": {
+    "en": "Group Category",
+    "hi": "समूह श्रेणी"
+  },
+  "TypesofGroup": {
+    "en": "Types of Group",
+    "hi": "समूह के प्रकार"
+  },
+  "IsPrimaryGroup": {
+    "en": "Is Primary Group",
+    "hi": "प्राथमिक समूह है"
+  },
+  "Primary": {
+    "en": "Primary",
+    "hi": "प्राथमिक"
+  },
+  "NotPrimary": {
+    "en": "Not Primary",
+    "hi": "अधीनस्थ"
+  },
+  "Details": {
+    "en": "Details",
+    "hi": "विवरण"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "EnterFinancegroupnamehere": {
+    "en": "Enter Finance group name here",
+    "hi": "वित्त समूह का नाम यहां दर्ज करें"
+  },
+  "TypeofGroup": {
+    "en": "Type of Group",
+    "hi": "समूह का प्रकार"
+  },
+  "Undergroup": {
+    "en": "Under group",
+    "hi": "समूह के अंतर्गत"
+  },
+  "Mastergroup": {
+    "en": "Master group",
+    "hi": "मास्टर समूह"
+  },
+  "GroupLevel": {
+    "en": "Group Level",
+    "hi": "समूह स्तर"
+  },
+  "IssystemGroup": {
+    "en": "Is system Group",
+    "hi": "सिस्टम ग्रुप है"
+  },
+  "ForJVSettlement": {
+    "en": "For JV Settlement",
+    "hi": "जे.वी. निपटान के लिए"
+  },
+  "Remark": {
+    "en": "Remark",
+    "hi": "टिप्पणी"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "AllFinanceGroup": {
+    "en": "All Finance Group",
+    "hi": "सभी वित्त समूह"
+  },
+  "Searchbyfinancegroupdetails": {
+    "en": "Search by finance group details",
+    "hi": "वित्त समूह विवरण द्वारा खोजें"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  }
+}

@@ -12,7 +12,7 @@
     "hi": "दिनांक भविष्य में नहीं हो सकता"
   },
   "DoctorRegisterationForm": {
-    "en": "Doctor Registeration Form",
+    "en": "Doctor Registration Form",
     "hi": "डॉक्टर पंजीकरण प्रपत्र"
   },
   "EnterFirstName": {
@@ -176,7 +176,7 @@
     "hi": "हाँ, इसे हटा दें!"
   },
   "Nocancel": {
-   "en": "No, cancel!",
+    "en": "No, cancel!",
     "hi": "नहीं, रद्द करें!"
   },
   "Deleted": {

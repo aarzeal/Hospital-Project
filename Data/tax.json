@@ -1,0 +1,262 @@
+{
+  "Tax": {
+    "en": "Tax",
+    "hi": "महसूल"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Invalidcharactersdetected": {
+    "en": "Invalid characters detected",
+    "hi": "अमान्य वर्णों का पता चला"
+  },
+  "Invalidnumberformat": {
+    "en": "Invalid number format",
+    "hi": "अमान्यसंख्या प्रारूप"
+  },
+  "Taxnamelengthmustgreaterthan1": {
+    "en": "Tax name length must greater than 1",
+    "hi": "कर नाम वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Taxnamelengthmustlessthan50": {
+    "en": "Tax name length must less than 50",
+    "hi": "कर नाम वर्ण 50 से कम होना चाहिए"
+  },
+  "Taxratelengthmustlessthan50": {
+    "en": "Tax rate length must less than 50",
+    "hi": "कर दर वर्ण 50 से कम होना चाहिए"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "Taxupdatedsuccessfully": {
+    "en": "Tax updated successfully",
+    "hi": "कर सफलतापूर्वक अद्यतन किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "TaxAddedsuccessfully": {
+    "en": "Tax Added successfully",
+    "hi": "कर सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Doyoureallywanttodeletethistax": {
+    "en": "Do you really want to delete this tax?",
+    "hi": "क्या आप सचमुच यह कर हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it!",
+    "hi": "हाँ इसे हटा दो!"
+  },
+  "Nocancel": {
+    "en": "No, cancel",
+    "hi": "नहीं, रद्द करें"
+  },
+  "Thetaxhasbeendeleted": {
+    "en": "The tax has been deleted",
+    "hi": "कर हटा दिया गया है"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "Taxname": {
+    "en": "Tax name",
+    "hi": "कर का नाम"
+  },
+  "Status": {
+    "en": "Status",
+    "hi": "स्थिति"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "NonActive": {
+    "en": "Non Active",
+    "hi": "गैर सक्रिय"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Entertaxnamehere": {
+    "en": "Enter tax name here",
+    "hi": "यहां टैक्स का नाम दर्ज करें"
+  },
+  "Entertaxratehere": {
+    "en": "Enter tax rate here",
+    "hi": "यहां कर की दर दर्ज करें"
+  },
+  "Taxrate": {
+    "en": "Tax rate",
+    "hi": "कर की दर"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "AllTax": {
+    "en": "All Tax",
+    "hi": "सभी कर"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Searchbytaxdetails": {
+    "en": "Search by tax details",
+    "hi": "कर विवरण द्वारा खोजें"
+  },
+  "Taxdetailsupdatedsuccessfully": {
+    "en": "Tax details updated successfully",
+    "hi": "कर विवरण सफलतापूर्वक अपडेट किया गया"
+  },
+  "TaxdetailsAddedsuccessfully": {
+    "en": "Tax details Added successfully",
+    "hi": "कर विवरण सफलतापूर्वक जोड़ा गया"
+  },
+  "taxdetails": {
+    "en": "tax details",
+    "hi": "कर विवरण"
+  },
+  "Doyoureallywanttodeletethistaxdetailsdetails": {
+    "en": "Do you really want to delete this tax details?",
+    "hi": "क्या आप वाकई इस टैक्स विवरण विवरण को हटाना चाहते हैं?"
+  },
+  "Thetaxdetailshasbeendeleted": {
+    "en": "The tax details has been deleted",
+    "hi": "कर विवरण हटा दिया गया है"
+  },
+  "EndDatemustbeafterStartDate": {
+    "en": "End Date must be after Start Date",
+    "hi": "समाप्ति तिथि आरंभ तिथि के बाद होनी चाहिए"
+  },
+  "Labellengthmustgreaterthan1": {
+    "en": "Label length must greater than 1",
+    "hi": "लेबल वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Labellengthmustlessthan50": {
+    "en": "Label length must less than 50",
+    "hi": "लेबल वर्ण 50 से कम होना चाहिए"
+  },
+  "Serialnolengthmustlessthan50": {
+    "en": "Serial no. length must less than 50",
+    "hi": "सीरीयल नम्बर वर्ण 50 से कम होना चाहिए"
+  },
+  "Requiredonlynumbers": {
+    "en": "Required only numbers",
+    "hi": "केवल संख्याएँ आवश्यक हैं"
+  },
+  "TaxDetailsLabel": {
+    "en": "Tax Details Label",
+    "hi": "कर विवरण लेबल"
+  },
+  "SerialNumber": {
+    "en": "Serial Number",
+    "hi": "क्रम संख्या"
+  },
+  "ServiceDetails": {
+    "en": "Service Details",
+    "hi": "सेवा विवरण"
+  },
+  "FromDate": {
+    "en": "From Date",
+    "hi": "तारीख से"
+  },
+  "ToDate": {
+    "en": "To Date",
+    "hi": "तारीख तक"
+  },
+  "Label": {
+    "en": "Label",
+    "hi": "लेबल"
+  },
+  "Enterlabelhere": {
+    "en": "Enter label here",
+    "hi": "यहां लेबल दर्ज करें"
+  },
+  "Enterserialnumberhere": {
+    "en": "Enter serial number here",
+    "hi": "यहां सीरियल नंबर डालें"
+  },
+  "Ledger": {
+    "en": "Ledger",
+    "hi": "खाता बही"
+  },
+  "Isprimarytax": {
+    "en": "Is primary tax",
+    "hi": "प्राथमिक कर है"
+  },
+  "Isactive": {
+    "en": "Is active",
+    "hi": "सक्रिय है"
+  },
+  "Calculatedon": {
+    "en": "Calculated on",
+    "hi": "गणना की गई"
+  },
+  "Entercalculationhere": {
+    "en": "Enter calculation here",
+    "hi": "यहां गणना दर्ज करें"
+  },
+  "IsCurrent": {
+    "en": "Is Current",
+    "hi": "वर्तमान है"
+  },
+  "Entercurrenthere": {
+    "en": "Enter current here",
+    "hi": "यहां वर्तमान दर्ज करें"
+  },
+  "AllTaxDetails": {
+    "en": "All Tax Details",
+    "hi": "सभी कर विवरण"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "Details": {
+    "en": "Details",
+    "hi": "विवरण"
+  },
+  "View": {
+    "en": "View",
+    "hi": "देखना"
+  }
+}

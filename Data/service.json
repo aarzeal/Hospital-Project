@@ -214,5 +214,101 @@
   "Invalidcharactersdetected": {
     "en": "Invalid characters detected",
     "hi": "अमान्य वर्णों का पता चला"
+  },
+  "Codelengthmustlessthan50": {
+    "en": "Code length must less than 50",
+    "hi": "कोड वर्ण 50 से कम होना चाहिए"
+  },
+  "Codelengthmustgreaterthan1": {
+    "en": "Code length must greater than 1",
+    "hi": "कोड वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Servicelengthmustlessthan100": {
+    "en": "Service length must less than 100",
+    "hi": "सेवा वर्ण 100 से कम होना चाहिए"
+  },
+  "Servicelengthmustgreaterthan1": {
+    "en": "Service length must greater than 1",
+    "hi": "सेवा वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Categorylengthmustlessthan100": {
+    "en": "Category length must less than 100",
+    "hi": "श्रेणी वर्ण 100 से कम होना चाहिए"
+  },
+  "Categorylengthmustgreaterthan1": {
+    "en": "Category length must greater than 1",
+    "hi": "श्रेणी वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Ledgerlengthmustgreaterthan1": {
+    "en": "Ledger length must greater than 1",
+    "hi": "लेजर का अक्षर 1 से बड़ा होना चाहिए"
+  },
+  "Ledgerlengthmustlessthan50": {
+    "en": "Ledger length must less than 50",
+    "hi": "लेजर का अक्षर 50 से कम होना चाहिए"
+  },
+  "EndDatemustbeafterStartDate": {
+    "en": "End Date must be after Start Date",
+    "hi": "समाप्ति तिथि आरंभ तिथि के बाद होनी चाहिए"
+  },
+  "Requiredonlynumbers": {
+    "en": "Required only numbers",
+    "hi": "केवल संख्याएँ आवश्यक हैं"
+  },
+  "Servicepricelistupdatedsuccessfully": {
+    "en": "Service price list updated successfully",
+    "hi": "सेवा मूल्य सूची सफलतापूर्वक अपडेट की गई"
+  },
+  "Servicepricelistaddedsuccessfully": {
+    "en": "Service price list added successfully",
+    "hi": "सेवा मूल्य सूची सफलतापूर्वक जोड़ी गई"
+  },
+  "Doyoureallywanttodeletethisservicepricelist": {
+    "en": "Do you really want to delete this service price list?",
+    "hi": "क्या आप सचमुच इस सेवा मूल्य सूची को हटाना चाहते हैं?"
+  },
+  "Theservicepricelisthasbeendeleted": {
+    "en": "The service price list has been deleted",
+    "hi": "सेवा मूल्य सूची हटा दी गई है"
+  },
+  "FromDate": {
+    "en": "From Date",
+    "hi": "तारीख से"
+  },
+  "ToDate": {
+    "en": "To Date",
+    "hi": "तारीख तक"
+  },
+  "Service": {
+    "en": "Service",
+    "hi": "सेवा"
+  },
+  "FirstEmergencyRate": {
+    "en": "First Emergency Rate",
+    "hi": "प्रथम आपातकालीन दर"
+  },
+  "SecondEmergencyRate": {
+    "en": "Second Emergency Rate",
+    "hi": "दूसरी आपातकालीन दर"
+  },
+  "Iscurrentformat": {
+    "en": "Is current format",
+    "hi": "वर्तमान स्वरूप है"
+  },
+  "ServicePriceList": {
+    "en": "Service Price List",
+    "hi": "सेवा मूल्य सूची"
+  },
+  "Enterfirstemergencyratehere": {
+    "en": "Enter first emergency rate here",
+    "hi": "यहां प्रथम आपातकालीन दर दर्ज करें"
+  },
+  "Entersecondemergencyratehere": {
+    "en": "Enter second emergency rate here",
+    "hi": "यहां दूसरी आपातकालीन दर दर्ज करें"
+  },
+  "AllServicePriceList": {
+    "en": "All Service Price List",
+    "hi": "सभी सेवा मूल्य सूची"
   }
 }

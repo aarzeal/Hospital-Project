@@ -1,0 +1,394 @@
+{
+  "BillingClass": {
+    "en": "Billing Class",
+    "hi": "बिलिंग क्लास"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Invalidcharactersdetected": {
+    "en": "Invalid characters detected",
+    "hi": "अमान्य वर्ण पाए गए"
+  },
+  "Billingclassnamelengthmustgreaterthan1": {
+    "en": "Billing class name length must greater than 1",
+    "hi": "बिलिंग वर्ग नाम वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Billingclassnamelengthmustlessthan50": {
+    "en": "Billing class name length must less than 50",
+    "hi": "बिलिंग क्लास नाम का वर्ण 50 से कम होना चाहिए"
+  },
+  "Billingclasscodelengthmustgreaterthan1": {
+    "en": "Billing class code length must greater than 1",
+    "hi": "बिलिंग क्लास कोड वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Billingclasscodelengthmustlessthan50": {
+    "en": "Billing class code length must less than 50",
+    "hi": "बिलिंग क्लास कोड का वर्ण 50 से कम होना चाहिए"
+  },
+  "Contactnamelengthmustgreaterthan1": {
+    "en": "Contact name length must greater than 1",
+    "hi": "संपर्क नाम वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Contactnamelengthmustlessthan50": {
+    "en": "Contact name length must less than 50",
+    "hi": "संपर्क नाम का वर्ण 50 से कम होना चाहिए"
+  },
+  "Address1lengthmustgreaterthan1": {
+    "en": "Address 1 length must greater than 1",
+    "hi": "पता 1 वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Address1lengthmustlessthan50": {
+    "en": "Address 1 length must less than 50",
+    "hi": "पता 1 का वर्ण 50 से कम होना चाहिए"
+  },
+  "Address2lengthmustgreaterthan1": {
+    "en": "Address 2 length must greater than 1",
+    "hi": "पता 2 वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Address2lengthmustlessthan50": {
+    "en": "Address 2 length must less than 50",
+    "hi": "पता 2 का वर्ण 50 से कम होना चाहिए"
+  },
+  "Zipcodemustcontainonlynumbers": {
+    "en": "Zip code must contain only numbers",
+    "hi": "पिन कोड में केवल संख्याएं होनी चाहिए"
+  },
+  "Zipcodemustbeatleast10digits": {
+    "en": "Zip code must be at least 10 digits",
+    "hi": "पिन कोड कम से कम 10 अंकों का होना चाहिए"
+  },
+  "Phone1mustcontainonlynumbers": {
+    "en": "Phone 1 must contain only numbers",
+    "hi": "फ़ोन 1 में केवल नंबर ही होने चाहिए"
+  },
+  "Phone1mustbeatleast10digits": {
+    "en": "Phone 1 must be at least 10 digits",
+    "hi": "फ़ोन नंबर 1 कम से कम 10 अंकों का होना चाहिएचाहिए"
+  },
+  "Phone2mustcontainonlynumbers": {
+    "en": "Phone 2 must contain only numbers",
+    "hi": "फ़ोन 2 में केवल नंबर ही होने चाहिए"
+  },
+  "Phone2mustbeatleast10digits": {
+    "en": "Phone 2 must be at least 10 digits",
+    "hi": "फ़ोन नंबर 2 कम से कम 10 अंकों का होना चाहिए"
+  },
+  "Mobilenumbermustcontainonlynumbers": {
+    "en": "Mobile number must contain only numbers",
+    "hi": "मोबाइल नंबर में केवल संख्याएं ही होनी चाहिए"
+  },
+  "Mobilenumbermustbeatleast10digits": {
+    "en": "Mobile number must be at least 10 digits",
+    "hi": "मोबाइल नंबर कम से कम 10 अंकों का होना चाहिए"
+  },
+  "WhastAppnumbermustcontainonlynumbers": {
+    "en": "WhastApp number must contain only numbers",
+    "hi": "व्हाट्सएप नंबर में केवल नंबर ही होने चाहिए"
+  },
+  "WhastAppnumbermustbeatleast10digits": {
+    "en": "WhastApp number must be at least 10 digits",
+    "hi": "व्हाट्सएप नंबर कम से कम 10 अंकों का होना चाहिए"
+  },
+  "InvalidEmail": {
+    "en": "Invalid Email",
+    "hi": "अमान्य ईमेल"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "BillingClassUpdatedSuccessfully": {
+    "en": "Billing Class Updated Successfully",
+    "hi": "बिलिंग क्लास सफलतापूर्वक अपडेट किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "BillingClassRegisteredSuccessfully": {
+    "en": "Billing Class Registered Successfully",
+    "hi": "बिलिंग क्लास सफलतापूर्वक पंजीकृत हो गई"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
+  },
+  "Nocancel": {
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "Billingclassname": {
+    "en": "Billing class name",
+    "hi": "बिलिंग वर्ग का नाम"
+  },
+  "Enterbillingclassnamehere": {
+    "en": "Enter billing class name here",
+    "hi": "बिलिंग वर्ग का नाम यहाँ दर्ज करें"
+  },
+  "Billingclasscode": {
+    "en": "Billing class code",
+    "hi": "बिलिंग वर्ग कोड"
+  },
+  "Enterbillingclasscodehere": {
+    "en": "Enter billing class code here",
+    "hi": "बिलिंग क्लास कोड यहाँ दर्ज करें"
+  },
+  "Billingclasscategory": {
+    "en": "Billing class category",
+    "hi": "बिलिंग वर्ग श्रेणी"
+  },
+  "Ledger": {
+    "en": "Ledger",
+    "hi": "खाता बही"
+  },
+  "CashlessApplicableon": {
+    "en": "Cashless Applicable on",
+    "hi": "कैशलेस लागू"
+  },
+  "Currency": {
+    "en": "Currency",
+    "hi": "मुद्रा"
+  },
+  "Ratebaseon": {
+    "en": "Rate base on",
+    "hi": "दर के आधार पर"
+  },
+  "लागत आधार": {
+    "en": "Cost base",
+    "hi": "लागत आधार"
+  },
+  "Iscashless": {
+    "en": "Is cashless?",
+    "hi": "कैशलेस है?"
+  },
+  "Isreimbursement": {
+    "en": "Is reimbursement?",
+    "hi": "प्रतिपूर्ति है?"
+  },
+  "Ispharmacycashallowed": {
+    "en": "Is pharmacy cash allowed?",
+    "hi": "क्या फार्मेसी में नकदी की अनुमति है?"
+  },
+  "Ispharmacycashlessallowed": {
+    "en": "Is pharmacy cashless allowed?",
+    "hi": "क्या फार्मेसी कैशलेस की अनुमति है?"
+  },
+  "IscopayallowedonOPD": {
+    "en": "Is copay allowed on OPD?",
+    "hi": "क्या ओपीडी पर कॉपये की अनुमति है?"
+  },
+  "IscopayallowedonIPD": {
+    "en": "Is copay allowed on IPD?",
+    "hi": "क्या आईपीडी पर कॉपये की अनुमति है?"
+  },
+  "IscopayallowedonPharmacy": {
+    "en": "Is copay allowed on Pharmacy?",
+    "hi": "क्या फार्मेसी पर कॉपये की अनुमति है?"
+  },
+  "Costbase": {
+    "en": "Costb base",
+    "hi": "लागत आधार"
+  },
+  "ContactDetails": {
+    "en": "Contact Details",
+    "hi": "सम्पर्क करने का विवरण"
+  },
+  "Contactperson": {
+    "en": "Contact person",
+    "hi": "संपर्क व्यक्ति"
+  },
+  "Entercontactpersonnamehere": {
+    "en": "Enter contact person name here",
+    "hi": "संपर्क व्यक्ति का नाम यहां दर्ज करें"
+  },
+  "Address1": {
+    "en": "Address 1",
+    "hi": "पता 1"
+  },
+  "Enteraddress1here": {
+    "en": "Enter address 1 here",
+    "hi": "यहां पता 1 दर्ज करें"
+  },
+  "Enteraddress2here": {
+    "en": "Enter address 2 here",
+    "hi": "यहां पता 2 दर्ज करें"
+  },
+  "Address2": {
+    "en": "Address 2",
+    "hi": "पता 2"
+  },
+  "Zipcode": {
+    "en": "Zip code",
+    "hi": "ज़िप कोड"
+  },
+  "Enterzipcodehere": {
+    "en": "Enter zip code here",
+    "hi": "यहां पिन कोड दर्ज करें"
+  },
+  "City": {
+    "en": "City",
+    "hi": "शहर"
+  },
+  "State": {
+    "en": "State",
+    "hi": "राज्य"
+  },
+  "Country": {
+    "en": "Country",
+    "hi": "देश"
+  },
+  "Mobilenumber": {
+    "en": "Mobile number",
+    "hi": "मोबाइल नंबर"
+  },
+  "Entermobilenumberhere": {
+    "en": "Enter mobile number here",
+    "hi": "यहां मोबाइल नंबर दर्ज करें"
+  },
+  "WhatsAppnumber": {
+    "en": "WhatsApp number",
+    "hi": "व्हाट्सएप नंबर"
+  },
+  "EnterWhatsAppnumberhere": {
+    "en": "Enter WhatsApp number here",
+    "hi": "यहां व्हाट्सएप नंबर डालें"
+  },
+  "Telephonenumber1": {
+    "en": "Telephone number 1",
+    "hi": "टेलीफोन नंबर 1"
+  },
+  "Entertelephonenumber1here": {
+    "en": "Enter telephone number 1 here",
+    "hi": "यहां टेलीफोन नंबर 1 दर्ज करें"
+  },
+  "Entertelephonenumber2here": {
+    "en": "Enter telephone number 2 here",
+    "hi": "यहां टेलीफोन नंबर 2 दर्ज करें"
+  },
+  "Telephonenumber2": {
+    "en": "Telephone number 2",
+    "hi": "टेलीफोन नंबर 2"
+  },
+  "Emailaddress": {
+    "en": "Email address",
+    "hi": "ईमेल आईडी"
+  },
+  "Enteremailaddresshere": {
+    "en": "Enter email address here",
+    "hi": "यहां ईमेल आईडी दर्ज करें"
+  },
+  "Isservicetaxapplicable": {
+    "en": "Is service tax applicable",
+    "hi": "क्या सर्विस टैक्स लागू है"
+  },
+  "Servicetaxonbilltype": {
+    "en": "Service tax on bill type",
+    "hi": "बिल के प्रकार पर सेवा कर"
+  },
+  "ServicetaxonOPD": {
+    "en": "Service tax on OPD",
+    "hi": "ओपीडी पर सेवा कर"
+  },
+  "ServicetaxonIPD": {
+    "en": "Service tax on IPD",
+    "hi": "आईपीडी पर सेवा कर"
+  },
+  "Servicetaxonhealthcheckup": {
+    "en": "Service tax on health checkup",
+    "hi": "स्वास्थ्य जांच पर सेवा कर"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Servicetax": {
+    "en": "Service tax",
+    "hi": "सेवा कर"
+  },
+  "BillingClasses": {
+    "en": "Billing Classes",
+    "hi": "बिलिंग कक्षाएं"
+  },
+  "Doyoureallywanttodeletethisbillingclass": {
+    "en": "Do you really want to delete this billing class?",
+    "hi": "क्या आप वाकई इस बिलिंग क्लास को हटाना चाहते हैं?"
+  },
+  "Thebillingclasshasbeendeleted": {
+    "en": "The billing class has been deleted",
+    "hi": "बिलिंग वर्ग हटा दिया गया है"
+  },
+  "View": {
+    "en": "View",
+    "hi": "देखना"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Cashless": {
+    "en": "Cashless",
+    "hi": "कैशलेस"
+  },
+  "Cash": {
+    "en": "Cash",
+    "hi": "नकद"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "Createdby": {
+    "en": "Created by",
+    "hi": "द्वारा बनाई गई"
+  },
+  "Createdat": {
+    "en": "Created at",
+    "hi": "बनाया गया"
+  },
+  "Updatedby": {
+    "en": "Updated by",
+    "hi": "द्वारा अद्यतन किया गया"
+  },
+  "Updatedat": {
+    "en": "Updated at",
+    "hi": "अद्यतन किया गया"
+  }
+}
