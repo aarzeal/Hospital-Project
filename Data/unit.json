@@ -1,0 +1,122 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Invalidcharactersdetected": {
+    "en": "Invalid characters detected",
+    "hi": "अमान्य वर्ण पाए गए"
+  },
+  "Unitnamelengthmustgreaterthan1": {
+    "en": "Unit name length must greater than 1",
+    "hi": "इकाई नाम वर्ण 1 से अधिक होना चाहिए"
+  },
+  "unitnamelengthmustlessthan50": {
+    "en": "Unit name length must less than 50",
+    "hi": "इकाई नाम वर्ण 50 से कम होना चाहिए"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "Unitupdatedsuccessfully": {
+    "en": "Unit updated successfully",
+    "hi": "यूनिट सफलतापूर्वक अपडेट की गई"
+  },
+  "Unitaddedsuccessfully": {
+    "en": "Unit added successfully",
+    "hi": "इकाई सफलतापूर्वक जोड़ी गई"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it!",
+    "hi": "हाँ इसे हटा दो!"
+  },
+  "Nocancel": {
+    "en": "No, cancel",
+    "hi": "नहीं, रद्द करें"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "Doyoureallywanttodeletethisunit": {
+    "en": "Do you really want to delete this unit",
+    "hi": "क्या आप सचमुच इस इकाई को हटाना चाहते हैं"
+  },
+  "Theunithasbeendeleted": {
+    "en": "The unit has been deleted",
+    "hi": "इकाई हटा दी गई है"
+  },
+  "Unitname": {
+    "en": "Unit name",
+    "hi": "इकाई का नाम"
+  },
+  "Decimal": {
+    "en": "Decimal",
+    "hi": "दशमलव"
+  },
+  "Remarks": {
+    "en": "Remarks",
+    "hi": "टिप्पणी"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Unit": {
+    "en": "Unit",
+    "hi": "इकाई"
+  },
+  "Enterunitnamehere": {
+    "en": "Enter unit name here",
+    "hi": "यहां यूनिट का नाम दर्ज करें"
+  },
+  "Enterdecimalhere": {
+    "en": "Enter decimal here",
+    "hi": "यहाँ दशमलव दर्ज करें"
+  },
+  "Enterremarkhere": {
+    "en": "Enter remark here",
+    "hi": "यहां टिप्पणी दर्ज करें"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Searchbyunitname": {
+    "en": "Search by unit name",
+    "hi": "इकाई नाम से खोजें"
+  }
+}
