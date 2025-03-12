@@ -43,18 +43,26 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.NOW,
     },
     createdBy: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     updatedBy: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
+    },
+    updatedAt: {  // ✅ Override Sequelize default behavior
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    createdAt: {  // ✅ Manually set createdAt as a timestamp
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
     },
 
   
   }, {
     tableName: 'tbl_Item',
-    timestamps: true
+    timestamps: false
   });
 
   return Item;

@@ -39,7 +39,7 @@ exports.createItemCategory = async (req, res) => {
         }
         
         const newCategory = await ItemCategory.create({ item_Category_name, item_Category_Code, is_PharamaItem, is_LabItem, purches_ledger_IDR, sale_ledger_IDR, discount_Allowed, hospital_IDR, hospitalGroup_IDR,  createdBy: req.username,
-            updatedBy:req.username });
+            });
         
         logger.logWithMeta("info", "Item category created successfully", { logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, createdBy: req.username,
         updatedBy:req.username });
@@ -135,10 +135,16 @@ exports.updateItemCategory = async (req, res) => {
         const { id } = req.params;
         const ItemCategory = require('../models/item-category-model')(req.sequelize);
         const category = await ItemCategory.findByPk(id);
+        const updateData = req.body;
         if (!category) {
             throw { errorCode: 9189, message: "Item category not found" };
         }
-        await category.update(req.body);
+        // await category.update(req.body);
+        await category.update({
+            ...updateData,
+            updatedBy: req.username, // Track who updated it
+            updatedAt: new Date(), // ✅ Manually set updatedAt
+          });
         return res.status(200).json({ message: "Item category updated successfully", data: category });
     } catch (error) {
         logger.logWithMeta("error", "Error updating item category", { logId, errorCode: error.errorCode || 9190, apiName: req.originalUrl, method: req.method, errorMessage: error.message, createdBy: req.username,

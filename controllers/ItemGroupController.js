@@ -52,7 +52,7 @@ exports.createItemGroup = async (req, res) => {
          await ItemGroup.sync();
         
         const newGroup = await ItemGroup.create({group_name,parent_groupIDR,hospitalIDR,Non_Active,HospitalGroupIDR, createdBy: req.username,
-            updatedBy:req.username});
+            });
         
         logger.logWithMeta("info", "Item Group created successfully", { logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method ,createdBy: req.username,locationData, createdBy: req.username,
         updatedBy:req.username});
@@ -142,6 +142,7 @@ exports.updateItemGroup = async (req, res) => {
     const logId = uuidv4();
     const clientIp = await getClientIp(req);
     const locationData = await getLocationData(clientIp);
+    const updateData = req.body
 
     try {
         const { Item_Group_id } = req.params;
@@ -162,7 +163,11 @@ exports.updateItemGroup = async (req, res) => {
             return res.status(404).json({ errorCode: 9177, message: "Item Group not found" });
         }
 
-        await itemGroup.update(req.body);
+        await itemGroup.update({
+            ...updateData,
+            updatedBy: req.username, // Track who updated it
+            updatedAt: new Date(), // ✅ Manually set updatedAt
+          });;
 
         logger.logWithMeta("info", "Item Group updated successfully", { 
             logId, 

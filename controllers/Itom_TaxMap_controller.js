@@ -328,7 +328,7 @@ exports.createTaxMap = async (req, res) => {
         const service = await Tax_map.create({
           item_IDR,tax_IDR,hospital_IDR,type,
           createdBy: req.username,
-          updatedBy:req.username
+       
         });
 
 
@@ -907,7 +907,11 @@ exports.updateTaxMap = async (req, res) => {
       }
 
       // Perform the update
-      await taxMap.update(updateData);
+      await taxMap.update({
+        ...updateData,
+        updatedBy: req.username, // Track who updated it
+        updatedAt: new Date(), // ✅ Manually set updatedAt
+      });;
       const executionTime = `${Date.now() - start}ms`;
 
       logger.logWithMeta("info", "TaxMap updated successfully", {

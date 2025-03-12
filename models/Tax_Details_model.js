@@ -69,10 +69,18 @@ module.exports = (sequelize) => {
       allowNull: true,
    
     },
+    updatedAt: {  // ✅ Override Sequelize default behavior
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    createdAt: {  // ✅ Manually set createdAt as a timestamp
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
   
   }, {
     tableName: 'tbl_Tax_Details',
-    timestamps: true
+    timestamps: false
   });
 
   return Tax_Details;

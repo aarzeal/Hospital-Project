@@ -292,7 +292,7 @@ exports.createFinYrDetails = async (req, res) => {
         const finYrDetail = await Fin_yr_Details.create({
             fin_code_IDR, startMonth, endMonth, lock, is_Active, hospitalGroupIDR, hospitalIDR,
             createdBy: req.username,
-            updatedBy:req.username
+            // updatedBy:req.username
         });
 
         const executionTime = `${Date.now() - start}ms`;
@@ -601,6 +601,149 @@ exports.getFinYrDetailsById = async (req, res) => {
     }
 };
 
+// exports.updateFinYrDetails = async (req, res) => {
+//     const start = Date.now();
+//     const { fin_year_Detail_id } = req.params;
+//     const errors = validationResult(req);
+//     const clientIp = await getClientIp(req);
+//     const locationData = await getLocationData(clientIp);
+//     const logId = uuidv4();
+//     const {updatedata}= req.body
+
+//     if (!errors.isEmpty()) {
+//         const executionTime = `${Date.now() - start}ms`;
+//         const errorCode = 9040; // Validation error
+
+//         logger.logWithMeta("error", "Validation error in updateFinYrDetails", {
+//             errorCode,
+//             executionTime,
+//             hospitalName: req.hospitalName || "Unknown",
+//             ip: clientIp,
+//             apiName: req.originalUrl,
+//             method: req.method,
+//             userAgent: req.headers["user-agent"],
+//             validationErrors: errors.array(),
+//             createdBy: req.username,
+//             updatedBy:req.username
+//         });
+
+//         return res.status(400).json({
+//             message: "Validation failed",
+//             statusCode: 400,
+//             errorCode,
+//             errors: errors.array(),
+//         });
+//     }
+
+//     try {
+//         if (!req.sequelize) {
+//             const executionTime = `${Date.now() - start}ms`;
+//             const errorCode = 9041; // Database connection error
+
+//             logger.logWithMeta("error", "Database connection not found", {
+//                 errorCode,
+//                 executionTime,
+//                 hospitalName: req.hospitalName || "Unknown",
+//                 ip: clientIp,
+//                 city: locationData?.city,
+//                 country: locationData?.country,
+//                 apiName: req.originalUrl,
+//                 method: req.method,
+//                 userAgent: req.headers["user-agent"],
+//                 createdBy: req.username,
+//                 updatedBy:req.username
+//             });
+
+//             return res.status(500).json({
+//                 message: "Database connection not found",
+//                 statusCode: 500,
+//                 errorCode
+//             });
+//         }
+
+//         const Fin_yr_Details = require("../models/Fin_Year_Details")(req.sequelize);
+//         const existingFinYearDetail = await Fin_yr_Details.findOne({ where: { fin_year_Detail_id } });
+
+//         if (!existingFinYearDetail) {
+//             const executionTime = `${Date.now() - start}ms`;
+//             const errorCode = 9042; // Financial Year Detail not found
+
+//             logger.logWithMeta("error", "Financial Year Detail not found", {
+//                 errorCode,
+//                 executionTime,
+//                 hospitalName: req.hospitalName,
+//                 ip: clientIp,
+//                 city: locationData?.city,
+//                 country: locationData?.country,
+//                 apiName: req.originalUrl,
+//                 method: req.method,
+//                 userAgent: req.headers["user-agent"],
+//                 fin_year_Detail_id,
+//                 createdBy: req.username,
+//                 updatedBy:req.username
+//             });
+
+//             return res.status(404).json({
+//                 message: "Financial Year Detail not found",
+//                 statusCode: 404,
+//                 errorCode
+//             });
+//         }
+
+//         await existingFinYearDetail.update(
+//             ...updatedata, 
+//             updatedBy: req.username,
+//             updatedAt: new Date(), // ✅ Manually update timestamp
+//         );
+//         const executionTime = `${Date.now() - start}ms`;
+
+//         logger.logWithMeta("info", "Financial Year Detail updated successfully", {
+//             executionTime,
+//             logId,
+//             hospitalName: req.hospitalName,
+//             ip: clientIp,
+//             city: locationData?.city,
+//             country: locationData?.country,
+//             apiName: req.originalUrl,
+//             method: req.method,
+//             userAgent: req.headers["user-agent"],
+//             fin_year_Detail_id,
+//             createdBy: req.username,
+//             updatedBy:req.username
+//         });
+
+//         res.status(200).json({
+//             meta: { statusCode: 200, executionTime },
+//             data: existingFinYearDetail,
+//             message: "Financial Year Detail updated successfully"
+//         });
+
+//     } catch (error) {
+//         const executionTime = `${Date.now() - start}ms`;
+//         const errorCode = 9043; // General error in updating
+
+//         logger.logWithMeta("error", "Error updating Financial Year Detail", {
+//             errorCode,
+//             executionTime,
+//             hospitalName: req.hospitalName,
+//             ip: clientIp,
+//             city: locationData?.city,
+//             country: locationData?.country,
+//             apiName: req.originalUrl,
+//             method: req.method,
+//             userAgent: req.headers["user-agent"],
+//             fin_year_Detail_id,
+//             errorMessage: error.message,
+//             createdBy: req.username,
+//             updatedBy:req.username
+//         });
+
+//         res.status(500).json({
+//             meta: { statusCode: 500, errorCode, executionTime },
+//             error: { message: "Error updating Financial Year Detail: " + error.message },
+//         });
+//     }
+// };
 exports.updateFinYrDetails = async (req, res) => {
     const start = Date.now();
     const { fin_year_Detail_id } = req.params;
@@ -608,6 +751,7 @@ exports.updateFinYrDetails = async (req, res) => {
     const clientIp = await getClientIp(req);
     const locationData = await getLocationData(clientIp);
     const logId = uuidv4();
+    const { updatedata } = req.body; // Ensure updatedata exists
 
     if (!errors.isEmpty()) {
         const executionTime = `${Date.now() - start}ms`;
@@ -623,7 +767,7 @@ exports.updateFinYrDetails = async (req, res) => {
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         return res.status(400).json({
@@ -650,7 +794,7 @@ exports.updateFinYrDetails = async (req, res) => {
                 method: req.method,
                 userAgent: req.headers["user-agent"],
                 createdBy: req.username,
-                updatedBy:req.username
+                updatedBy: req.username
             });
 
             return res.status(500).json({
@@ -679,7 +823,7 @@ exports.updateFinYrDetails = async (req, res) => {
                 userAgent: req.headers["user-agent"],
                 fin_year_Detail_id,
                 createdBy: req.username,
-                updatedBy:req.username
+                updatedBy: req.username
             });
 
             return res.status(404).json({
@@ -689,7 +833,18 @@ exports.updateFinYrDetails = async (req, res) => {
             });
         }
 
-        await existingFinYearDetail.update(req.body);
+        // ✅ Ensure `updatedata` is an object to avoid errors
+        if (typeof updatedata !== 'object' || updatedata === null) {
+            return res.status(400).json({ message: "Invalid update data", statusCode: 400 });
+        }
+
+        // ✅ Correctly updating with `updatedAt`
+        await existingFinYearDetail.update({
+            ...updatedata, 
+            updatedBy: req.username,
+            updatedAt: new Date(), // ✅ Manually update timestamp
+        });
+
         const executionTime = `${Date.now() - start}ms`;
 
         logger.logWithMeta("info", "Financial Year Detail updated successfully", {
@@ -704,7 +859,7 @@ exports.updateFinYrDetails = async (req, res) => {
             userAgent: req.headers["user-agent"],
             fin_year_Detail_id,
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         res.status(200).json({
@@ -730,7 +885,7 @@ exports.updateFinYrDetails = async (req, res) => {
             fin_year_Detail_id,
             errorMessage: error.message,
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         res.status(500).json({
@@ -739,37 +894,6 @@ exports.updateFinYrDetails = async (req, res) => {
         });
     }
 };
-// exports.updateFinYrDetails = async (req, res) => {
-//     const start = Date.now();
-//     const { fin_year_Detail_id } = req.params;
-//     const errors = validationResult(req);
-    
-//     if (!errors.isEmpty()) {
-//         return res.status(400).json({ errors: errors.array() });
-//     }
-    
-//     try {
-//         if (!req.sequelize) {
-//             return res.status(500).json({ message: "Database connection not found" });
-//         }
-        
-//         const Fin_yr_Details = require("../models/Fin_Year_Details")(req.sequelize);
-//         const existingFinYearDetail = await Fin_yr_Details.findOne({ where: { fin_year_Detail_id: fin_year_Detail_id } });
-        
-//         if (!existingFinYearDetail) {
-//             return res.status(404).json({ message: "Financial year detail not found" });
-//         }
-        
-//         await existingFinYearDetail.update(req.body);
-        
-//         res.status(200).json({
-//             meta: { statusCode: 200, executionTime: `${Date.now() - start}ms` },
-//             data: existingFinYearDetail
-//         });
-//     } catch (error) {
-//         res.status(500).json({ message: "Error updating financial year detail", error: error.message });
-//     }
-// };
 
 
 exports.deleteFinYrDetails = async (req, res) => {

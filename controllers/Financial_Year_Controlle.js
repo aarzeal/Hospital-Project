@@ -205,7 +205,7 @@ exports.createFinYear = async (req, res) => {
         await Financial_Year.sync();
 
         const finYearRecord = await Financial_Year.create({ fin_year, createdBy: req.username,
-            updatedBy:req.username });
+             });
         const executionTime = `${Date.now() - start}ms`;
 
         logger.logWithMeta("info", "Financial Year created successfully", {
@@ -596,7 +596,8 @@ exports.updateFinYear = async (req, res) => {
             });
         }
 
-        await financialYear.update({ fin_year });
+        await financialYear.update({ fin_year ,updatedBy: req.username, // Track who updated it
+            updatedAt: new Date(),});
         const executionTime = `${Date.now() - start}ms`;
 
         logger.logWithMeta("info", "Financial Year updated successfully", {

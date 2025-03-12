@@ -223,7 +223,7 @@ exports.createItem = async (req, res) => {
 
     const item = await Item.create({
         Item_name,Item_alias,Item_Description,Item_Code,Non_Active, HospitalGroupIDR, createdBy: req.username,
-        updatedBy:req.username
+        
     });
 
     const executionTime = `${Date.now() - start}ms`;
@@ -798,7 +798,11 @@ exports.updateItem = async (req, res) => {
       });
     }
 
-    await item.update(updateData);
+    await item.update({
+      ...updateData,
+      updatedBy: req.username, // Track who updated it
+      updatedAt: new Date(), // ✅ Manually set updatedAt
+    });;
 
     const executionTime = `${Date.now() - start}ms`;
 
