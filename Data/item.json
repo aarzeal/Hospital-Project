@@ -202,5 +202,157 @@
   "Typelengthmustlessthan50": {
     "en": "Type length must less than 50",
     "hi": "प्रकार वर्ण 50 से कम होना चाहिए"
+  },
+  "Categorynamelengthmustgreaterthan1": {
+    "en": "Category name length must greater than 1",
+    "hi": "श्रेणी नाम वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Categorynamelengthmustlessthan50": {
+    "en": "Category name length must less than 50",
+    "hi": "श्रेणी नाम वर्ण 50 से कम होना चाहिए"
+  },
+  "Categorycodelengthmustlessthan50": {
+    "en": "Category code length must less than 50",
+    "hi": "श्रेणी कोड वर्ण 50 से कम होना चाहिए"
+  },
+  "Itemcategoryupdatedsuccessfully": {
+    "en": "Item category updated successfully",
+    "hi": "आइटम श्रेणी सफलतापूर्वक अपडेट की गई"
+  },
+  "Itemcategoryaddedsuccessfully": {
+    "en": "Item category added successfully",
+    "hi": "आइटम श्रेणी सफलतापूर्वक जोड़ी गई"
+  },
+  "Doyoureallywanttodeletethisitemcategory": {
+    "en": "Do you really want to delete this item category?",
+    "hi": "क्या आप वाकई इस आइटम श्रेणी को हटाना चाहते हैं?"
+  },
+  "Theitemcategoryhasbeendeleted": {
+    "en": "The item category has been deleted",
+    "hi": "आइटम श्रेणी हटा दी गई है"
+  },
+  "Categoryname": {
+    "en": "Category name",
+    "hi": "श्रेणी नाम"
+  },
+  "Categorycode": {
+    "en": "Category code",
+    "hi": "श्रेणी कोड"
+  },
+  "Ispharamaitem": {
+    "en": "Is pharama item?",
+    "hi": "फार्मा आइटम है?"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "Islabitem": {
+    "en": "Is lab item",
+    "hi": "लैब आइटम है"
+  },
+  "Purchaseledger": {
+    "en": "Purchase ledger",
+    "hi": "खरीद बही"
+  },
+  "Saleledger": {
+    "en": "Sale ledger",
+    "hi": "विक्रय खाता"
+  },
+  "Discountallowed": {
+    "en": "Discount allowed",
+    "hi": "छूट अनुमति"
+  },
+  "Allowed": {
+    "en": "Allowed",
+    "hi": "अनुमत"
+  },
+  "NotAllowed": {
+    "en": "Not allowed",
+    "hi": "अनुमति नहीं"
+  },
+  "ItemCategory": {
+    "en": "Item Category",
+    "hi": "आइटम श्रेणी"
+  },
+  "Itemcategoryname": {
+    "en": "Item category name",
+    "hi": "आइटम श्रेणी का नाम"
+  },
+  "Enteritemcategorynamehere": {
+    "en": "Enter item category name here",
+    "hi": "यहां आइटम श्रेणी का नाम दर्ज करें"
+  },
+  "Itemcategorycode": {
+    "en": "Item category code",
+    "hi": "आइटम श्रेणी कोड"
+  },
+  "Enteritemcategorycodehere": {
+    "en": "Enter item category code here",
+    "hi": "यहां आइटम श्रेणी कोड दर्ज करें"
+  },
+  "Ispharmaitem": {
+    "en": "Is pharma item",
+    "hi": "फार्मा आइटम है"
+  },
+  "Isdiscountallowed": {
+    "en": "Is discount allowed",
+    "hi": "क्या छूट की अनुमति है"
+  },
+  "Searchbyitemcategory": {
+    "en": "Search by item category",
+    "hi": "आइटम श्रेणी के आधार पर खोजें"
+  },
+  "Groupnamelengthmustgreaterthan1": {
+    "en": "Group name length must greater than 1",
+    "hi": "समूह नाम वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Groupnamelengthmustlessthan50": {
+    "en": "Group name length must less than 50",
+    "hi": "समूह नाम वर्ण 50 से कम होना चाहिए"
+  },
+  "Doyoureallywanttodeletethisitemgroup": {
+    "en": "Do you really want to delete this item group",
+    "hi": "क्या आप वाकई इस आइटम समूह को हटाना चाहते हैं"
+  },
+  "Theitemgrouphasbeendeleted": {
+    "en": "The item group has been deleted",
+    "hi": "आइटम समूह हटा दिया गया है"
+  },
+  "Groupname": {
+    "en": "Group name",
+    "hi": "समूह नाम"
+  },
+  "ParentGroup": {
+    "en": "Parent Group",
+    "hi": "अभिभावक समूह"
+  },
+  "Nonactive": {
+    "en": "Non active",
+    "hi": "गैर सक्रिय"
+  },
+  "ItemGroup": {
+    "en": "Item Group",
+    "hi": "आइटम समूह"
+  },
+  "Itemgroupname": {
+    "en": "Item group name",
+    "hi": "आइटम समूह का नाम"
+  },
+  "Enteritemgroupnamehere": {
+    "en": "Enter item group name here",
+    "hi": "यहां आइटम समूह का नाम दर्ज करें"
+  },
+  "Parentgroup": {
+    "en": "Parent group",
+    "hi": "अभिभावक समूह"
+  },
+  "Searchbyitemgroupname": {
+    "en": "Search by item group name",
+    "hi": "आइटम समूह नाम से खोजें"
   }
 }
