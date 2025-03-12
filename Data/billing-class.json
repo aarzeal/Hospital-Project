@@ -390,5 +390,9 @@
   "Updatedat": {
     "en": "Updated at",
     "hi": "अद्यतन किया गया"
+  },
+  "Searchbybillingdetails":{
+    "en":"Search by billing details",
+    "hi":"बिलिंग विवरण द्वारा खोजें"
   }
 }
