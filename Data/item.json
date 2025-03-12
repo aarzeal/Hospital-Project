@@ -306,5 +306,53 @@
   "Searchbyitemcategory": {
     "en": "Search by item category",
     "hi": "आइटम श्रेणी के आधार पर खोजें"
+  },
+  "Groupnamelengthmustgreaterthan1": {
+    "en": "Group name length must greater than 1",
+    "hi": "समूह नाम वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Groupnamelengthmustlessthan50": {
+    "en": "Group name length must less than 50",
+    "hi": "समूह नाम वर्ण 50 से कम होना चाहिए"
+  },
+  "Doyoureallywanttodeletethisitemgroup": {
+    "en": "Do you really want to delete this item group",
+    "hi": "क्या आप वाकई इस आइटम समूह को हटाना चाहते हैं"
+  },
+  "Theitemgrouphasbeendeleted": {
+    "en": "The item group has been deleted",
+    "hi": "आइटम समूह हटा दिया गया है"
+  },
+  "Groupname": {
+    "en": "Group name",
+    "hi": "समूह नाम"
+  },
+  "ParentGroup": {
+    "en": "Parent Group",
+    "hi": "अभिभावक समूह"
+  },
+  "Nonactive": {
+    "en": "Non active",
+    "hi": "गैर सक्रिय"
+  },
+  "ItemGroup": {
+    "en": "Item Group",
+    "hi": "आइटम समूह"
+  },
+  "Itemgroupname": {
+    "en": "Item group name",
+    "hi": "आइटम समूह का नाम"
+  },
+  "Enteritemgroupnamehere": {
+    "en": "Enter item group name here",
+    "hi": "यहां आइटम समूह का नाम दर्ज करें"
+  },
+  "Parentgroup": {
+    "en": "Parent group",
+    "hi": "अभिभावक समूह"
+  },
+  "Searchbyitemgroupname": {
+    "en": "Search by item group name",
+    "hi": "आइटम समूह नाम से खोजें"
   }
 }
