@@ -158,7 +158,7 @@ exports.createServicePriceList = async (req, res) => {
         const servicePricelist = await Service_Price_List.create({
             service_IDR, First_Emergency_Rate, Second_Emergency_Rate, From_Date, To_Date, is_current_Format, hospitalIDR,
             createdBy: req.username,
-            updatedBy:req.username
+            // updatedBy:req.username
         });
 
         const executionTime = `${Date.now() - start}ms`;
@@ -673,6 +673,8 @@ exports.updateServicePriceList = async (req, res) => {
             To_Date,
             is_current_Format,
             hospitalIDR,
+            updatedBy: req.username,  // Track who updated it
+            updatedAt: new Date(), 
         });
 
         const executionTime = `${Date.now() - start}ms`;

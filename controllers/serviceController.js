@@ -446,7 +446,7 @@ exports.createService = async (req, res) => {
         const service = await Service.create({
             service_code, service_name, service_type, service_category_IDR, service_charge_applicable, service_tax_applicable, non_active, ledger_IDR, HospitalGroupIDR,
             createdBy: req.username,
-            updatedBy:req.username
+            // updatedBy:req.username
         });
 
 
@@ -1104,7 +1104,8 @@ exports.updateService = async (req, res) => {
         }
 
         // **UPDATE SERVICE**
-        await service.update({ service_code, service_name, service_type, service_category_IDR, service_charge_applicable, service_tax_applicable, non_active, ledger_IDR, HospitalGroupIDR });
+        await service.update({ service_code, service_name, service_type, service_category_IDR, service_charge_applicable, service_tax_applicable, non_active, ledger_IDR, HospitalGroupIDR ,  updatedBy: req.username,  // Track who updated it
+            updatedAt: new Date(), });
 
         const executionTime = `${Date.now() - start}ms`;
 

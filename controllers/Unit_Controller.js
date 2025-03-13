@@ -62,7 +62,7 @@ exports.createUnit = async (req, res) => {
         // ✅ Create new Unit entry
         const newUnit = await Unit.create({
             unit_name, decimal, remarks, hospitalIDR, hospitalGroupIDR,  createdBy: req.username,
-            updatedBy:req.username
+            // updatedBy:req.username
         });
 
         const executionTime = `${Date.now() - start}ms`;
@@ -212,7 +212,8 @@ exports.updateUnit = async (req, res) => {
 
         // ✅ Update unit entry
         await unit.update({
-            unit_name, decimal, remarks, hospitalIDR, hospitalGroupIDR, updatedBy
+            unit_name, decimal, remarks, hospitalIDR, hospitalGroupIDR, updatedBy: req.username,  // Track who updated it
+            updatedAt: new Date(), 
         });
 
         const executionTime = `${Date.now() - start}ms`;

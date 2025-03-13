@@ -235,7 +235,7 @@ exports.createTax = async (req, res) => {
       const tax = await Tax.create({
         tax_name,tax_rate,is_active,HospitalIDR,
         createdBy: req.username,
-        updatedBy:req.username
+        // updatedBy:req.username
       });
   
       const executionTime = `${Date.now() - start}ms`;
@@ -711,7 +711,8 @@ exports.gettax = async (req, res) => {
             });
         }
 
-        await tax.update(updateData);
+        await tax.update({...updateData,  updatedBy: req.username,  // Track who updated it
+            updatedAt: new Date(), });
 
         const executionTime = `${Date.now() - start}ms`;
 

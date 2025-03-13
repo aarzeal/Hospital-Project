@@ -145,7 +145,7 @@ exports.createServiceCategory = async (req, res) => {
       servicecategoryname,
         HospitalGroupIDR,
         createdBy: req.username,
-        updatedBy:req.username
+        
     });
 
     const executionTime = `${Date.now() - start}ms`;
@@ -303,7 +303,15 @@ exports.updateServiceCategory = async (req, res) => {
 
     serviceCategory.servicecategoryname = servicecategoryname;
     serviceCategory.HospitalGroupIDR = HospitalGroupIDR;
-    await serviceCategory.save();
+    // await serviceCategory.save();
+
+    await serviceCategory.update({
+      servicecategoryname,
+      HospitalGroupIDR,
+      updatedBy: req.username,  // Track who updated it
+      updatedAt: new Date(),    // ✅ Manually update timestamp
+    });
+
 
     const executionTime = `${Date.now() - start}ms`;
 

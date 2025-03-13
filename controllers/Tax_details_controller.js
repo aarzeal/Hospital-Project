@@ -141,7 +141,7 @@ exports.createTaxDetails = async (req, res) => {
             From_Date, To_Date, Tax_Details_Leble, 
             Serial_Number, Is_Primary_Tax, Calculate_On, Is_Current,
             createdBy: req.username,
-            updatedBy:req.username
+            // updatedBy:req.username
         });
 
         const executionTime = `${Date.now() - start}ms`;
@@ -554,6 +554,7 @@ exports.updateTaxDetails = async (req, res) => {
     const start = Date.now();
     const clientIp = await getClientIp(req);
     const locationData = await getLocationData(clientIp);
+    const updatedata = req.body;
     const { id } = req.params;
     const hospitalDatabase = req.hospitalDatabase;
     const logId = uuidv4();
@@ -614,7 +615,8 @@ exports.updateTaxDetails = async (req, res) => {
             });
         }
 
-        await taxDetail.update(req.body);
+        await taxDetail.update({...updatedata,  updatedBy: req.username,  // Track who updated it
+            updatedAt: new Date(), });
 
         const executionTime = `${Date.now() - start}ms`;
 

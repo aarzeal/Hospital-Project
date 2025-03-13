@@ -524,6 +524,7 @@ exports.updateBillingClass = async (req, res) => {
     const start = Date.now();
     const logId = uuidv4();
     const clientIp = req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    const updateData = req.body;
 
     // Validate request
     const errors = validationResult(req);
@@ -569,7 +570,11 @@ exports.updateBillingClass = async (req, res) => {
             return res.status(404).json({ errorCode, message: "Billing class not found" });
         }
 
-        await billingClass.update(req.body);
+        await billingClass.update({
+            ...updateData,
+            updatedBy: req.username, // Track who updated it
+            updatedAt: new Date(), // ✅ Manually set updatedAt
+          });;
 
         const executionTime = `${Date.now() - start}ms`;
         logger.logWithMeta("info", "Billing class updated successfully", {
