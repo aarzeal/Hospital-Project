@@ -287,8 +287,8 @@ exports. finGroupValidationRules = [
   
     body("remark")
       .isString()
-      .notEmpty()
-      .withMessage("Remark is required and must be a string.")
+      
+   
       .isLength({ max: 250 })
       .withMessage("Remark must not exceed 250 characters."),
   
@@ -341,12 +341,6 @@ exports. finGroupUpdateValidationRules = [
       .isBoolean()
       .withMessage("For JV settlement must be a boolean value."),
   
-    body("remark")
-      .isString()
-      .notEmpty()
-      .withMessage("Remark is required and must be a string.")
-      .isLength({ max: 250 })
-      .withMessage("Remark must not exceed 250 characters."),
   
  
 
