@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     is_PharamaItem: {
-      type: DataTypes.BOOLEAN,
+      type:DataTypes.BOOLEAN,
       allowNull: true,
     },
     is_LabItem: {

@@ -536,7 +536,7 @@ exports.getFinYearById = async (req, res) => {
 exports.updateFinYear = async (req, res) => {
     const start = Date.now();
     const { fin_year_code_id } = req.params;
-    const { fin_year } = req.body;
+    const fin_year = req.body;
     const clientIp = await getClientIp(req);
     const locationData = await getLocationData(clientIp);
     const logId = uuidv4();

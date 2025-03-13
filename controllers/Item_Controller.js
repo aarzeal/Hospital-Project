@@ -152,7 +152,7 @@ exports.createItem = async (req, res) => {
   const errors = validationResult(req);
   const start = Date.now();
   const clientIp = await getClientIp(req);
-  const { Item_name,Item_alias,Item_Description,Item_Code,Non_Active, HospitalGroupIDR } = req.body;
+  const { Item_name,Item_alias,Item_Description,Item_Code,Non_Active, HospitalGroupIDR, ItemCategoryIDR,ItemGroupIDR,} = req.body;
   const hospitalDatabase = req.hospitalDatabase;
   const locationData = await getLocationData(clientIp);
   const logId = uuidv4();
@@ -185,12 +185,16 @@ exports.createItem = async (req, res) => {
 
   try {
     const Item = require("../models/Item_Model")(req.sequelize);
+    const ItemGroup = require("../models/ItemGroupModel")(req.sequelize);
+    const Itemcategory = require("../models/item-category-model")(req.sequelize);
 
 
     await Item.sync({ force: false });
 
 
     const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR} });
+    const itemGroup = await ItemGroup.findOne({ where: { Item_Group_id: ItemGroupIDR} });
+    const itemcategory = await Itemcategory.findOne({ where: { item_Category_ID: ItemCategoryIDR} });
 
     // console.log("group0000000000",group)
 
@@ -218,11 +222,59 @@ exports.createItem = async (req, res) => {
           error: { message: "Invalid HospitalGroupID, not found in MasterDB" },
       });
   }
+    if (!itemcategory) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 9114;
+
+      logger.logWithMeta("error", "Invalid Itemcategory, not found in MasterDB", {
+          errorCode,
+          executionTime,
+          logId,
+          hospitalName: req.hospitalName,
+          ip: clientIp,
+          city: locationData?.city,
+          country: locationData?.country,
+          apiName: req.originalUrl,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy:req.username
+      });
+
+      return res.status(400).json({
+          meta: { statusCode: 400, errorCode, executionTime, hospitalDatabase },
+          error: { message: "Invalid Itemcategory, not found in MasterDB" },
+      });
+  }
+    if (!itemGroup) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 9114;
+
+      logger.logWithMeta("error", "Invalid ItemGroup, not found in MasterDB", {
+          errorCode,
+          executionTime,
+          logId,
+          hospitalName: req.hospitalName,
+          ip: clientIp,
+          city: locationData?.city,
+          country: locationData?.country,
+          apiName: req.originalUrl,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy:req.username
+      });
+
+      return res.status(400).json({
+          meta: { statusCode: 400, errorCode, executionTime, hospitalDatabase },
+          error: { message: "Invalid ItemGroup, not found in MasterDB" },
+      });
+  }
 
     // await Item.sync();
 
     const item = await Item.create({
-        Item_name,Item_alias,Item_Description,Item_Code,Non_Active, HospitalGroupIDR, createdBy: req.username,
+        Item_name,Item_alias,Item_Description,Item_Code,Non_Active, HospitalGroupIDR,ItemCategoryIDR,ItemGroupIDR, createdBy: req.username,
         
     });
 

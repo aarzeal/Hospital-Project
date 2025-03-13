@@ -95,7 +95,7 @@ exports.createServicePriceList = async (req, res) => {
         const Hospital = require("../models/HospitalModel");
         const Service = require("../models/ser")(req.sequelize);
 
-        await Service_Price_List.sync({ force: true });
+        await Service_Price_List.sync({ force: false });
 
         // Validate Hospital ID
         const hospital = await Hospital.findOne({ where: { HospitalID: hospitalIDR } });

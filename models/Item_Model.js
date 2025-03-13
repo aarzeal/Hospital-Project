@@ -37,6 +37,16 @@ module.exports = (sequelize) => {
       allowNull: false,
    
     },
+    ItemCategoryIDR: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+   
+    },
+    ItemGroupIDR: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+   
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,

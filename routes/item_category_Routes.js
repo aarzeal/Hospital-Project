@@ -5,14 +5,15 @@ const authenticate = require('../validators/authenticate.js');
 const validateJSONContentType = require('../Middleware/jsonvalidation.js');
 const ensureSequelizeInstance = require('../util/databasedyanamic.js');
 const validator = require('../validators/TaxValidators.js')
+const Userverifiction = require('../validators/Accesstokenverify');
 
 
 
-router.post('/create-Item-category', validateJSONContentType,validator.validateItemCategory,authenticate,ensureSequelizeInstance,itemCategoryController.createItemCategory);
-router.get('/get-Item-category', authenticate,ensureSequelizeInstance,itemCategoryController.getAllItemCategories);
-router.get('/get-Item-category/:id', authenticate,ensureSequelizeInstance,itemCategoryController.getItemCategoryById);
-router.delete('/delete-Item-category/:id', authenticate,ensureSequelizeInstance,itemCategoryController.deleteItemCategory);
-router.put('/update-Item-category/:id',validateJSONContentType,validator.validateItemCategoryUpdate, authenticate,ensureSequelizeInstance,itemCategoryController.updateItemCategory);
+router.post('/create-Item-category', validateJSONContentType,validator.validateItemCategory,authenticate,Userverifiction,ensureSequelizeInstance,itemCategoryController.createItemCategory);
+router.get('/get-Item-category', authenticate,Userverifiction,ensureSequelizeInstance,itemCategoryController.getAllItemCategories);
+router.get('/get-Item-category/:id', authenticate,Userverifiction,ensureSequelizeInstance,itemCategoryController.getItemCategoryById);
+router.delete('/delete-Item-category/:id', authenticate,Userverifiction,ensureSequelizeInstance,itemCategoryController.deleteItemCategory);
+router.put('/update-Item-category/:id',validateJSONContentType,validator.validateItemCategoryUpdate, authenticate,Userverifiction,ensureSequelizeInstance,itemCategoryController.updateItemCategory);
 
 module.exports = router;
 

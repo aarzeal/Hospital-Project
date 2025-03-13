@@ -38,7 +38,8 @@ exports.createItemCategory = async (req, res) => {
             throw { errorCode: 9184, message: "Invalid sale_ledger_IDR, not found in Ledger table" };
         }
         
-        const newCategory = await ItemCategory.create({ item_Category_name, item_Category_Code, is_PharamaItem, is_LabItem, purches_ledger_IDR, sale_ledger_IDR, discount_Allowed, hospital_IDR, hospitalGroup_IDR,  createdBy: req.username,
+        const newCategory = await ItemCategory.create({ item_Category_name, item_Category_Code, is_PharamaItem, is_LabItem, purches_ledger_IDR, sale_ledger_IDR, discount_Allowed, hospital_IDR, hospitalGroup_IDR, 
+            createdBy: req.username,
             });
         
         logger.logWithMeta("info", "Item category created successfully", { logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, createdBy: req.username,

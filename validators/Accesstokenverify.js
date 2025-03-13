@@ -6,7 +6,9 @@ const verifyAccessToken = (req, res, next) => {
   const start = Date.now();
   console.log('Request Headers:', req.headers); 
 
-  const token = req.headers['accesstoken'] || req.headers['authorization']?.split(' ')[1];
+  const token = req.headers['accesstoken'] ;
+
+  // const token = req.query.token || req.headers.authorization?.split(' ')[1];
 
   if (!token) {
     const end = Date.now();

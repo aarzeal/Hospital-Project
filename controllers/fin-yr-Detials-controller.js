@@ -751,7 +751,7 @@ exports.updateFinYrDetails = async (req, res) => {
     const clientIp = await getClientIp(req);
     const locationData = await getLocationData(clientIp);
     const logId = uuidv4();
-    const { updatedata } = req.body; // Ensure updatedata exists
+    const updatedata  = req.body; // Ensure updatedata exists
 
     if (!errors.isEmpty()) {
         const executionTime = `${Date.now() - start}ms`;
