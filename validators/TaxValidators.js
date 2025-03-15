@@ -166,7 +166,7 @@ exports.validateTaxMapupdate = [
         .notEmpty().withMessage('Tax ID is required')
         .isInt().withMessage('Tax ID must be an integer'),
 
-   
+
     body('type')
         .optional().isLength({ max: 50 }).withMessage('Type must be at most 50 characters'),
 ];
@@ -275,6 +275,33 @@ exports.validateItemGroup = [
         .isString().withMessage("Created by must be a string"),
 
     body("updatedBy")
+        .notEmpty().withMessage("Updated by is required")
+        .isString().withMessage("Updated by must be a string"),
+];
+
+exports.validateItemContent = [
+    body("ItemContentName")
+        .notEmpty().withMessage("Item content is required")
+        .isLength({ max: 50 }).withMessage("Item content must be at most 50 characters"),
+
+    body("HospitalIDF")
+        .optional().isInt().withMessage("Hospital ID must be an integer"),
+
+    body("NonActive")
+        .optional()
+        .isBoolean().withMessage("Non Active must be a boolean"),
+    body("hospitalIDR")
+        .optional().isInt().withMessage("Hospital ID must be an integer"),
+
+    body("HospitalGroupIDF")
+        .notEmpty().withMessage("Hospital Group ID is required")
+        .isInt().withMessage("Hospital Group ID must be an integer"),
+
+    body("CreatedBy")
+        .notEmpty().withMessage("Created by is required")
+        .isString().withMessage("Created by must be a string"),
+
+    body("UpdatedBy")
         .notEmpty().withMessage("Updated by is required")
         .isString().withMessage("Updated by must be a string"),
 ];

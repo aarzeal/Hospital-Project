@@ -6,7 +6,7 @@ const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./swagger.yaml'); // Load your YAML file
 const hospitalGroupRoutes = require('./routes/hospitalGroupRoutes');
-const hospitalRoutes= require('./routes/HospitlRoutes')
+const hospitalRoutes = require('./routes/HospitlRoutes')
 const sequelize = require('./database/connection');
 const userRoutes = require('./routes/userRoutes');
 const patientRoutes = require('./routes/patientRoutes');
@@ -22,12 +22,12 @@ const empCategoryRoutes = require('./routes/empCategoryRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
 const countApiLogger = require('./Middleware/countApiLogger');
 const job = require('./Middleware/sendEmailAuto');
-const {sendEmail} = require('./Middleware/sendEmailEventbase');
+const { sendEmail } = require('./Middleware/sendEmailEventbase');
 const locationRoutes = require('./routes/CountryStateCityroute');
 const translationsRoutes = require('./routes/translationsRoutes');
 const apisRatesRoutes = require('./routes/apisRatesRoutes');
-const ApisListRoutes =require("./routes/ApisListRoutes")
-const CurrencyRoutes =require("./routes/currencyRoutes")
+const ApisListRoutes = require("./routes/ApisListRoutes")
+const CurrencyRoutes = require("./routes/currencyRoutes")
 const logRoutes = require('./routes/logRoutes');
 const roomRoutes = require("./routes/MRDRoomRoutes");
 const masterSubRoutes = require("./routes/MasterSubModulesRoute");
@@ -47,6 +47,7 @@ const Billing_Class = require("./routes/Billing_Routes");
 const unit = require("./routes/Unit_Routes");
 const item_category = require("./routes/item_category_Routes");
 const item_group = require("./routes/itemGroup_routes");
+const itemContent = require("./routes/itemContentRoutes.js")
 
 
 
@@ -61,7 +62,7 @@ const multer = require('multer');
 const cors = require('cors');
 // Middleware for parsing JSON bodies
 app.use(express.json());
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -115,9 +116,9 @@ app.use('/api/v1/hospital', departmentRoutes);
 app.use('/api/v1/', empCategoryRoutes);
 app.use('/api/v1/employee', employeeRoutes);
 app.use('/api/v1', hospitalGroupRoutes);
-app.use('/api/v1', apisRatesRoutes); 
-app.use('/api/v1',ApisListRoutes)
-app.use('/api/v1',CurrencyRoutes)
+app.use('/api/v1', apisRatesRoutes);
+app.use('/api/v1', ApisListRoutes)
+app.use('/api/v1', CurrencyRoutes)
 app.use('/api/v1', logRoutes);
 
 app.use('/api/v1/location', locationRoutes);
@@ -139,6 +140,7 @@ app.use('/api/v1/billing_Class', Billing_Class);
 app.use('/api/v1/unit', unit);
 app.use('/api/v1/item-category', item_category);
 app.use('/api/v1/itemgroup', item_group);
+app.use('/api/v1/item-content', itemContent);
 
 
 
