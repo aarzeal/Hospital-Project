@@ -136,3 +136,66 @@ exports.getItemContentById = async (req, res) => {
         return res.status(500).json({ errorCode: 9176, message: "Error fetching Item Content", error: error.message });
     }
 }
+
+exports.updateItemContentById = async (req, res) => {
+
+    const logId = uuidv4();
+    const clientIp = await getClientIp(req);
+    const locationData = await getLocationData(clientIp);
+    const updateData = req.body
+
+    try {
+        const { id } = req.params;
+
+        const ItemContent = require("../models/itemContentModel.js")(req.sequelize)
+
+        const itemCont = await ItemContent.findByPk(id);
+
+        if (!itemCont) {
+            logger.logWithMeta("warn", "Item Content not found", {
+                logId,
+                errorCode: 9175,
+                apiName: req.originalUrl,
+                method: req.method,
+                clientIp,
+                locationData,
+                CreatedBy: req.username,
+                UpdatedBy: req.username
+            });
+            return res.status(404).json({ errorCode: 9175, message: "Item Content not found" });
+        }
+
+        await itemCont.update({
+            ...updateData,
+            UpdatedBy: req.username,
+            UpdatedAt: new Date(),
+        });;
+
+        logger.logWithMeta("info", "Item Content updated successfully", {
+            logId,
+            apiName: req.originalUrl,
+            method: req.method,
+            clientIp,
+            locationData,
+            data: itemCont,
+            CreatedBy: req.username,
+            UpdatedBy: req.username
+        });
+
+        return res.status(200).json({ message: "Item Content updated successfully", data: itemCont });
+    } catch (error) {
+        logger.logWithMeta("error", "Error updating Item Content", {
+            logId,
+            errorCode: error.errorCode || 9178,
+            apiName: req.originalUrl,
+            method: req.method,
+            clientIp,
+            errorMessage: error.message,
+            locationData,
+            CreatedBy: req.username,
+            UpdatedBy: req.username
+        });
+
+        return res.status(500).json({ errorCode: 9178, message: "Error updating Item Content", error: error.message });
+    }
+}

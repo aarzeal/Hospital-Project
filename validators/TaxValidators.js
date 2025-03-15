@@ -306,6 +306,28 @@ exports.validateItemContent = [
         .isString().withMessage("Updated by must be a string"),
 ];
 
+exports.validateItemContentUpdate = [
+    body("ItemContentName")
+        .optional()
+        .isLength({ max: 50 }).withMessage("Item content must be at most 50 characters"),
+    body("HospitalIDF")
+        .optional().isInt().withMessage("Hospital ID must be an integer"),
+    body("NonActive")
+        .optional()
+        .isBoolean().withMessage("Non Active must be a boolean"),
+    body("hospitalIDR")
+        .optional().isInt().withMessage("Hospital ID must be an integer"),
+    body("HospitalGroupIDF")
+        .optional()
+        .isInt().withMessage("Hospital Group ID must be an integer"),
+    body("CreatedBy")
+        .optional()
+        .isString().withMessage("Created by must be a string"),
+    body("UpdatedBy")
+        .optional()
+        .isString().withMessage("Updated by must be a string"),
+];
+
 exports.validateItemGroupUpdate = [
     body("group_name")
         .optional().isLength({ max: 50 }).withMessage("Group name must be at most 50 characters"),
