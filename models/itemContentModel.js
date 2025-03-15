@@ -45,7 +45,7 @@ module.exports = (sequelize) => {
             },
         },
         {
-            tableName: "tblitemContent",
+            tableName: "tblitemcontent",
             timestamps: false,
         }
     );
