@@ -10,6 +10,6 @@ const validator = require('../validators/TaxValidators.js');
 
 router.post('/item-content', validateJSONContentType, validator.validateItemContent, authenticate, userverifiction, ensureSequelizeInstance, itemContentController.createItemContent);
 router.get('/item-content', authenticate, userverifiction, ensureSequelizeInstance, itemContentController.getAllItemContent);
-
+router.get('/item-content/:id', authenticate, userverifiction, ensureSequelizeInstance, itemContentController.getItemContentById);
 
 module.exports = router;

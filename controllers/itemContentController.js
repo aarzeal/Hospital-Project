@@ -44,7 +44,7 @@ exports.createItemContent = async (req, res) => {
 
         logger.logWithMeta("error", "Error in createItemCategory", {
             logId, errorCode: error.errorCode || 9185, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, CreatedBy: req.username,
-            updatedBy: req.username
+            UpdatedBy: req.username
         });
 
         return res.status(400).json({ errorCode: error.errorCode || 9185, message: error.message });
@@ -61,21 +61,78 @@ exports.getAllItemContent = async (req, res) => {
         const ItemContent = require("../models/itemContentModel.js")(req.sequelize)
         const allItemContents = await ItemContent.findAll();
 
-        logger.logWithMeta("info", "Item itemgroup fetched successfully", {
+        logger.logWithMeta("info", "Item Item Content fetched successfully", {
             logId, apiName: req.originalUrl, method: req.method, locationData, CreatedBy: req.hospitalName,
             CreatedBy: req.username,
             UpdatedBy: req.username
         });
 
-        return res.status(200).json({ message: "Item itemgroup fetched successfully", data: allItemContents });
+        return res.status(200).json({ message: "Item Item Content fetched successfully", data: allItemContents });
 
     } catch (error) {
 
-        logger.logWithMeta("error", "Error fetching item itemgroup", {
+        logger.logWithMeta("error", "Error fetching item Item Content", {
             logId, errorCode: 9174, apiName: req.originalUrl, method: req.method, errorMessage: error.message, locationData,
             CreatedBy: req.username,
             UpdatedBy: req.username
         });
-        return res.status(500).json({ errorCode: 9174, message: "Error fetching item itemgroup" });
+        return res.status(500).json({ errorCode: 9174, message: "Error fetching item Item Content" });
+    }
+}
+
+exports.getItemContentById = async (req, res) => {
+
+    const logId = uuidv4();
+    const clientIp = await getClientIp(req);
+    const locationData = await getLocationData(clientIp);
+
+    try {
+
+        const { id } = req.params;
+
+        const ItemContent = require("../models/itemContentModel.js")(req.sequelize)
+
+        const itemCont = await ItemContent.findByPk(id);
+
+        if (!itemCont) {
+            logger.logWithMeta("warn", "Item Content not found", {
+                logId,
+                errorCode: 9175,
+                apiName: req.originalUrl,
+                method: req.method,
+                clientIp,
+                locationData,
+                CreatedBy: req.username,
+                UpdatedBy: req.username
+            });
+            return res.status(404).json({ errorCode: 9175, message: "Item Content not found" });
+        }
+
+        logger.logWithMeta("info", "Item Content fetched successfully", {
+            logId,
+            apiName: req.originalUrl,
+            method: req.method,
+            clientIp,
+            locationData,
+            data: itemCont,
+            CreatedBy: req.username,
+            UpdatedBy: req.username
+        });
+
+        return res.status(200).json({ message: "Item Content fetched successfully", data: itemCont });
+    } catch (error) {
+        logger.logWithMeta("error", "Error fetching Item Content", {
+            logId,
+            errorCode: 9176,
+            apiName: req.originalUrl,
+            method: req.method,
+            clientIp,
+            errorMessage: error.message,
+            locationData,
+            CreatedBy: req.username,
+            UpdatedBy: req.username
+        });
+
+        return res.status(500).json({ errorCode: 9176, message: "Error fetching Item Content", error: error.message });
     }
 }
