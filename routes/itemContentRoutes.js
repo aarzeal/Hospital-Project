@@ -8,6 +8,8 @@ const ensureSequelizeInstance = require('../util/databasedyanamic.js');
 const validator = require('../validators/TaxValidators.js');
 
 
-router.post('/item-content', validateJSONContentType, validator.validateItemContent, authenticate, userverifiction, ensureSequelizeInstance, itemContentController.createContent);
+router.post('/item-content', validateJSONContentType, validator.validateItemContent, authenticate, userverifiction, ensureSequelizeInstance, itemContentController.createItemContent);
+router.get('/item-content', authenticate, userverifiction, ensureSequelizeInstance, itemContentController.getAllItemContent);
+
 
 module.exports = router;

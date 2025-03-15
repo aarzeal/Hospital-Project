@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const { Op } = require('sequelize');
 const logger = require('../logger');
 
-exports.createContent = async (req, res) => {
+exports.createItemContent = async (req, res) => {
 
     const start = Date.now();
     const logId = uuidv4();
@@ -41,11 +41,39 @@ exports.createContent = async (req, res) => {
     } catch (error) {
 
         logger.logWithMeta("error", "Error in createItemCategory", {
-            logId, errorCode: error.errorCode || 9185, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, createdBy: req.username,
+            logId, errorCode: error.errorCode || 9185, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, CreatedBy: req.username,
             updatedBy: req.username
         });
 
         return res.status(400).json({ errorCode: error.errorCode || 9185, message: error.message });
 
+    }
+}
+
+exports.getAllItemContent = async (req, res) => {
+    const logId = uuidv4();
+    const clientIp = await getClientIp(req);
+    const locationData = await getLocationData(clientIp);
+    try {
+
+        const ItemContent = require("../models/itemContentModel.js")(req.sequelize)
+        const allItemContents = await ItemContent.findAll();
+
+        logger.logWithMeta("info", "Item itemgroup fetched successfully", {
+            logId, apiName: req.originalUrl, method: req.method, locationData, CreatedBy: req.hospitalName,
+            CreatedBy: req.username,
+            UpdatedBy: req.username
+        });
+
+        return res.status(200).json({ message: "Item itemgroup fetched successfully", data: allItemContents });
+
+    } catch (error) {
+
+        logger.logWithMeta("error", "Error fetching item itemgroup", {
+            logId, errorCode: 9174, apiName: req.originalUrl, method: req.method, errorMessage: error.message, locationData,
+            CreatedBy: req.username,
+            UpdatedBy: req.username
+        });
+        return res.status(500).json({ errorCode: 9174, message: "Error fetching item itemgroup" });
     }
 }
