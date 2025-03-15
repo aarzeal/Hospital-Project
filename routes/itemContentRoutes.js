@@ -7,10 +7,10 @@ const validateJSONContentType = require('../Middleware/jsonvalidation.js');
 const ensureSequelizeInstance = require('../util/databasedyanamic.js');
 const validator = require('../validators/TaxValidators.js');
 
-
 router.post('/item-content', validateJSONContentType, validator.validateItemContent, authenticate, userverifiction, ensureSequelizeInstance, itemContentController.createItemContent);
 router.get('/item-content', authenticate, userverifiction, ensureSequelizeInstance, itemContentController.getAllItemContent);
 router.get('/item-content/:id', authenticate, userverifiction, ensureSequelizeInstance, itemContentController.getItemContentById);
 router.put('/item-content/:id', validateJSONContentType, validator.validateItemContentUpdate, userverifiction, authenticate, ensureSequelizeInstance, itemContentController.updateItemContentById);
+router.delete('/item-content/:id', authenticate, userverifiction, ensureSequelizeInstance, itemContentController.deleteItemContentById);
 
 module.exports = router;

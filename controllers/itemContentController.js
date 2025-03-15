@@ -199,3 +199,59 @@ exports.updateItemContentById = async (req, res) => {
         return res.status(500).json({ errorCode: 9178, message: "Error updating Item Content", error: error.message });
     }
 }
+
+exports.deleteItemContentById = async (req, res) => {
+    const logId = uuidv4();
+    const clientIp = await getClientIp(req);
+    const locationData = await getLocationData(clientIp);
+    try {
+        const { id } = req.params;
+
+        const ItemContent = require("../models/itemContentModel.js")(req.sequelize)
+
+        const itemCont = await ItemContent.findByPk(id);
+
+        if (!itemCont) {
+            logger.logWithMeta("warn", "Item Content not found", {
+                logId,
+                errorCode: 9175,
+                apiName: req.originalUrl,
+                method: req.method,
+                clientIp,
+                locationData,
+                CreatedBy: req.username,
+                UpdatedBy: req.username
+            });
+            return res.status(404).json({ errorCode: 9175, message: "Item Content not found" });
+        }
+
+
+        await itemCont.destroy();
+
+        logger.logWithMeta("info", "Item Content deleted successfully", {
+            logId,
+            apiName: req.originalUrl,
+            method: req.method,
+            clientIp,
+            locationData,
+            CreatedBy: req.username,
+            UpdatedBy: req.username
+        });
+
+        return res.status(200).json({ message: "Item Content deleted successfully" });
+    } catch (error) {
+        logger.logWithMeta("error", "Error deleting Item Content", {
+            logId,
+            errorCode: error.errorCode || 9180,
+            apiName: req.originalUrl,
+            method: req.method,
+            clientIp,
+            errorMessage: error.message,
+            locationData,
+            CreatedBy: req.username,
+            UpdatedBy: req.username
+        });
+
+        return res.status(500).json({ errorCode: 9180, message: "Error deleting Item Content", error: error.message });
+    }
+}
