@@ -2,6 +2,8 @@ const { validationResult } = require('express-validator');
 const { v4: uuidv4 } = require('uuid');
 const { Op } = require('sequelize');
 const logger = require('../logger');
+const getClientIp = require('../util/clientip');
+const getLocationData = require("../util/locationHelper");
 
 exports.createItemContent = async (req, res) => {
 
