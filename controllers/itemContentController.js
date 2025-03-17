@@ -2,8 +2,8 @@ const { validationResult } = require('express-validator');
 const { v4: uuidv4 } = require('uuid');
 const { Op } = require('sequelize');
 const logger = require('../logger');
-const getClientIp = require('../util/clientip');
-const getLocationData = require("../util/locationHelper");
+const getClientIp = require('../util/clientip.js');
+const getLocationData = require("../util/locationHelper.js");
 
 const ExcelJS = require('exceljs');
 const { v4: uuidv4 } = require('uuid');
@@ -16,25 +16,28 @@ exports.createItemContent = async (req, res) => {
 
     try {
 
-        const { ItemContentName, NonActive, HospitalIDF, HospitalGroupIDF } = req.body;
+        const { ItemContentName, NonActive, HospitalIDR, HospitalGroupIDR } = req.body;
 
         const ItemContent = require('../models/itemContentModel')(req.sequelize);
         const Hospital = require('../models/HospitalModel');
         const HospitalGroup = require('../models/HospitalGroup');
 
-        const hospitalExists = await Hospital.findOne({ where: { HospitalID: HospitalIDF } })
+        await ItemContent.sync({ force: false });
+
+        const hospitalExists = await Hospital.findOne({ where: { HospitalID: HospitalIDR } })
         if (!hospitalExists) {
             throw { errorCode: 9181, message: "Invalid hospital_IDR, not found in Hospital table" };
         }
 
-        if (HospitalGroupIDF) {
-            const hospitalGroupExists = await HospitalGroup.findOne({ where: { HospitalGroupID: HospitalGroupIDF } });
+        if (HospitalGroupIDR) {
+            const hospitalGroupExists = await HospitalGroup.findOne({ where: { HospitalGroupID: HospitalGroupIDR } });
             if (!hospitalGroupExists) {
                 throw { errorCode: 9182, message: "Invalid hospitalGroup_IDR, not found in HospitalGroup table" };
             }
         }
 
-        const newItemContent = await ItemContent.create({ ItemContentName, NonActive, HospitalIDF, HospitalGroupIDF, CreatedBy: req.username })
+        
+        const newItemContent = await ItemContent.create({ ItemContentName, NonActive, HospitalIDR, HospitalGroupIDR, CreatedBy: req.username })
 
         logger.logWithMeta("info", "Item category created successfully", {
             logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, CreatedBy: req.username,
