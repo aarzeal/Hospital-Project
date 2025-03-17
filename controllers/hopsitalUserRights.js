@@ -207,9 +207,9 @@
 
 
 
-const {UserModules} = require('../models/HospitalModules');
-const {UserSubModules} = require('../models/hospitalsubmodule');
-const {UserRides} = require('../models/hospitalUserRights');
+// const {UserModules} = require('../models/HospitalModules');
+// const {UserSubModules} = require('../models/hospitalsubmodule');
+// const {UserRides} = require('../models/hospitalUserRights');
 
 // const getModulesAndSubModulesByUserId = async (req, res) => {
   
@@ -219,6 +219,15 @@ const {UserRides} = require('../models/hospitalUserRights');
 //     if (!userId) {
 //       return res.status(400).json({ message: 'User ID is required' });
 //     }
+
+//     console.log("userId",userId)
+
+//     req.models = {
+//       UserModules: require('../models/HospitalModules'),
+//       UserSubModules: require('../models/hospitalsubmodule'),
+//       UserRides: require('../models/hospitalUserRights')(req.sequelize)
+//     };
+
 
 //     const { UserModules, UserSubModules, UserRides } = req.models;
 
@@ -303,28 +312,33 @@ const {UserRides} = require('../models/hospitalUserRights');
 // };
 
 
-
 const getModulesAndSubModulesByUserId = async (req, res) => {
-  console.log("Models available:", Object.keys(req.models || {}));
   try {
-    // Ensure `req.models` is available
-    if (!req.models) {
-      return res.status(500).json({ message: 'Database connection not established' });
-    }
+    const userId = req.user?.userId; // Extract userId safely
 
-    const { UserModules, UserSubModules, UserRides } = req.models;
-
-    // Ensure models are loaded
-    if (!UserModules || !UserSubModules || !UserRides) {
-      return res.status(500).json({ message: 'Required models are missing' });
-    }
-
-    const userId = req.user?.userId;
     if (!userId) {
       return res.status(400).json({ message: 'User ID is required' });
     }
 
-    // Fetch user rights with proper includes
+    console.log("userId", userId);
+
+    // Ensure Sequelize instance is available
+    if (!req.sequelize) {
+      return res.status(500).json({ message: "Database connection not initialized" });
+    }
+
+    // Initialize models dynamically using req.sequelize
+    const UserModules = require('../models/HospitalModules')(req.sequelize);
+    const UserSubModules = require('../models/hospitalsubmodule')(req.sequelize);
+    const UserRides = require('../models/hospitalUserRights')(req.sequelize);
+
+    // Setup associations (if not already associated)
+    if (!UserRides.associations.module) {
+      UserRides.belongsTo(UserModules, { foreignKey: 'modules_Id', as: 'module' });
+      UserRides.belongsTo(UserSubModules, { foreignKey: 'submodule_id', as: 'submodule' });
+    }
+
+    // Fetch user rights with associated modules & submodules
     const userRights = await UserRides.findAll({
       where: { userId },
       include: [
@@ -341,47 +355,56 @@ const getModulesAndSubModulesByUserId = async (req, res) => {
       ]
     });
 
-    // Handle case where no rights exist
-    if (!userRights.length) {
-      return res.status(200).json({
-        meta: { statusCode: 200, message: 'User has no rights' },
-        data: []
-      });
-    }
-
     // Group submodules by module
     const modulesMap = new Map();
     userRights.forEach(right => {
-      const moduleName = right.module?.modules_name;
-      const submoduleName = right.submodule?.submodule_name;
+      if (right.module && right.submodule) {
+        const moduleName = right.module.modules_name;
+        const submoduleName = right.submodule.submodule_name;
 
-      if (!moduleName || !submoduleName) return;
-
-      if (!modulesMap.has(moduleName)) {
-        modulesMap.set(moduleName, []);
+        if (!modulesMap.has(moduleName)) {
+          modulesMap.set(moduleName, []);
+        }
+        modulesMap.get(moduleName).push(submoduleName);
       }
-      modulesMap.get(moduleName).push(submoduleName);
     });
 
-    // Convert map to array format
+    // Format the response to JSON
     const response = Array.from(modulesMap.entries()).map(([moduleName, submodules]) => ({
-      moduleName,
-      submodules
+      moduleName, // Module name as a key
+      submodules  // Array of submodule names
     }));
+
+    // If the user has no rights
+    if (response.length === 0) {
+      return res.status(200).json({
+        meta: {
+          statusCode: 200,
+          message: 'User has no rights'
+        },
+        data: []
+      });
+    }
 
     console.log("Response:", response);
 
     // Send JSON response
     res.json({
-      meta: { statusCode: 200, message: 'Modules and submodules fetched successfully' },
+      meta: {
+        statusCode: 200,
+        message: 'Modules and submodules fetched successfully'
+      },
       data: response
     });
-
-  } catch (error) {
-    // Handle case where table does not exist
-    if (error.message.toLowerCase().includes("doesn't exist")) {
+  } 
+  catch (error) {
+    // Handle specific table error
+    if (error.message.includes("Table 'umc54.userrights' doesn't exist")) {
       return res.status(200).json({
-        meta: { statusCode: 200, message: 'User has no rights' },
+        meta: {
+          statusCode: 200,
+          message: 'User has no rights'
+        },
         data: []
       });
     }
@@ -391,4 +414,6 @@ const getModulesAndSubModulesByUserId = async (req, res) => {
   }
 };
 
-module.exports = { getModulesAndSubModulesByUserId };
+module.exports = {
+  getModulesAndSubModulesByUserId
+};
