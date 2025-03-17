@@ -176,7 +176,7 @@ exports.createHospital = [
     // Function to store the unique key in the existing apikey.json file inside the config folder
     const storeApiKey = (HospitalCode, uniqueKey) => {
       try {
-        const configDir = path.join(__dirname, '../../Hospital_gateway-main/Hospital_gateway/config');
+        const configDir = path.join(__dirname, '../../gateway/config');
         const apiKeyFilePath = path.join(configDir, 'apiKey.json');
 
         let apiKeyData = {};
