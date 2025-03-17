@@ -4,7 +4,7 @@ module.exports = (sequelize) => {
     const itemContent = sequelize.define(
         "itemContent",
         {
-            ItemContentIDP: {
+            ItemContentID: {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
@@ -18,12 +18,12 @@ module.exports = (sequelize) => {
                 allowNull: false,
                 defaultValue: false,
             },
-            HospitalIDF: {
+            HospitalIDR: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 defaultValue: false,
             },
-            HospitalGroupIDF: {
+            HospitalGroupIDR: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
             },
