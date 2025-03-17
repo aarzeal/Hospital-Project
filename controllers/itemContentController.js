@@ -5,6 +5,9 @@ const logger = require('../logger');
 const getClientIp = require('../util/clientip.js');
 const getLocationData = require("../util/locationHelper.js");
 
+const ExcelJS = require('exceljs');
+const { v4: uuidv4 } = require('uuid');
+
 exports.createItemContent = async (req, res) => {
 
     const start = Date.now();
@@ -54,6 +57,75 @@ exports.createItemContent = async (req, res) => {
 
     }
 }
+
+exports.uploadItemContentBulk = async (req, res) => {
+    const start = Date.now();
+    const logId = uuidv4();
+    const clientIp = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+    try {
+        if (!req.file) {
+            return res.status(400).json({ errorCode: 9180, message: "No file uploaded" });
+        }
+
+        const ItemContent = require('../models/itemContentModel')(req.sequelize);
+        const Hospital = require('../models/HospitalModel');
+        const HospitalGroup = require('../models/HospitalGroup');
+
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.readFile(req.file.path);
+        const worksheet = workbook.worksheets[0];
+
+        let records = [];
+        for (let i = 2; i <= worksheet.rowCount; i++) {  // Skipping header row
+            const row = worksheet.getRow(i);
+            const ItemContentName = row.getCell(1).value;
+            const NonActive = row.getCell(2).value;
+            const HospitalIDF = row.getCell(3).value;
+            const HospitalGroupIDF = row.getCell(4).value || null;
+
+            // Validate HospitalIDF
+            const hospitalExists = await Hospital.findOne({ where: { HospitalID: HospitalIDF } });
+            if (!hospitalExists) {
+                continue; // Skip invalid records
+            }
+
+            // Validate HospitalGroupIDF (if provided)
+            if (HospitalGroupIDF) {
+                const hospitalGroupExists = await HospitalGroup.findOne({ where: { HospitalGroupID: HospitalGroupIDF } });
+                if (!hospitalGroupExists) {
+                    continue; // Skip invalid records
+                }
+            }
+
+            records.push({
+                ItemContentName,
+                NonActive,
+                HospitalIDF,
+                HospitalGroupIDF,
+                CreatedBy: req.username
+            });
+        }
+
+        // Bulk Insert Valid Records
+        if (records.length > 0) {
+            await ItemContent.bulkCreate(records);
+        }
+
+        logger.logWithMeta("info", "Bulk ItemContent upload successful", {
+            logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, CreatedBy: req.username
+        });
+
+        return res.status(200).json({ message: "Bulk ItemContent uploaded successfully", recordsInserted: records.length });
+
+    } catch (error) {
+        logger.logWithMeta("error", "Error in bulk ItemContent upload", {
+            logId, errorCode: error.errorCode || 9185, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, CreatedBy: req.username
+        });
+
+        return res.status(400).json({ errorCode: error.errorCode || 9185, message: error.message });
+    }
+};
 
 exports.getAllItemContent = async (req, res) => {
     const logId = uuidv4();
