@@ -354,5 +354,45 @@
   "Searchbyitemgroupname": {
     "en": "Search by item group name",
     "hi": "आइटम समूह नाम से खोजें"
+  },
+  "Contentnamelengthmustgreaterthan1": {
+    "en": "Content name length must greater than 1",
+    "hi": "सामग्री नाम वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Contentnamelengthmustlessthan50": {
+    "en": "Content name length must less than 50",
+    "hi": "सामग्री नाम  वर्ण 50 से कम होना चाहिए"
+  },
+  "Itemcontentupdatedsuccessfully": {
+    "en": "Item content updated successfully",
+    "hi": "आइटम सामग्री सफलतापूर्वक अपडेट की गई"
+  },
+  "Itemcontentaddedsuccessfully": {
+    "en": "Item content added successfully",
+    "hi": "आइटम सामग्री सफलतापूर्वक जोड़ी गई"
+  },
+  "Doyoureallywanttodeletethisitemcontent": {
+    "en": "Do you really want to delete this item content?",
+    "hi": "क्या आप वाकई इस आइटम की सामग्री हटाना चाहते हैं?"
+  },
+  "Theitemcontenthasbeendeleted": {
+    "en": "The item content has been deleted",
+    "hi": "आइटम सामग्री हटा दी गई है"
+  },
+  "Itemcontentname": {
+    "en": "Item content name",
+    "hi": "आइटम सामग्री का नाम"
+  },
+  "ItemContent": {
+    "en": "Item Content",
+    "hi": "आइटम सामग्री"
+  },
+  "Enteritemcontentnamehere": {
+    "en": "Enter item content name here",
+    "hi": "यहां आइटम सामग्री का नाम दर्ज करें"
+  },
+  "Searchbyitemcontentdetails": {
+    "en": "Search by item content details",
+    "hi": "आइटम सामग्री विवरण द्वारा खोजें"
   }
 }
