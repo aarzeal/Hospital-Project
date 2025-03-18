@@ -10,6 +10,11 @@ const { v4: uuidv4 } = require('uuid');
 
 exports.createItemContent = async (req, res) => {
 
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+       return res.status(400).json({ errors: errors.array() });
+    } 
+
     const start = Date.now();
     const logId = uuidv4();
     const clientIp = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
