@@ -7,6 +7,10 @@ const getLocationData = require("../util/locationHelper.js");
 
 exports.createInvProduct = async (req, res) => {
 
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+       return res.status(400).json({ errors: errors.array() });
+    } 
     const start = Date.now();
     const logId = uuidv4();
     const clientIp = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -133,6 +137,10 @@ exports.getInvProductById = async (req, res) => {
 };
 
 exports.updateInvProduct = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+       return res.status(400).json({ errors: errors.array() });
+    } 
     const start = Date.now();
     const logId = uuidv4();
     const clientIp = req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;

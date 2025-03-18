@@ -536,3 +536,148 @@ exports.validateUnitUpdate = [
         .optional()
         .isString().withMessage("Created By must be a string"),
 ];
+
+
+exports.validateInvProductCompany = [
+    body("CompanyName")
+        .notEmpty().withMessage("Company Name is required")
+        .isLength({ max: 50 }).withMessage("Company Name must be at most 50 characters"),
+
+    body("CompanyCode")
+        .notEmpty().withMessage("Company Code is required")
+        .isLength({ max: 50 }).withMessage("Company Code must be at most 50 characters"),
+
+    body("Address1")
+        .notEmpty().withMessage("Address1 is required")
+        .isLength({ max: 50 }).withMessage("Address1 must be at most 50 characters"),
+
+    body("Address2")
+        .optional().isLength({ max: 50 }).withMessage("Address2 must be at most 50 characters"),
+
+    body("City")
+        .notEmpty().withMessage("City is required")
+        .isInt().withMessage("City must be an integer"),
+
+    body("State")
+        .notEmpty().withMessage("State is required")
+        .isInt().withMessage("State must be an integer"),
+
+    body("Country")
+        .notEmpty().withMessage("Country is required")
+        .isInt().withMessage("Country must be an integer"),
+
+    body("ZipCode")
+        .notEmpty().withMessage("Zip Code is required")
+        .isInt().withMessage("Zip Code must be an integer"),
+
+    body("Telephone1")
+        .notEmpty().withMessage("Telephone1 is required")
+        .isLength({ max: 20 }).withMessage("Telephone1 must be at most 20 characters"),
+
+    body("Telephone2")
+        .optional().isLength({ max: 20 }).withMessage("Telephone2 must be at most 20 characters"),
+
+    body("Mobile")
+        .notEmpty().withMessage("Mobile number is required")
+        .isLength({ max: 20 }).withMessage("Mobile must be at most 20 characters"),
+
+    body("WhatApp")
+        .notEmpty().withMessage("WhatsApp number is required")
+        .isLength({ max: 20 }).withMessage("WhatsApp must be at most 20 characters"),
+
+    body("Email")
+        .notEmpty().withMessage("Email is required")
+        .isEmail().withMessage("Email must be a valid email address")
+        .isLength({ max: 50 }).withMessage("Email must be at most 50 characters"),
+
+    body("Website")
+        .notEmpty().withMessage("Website is required")
+        .isURL().withMessage("Website must be a valid URL")
+        .isLength({ max: 250 }).withMessage("Website must be at most 250 characters"),
+
+    body("NonActive")
+        .notEmpty().withMessage("NonActive status is required")
+        .isBoolean().withMessage("NonActive must be a boolean"),
+
+    body("HospitalIDR")
+        .notEmpty().withMessage("Hospital ID is required")
+        .isInt().withMessage("Hospital ID must be an integer"),
+
+    body("HospitalGroupIDR")
+        .optional().isInt().withMessage("Hospital Group ID must be an integer"),
+
+    body("CreatedBy")
+        .optional().isString().withMessage("CreatedBy must be a string"),
+
+    body("UpdatedBy")
+        .optional().isString().withMessage("UpdatedBy must be a string"),
+
+    body("UpdatedAt")
+        .optional().isISO8601().toDate().withMessage("UpdatedAt must be a valid date"),
+
+    body("CreatedAt")
+        .optional().isISO8601().toDate().withMessage("CreatedAt must be a valid date"),
+];
+
+exports.validateInvProductCompanyUpdate = [
+    body("CompanyName")
+        .optional().isLength({ max: 50 }).withMessage("Company Name must be at most 50 characters"),
+
+    body("CompanyCode")
+        .optional().isLength({ max: 50 }).withMessage("Company Code must be at most 50 characters"),
+
+    body("Address1")
+        .optional().isLength({ max: 50 }).withMessage("Address1 must be at most 50 characters"),
+
+    body("Address2")
+        .optional().isLength({ max: 50 }).withMessage("Address2 must be at most 50 characters"),
+
+    body("City")
+        .optional().isInt().withMessage("City must be an integer"),
+
+    body("State")
+        .optional().isInt().withMessage("State must be an integer"),
+
+    body("Country")
+        .optional().isInt().withMessage("Country must be an integer"),
+
+    body("ZipCode")
+        .optional().isInt().withMessage("Zip Code must be an integer"),
+
+    body("Telephone1")
+        .optional().isLength({ max: 20 }).withMessage("Telephone1 must be at most 20 characters"),
+
+    body("Telephone2")
+        .optional().isLength({ max: 20 }).withMessage("Telephone2 must be at most 20 characters"),
+
+    body("Mobile")
+        .optional().isLength({ max: 20 }).withMessage("Mobile must be at most 20 characters"),
+
+    body("WhatApp")
+        .optional().isLength({ max: 20 }).withMessage("WhatsApp must be at most 20 characters"),
+
+    body("Email")
+        .optional().isEmail().withMessage("Email must be a valid email address")
+        .isLength({ max: 50 }).withMessage("Email must be at most 50 characters"),
+
+    body("Website")
+        .optional().isURL().withMessage("Website must be a valid URL")
+        .isLength({ max: 250 }).withMessage("Website must be at most 250 characters"),
+
+    body("NonActive")
+        .optional().isBoolean().withMessage("NonActive must be a boolean"),
+
+    body("HospitalIDR")
+        .optional().isInt().withMessage("Hospital ID must be an integer"),
+
+    body("HospitalGroupIDR")
+        .optional().isInt().withMessage("Hospital Group ID must be an integer"),
+
+    body("UpdatedBy")
+        .optional().isString().withMessage("UpdatedBy must be a string"),
+
+    body("UpdatedAt")
+        .optional().isISO8601().toDate().withMessage("UpdatedAt must be a valid date"),
+];
+
+

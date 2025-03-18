@@ -49,6 +49,7 @@ const item_category = require("./routes/item_category_Routes");
 const item_group = require("./routes/itemGroup_routes");
 const itemContent = require("./routes/itemContentRoutes.js")
 const itemCompany = require("./routes/InvProdCompanyRoute.js")
+const Supplier = require("./routes/SupplierRoute.js")
 
 
 
@@ -143,6 +144,7 @@ app.use('/api/v1/item-category', item_category);
 app.use('/api/v1/itemgroup', item_group);
 app.use('/api/v1/item-content', itemContent);
 app.use('/api/v1/item-company', itemCompany);
+app.use('/api/v1/supplier', Supplier);
 
 
 

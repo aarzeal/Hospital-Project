@@ -13,7 +13,7 @@ exports.createUnit = async (req, res) => {
 
     if (!errors.isEmpty()) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 9171;
+        const errorCode = 9193;
 
         logger.logWithMeta("error", "Validation error in createUnit", {
             logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, validationErrors: errors.array(), createdBy: req.username,
@@ -36,7 +36,7 @@ exports.createUnit = async (req, res) => {
         // 🔍 Check if unit_name already exists
         const existingUnit = await Unit.findOne({ where: { unit_name } });
         if (existingUnit) {
-            const errorCode = 9172;
+            const errorCode = 9194;
             logger.logWithMeta("error", "Unit name already exists", { logId, errorCode, clientIp, apiName: req.originalUrl, method: req.method, unit_name });
             throw { errorCode, message: "Unit name already exists" };
         }
@@ -44,7 +44,7 @@ exports.createUnit = async (req, res) => {
         // 🔍 Check if `hospitalIDR` exists in `Hospital` table
         const hospitalExists = await Hospital.findByPk(hospitalIDR);
         if (!hospitalExists) {
-            const errorCode = 9174;
+            const errorCode = 9195;
             logger.logWithMeta("error", "Invalid hospitalIDR, not found in Hospital table", { logId, errorCode, clientIp, apiName: req.originalUrl, method: req.method, hospitalIDR , createdBy: req.username,
                 updatedBy:req.username});
             throw { errorCode, message: "Invalid hospitalIDR, not found in Hospital table" };
@@ -53,7 +53,7 @@ exports.createUnit = async (req, res) => {
         // 🔍 Check if `hospitalGroupIDR` exists in `HospitalGroup` table
         const hospitalGroupExists = await HospitalGroup.findByPk(hospitalGroupIDR);
         if (!hospitalGroupExists) {
-            const errorCode = 9175;
+            const errorCode = 9196;
             logger.logWithMeta("error", "Invalid hospitalGroupIDR, not found in HospitalGroup table", { logId, errorCode, clientIp, apiName: req.originalUrl, method: req.method, hospitalGroupIDR, createdBy: req.username,
                 updatedBy:req.username });
             throw { errorCode, message: "Invalid hospitalGroupIDR, not found in HospitalGroup table" };
@@ -73,15 +73,15 @@ exports.createUnit = async (req, res) => {
             updatedBy:req.username
         });
 
-        res.status(201).json({
-            meta: { statusCode: 201, executionTime },
+        res.status(200).json({
+            meta: { statusCode: 200, executionTime },
             message: "Unit created successfully",
             data: newUnit,
         });
 
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = error.errorCode || 9176; // Default error code for unknown issues
+        const errorCode = error.errorCode || 9197; // Default error code for unknown issues
 
         logger.logWithMeta("error", "Error creating unit", {
             logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, stackTrace: error.stack || "No stack trace available", createdBy: req.username,
@@ -130,7 +130,7 @@ exports.getUnits = async (req, res) => {
         });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 9174;
+        const errorCode = 9198;
 
         logger.logWithMeta("error", "Error fetching units", {
             logId,
@@ -157,7 +157,7 @@ exports.updateUnit = async (req, res) => {
 
     if (!errors.isEmpty()) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 9175;
+        const errorCode = 9199;
 
         logger.logWithMeta("error", "Validation error in updateUnit", {
             logId,
@@ -186,7 +186,7 @@ exports.updateUnit = async (req, res) => {
         // 🔍 Check if unit exists
         const unit = await Unit.findByPk(unit_ID);
         if (!unit) {
-            const errorCode = 9176;
+            const errorCode = 9200;
             logger.logWithMeta("error", "Unit not found", { logId, errorCode, clientIp, apiName: req.originalUrl, method: req.method, unit_ID , createdBy: req.username,
                 updatedBy:req.username});
             throw { errorCode, message: "Unit not found" };
@@ -195,7 +195,7 @@ exports.updateUnit = async (req, res) => {
         // 🔍 Check if `hospitalIDR` exists in `Hospital` table
         const hospitalExists = await Hospital.findByPk(hospitalIDR);
         if (!hospitalExists) {
-            const errorCode = 9178;
+            const errorCode = 9201;
             logger.logWithMeta("error", "Invalid hospitalIDR, not found in Hospital table", { logId, errorCode, clientIp, apiName: req.originalUrl, method: req.method, hospitalIDR, createdBy: req.username,
                 updatedBy:req.username });
             throw { errorCode, message: "Invalid hospitalIDR, not found in Hospital table" };
@@ -204,7 +204,7 @@ exports.updateUnit = async (req, res) => {
         // 🔍 Check if `hospitalGroupIDR` exists in `HospitalGroup` table
         const hospitalGroupExists = await HospitalGroup.findByPk(hospitalGroupIDR);
         if (!hospitalGroupExists) {
-            const errorCode = 9179;
+            const errorCode = 9203;
             logger.logWithMeta("error", "Invalid hospitalGroupIDR, not found in HospitalGroup table", { logId, errorCode, clientIp, apiName: req.originalUrl, method: req.method, hospitalGroupIDR, createdBy: req.username,
                 updatedBy:req.username });
             throw { errorCode, message: "Invalid hospitalGroupIDR, not found in HospitalGroup table" };
@@ -231,7 +231,7 @@ exports.updateUnit = async (req, res) => {
 
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = error.errorCode || 9180; // Default error code for unknown issues
+        const errorCode = error.errorCode || 9204; // Default error code for unknown issues
 
         logger.logWithMeta("error", "Error updating unit", {
             logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, stackTrace: error.stack || "No stack trace available",
@@ -255,7 +255,7 @@ exports.getUnitById = async (req, res) => {
         await Unit.sync();
 
         const unit = await Unit.findByPk(unit_ID);
-        if (!unit) throw { errorCode: 9175, message: "Unit not found" };
+        if (!unit) throw { errorCode: 9205, message: "Unit not found" };
 
         const executionTime = `${Date.now() - start}ms`;
         logger.logWithMeta("info", "Unit fetched successfully", { logId, executionTime, clientIp, apiName: req.originalUrl, method: req.method, unitId: unit_ID, createdBy: req.username,
@@ -264,7 +264,7 @@ exports.getUnitById = async (req, res) => {
         res.status(200).json({ meta: { statusCode: 200, executionTime }, message: "Unit fetched successfully", data: unit });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 9176;
+        const errorCode = 9206;
 
         logger.logWithMeta("error", "Error fetching unit", { logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, createdBy: req.username,
             updatedBy:req.username });
@@ -285,7 +285,7 @@ exports.deleteUnit = async (req, res) => {
         await Unit.sync();
 
         const unit = await Unit.findByPk(unit_ID);
-        if (!unit) throw { errorCode: 9177, message: "Unit not found" };
+        if (!unit) throw { errorCode: 9207, message: "Unit not found" };
 
         await unit.destroy();
 
@@ -296,7 +296,7 @@ exports.deleteUnit = async (req, res) => {
         res.status(200).json({ meta: { statusCode: 200, executionTime }, message: "Unit deleted successfully" });
     } catch (error) {
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 9178;
+        const errorCode = 9208;
 
         logger.logWithMeta("error", "Error deleting unit", { logId, errorCode, executionTime, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, createdBy: req.username,
             updatedBy:req.username });

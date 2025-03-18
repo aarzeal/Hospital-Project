@@ -350,3 +350,150 @@ exports.validateItemGroupUpdate = [
     body("updatedBy")
         .optional().isString().withMessage("Updated by must be a string"),
 ];
+
+
+
+
+exports.validateSupplier = [
+    body("supplier_name")
+        .notEmpty().withMessage("Supplier name is required")
+        .isLength({ max: 50 }).withMessage("Supplier name must be at most 50 characters"),
+
+    body("supplier_Code")
+        .notEmpty().withMessage("Supplier code is required")
+        .isLength({ max: 50 }).withMessage("Supplier code must be at most 50 characters"),
+
+    body("contact_Person")
+        .optional().isLength({ max: 50 }).withMessage("Contact person name must be at most 50 characters"),
+
+    body("contact_Person2")
+        .optional().isLength({ max: 50 }).withMessage("Contact person 2 name must be at most 50 characters"),
+
+    body("Remarks")
+        .optional().isLength({ max: 250 }).withMessage("Remarks must be at most 250 characters"),
+
+    body("GST_Number")
+        .optional().isLength({ max: 50 }).withMessage("GST number must be at most 50 characters"),
+
+    body("TIN_Number")
+        .optional().isLength({ max: 50 }).withMessage("TIN number must be at most 50 characters"),
+
+    body("CST_Number")
+        .optional().isLength({ max: 50 }).withMessage("CST number must be at most 50 characters"),
+
+    body("service_Tax_Number")
+        .optional().isLength({ max: 50 }).withMessage("Service tax number must be at most 50 characters"),
+
+    body("pan_Number")
+        .optional().isLength({ max: 50 }).withMessage("PAN number must be at most 50 characters"),
+
+    body("VAT_Number")
+        .optional().isLength({ max: 50 }).withMessage("VAT number must be at most 50 characters"),
+
+    body("web_site")
+        .optional().isURL().withMessage("Website must be a valid URL")
+        .isLength({ max: 250 }).withMessage("Website URL must be at most 250 characters"),
+
+    body("ledger_IDR")
+        .notEmpty().withMessage("Ledger ID is required")
+        .isInt().withMessage("Ledger ID must be an integer"),
+
+    body("is_PurchesInvoice_SMS")
+        .optional().isBoolean().withMessage("Purchase invoice SMS must be a boolean"),
+
+    body("billPass_SMS")
+        .optional().isBoolean().withMessage("Bill pass SMS must be a boolean"),
+
+    body("update_onWhatapp")
+        .optional().isBoolean().withMessage("Update on WhatsApp must be a boolean"),
+
+    body("address1")
+        .optional().isLength({ max: 255 }).withMessage("Address 1 must be at most 255 characters"),
+
+    body("address2")
+        .optional().isLength({ max: 255 }).withMessage("Address 2 must be at most 255 characters"),
+
+    body("city")
+        .optional().isInt().withMessage("City must be an integer"),
+
+    body("state")
+        .optional().isInt().withMessage("State must be an integer"),
+
+    body("country")
+        .optional().isInt().withMessage("Country must be an integer"),
+
+    body("zip")
+        .optional().isInt().withMessage("Zip code must be an integer"),
+
+    body("phone1")
+        .optional().isLength({ max: 20 }).withMessage("Phone 1 must be at most 20 characters"),
+
+    body("phone2")
+        .optional().isLength({ max: 20 }).withMessage("Phone 2 must be at most 20 characters"),
+
+    body("Mobile")
+        .optional().isLength({ max: 20 }).withMessage("Mobile number must be at most 20 characters"),
+
+    body("whatapp_Number")
+        .optional().isLength({ max: 20 }).withMessage("WhatsApp number must be at most 20 characters"),
+
+    body("email")
+        .optional().isEmail().withMessage("Email must be a valid email address"),
+
+    body("hospital_IDR")
+        .notEmpty().withMessage("Hospital ID is required")
+        .isInt().withMessage("Hospital ID must be an integer"),
+
+    body("hospitalGroup_IDR")
+        .optional().isInt().withMessage("Hospital Group ID must be an integer"),
+
+    body("createdBy")
+        .optional().isString().withMessage("Created by must be a string"),
+
+    body("updatedBy")
+        .optional().isString().withMessage("Updated by must be a string"),
+
+    body("Non_Active")
+        .optional().isBoolean().withMessage("Non Active must be a boolean"),
+
+    body("UpdatedAt")
+        .optional().isISO8601().toDate().withMessage("UpdatedAt must be a valid date"),
+
+    body("CreatedAt")
+        .optional().isISO8601().toDate().withMessage("CreatedAt must be a valid date"),
+];
+
+exports.validateSupplierUpdate = [
+    body("supplier_name")
+        .optional().isLength({ max: 50 }).withMessage("Supplier name must be at most 50 characters"),
+
+    body("supplier_Code")
+        .optional().isLength({ max: 50 }).withMessage("Supplier code must be at most 50 characters"),
+
+    body("ledger_IDR")
+        .optional().isInt().withMessage("Ledger ID must be an integer"),
+
+    body("is_PurchesInvoice_SMS")
+        .optional().isBoolean().withMessage("Purchase invoice SMS must be a boolean"),
+
+    body("billPass_SMS")
+        .optional().isBoolean().withMessage("Bill pass SMS must be a boolean"),
+
+    body("update_onWhatapp")
+        .optional().isBoolean().withMessage("Update on WhatsApp must be a boolean"),
+
+    body("hospital_IDR")
+        .optional().isInt().withMessage("Hospital ID must be an integer"),
+
+    body("hospitalGroup_IDR")
+        .optional().isInt().withMessage("Hospital Group ID must be an integer"),
+
+    body("updatedBy")
+        .optional().isString().withMessage("Updated by must be a string"),
+
+    body("Non_Active")
+        .optional().isBoolean().withMessage("Non Active must be a boolean"),
+
+    body("UpdatedAt")
+        .optional().isISO8601().toDate().withMessage("UpdatedAt must be a valid date"),
+];
