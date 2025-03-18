@@ -12,8 +12,7 @@ const upload = multer({ storage });
 
 // const upload = multer({ dest: 'uploads/' });
 
-router.post('/bulk-upload', upload.single('file'), itemContentController.uploadItemContentBulk);
-router.post('/item-content',   upload.single("file"),authenticate, userverifiction, ensureSequelizeInstance, itemContentController.createItemContent);
+router.post('/item-content',   validateJSONContentType,authenticate, userverifiction, ensureSequelizeInstance, itemContentController.createItemContent);
 router.get('/item-content', authenticate, userverifiction, ensureSequelizeInstance, itemContentController.getAllItemContent);
 router.get('/item-content/:id', authenticate, userverifiction, ensureSequelizeInstance, itemContentController.getItemContentById);
 router.put('/item-content/:id', validateJSONContentType, validator.validateItemContentUpdate, userverifiction, authenticate, ensureSequelizeInstance, itemContentController.updateItemContentById);

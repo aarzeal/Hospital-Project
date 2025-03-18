@@ -8,204 +8,57 @@ const getLocationData = require("../util/locationHelper.js");
 const ExcelJS = require('exceljs');
 const { v4: uuidv4 } = require('uuid');
 
-// exports.createItemContent = async (req, res) => {
-
-//     const start = Date.now();
-//     const logId = uuidv4();
-//     const clientIp = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-
-//     try {
-
-//         const { ItemContentName, NonActive, HospitalIDR, HospitalGroupIDR } = req.body;
-
-//         const ItemContent = require('../models/itemContentModel')(req.sequelize);
-//         const Hospital = require('../models/HospitalModel');
-//         const HospitalGroup = require('../models/HospitalGroup');
-
-//         await ItemContent.sync({ force: false });
-
-//         const hospitalExists = await Hospital.findOne({ where: { HospitalID: HospitalIDR } })
-//         if (!hospitalExists) {
-//             throw { errorCode: 9181, message: "Invalid hospital_IDR, not found in Hospital table" };
-//         }
-
-//         if (HospitalGroupIDR) {
-//             const hospitalGroupExists = await HospitalGroup.findOne({ where: { HospitalGroupID: HospitalGroupIDR } });
-//             if (!hospitalGroupExists) {
-//                 throw { errorCode: 9182, message: "Invalid hospitalGroup_IDR, not found in HospitalGroup table" };
-//             }
-//         }
-
-        
-//         const newItemContent = await ItemContent.create({ ItemContentName, NonActive, HospitalIDR, HospitalGroupIDR, CreatedBy: req.username })
-
-//         logger.logWithMeta("info", "Item category created successfully", {
-//             logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, CreatedBy: req.username,
-//             UpdatedBy: req.username
-//         });
-
-//         return res.status(200).json({ message: "Item category created successfully", data: newItemContent });
-
-//     } catch (error) {
-
-//         logger.logWithMeta("error", "Error in createItemCategory", {
-//             logId, errorCode: error.errorCode || 9185, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, CreatedBy: req.username,
-//             UpdatedBy: req.username
-//         });
-
-//         return res.status(400).json({ errorCode: error.errorCode || 9185, message: error.message });
-
-//     }
-// }
-
-
-const multer = require("multer");
-const xlsx = require("xlsx");
-
-const storage = multer.memoryStorage(); // Store file in memory
-const upload = multer({ storage });
-
-
 exports.createItemContent = async (req, res) => {
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-       return res.status(400).json({ errors: errors.array() });
-    } 
-    const start = Date.now();
-    const logId = uuidv4();
-    const clientIp = req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-
-    try {
-        if (!req.file) {
-            return res.status(400).json({ errorCode: 9186, message: "No file uploaded" });
-        }
-
-        const workbook = xlsx.read(req.file.buffer, { type: "buffer" });
-        const sheetName = workbook.SheetNames[0]; // Get first sheet
-        const sheetData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
-
-        if (sheetData.length === 0) {
-            return res.status(400).json({ errorCode: 9187, message: "Excel file is empty" });
-        }
-
-        const ItemContent = require("../models/itemContentModel")(req.sequelize);
-        const Hospital = require("../models/HospitalModel");
-        const HospitalGroup = require("../models/HospitalGroup");
-
-        await ItemContent.sync({ force: false });
-
-        // Validate hospital and hospital group existence
-        for (let row of sheetData) {
-            const { ItemContentName, NonActive, HospitalIDR, HospitalGroupIDR } = row;
-
-            const hospitalExists = await Hospital.findOne({ where: { HospitalID: HospitalIDR } });
-            if (!hospitalExists) {
-                throw { errorCode: 9181, message: `Invalid HospitalIDR ${HospitalIDR}, not found` };
-            }
-
-            if (HospitalGroupIDR) {
-                const hospitalGroupExists = await HospitalGroup.findOne({ where: { HospitalGroupID: HospitalGroupIDR } });
-                if (!hospitalGroupExists) {
-                    throw { errorCode: 9182, message: `Invalid HospitalGroupIDR ${HospitalGroupIDR}, not found` };
-                }
-            }
-        }
-
-        // Bulk insert data
-        const insertedRecords = await ItemContent.bulkCreate(sheetData.map(row => ({
-            ItemContentName: row.ItemContentName,
-            NonActive: row.NonActive,
-            HospitalIDR: row.HospitalIDR,
-            HospitalGroupIDR: row.HospitalGroupIDR,
-            CreatedBy: req.username,
-        })));
-
-        logger.logWithMeta("info", "Item content created successfully", {
-            logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, CreatedBy: req.username,
-        });
-
-        return res.status(200).json({ message: "Item content created successfully", data: insertedRecords });
-
-    } catch (error) {
-        logger.logWithMeta("error", "Error in createItemContent", {
-            logId, errorCode: error.errorCode || 9185, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, CreatedBy: req.username,
-        });
-
-        return res.status(400).json({ errorCode: error.errorCode || 9185, message: error.message });
-    }
-};
-
-
-
-exports.uploadItemContentBulk = async (req, res) => {
     const start = Date.now();
     const logId = uuidv4();
     const clientIp = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
     try {
-        if (!req.file) {
-            return res.status(400).json({ errorCode: 9180, message: "No file uploaded" });
-        }
+
+        const { ItemContentName, NonActive, HospitalIDR, HospitalGroupIDR } = req.body;
 
         const ItemContent = require('../models/itemContentModel')(req.sequelize);
         const Hospital = require('../models/HospitalModel');
         const HospitalGroup = require('../models/HospitalGroup');
 
-        const workbook = new ExcelJS.Workbook();
-        await workbook.xlsx.readFile(req.file.path);
-        const worksheet = workbook.worksheets[0];
+        await ItemContent.sync({ force: false });
 
-        let records = [];
-        for (let i = 2; i <= worksheet.rowCount; i++) {  // Skipping header row
-            const row = worksheet.getRow(i);
-            const ItemContentName = row.getCell(1).value;
-            const NonActive = row.getCell(2).value;
-            const HospitalIDF = row.getCell(3).value;
-            const HospitalGroupIDF = row.getCell(4).value || null;
-
-            // Validate HospitalIDF
-            const hospitalExists = await Hospital.findOne({ where: { HospitalID: HospitalIDF } });
-            if (!hospitalExists) {
-                continue; // Skip invalid records
-            }
-
-            // Validate HospitalGroupIDF (if provided)
-            if (HospitalGroupIDF) {
-                const hospitalGroupExists = await HospitalGroup.findOne({ where: { HospitalGroupID: HospitalGroupIDF } });
-                if (!hospitalGroupExists) {
-                    continue; // Skip invalid records
-                }
-            }
-
-            records.push({
-                ItemContentName,
-                NonActive,
-                HospitalIDF,
-                HospitalGroupIDF,
-                CreatedBy: req.username
-            });
+        const hospitalExists = await Hospital.findOne({ where: { HospitalID: HospitalIDR } })
+        if (!hospitalExists) {
+            throw { errorCode: 9181, message: "Invalid hospital_IDR, not found in Hospital table" };
         }
 
-        // Bulk Insert Valid Records
-        if (records.length > 0) {
-            await ItemContent.bulkCreate(records);
+        if (HospitalGroupIDR) {
+            const hospitalGroupExists = await HospitalGroup.findOne({ where: { HospitalGroupID: HospitalGroupIDR } });
+            if (!hospitalGroupExists) {
+                throw { errorCode: 9182, message: "Invalid hospitalGroup_IDR, not found in HospitalGroup table" };
+            }
         }
 
-        logger.logWithMeta("info", "Bulk ItemContent upload successful", {
-            logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, CreatedBy: req.username
+        
+        const newItemContent = await ItemContent.create({ ItemContentName, NonActive, HospitalIDR, HospitalGroupIDR, CreatedBy: req.username })
+
+        logger.logWithMeta("info", "Item category created successfully", {
+            logId, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, CreatedBy: req.username,
+            UpdatedBy: req.username
         });
 
-        return res.status(200).json({ message: "Bulk ItemContent uploaded successfully", recordsInserted: records.length });
+        return res.status(200).json({ message: "Item category created successfully", data: newItemContent });
 
     } catch (error) {
-        logger.logWithMeta("error", "Error in bulk ItemContent upload", {
-            logId, errorCode: error.errorCode || 9185, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, CreatedBy: req.username
+
+        logger.logWithMeta("error", "Error in createItemCategory", {
+            logId, errorCode: error.errorCode || 9185, executionTime: `${Date.now() - start}ms`, clientIp, apiName: req.originalUrl, method: req.method, errorMessage: error.message, CreatedBy: req.username,
+            UpdatedBy: req.username
         });
 
         return res.status(400).json({ errorCode: error.errorCode || 9185, message: error.message });
+
     }
-};
+}
+
+
 
 exports.getAllItemContent = async (req, res) => {
     const logId = uuidv4();
