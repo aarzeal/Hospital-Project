@@ -138,13 +138,13 @@ exports.updateSupplier = async (req, res) => {
     const clientIp = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
     try {
-        const { supplier_id } = req.params;
+        const { supplier_ID } = req.params;
         const {
             supplier_name, supplier_Code, contact_Person, contact_Person2, Remarks,
             GST_Number, TIN_Number, CST_Number, service_Tax_Number, pan_Number,
             VAT_Number, web_site, ledger_IDR, is_PurchesInvoice_SMS, billPass_SMS,
             update_onWhatapp, address1, address2, city, state, country, zip,
-            phone1, phone2, Mobile, whatapp_Number, email, hospital_IDR, hospitalGroup_IDR
+            phone1, phone2, Mobile, whatapp_Number, email, hospital_IDR, hospitalGroup_IDR,Non_Active
         } = req.body;
 
         const Supplier = require('../models/Supplier.js')(req.sequelize);
@@ -154,7 +154,7 @@ exports.updateSupplier = async (req, res) => {
 
         await Supplier.sync({ force: false });
 
-        const supplier = await Supplier.findOne({ where: { supplier_id } });
+        const supplier = await Supplier.findOne({ where: { supplier_ID } });
         if (!supplier) {
             throw { errorCode: 9219, message: "Supplier not found" };
         }
@@ -185,7 +185,7 @@ exports.updateSupplier = async (req, res) => {
             GST_Number, TIN_Number, CST_Number, service_Tax_Number, pan_Number,
             VAT_Number, web_site, ledger_IDR, is_PurchesInvoice_SMS, billPass_SMS,
             update_onWhatapp, address1, address2, city, state, country, zip,
-            phone1, phone2, Mobile, whatapp_Number, email, hospital_IDR, hospitalGroup_IDR,
+            phone1, phone2, Mobile, whatapp_Number, email, hospital_IDR, hospitalGroup_IDR,Non_Active,
             updatedBy: req.username,
         });
 
@@ -213,12 +213,12 @@ exports.deleteSupplier = async (req, res) => {
     const clientIp = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
     try {
-        const { supplier_id } = req.params;
+        const { supplier_ID } = req.params;
         const Supplier = require('../models/Supplier.js')(req.sequelize);
 
         await Supplier.sync({ force: false });
 
-        const supplier = await Supplier.findOne({ where: { supplier_id } });
+        const supplier = await Supplier.findOne({ where: { supplier_ID } });
         if (!supplier) {
             throw { errorCode: 9225, message: "Supplier not found" };
         }
