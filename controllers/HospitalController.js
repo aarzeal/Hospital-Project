@@ -7,6 +7,7 @@ const { Op } = require("sequelize");
 const express = require("express");
 const axios = require("axios");
 const router = express.Router();
+require('dotenv').config();
 
 const multer = require('multer');
 const {
@@ -174,9 +175,10 @@ exports.createHospital = [
       logger.info(`Generated unique key: ${uniqueKey}`);
 
     // Function to store the unique key in the existing apikey.json file inside the config folder
+    // E:\Hospital-Project\Hospital_gateway-main\Hospital_gateway\config\apiKey.json
     const storeApiKey = (HospitalCode, uniqueKey) => {
       try {
-        const configDir = path.join(__dirname, '../../gateway/config');
+        const configDir = path.join(__dirname, `../../${process.env.GATEWAYCONFIGPATH}`);
         const apiKeyFilePath = path.join(configDir, 'apiKey.json');
 
         let apiKeyData = {};

@@ -20,7 +20,7 @@ exports.createSupplier = async (req, res) => {
             GST_Number, TIN_Number, CST_Number, service_Tax_Number, pan_Number,
             VAT_Number, web_site, ledger_IDR, is_PurchesInvoice_SMS, billPass_SMS,
             update_onWhatapp, address1, address2, city, state, country, zip,
-            phone1, phone2, Mobile, whatapp_Number, email, hospital_IDR, hospitalGroup_IDR
+            phone1, phone2, Mobile, whatapp_Number, email, hospital_IDR, hospitalGroup_IDR,Non_Active
         } = req.body;
 
         const Supplier = require('../models/Supplier.js')(req.sequelize);
@@ -52,7 +52,7 @@ exports.createSupplier = async (req, res) => {
             GST_Number, TIN_Number, CST_Number, service_Tax_Number, pan_Number,
             VAT_Number, web_site, ledger_IDR, is_PurchesInvoice_SMS, billPass_SMS,
             update_onWhatapp, address1, address2, city, state, country, zip,
-            phone1, phone2, Mobile, whatapp_Number, email, hospital_IDR, hospitalGroup_IDR,
+            phone1, phone2, Mobile, whatapp_Number, email, hospital_IDR, hospitalGroup_IDR,Non_Active,
             createdBy: req.username,
         });
 
