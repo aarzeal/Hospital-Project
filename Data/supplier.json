@@ -1,0 +1,486 @@
+{
+  "Supplier": {
+    "en": "Supplier",
+    "hi": "प्रदायक"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "InvalidEmail": {
+    "en": "Invalid Email",
+    "hi": "अमान्य ईमेल"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "Invalidcharactersdetected": {
+    "en": "Invalid characters detected",
+    "hi": "अमान्य वर्ण पाए गए"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
+  },
+  "Nocancel": {
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "Address1": {
+    "en": "Address 1",
+    "hi": "पता 1"
+  },
+  "Enteraddress1here": {
+    "en": "Enter address 1 here",
+    "hi": "यहां पता 1 दर्ज करें"
+  },
+  "Enteraddress2here": {
+    "en": "Enter address 2 here",
+    "hi": "यहां पता 2 दर्ज करें"
+  },
+  "Address2": {
+    "en": "Address 2",
+    "hi": "पता 2"
+  },
+  "Zipcode": {
+    "en": "Zip code",
+    "hi": "ज़िप कोड"
+  },
+  "Enterzipcodehere": {
+    "en": "Enter zip code here",
+    "hi": "यहां पिन कोड दर्ज करें"
+  },
+  "City": {
+    "en": "City",
+    "hi": "शहर"
+  },
+  "State": {
+    "en": "State",
+    "hi": "राज्य"
+  },
+  "Country": {
+    "en": "Country",
+    "hi": "देश"
+  },
+  "Mobilenumber": {
+    "en": "Mobile number",
+    "hi": "मोबाइल नंबर"
+  },
+  "Entermobilenumberhere": {
+    "en": "Enter mobile number here",
+    "hi": "यहां मोबाइल नंबर दर्ज करें"
+  },
+  "WhatsAppnumber": {
+    "en": "WhatsApp number",
+    "hi": "व्हाट्सएप नंबर"
+  },
+  "EnterWhatsAppnumberhere": {
+    "en": "Enter WhatsApp number here",
+    "hi": "यहां व्हाट्सएप नंबर डालें"
+  },
+  "Telephonenumber1": {
+    "en": "Telephone number 1",
+    "hi": "टेलीफोन नंबर 1"
+  },
+  "Entertelephonenumber1here": {
+    "en": "Enter telephone number 1 here",
+    "hi": "यहां टेलीफोन नंबर 1 दर्ज करें"
+  },
+  "Entertelephonenumber2here": {
+    "en": "Enter telephone number 2 here",
+    "hi": "यहां टेलीफोन नंबर 2 दर्ज करें"
+  },
+  "Telephonenumber2": {
+    "en": "Telephone number 2",
+    "hi": "टेलीफोन नंबर 2"
+  },
+  "Emailaddress": {
+    "en": "Email address",
+    "hi": "ईमेल आईडी"
+  },
+  "Enteremailaddresshere": {
+    "en": "Enter email address here",
+    "hi": "यहां ईमेल आईडी दर्ज करें"
+  },
+  "Website": {
+    "en": "Website",
+    "hi": "वेबसाइट"
+  },
+  "Enterwebsitehere": {
+    "en": "Enter website here",
+    "hi": "यहां वेबसाइट दर्ज करें"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "NonActive": {
+    "en": "Non Active",
+    "hi": "गैर सक्रिय"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "View": {
+    "en": "View",
+    "hi": "देखना"
+  },
+  "Createdby": {
+    "en": "Created by",
+    "hi": "द्वारा बनाई गई"
+  },
+  "Createdat": {
+    "en": "Created at",
+    "hi": "बनाया गया"
+  },
+  "Updatedby": {
+    "en": "Updated by",
+    "hi": "द्वारा अद्यतन किया गया"
+  },
+  "Updatedat": {
+    "en": "Updated at",
+    "hi": "अद्यतन किया गया"
+  },
+  "Suppliernamelengthmustgreaterthan1": {
+    "en": "Supplier name length must greater than 1",
+    "hi": "आपूर्तिकर्ता के नाम का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Suppliernamelengthmustlessthan50": {
+    "en": "Supplier name length must less than 50",
+    "hi": "आपूर्तिकर्ता के नाम का वर्ण 50 से कम होना चाहिए"
+  },
+  "Suppliercodelengthmustgreaterthan1": {
+    "en": "Supplier code length must greater than 1",
+    "hi": "आपूर्तिकर्ता कोड का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Suppliercodelengthmustlessthan50": {
+    "en": "Supplier code length must less than 50",
+    "hi": "आपूर्तिकर्ता कोड का वर्ण 50 से कम होना चाहिए"
+  },
+  "Remarklengthmustgreaterthan1": {
+    "en": "Remark length must greater than 1",
+    "hi": "टिप्पणी का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Remarklengthmustlessthan250": {
+    "en": "Remark length must less than 250",
+    "hi": "टिप्पणी का वर्ण 250 से कम होना चाहिए"
+  },
+  "GSTnumberlengthmustgreaterthan1": {
+    "en": "GST number length must greater than 1",
+    "hi": "जीएसटी नंबर का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "GSTnumberlengthmustlessthan50": {
+    "en": "GST number length must less than 50",
+    "hi": "जीएसटी नंबर का वर्ण 50 से कम होना चाहिए"
+  },
+  "TINnumberlengthmustgreaterthan1": {
+    "en": "TIN number length must greater than 1",
+    "hi": "टिन नंबर का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "TINnumberlengthmustlessthan50": {
+    "en": "TIN number length must less than 50",
+    "hi": "टिन नंबर का वर्ण 50 से कम होना चाहिए"
+  },
+  "CSTnumberlengthmustgreaterthan1": {
+    "en": "CST number length must greater than 1",
+    "hi": "सीएसटी संख्या का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "CSTnumberlengthmustlessthan50": {
+    "en": "CST number length must less than 50",
+    "hi": "सीएसटी संख्या का वर्ण 50 से कम होना चाहिए"
+  },
+  "PANnumberlengthmustgreaterthan1": {
+    "en": "PAN number length must greater than 1",
+    "hi": "पैन नंबर का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "PANnumberlengthmustlessthan50": {
+    "en": "PAN number length must less than 50",
+    "hi": "पैन नंबर का वर्ण 50 से कम होना चाहिए"
+  },
+  "VATnumberlengthmustgreaterthan1": {
+    "en": "VAT number length must greater than 1",
+    "hi": "वैट नंबर का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "VATnumberlengthmustlessthan50": {
+    "en": "VAT number length must less than 50",
+    "hi": "वैट नंबर का वर्ण 50 से कम होना चाहिए"
+  },
+  "Namelengthmustgreaterthan1": {
+    "en": "Name length must greater than 1",
+    "hi": "नाम का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Namelengthmustlessthan50": {
+    "en": "Name length must less than 50",
+    "hi": "नाम का वर्ण 50 से कम होना चाहिए"
+  },
+  "Servicetaxnumberlengthmustgreaterthan1": {
+    "en": "Service tax number length must greater than 1",
+    "hi": "सेवा कर संख्या का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Servicetaxnumberlengthmustlessthan50": {
+    "en": "Service tax number length must less than 50",
+    "hi": "सेवा कर संख्या का वर्ण 50 से कम होना चाहिए"
+  },
+  "Websitelengthmustgreaterthan1": {
+    "en": "Website length must greater than 1",
+    "hi": "वेबसाइट का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Websitelengthmustlessthan250": {
+    "en": "Website length must less than 250",
+    "hi": "वेबसाइट का वर्ण 250 से कम होना चाहिए"
+  },
+  "Address1lengthmustgreaterthan1": {
+    "en": "Address 1 length must greater than 1",
+    "hi": "पता 1 वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Address1lengthmustlessthan255": {
+    "en": "Address 1 length must less than 255",
+    "hi": "पता 1 का वर्ण 255 से कम होना चाहिए"
+  },
+  "Address2lengthmustgreaterthan1": {
+    "en": "Address 2 length must greater than 1",
+    "hi": "पता 2 का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Address2lengthmustlessthan255": {
+    "en": "Address 2 length must less than 255",
+    "hi": "पता 2 का वर्ण 255 से कम होना चाहिए"
+  },
+  "Zipcodemustcontainonlynumbers": {
+    "en": "Zip code must contain only numbers",
+    "hi": "पिन कोड में केवल संख्याएं होनी चाहिए"
+  },
+  "Zipcodemustbeatleast10digits": {
+    "en": "Zip code must be at least 10 digits",
+    "hi": "पिन कोड कम से कम 10 अंकों का होना चाहिए"
+  },
+  "Phone1mustcontainonlynumbers": {
+    "en": "Phone 1 must contain only numbers",
+    "hi": "फ़ोन 1 में केवल नंबर ही होने चाहिए"
+  },
+  "Phone1mustbeatleast10digits": {
+    "en": "Phone 1 must be at least 10 digits",
+    "hi": "फ़ोन नंबर 1 कम से कम 10 अंकों का होना चाहिएचाहिए"
+  },
+  "Phone2mustcontainonlynumbers": {
+    "en": "Phone 2 must contain only numbers",
+    "hi": "फ़ोन 2 में केवल नंबर ही होने चाहिए"
+  },
+  "Phone2mustbeatleast10digits": {
+    "en": "Phone 2 must be at least 10 digits",
+    "hi": "फ़ोन नंबर 2 कम से कम 10 अंकों का होना चाहिए"
+  },
+  "Mobilenumbermustcontainonlynumbers": {
+    "en": "Mobile number must contain only numbers",
+    "hi": "मोबाइल नंबर में केवल संख्याएं ही होनी चाहिए"
+  },
+  "Mobilenumbermustbeatleast10digits": {
+    "en": "Mobile number must be at least 10 digits",
+    "hi": "मोबाइल नंबर कम से कम 10 अंकों का होना चाहिए"
+  },
+  "WhastAppnumbermustcontainonlynumbers": {
+    "en": "WhastApp number must contain only numbers",
+    "hi": "व्हाट्सएप नंबर में केवल नंबर ही होने चाहिए"
+  },
+  "WhastAppnumbermustbeatleast10digits": {
+    "en": "WhastApp number must be at least 10 digits",
+    "hi": "व्हाट्सएप नंबर कम से कम 10 अंकों का होना चाहिए"
+  },
+  "SupplierUpdatedSuccessfully": {
+    "en": "Supplier Updated Successfully",
+    "hi": "आपूर्तिकर्ता सफलतापूर्वक अद्यतन किया गया"
+  },
+  "SupplierRegisteredSuccessfully": {
+    "en": "Supplier Registered Successfully",
+    "hi": "आपूर्तिकर्ता सफलतापूर्वक पंजीकृत"
+  },
+  "Suppliername": {
+    "en": "Supplier name",
+    "hi": "आपूर्तिकर्ता का नाम"
+  },
+  "Entersuppliernamehere": {
+    "en": "Enter supplier name here",
+    "hi": "यहां आपूर्तिकर्ता का नाम दर्ज करें"
+  },
+  "Suppliercode": {
+    "en": "Supplier code",
+    "hi": "आपूर्तिकर्ता कोड"
+  },
+  "Entersuppliercodehere": {
+    "en": "Enter supplier code here",
+    "hi": "यहां आपूर्तिकर्ता कोड दर्ज करें"
+  },
+  "Remark": {
+    "en": "Remark",
+    "hi": "टिप्पणी"
+  },
+  "Enterremarkhere": {
+    "en": "Enter remark here",
+    "hi": "यहां टिप्पणी दर्ज करें"
+  },
+  "GSTnumber": {
+    "en": "GST number",
+    "hi": "जीएसटी नंबर"
+  },
+  "EnterGSTnumberhere": {
+    "en": "Enter GST number here",
+    "hi": "यहां जीएसटी नंबर दर्ज करें"
+  },
+  "TINnumber": {
+    "en": "TIN number",
+    "hi": "टिन नंबर"
+  },
+  "EnterTINnumberhere": {
+    "en": "Enter TIN number here",
+    "hi": "यहां टिन नंबर दर्ज करें"
+  },
+  "PANnumber": {
+    "en": "PAN number",
+    "hi": "पैन नंबर"
+  },
+  "EnterPANnumberhere": {
+    "en": "Enter PAN number here",
+    "hi": "यहां पैन नंबर दर्ज करें"
+  },
+  "CSTnumber": {
+    "en": "CST number",
+    "hi": "सीएसटी नंबर"
+  },
+  "EnterCSTnumberhere": {
+    "en": "Enter CST number here",
+    "hi": "यहां सीएसटी नंबर दर्ज करें"
+  },
+  "Servicetaxnumber": {
+    "en": "Service tax number",
+    "hi": "सेवा कर क्रमांक"
+  },
+  "Enterservicetaxnumberhere": {
+    "en": "Enter service tax number here",
+    "hi": "यहां सेवा कर क्रमांक दर्ज करें"
+  },
+  "VATnumber": {
+    "en": "VAT number",
+    "hi": "वैट नंबर"
+  },
+  "EnterVATnumberhere": {
+    "en": "Enter VAT number here",
+    "hi": "यहां वैट नंबर दर्ज करें"
+  },
+  "ContactDetails": {
+    "en": "Contact Details",
+    "hi": "सम्पर्क करने का विवरण"
+  },
+  "Contactname1lengthmustgreaterthan1": {
+    "en": "Contact name 1 length must greater than 1",
+    "hi": "संपर्क नाम 1 का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Contactname1lengthmustlessthan50": {
+    "en": "Contact name length must less than 50",
+    "hi": "संपर्क नाम 1 का वर्ण 50 से कम होना चाहिए"
+  },
+  "Contactname2lengthmustgreaterthan1": {
+    "en": "Contact name length must greater than 1",
+    "hi": "संपर्क नाम 2 का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Contactname2lengthmustlessthan50": {
+    "en": "Contact name length must less than 50",
+    "hi": "संपर्क नाम 2 का वर्ण 50 से कम होना चाहिए"
+  },
+  "Contactperson1": {
+    "en": "Contact person 1",
+    "hi": "संपर्क व्यक्ति 1"
+  },
+  "Contactperson2": {
+    "en": "Contact person 1",
+    "hi": "संपर्क व्यक्ति 1"
+  },
+  "Entercontactpersonnamehere": {
+    "en": "Enter contact person name here",
+    "hi": "संपर्क व्यक्ति का नाम यहां दर्ज करें"
+  },
+  "Ledger": {
+    "en": "Ledger",
+    "hi": "खाता बही"
+  },
+  "IsPurchaseInvoiceSMS": {
+    "en": "Is Purchase Invoice SMS",
+    "hi": "क्या क्रय चालान एस.एम.एस. है"
+  },
+  "Bill Pass SMS": {
+    "en": "Bill Pass SMS",
+    "hi": "बिल पास एस.एम.एस."
+  },
+  "BillPassSMS": {
+    "en": "Bill Pass SMS",
+    "hi": "बिल पास एस.एम.एस."
+  },
+  "UpdateonWhatsApp": {
+    "en": "Update on WhatsApp",
+    "hi": "व्हाट्सएप पर अपडेट करें"
+  },
+  "Doyoureallywanttodeletethissupplier": {
+    "en": "Do you really want to delete this supplier?",
+    "hi": "क्या आप सचमुच इस आपूर्तिकर्ता को हटाना चाहते हैं?"
+  },
+  "Thesupplierhasbeendeleted": {
+    "en": "The supplier has been deleted",
+    "hi": "आपूर्तिकर्ता को हटा दिया गया है"
+  },
+  "AllSuppliers": {
+    "en": "All Suppliers",
+    "hi": "सभी आपूर्तिकर्ता"
+  },
+  "Searchbysupplierdetails": {
+    "en": "Search by supplier details",
+    "hi": "आपूर्तिकर्ता विवरण के आधार पर खोजें"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  }
+}
