@@ -217,19 +217,19 @@
   },
   "TINnumberlengthmustgreaterthan1": {
     "en": "TIN number length must greater than 1",
-    "hi": "TIN नंबर का वर्ण 1 से अधिक होना चाहिए"
+    "hi": "टिन नंबर का वर्ण 1 से अधिक होना चाहिए"
   },
   "TINnumberlengthmustlessthan50": {
     "en": "TIN number length must less than 50",
-    "hi": "TIN नंबर का वर्ण 50 से कम होना चाहिए"
+    "hi": "टिन नंबर का वर्ण 50 से कम होना चाहिए"
   },
   "CSTnumberlengthmustgreaterthan1": {
     "en": "CST number length must greater than 1",
-    "hi": "CST संख्या का वर्ण 1 से अधिक होना चाहिए"
+    "hi": "सीएसटी संख्या का वर्ण 1 से अधिक होना चाहिए"
   },
   "CSTnumberlengthmustlessthan50": {
     "en": "CST number length must less than 50",
-    "hi": "CST संख्या का वर्ण 50 से कम होना चाहिए"
+    "hi": "सीएसटी संख्या का वर्ण 50 से कम होना चाहिए"
   },
   "PANnumberlengthmustgreaterthan1": {
     "en": "PAN number length must greater than 1",
@@ -239,13 +239,13 @@
     "en": "PAN number length must less than 50",
     "hi": "पैन नंबर का वर्ण 50 से कम होना चाहिए"
   },
-  "VANnumberlengthmustgreaterthan1": {
-    "en": "VAN number length must greater than 1",
-    "hi": "VAN नंबर का वर्ण 1 से अधिक होना चाहिए"
+  "VATnumberlengthmustgreaterthan1": {
+    "en": "VAT number length must greater than 1",
+    "hi": "वैट नंबर का वर्ण 1 से अधिक होना चाहिए"
   },
-  "VANnumberlengthmustlessthan50": {
-    "en": "VAN number length must less than 50",
-    "hi": "VAN नंबर का वर्ण 50 से कम होना चाहिए"
+  "VATnumberlengthmustlessthan50": {
+    "en": "VAT number length must less than 50",
+    "hi": "वैट नंबर का वर्ण 50 से कम होना चाहिए"
   },
   "Namelengthmustgreaterthan1": {
     "en": "Name length must greater than 1",
