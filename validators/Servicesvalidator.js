@@ -681,3 +681,114 @@ exports.validateInvProductCompanyUpdate = [
 ];
 
 
+
+
+exports.validateServiceSOR = [
+    body("*.serviceRate")
+        .notEmpty().withMessage("Service rate is required")
+        .isInt().withMessage("Service rate must be an integer"),
+
+    body("*.serviceIDR")
+        .notEmpty().withMessage("Service IDR is required")
+        .isInt().withMessage("Service IDR must be an integer"),
+
+    body("*.firstEmergancyRate")
+        .optional().isInt().withMessage("First emergency rate must be an integer"),
+
+    body("*.secondEmergancyRate")
+        .optional().isInt().withMessage("Second emergency rate must be an integer"),
+
+    body("*.classIDR")
+        .notEmpty().withMessage("Class IDR is required")
+        .isInt().withMessage("Class IDR must be an integer"),
+
+    body("*.isNotApplicable")
+        .optional().isBoolean().withMessage("Is Not Applicable must be a boolean"),
+
+    body("*.fromDate")
+        .optional().isISO8601().toDate().withMessage("From Date must be a valid date"),
+
+    body("*.toDate")
+        .optional().isISO8601().toDate().withMessage("To Date must be a valid date"),
+
+    body("*.isEffectiveNow")
+        .optional().isBoolean().withMessage("Is Effective Now must be a boolean"),
+
+    body("*.versionNumber")
+        .optional().isLength({ max: 50 }).withMessage("Version Number must be at most 50 characters"),
+
+    body("*.isCashPriceList")
+        .optional().isBoolean().withMessage("Is Cash Price List must be a boolean"),
+
+    body("*.hospital_IDR")
+        .notEmpty().withMessage("Hospital IDR is required")
+        .isInt().withMessage("Hospital IDR must be an integer"),
+
+    body("*.hospitalGroup_IDR")
+        .optional().isInt().withMessage("Hospital Group IDR must be an integer"),
+
+    body("*.createdBy")
+        .optional().isString().withMessage("CreatedBy must be a string"),
+
+    body("*.updatedBy")
+        .optional().isString().withMessage("UpdatedBy must be a string"),
+
+    body("*.Non_Active")
+        .optional().isBoolean().withMessage("Non_Active must be a boolean"),
+
+    body("*.UpdatedAt")
+        .optional().isISO8601().toDate().withMessage("UpdatedAt must be a valid date"),
+
+    body("*.CreatedAt")
+        .optional().isISO8601().toDate().withMessage("CreatedAt must be a valid date"),
+];
+
+exports.validateServiceSORUpdate = [
+    body("*.serviceRate")
+        .optional().isInt().withMessage("Service rate must be an integer"),
+
+    body("*.serviceIDR")
+        .optional().isInt().withMessage("Service IDR must be an integer"),
+
+    body("*.firstEmergancyRate")
+        .optional().isInt().withMessage("First emergency rate must be an integer"),
+
+    body("*.secondEmergancyRate")
+        .optional().isInt().withMessage("Second emergency rate must be an integer"),
+
+    body("*.classIDR")
+        .optional().isInt().withMessage("Class IDR must be an integer"),
+
+    body("*.isNotApplicable")
+        .optional().isBoolean().withMessage("Is Not Applicable must be a boolean"),
+
+    body("*.fromDate")
+        .optional().isISO8601().toDate().withMessage("From Date must be a valid date"),
+
+    body("*.toDate")
+        .optional().isISO8601().toDate().withMessage("To Date must be a valid date"),
+
+    body("*.isEffectiveNow")
+        .optional().isBoolean().withMessage("Is Effective Now must be a boolean"),
+
+    body("*.versionNumber")
+        .optional().isLength({ max: 50 }).withMessage("Version Number must be at most 50 characters"),
+
+    body("*.isCashPriceList")
+        .optional().isBoolean().withMessage("Is Cash Price List must be a boolean"),
+
+    body("*.hospital_IDR")
+        .optional().isInt().withMessage("Hospital IDR must be an integer"),
+
+    body("*.hospitalGroup_IDR")
+        .optional().isInt().withMessage("Hospital Group IDR must be an integer"),
+
+    body("*.updatedBy")
+        .optional().isString().withMessage("UpdatedBy must be a string"),
+
+    body("*.UpdatedAt")
+        .optional().isISO8601().toDate().withMessage("UpdatedAt must be a valid date"),
+];
+
+
+ 
