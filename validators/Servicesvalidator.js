@@ -682,113 +682,103 @@ exports.validateInvProductCompanyUpdate = [
 
 
 
-
 exports.validateServiceSOR = [
-    body("*.serviceRate")
+    body("startDate")
+        .notEmpty().withMessage("Start Date is required")
+        .isISO8601().toDate().withMessage("Start Date must be a valid date"),
+
+    body("toDate")
+        .notEmpty().withMessage("To Date is required")
+        .isISO8601().toDate().withMessage("To Date must be a valid date"),
+
+    body("versionNumber")
+        .notEmpty().withMessage("Version Number is required")
+        .isLength({ max: 50 }).withMessage("Version Number must be at most 50 characters"),
+
+    body("classIDR").isArray({ min: 1 }).withMessage("classIDR must be a non-empty array"),
+
+    body("classIDR.*").custom((value) => {
+        if (typeof value !== "object" || Object.keys(value).length === 0) {
+            throw new Error("Each item in classIDR must be an object with a service type key");
+        }
+        return true;
+    }),
+
+    body("classIDR.*.*.serviceRate")
         .notEmpty().withMessage("Service rate is required")
         .isInt().withMessage("Service rate must be an integer"),
 
-    body("*.serviceIDR")
-        .notEmpty().withMessage("Service IDR is required")
-        .isInt().withMessage("Service IDR must be an integer"),
-
-    body("*.firstEmergancyRate")
+    body("classIDR.*.*.firstEmergancyRate")
         .optional().isInt().withMessage("First emergency rate must be an integer"),
 
-    body("*.secondEmergancyRate")
+    body("classIDR.*.*.secondEmergancyRate")
         .optional().isInt().withMessage("Second emergency rate must be an integer"),
 
-    body("*.classIDR")
-        .notEmpty().withMessage("Class IDR is required")
-        .isInt().withMessage("Class IDR must be an integer"),
-
-    body("*.isNotApplicable")
+    body("classIDR.*.*.isNotApplicable")
         .optional().isBoolean().withMessage("Is Not Applicable must be a boolean"),
 
-    body("*.fromDate")
-        .optional().isISO8601().toDate().withMessage("From Date must be a valid date"),
-
-    body("*.toDate")
-        .optional().isISO8601().toDate().withMessage("To Date must be a valid date"),
-
-    body("*.isEffectiveNow")
+    body("classIDR.*.*.isEffectiveNow")
         .optional().isBoolean().withMessage("Is Effective Now must be a boolean"),
 
-    body("*.versionNumber")
-        .optional().isLength({ max: 50 }).withMessage("Version Number must be at most 50 characters"),
-
-    body("*.isCashPriceList")
+    body("classIDR.*.*.isCashPriceList")
         .optional().isBoolean().withMessage("Is Cash Price List must be a boolean"),
 
-    body("*.hospital_IDR")
+    body("classIDR.*.*.hospital_IDR")
         .notEmpty().withMessage("Hospital IDR is required")
         .isInt().withMessage("Hospital IDR must be an integer"),
 
-    body("*.hospitalGroup_IDR")
+    body("classIDR.*.*.hospitalGroup_IDR")
         .optional().isInt().withMessage("Hospital Group IDR must be an integer"),
 
-    body("*.createdBy")
-        .optional().isString().withMessage("CreatedBy must be a string"),
-
-    body("*.updatedBy")
-        .optional().isString().withMessage("UpdatedBy must be a string"),
-
-    body("*.Non_Active")
-        .optional().isBoolean().withMessage("Non_Active must be a boolean"),
-
-    body("*.UpdatedAt")
-        .optional().isISO8601().toDate().withMessage("UpdatedAt must be a valid date"),
-
-    body("*.CreatedAt")
-        .optional().isISO8601().toDate().withMessage("CreatedAt must be a valid date"),
+    body("classIDR.*.*.Non_Active")
+        .optional().isBoolean().withMessage("Non_Active must be a boolean")
 ];
 
 exports.validateServiceSORUpdate = [
-    body("*.serviceRate")
-        .optional().isInt().withMessage("Service rate must be an integer"),
+    body("startDate")
+        .optional().isISO8601().toDate().withMessage("Start Date must be a valid date"),
 
-    body("*.serviceIDR")
-        .optional().isInt().withMessage("Service IDR must be an integer"),
-
-    body("*.firstEmergancyRate")
-        .optional().isInt().withMessage("First emergency rate must be an integer"),
-
-    body("*.secondEmergancyRate")
-        .optional().isInt().withMessage("Second emergency rate must be an integer"),
-
-    body("*.classIDR")
-        .optional().isInt().withMessage("Class IDR must be an integer"),
-
-    body("*.isNotApplicable")
-        .optional().isBoolean().withMessage("Is Not Applicable must be a boolean"),
-
-    body("*.fromDate")
-        .optional().isISO8601().toDate().withMessage("From Date must be a valid date"),
-
-    body("*.toDate")
+    body("toDate")
         .optional().isISO8601().toDate().withMessage("To Date must be a valid date"),
 
-    body("*.isEffectiveNow")
-        .optional().isBoolean().withMessage("Is Effective Now must be a boolean"),
-
-    body("*.versionNumber")
+    body("versionNumber")
         .optional().isLength({ max: 50 }).withMessage("Version Number must be at most 50 characters"),
 
-    body("*.isCashPriceList")
+    body("classIDR").isArray({ min: 1 }).withMessage("classIDR must be a non-empty array"),
+
+    body("classIDR.*").custom((value) => {
+        if (typeof value !== "object" || Object.keys(value).length === 0) {
+            throw new Error("Each item in classIDR must be an object with a service type key");
+        }
+        return true;
+    }),
+
+    body("classIDR.*.*.serviceRate")
+        .optional().isInt().withMessage("Service rate must be an integer"),
+
+    body("classIDR.*.*.firstEmergancyRate")
+        .optional().isInt().withMessage("First emergency rate must be an integer"),
+
+    body("classIDR.*.*.secondEmergancyRate")
+        .optional().isInt().withMessage("Second emergency rate must be an integer"),
+
+    body("classIDR.*.*.isNotApplicable")
+        .optional().isBoolean().withMessage("Is Not Applicable must be a boolean"),
+
+    body("classIDR.*.*.isEffectiveNow")
+        .optional().isBoolean().withMessage("Is Effective Now must be a boolean"),
+
+    body("classIDR.*.*.isCashPriceList")
         .optional().isBoolean().withMessage("Is Cash Price List must be a boolean"),
 
-    body("*.hospital_IDR")
+    body("classIDR.*.*.hospital_IDR")
         .optional().isInt().withMessage("Hospital IDR must be an integer"),
 
-    body("*.hospitalGroup_IDR")
+    body("classIDR.*.*.hospitalGroup_IDR")
         .optional().isInt().withMessage("Hospital Group IDR must be an integer"),
 
-    body("*.updatedBy")
-        .optional().isString().withMessage("UpdatedBy must be a string"),
-
-    body("*.UpdatedAt")
-        .optional().isISO8601().toDate().withMessage("UpdatedAt must be a valid date"),
+    body("classIDR.*.*.Non_Active")
+        .optional().isBoolean().withMessage("Non_Active must be a boolean")
 ];
-
 
  
