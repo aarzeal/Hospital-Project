@@ -111,7 +111,7 @@ exports.createServiceSOR = async (req, res) => {
     const locationData = await getLocationData(clientIp);
 
     try {
-        const { startDate, toDate, versionNumber, classIDR } = req.body;
+        const { fromDate, toDate, versionNumber, classIDR } = req.body;
 
         if (!classIDR || typeof classIDR !== "object" || Object.keys(classIDR).length === 0) {
             throw { errorCode: 9231, message: "classIDR must be a non-empty object with valid keys." };
@@ -156,7 +156,7 @@ exports.createServiceSOR = async (req, res) => {
                         serviceRate, firstEmergancyRate, secondEmergancyRate,
                         isNotApplicable, isEffectiveNow, isCashPriceList,
                         Non_Active, hospital_IDR, hospitalGroup_IDR,
-                        fromDate: startDate, toDate, versionNumber,
+                        fromDate, toDate, versionNumber,
                         classIDR: classID, // Storing class ID
                         serviceIDR: serviceIDR, // 
                         createdBy: req.username,
@@ -267,7 +267,7 @@ exports.updateOrCreateServiceSOR = async (req, res) => {
     const locationData = await getLocationData(clientIp);
 
     try {
-        const { startDate, toDate, classIDR, } = req.body; // Removed versionNumber from request
+        const { fromDate, toDate, classIDR, } = req.body; // Removed versionNumber from request
 
         if (!classIDR || typeof classIDR !== "object" || Object.keys(classIDR).length === 0) {
             throw { errorCode: 9240, message: "classIDR must be a non-empty object with valid keys." };
@@ -335,7 +335,7 @@ exports.updateOrCreateServiceSOR = async (req, res) => {
                             serviceRate, firstEmergancyRate, secondEmergancyRate,
                             isNotApplicable, isEffectiveNow, isCashPriceList,
                             Non_Active, hospital_IDR, hospitalGroup_IDR,
-                            fromDate: startDate, toDate, versionNumber: newVersionNumber,
+                            fromDate, toDate, versionNumber: newVersionNumber,
                             classIDR: classID, serviceIDR: serviceIDR, // Ensure linking to correct class & service type
                             createdBy: req.username
                         });
@@ -349,7 +349,7 @@ exports.updateOrCreateServiceSOR = async (req, res) => {
                             serviceRate, firstEmergancyRate, secondEmergancyRate,
                             isNotApplicable, isEffectiveNow, isCashPriceList,
                             Non_Active, hospital_IDR, hospitalGroup_IDR,
-                            fromDate: startDate, toDate, versionNumber: 1,
+                            fromDate, toDate, versionNumber: 1,
                             classIDR: classID, serviceIDR: serviceIDR,
                             createdBy: req.username
                         });
