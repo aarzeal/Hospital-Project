@@ -156,7 +156,7 @@ exports.createServiceSOR = async (req, res) => {
                         serviceRate, firstEmergancyRate, secondEmergancyRate,
                         isNotApplicable, isEffectiveNow, isCashPriceList,
                         Non_Active, hospital_IDR, hospitalGroup_IDR,
-                        fromDate, toDate, versionNumber,
+                        fromDate, toDate, versionNumber:1,
                         classIDR: classID, // Storing class ID
                         serviceIDR: serviceIDR, // 
                         createdBy: req.username,
@@ -312,13 +312,13 @@ exports.updateOrCreateServiceSOR = async (req, res) => {
                         // **Find the latest version for the same classIDR & serviceTypeID**
                         const latestRecord = await ServiceSOR.findOne({
                             where: { 
-                                classIDR: classID,  // Ensure it's filtering by the correct class
+                                serviceSOR_ID: serviceSOR_ID,  // Ensure it's filtering by the correct class
                                 serviceIDR: serviceIDR // Ensure it's filtering by service type
                             },
                             order: [['versionNumber', 'DESC']] // Get the highest version number
                         });
                     
-                        console.log("Checking latestRecord for classIDR:", classID, "serviceIDR:", serviceIDR, "Result:", latestRecord.versionNumber);
+                        console.log("Checking latestRecord for classIDR:", serviceSOR_ID, "serviceIDR:", serviceIDR, "Result:", latestRecord.versionNumber);
                     
 
                         // **Increment versionNumber or start from 1**

@@ -1370,18 +1370,39 @@ exports.login = async (req, res) => {
 
    
     // const secretKey = "mKJDnzbwLQxPriGj";  // Replace with actual key
-    // const plainText = "Pass123";
-    const secretKey = process.env.SYSTEM_SECRET_KEY;
+    // const Password = "U2FsdGVkX1/VSkATXE/GCBNOA/mAhXYvaYpGCwm8T2o=";
+    // const secretKey = process.env.SYSTEM_SECRET_KEY;
     
     // Encrypt
     // const encrypted = CryptoJS.AES.encrypt(Password, secretKey).toString();
+
     // console.log('Encrypted:', encrypted);
+    
+    // Decrypt
+    // const decryptedBytes = CryptoJS.AES.decrypt(Password, secretKey);
+
+    // const decryptedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+    // console.log('Decrypted:', decryptedPassword);
+
+
+ const secretKey = process.env.SYSTEM_SECRET_KEY;
+    
+    // Encrypt
+    const encrypted = CryptoJS.AES.encrypt(Password, secretKey).toString();
+
+    console.log('Encrypted:', encrypted);
     
     // Decrypt
     const decryptedBytes = CryptoJS.AES.decrypt(Password, secretKey);
     const decryptedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
     console.log('Decrypted:', decryptedPassword);
+
+
+
+
+
 
 
     const hospital = await Hospital.findOne({ where: { Username } });
