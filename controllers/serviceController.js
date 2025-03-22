@@ -1426,7 +1426,7 @@ exports.getServicebyservicetype = async (req, res) => {
         let response;
 
         if (service_type) {
-            response = await Service.findOne({ where: { service_type: service_type } });
+            response = await Service.findAll({ where: { service_type: service_type } });
 
             if (!response) {
                 const executionTime = `${Date.now() - start}ms`;
