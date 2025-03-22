@@ -322,6 +322,9 @@ exports.updateOrCreateServiceSOR = async (req, res) => {
                     
 
                         // **Increment versionNumber or start from 1**
+                        // const newVersionNumber = latestRecord ? latestRecord.versionNumber +1 :1;
+
+                        
                         const newVersionNumber = latestRecord ? parseInt(latestRecord.versionNumber, 10) + 1 : 1;
 
                     

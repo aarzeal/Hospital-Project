@@ -22,6 +22,7 @@ const Userverifiction = require('../validators/Accesstokenverify');
 router.post('/service', validateService.validateService,validateJSONContentType,authenticate,Userverifiction,ensureSequelizeInstance,serviceController.createService);
 router.get('/service', authenticate,Userverifiction,ensureSequelizeInstance,serviceController.getService);
 router.get('/service/:id', authenticate,Userverifiction,ensureSequelizeInstance,serviceController.getService);
+router.get('/service-type/:service_type', authenticate,Userverifiction,ensureSequelizeInstance,serviceController.getServicebyservicetype);
 router.put("/update/:id", validateService.validateServiceUpdate,validateJSONContentType,authenticate,Userverifiction,ensureSequelizeInstance,serviceController.updateService);
 router.delete("/delete/:service_id", authenticate,Userverifiction,ensureSequelizeInstance,serviceController.deleteService);
 

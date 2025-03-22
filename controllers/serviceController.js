@@ -1377,3 +1377,159 @@ exports.deleteService = async (req, res) => {
 //         });
 //     }
 // };
+
+
+
+
+
+
+
+
+
+
+exports.getServicebyservicetype = async (req, res) => {
+    const start = Date.now();
+    const clientIp = await getClientIp(req);
+    const locationData = await getLocationData(clientIp);
+    const logId = uuidv4();
+
+    const { service_type } = req.params; // If an ID is provided, fetch by ID; otherwise, fetch all
+    const hospitalDatabase = req.hospitalDatabase;
+
+    try {
+        if (!req.sequelize) {
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 9053; // Database connection error
+
+            logger.logWithMeta("error", "Database connection not found", {
+                errorCode,
+                executionTime,
+                hospitalName: req.hospitalName || "Unknown",
+                ip: clientIp,
+                city: locationData?.city,
+                country: locationData?.country,
+                apiName: req.originalUrl,
+                method: req.method,
+                userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy:req.username
+            });
+
+            return res.status(500).json({
+                message: "Database connection not found",
+                statusCode: 500,
+                errorCode
+            });
+        }
+
+        const Service = require("../models/ser")(req.sequelize);
+        let response;
+
+        if (service_type) {
+            response = await Service.findOne({ where: { service_type: service_type } });
+
+            if (!response) {
+                const executionTime = `${Date.now() - start}ms`;
+                const errorCode = 9054; // Service not found
+
+                logger.logWithMeta("error", "Service not found", {
+                    errorCode,
+                    executionTime,
+                    hospitalName: req.hospitalName,
+                    ip: clientIp,
+                    city: locationData?.city,
+                    country: locationData?.country,
+                    apiName: req.originalUrl,
+                    method: req.method,
+                    userAgent: req.headers["user-agent"],
+                    // service_id: id,
+                    createdBy: req.username,
+                    updatedBy:req.username
+                });
+
+                return res.status(404).json({
+                    message: "Service not found",
+                    statusCode: 404,
+                    errorCode
+                });
+            }
+        } else {
+            response = await Service.findAll();
+            if (!response || response.length === 0) {
+                const executionTime = `${Date.now() - start}ms`;
+                const errorCode = 9055; // No services found
+
+                logger.logWithMeta("error", "No services found", {
+                    errorCode,
+                    executionTime,
+                    hospitalName: req.hospitalName,
+                    ip: clientIp,
+                    city: locationData?.city,
+                    country: locationData?.country,
+                    apiName: req.originalUrl,
+                    method: req.method,
+                    userAgent: req.headers["user-agent"],
+                    createdBy: req.username,
+                    updatedBy:req.username
+                });
+
+                return res.status(404).json({
+                    message: "No services found",
+                    statusCode: 404,
+                    errorCode
+                });
+            }
+        }
+
+        const executionTime = `${Date.now() - start}ms`;
+
+        logger.logWithMeta("info", `Fetched ${service_type ? "service by ID" : "all services"} successfully`, {
+            executionTime,
+            logId,
+            hospitalName: req.hospitalName,
+            ip: clientIp,
+            city: locationData?.city,
+            country: locationData?.country,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            // service_id: id || "all",
+            createdBy: req.username,
+            updatedBy:req.username
+        });
+
+        res.status(200).json({
+            meta: {
+                statusCode: 200,
+                executionTime,
+                hospitalDatabase,
+            },
+            data: response,
+        });
+
+    } catch (error) {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 9056; // General error in fetching service
+
+        logger.logWithMeta("error", `Error fetching ${service_type ? "service by service_type" : "all services"}`, {
+            errorCode,
+            executionTime,
+            hospitalName: req.hospitalName,
+            ip: clientIp,
+            city: locationData?.city,
+            country: locationData?.country,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            // service_id: id || "all",
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy:req.username
+        });
+
+        res.status(500).json({
+            meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+            error: { message: `Error fetching ${service_type ? "service by service_type" : "services"}: ` + error.message },
+        });
+    }
+};
