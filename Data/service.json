@@ -406,5 +406,57 @@
   "Secondemergancyrate": {
     "en": "Second emergancy rate",
     "hi": "दूसरी आपातकालीन दर"
+  },
+  "Isnotapplicable": {
+    "en": "Is not applicable?",
+    "hi": "उपयुक्त नहीं है?"
+  },
+  "Iseffectivenow": {
+    "en": "Is effective now?",
+    "hi": "अब प्रभावी है?"
+  },
+  "Iscashpricelist": {
+    "en": "Is cash price list?",
+    "hi": "नकद मूल्य सूची है?"
+  },
+  "DownloadExcel": {
+    "en": "Download Excel",
+    "hi": "एक्सेल डाउनलोड करें"
+  },
+  "AllServiceSOR": {
+    "en": "All Service SOR",
+    "hi": "सभी सेवा एसओआर"
+  },
+  "Applicable": {
+    "en": "Applicable",
+    "hi": "उपयुक्त"
+  },
+  "NotApplicable": {
+    "en": "Not Applicable",
+    "hi": "लागू नहीं"
+  },
+  "VersionNumber": {
+    "en": "Version Number",
+    "hi": "संस्करण क्रमांक"
+  },
+  "CreatedBy": {
+    "en": "Created By",
+    "hi": "द्वारा बनाई गई"
+  },
+  "CreatedAt": {
+    "en": "Created At",
+    "hi": "बनाया गया"
+  },
+  "UpdatedAt": {
+    "en": "Updated At",
+    "hi": "अद्यतन किया गया"
+  },
+  "UpdatedBy": {
+    "en": "Updated By",
+    "hi": "द्वारा अद्यतन किया गया"
+  },
+  "ServiceSORDetails": {
+    "en": "Service SOR Details",
+    "hi": "सेवा एसओआर विवरण"
   }
 }
