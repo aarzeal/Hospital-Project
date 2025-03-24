@@ -310,5 +310,101 @@
   "AllServicePriceList": {
     "en": "All Service Price List",
     "hi": "सभी सेवा मूल्य सूची"
+  },
+  "Invalidnumberformat": {
+    "en": "Invalid number format",
+    "hi": "अमान्य संख्या प्रारूप"
+  },
+  "Serviceratelengthmustlessthan50": {
+    "en": "Service rate length must less than 50",
+    "hi": "सेवा दर का अक्षर 50 से कम होना चाहिए"
+  },
+  "FirstEmergencyratelengthmustlessthan50": {
+    "en": "First Emergency rate length must less than 50",
+    "hi": "प्रथम आपातकालीन दर का अक्षर 50 से कम होना चाहिए"
+  },
+  "SecondEmergencyratelengthmustlessthan50": {
+    "en": "Second Emergency rate length must less than 50",
+    "hi": "द्वितीय आपातकालीन दर का अक्षर 50 से कम होना चाहिए"
+  },
+  "ServiceSORupdatedsuccessfully": {
+    "en": "Service SOR updated successfully",
+    "hi": "सेवा SOR सफलतापूर्वक अपडेट किया गया"
+  },
+  "ServiceSORaddedsuccessfully": {
+    "en": "Service SOR added successfully",
+    "hi": "सेवा SOR सफलतापूर्वक जोड़ा गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "DoyoureallywanttodeletethisServiceSOR": {
+    "en": "Do you really want to delete this Service SOR?",
+    "hi": "क्या आप सचमुच इस सेवा एसओआर को हटाना चाहते हैं?"
+  },
+  "TheServiceSORhasbeendeleted": {
+    "en": "The Service SOR has been deleted",
+    "hi": "सेवा एसओआर हटा दिया गया है"
+  },
+  "ServiceRate": {
+    "en": "Service Rate",
+    "hi": "सेवा शुल्क दर"
+  },
+  "FirstEmergancyRate": {
+    "en": "First Emergancy Rate",
+    "hi": "प्रथम आपातकालीन दर"
+  },
+  "SecondEmergancyRate": {
+    "en": "Second Emergancy Rate",
+    "hi": "दूसरा आपातकालीन दर"
+  },
+  "View": {
+    "en": "View",
+    "hi": "देखना"
+  },
+  "ServiceSOR": {
+    "en": "Service SOR",
+    "hi": "सेवा एसओआर"
+  },
+  "Selectbillingclass": {
+    "en": "Select billing class",
+    "hi": "बिलिंग वर्ग का चयन करें"
+  },
+  "Billingclass": {
+    "en": "Billing class",
+    "hi": "बिलिंग वर्ग"
+  },
+  "Selectservicestype": {
+    "en": "Select services type",
+    "hi": "सेवा प्रकार चुनें"
+  },
+  "Selectservices": {
+    "en": "Select services",
+    "hi": "सेवाएँ चुनें"
+  },
+  "Servicerate": {
+    "en": "Service rate",
+    "hi": "सेवा शुल्क दर"
+  },
+  "Enterserviceratehere": {
+    "en": "Enter service rate here",
+    "hi": "यहां सेवा दर दर्ज करें"
+  },
+  "Firstemergancyrate": {
+    "en": "First emergancy rate",
+    "hi": "प्रथम आपातकालीन दर"
+  },
+  "Enterfirstemergancyratehere": {
+    "en": "Enter first emergancy rate here",
+    "hi": "यहां पहली आपातकालीन दर दर्ज करें"
+  },
+  "Entersecondemergancyratehere": {
+    "en": "Enter second emergancy rate here",
+    "hi": "यहां दूसरी आपातकालीन दर दर्ज करें"
+  },
+  "Secondemergancyrate": {
+    "en": "Second emergancy rate",
+    "hi": "दूसरी आपातकालीन दर"
   }
 }
