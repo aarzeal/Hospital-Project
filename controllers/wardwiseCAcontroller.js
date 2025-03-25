@@ -47,7 +47,7 @@ exports.createWwca = async (req, res) => {
     const group = await HospitalGroup.findOne({ where: { hospitalGroup_IDR } });
     if (!group) {
       const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 1260;
+      const errorCode = 9227;
 
       logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", {
         errorCode,
@@ -142,3 +142,81 @@ exports.createWwca = async (req, res) => {
     });
   }
 };
+
+exports.getWwca = async (req, res) => {
+    const start = Date.now();
+    try {
+      const Wwca = require("../models/WwcaModel")(req.sequelize);
+      const wwcaRecords = await Wwca.findAll();
+  
+      const executionTime = `${Date.now() - start}ms`;
+      logger.logWithMeta("info", "Fetched Wwca records successfully", {
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+  
+      res.status(200).json({
+        meta: {
+          statusCode: 200,
+          executionTime,
+          totalRecords: wwcaRecords.length,
+        },
+        data: wwcaRecords,
+      });
+    } catch (error) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1263;
+  
+      logger.logWithMeta("error", "Error fetching Wwca records", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+  
+      res.status(500).json({
+        meta: { statusCode: 500, errorCode, executionTime },
+        error: { message: "Error fetching Wwca records: " + error.message },
+      });
+    }
+  };
+
+
+  exports.getWwcaById = async (req, res) => {
+    const start = Date.now();
+    const { id } = req.params;
+    try {
+      const Wwca = require("../models/WwcaModel")(req.sequelize);
+      const wwcaRecord = await Wwca.findByPk(id);
+  
+      if (!wwcaRecord) {
+        return res.status(404).json({ message: "Wwca record not found" });
+      }
+  
+      const executionTime = `${Date.now() - start}ms`;
+      logger.logWithMeta("info", "Fetched Wwca record by ID successfully", {
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+      });
+  
+      res.status(200).json({
+        meta: {
+          statusCode: 200,
+          executionTime,
+        },
+        data: wwcaRecord,
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching Wwca record: " + error.message });
+    }
+  };
+  
+  
