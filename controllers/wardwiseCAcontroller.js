@@ -12,7 +12,6 @@ const getClientIp = require('../util/clientip');
 const getLocationData = require("../util/locationHelper"); 
 dotenv.config();
 
-
 exports.createWwca = async (req, res) => {
   const errors = validationResult(req);
   const start = Date.now();
@@ -146,7 +145,7 @@ exports.createWwca = async (req, res) => {
 exports.getWwca = async (req, res) => {
     const start = Date.now();
     try {
-      const Wwca = require("../models/WwcaModel")(req.sequelize);
+      const Wwca = require("../models/wardwiseCAModel")(req.sequelize);
       const wwcaRecords = await Wwca.findAll();
   
       const executionTime = `${Date.now() - start}ms`;
@@ -191,7 +190,7 @@ exports.getWwca = async (req, res) => {
     const start = Date.now();
     const { id } = req.params;
     try {
-      const Wwca = require("../models/WwcaModel")(req.sequelize);
+      const Wwca = require("../models/wardwiseCAModel")(req.sequelize);
       const wwcaRecord = await Wwca.findByPk(id);
   
       if (!wwcaRecord) {
