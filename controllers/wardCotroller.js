@@ -6,10 +6,10 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const requestIp = require('request-ip');
 const { Sequelize } = require("sequelize");
-const Group = require("../models/HospitalGroup"); 
+const Group = require("../models/HospitalGroup");
 const { validationResult } = require('express-validator');
 const getClientIp = require('../util/clientip');
-const getLocationData = require("../util/locationHelper"); 
+const getLocationData = require("../util/locationHelper");
 dotenv.config();
 
 
@@ -45,14 +45,14 @@ exports.createWard = async (req, res) => {
   try {
     const Ward = require("../models/WardModel")(req.sequelize);
     const hospital = require("../models/HospitalModel")
-    const serviceIDR = require("../models/ser")(req.sequelize);
+    const Service = require("../models/ser")(req.sequelize);
 
-    const group = await Group.findOne({ where: { HospitalGroupID: hospitalGroup_IDR} });
+    const group = await Group.findOne({ where: { HospitalGroupID: hospitalGroup_IDR } });
 
     if (!group) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1260;
-  
+
       logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", {
         errorCode,
         executionTime,
@@ -65,13 +65,13 @@ exports.createWard = async (req, res) => {
         createdBy: req.username,
         // updatedBy:req.username
       });
-      return res.status(400).json({errorCode, message: "Invalid HospitalGroupID, not found in MasterDB" });
+      return res.status(400).json({ errorCode, message: "Invalid HospitalGroupID, not found in MasterDB" });
     }
-    const hospitalid = await hospital.findOne({ where: { HospitalID: hospital_IDR} });
+    const hospitalid = await hospital.findOne({ where: { HospitalID: hospital_IDR } });
     if (!hospitalid) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1260;
-  
+
       logger.logWithMeta("error", "Invalid HospitaID, not found in MasterDB", {
         errorCode,
         executionTime,
@@ -83,16 +83,16 @@ exports.createWard = async (req, res) => {
         method: req.method,
         userAgent: req.headers["user-agent"],
         createdBy: req.username,
-        updatedBy:req.username
+        updatedBy: req.username
       });
-      return res.status(400).json({errorCode, message: "Invalid HospitalID, not found in MasterDB" });
+      return res.status(400).json({ errorCode, message: "Invalid HospitalID, not found in MasterDB" });
     }
-    const serviceID = await serviceIDR.findOne({ where: { service_id: serviceIDR} });
+    const serviceID = await Service.findOne({ where: { service_id: serviceIDR } });
 
     if (!serviceID) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1260;
-  
+
       logger.logWithMeta("error", "Invalid serviceIDR, not found in MasterDB", {
         errorCode,
         executionTime,
@@ -101,9 +101,9 @@ exports.createWard = async (req, res) => {
         method: req.method,
         userAgent: req.headers["user-agent"],
         createdBy: req.username,
-        updatedBy:req.username
+        updatedBy: req.username
       });
-      return res.status(400).json({errorCode, message: "Invalid serviceIDR, not found in MasterDB" });
+      return res.status(400).json({ errorCode, message: "Invalid serviceIDR, not found in MasterDB" });
     }
 
 
@@ -202,10 +202,10 @@ exports.getward = async (req, res) => {
           method: req.method,
           userAgent: req.headers["user-agent"],
           createdBy: req.username,
-          updatedBy:req.username
+          updatedBy: req.username
         });
 
-        return res.status(404).json({errorCode, message: "ward not found" });
+        return res.status(404).json({ errorCode, message: "ward not found" });
       }
     } else {
       data = await ward.findAll();
@@ -216,15 +216,15 @@ exports.getward = async (req, res) => {
     logger.logWithMeta("info", "Fetched wards successfully", {
       executionTime,
       hospitalId: req.hospitalName,
-        apiName: req.originalUrl,
-        city: locationData?.city,
-        country: locationData?.country,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
       ip: clientIp,
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
       createdBy: req.username,
-      updatedBy:req.username
+      updatedBy: req.username
     });
 
     res.status(200).json({
@@ -250,7 +250,7 @@ exports.getward = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"],
       createdBy: req.username,
-      updatedBy:req.username
+      updatedBy: req.username
     });
 
     res.status(500).json({
@@ -288,27 +288,27 @@ exports.getWardById = async (req, res) => {
         method: req.method,
         userAgent: req.headers["user-agent"],
         createdBy: req.username,
-        updatedBy:req.username
+        updatedBy: req.username
       });
 
       return res.status(404).json({ errorCode: 1263, message: "Ward not found" });
     }
 
-    
+
     const executionTime = `${Date.now() - start}ms`;
 
     logger.logWithMeta("info", "Fetched wards successfully", {
       executionTime,
       hospitalId: req.hospitalName,
-        apiName: req.originalUrl,
-        city: locationData?.city,
-        country: locationData?.country,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
       ip: clientIp,
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
       createdBy: req.username,
-      updatedBy:req.username
+      updatedBy: req.username
     });
     res.status(200).json({
 
@@ -335,7 +335,7 @@ exports.getWardById = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"],
       createdBy: req.username,
-      updatedBy:req.username
+      updatedBy: req.username
     });
     res.status(500).json({
       meta: { statusCode: 500, errorCode: 1264, executionTime: `${Date.now() - start}ms`, hospitalDatabase },
