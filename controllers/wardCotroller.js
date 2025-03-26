@@ -360,7 +360,7 @@ exports.updateWard = async (req, res) => {
     const Ward = require("../models/WardModel")(req.sequelize);
     const Hospital = require("../models/HospitalModel");
     const Service = require("../models/ser")(req.sequelize);
-    const Group = require("../models/GroupModel");
+    const Group = require("../models/HospitalGroup");
     const logger = require("../utils/logger");
 
     const group = await Group.findOne({ where: { HospitalGroupID: hospitalGroup_IDR } });
