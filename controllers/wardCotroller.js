@@ -350,7 +350,9 @@ exports.updateWard = async (req, res) => {
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
-  const { wardID, wardName, wardTypeIDR, serviceIDR, floorIDR, bedCapacity, bedCapacityperRoom, isActive, checkinTime, isNUrChargeApplication, hospital_IDR, hospitalGroup_IDR, updatedBy, Non_Active } = req.body;
+  const { wardName, wardTypeIDR, serviceIDR, floorIDR, bedCapacity, bedCapacityperRoom, isActive, checkinTime, isNUrChargeApplication, hospital_IDR, hospitalGroup_IDR, updatedBy, Non_Active } = req.body;
+
+
 
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -362,6 +364,7 @@ exports.updateWard = async (req, res) => {
     const Service = require("../models/ser")(req.sequelize);
     const Group = require("../models/HospitalGroup");
     const logger = require("../logger");
+    const { ward_ID } = req.params;
 
     const group = await Group.findOne({ where: { HospitalGroupID: hospitalGroup_IDR } });
     if (!group) {
@@ -381,9 +384,9 @@ exports.updateWard = async (req, res) => {
       return res.status(400).json({ errorCode: 1260, message: "Invalid serviceIDR, not found in MasterDB" });
     }
 
-    const ward = await Ward.findOne({ where: { wardID } });
+    const ward = await Ward.findOne({ where: { ward_ID } });
     if (!ward) {
-      logger.logWithMeta("error", "Ward not found", { wardID, hospitalDatabase, apiName: req.originalUrl });
+      logger.logWithMeta("error", "Ward not found", { ward_ID, hospitalDatabase, apiName: req.originalUrl });
       return res.status(404).json({ errorCode: 1261, message: "Ward not found" });
     }
 
@@ -404,7 +407,7 @@ exports.updateWard = async (req, res) => {
     });
 
     const executionTime = `${Date.now() - start}ms`;
-    logger.logWithMeta("info", "Ward updated successfully", { wardID, hospitalDatabase, executionTime, apiName: req.originalUrl });
+    logger.logWithMeta("info", "Ward updated successfully", { ward_ID, hospitalDatabase, executionTime, apiName: req.originalUrl });
 
     res.status(200).json({
       meta: { statusCode: 200, executionTime, hospitalDatabase },
