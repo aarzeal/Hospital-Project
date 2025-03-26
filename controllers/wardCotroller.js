@@ -361,7 +361,7 @@ exports.updateWard = async (req, res) => {
     const Hospital = require("../models/HospitalModel");
     const Service = require("../models/ser")(req.sequelize);
     const Group = require("../models/HospitalGroup");
-    const logger = require("../utils/logger");
+    const logger = require("../logger");
 
     const group = await Group.findOne({ where: { HospitalGroupID: hospitalGroup_IDR } });
     if (!group) {
