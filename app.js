@@ -52,6 +52,7 @@ const itemCompany = require("./routes/InvProdCompanyRoute.js")
 const Supplier = require("./routes/SupplierRoute.js")
 const ServiceSOR = require("./routes/ServiceSORroutes.js")
 const ward = require("./routes/WardRoutes.js")
+const wardWiseCostAddition = require("./routes/wardwiseCAroutes.js")
 
 
 
@@ -149,7 +150,7 @@ app.use('/api/v1/item-company', itemCompany);
 app.use('/api/v1/supplier', Supplier);
 app.use('/api/v1/ServiceSOR', ServiceSOR);
 app.use('/api/v1/ward', ward);
-
+app.use('/api/v1/ward-wise-cost-addition',wardWiseCostAddition);
 
 
 sendEmail();
