@@ -431,20 +431,20 @@ exports.updateWard = async (req, res) => {
 exports.deleteWard = async (req, res) => {
   const start = Date.now();
   const hospitalDatabase = req.hospitalDatabase;
-  const { wardID } = req.params;
+  const { ward_ID } = req.params;
   try {
     const Ward = require("../models/WardModel")(req.sequelize);
-    const logger = require("../utils/logger");
+    const logger = require("../logger");
 
-    const ward = await Ward.findOne({ where: { wardID } });
+    const ward = await Ward.findOne({ where: { ward_ID } });
     if (!ward) {
-      logger.logWithMeta("error", "Ward not found", { wardID, hospitalDatabase, apiName: req.originalUrl });
+      logger.logWithMeta("error", "Ward not found", { ward_ID, hospitalDatabase, apiName: req.originalUrl });
       return res.status(404).json({ errorCode: 1261, message: "Ward not found" });
     }
 
     await ward.destroy();
     const executionTime = `${Date.now() - start}ms`;
-    logger.logWithMeta("info", "Ward deleted successfully", { wardID, hospitalDatabase, executionTime, apiName: req.originalUrl });
+    logger.logWithMeta("info", "Ward deleted successfully", { ward_ID, hospitalDatabase, executionTime, apiName: req.originalUrl });
 
     res.status(200).json({
       meta: { statusCode: 200, executionTime, hospitalDatabase },
