@@ -83,7 +83,7 @@
 //   return Wwca;
 // };
 
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 
 module.exports = (sequelize) => {
   const Wwca = sequelize.define(
@@ -134,7 +134,7 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     createdBy: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: true,
     },
     updatedBy: {
@@ -149,7 +149,7 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     }
-  },{
+  }, {
     tableName: 'tbl_Wwca',
     timestamps: false
   }

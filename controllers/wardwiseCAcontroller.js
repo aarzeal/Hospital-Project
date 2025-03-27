@@ -258,12 +258,12 @@ exports.createWwca = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const Wwca = require("../models/wardwiseCAModel.js")(req.sequelize); 
-  const Hospital = require("../models/HospitalModel.js");
+  const Wwca = require("../models/wardwiseCAModel.js")(req.sequelize);
+  const Hospital = require("../models/HospitalModel.js")(req.sequelize);
 
-  const HospitalGroup = require("../models/HospitalGroup.js")
+  const HospitalGroup = require("../models/HospitalGroup.js")(req.sequelize);
 
-  console.log('ppppp',new Wwca());
+  console.log('ppppp', new Wwca());
   try {
 
     const group = await HospitalGroup.findOne({ where: { HospitalGroupID: hospitalGroup_IDR } });
