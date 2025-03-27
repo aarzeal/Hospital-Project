@@ -28,7 +28,7 @@ exports.createWard = async (req, res) => {
     floorIDR,
     bedCapacity,
     bedCapacityperRoom,
-    isActive,
+    isEffective,
     checkinTime,
     isNUrChargeApplication,
     hospital_IDR,
@@ -116,7 +116,7 @@ exports.createWard = async (req, res) => {
       floorIDR,
       bedCapacity,
       bedCapacityperRoom,
-      isActive,
+      isEffective,
       checkinTime,
       isNUrChargeApplication,
       hospital_IDR,
@@ -350,7 +350,7 @@ exports.updateWard = async (req, res) => {
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
-  const { wardName, wardTypeIDR, serviceIDR, floorIDR, bedCapacity, bedCapacityperRoom, isActive, checkinTime, isNUrChargeApplication, hospital_IDR, hospitalGroup_IDR, updatedBy, Non_Active } = req.body;
+  const { wardName, wardTypeIDR, serviceIDR, floorIDR, bedCapacity, bedCapacityperRoom, isEffective, checkinTime, isNUrChargeApplication, hospital_IDR, hospitalGroup_IDR, updatedBy, Non_Active } = req.body;
 
 
 
@@ -397,7 +397,7 @@ exports.updateWard = async (req, res) => {
       floorIDR,
       bedCapacity,
       bedCapacityperRoom,
-      isActive,
+      isEffective,
       checkinTime,
       isNUrChargeApplication,
       hospital_IDR,

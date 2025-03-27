@@ -33,7 +33,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    isActive: {
+    isEffective: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
