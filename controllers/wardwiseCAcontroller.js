@@ -238,32 +238,40 @@ exports.createWwca = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
-  const hospitalDatabase = req.hospitalDatabase || "Unknown";
+  const hospitalDatabase = req.hospitalDatabase;
+
+  const {
+    WwcatypeIDR,
+    typeEnum,
+    typeIDR,
+    costAddRate,
+    fromdate,
+    todate,
+    isActive,
+    isCurrectRate,
+    hospital_IDR,
+    hospitalGroup_IDR,
+    createdBy,
+    updatedBy,
+  } = req.body;
 
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-
   const Wwca = require("../models/wardwiseCAModel.js")(req.sequelize);
-  const Hospital = require("../models/HospitalModel.js")(req.sequelize);
-  const HospitalGroup = require("../models/HospitalGroup.js")(req.sequelize);
-
-  const {
-    WwcatypeIDR, typeEnum, typeIDR, costAddRate, fromdate, todate,
-    isActive, isCurrectRate, hospital_IDR, hospitalGroup_IDR, createdBy
-  } = req.body;
+  const Hospital = require("../models/HospitalModel.js");
+  const HospitalGroup = require("../models/HospitalGroup.js");
 
   try {
-    const [group, hospital] = await Promise.all([
-      HospitalGroup.findOne({ where: { HospitalGroupID: hospitalGroup_IDR }, attributes: ['HospitalGroupID'] }),
-      Hospital.findOne({ where: { HospitalID: hospital_IDR }, attributes: ['HospitalID'] })
-    ]);
 
-    if (!group || !hospital) {
-      const missingEntity = !group ? "HospitalGroupID" : "HospitalID";
-      logger.logWithMeta("error", `Invalid ${missingEntity}, not found in MasterDB`, {
-        errorCode: 1260,
-        executionTime: `${Date.now() - start}ms`,
+    const group = await HospitalGroup.findOne({ where: { HospitalGroupID: hospitalGroup_IDR } });
+    if (!group) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1260;
+
+      logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", {
+        errorCode,
+        executionTime,
         hospitalId: req.hospitalName,
         apiName: req.originalUrl,
         city: locationData?.city,
@@ -272,45 +280,74 @@ exports.createWwca = async (req, res) => {
         userAgent: req.headers["user-agent"],
         createdBy: req.username,
       });
+      return res.status(400).json({ errorCode, message: "Invalid HospitalGroupID, not found in MasterDB" });
+    }
 
-      return res.status(400).json({ errorCode: 1260, message: `Invalid ${missingEntity}, not found in MasterDB` });
+    const hospitalid = await Hospital.findOne({ where: { HospitalID: hospital_IDR } });
+    if (!hospitalid) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1260;
+
+      logger.logWithMeta("error", "Invalid HospitalID, not found in MasterDB", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username
+      });
+      return res.status(400).json({ errorCode, message: "Invalid HospitalID, not found in MasterDB" });
     }
 
     await Wwca.sync({ force: false });
 
-    const transaction = await req.sequelize.transaction();
-    try {
-      const wwcaData = await Wwca.create({
-        WwcatypeIDR, typeEnum, typeIDR, costAddRate, fromdate, todate,
-        isActive, isCurrectRate, hospital_IDR, hospitalGroup_IDR, createdBy
-      }, { transaction });
+    const wwcaData = await Wwca.create({
+      WwcatypeIDR,
+      typeEnum,
+      typeIDR,
+      costAddRate,
+      fromdate,
+      todate,
+      isActive,
+      isCurrectRate,
+      hospital_IDR,
+      hospitalGroup_IDR,
+      createdBy,
+      // updatedBy,
+    });
 
-      await transaction.commit();
+    const executionTime = `${Date.now() - start}ms`;
+    logger.logWithMeta("info", "Ward created successfully", {
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+    });
 
-      logger.logWithMeta("info", "Ward created successfully", {
-        executionTime: `${Date.now() - start}ms`,
-        hospitalId: req.hospitalName,
-        apiName: req.originalUrl,
-        city: locationData?.city,
-        country: locationData?.country,
-        ip: clientIp,
-        method: req.method,
-        userAgent: req.headers["user-agent"],
-        createdBy: req.username,
-      });
-
-      res.status(200).json({
-        meta: { statusCode: 200, executionTime: `${Date.now() - start}ms`, hospitalDatabase },
-        data: { wwcaData },
-      });
-    } catch (error) {
-      await transaction.rollback();
-      throw error;
-    }
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime,
+        hospitalDatabase,
+      },
+      data: { wwcaData },
+    });
   } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1262;
+
     logger.logWithMeta("error", "Error creating Wwca record", {
-      errorCode: 1262,
-      executionTime: `${Date.now() - start}ms`,
+      errorCode,
+      executionTime,
       hospitalId: req.hospitalName,
       apiName: req.originalUrl,
       city: locationData?.city,
@@ -321,7 +358,7 @@ exports.createWwca = async (req, res) => {
     });
 
     res.status(500).json({
-      meta: { statusCode: 500, errorCode: 1262, executionTime: `${Date.now() - start}ms`, hospitalDatabase },
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
       error: { message: "Error creating Wwca record: " + error.message },
     });
   }
