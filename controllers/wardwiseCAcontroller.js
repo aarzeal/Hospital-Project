@@ -263,7 +263,7 @@ exports.createWwca = async (req, res) => {
   const Hospital = require("../models/HospitalModel.js");
   const HospitalGroup = require("../models/HospitalGroup.js");
   const Service = require("../models/ser")(req.sequelize);
-  const Ward=require("../models/WardModel.js");
+  const Ward=require("../models/WardModel.js")(req.sequelize);
 
   try {
 
@@ -511,7 +511,7 @@ exports.updateWwcaById = async (req, res) => {
   const {
     wardIDR,
     typeEnum,
-    typeIDR,
+    serviceIDR,
     costAddRate,
     fromdate,
     todate,
@@ -598,7 +598,7 @@ exports.updateWwcaById = async (req, res) => {
     await wardWiseData.update({
       wardIDR,
       typeEnum,
-      typeIDR,
+      serviceIDR,
       costAddRate,
       fromdate,
       todate,
