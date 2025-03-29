@@ -466,7 +466,7 @@ exports.updateWwcaById = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
 
   const {
-    WwcatypeIDR,
+    wardIDR,
     typeEnum,
     typeIDR,
     costAddRate,
@@ -537,7 +537,7 @@ exports.updateWwcaById = async (req, res) => {
     }
 
     await wardWiseData.update({
-      WwcatypeIDR,
+      wardIDR,
       typeEnum,
       typeIDR,
       costAddRate,
@@ -553,8 +553,10 @@ exports.updateWwcaById = async (req, res) => {
 
 
     const executionTime = `${Date.now() - start}ms`;
-    logger.logWithMeta("info", "Ward wise cost addition updated successfully", { Wwca_ID, hospitalDatabase, executionTime,city: locationData?.city,
-      country: locationData?.country, apiName: req.originalUrl });
+    logger.logWithMeta("info", "Ward wise cost addition updated successfully", {
+      Wwca_ID, hospitalDatabase, executionTime, city: locationData?.city,
+      country: locationData?.country, apiName: req.originalUrl
+    });
 
     res.status(200).json({
       meta: { statusCode: 200, executionTime, hospitalDatabase },
@@ -587,17 +589,17 @@ exports.deleteWwcaById = async (req, res) => {
     if (!wardWiseData) {
       logger.logWithMeta("error", "Ward wise cost addition not found", { Wwca_ID, hospitalDatabase, apiName: req.originalUrl });
       return res.status(404).json({ errorCode: 1261, message: "Ward wise cost addition not found" });
-    } 
+    }
 
     await wardWiseData.destroy();
-      const executionTime = `${Date.now() - start}ms`;
-      logger.logWithMeta("info", "Ward wise cost addition deleted successfully", { Wwca_ID, hospitalDatabase, executionTime, apiName: req.originalUrl });
+    const executionTime = `${Date.now() - start}ms`;
+    logger.logWithMeta("info", "Ward wise cost addition deleted successfully", { Wwca_ID, hospitalDatabase, executionTime, apiName: req.originalUrl });
 
-      res.status(200).json({
-        meta: { statusCode: 200, executionTime, hospitalDatabase },
-        message: "Ward wise cost addition deleted successfully",
-      });
-    
+    res.status(200).json({
+      meta: { statusCode: 200, executionTime, hospitalDatabase },
+      message: "Ward wise cost addition deleted successfully",
+    });
+
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 1263;
