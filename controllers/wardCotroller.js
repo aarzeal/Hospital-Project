@@ -38,6 +38,9 @@ exports.createWard = async (req, res) => {
     Non_Active,
   } = req.body;
 
+  // console.log("locationData:::::::",wardName)
+
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
@@ -368,25 +371,29 @@ exports.updateWard = async (req, res) => {
 
     const group = await Group.findOne({ where: { HospitalGroupID: hospitalGroup_IDR } });
     if (!group) {
-      logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", { hospitalGroup_IDR, hospitalDatabase, apiName: req.originalUrl });
+      logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", { hospitalGroup_IDR, hospitalDatabase, apiName: req.originalUrl, city: locationData?.city,
+        country: locationData?.country, });
       return res.status(400).json({ errorCode: 1260, message: "Invalid HospitalGroupID, not found in MasterDB" });
     }
 
     const hospital = await Hospital.findOne({ where: { HospitalID: hospital_IDR } });
     if (!hospital) {
-      logger.logWithMeta("error", "Invalid HospitalID, not found in MasterDB", { hospital_IDR, hospitalDatabase, apiName: req.originalUrl });
+      logger.logWithMeta("error", "Invalid HospitalID, not found in MasterDB", { hospital_IDR, hospitalDatabase, apiName: req.originalUrl,city: locationData?.city,
+        country: locationData?.country });
       return res.status(400).json({ errorCode: 1260, message: "Invalid HospitalID, not found in MasterDB" });
     }
 
     const service = await Service.findOne({ where: { service_id: serviceIDR } });
     if (!service) {
-      logger.logWithMeta("error", "Invalid serviceIDR, not found in MasterDB", { serviceIDR, hospitalDatabase, apiName: req.originalUrl });
+      logger.logWithMeta("error", "Invalid serviceIDR, not found in MasterDB", { serviceIDR, hospitalDatabase, apiName: req.originalUrl, city: locationData?.city,
+        country: locationData?.country });
       return res.status(400).json({ errorCode: 1260, message: "Invalid serviceIDR, not found in MasterDB" });
     }
 
     const ward = await Ward.findOne({ where: { ward_ID } });
     if (!ward) {
-      logger.logWithMeta("error", "Ward not found", { ward_ID, hospitalDatabase, apiName: req.originalUrl });
+      logger.logWithMeta("error", "Ward not found", { ward_ID, hospitalDatabase, apiName: req.originalUrl, city: locationData?.city,
+        country: locationData?.country });
       return res.status(404).json({ errorCode: 1261, message: "Ward not found" });
     }
 
@@ -404,10 +411,12 @@ exports.updateWard = async (req, res) => {
       hospitalGroup_IDR,
       updatedBy: req.username,
       Non_Active,
+      UpdatedAt: new Date(),
     });
 
     const executionTime = `${Date.now() - start}ms`;
-    logger.logWithMeta("info", "Ward updated successfully", { ward_ID, hospitalDatabase, executionTime, apiName: req.originalUrl });
+    logger.logWithMeta("info", "Ward updated successfully", { ward_ID, hospitalDatabase, executionTime, apiName: req.originalUrl, city: locationData?.city,
+      country: locationData?.country });
 
     res.status(200).json({
       meta: { statusCode: 200, executionTime, hospitalDatabase },
@@ -417,7 +426,8 @@ exports.updateWard = async (req, res) => {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 1262;
 
-    logger.logWithMeta("error", "Error updating ward", { errorCode, executionTime, hospitalDatabase, apiName: req.originalUrl, error: error.message });
+    logger.logWithMeta("error", "Error updating ward", { errorCode, executionTime, hospitalDatabase, apiName: req.originalUrl,city: locationData?.city,
+      country: locationData?.country, error: error.message });
 
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
@@ -426,19 +436,20 @@ exports.updateWard = async (req, res) => {
   }
 };
 
-
-
 exports.deleteWard = async (req, res) => {
   const start = Date.now();
   const hospitalDatabase = req.hospitalDatabase;
   const { ward_ID } = req.params;
+  
+
   try {
     const Ward = require("../models/WardModel")(req.sequelize);
     const logger = require("../logger");
 
     const ward = await Ward.findOne({ where: { ward_ID } });
     if (!ward) {
-      logger.logWithMeta("error", "Ward not found", { ward_ID, hospitalDatabase, apiName: req.originalUrl });
+      logger.logWithMeta("error", "Ward not found", { ward_ID, hospitalDatabase, apiName: req.originalUrl,city: locationData?.city,
+        country: locationData?.country });
       return res.status(404).json({ errorCode: 1261, message: "Ward not found" });
     }
 
@@ -450,6 +461,7 @@ exports.deleteWard = async (req, res) => {
       meta: { statusCode: 200, executionTime, hospitalDatabase },
       message: "Ward deleted successfully",
     });
+
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 1263;
