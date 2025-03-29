@@ -230,6 +230,7 @@ const { Sequelize } = require("sequelize");
 const { validationResult } = require('express-validator');
 const getClientIp = require('../util/clientip');
 const getLocationData = require("../util/locationHelper");
+
 dotenv.config();
 
 
@@ -261,6 +262,8 @@ exports.createWwca = async (req, res) => {
   const Wwca = require("../models/wardwiseCAModel.js")(req.sequelize);
   const Hospital = require("../models/HospitalModel.js");
   const HospitalGroup = require("../models/HospitalGroup.js");
+  const Service = require("../models/ser")(req.sequelize);
+  const Ward=require("../models/WardModel.js");
 
   try {
 
@@ -302,6 +305,46 @@ exports.createWwca = async (req, res) => {
       });
       return res.status(400).json({ errorCode, message: "Invalid HospitalID, not found in MasterDB" });
     }
+
+    const serviceID = await Service.findOne({ where: { service_id: serviceIDR } });
+    
+        if (!serviceID) {
+          const executionTime = `${Date.now() - start}ms`;
+          const errorCode = 1260;
+    
+          logger.logWithMeta("error", "Invalid serviceIDR, not found in MasterDB", {
+            errorCode,
+            executionTime,
+            hospitalId: req.hospitalId,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy: req.username
+          });
+          return res.status(400).json({ errorCode, message: "Invalid serviceIDR, not found in MasterDB" });
+        }
+    
+        const wardID = await Ward.findOne({ where: { ward_ID: wardIDR } });
+
+        console.log("wardIDDDDDD",wardID)
+
+        if (!wardID) {
+          const executionTime = `${Date.now() - start}ms`;
+          const errorCode = 1260;
+    
+          logger.logWithMeta("error", "Invalid wardIDR, not found in MasterDB", {
+            errorCode,
+            executionTime,
+            hospitalId: req.hospitalId,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy: req.username
+          });
+          return res.status(400).json({ errorCode, message: "Invalid wardIDR, not found in MasterDB" });
+        }
 
     await Wwca.sync({ force: false });
 
@@ -488,7 +531,9 @@ exports.updateWwcaById = async (req, res) => {
     const { Wwca_ID } = req.params;
 
     const Wwca = require("../models/wardwiseCAModel.js")(req.sequelize);
-    const Hospital = require("../models/HospitalModel.js");
+    const Ward = require("../models/WardModel")(req.sequelize);
+    const Hospital = require("../models/HospitalModel");
+    const Service = require("../models/ser")(req.sequelize);
     const HospitalGroup = require("../models/HospitalGroup.js");
 
     const group = await HospitalGroup.findOne({ where: { HospitalGroupID: hospitalGroup_IDR } });
@@ -528,6 +573,20 @@ exports.updateWwcaById = async (req, res) => {
         updatedBy: req.username
       });
       return res.status(400).json({ errorCode, message: "Invalid HospitalID, not found in MasterDB" });
+    }
+
+    const service = await Service.findOne({ where: { service_id: serviceIDR } });
+    if (!service) {
+      logger.logWithMeta("error", "Invalid serviceIDR, not found in MasterDB", { serviceIDR, hospitalDatabase, apiName: req.originalUrl, city: locationData?.city,
+        country: locationData?.country });
+      return res.status(400).json({ errorCode: 1260, message: "Invalid serviceIDR, not found in MasterDB" });
+    }
+
+    const ward = await Ward.findOne({ where: { ward_ID: wardIDR } });
+    if (!ward) {
+      logger.logWithMeta("error", "Ward not found", { wardIDR, hospitalDatabase, apiName: req.originalUrl, city: locationData?.city,
+        country: locationData?.country });
+      return res.status(404).json({ errorCode: 1261, message: "Ward not found" });
     }
 
     const wardWiseData = await Wwca.findOne({ where: { Wwca_ID } });
