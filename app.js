@@ -54,6 +54,7 @@ const ServiceSOR = require("./routes/ServiceSORroutes.js")
 const ward = require("./routes/WardRoutes.js")
 const roomType=require("./routes/RoomType_Routes.js")
 const wardWiseCostAddition = require("./routes/wardwiseCAroutes.js")
+const rooms=require("./routes/Rooms_Routes.js")
 
 
 
@@ -152,6 +153,7 @@ app.use('/api/v1/supplier', Supplier);
 app.use('/api/v1/ServiceSOR', ServiceSOR);
 app.use('/api/v1/ward', ward);
 app.use('/api/v1/room-type',roomType)
+app.use('/api/v1/room',rooms)
 
 app.use('/api/v1/ward-wise-cost-addition',wardWiseCostAddition);
 
