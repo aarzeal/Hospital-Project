@@ -20,7 +20,7 @@
 //   const hospitalDatabase = req.hospitalDatabase;
 
 //   const {
-//     WwcatypeIDR,
+//     wardIDR,
 //     typeEnum,
 //     typeIDR,
 //     costAddRate,
@@ -84,7 +84,7 @@
 //     await Wwca.sync({ force: false });
 
 //     const wwca = await Wwca.create({
-//       WwcatypeIDR,
+//       wardIDR,
 //       typeEnum,
 //       typeIDR,
 //       costAddRate,
@@ -241,9 +241,9 @@ exports.createWwca = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
 
   const {
-    WwcatypeIDR,
+    wardIDR,
     typeEnum,
-    typeIDR,
+    serviceIDR,
     costAddRate,
     fromdate,
     todate,
@@ -306,9 +306,9 @@ exports.createWwca = async (req, res) => {
     await Wwca.sync({ force: false });
 
     const wwcaData = await Wwca.create({
-      WwcatypeIDR,
+      wardIDR,
       typeEnum,
-      typeIDR,
+      serviceIDR,
       costAddRate,
       fromdate,
       todate,

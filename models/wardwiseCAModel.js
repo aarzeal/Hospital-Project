@@ -9,7 +9,7 @@
 //       autoIncrement: true,
 //       primaryKey: true,
 //     },
-//     WwcatypeIDR: {
+//     wardIDR: {
 //       type: DataTypes.INTEGER,
 //       allowNull: false,
 //     },
@@ -93,7 +93,7 @@ module.exports = (sequelize) => {
       autoIncrement: true,
       primaryKey: true,
     },
-    WwcatypeIDR: {
+    wardIDR: { //wardidr
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -101,7 +101,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    typeIDR: {
+    serviceIDR: { //service idr
       type: DataTypes.INTEGER,
       allowNull: true,
     },
@@ -121,8 +121,8 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
-    isCurrectRate: {
-      type: DataTypes.STRING,
+    isCurrectRate: { //boolean
+      type: DataTypes.BOOLEAN,
       allowNull: true,
     },
     hospital_IDR: {
