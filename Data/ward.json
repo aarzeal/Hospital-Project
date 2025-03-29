@@ -2,5 +2,257 @@
   "Ward": {
     "en": "Ward",
     "hi": "वार्ड"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "Wardupdatedsuccessfully": {
+    "en": "Ward updated successfully",
+    "hi": "वार्ड सफलतापूर्वक अद्यतन किया गया"
+  },
+  "Wardaddedsuccessfully": {
+    "en": "Ward added successfully",
+    "hi": "वार्ड सफलतापूर्वक जोड़ा गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it!",
+    "hi": "हाँ इसे हटा दो!"
+  },
+  "Nocancel": {
+    "en": "No, cancel",
+    "hi": "नहीं, रद्द करें"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Invalidcharactersdetected": {
+    "en": "Invalid characters detected",
+    "hi": "अमान्य वर्ण पाए गए"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Doyoureallywanttodeletethisward": {
+    "en": "Do you really want to delete this ward?",
+    "hi": "क्या आप सचमुच इस वार्ड को हटाना चाहते हैं?"
+  },
+  "Thewardhasbeendeleted": {
+    "en": "The ward has been deleted",
+    "hi": "वार्ड हटा दिया गया है"
+  },
+  "Wardname": {
+    "en": "Ward name",
+    "hi": "वार्ड का नाम"
+  },
+  "Servicename": {
+    "en": "Service name",
+    "hi": "सेवा का नाम"
+  },
+  "Bedcapacity": {
+    "en": "Bed capacity",
+    "hi": "बिस्तर क्षमता"
+  },
+  "Bedcapacityperroom": {
+    "en": "Bed capacity per room",
+    "hi": "प्रति कमरा बिस्तर क्षमता"
+  },
+  "Checkintime": {
+    "en": "Checkin time",
+    "hi": "प्रवेश का समय"
+  },
+  "Iseffective": {
+    "en": "Is effective",
+    "hi": "ये प्रभावी है"
+  },
+  "Effective": {
+    "en": "Effective",
+    "hi": "असरदार"
+  },
+  "NonEffective": {
+    "en": "Non Effective",
+    "hi": "अप्रभावी"
+  },
+  "Isnursingchargeapplicable": {
+    "en": "Is nursing charge applicable",
+    "hi": "क्या नर्सिंग चार्ज लागू है"
+  },
+  "Applicable": {
+    "en": "Applicable",
+    "hi": "लागू"
+  },
+  "NotApplicable": {
+    "en": "Not Applicable",
+    "hi": "लागू नहीं"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "NonActive": {
+    "en": "Non Active",
+    "hi": "गैर सक्रिय"
+  },
+  "Enterwardnamehere": {
+    "en": "Enter ward name here",
+    "hi": "यहां वार्ड का नाम दर्ज करें"
+  },
+  "Selectwardtype": {
+    "en": "Select ward type",
+    "hi": "वार्ड प्रकार का चयन करें"
+  },
+  "Wardtype": {
+    "en": "Ward type",
+    "hi": "वार्ड का प्रकार"
+  },
+  "Selectservice": {
+    "en": "Select service",
+    "hi": "सेवा का चयन करें"
+  },
+  "Selectfloor": {
+    "en": "Select floor",
+    "hi": "मंजिल का चयन करें"
+  },
+  "Floorname": {
+    "en": "Floor name",
+    "hi": "मंजिल का नाम"
+  },
+  "Enterbedcapacityhere": {
+    "en": "Enter bed capacity here",
+    "hi": "यहां बिस्तर क्षमता दर्ज करें"
+  },
+  "Enterbedcapacityperroomhere": {
+    "en": "Enter bed capacity per room here",
+    "hi": "प्रति कमरे बिस्तर क्षमता यहाँ दर्ज करें"
+  },
+  "Searchbywarddetails": {
+    "en": "Search by ward details",
+    "hi": "वार्ड विवरण के आधार पर खोजें"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "CostAdditionupdatedsuccessfully": {
+    "en": "Cost Addition updated successfully",
+    "hi": "लागत जोड़ सफलतापूर्वक अपडेट किया गया"
+  },
+  "CostAdditionaddedsuccessfully": {
+    "en": "Cost Addition added successfully",
+    "hi": "लागत जोड़ सफलतापूर्वक जोड़ा गया"
+  },
+  "Doyoureallywanttodeletethiswardwisecostaddition": {
+    "en": "Do you really want to delete this ward wise cost addition",
+    "hi": "क्या आप वास्तव में इस वार्डवार लागत जोड़ को हटाना चाहते हैं?"
+  },
+  "Thewardwisecostadditionhasbeendeleted": {
+    "en": "The ward wise cost addition has been deleted",
+    "hi": "वार्डवार लागत जोड़ को हटा दिया गया है"
+  },
+  "CostAddtype": {
+    "en": "Cost Add type",
+    "hi": "लागत जोड़ें प्रकार"
+  },
+  "Typeenum": {
+    "en": "Type e num",
+    "hi": "ई नंबर प्रकार"
+  },
+  "Type": {
+    "en": "Type",
+    "hi": "प्रकार"
+  },
+  "Iscurrentrate": {
+    "en": "Is current rate",
+    "hi": "वर्तमान दर है"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है?"
+  },
+  "FromDate": {
+    "en": "From Date",
+    "hi": "तारीख से"
+  },
+  "ToDate": {
+    "en": "To Date",
+    "hi": "तारीख तक"
+  },
+  "CostAddRate": {
+    "en": "Cost Add rate",
+    "hi": "लागत जोड़ने की दर"
+  },
+  "Wardwisecostaddition": {
+    "en": "Ward wise cost addition",
+    "hi": "वार्डवार लागत वृद्धि"
+  },
+  "Selectcostadditiontype": {
+    "en": "Select cost addition type",
+    "hi": "लागत वृद्धि प्रकार का चयन करें"
+  },
+  "Entertypeenumhere": {
+    "en": "Enter type e num here",
+    "hi": "ई-संख्या का प्रकार दर्ज करें"
+  },
+  "Selecttype": {
+    "en": "Select type",
+    "hi": "प्रकार चुनें"
+  },
+  "Entercostadditionratehere": {
+    "en": "Enter cost addition rate here",
+    "hi": "लागत संवर्धन दर यहां दर्ज करें"
+  },
+  "Entercurrentratehere": {
+    "en": "Enter current rate here",
+    "hi": "यहां वर्तमान दर दर्ज करें"
+  },
+  "SelectWard": {
+    "en": "Select Ward",
+    "hi": "वार्ड का चयन करें"
+  },
+  "WWCARate": {
+    "en": "WWCA Rate",
+    "hi": "डब्ल्यू डब्ल्यू सी ए दर"
+  },
+  "EnterWWCAratehere": {
+    "en": "Enter WWCA Rate here",
+    "hi": " यहां डब्ल्यू डब्ल्यू सी ए दर दर्ज करें"
   }
 }
