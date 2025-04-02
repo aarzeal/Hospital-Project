@@ -254,5 +254,17 @@
   "EnterWWCAratehere": {
     "en": "Enter WWCA Rate here",
     "hi": " यहां डब्ल्यू डब्ल्यू सी ए दर दर्ज करें"
+  },
+  "WWCAaddedsuccessfully": {
+    "en": "WWCA added successfully",
+    "hi": " डब्ल्यू डब्ल्यू सी ए सफलतापूर्वक जोड़ा गया"
+  },
+  "ActualRate": {
+    "en": "Actual Rate",
+    "hi": " वास्तविक दर"
+  },
+  "NewRate": {
+    "en": "New Rate",
+    "hi": " नई दर"
   }
 }
