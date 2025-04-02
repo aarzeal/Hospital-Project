@@ -9,10 +9,10 @@ const validation = require("../validators/validation");
 
 const router = express.Router();
 
-router.post('/rooms', validateJSONContentType, authenticate, Userverification, ensureSequelizeInstance, Room_Controller.createRoom);
+router.post('/rooms', validateJSONContentType, authenticate, Userverification,validation.roomsregister, ensureSequelizeInstance, Room_Controller.createRoom);
 router.get('/rooms', authenticate, Userverification, ensureSequelizeInstance, Room_Controller.getallrooms);
 router.get('/rooms/:room_ID', authenticate, Userverification, ensureSequelizeInstance, Room_Controller.getRoomsById);
-router.put('/rooms/:room_ID', validateJSONContentType, Userverification, authenticate, ensureSequelizeInstance, Room_Controller.updateRoom);
+router.put('/rooms/:room_ID', validateJSONContentType, Userverification, validation.roomsupdate, authenticate, ensureSequelizeInstance, Room_Controller.updateRoom);
 router.delete('/rooms/:room_ID', authenticate, Userverification, ensureSequelizeInstance, Room_Controller.deleteroomById);
 
 module.exports = router;

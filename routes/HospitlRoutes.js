@@ -26,9 +26,6 @@ router.put('/hospital/:id', verifyToken(['admin']),updateHospitalValidationRules
 router.delete('/hospital/:id',verifyToken(['admin']), hospitalController.deleteHospital);
 router.get('/hospitals', hospitalController.getAllHospitalsByPagination);
 
-
-
-
 router.post('/hospital/login',authenticate, hospitalController.login);
 router.post('/hospital/HospitalCode', hospitalController.HospitalCode);
 
