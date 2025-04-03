@@ -179,8 +179,6 @@ exports.wardupdate = [
 exports.wwcaregister = [
   body("wardIDR").notEmpty().isInt().withMessage(" Ward IDR is required"),
 
-  body("typeEnum").optional().isInt().withMessage("Type must be in Integer"),
-
   body("serviceIDR").notEmpty().isInt().withMessage("Service IDR is required"),
 
   body("costAddRate")
@@ -225,8 +223,6 @@ exports.wwcaregister = [
 
 exports.wwcaupdate = [
   body("wardIDR").notEmpty().isInt().withMessage(" Ward IDR is required"),
-
-  body("typeEnum").optional().isInt().withMessage("Type must be in Integer"),
 
   body("serviceIDR").notEmpty().isInt().withMessage("Service IDR is required"),
 
