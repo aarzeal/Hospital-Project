@@ -275,7 +275,8 @@ exports.roomsregister = [
     .withMessage("Ward name must be at most 50 characters"),
 
   body("roomType_IDR")
-    .optional()
+    .notEmpty()
+    .withMessage("Room Type is Required")
     .isInt()
     .withMessage("roomType ID must be an integer"),
 
@@ -309,7 +310,8 @@ exports.roomsupdate = [
     .withMessage("Room Type name must be at most 50 characters"),
 
   body("roomType_IDR")
-    .optional()
+    .notEmpty()
+    .withMessage("Room Type is Required")
     .isInt()
     .withMessage("roomType ID must be an integer"),
 
