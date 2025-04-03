@@ -1,0 +1,102 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": " आवश्यक"
+  },
+  "Invalidcharactersdetected": {
+    "en": "Invalid characters detected",
+    "hi": " अमान्य वर्ण पाए गए"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it!",
+    "hi": "हाँ इसे हटा दो!"
+  },
+  "Nocancel": {
+    "en": "No, cancel",
+    "hi": "नहीं, रद्द करें"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "NonActive": {
+    "en": "Non Active",
+    "hi": "गैर सक्रिय"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है?"
+  },
+  "Roomtypenamelengthmustgreaterthan1": {
+    "en": "Room type name length must greater than 1",
+    "hi": " कमरे के प्रकार के नाम का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Roomtypenamelengthmustlessthan50": {
+    "en": "Room type name length must less than 50",
+    "hi": " कमरे के प्रकार के नाम का वर्ण 50 से कम होना चाहिए"
+  },
+  "Roomtypecodelengthmustgreaterthan1": {
+    "en": "Room type code length must greater than 1",
+    "hi": " कमरे के प्रकार कोड का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Roomtypecodelengthmustlessthan50": {
+    "en": "Room type code length must less than 50",
+    "hi": " कमरे के प्रकार कोड का वर्ण 50 से कम होना चाहिए"
+  },
+  "Roomnamelengthmustgreaterthan1": {
+    "en": "Room name length must greater than 1",
+    "hi": " कमरे के नाम का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Roomnamelengthmustlessthan50": {
+    "en": "Room name length must less than 50",
+    "hi": " कमरे के नाम का वर्ण 50 से कम होना चाहिए"
+  }
+}

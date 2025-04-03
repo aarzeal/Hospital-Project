@@ -266,5 +266,13 @@
   "NewRate": {
     "en": "New Rate",
     "hi": " नई दर"
+  },
+  "Wardnamelengthmustgreaterthan1": {
+    "en": "Ward name length must greater than 1",
+    "hi": " वार्ड नाम का वर्ण 1 से अधिक होना चाहिए"
+  },
+  "Wardnamelengthmustlessthan50": {
+    "en": "Ward name length must less than 50",
+    "hi": " वार्ड नाम का वर्ण 50 से कम होना चाहिए"
   }
 }
