@@ -98,5 +98,81 @@
   "Roomnamelengthmustlessthan50": {
     "en": "Room name length must less than 50",
     "hi": " कमरे के नाम का वर्ण 50 से कम होना चाहिए"
+  },
+  "Roomtypeupdatedsuccessfully": {
+    "en": "Room type updated successfully",
+    "hi": " कमरे का प्रकार सफलतापूर्वक अपडेट किया गया"
+  },
+  "Roomtypeaddedsuccessfully": {
+    "en": "Room type added successfully",
+    "hi": " कमरे का प्रकार सफलतापूर्वक जोड़ा गया"
+  },
+  "Doyoureallywanttodeletethisroomtype": {
+    "en": "Do you really want to delete this room type?",
+    "hi": " क्या आप वाकई इस कमरे के प्रकार को हटाना चाहते हैं?"
+  },
+  "Theroomtypehasbeendeleted": {
+    "en": "The room type has been deleted",
+    "hi": "कमरे का प्रकार हटा दिया गया है"
+  },
+  "Roomtypename": {
+    "en": "Room type name",
+    "hi": " कमरे के प्रकार का नाम"
+  },
+  "Roomtypecode": {
+    "en": "Room type code",
+    "hi": " कमरे का प्रकार कोड"
+  },
+  "Roomtype": {
+    "en": "Room type",
+    "hi": "कमरे के प्रकार"
+  },
+  "Room": {
+    "en": "Room ",
+    "hi": " कमरा"
+  },
+  "Enterroomtypenamehere": {
+    "en": "Enter room type name here ",
+    "hi": " यहां कमरे के प्रकार का नाम दर्ज करें"
+  },
+  "Enterroomtypecodehere": {
+    "en": "Enter room type code here",
+    "hi": "यहां कमरे का प्रकार कोड दर्ज करें"
+  },
+  "Searchbyroomtypedetails": {
+    "en": "Search by room type details",
+    "hi": " कमरे के प्रकार के विवरण के आधार पर खोजें"
+  },
+  "Roomupdatedsuccessfully": {
+    "en": "Room updated successfully",
+    "hi": " कमरा सफलतापूर्वक अपडेट किया गया"
+  },
+  "Roomaddedsuccessfully": {
+    "en": "Room added successfully",
+    "hi": "कमरा सफलतापूर्वक जोड़ा गया"
+  },
+  "Doyoureallywanttodeletethisroom": {
+    "en": "Do you really want to delete this room?",
+    "hi": "क्या आप सचमुच इस कमरे को हटाना चाहते हैं?"
+  },
+  "Theroomhasbeendeleted": {
+    "en": "The room has been deleted",
+    "hi": "कमरा हटा दिया गया है"
+  },
+  "Roomname": {
+    "en": "Room name",
+    "hi": " कमरे का नाम"
+  },
+  "Enterroomnamehere": {
+    "en": "Enter room name here",
+    "hi": " यहां कमरे का नाम दर्ज करें"
+  },
+  "Selectroomtype": {
+    "en": "Select room type",
+    "hi": "कमरे का प्रकार चुनें"
+  },
+  "Searchbyroomdetails": {
+    "en": "Search by room details",
+    "hi": "कमरे के विवरण के आधार पर खोजें"
   }
 }
