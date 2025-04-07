@@ -270,9 +270,9 @@ exports.roomsregister = [
   body("room_Name")
     .notEmpty()
     .isString()
-    .withMessage("Ward name is required")
+    .withMessage("Room name is required")
     .isLength({ max: 50 })
-    .withMessage("Ward name must be at most 50 characters"),
+    .withMessage("Room name must be at most 50 characters"),
 
   body("roomType_IDR")
     .notEmpty()
@@ -386,6 +386,118 @@ exports.wardroomlinkupdate = [
     .withMessage("roomType ID must be an integer"),
 
   body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
+
+  body("hospital_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital ID must be an integer"),
+
+  body("hospitalGroup_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital Group ID must be an integer"),
+
+  body("createdBy")
+    .optional()
+    .isString()
+    .withMessage("Created by must be a string"),
+
+  body("updatedBy")
+    .optional()
+    .isString()
+    .withMessage("Updated by must be a string"),
+];
+
+exports.storecreate = [
+  body("store_name")
+  .notEmpty()
+  .isString()
+  .withMessage("Store name is required")
+  .isLength({ max: 50 })
+  .withMessage("Store name must be at most 50 characters"),
+  
+  body("store_code")
+  .notEmpty()
+  .isString()
+  .withMessage("Store Code Is Required"),
+
+  body("store_IDR")
+    .optional()
+    .isInt()
+    .withMessage("store ID must be an integer"),
+
+  body("parent_Store_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Store ID must be an integer"),
+
+  body("is_Main_store")
+  .isBoolean()
+  .withMessage("Is Main store must be a boolean"),
+
+  body("is_Stock_Closing_Daily")
+  .isBoolean()
+  .withMessage("Is Stock Closing Daily must be a boolean"),
+
+  body("isActive")
+  .isBoolean()
+  .withMessage("Is Active must be a boolean"),
+
+  body("hospital_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital ID must be an integer"),
+
+  body("hospitalGroup_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital Group ID must be an integer"),
+
+  body("createdBy")
+    .optional()
+    .isString()
+    .withMessage("Created by must be a string"),
+
+  body("updatedBy")
+    .optional()
+    .isString()
+    .withMessage("Updated by must be a string"),
+];
+
+exports.storeupdate = [
+  body("store_name")
+  .notEmpty()
+  .isString()
+  .withMessage("Store name is required")
+  .isLength({ max: 50 })
+  .withMessage("Store name must be at most 50 characters"),
+  
+  body("store_code")
+  .notEmpty()
+  .isString()
+  .withMessage("Store Code Is Required"),
+
+  body("store_IDR")
+    .optional()
+    .isInt()
+    .withMessage("store ID must be an integer"),
+
+  body("parent_Store_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Store ID must be an integer"),
+
+  body("is_Main_store")
+  .isBoolean()
+  .withMessage("Is Main store must be a boolean"),
+
+  body("is_Stock_Closing_Daily")
+  .isBoolean()
+  .withMessage("Is Stock Closing Daily must be a boolean"),
+
+  body("isActive")
+  .isBoolean()
+  .withMessage("Is Active must be a boolean"),
 
   body("hospital_IDR")
     .optional()
