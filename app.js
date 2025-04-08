@@ -57,6 +57,7 @@ const wardWiseCostAddition = require("./routes/wardwiseCAroutes.js")
 const rooms=require("./routes/Rooms_Routes.js")
 const wardRoomLink=require("./routes/LinkWardRoom_Routes.js")
 const store=require("./routes/Store_Routes.js")
+const appointmentSchedule=require("./routes/AppointmentSchedule_Routes.js")
 
 
 
@@ -153,6 +154,7 @@ app.use('/api/v1/room',rooms)
 app.use('/api/v1/wardRoomLink',wardRoomLink)
 app.use('/api/v1/ward-wise-cost-addition',wardWiseCostAddition);
 app.use('/api/v1/store',store)
+app.use('/api/v1/appointmentSchedule',appointmentSchedule)
 
 
 sendEmail();
