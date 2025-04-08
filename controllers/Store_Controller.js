@@ -44,8 +44,9 @@ exports.create_Store = async (req, res) => {
       const storeIDR = await Store.findOne({
         where: { store_id: store_IDR },
       });
-      if (storeIDR) {
-        store_IDR = storeIDR.store_id;
+      if (!storeIDR) {
+        res.status(404).json({ message: "Invalid Store ID, not found in MasterDB" });
+        //store_IDR = storeIDR.store_id;
       }
     }
 
@@ -54,9 +55,11 @@ exports.create_Store = async (req, res) => {
       const parentStoreIDR = await Store.findOne({
         where: { store_id: parent_Store_IDR },
       });
-      if (parentStoreIDR) {
-        parent_Store_IDR = parentStoreIDR.store_id;
+      if (!parentStoreIDR) {
+        //parent_Store_IDR = parentStoreIDR.store_id;
+        res.status(404).json({ message: "Invalid Store ID, not found in MasterDB" })
       }
+
     }
     const group = await Group.findOne({ where: { HospitalGroupID: hospitalGroupIDR } });
 
