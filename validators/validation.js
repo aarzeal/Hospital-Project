@@ -546,9 +546,9 @@ exports.registerAppointmentSchedule = [
     .withMessage("Slot1 is required")
     .custom((value) => {
       // Ensure slot1 is a valid time in HH:mm:ss format
-      const regex = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/; // regex for HH:mm:ss
+      const regex = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/; // regex for HH:mm:ss
       if (!regex.test(value)) {
-        throw new Error("Invalid Slot1 time format. Please use HH:mm:ss");
+        throw new Error("Invalid Slot1 time format. Please use HH:mm");
       }
       return true;
     }),
@@ -558,9 +558,9 @@ exports.registerAppointmentSchedule = [
     .withMessage("Slot2 is required")
     .custom((value, { req }) => {
       // Ensure slot2 is a valid time in HH:mm:ss format
-      const regex = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
+      const regex = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
       if (!regex.test(value)) {
-        throw new Error("Invalid Slot2 time format. Please use HH:mm:ss");
+        throw new Error("Invalid Slot2 time format. Please use HH:mm");
       }
       // Convert slot1 and slot2 to total seconds since midnight
       const slot1Seconds = timeToSeconds(req.body.Slot1);
