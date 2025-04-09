@@ -302,5 +302,81 @@
   "StartDate": {
     "en": "Start Date",
     "hi": "आरंभ तिथि"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": " अद्यतन"
+  },
+  "Appointmentscheduleupdatedsuccessfully": {
+    "en": "Appointment schedule updated successfully",
+    "hi": " अपॉइंटमेंट शेड्यूल सफलतापूर्वक अपडेट किया गया"
+  },
+  "Appointmentscheduleaddedsuccessfully": {
+    "en": "Appointment schedule added successfully",
+    "hi": " अपॉइंटमेंट शेड्यूल सफलतापूर्वक जोड़ा गया"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Doyoureallywanttodeletethisappointmentschedule": {
+    "en": "Do you really want to delete this appointment schedule?",
+    "hi": "क्या आप वाकई इस अपॉइंटमेंट शेड्यूल को हटाना चाहते हैं?"
+  },
+  "Theappointmentschedulehasbeendeleted": {
+    "en": "The appointment schedule has been deleted",
+    "hi": "अपॉइंटमेंट शेड्यूल हटा दिया गया है"
+  },
+  "Employee": {
+    "en": "Employee",
+    "hi": "कर्मचारी"
+  },
+  "Day": {
+    "en": "Day",
+    "hi": "दिन"
+  },
+  "Slot1": {
+    "en": "Slot 1",
+    "hi": "स्लॉट 1"
+  },
+  "Slot1starttime": {
+    "en": "Slot 1 start time",
+    "hi": "स्लॉट 1 प्रारंभ समय"
+  },
+  "Slot1endtime": {
+    "en": "Slot 1 end time",
+    "hi": "स्लॉट 1 समाप्ति समय"
+  },
+  "Slot2": {
+    "en": "Slot 2",
+    "hi": "स्लॉट 2"
+  },
+  "Slot2starttime": {
+    "en": "Slot 2 start time",
+    "hi": "स्लॉट 2 प्रारंभ समय"
+  },
+  "Slot2endtime": {
+    "en": "Slot 2 end time",
+    "hi": "स्लॉट 2 समाप्ति समय"
+  },
+  "Duration": {
+    "en": "Duration",
+    "hi": "अवधि"
+  },
+  "DoctorsAppointmentschedule": {
+    "en": "Doctor's Appointment schedule",
+    "hi": "डॉक्टर की नियुक्ति अनुसूची"
+  },
+  "Selectemployee": {
+    "en": "Select employee",
+    "hi": "कर्मचारी का चयन करें"
+  },
+  "Selectday": {
+    "en": "Select day",
+    "hi": "दिन चुनें"
+  },
+  "Selectduration": {
+    "en": "Select duration",
+    "hi": "अवधि चुनें"
   }
 }
