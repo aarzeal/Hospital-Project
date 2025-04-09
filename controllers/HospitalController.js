@@ -3626,6 +3626,10 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+exports.logoutUser=async(req, res)=>{
+  
+}
+
 exports.sendOtp = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
