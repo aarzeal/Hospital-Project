@@ -1,4 +1,5 @@
 const { body } = require("express-validator");
+const { timeToSeconds } = require("../util/methods");
 
 exports.validateRoomTypeRegister = [
   body("roomType_Name")
@@ -315,9 +316,7 @@ exports.roomsupdate = [
     .isInt()
     .withMessage("roomType ID must be an integer"),
 
-  body("isActive")
-    .isBoolean()
-    .withMessage("Is Active must be a boolean"),
+  body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
 
   body("hospital_IDR")
     .optional()
@@ -410,38 +409,47 @@ exports.wardroomlinkupdate = [
 
 exports.storecreate = [
   body("store_name")
-  .notEmpty()
-  .isString()
-  .withMessage("Store name is required")
-  .isLength({ max: 50 })
-  .withMessage("Store name must be at most 50 characters"),
-  
+    .notEmpty()
+    .isString()
+    .withMessage("Store name is required")
+    .isLength({ max: 50 })
+    .withMessage("Store name must be at most 50 characters"),
+
   body("store_code")
-  .notEmpty()
-  .isString()
-  .withMessage("Store Code Is Required"),
+    .notEmpty()
+    .isString()
+    .withMessage("Store Code Is Required"),
 
   body("store_IDR")
     .optional()
-    .isInt()
-    .withMessage("store ID must be an integer"),
+    .custom((value) => value === null || Number.isInteger(Number(value)))
+    .withMessage("store ID must be an integer or null"),
 
   body("parent_Store_IDR")
     .optional()
-    .isInt()
-    .withMessage("Store ID must be an integer"),
+    .custom((value) => value === null || Number.isInteger(Number(value)))
+    .withMessage("Store ID must be an integer or null"),
+
+  // body("store_IDR")
+  //   .optional()
+  //   .isInt()
+  //   .withMessage("store ID must be an integer"),
+
+  // body("parent_Store_IDR")
+  //   .optional()
+  //   .isInt()
+  //   .withMessage("Store ID must be an integer"),
 
   body("is_Main_store")
-  .isBoolean()
-  .withMessage("Is Main store must be a boolean"),
+    .optional()
+    .isBoolean()
+    .withMessage("Is Main store must be a boolean"),
 
   body("is_Stock_Closing_Daily")
-  .isBoolean()
-  .withMessage("Is Stock Closing Daily must be a boolean"),
+    .isBoolean()
+    .withMessage("Is Stock Closing Daily must be a boolean"),
 
-  body("isActive")
-  .isBoolean()
-  .withMessage("Is Active must be a boolean"),
+  body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
 
   body("hospital_IDR")
     .optional()
@@ -466,38 +474,282 @@ exports.storecreate = [
 
 exports.storeupdate = [
   body("store_name")
-  .notEmpty()
-  .isString()
-  .withMessage("Store name is required")
-  .isLength({ max: 50 })
-  .withMessage("Store name must be at most 50 characters"),
-  
+    .notEmpty()
+    .isString()
+    .withMessage("Store name is required")
+    .isLength({ max: 50 })
+    .withMessage("Store name must be at most 50 characters"),
+
   body("store_code")
-  .notEmpty()
-  .isString()
-  .withMessage("Store Code Is Required"),
+    .notEmpty()
+    .isString()
+    .withMessage("Store Code Is Required"),
+
+  // body("store_IDR")
+  //   .optional()
+  //   .isInt()
+  //   .withMessage("store ID must be an integer"),
+
+  // body("parent_Store_IDR")
+  //   .optional()
+  //   .isInt()
+  //   .withMessage("Store ID must be an integer"),
 
   body("store_IDR")
     .optional()
-    .isInt()
-    .withMessage("store ID must be an integer"),
+    .custom((value) => value === null || Number.isInteger(Number(value)))
+    .withMessage("store ID must be an integer or null"),
 
   body("parent_Store_IDR")
     .optional()
-    .isInt()
-    .withMessage("Store ID must be an integer"),
+    .custom((value) => value === null || Number.isInteger(Number(value)))
+    .withMessage("Store ID must be an integer or null"),
 
   body("is_Main_store")
-  .isBoolean()
-  .withMessage("Is Main store must be a boolean"),
+    .isBoolean()
+    .withMessage("Is Main store must be a boolean"),
 
   body("is_Stock_Closing_Daily")
-  .isBoolean()
-  .withMessage("Is Stock Closing Daily must be a boolean"),
+    .isBoolean()
+    .withMessage("Is Stock Closing Daily must be a boolean"),
 
-  body("isActive")
-  .isBoolean()
-  .withMessage("Is Active must be a boolean"),
+  body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
+
+  body("hospital_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital ID must be an integer"),
+
+  body("hospitalGroup_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital Group ID must be an integer"),
+
+  body("createdBy")
+    .optional()
+    .isString()
+    .withMessage("Created by must be a string"),
+
+  body("updatedBy")
+    .optional()
+    .isString()
+    .withMessage("Updated by must be a string"),
+];
+
+exports.registerAppointmentSchedule = [
+  body("Employee_IDR").notEmpty().withMessage("Employee ID must be an integer"),
+
+  body("Day").notEmpty(),
+
+  body("Slot1")
+    .exists()
+    .withMessage("Slot1 is required")
+    .custom((value) => {
+      // Ensure slot1 is a valid time in HH:mm:ss format
+      const regex = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/; // regex for HH:mm:ss
+      if (!regex.test(value)) {
+        throw new Error("Invalid Slot1 time format. Please use HH:mm:ss");
+      }
+      return true;
+    }),
+
+  body("Slot2")
+    .exists()
+    .withMessage("Slot2 is required")
+    .custom((value, { req }) => {
+      // Ensure slot2 is a valid time in HH:mm:ss format
+      const regex = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
+      if (!regex.test(value)) {
+        throw new Error("Invalid Slot2 time format. Please use HH:mm:ss");
+      }
+      // Convert slot1 and slot2 to total seconds since midnight
+      const slot1Seconds = timeToSeconds(req.body.Slot1);
+      const slot2Seconds = timeToSeconds(value);
+
+      // Ensure slot2 time is greater than slot1 time
+      if (slot2Seconds <= slot1Seconds) {
+        throw new Error("Slot2 time must be greater than Slot1 time");
+      }
+      return true;
+    }),
+
+  body("Slot1_StartTime")
+    .exists()
+    .withMessage("startTime is required")
+    .custom((value) => {
+      const startDate = new Date(value);
+      if (isNaN(startDate.getTime())) {
+        throw new Error("Invalid start time format");
+      }
+      return true;
+    }),
+
+  body("Slot1_EndTime")
+    .exists()
+    .withMessage("endTime is required")
+    .custom((value, { req }) => {
+      const endDate = new Date(value);
+      if (isNaN(endDate.getTime())) {
+        throw new Error("Invalid end time format");
+      }
+      const startTimestamp = new Date(req.body.Slot1_StartTime).getTime();
+      const endTimestamp = endDate.getTime();
+
+      if (endTimestamp <= startTimestamp) {
+        throw new Error("End time must be greater than start time");
+      }
+
+      return true;
+    }),
+
+  body("Slot2_StartTime")
+    .exists()
+    .withMessage("startTime is required")
+    .custom((value) => {
+      const startDate = new Date(value);
+      if (isNaN(startDate.getTime())) {
+        throw new Error("Invalid start time format");
+      }
+      return true;
+    }),
+
+  body("Slot2_EndTime")
+    .exists()
+    .withMessage("endTime is required")
+    .custom((value, { req }) => {
+      const endDate = new Date(value);
+      if (isNaN(endDate.getTime())) {
+        throw new Error("Invalid end time format");
+      }
+      const startTimestamp = new Date(req.body.Slot2_StartTime).getTime();
+      const endTimestamp = endDate.getTime();
+
+      if (endTimestamp <= startTimestamp) {
+        throw new Error("End time must be greater than start time");
+      }
+
+      return true;
+    }),
+
+  body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
+
+  body("hospital_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital ID must be an integer"),
+
+  body("hospitalGroup_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital Group ID must be an integer"),
+
+  body("createdBy")
+    .optional()
+    .isString()
+    .withMessage("Created by must be a string"),
+
+  body("updatedBy")
+    .optional()
+    .isString()
+    .withMessage("Updated by must be a string"),
+];
+
+exports.updateAppointmentSchedule = [
+  body("Employee_IDR").notEmpty().withMessage("Employee ID must be an integer"),
+
+  body("Day").notEmpty(),
+
+  body("Slot1")
+    .exists()
+    .withMessage("Slot1 is required")
+    .custom((value) => {
+      // Ensure slot1 is a valid time in HH:mm:ss format
+      const regex = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/; // regex for HH:mm:ss
+      if (!regex.test(value)) {
+        throw new Error("Invalid Slot1 time format. Please use HH:mm:ss");
+      }
+      return true;
+    }),
+
+  body("Slot2")
+    .exists()
+    .withMessage("Slot2 is required")
+    .custom((value, { req }) => {
+      // Ensure slot2 is a valid time in HH:mm:ss format
+      const regex = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
+      if (!regex.test(value)) {
+        throw new Error("Invalid Slot2 time format. Please use HH:mm:ss");
+      }
+      // Convert slot1 and slot2 to total seconds since midnight
+      const slot1Seconds = timeToSeconds(req.body.Slot1);
+      const slot2Seconds = timeToSeconds(value);
+
+      // Ensure slot2 time is greater than slot1 time
+      if (slot2Seconds <= slot1Seconds) {
+        throw new Error("Slot2 time must be greater than Slot1 time");
+      }
+      return true;
+    }),
+
+  body("Slot1_StartTime")
+    .exists()
+    .withMessage("startTime is required")
+    .custom((value) => {
+      const startDate = new Date(value);
+      if (isNaN(startDate.getTime())) {
+        throw new Error("Invalid start time format");
+      }
+      return true;
+    }),
+
+  body("Slot1_EndTime")
+    .exists()
+    .withMessage("endTime is required")
+    .custom((value, { req }) => {
+      const endDate = new Date(value);
+      if (isNaN(endDate.getTime())) {
+        throw new Error("Invalid end time format");
+      }
+      const startTimestamp = new Date(req.body.Slot1_StartTime).getTime();
+      const endTimestamp = endDate.getTime();
+
+      if (endTimestamp <= startTimestamp) {
+        throw new Error("End time must be greater than start time");
+      }
+
+      return true;
+    }),
+
+  body("Slot2_StartTime")
+    .exists()
+    .withMessage("startTime is required")
+    .custom((value) => {
+      const startDate = new Date(value);
+      if (isNaN(startDate.getTime())) {
+        throw new Error("Invalid start time format");
+      }
+      return true;
+    }),
+
+  body("Slot2_EndTime")
+    .exists()
+    .withMessage("endTime is required")
+    .custom((value, { req }) => {
+      const endDate = new Date(value);
+      if (isNaN(endDate.getTime())) {
+        throw new Error("Invalid end time format");
+      }
+      const startTimestamp = new Date(req.body.Slot2_StartTime).getTime();
+      const endTimestamp = endDate.getTime();
+
+      if (endTimestamp <= startTimestamp) {
+        throw new Error("End time must be greater than start time");
+      }
+
+      return true;
+    }),
+
+  body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
 
   body("hospital_IDR")
     .optional()
