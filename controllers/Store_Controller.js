@@ -45,7 +45,7 @@ exports.create_Store = async (req, res) => {
         where: { store_id: store_IDR },
       });
       if (!storeIDR) {const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 9244;
+      const errorCode = 9253;
 
     logger.logWithMeta("error", "Invalid Store ID, not found in MasterDB", {
       errorCode,
@@ -71,7 +71,7 @@ exports.create_Store = async (req, res) => {
     const existingStoreName=await Store.findOne({where: {store_name}});
     if(existingStoreName){
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 9244;
+        const errorCode = 9250;
   
         logger.logWithMeta("error", "Store Name is already exists", {
           errorCode,
@@ -96,7 +96,7 @@ exports.create_Store = async (req, res) => {
 
     if(existingStorecode){
       const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 9244;
+        const errorCode = 9251;
   
         logger.logWithMeta("error", "Store Code is already exists", {
           errorCode,
@@ -121,7 +121,7 @@ exports.create_Store = async (req, res) => {
       });
       if (!parentStoreIDR) { 
         const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 9244;
+        const errorCode = 9252;
 
       logger.logWithMeta("error", "Invalid Store ID, not found in MasterDB", {
         errorCode,
