@@ -19,32 +19,32 @@ module.exports = (Sequelize) =>{
         },
 
         Slot1:{
-            type:DataTypes.TIME,
+            type:DataTypes.BOOLEAN,
             allowNull:true,
         },
 
         Slot2:{
-            type:DataTypes.TIME,
+            type:DataTypes.BOOLEAN,
             allowNull:true,
         },
 
         Slot1_StartTime:{
-            type:DataTypes.DATE,
+            type:DataTypes.TIME,
             allowNull:true,
         },
 
         Slot1_EndTime:{
-            type:DataTypes.DATE,
+            type:DataTypes.TIME,
             allowNull:true,
         },
 
         Slot2_StartTime:{
-            type:DataTypes.DATE,
+            type:DataTypes.TIME,
             allowNull:true,
         },
 
         Slot2_EndTime:{
-            type:DataTypes.DATE,
+            type:DataTypes.TIME,
             allowNull:true,
         },
 
@@ -94,3 +94,5 @@ module.exports = (Sequelize) =>{
 });
 return AppointmentSchedule;
 };
+
+

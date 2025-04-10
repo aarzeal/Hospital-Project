@@ -542,94 +542,112 @@ exports.registerAppointmentSchedule = [
   body("Day").notEmpty(),
 
   body("Slot1")
-    .exists()
-    .withMessage("Slot1 is required")
-    .custom((value) => {
-      // Ensure slot1 is a valid time in HH:mm:ss format
-      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/; // regex for HH:mm:ss
+  .isBoolean()
+  .withMessage("Is Slot1 must be a boolean"),
+    
+
+  body("Slot2")
+  .isBoolean()
+  .withMessage("Is Slot2 must be a boolean"),
+
+  body("Slot1_StartTime")
+  .custom((value, { req }) => {
+    if (req.body.Slot1 === false) {
+      if (value !== undefined) {
+        throw new Error("Slot1_StartTime must not be provided when Slot1 is false");
+      }
+      return true;
+    }
+    
+      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
       if (!regex.test(value)) {
         throw new Error("Invalid Slot1 time format. Please use HH:mm");
       }
       return true;
     }),
 
-  body("Slot2")
-    .exists()
-    .withMessage("Slot2 is required")
-    .custom((value, { req }) => {
-      // Ensure slot2 is a valid time in HH:mm:ss format
-      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
-      if (!regex.test(value)) {
-        throw new Error("Invalid Slot2 time format. Please use HH:mm");
-      }
-      // Convert slot1 and slot2 to total seconds since midnight
-      const slot1Seconds = timeToSeconds(req.body.Slot1);
-      const slot2Seconds = timeToSeconds(value);
-
-      // Ensure slot2 time is greater than slot1 time
-      if (slot2Seconds <= slot1Seconds) {
-        throw new Error("Slot2 time must be greater than Slot1 time");
-      }
-      return true;
-    }),
-
-  body("Slot1_StartTime")
-    .exists()
-    .withMessage("startTime is required")
-    .custom((value) => {
-      const startDate = new Date(value);
-      if (isNaN(startDate.getTime())) {
-        throw new Error("Invalid start time format");
-      }
-      return true;
-    }),
-
   body("Slot1_EndTime")
-    .exists()
-    .withMessage("endTime is required")
     .custom((value, { req }) => {
-      const endDate = new Date(value);
-      if (isNaN(endDate.getTime())) {
-        throw new Error("Invalid end time format");
+    if (req.body.Slot1 === false) {
+      if (value !== undefined) {
+        throw new Error("Slot1_EndTime must not be provided when Slot1 is false");
       }
-      const startTimestamp = new Date(req.body.Slot1_StartTime).getTime();
-      const endTimestamp = endDate.getTime();
-
-      if (endTimestamp <= startTimestamp) {
-        throw new Error("End time must be greater than start time");
-      }
-
       return true;
-    }),
+    }
+
+    // If Slot2 is true, validate time format
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+    if (!regex.test(value)) {
+      throw new Error("Invalid Slot1 end time format. Please use HH:mm");
+    }
+
+    const startTimestamp = timeToSeconds(req.body.Slot1_StartTime);
+    const endTimestamp = timeToSeconds(value);
+    if (endTimestamp <= startTimestamp) {
+      throw new Error("End time must be greater than start time");
+    }
+
+    return true;
+  }),
 
   body("Slot2_StartTime")
-    .exists()
-    .withMessage("startTime is required")
-    .custom((value) => {
-      const startDate = new Date(value);
-      if (isNaN(startDate.getTime())) {
-        throw new Error("Invalid start time format");
+  .custom((value, { req }) => {
+    if (req.body.Slot2 === false) {
+      if (value !== undefined) {
+        throw new Error("Slot2_StartTime must not be provided when Slot2 is false");
       }
       return true;
-    }),
+    }
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+    if (!regex.test(value)) {
+      throw new Error("Invalid Slot2 start time format. Please use HH:mm");
+    }
+    const slot1endTimestamp = timeToSeconds(req.body.Slot1_EndTime);
+    const slot2startTimestamp = timeToSeconds(value);
+    if (slot2startTimestamp <= slot1endTimestamp) {
+      throw new Error("Slot2 Start time must be greater than Slot1 End time");
+    }
+    return true;
+  }),
+  // .optional({ nullable: true }) // allow null
+  // .custom((value, { req }) => {
+  //   if (req.body.Slot2 === false) return true; // Skip if Slot2 is false
+  //   const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+  //   if (!regex.test(value)) {
+  //     throw new Error("Invalid Slot2 time format. Please use HH:mm");
+  //   }
+  //   const slot1endTimestamp = timeToSeconds(req.body.Slot1_EndTime);
+  //   const slot2startTimestamp = timeToSeconds(value);
+  //   if (slot2startTimestamp <= slot1endTimestamp) {
+  //     throw new Error("Slot2 Start time must be greater than Slot1 End time");
+  //   }
+  //   return true;
+  // }),
 
   body("Slot2_EndTime")
-    .exists()
-    .withMessage("endTime is required")
-    .custom((value, { req }) => {
-      const endDate = new Date(value);
-      if (isNaN(endDate.getTime())) {
-        throw new Error("Invalid end time format");
+  .custom((value, { req }) => {
+    if (req.body.Slot2 === false) {
+      if (value !== undefined) {
+        throw new Error("Slot2_EndTime must not be provided when Slot2 is false");
       }
-      const startTimestamp = new Date(req.body.Slot2_StartTime).getTime();
-      const endTimestamp = endDate.getTime();
-
-      if (endTimestamp <= startTimestamp) {
-        throw new Error("End time must be greater than start time");
-      }
-
       return true;
-    }),
+    }
+
+    // If Slot2 is true, validate time format
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+    if (!regex.test(value)) {
+      throw new Error("Invalid Slot2 end time format. Please use HH:mm");
+    }
+
+    const startTimestamp = timeToSeconds(req.body.Slot2_StartTime);
+    const endTimestamp = timeToSeconds(value);
+    if (endTimestamp <= startTimestamp) {
+      throw new Error("End time must be greater than start time");
+    }
+
+    return true;
+  }),
+
 
   body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
 
@@ -660,95 +678,110 @@ exports.updateAppointmentSchedule = [
   body("Day").notEmpty(),
 
   body("Slot1")
-    .exists()
-    .withMessage("Slot1 is required")
-    .custom((value) => {
-      // Ensure slot1 is a valid time in HH:mm:ss format
-      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/; // regex for HH:mm:ss
-      if (!regex.test(value)) {
-        throw new Error("Invalid Slot1 time format. Please use HH:mm");
-      }
-      return true;
-    })
-    ,
+  .isBoolean()
+  .withMessage("Is Slot2 must be a boolean"),
 
   body("Slot2")
-    .exists()
-    .withMessage("Slot2 is required")
-    .custom((value, { req }) => {
-      // Ensure slot2 is a valid time in HH:mm:ss format
-      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
-      if (!regex.test(value)) {
-        throw new Error("Invalid Slot2 time format. Please use HH:mm");
-      }
-      // Convert slot1 and slot2 to total seconds since midnight
-      const slot1Seconds = timeToSeconds(req.body.Slot1);
-      const slot2Seconds = timeToSeconds(value);
-
-      // Ensure slot2 time is greater than slot1 time
-      if (slot2Seconds <= slot1Seconds) {
-        throw new Error("Slot2 time must be greater than Slot1 time");
-      }
-      return true;
-    }),
+  .isBoolean()
+  .withMessage("Is Slot2 must be a boolean"),
 
   body("Slot1_StartTime")
-    .exists()
-    .withMessage("startTime is required")
-    .custom((value) => {
-      const startDate = new Date(value);
-      if (isNaN(startDate.getTime())) {
-        throw new Error("Invalid start time format");
+  .custom((value, { req }) => {
+    if (req.body.Slot1 === false) {
+      if (value !== undefined) {
+        throw new Error("Slot1_StartTime must not be provided when Slot1 is false");
+      }
+      return true;
+    }
+    
+      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+      if (!regex.test(value)) {
+        throw new Error("Invalid Slot1 time format. Please use HH:mm");
       }
       return true;
     }),
 
   body("Slot1_EndTime")
-    .exists()
-    .withMessage("endTime is required")
     .custom((value, { req }) => {
-      const endDate = new Date(value);
-      if (isNaN(endDate.getTime())) {
-        throw new Error("Invalid end time format");
+    if (req.body.Slot1 === false) {
+      if (value !== undefined) {
+        throw new Error("Slot1_EndTime must not be provided when Slot1 is false");
       }
-      const startTimestamp = new Date(req.body.Slot1_StartTime).getTime();
-      const endTimestamp = endDate.getTime();
-
-      if (endTimestamp <= startTimestamp) {
-        throw new Error("End time must be greater than start time");
-      }
-
       return true;
-    }),
+    }
+
+    // If Slot2 is true, validate time format
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+    if (!regex.test(value)) {
+      throw new Error("Invalid Slot1 end time format. Please use HH:mm");
+    }
+
+    const startTimestamp = timeToSeconds(req.body.Slot1_StartTime);
+    const endTimestamp = timeToSeconds(value);
+    if (endTimestamp <= startTimestamp) {
+      throw new Error("End time must be greater than start time");
+    }
+
+    return true;
+  }),
 
   body("Slot2_StartTime")
-    .exists()
-    .withMessage("startTime is required")
-    .custom((value) => {
-      const startDate = new Date(value);
-      if (isNaN(startDate.getTime())) {
-        throw new Error("Invalid start time format");
+  .custom((value, { req }) => {
+    if (req.body.Slot2 === false) {
+      if (value !== undefined) {
+        throw new Error("Slot2_StartTime must not be provided when Slot2 is false");
       }
       return true;
-    }),
+    }
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+    if (!regex.test(value)) {
+      throw new Error("Invalid Slot2 start time format. Please use HH:mm");
+    }
+    const slot1endTimestamp = timeToSeconds(req.body.Slot1_EndTime);
+    const slot2startTimestamp = timeToSeconds(value);
+    if (slot2startTimestamp <= slot1endTimestamp) {
+      throw new Error("Slot2 Start time must be greater than Slot1 End time");
+    }
+    return true;
+  }),
+  // .optional({ nullable: true }) // allow null
+  // .custom((value, { req }) => {
+  //   if (req.body.Slot2 === false) return true; // Skip if Slot2 is false
+  //   const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+  //   if (!regex.test(value)) {
+  //     throw new Error("Invalid Slot2 time format. Please use HH:mm");
+  //   }
+  //   const slot1endTimestamp = timeToSeconds(req.body.Slot1_EndTime);
+  //   const slot2startTimestamp = timeToSeconds(value);
+  //   if (slot2startTimestamp <= slot1endTimestamp) {
+  //     throw new Error("Slot2 Start time must be greater than Slot1 End time");
+  //   }
+  //   return true;
+  // }),
 
   body("Slot2_EndTime")
-    .exists()
-    .withMessage("endTime is required")
-    .custom((value, { req }) => {
-      const endDate = new Date(value);
-      if (isNaN(endDate.getTime())) {
-        throw new Error("Invalid end time format");
+  .custom((value, { req }) => {
+    if (req.body.Slot2 === false) {
+      if (value !== undefined) {
+        throw new Error("Slot2_EndTime must not be provided when Slot2 is false");
       }
-      const startTimestamp = new Date(req.body.Slot2_StartTime).getTime();
-      const endTimestamp = endDate.getTime();
-
-      if (endTimestamp <= startTimestamp) {
-        throw new Error("End time must be greater than start time");
-      }
-
       return true;
-    }),
+    }
+
+    // If Slot2 is true, validate time format
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+    if (!regex.test(value)) {
+      throw new Error("Invalid Slot2 end time format. Please use HH:mm");
+    }
+
+    const startTimestamp = timeToSeconds(req.body.Slot2_StartTime);
+    const endTimestamp = timeToSeconds(value);
+    if (endTimestamp <= startTimestamp) {
+      throw new Error("End time must be greater than start time");
+    }
+
+    return true;
+  }),
 
   body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
 
