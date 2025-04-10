@@ -10,10 +10,12 @@ module.exports = (sequelize) => {
       store_name: {
         type: DataTypes.STRING(250),
         allowNull: false,
+        unique: true,
       },
       store_code:{
         type: DataTypes.STRING(250),
-        allowNull:false,
+      allowNull: false,
+      unique: true,
       },    
       store_IDR: {
         type: DataTypes.INTEGER,
