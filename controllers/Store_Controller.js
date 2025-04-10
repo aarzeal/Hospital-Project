@@ -44,10 +44,74 @@ exports.create_Store = async (req, res) => {
       const storeIDR = await Store.findOne({
         where: { store_id: store_IDR },
       });
-      if (!storeIDR) {
-        res.status(404).json({ message: "Invalid Store ID, not found in MasterDB" });
-        //store_IDR = storeIDR.store_id;
+      if (!storeIDR) {const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 9253;
+
+    logger.logWithMeta("error", "Invalid Store ID, not found in MasterDB", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+    return res.status(400).json({
+      errorCode,
+      message: "Invalid Store ID, not found in MasterDB",
+    });
+    
       }
+    }
+
+    const existingStoreName=await Store.findOne({where: {store_name}});
+    if(existingStoreName){
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 9250;
+  
+        logger.logWithMeta("error", "Store Name is already exists", {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalName,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          apiName: req.originalUrl,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: req.username,
+        });
+        return res.status(400).json({
+          errorCode,
+          message: "Store Name is already exists",
+        });
+    }
+
+    const existingStorecode=await Store.findOne({where: {store_code}});
+
+    if(existingStorecode){
+      const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 9251;
+  
+        logger.logWithMeta("error", "Store Code is already exists", {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalName,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          apiName: req.originalUrl,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: req.username,
+        });
+        return res.status(400).json({errorCode, message: "Store Code is already exists",});
     }
 
     //let parent_Store_IDR = null;
@@ -55,9 +119,27 @@ exports.create_Store = async (req, res) => {
       const parentStoreIDR = await Store.findOne({
         where: { store_id: parent_Store_IDR },
       });
-      if (!parentStoreIDR) {
-        //parent_Store_IDR = parentStoreIDR.store_id;
-        res.status(404).json({ message: "Invalid Store ID, not found in MasterDB" })
+      if (!parentStoreIDR) { 
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 9252;
+
+      logger.logWithMeta("error", "Invalid Store ID, not found in MasterDB", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      });
+      return res.status(400).json({
+        errorCode,
+        message: "Invalid Store ID, not found in MasterDB",
+      });
       }
 
     }
