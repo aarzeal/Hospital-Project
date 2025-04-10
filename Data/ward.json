@@ -274,5 +274,45 @@
   "Wardnamelengthmustlessthan50": {
     "en": "Ward name length must less than 50",
     "hi": " वार्ड नाम का वर्ण 50 से कम होना चाहिए"
+  },
+  "Invalidvalueformainstorestatus": {
+    "en": "Invalid value for main store status",
+    "hi": "मुख्य स्टोर स्थिति के लिए अमान्य मान"
+  },
+  "Invalidvalueforactivestatus": {
+    "en": "Invalid value for active status",
+    "hi": "सक्रिय स्थिति के लिए अमान्य मान"
+  },
+  "WardRoomLinkupdatedsuccessfully": {
+    "en": "Ward Room Link updated successfully",
+    "hi": "वार्ड रूम लिंक सफलतापूर्वक अपडेट किया गया"
+  },
+  "WardRoomLinkaddedsuccessfully": {
+    "en": "Ward Room Link added successfully",
+    "hi": "वार्ड रूम लिंक सफलतापूर्वक जोड़ा गया"
+  },
+  "DoyoureallywanttodeletethisWardRoomLink": {
+    "en": "Do you really want to delete this Ward Room Link?",
+    "hi": "क्या आप सचमुच इस वार्ड रूम लिंक को हटाना चाहते हैं?"
+  },
+  "TheWardRoomLinkhasbeendeleted": {
+    "en": "The Ward Room Link has been deleted",
+    "hi": "वार्ड रूम लिंक हटा दिया गया है"
+  },
+  "SerialNo": {
+    "en": "Serial No",
+    "hi": "सीरीयल नम्बर"
+  },
+  "Roomname": {
+    "en": "Room name",
+    "hi": "कमरे का नाम"
+  },
+  "WardRoomLink": {
+    "en": "Ward Room Link",
+    "hi": "वार्ड कक्ष लिंक"
+  },
+  "Selectwardname": {
+    "en": "Select ward name",
+    "hi": "वार्ड का नाम चुनें"
   }
 }

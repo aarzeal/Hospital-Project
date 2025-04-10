@@ -1,0 +1,130 @@
+{
+  "Store": {
+    "en": "Store",
+    "hi": "इकट्ठा करना"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it!",
+    "hi": "हाँ इसे हटा दो!"
+  },
+  "Nocancel": {
+    "en": "No, cancel",
+    "hi": "नहीं, रद्द करें"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Invalidcharactersdetected": {
+    "en": "Invalid characters detected",
+    "hi": "अमान्य वर्ण पाए गए"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "NonActive": {
+    "en": "Non Active",
+    "hi": "गैर सक्रिय"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है?"
+  },
+  "SerialNo": {
+    "en": "Serial No",
+    "hi": "सीरीयल नम्बर"
+  },
+  "Namemustbealphanumeric": {
+    "en": "Name must be alphanumeric",
+    "hi": "नाम अक्षरांकीय होना चाहिए"
+  },
+  "Storenamemustbeatleast1characterslong": {
+    "en": "Store name must be at least 1 characters long",
+    "hi": "स्टोर का नाम कम से कम 1 अक्षर लंबा होना चाहिए"
+  },
+  "Codemustbealphanumeric": {
+    "en": "Code must be alphanumeric",
+    "hi": "कोड अल्फ़ान्यूमेरिक होना चाहिए"
+  },
+  "Storenamelengthmustlessthan50": {
+    "en": "Store name length must less than 50",
+    "hi": "स्टोर नाम का वर्ण 50 से कम होना चाहिए"
+  },
+  "Storecodemustbeatleast1characterslong": {
+    "en": "Store code must be at least 1 characters long",
+    "hi": "स्टोर का कोड कम से कम 1 अक्षर लंबा होना चाहिए"
+  },
+  "Storecodelengthmustlessthan50": {
+    "en": "Store code length must less than 50",
+    "hi": "स्टोर कोड का वर्ण 50 से कम होना चाहिए"
+  },
+  "Invalidvalueformainstorestatus": {
+    "en": "Invalid value for main store status",
+    "hi": "मुख्य स्टोर स्थिति के लिए अमान्य मान"
+  },
+  "Invalidvalueforstockclosingdelay": {
+    "en": "Invalid value for stock closing delay",
+    "hi": "स्टॉक समापन विलंब के लिए अमान्य मान"
+  },
+  "Invalidvalueforactivestatus": {
+    "en": "Invalid value for active status",
+    "hi": "सक्रिय स्थिति के लिए अमान्य मान"
+  },
+  "Storeupdatedsuccessfully": {
+    "en": "Store updated successfully",
+    "hi": "स्टोर सफलतापूर्वक अपडेट किया गया"
+  },
+  "Storeaddedsuccessfully": {
+    "en": "Store added successfully",
+    "hi": "स्टोर सफलतापूर्वक जोड़ा गया"
+  }
+}

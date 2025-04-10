@@ -378,5 +378,13 @@
   "Selectduration": {
     "en": "Select duration",
     "hi": "अवधि चुनें"
+  },
+  "EndDatemustbeafterStartDate": {
+    "en": "End Date must be after Start Date",
+    "hi": "समाप्ति तिथि, आरंभ तिथि के बाद होनी चाहिए"
+  },
+  "Invalidvalueforactivestatus": {
+    "en": "Invalid value for active status",
+    "hi": "सक्रिय स्थिति के लिए अमान्य मान"
   }
 }
