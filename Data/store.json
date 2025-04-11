@@ -126,5 +126,65 @@
   "Storeaddedsuccessfully": {
     "en": "Store added successfully",
     "hi": "स्टोर सफलतापूर्वक जोड़ा गया"
+  },
+  "Doyoureallywanttodeletethisstore": {
+    "en": "Do you really want to delete this store?",
+    "hi": "क्या आप सचमुच इस स्टोर को हटाना चाहते हैं?"
+  },
+  "Storename": {
+    "en": "Store name",
+    "hi": "स्टोर नाम"
+  },
+  "Storecode": {
+    "en": "Store code",
+    "hi": "स्टोर कोड"
+  },
+  "Underwhichstore": {
+    "en": "Under which store",
+    "hi": "कौन सी दुकान"
+  },
+  "Ismainstore": {
+    "en": "Is main store",
+    "hi": "मुख्य स्टोर है"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "Isstockclosingdaily": {
+    "en": "Is stock closing daily",
+    "hi": "क्या स्टॉक प्रतिदिन बंद हो रहा है?"
+  },
+  "NotFound": {
+    "en": "Not Found",
+    "hi": "नहीं मिला"
+  },
+  "Isactive": {
+    "en": "Is active",
+    "hi": "सक्रिय है?"
+  },
+  "Enterstorenamehere": {
+    "en": "Enter store name here",
+    "hi": "यहां स्टोर का नाम दर्ज करें"
+  },
+  "Enterstorecodehere": {
+    "en": "Enter store code here",
+    "hi": "यहां स्टोर कोड दर्ज करें"
+  },
+  "Selectunderwhichstore": {
+    "en": "Select under which store",
+    "hi": "किस स्टोर के अंतर्गत चयन करें"
+  },
+  "Isstockclosingdelay": {
+    "en": "Is stock closing delay",
+    "hi": "क्या स्टॉक बंद होने में देरी हो रही है?"
+  },
+  "Searchbystoredetails": {
+    "en": "Search by store details",
+    "hi": "स्टोर विवरण के आधार पर खोजें"
   }
 }

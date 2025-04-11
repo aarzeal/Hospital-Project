@@ -386,5 +386,33 @@
   "Invalidvalueforactivestatus": {
     "en": "Invalid value for active status",
     "hi": "सक्रिय स्थिति के लिए अमान्य मान"
+  },
+  "Slot1EndTimemustbeafterSlot1StartTime": {
+    "en": "Slot 1 End Time must be after Slot 1 Start Time",
+    "hi": "स्लॉट 1 समाप्ति समय स्लॉट 1 प्रारंभ समय के बाद होना चाहिए"
+  },
+  "Slot2starttimemustbeafterSlot1endtime": {
+    "en": "Slot 2 start time must be after Slot 1 end time",
+    "hi": "स्लॉट 2 का आरंभ समय स्लॉट 1 के समाप्ति समय के बाद होना चाहिए"
+  },
+  "Slot2EndTimemustbeafterSlot2StartTime": {
+    "en": "Slot 2 End Time must be after Slot 2 Start Time",
+    "hi": "स्लॉट 2 समाप्ति समय स्लॉट 2 प्रारंभ समय के बाद होना चाहिए"
+  },
+  "Slot1Active": {
+    "en": "Slot 1 Active",
+    "hi": "स्लॉट 1 सक्रिय"
+  },
+  "Slot1InActive": {
+    "en": "Slot 1 In active",
+    "hi": "स्लॉट 1 निष्क्रिय"
+  },
+  "Slot2InActive": {
+    "en": "Slot 2 In active",
+    "hi": "स्लॉट 2 निष्क्रिय"
+  },
+  "Slot2Active": {
+    "en": "Slot 2 Active",
+    "hi": "स्लॉट 2 सक्रिय"
   }
 }
