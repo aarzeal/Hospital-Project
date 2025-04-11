@@ -9,6 +9,7 @@ const axios = require("axios");
 const router = express.Router();
 require('dotenv').config();
 
+
 const multer = require('multer');
 const {
   createUserValidationRules,
@@ -3415,21 +3416,17 @@ exports.loginUser = async (req, res) => {
   const start = Date.now();
   const logId = uuidv4();
   const clientIp = await getClientIp(req);
+
+  const LoginHistory = require("../models/LoginHistory_Model.js")(req.sequelize)
+
   const { Username, Password } = req.body;
 
-
   const secretKey = process.env.SYSTEM_SECRET_KEY;
-  //   const Pass="1234"
-  // // Encrypt
-  // const encrypted = CryptoJS.AES.encrypt(Password, secretKey).toString();
-  // console.log('Encrypted00000000000:', encrypted);
-  
-  // Decrypt
+
   const decryptedBytes = CryptoJS.AES.decrypt(Password, secretKey);
   const decryptedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
   console.log('Decrypted0000:', decryptedPassword);
-
 
   if (!Username || !decryptedPassword) {
     const end = Date.now();
@@ -3576,6 +3573,14 @@ exports.loginUser = async (req, res) => {
       userAgent: req.headers["user-agent"],
     });
 
+    const loginRecord = await LoginHistory.create({
+      userIDR: user.userId,
+      loginTime: new Date(),
+      logoutTime: null,
+    });
+
+    console.log("loginRecord+++",loginRecord)
+
     return res.status(200).json({
       meta: {
         statusCode: 200,
@@ -3592,6 +3597,7 @@ exports.loginUser = async (req, res) => {
         message: "Login successful",
       },
     });
+
   } catch (error) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
