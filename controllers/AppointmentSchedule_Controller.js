@@ -132,6 +132,33 @@ exports.register_Appointment_Schedule = async (req, res) => {
       });
     }
 
+    const existingELementCheck=await AppointmentSchedule.findOne({ where: { Employee_IDR: Employee_IDR, Day:Day } });
+
+    // console.log("existingELementCheck",existingELementCheck);
+
+    if(existingELementCheck){
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 9244;
+
+      logger.logWithMeta("error", "Appointment data is already exists", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      });
+      return res.status(403).json({
+        errorCode,
+        message: "Appointment data is already exists",
+      });
+    }
+
     await AppointmentSchedule.sync({ force: false });
 
     const appointmentSchedule = await AppointmentSchedule.create({

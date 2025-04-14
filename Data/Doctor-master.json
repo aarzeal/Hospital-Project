@@ -414,5 +414,61 @@
   "Slot2Active": {
     "en": "Slot 2 Active",
     "hi": "स्लॉट 2 सक्रिय"
+  },
+  "Durationshouldbegreaterthan9": {
+    "en": "Duration should be greater than 9",
+    "hi": "अवधि 9 से अधिक होनी चाहिए"
+  },
+  "Durationshouldbelessthan60": {
+    "en": "Duration should be less than 60",
+    "hi": "अवधि 60 मिनट से कम होनी चाहिए"
+  },
+  "Invalidschedule": {
+    "en": "Invalid schedule",
+    "hi": "अमान्य शेड्यूल"
+  },
+  "Slot1StartTimerequiredfor": {
+    "en": "Slot 1 Start Time required for : ",
+    "hi": "स्लॉट 1 प्रारंभ समय आवश्यक : "
+  },
+  "Slot1EndTimerequiredfor": {
+    "en": "Slot 1 End Time required for : ",
+    "hi": "स्लॉट 1 समाप्ति समय आवश्यक : "
+  },
+  "Slot1EndTimemustbeafterSlot1StartTimefor": {
+    "en": "Slot 1 End Time must be after Slot 1 Start Time for : ",
+    "hi": "स्लॉट 1 समाप्ति समय स्लॉट 1 प्रारंभ समय के बाद होना चाहिए : "
+  },
+  "Slot2EndTimemustbeafterSlot2StartTimefor": {
+    "en": "Slot 2 End Time must be after Slot21 Start Time for : ",
+    "hi": "स्लॉट 2 समाप्ति समय स्लॉट 2 प्रारंभ समय के बाद होना चाहिए : "
+  },
+  "Slot2EndTimerequiredfor": {
+    "en": "Slot 2 End Time required for : ",
+    "hi": "स्लॉट 2 समाप्ति समय आवश्यक : "
+  },
+  "Slot2StartTimerequiredfor": {
+    "en": "Slot 2 Start Time required for : ",
+    "hi": "स्लॉट 2 प्रारंभ समय आवश्यक : "
+  },
+  "Slot2StartTimemustbeafterSlot1EndTimefor": {
+    "en": "Slot 2 Start Time must be after Slot 1 End Time for : ",
+    "hi": "स्लॉट 2 का आरंभ समय स्लॉट 1 के समाप्ति समय के बाद होना चाहिए : "
+  },
+  "Applysameslotdetailstoallselecteddays": {
+    "en": "Apply same slot details to all selected days",
+    "hi": "सभी चयनित दिनों पर समान स्लॉट विवरण लागू करें"
+  },
+  "Slots": {
+    "en": "Slots",
+    "hi": "स्लॉट्स"
+  },
+  "Doctor": {
+    "en": "Doctor",
+    "hi": "डॉक्टर"
+  },
+  "Selectdoctor": {
+    "en": "Select doctor",
+    "hi": "डॉक्टर का चयन करें"
   }
 }
