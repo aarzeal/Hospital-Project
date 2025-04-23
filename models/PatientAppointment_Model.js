@@ -37,7 +37,7 @@ module.exports=(sequelize)=> {
 
             patient_IDR:{
                 type:DataTypes.INTEGER,
-                allowNull:false
+                allowNull:true
             },
 
             employee_IDR:{
@@ -47,7 +47,7 @@ module.exports=(sequelize)=> {
 
             department_IDR:{
                 type:DataTypes.INTEGER,
-                allowNull:flase
+                allowNull:false
             },  
 
             appointment_Start_Time:{
@@ -61,7 +61,7 @@ module.exports=(sequelize)=> {
             },
 
             mode_Of_Booking:{
-                type:DataTypes.STRING,
+                type:DataTypes.INTEGER,
                 allowNull:true
             },
             appointment_Book_Reason:{
@@ -155,7 +155,7 @@ module.exports=(sequelize)=> {
         },
         {
             tablename:'tbl_PatientAppointment',
-            timestamp:false
+            timestamps:false
         }
     );
     return PatientAppointment;
