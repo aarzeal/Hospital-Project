@@ -103,7 +103,7 @@ module.exports=(sequelize)=> {
                 type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
-                  is: /^[0-9]{10}$/,
+                  is: /^[0-9]$/,
                   notEmpty: true 
                 }
             },
