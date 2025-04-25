@@ -855,3 +855,172 @@ exports.updateAppointmentSchedule = [
     .isString()
     .withMessage("Updated by must be a string"),
 ];
+
+exports.patientappointmentcreate=[
+  body("appointment_Code")
+  .notEmpty()
+   .isString()
+   .withMessage("Appointment code is required and it should be String" ),
+
+  body("appointment_Purpose")
+    .isString()
+    .withMessage("Give the proper Appointment Purpose in String "),
+
+  body("is_New_Patient")
+    .isBoolean()
+    .withMessage("Is new Patient must be a boolean"),
+
+  body("patient_Name")
+    .optional()
+    .isString()
+    .withMessage("Patient name is optional "),
+
+  body("patient_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Patient IDR is optional according to is new patient"),
+
+  body("employee_IDR")
+    .notEmpty()
+    .isInt()
+    .withMessage("Employee IDR is according to Doctors ID"),
+
+  body("department_IDR")
+    .notEmpty()
+    .isInt()
+    .withMessage("Department IDR is required"),
+
+  body("appointment_Start_Time"),
+
+  body("appointment_End_Time"),
+
+  body("mode_Of_Booking"),
+
+  body("appointment_Book_Reason"),
+
+  body("is_Arrived"),
+
+  body("is_canceled"),
+
+  body("appointment_Cancle_Reason"),
+
+  body("want_SMS_Reminder"),
+
+  body("want_Email_Reminder"),
+
+  body("want_WhatsAPP_Reminder"),
+
+  body("patient_Contact_Number"),
+
+  body("service_IDR"),
+
+  body("isActive")
+    .isBoolean()
+    .withMessage("Is Active must be a boolean"),
+
+  body("hospital_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital ID must be an integer"),
+
+  body("hospitalGroup_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital Group ID must be an integer"),
+
+  body("createdBy")
+    .optional()
+    .isString()
+    .withMessage("Created by must be a string"),
+
+  body("updatedBy")
+    .optional()
+    .isString()
+    .withMessage("Updated by must be a string"),
+],
+
+exports.patientappointmentupdate=[
+  body("appointment_Code")
+  .notEmpty()
+   .isString()
+   .withMessage("Appointment code is required and it should be String" ),
+
+  body("bookDate"),
+
+  body("appointment_Purpose")
+    .isString()
+    .withMessage("Give the proper Appointment Purpose in String "),
+
+  body("is_New_Patient")
+    .isBoolean()
+    .withMessage("Is new Patient must be a boolean"),
+
+  body("patient_Name")
+    .optional()
+    .isString()
+    .withMessage("Patient name is optional "),
+
+  body("patient_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Patient IDR is optional according to is new patient"),
+
+  body("employee_IDR")
+    .notEmpty()
+    .isInt()
+    .withMessage("Employee IDR is according to Doctors ID"),
+
+  body("department_IDR")
+    .notEmpty()
+    .isInt()
+    .withMessage("Department IDR is required"),
+
+  body("appointment_Start_Time"),
+
+  body("appointment_End_Time"),
+
+  body("mode_Of_Booking"),
+
+  body("appointment_Book_Reason"),
+
+  body("is_Arrived"),
+
+  body("is_canceled"),
+
+  body("appointment_Cancle_Reason"),
+
+  body("want_SMS_Reminder"),
+
+  body("want_Email_Reminder"),
+
+  body("want_WhatsAPP_Reminder"),
+
+  body("patient_Contact_Number"),
+
+  body("service_IDR"),
+
+  body("isActive")
+    .isBoolean()
+    .withMessage("Is Active must be a boolean"),
+
+  body("hospital_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital ID must be an integer"),
+
+  body("hospitalGroup_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital Group ID must be an integer"),
+
+  body("createdBy")
+    .optional()
+    .isString()
+    .withMessage("Created by must be a string"),
+
+  body("updatedBy")
+    .optional()
+    .isString()
+    .withMessage("Updated by must be a string"),
+]
+     

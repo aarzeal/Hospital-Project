@@ -1,6 +1,10 @@
 const logger = require("../logger");
 const dotenv = require("dotenv");
 const { v4: uuidv4 } = require("uuid");
+const { Op } = require("sequelize");
+const dayjs = require("dayjs");
+const customParseFormat = require("dayjs/plugin/customParseFormat");
+dayjs.extend(customParseFormat);
 
 const { validationResult } = require("express-validator");
 const getClientIp = require("../util/clientip");
@@ -586,12 +590,10 @@ exports.getPatientAppointmentById = async (req, res) => {
       updatedBy: req.username,
     });
 
-    return res
-      .status(200)
-      .json({
-        message: "Patient Appointment fetched successfully",
-        data: PatientAppointments,
-      });
+    return res.status(200).json({
+      message: "Patient Appointment fetched successfully",
+      data: PatientAppointments,
+    });
   } catch (error) {
     logger.logWithMeta("error", "Error fetching Patient Appointment", {
       //logId,
@@ -605,13 +607,11 @@ exports.getPatientAppointmentById = async (req, res) => {
       updatedBy: req.username,
     });
 
-    return res
-      .status(500)
-      .json({
-        errorCode: 9248,
-        message: "Error fetching Patient Appointment",
-        error: error.message,
-      });
+    return res.status(500).json({
+      errorCode: 9248,
+      message: "Error fetching Patient Appointment",
+      error: error.message,
+    });
   }
 };
 
@@ -1048,38 +1048,23 @@ exports.getAppointmentsByDoctorId = async (req, res) => {
     const DoctorSlotInfo =
       AppointmentSchedule.length > 0
         ? AppointmentSchedule.map((item) => {
-            return {
-              AppointmentSchedule_Id: item.AppointmentSchedule_Id,
-              Day: item.Day,
-              Slot1: item.Slot1,
-              Slot1StartTime: item.Slot1_StartTime,
-              Slot1EndTime: item.Slot1_EndTime,
-              Slot2: item.Slot2,
-              Slot2StartTime: item.Slot2_StartTime,
-              Slot2EndTime: item.Slot2_EndTime,
-              Duration: item.Duration,
-            };
-          })
+          return {
+            AppointmentSchedule_Id: item.AppointmentSchedule_Id,
+            Day: item.Day,
+            Slot1: item.Slot1,
+            Slot1StartTime: item.Slot1_StartTime,
+            Slot1EndTime: item.Slot1_EndTime,
+            Slot2: item.Slot2,
+            Slot2StartTime: item.Slot2_StartTime,
+            Slot2EndTime: item.Slot2_EndTime,
+            Duration: item.Duration,
+          };
+        })
         : [];
 
     const appointments = await patientAppointment.findAll({
       where: { employee_IDR },
     });
-
-    // console.log(appointments)
-
-    // const formattedAppointments = appointments.map((item) => {
-    //   const start = new Date(item.appointment_Start_Time);
-    //   const end = new Date(item.appointment_End_Time);
-
-    //   return {
-    //     date: start.toISOString().split('T')[0],                  // "2025-04-22"
-    //     startTime: start.toISOString().split('T')[1].slice(0, 5), // "10:00:01"
-    //     endTime: end.toISOString().split('T')[1].slice(0, 5),     // "10:20:10"
-    //     patientDetails:!item?.is_New_Patient? item.patient_IDR :item.patient_Name,
-    //     ServiceID:item.service_IDR
-    //   };
-    // });
 
     const formattedAppointments = appointments.map((item) => {
       const startIST = moment(item.appointment_Start_Time);
@@ -1110,7 +1095,7 @@ exports.getAppointmentsByDoctorId = async (req, res) => {
     const slotsDetails = generateStartTimes(DoctorSlotInfo);
 
     // console.log("DoctorSlotInfo+++++",AppointmentSchedule);
-    console.log("formattedAppointments++++++++", formattedAppointments);
+    //console.log("formattedAppointments++++++++", formattedAppointments);
 
     const finalSlotStructure = createSlotStructure(
       slotsDetails,
@@ -1171,3 +1156,482 @@ exports.getAppointmentsByDoctorId = async (req, res) => {
     });
   }
 };
+
+exports.getAppointmentsByDoctor = async (req, res, next) => {
+  const startTime = Date.now();
+  const clientIp = await getClientIp(req);
+  const locationData = await getLocationData(clientIp);
+  const hospitalDatabase = req.hospitalDatabase;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const { employee_IDR } = req.params;
+    const { start, end, on } = req.query;
+
+    const PatientAppointment = require("../models/PatientAppointment_Model.js")(
+      req.sequelize
+    );
+
+    const Employee = require("../models/tblEmployee.js")(req.sequelize);
+
+    const AppointmentSchedule =
+      require("../models/AppointmentSchedule_Model.js")(req.sequelize);
+
+    // Check if doctor exists
+    const doctor = await Employee.findOne({
+      where: { EmployeeID: employee_IDR },
+    });
+
+    if (!doctor) {
+      const executionTime = `${Date.now() - startTime}ms`;
+      const errorCode = 9260;
+
+      logger.logWithMeta("warn", "Doctor (Employee) not found", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        clientIp,
+        createdBy: req.username,
+      });
+
+      return res.status(404).json({
+        errorCode,
+        message: "Doctor (Employee) not found",
+      });
+    }
+
+    const AppointmentScheduleData = await AppointmentSchedule.findAll({
+      where: { Employee_IDR: employee_IDR },
+    });
+
+    const DoctorSlotInfo =
+      AppointmentScheduleData.length > 0
+        ? AppointmentScheduleData.map((item) => {
+          return {
+            AppointmentSchedule_Id: item.AppointmentSchedule_Id,
+            Day: item.Day,
+            Slot1: item.Slot1,
+            Slot1StartTime: item.Slot1_StartTime,
+            Slot1EndTime: item.Slot1_EndTime,
+            Slot2: item.Slot2,
+            Slot2StartTime: item.Slot2_StartTime,
+            Slot2EndTime: item.Slot2_EndTime,
+            Duration: item.Duration,
+          };
+        })
+        : [];
+
+    const slotsDetails = generateStartTimes(DoctorSlotInfo);
+
+
+    // const slotsDetails = generateStartTimes(DoctorSlotInfo);
+
+    // const appointmentsData = await PatientAppointment.findAll({
+    //   where: { employee_IDR },
+    // });
+
+
+
+    let from, to;
+    const FORMAT = "DD-MM-YYYY";
+
+    if (on) {
+      if (!dayjs(on, FORMAT, true).isValid()) {
+        return res
+          .status(400)
+          .json({ message: `Provide valid ${on} date in DD-MM-YYYY format` });
+      }
+
+      const from = dayjs(on, FORMAT).startOf("day");
+      const to = dayjs(on, FORMAT).endOf("day");
+
+      const appointments = await PatientAppointment.findAll({
+        where: {
+          employee_IDR,
+          appointment_Start_Time: {
+            [Op.between]: [from.toDate(), to.toDate()],
+          },
+        },
+      });
+
+      console.log("appointments1111111111", appointments)
+
+      const formattedAppointments = appointments.map((item) => {
+        const startIST = moment(item.appointment_Start_Time);
+        const endIST = moment(item.appointment_End_Time);
+
+        return {
+          date: startIST.format("YYYY-MM-DD"),
+          startTime: startIST.format("HH:mm"),
+          endTime: endIST.format("HH:mm"),
+          patientDetails: !item?.is_New_Patient
+            ? item.patient_IDR
+            : item.patient_Name,
+          ServiceID: item.service_IDR,
+          appointment_Code: item.appointment_Code,
+          appointment_ID: item.appointment_ID,
+          appointment_Purpose: item.appointment_Purpose,
+          mode_Of_Booking: item.mode_Of_Booking,
+          appointment_Book_Reason: item.appointment_Book_Reason,
+          is_Arrived: item.is_Arrived,
+          is_canceled: item.is_canceled,
+          appointment_Cancle_Reason: item.appointment_Cancle_Reason,
+          patient_Contact_Number: item.patient_Contact_Number,
+        };
+      });
+
+      console.log("formattedAppointments:::", formattedAppointments)
+
+
+      const finalSlotStructure = createSlotStructure(
+        slotsDetails,
+        formattedAppointments
+      );
+
+
+
+      // const result = appointments.map((item) => ({
+      //   appointment_ID: item.appointment_ID,
+      //   patientDetails: !item?.is_New_Patient
+      //     ? item.patient_IDR
+      //     : item.patient_Name,
+      //   bookDate: item.bookDate,
+      //   appointment_Start_Time: item.appointment_Start_Time,
+      //   appointment_End_Time: item.appointment_End_Time,
+      //   appointment_Code: item.appointment_Code,
+      //   appointment_Purpose: item.appointment_Purpose,
+      //   mode_Of_Booking: item.mode_Of_Booking,
+      //   appointment_Book_Reason: item.appointment_Book_Reason,
+      //   is_Arrived: item.is_Arrived,
+      //   is_canceled: item.is_canceled,
+      //   appointment_Cancle_Reason: item.appointment_Cancle_Reason,
+      //   ServiceID: item.service_IDR,
+      //   patient_Contact_Number: item.patient_Contact_Number,
+      // }));
+
+      const executionTime = `${Date.now() - startTime}ms`;
+
+      return res.status(200).json({
+        meta: {
+          statusCode: 200,
+          executionTime,
+          totalRecords: appointments.length,
+          hospitalDatabase,
+        },
+        data: finalSlotStructure,
+      });
+    }
+    const monthParam = req.query.month;
+    if (monthParam) {
+      const monthIndex = isNaN(monthParam)
+        ? dayjs().month(monthParam.toLowerCase()).month() // jan‑dec → 0‑11
+        : parseInt(monthParam, 10) - 1; // 1‑12  → 0‑11
+
+      console.log("monthParam+-+-+", monthIndex);
+
+      if (monthIndex < 0 || monthIndex > 11)
+        return res.status(400).json({ message: "Invalid month value" });
+
+      const yr = req.query.year ? parseInt(req.query.year, 10) : now.year();
+
+      if (isNaN(yr) || yr < 1900)
+        return res.status(400).json({ message: "Invalid year value" });
+
+      from = dayjs().year(yr).month(monthIndex).startOf("month");
+      to = dayjs().year(yr).month(monthIndex).endOf("month");
+    } else {
+      if (!start || !end)
+        return res
+          .status(400)
+          .json({ message: "Provide start & end in DD-MM-YYYY format" });
+
+      if (
+        !dayjs(start, FORMAT, true).isValid() ||
+        !dayjs(end, FORMAT, true).isValid()
+      )
+        return res.status(400).json({ message: "Invalid date format" });
+
+      from = dayjs(start, FORMAT).startOf("day");
+      to = dayjs(end, FORMAT).endOf("day");
+    }
+    // console.log("from:::",  from )
+    // console.log("to:::",  to )
+
+    if (from.isAfter(to))
+      return res.status(400).json({ message: "start must be before end" });
+
+    const appointments = await PatientAppointment.findAll({
+      where: {
+        employee_IDR,
+        appointment_Start_Time: {
+          [Op.between]: [from.toDate(), to.toDate()],
+        },
+      },
+    });
+
+    const formattedAppointments = appointments.map((item) => {
+      const startIST = moment(item.appointment_Start_Time);
+      const endIST = moment(item.appointment_End_Time);
+
+      return {
+        date: startIST.format("YYYY-MM-DD"),
+        startTime: startIST.format("HH:mm"),
+        endTime: endIST.format("HH:mm"),
+        patientDetails: !item?.is_New_Patient
+          ? item.patient_IDR
+          : item.patient_Name,
+        ServiceID: item.service_IDR,
+        appointment_Code: item.appointment_Code,
+        appointment_ID: item.appointment_ID,
+        appointment_Purpose: item.appointment_Purpose,
+        mode_Of_Booking: item.mode_Of_Booking,
+        appointment_Book_Reason: item.appointment_Book_Reason,
+        is_Arrived: item.is_Arrived,
+        is_canceled: item.is_canceled,
+        appointment_Cancle_Reason: item.appointment_Cancle_Reason,
+        patient_Contact_Number: item.patient_Contact_Number,
+      };
+    });
+
+    console.log("formattedAppointments:::", formattedAppointments)
+
+
+    const finalSlotStructure = createSlotStructure(
+      slotsDetails,
+      formattedAppointments
+    );
+
+    // const result = appointments.map((item) => ({
+    //   appointment_ID: item.appointment_ID,
+    //   patientDetails: !item?.is_New_Patient
+    //     ? item.patient_IDR
+    //     : item.patient_Name,
+    //   bookDate: item.bookDate,
+    //   appointment_Start_Time: item.appointment_Start_Time,
+    //   appointment_End_Time: item.appointment_End_Time,
+    //   appointment_Code: item.appointment_Code,
+    //   appointment_Purpose: item.appointment_Purpose,
+    //   mode_Of_Booking: item.mode_Of_Booking,
+    //   appointment_Book_Reason: item.appointment_Book_Reason,
+    //   is_Arrived: item.is_Arrived,
+    //   is_canceled: item.is_canceled,
+    //   appointment_Cancle_Reason: item.appointment_Cancle_Reason,
+    //   ServiceID: item.service_IDR,
+    //   patient_Contact_Number: item.patient_Contact_Number,
+    // }));
+
+    const executionTime = `${Date.now() - startTime}ms`;
+
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime,
+        totalRecords: appointments.length,
+        hospitalDatabase,
+      },
+      data: finalSlotStructure,
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - startTime}ms`;
+    const errorCode = 9261;
+
+    logger.logWithMeta("error", "Error fetching appointments for doctor", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      clientIp,
+      createdBy: req.username,
+      error: error.message,
+    });
+
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        executionTime,
+        errorCode,
+        hospitalDatabase,
+      },
+      error: {
+        message: "Error fetching appointments for doctor: " + error.message,
+      },
+    });
+  }
+};
+
+// exports.getAppointmentsByDoctor = async (req, res, next) => {
+//   const { employee_IDR } = req.params;
+//   try {
+//     const patientAppointment = require("../models/PatientAppointment_Model.js")(
+//       req.sequelize
+//     );
+//     const appointmentSchedule =
+//       require("../models/AppointmentSchedule_Model.js")(req.sequelize);
+//     const Employee = require("../models/tblEmployee.js")(req.sequelize);
+
+//     const { range, start, end, on } = req.query;
+//     const doctorExists = await Employee.findOne({
+//       where: { EmployeeID: employee_IDR },
+//     });
+
+//     if (!doctorExists) {
+//       const executionTime = `${Date.now() - start}ms`;
+//       const errorCode = 9260;
+
+//       logger.logWithMeta("warn", "Doctor (Employee) not found", {
+//         errorCode,
+//         executionTime,
+//         hospitalId: req.hospitalName,
+//         apiName: req.originalUrl,
+//         city: locationData?.city,
+//         country: locationData?.country,
+//         method: req.method,
+//         userAgent: req.headers["user-agent"],
+//         clientIp,
+//         createdBy: req.username,
+//       });
+
+//       return res.status(404).json({
+//         errorCode,
+//         message: "Doctor (Employee) not found",
+//       });
+//     }
+//       // ---------- 1. Resolve the date window ----------
+//     let from, to;
+//     const FORMAT = 'DD-MM-YYYY';
+//     const now = dayjs();
+//     if (on) {
+//       if (!dayjs(on, FORMAT, true).isValid()) {
+//         return res.status(400).json({ message: 'Provide valid `on` date in DD-MM-YYYY format' });
+//       }
+
+//       const from = dayjs(on, FORMAT).startOf('day');
+//       const to = dayjs(on, FORMAT).endOf('day');
+
+//       // Move query and response code block here, and return early:
+//       const appointments = await patientAppointment.findAll({
+//         where: {
+//           employee_IDR,
+//           appointment_Start_Time: {
+//             [Op.between]: [from.toDate(), to.toDate()]
+//           }
+//         },
+//         order: [['appointment_Start_Time', 'ASC']]
+//       });
+
+//       const result = appointments.map(item => ({
+//         appointment_ID: item.appointment_ID,
+//         patientDetails: !item?.is_New_Patient ? item.patient_IDR : item.patient_Name,
+//         bookDate: item.bookDate,
+//         appointment_Start_Time: item.appointment_Start_Time,
+//         appointment_End_Time: item.appointment_End_Time,
+//         appointment_Code: item.appointment_Code,
+//         appointment_Purpose: item.appointment_Purpose,
+//         mode_Of_Booking: item.mode_Of_Booking,
+//         appointment_Book_Reason: item.appointment_Book_Reason,
+//         is_Arrived: item.is_Arrived,
+//         is_canceled: item.is_canceled,
+//         appointment_Cancle_Reason: item.appointment_Cancle_Reason,
+//         ServiceID: item.service_IDR,
+//         patient_Contact_Number: item.patient_Contact_Number,
+//       }));
+
+//       return res.json(result);
+//     }
+//     // If caller passed `month`, we handle it first and ignore `range`
+//  const monthParam = req.query.month;
+
+// // "1"‑"12" or name
+//   if (monthParam) {
+//    // Normalise: allow names or numbers
+//   const monthIndex =
+//      isNaN(monthParam)
+//        ? dayjs().month(monthParam.toLowerCase()).month() // jan‑dec → 0‑11
+//        : parseInt(monthParam, 10) - 1;                  // 1‑12  → 0‑11
+
+//    if (monthIndex < 0 || monthIndex > 11)
+//      return res.status(400).json({ message: 'Invalid month value' });
+
+//    const yr = req.query.year ? parseInt(req.query.year, 10) : now.year();
+//    if (isNaN(yr) || yr < 1900)
+//      return res.status(400).json({ message: 'Invalid year value' });
+
+//    from = dayjs().year(yr).month(monthIndex).startOf('month');
+//    to   = dayjs().year(yr).month(monthIndex).endOf('month');
+
+//  } else {                                               // server local time
+//     switch (range) {
+//       case 'month':
+//         from = now.startOf('month');
+//         to   = now.endOf('month');
+//         break;
+//       case 'week':
+//         from = now.startOf('week');                         // Monday 00:00
+//         to   = now.endOf('week');                           // Sunday 23:59
+//         break;
+//       case 'date':                                          // today
+//         from = now.startOf('day');
+//         to   = now.endOf('day');
+//         break;
+//       default:
+//         // -------- custom window -------------
+//         if (!start || !end)
+//           return res.status(400).json({ message: 'Provide start & end in DD-MM-YYYY format' });
+
+//         if (!dayjs(start, FORMAT, true).isValid() || !dayjs(end, FORMAT, true).isValid())
+//           return res.status(400).json({ message: 'Invalid date format' });
+
+//         from = dayjs(start, FORMAT);
+//         to   = dayjs(end, FORMAT);
+//     }
+//   }
+
+//     // Ensure from <= to
+//     if (from.isAfter(to))
+//       return res.status(400).json({ message: 'start must be before end' });
+
+//     // ---------- 2. Query ----------
+//     const appointments = await patientAppointment.findAll({
+//       where: {
+//         employee_IDR,
+//         appointment_Start_Time: {
+//           [Op.between]: [from.toDate(), to.toDate()]
+//         }
+//       },
+//       order: [['appointment_Start_Time', 'ASC']]
+//     });
+
+//     // ---------- 3. Format output back to DD-MM-YYYY HH:mm ----------
+//     const result = appointments.map(item=> ({
+//       appointment_ID: item.appointment_ID,
+//       patientDetails: !item?.is_New_Patient ? item.patient_IDR : item.patient_Name,
+//       bookDate:item.bookDate,
+//       appointment_Start_Time:item. appointment_Start_Time,
+//       appointment_End_Time:item.appointment_End_Time,
+//         appointment_Code: item.appointment_Code,
+//         appointment_Purpose: item.appointment_Purpose,
+//         mode_Of_Booking: item.mode_Of_Booking,
+//         appointment_Book_Reason: item.appointment_Book_Reason,
+//         is_Arrived: item.is_Arrived,
+//         is_canceled: item.is_canceled,
+//         appointment_Cancle_Reason: item.appointment_Cancle_Reason,
+//         ServiceID: item.service_IDR,
+//         patient_Contact_Number: item.patient_Contact_Number,
+//     }));
+
+//     res.json(result);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
