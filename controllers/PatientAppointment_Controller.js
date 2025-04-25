@@ -63,13 +63,139 @@ function generateStartTimes(schedule) {
   });
 }
 
+// function createSlotStructure(doctorSlots, appointments) {
+//   const result = [];
+
+//   doctorSlots.forEach((slot) => {
+//     const dayObj = {
+//       Day: slot.Day,
+//       date: "", // We'll fill it from appointments
+//       slot1: slot.Slot1,
+//       slot2: slot.Slot2,
+//       bookedSlotsInSlot1: {},
+//       availableSlotsInSlot1: {},
+//       bookedSlotsInSlot2: {},
+//       availableSlotsInSlot2: {},
+//     };
+
+//     const appointmentsForDay = appointments.filter((app) => {
+//       const date = new Date(app.date);
+//       const jsDay = date.getDay(); // 0 (Sun) to 6 (Sat)
+//       const customDay = jsDay === 6 ? 7 : jsDay + 1; // convert to 1–7 (Sun=1, Sat=7)
+
+//       return customDay === slot.Day;
+//     });
+
+//     console.log("appointmentsForDay;;;;", appointmentsForDay)
+
+//     if (appointmentsForDay.length > 0) {
+//       dayObj.date = appointmentsForDay[0].date.split("-").reverse().join("-"); // Convert yyyy-mm-dd to dd-mm-yyyy
+//     }     else return;
+
+//     // Process Slot1
+//     if (slot.Slot1Times) {
+//       slot.Slot1Times.forEach((time) => {
+//         const matched = appointmentsForDay.find(
+//           (app) => app.startTime === time
+//         );
+//         if (matched) {
+//           dayObj.bookedSlotsInSlot1[time] = {
+//             patientname:
+//               typeof matched.patientDetails === "string"
+//                 ? matched.patientDetails
+//                 : "",
+//             patientIDR:
+//               typeof matched.patientDetails === "number"
+//                 ? matched.patientDetails
+//                 : null,
+//             ServiceIdr: matched.ServiceID,
+//             appointment_ID: matched.appointment_ID,
+//             appointment_Code: matched.appointment_Code,
+//             appointment_Purpose: matched.appointment_Purpose,
+//             appointment_Book_Reason: matched.appointment_Book_Reason,
+//             mode_Of_Booking: matched.mode_Of_Booking,
+//             is_Arrived: matched.is_Arrived,
+//             is_canceled: matched.is_canceled,
+//             appointment_Cancle_Reason: matched.appointment_Cancle_Reason,
+//             patient_Contact_Number: matched.patient_Contact_Number,
+//           };
+//         } else {
+//           dayObj.availableSlotsInSlot1[time] = {
+//             patientname: "",
+//             patientIDR: null,
+//             ServiceIdr: null,
+//           };
+//         }
+//       });
+//     }
+
+//     // Process Slot2
+//     if (slot.Slot2Times) {
+//       slot.Slot2Times.forEach((time) => {
+//         const matched = appointmentsForDay.find(
+//           (app) => app.startTime === time
+//         );
+//         if (matched) {
+//           dayObj.bookedSlotsInSlot2[time] = {
+//             patientname:
+//               typeof matched.patientDetails === "string"
+//                 ? matched.patientDetails
+//                 : "",
+//             patientIDR:
+//               typeof matched.patientDetails === "number"
+//                 ? matched.patientDetails
+//                 : null,
+//             ServiceIdr: matched.ServiceID,
+//             appointment_ID: matched.appointment_ID,
+//             appointment_Code: matched.appointment_Code,
+//             appointment_Purpose: matched.appointment_Purpose,
+//             appointment_Book_Reason: matched.appointment_Book_Reason,
+//             mode_Of_Booking: matched.mode_Of_Booking,
+//             is_Arrived: matched.is_Arrived,
+//             is_canceled: matched.is_canceled,
+//             appointment_Cancle_Reason: matched.appointment_Cancle_Reason,
+//             patient_Contact_Number: matched.patient_Contact_Number,
+//           };
+//         } else {
+//           dayObj.availableSlotsInSlot2[time] = {
+//             patientname: "",
+//             patientIDR: null,
+//             ServiceIdr: null,
+//           };
+//         }
+//       });
+//     }
+
+//     result.push(dayObj);
+//   });
+
+//   return result;
+// }
+
 function createSlotStructure(doctorSlots, appointments) {
   const result = [];
 
-  doctorSlots.forEach((slot) => {
+  const appointmentsByDate = {};
+  appointments.forEach((app) => {
+    if (!appointmentsByDate[app.date]) {
+      appointmentsByDate[app.date] = [];
+    }
+    appointmentsByDate[app.date].push(app);
+  });
+
+  // console.log("appointmentsByDate;;;", appointmentsByDate)
+  Object.entries(appointmentsByDate).forEach(([dateStr, dailyAppointments]) => {
+    const dateObj = new Date(dateStr);
+    const jsDay = dateObj.getDay(); // 0 (Sun) to 6 (Sat)
+    const customDay = jsDay === 6 ? 7 : jsDay + 1;
+
+    // Match this date's weekday with doctorSlots
+    const slot = doctorSlots.find((s) => s.Day === customDay);
+    if (!slot) return;
+
     const dayObj = {
       Day: slot.Day,
-      date: "", // We'll fill it from appointments
+      date: dateStr.split("-").reverse().join("-"), // Convert YYYY-MM-DD to DD-MM-YYYY
       slot1: slot.Slot1,
       slot2: slot.Slot2,
       bookedSlotsInSlot1: {},
@@ -78,44 +204,14 @@ function createSlotStructure(doctorSlots, appointments) {
       availableSlotsInSlot2: {},
     };
 
-    // Filter appointments for this day
-
-    // const appointmentsForDay = appointments.filter(app => {
-    //   const date = new Date(app.date);
-    //   console.log("app.date",new Date(app.date).getDay())
-    //   return date.getDay() === slot.Day;
-    // });
-
-    const appointmentsForDay = appointments.filter((app) => {
-      const date = new Date(app.date);
-      const jsDay = date.getDay(); // 0 (Sun) to 6 (Sat)
-      const customDay = jsDay === 6 ? 7 : jsDay + 1; // convert to 1–7 (Sun=1, Sat=7)
-
-      return customDay === slot.Day;
-    });
-
-    // console.log("appointmentsForDay////", appointmentsForDay)
-
-    if (appointmentsForDay.length > 0) {
-      dayObj.date = appointmentsForDay[0].date.split("-").reverse().join("-"); // Convert yyyy-mm-dd to dd-mm-yyyy
-    }
-
     // Process Slot1
     if (slot.Slot1Times) {
       slot.Slot1Times.forEach((time) => {
-        const matched = appointmentsForDay.find(
-          (app) => app.startTime === time
-        );
+        const matched = dailyAppointments.find((app) => app.startTime === time);
         if (matched) {
           dayObj.bookedSlotsInSlot1[time] = {
-            patientname:
-              typeof matched.patientDetails === "string"
-                ? matched.patientDetails
-                : "",
-            patientIDR:
-              typeof matched.patientDetails === "number"
-                ? matched.patientDetails
-                : null,
+            patientname: typeof matched.patientDetails === "string" ? matched.patientDetails : "",
+            patientIDR: typeof matched.patientDetails === "number" ? matched.patientDetails : null,
             ServiceIdr: matched.ServiceID,
             appointment_ID: matched.appointment_ID,
             appointment_Code: matched.appointment_Code,
@@ -140,19 +236,11 @@ function createSlotStructure(doctorSlots, appointments) {
     // Process Slot2
     if (slot.Slot2Times) {
       slot.Slot2Times.forEach((time) => {
-        const matched = appointmentsForDay.find(
-          (app) => app.startTime === time
-        );
+        const matched = dailyAppointments.find((app) => app.startTime === time);
         if (matched) {
           dayObj.bookedSlotsInSlot2[time] = {
-            patientname:
-              typeof matched.patientDetails === "string"
-                ? matched.patientDetails
-                : "",
-            patientIDR:
-              typeof matched.patientDetails === "number"
-                ? matched.patientDetails
-                : null,
+            patientname: typeof matched.patientDetails === "string" ? matched.patientDetails : "",
+            patientIDR: typeof matched.patientDetails === "number" ? matched.patientDetails : null,
             ServiceIdr: matched.ServiceID,
             appointment_ID: matched.appointment_ID,
             appointment_Code: matched.appointment_Code,
@@ -179,6 +267,7 @@ function createSlotStructure(doctorSlots, appointments) {
 
   return result;
 }
+
 
 exports.create_Patient_Appointment = async (req, res) => {
   const errors = validationResult(req);
