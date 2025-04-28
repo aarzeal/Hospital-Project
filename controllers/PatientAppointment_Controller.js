@@ -208,8 +208,12 @@ function createSlotStructure(doctorSlots, appointments) {
     if (slot.Slot1Times) {
       slot.Slot1Times.forEach((time) => {
         const matched = dailyAppointments.find((app) => app.startTime === time);
+
+        // console.log("matched::::::::::::::::::::::::::", matched);
+
         if (matched) {
           dayObj.bookedSlotsInSlot1[time] = {
+            appointment_ID:matched.appointment_ID,
             patientname: typeof matched.patientDetails === "string" ? matched.patientDetails : "",
             patientIDR: typeof matched.patientDetails === "number" ? matched.patientDetails : null,
             ServiceIdr: matched.ServiceID,
@@ -222,6 +226,9 @@ function createSlotStructure(doctorSlots, appointments) {
             is_canceled: matched.is_canceled,
             appointment_Cancle_Reason: matched.appointment_Cancle_Reason,
             patient_Contact_Number: matched.patient_Contact_Number,
+            is_canceled:matched.is_canceled,
+            appointment_Cancle_Reason:matched.appointment_Cancle_Reason,
+            is_Arrived:matched.is_Arrived,
           };
         } else {
           dayObj.availableSlotsInSlot1[time] = {
@@ -239,6 +246,7 @@ function createSlotStructure(doctorSlots, appointments) {
         const matched = dailyAppointments.find((app) => app.startTime === time);
         if (matched) {
           dayObj.bookedSlotsInSlot2[time] = {
+            appointment_ID:matched.appointment_ID,
             patientname: typeof matched.patientDetails === "string" ? matched.patientDetails : "",
             patientIDR: typeof matched.patientDetails === "number" ? matched.patientDetails : null,
             ServiceIdr: matched.ServiceID,
@@ -251,6 +259,9 @@ function createSlotStructure(doctorSlots, appointments) {
             is_canceled: matched.is_canceled,
             appointment_Cancle_Reason: matched.appointment_Cancle_Reason,
             patient_Contact_Number: matched.patient_Contact_Number,
+            is_canceled:matched.is_canceled,
+            appointment_Cancle_Reason:matched.appointment_Cancle_Reason,
+            is_Arrived:matched.is_Arrived,
           };
         } else {
           dayObj.availableSlotsInSlot2[time] = {
