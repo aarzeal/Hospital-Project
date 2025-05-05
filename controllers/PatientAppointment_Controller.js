@@ -209,13 +209,19 @@ function createSlotStructure(doctorSlots, appointments) {
       slot.Slot1Times.forEach((time) => {
         const matched = dailyAppointments.find((app) => app.startTime === time);
 
-        // console.log("matched::::::::::::::::::::::::::", matched);
+        console.log("matched::::::::::::::::::::::::::", matched);
 
         if (matched) {
           dayObj.bookedSlotsInSlot1[time] = {
-            appointment_ID:matched.appointment_ID,
-            patientname: typeof matched.patientDetails === "string" ? matched.patientDetails : "",
-            patientIDR: typeof matched.patientDetails === "number" ? matched.patientDetails : null,
+            appointment_ID: matched.appointment_ID,
+            patientname:
+              typeof matched.patientDetails === "string"
+                ? matched.patientDetails
+                : "",
+            patientIDR:
+              typeof matched.patientDetails === "number"
+                ? matched.patientDetails
+                : null,
             ServiceIdr: matched.ServiceID,
             appointment_ID: matched.appointment_ID,
             appointment_Code: matched.appointment_Code,
@@ -226,9 +232,9 @@ function createSlotStructure(doctorSlots, appointments) {
             is_canceled: matched.is_canceled,
             appointment_Cancle_Reason: matched.appointment_Cancle_Reason,
             patient_Contact_Number: matched.patient_Contact_Number,
-            is_canceled:matched.is_canceled,
-            appointment_Cancle_Reason:matched.appointment_Cancle_Reason,
-            is_Arrived:matched.is_Arrived,
+            is_canceled: matched.is_canceled,
+            appointment_Cancle_Reason: matched.appointment_Cancle_Reason,
+            is_Arrived: matched.is_Arrived,
           };
         } else {
           dayObj.availableSlotsInSlot1[time] = {
@@ -246,9 +252,15 @@ function createSlotStructure(doctorSlots, appointments) {
         const matched = dailyAppointments.find((app) => app.startTime === time);
         if (matched) {
           dayObj.bookedSlotsInSlot2[time] = {
-            appointment_ID:matched.appointment_ID,
-            patientname: typeof matched.patientDetails === "string" ? matched.patientDetails : "",
-            patientIDR: typeof matched.patientDetails === "number" ? matched.patientDetails : null,
+            appointment_ID: matched.appointment_ID,
+            patientname:
+              typeof matched.patientDetails === "string"
+                ? matched.patientDetails
+                : "",
+            patientIDR:
+              typeof matched.patientDetails === "number"
+                ? matched.patientDetails
+                : null,
             ServiceIdr: matched.ServiceID,
             appointment_ID: matched.appointment_ID,
             appointment_Code: matched.appointment_Code,
@@ -259,9 +271,9 @@ function createSlotStructure(doctorSlots, appointments) {
             is_canceled: matched.is_canceled,
             appointment_Cancle_Reason: matched.appointment_Cancle_Reason,
             patient_Contact_Number: matched.patient_Contact_Number,
-            is_canceled:matched.is_canceled,
-            appointment_Cancle_Reason:matched.appointment_Cancle_Reason,
-            is_Arrived:matched.is_Arrived,
+            is_canceled: matched.is_canceled,
+            appointment_Cancle_Reason: matched.appointment_Cancle_Reason,
+            is_Arrived: matched.is_Arrived,
           };
         } else {
           dayObj.availableSlotsInSlot2[time] = {
@@ -278,7 +290,6 @@ function createSlotStructure(doctorSlots, appointments) {
 
   return result;
 }
-
 
 exports.create_Patient_Appointment = async (req, res) => {
   const errors = validationResult(req);
@@ -1148,18 +1159,18 @@ exports.getAppointmentsByDoctorId = async (req, res) => {
     const DoctorSlotInfo =
       AppointmentSchedule.length > 0
         ? AppointmentSchedule.map((item) => {
-          return {
-            AppointmentSchedule_Id: item.AppointmentSchedule_Id,
-            Day: item.Day,
-            Slot1: item.Slot1,
-            Slot1StartTime: item.Slot1_StartTime,
-            Slot1EndTime: item.Slot1_EndTime,
-            Slot2: item.Slot2,
-            Slot2StartTime: item.Slot2_StartTime,
-            Slot2EndTime: item.Slot2_EndTime,
-            Duration: item.Duration,
-          };
-        })
+            return {
+              AppointmentSchedule_Id: item.AppointmentSchedule_Id,
+              Day: item.Day,
+              Slot1: item.Slot1,
+              Slot1StartTime: item.Slot1_StartTime,
+              Slot1EndTime: item.Slot1_EndTime,
+              Slot2: item.Slot2,
+              Slot2StartTime: item.Slot2_StartTime,
+              Slot2EndTime: item.Slot2_EndTime,
+              Duration: item.Duration,
+            };
+          })
         : [];
 
     const appointments = await patientAppointment.findAll({
@@ -1316,30 +1327,27 @@ exports.getAppointmentsByDoctor = async (req, res, next) => {
     const DoctorSlotInfo =
       AppointmentScheduleData.length > 0
         ? AppointmentScheduleData.map((item) => {
-          return {
-            AppointmentSchedule_Id: item.AppointmentSchedule_Id,
-            Day: item.Day,
-            Slot1: item.Slot1,
-            Slot1StartTime: item.Slot1_StartTime,
-            Slot1EndTime: item.Slot1_EndTime,
-            Slot2: item.Slot2,
-            Slot2StartTime: item.Slot2_StartTime,
-            Slot2EndTime: item.Slot2_EndTime,
-            Duration: item.Duration,
-          };
-        })
+            return {
+              AppointmentSchedule_Id: item.AppointmentSchedule_Id,
+              Day: item.Day,
+              Slot1: item.Slot1,
+              Slot1StartTime: item.Slot1_StartTime,
+              Slot1EndTime: item.Slot1_EndTime,
+              Slot2: item.Slot2,
+              Slot2StartTime: item.Slot2_StartTime,
+              Slot2EndTime: item.Slot2_EndTime,
+              Duration: item.Duration,
+            };
+          })
         : [];
 
     const slotsDetails = generateStartTimes(DoctorSlotInfo);
-
 
     // const slotsDetails = generateStartTimes(DoctorSlotInfo);
 
     // const appointmentsData = await PatientAppointment.findAll({
     //   where: { employee_IDR },
     // });
-
-
 
     let from, to;
     const FORMAT = "DD-MM-YYYY";
@@ -1363,7 +1371,7 @@ exports.getAppointmentsByDoctor = async (req, res, next) => {
         },
       });
 
-      console.log("appointments1111111111", appointments)
+      console.log("appointments1111111111", appointments);
 
       const formattedAppointments = appointments.map((item) => {
         const startIST = moment(item.appointment_Start_Time);
@@ -1389,15 +1397,12 @@ exports.getAppointmentsByDoctor = async (req, res, next) => {
         };
       });
 
-      console.log("formattedAppointments:::", formattedAppointments)
-
+      console.log("formattedAppointments:::", formattedAppointments);
 
       const finalSlotStructure = createSlotStructure(
         slotsDetails,
         formattedAppointments
       );
-
-
 
       // const result = appointments.map((item) => ({
       //   appointment_ID: item.appointment_ID,
@@ -1502,8 +1507,7 @@ exports.getAppointmentsByDoctor = async (req, res, next) => {
       };
     });
 
-    console.log("formattedAppointments:::", formattedAppointments)
-
+    console.log("formattedAppointments:::", formattedAppointments);
 
     const finalSlotStructure = createSlotStructure(
       slotsDetails,
@@ -1569,6 +1573,1153 @@ exports.getAppointmentsByDoctor = async (req, res, next) => {
     });
   }
 };
+
+//------------------------------------------------------------------------------------------------------------------------------------
+exports.getPatientAppointmentSummary = async (req, res, next) => {
+  const startTime = Date.now();
+  const clientIp = await getClientIp(req);
+  const locationData = await getLocationData(clientIp);
+  const hospitalDatabase = req.hospitalDatabase;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const {
+      start,
+      end,
+      duration,
+      doctor_ID,
+      service_ID,
+      department_ID,
+      HospitalID,
+      mode_Of_Booking,
+    } = req.query;
+
+    const PatientAppointment = require("../models/PatientAppointment_Model.js")(
+      req.sequelize
+    );
+    const FORMAT = "DD-MM-YYYY";
+
+    let from, to, durationUsed = null;
+    let allData = false;
+
+    if (!start && !end && !duration) {
+      allData = true;
+    } else if (!start) {
+      return res.status(400).json({ message: "Start date is required when using end or duration" });
+    } else if (start && !dayjs(start, FORMAT, true).isValid()) {
+      return res.status(400).json({ message: "Invalid start date format" });
+    } else {
+      from = dayjs(start, FORMAT).startOf("day");
+
+      if (duration) {
+        switch (duration) {
+          case "one_day":
+            to = from.endOf("day");
+            durationUsed = "one_day";
+            break;
+          case "one_week":
+            to = from.add(6, "day").endOf("day");
+            durationUsed = "one_week";
+            break;
+          case "one_month":
+            to = from.add(1, "month").subtract(1, "day").endOf("day");
+            durationUsed = "one_month";
+            break;
+          default:
+            return res.status(400).json({
+              message: "Invalid duration. Use one_day, one_week, or one_month.",
+            });
+        }
+      } else if (end) {
+        if (!dayjs(end, FORMAT, true).isValid()) {
+          return res.status(400).json({ message: "Invalid end date format" });
+        }
+        to = dayjs(end, FORMAT).endOf("day");
+        if (from.isAfter(to)) {
+          return res.status(400).json({ message: "Start date must be before end date" });
+        }
+        durationUsed = "custom_range";
+      } else {
+        return res.status(400).json({ message: "Either end or duration is required with start" });
+      }
+    }
+
+    const whereCondition = {};
+    if (!allData) {
+      whereCondition.appointment_Start_Time = {
+        [Op.between]: [from.toDate(), to.toDate()],
+      };
+    }
+
+    if (doctor_ID) whereCondition.employee_IDR = doctor_ID;
+    if (service_ID) whereCondition.service_IDR = service_ID;
+    if (department_ID) whereCondition.department_IDR = department_ID;
+    if (HospitalID) whereCondition.hospital_IDR = HospitalID;
+    if (mode_Of_Booking) whereCondition.mode_Of_Booking = mode_Of_Booking;
+
+    const appointments = await PatientAppointment.findAll({
+      where: {
+        ...whereCondition,
+        is_canceled: false,
+      },
+      attributes: [
+        "employee_IDR",
+        "service_IDR",
+        "department_IDR",
+        "hospital_IDR",
+        "mode_Of_Booking",
+        "appointment_Start_Time", 
+      ],
+      raw: true,
+    });
+ 
+    const hospitalWiseData = {};
+    appointments.forEach((app) => {
+    const hospitalId = app.hospital_IDR;
+  const doctorId = app.employee_IDR;
+  const serviceId = app.service_IDR;
+  const departmentId = app.department_IDR;
+  const mode = app.mode_Of_Booking;
+  const appointmentDate = dayjs(app.appointment_Start_Time).format(FORMAT);
+      if (!hospitalId) return;
+      if (!hospitalWiseData[hospitalId]) {
+        hospitalWiseData[hospitalId] = {
+          totalnumberofbookings: 0,
+          doctorWiseCount: {},
+          departmentWiseCount: {},
+          serviceWiseCount: {},
+          modeWiseCount: {},
+          dailySummary: {},
+          doctorWiseDailySummary: {},
+          departmentWiseDailySummary: {},
+          serviceWiseDailySummary: {},
+          modeOfBookingWiseDailySummary: {},
+        };
+      }
+
+      const hospitalData = hospitalWiseData[hospitalId];
+      hospitalData.totalnumberofbookings += 1;
+      hospitalData.doctorWiseCount[doctorId] = (hospitalData.doctorWiseCount[doctorId] || 0) + 1;
+      hospitalData.serviceWiseCount[serviceId] = (hospitalData.serviceWiseCount[serviceId] || 0) + 1;
+      hospitalData.departmentWiseCount[departmentId] = (hospitalData.departmentWiseCount[departmentId] || 0) + 1;
+      hospitalData.modeWiseCount[mode] = (hospitalData.modeWiseCount[mode] || 0) + 1;
+      hospitalData.dailySummary[appointmentDate] = (hospitalData.dailySummary[appointmentDate] || 0) + 1;
+
+      if (!hospitalData.doctorWiseDailySummary[doctorId]) {
+        hospitalData.doctorWiseDailySummary[doctorId] = {};
+      }
+      hospitalData.doctorWiseDailySummary[doctorId][appointmentDate] =
+        (hospitalData.doctorWiseDailySummary[doctorId][appointmentDate] || 0) + 1;
+        
+      if (!hospitalData.departmentWiseDailySummary[departmentId]) {
+        hospitalData.departmentWiseDailySummary[departmentId] = {};
+      }
+      hospitalData.departmentWiseDailySummary[departmentId][appointmentDate] =
+        (hospitalData.departmentWiseDailySummary[departmentId][appointmentDate] || 0) + 1;
+    
+      if (!hospitalData.serviceWiseDailySummary[serviceId]) {
+        hospitalData.serviceWiseDailySummary[serviceId] = {};
+      }
+      hospitalData.serviceWiseDailySummary[serviceId][appointmentDate] =
+        (hospitalData.serviceWiseDailySummary[serviceId][appointmentDate] || 0) + 1;
+
+      if (!hospitalData.modeOfBookingWiseDailySummary[mode]) {
+        hospitalData.modeOfBookingWiseDailySummary[mode] = {};
+      }
+      hospitalData.modeOfBookingWiseDailySummary[mode][appointmentDate] =
+        (hospitalData.modeOfBookingWiseDailySummary[mode][appointmentDate] || 0) + 1;
+    });
+
+    Object.values(hospitalWiseData).forEach((hospitalData) => {
+      const sortObjectByDate = (obj) =>
+        Object.fromEntries(
+          Object.entries(obj).sort(([dateA], [dateB]) =>
+            dayjs(dateA, FORMAT).diff(dayjs(dateB, FORMAT))
+          )
+        );
+    
+      hospitalData.dailySummary = sortObjectByDate(hospitalData.dailySummary);
+    
+      for (const docId in hospitalData.doctorWiseDailySummary) {
+        hospitalData.doctorWiseDailySummary[docId] = sortObjectByDate(
+          hospitalData.doctorWiseDailySummary[docId]
+        );
+      }
+    
+      for (const deptId in hospitalData.departmentWiseDailySummary) {
+        hospitalData.departmentWiseDailySummary[deptId] = sortObjectByDate(
+          hospitalData.departmentWiseDailySummary[deptId]
+        );
+      }
+    
+      for (const serviceId in hospitalData.serviceWiseDailySummary) {
+        hospitalData.serviceWiseDailySummary[serviceId] = sortObjectByDate(
+          hospitalData.serviceWiseDailySummary[serviceId]
+        );
+      }
+    
+      for (const mode in hospitalData.modeOfBookingWiseDailySummary) {
+        hospitalData.modeOfBookingWiseDailySummary[mode] = sortObjectByDate(
+          hospitalData.modeOfBookingWiseDailySummary[mode]
+        );
+      }
+    });
+
+    const finalDataArray = Object.entries(hospitalWiseData).map(
+      ([hospitalId, data]) => ({
+        [hospitalId]:
+         data, 
+      })
+    );
+
+    const executionTime = `${Date.now() - startTime}ms`;
+
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime,
+        totalAppointments: appointments.length,
+        filtersApplied: {
+          doctor_ID: doctor_ID || null,
+          service_ID: service_ID || null,
+          department_ID: department_ID || null,
+          HospitalID: HospitalID || null,
+          mode_Of_Booking: mode_Of_Booking || null,
+        },
+        dateRange: allData
+          ? { type: "full_data", message: "No date filters applied" }
+          : {
+              startDate: from.format(FORMAT),
+              endDate: to.format(FORMAT),
+              durationUsed,
+            },
+      },
+      data: {
+        hospitalWiseSummary: finalDataArray,
+      },
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - startTime}ms`;
+    const errorCode = 9271;
+
+    logger.logWithMeta("error", "Error fetching patient appointment summary", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      clientIp,
+      createdBy: req.username,
+      error: error.message,
+    });
+
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        executionTime,
+        errorCode,
+        hospitalDatabase,
+      },
+      error: {
+        message: "Error fetching appointment summary: " + error.message,
+      },
+    });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // --------------------------------------------------------------------------------------------------------------------
+// exports.getPatientAppointmentSummary = async (req, res, next) => {
+//   const startTime = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const hospitalDatabase = req.hospitalDatabase;
+
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+
+//   try {
+//     const {
+//       start,
+//       end,
+//       duration, // "one_day", "one_week", "one_month"
+//       doctor_ID,
+//       service_ID,
+//       department_ID,
+//       HospitalID,
+//       mode_Of_Booking,
+//     } = req.query;
+
+//     const PatientAppointment = require("../models/PatientAppointment_Model.js")(req.sequelize);
+//     const FORMAT = "DD-MM-YYYY";
+
+//     let from, to, durationUsed = null;
+//     let allData = false;
+
+//     // ✅ Handle all data (no date filters)
+//     if (!start && !end && !duration) {
+//       allData = true;
+//     } else if (!start) {
+//       return res.status(400).json({ message: "Start date is required when using end or duration" });
+//     } else if (start && !dayjs(start, FORMAT, true).isValid()) {
+//       return res.status(400).json({ message: "Invalid start date format" });
+//     } else {
+//       from = dayjs(start, FORMAT).startOf("day");
+
+//       if (duration) {
+//         switch (duration) {
+//           case "one_day":
+//             to = from.endOf("day");
+//             durationUsed = "one_day";
+//             break;
+//           case "one_week":
+//             to = from.add(6, "day").endOf("day");
+//             durationUsed = "one_week";
+//             break;
+//           case "one_month":
+//             to = from.add(1, "month").subtract(1, "day").endOf("day");
+//             durationUsed = "one_month";
+//             break;
+//           default:
+//             return res.status(400).json({ message: "Invalid duration. Use one_day, one_week, or one_month." });
+//         }
+//       } else if (end) {
+//         if (!dayjs(end, FORMAT, true).isValid()) {
+//           return res.status(400).json({ message: "Invalid end date format" });
+//         }
+//         to = dayjs(end, FORMAT).endOf("day");
+//         if (from.isAfter(to)) {
+//           return res.status(400).json({ message: "Start date must be before end date" });
+//         }
+//         durationUsed = "custom_range";
+//       } else {
+//         return res.status(400).json({ message: "Either end or duration is required with start" });
+//       }
+//     }
+
+//     // ✅ Build where condition
+//     const whereCondition = {};
+//     if (!allData) {
+//       whereCondition.appointment_Start_Time = {
+//         [Op.between]: [from.toDate(), to.toDate()],
+//       };
+//     }
+
+//     if (doctor_ID) whereCondition.employee_IDR = doctor_ID;
+//     if (service_ID) whereCondition.service_IDR = service_ID;
+//     if (department_ID) whereCondition.department_IDR = department_ID;
+//     if (HospitalID) whereCondition.hospital_IDR = HospitalID;
+//     if (mode_Of_Booking) whereCondition.mode_Of_Booking = mode_Of_Booking;
+
+//     // ✅ Fetch appointments
+//     const appointments = await PatientAppointment.findAll({
+//       where: {
+//         ...whereCondition,
+//         is_canceled: false,
+//       },
+//       attributes: [
+//         "employee_IDR",
+//         "service_IDR",
+//         "department_IDR",
+//         "hospital_IDR",
+//         "mode_Of_Booking",
+//       ],
+//       raw: true,
+//     });
+
+//     // ✅ Initialize counters
+//     const totalAppointments = appointments.length;
+//     const doctorWiseCount = {};
+//     const serviceWiseCount = {};
+//     const departmentWiseCount = {};
+//     const hospitalWiseCount = {};
+//     const modeWiseCount = {};
+
+//     // ✅ Grouping Logic
+//     appointments.forEach((appointment) => {
+//       if (appointment.employee_IDR) {
+//         doctorWiseCount[appointment.employee_IDR] =
+//           (doctorWiseCount[appointment.employee_IDR] || 0) + 1;
+//       }
+//       if (appointment.service_IDR) {
+//         serviceWiseCount[appointment.service_IDR] =
+//           (serviceWiseCount[appointment.service_IDR] || 0) + 1;
+//       }
+//       if (appointment.department_IDR) {
+//         departmentWiseCount[appointment.department_IDR] =
+//           (departmentWiseCount[appointment.department_IDR] || 0) + 1;
+//       }
+//       if (appointment.hospital_IDR) {
+//         hospitalWiseCount[appointment.hospital_IDR] =
+//           (hospitalWiseCount[appointment.hospital_IDR] || 0) + 1;
+//       }
+//       if (appointment.mode_Of_Booking) {
+//         modeWiseCount[appointment.mode_Of_Booking] =
+//           (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//       }
+//     });
+
+//     // ✅ Final filtered counts
+//     const finalDoctorWiseCount = doctor_ID
+//       ? { [doctor_ID]: doctorWiseCount[doctor_ID] || 0 }
+//       : doctorWiseCount;
+
+//     const finalServiceWiseCount = service_ID
+//       ? { [service_ID]: serviceWiseCount[service_ID] || 0 }
+//       : serviceWiseCount;
+
+//     const finalDepartmentWiseCount = department_ID
+//       ? { [department_ID]: departmentWiseCount[department_ID] || 0 }
+//       : departmentWiseCount;
+
+//     const finalHospitalWiseCount = HospitalID
+//       ? { [HospitalID]: hospitalWiseCount[HospitalID] || 0 }
+//       : hospitalWiseCount;
+
+//     const finalModeWiseCount = mode_Of_Booking
+//       ? { [mode_Of_Booking]: modeWiseCount[mode_Of_Booking] || 0 }
+//       : modeWiseCount;
+
+//     const executionTime = `${Date.now() - startTime}ms`;
+
+//     // ✅ Response
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         totalAppointments,
+//         hospitalDatabase,
+//         filtersApplied: {
+//           doctor_ID: doctor_ID || null,
+//           service_ID: service_ID || null,
+//           department_ID: department_ID || null,
+//           HospitalID: HospitalID || null,
+//           mode_Of_Booking: mode_Of_Booking || null,
+//         },
+//         dateRange: allData
+//           ? { type: "full_data", message: "No date filters applied" }
+//           : {
+//               startDate: from.format(FORMAT),
+//               endDate: to.format(FORMAT),
+//               durationUsed,
+//             },
+//       },
+//       data: {
+//         doctorWiseCount: finalDoctorWiseCount,
+//         serviceWiseCount: finalServiceWiseCount,
+//         departmentWiseCount: finalDepartmentWiseCount,
+//         hospitalWiseCount: finalHospitalWiseCount,
+//         modeWiseCount: finalModeWiseCount,
+//       },
+//     });
+
+//   } catch (error) {
+//     const executionTime = `${Date.now() - startTime}ms`;
+//     const errorCode = 9271;
+
+//     logger.logWithMeta("error", "Error fetching patient appointment summary", {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       clientIp,
+//       createdBy: req.username,
+//       error: error.message,
+//     });
+
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         executionTime,
+//         errorCode,
+//         hospitalDatabase,
+//       },
+//       error: {
+//         message: "Error fetching appointment summary: " + error.message,
+//       },
+//     });
+//   }
+// };
+// // --------------------------------------------------------------------------------------------------------------------
+
+// exports.getPatientAppointmentSummary = async (req, res, next) => {
+//   const startTime = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const hospitalDatabase = req.hospitalDatabase;
+
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+
+//   try {
+//     const {
+//       start,
+//       end,
+//       duration,
+//       doctor_ID,
+//       service_ID,
+//       department_ID,
+//       HospitalID,
+//       mode_Of_Booking,
+//     } = req.query;
+
+//     const PatientAppointment = require("../models/PatientAppointment_Model.js")(
+//       req.sequelize
+//     );
+//     const FORMAT = "DD-MM-YYYY";
+
+//     let from,
+//       to,
+//       durationUsed = null;
+//     let allData = false;
+
+//     if (!start && !end && !duration) {
+//       allData = true;
+//     } else if (!start) {
+//       return res
+//         .status(400)
+//         .json({ message: "Start date is required when using end or duration" });
+//     } else if (start && !dayjs(start, FORMAT, true).isValid()) {
+//       return res.status(400).json({ message: "Invalid start date format" });
+//     } else {
+//       from = dayjs(start, FORMAT).startOf("day");
+
+//       if (duration) {
+//         switch (duration) {
+//           case "one_day":
+//             to = from.endOf("day");
+//             durationUsed = "one_day";
+//             break;
+//           case "one_week":
+//             to = from.add(6, "day").endOf("day");
+//             durationUsed = "one_week";
+//             break;
+//           case "one_month":
+//             to = from.add(1, "month").subtract(1, "day").endOf("day");
+//             durationUsed = "one_month";
+//             break;
+//           default:
+//             return res
+//               .status(400)
+//               .json({
+//                 message:
+//                   "Invalid duration. Use one_day, one_week, or one_month.",
+//               });
+//         }
+//       } else if (end) {
+//         if (!dayjs(end, FORMAT, true).isValid()) {
+//           return res.status(400).json({ message: "Invalid end date format" });
+//         }
+//         to = dayjs(end, FORMAT).endOf("day");
+//         if (from.isAfter(to)) {
+//           return res
+//             .status(400)
+//             .json({ message: "Start date must be before end date" });
+//         }
+//         durationUsed = "custom_range";
+//       }else {
+//                 return res.status(400).json({ message: "Either end or duration is required with start" });
+//               }
+//     }
+//     const whereCondition = {};
+//         if (!allData) {
+//           whereCondition.appointment_Start_Time = {
+//             [Op.between]: [from.toDate(), to.toDate()],
+//           };
+//         }
+
+        
+//     if (doctor_ID) whereCondition.employee_IDR = doctor_ID;
+//     if (service_ID) whereCondition.service_IDR = service_ID;
+//     if (department_ID) whereCondition.department_IDR = department_ID;
+//     if (HospitalID) whereCondition.hospital_IDR = HospitalID;
+//     if (mode_Of_Booking) whereCondition.mode_Of_Booking = mode_Of_Booking;
+
+
+
+//         const appointments = await PatientAppointment.findAll({
+//       where: {
+//         ...whereCondition,
+//         is_canceled: false,
+//       },
+//       attributes: [
+//         "appointment_Start_Time",
+//         "employee_IDR",
+//         "service_IDR",
+//         "department_IDR",
+//         "hospital_IDR",
+//         "mode_Of_Booking",
+//       ],
+//       raw: true,
+//     });
+
+//  // Group appointments by hospital_IDR
+// const hospitalWiseData = {};
+// const dayWiseBookingCount = {};
+// const doctorWiseDailySummary = {};
+
+// appointments.forEach((app) => {
+//   const hospitalId = app.hospital_IDR;
+//   const date = dayjs(app.appointment_Start_Time).format(FORMAT);
+//   dayWiseBookingCount[date] = (dayWiseBookingCount[date] || 0) + 1;
+
+//   if (doctor_ID) {
+//     if (!doctorWiseDailySummary[doctor_ID]) {
+//       doctorWiseDailySummary[doctor_ID] = {};
+//     }
+//     doctorWiseDailySummary[doctor_ID][date] =
+//       (doctorWiseDailySummary[doctor_ID][date] || 0) + 1;
+//   }
+ 
+//   if (!hospitalId) return;
+
+//   if (!hospitalWiseData[hospitalId]) {
+//     hospitalWiseData[hospitalId] = {
+//       totalnumberofbookings: 0,
+//       doctorWiseCount: {},
+//       serviceWiseCount: {},
+//       departmentWiseCount: {},
+//       modeWiseCount: {},
+//       //dayWiseBookingCount: {},
+//     };
+//   }
+
+//   hospitalWiseData[hospitalId].totalnumberofbookings++;
+
+//   if (app.employee_IDR) {
+//     hospitalWiseData[hospitalId].doctorWiseCount[app.employee_IDR] =
+//       (hospitalWiseData[hospitalId].doctorWiseCount[app.employee_IDR] || 0) + 1;
+//   }
+//   if (app.service_IDR) {
+//     hospitalWiseData[hospitalId].serviceWiseCount[app.service_IDR] =
+//       (hospitalWiseData[hospitalId].serviceWiseCount[app.service_IDR] || 0) + 1;
+//   }
+//   if (app.department_IDR) {
+//     hospitalWiseData[hospitalId].departmentWiseCount[app.department_IDR] =
+//       (hospitalWiseData[hospitalId].departmentWiseCount[app.department_IDR] || 0) + 1;
+//   }
+//   if (app.mode_Of_Booking) {
+//     hospitalWiseData[hospitalId].modeWiseCount[app.mode_Of_Booking] =
+//       (hospitalWiseData[hospitalId].modeWiseCount[app.mode_Of_Booking] || 0) + 1;
+//   }
+  
+// });
+
+// // Transform object to desired array format
+// const finalDataArray = Object.entries(hospitalWiseData).map(
+//   ([hospitalId, data]) => ({
+//     [hospitalId]: data,
+//   })
+// );
+
+// // Response
+// const executionTime = `${Date.now() - startTime}ms`;
+
+// return res.status(200).json({
+//   meta: {
+//     statusCode: 200,
+//     executionTime,
+//     totalAppointments:appointments.length,
+//     filtersApplied: {
+//       doctor_ID: doctor_ID || null,
+//       service_ID: service_ID || null,
+//       department_ID: department_ID || null,
+//       HospitalID: HospitalID || null,
+//       mode_Of_Booking: mode_Of_Booking || null,
+//     },
+//     dateRange: allData
+//       ? { type: "full_data", message: "No date filters applied" }
+//       : {
+//           startDate: from.format(FORMAT),
+//           endDate: to.format(FORMAT),
+//           durationUsed,
+//         },
+//   },
+//   data: finalDataArray,
+//   // dailySummary: dayWiseBookingCount,
+//   dailySummary: Object.fromEntries(
+//     Object.entries(dayWiseBookingCount).sort((a, b) =>
+//       dayjs(a[0], FORMAT).toDate() - dayjs(b[0], FORMAT).toDate()
+//     )
+//   ),
+//   doctorWiseDailySummary,
+// });
+
+
+//   } catch (error) {
+//     const executionTime = `${Date.now() - startTime}ms`;
+//     const errorCode = 9271;
+
+//     logger.logWithMeta("error", "Error fetching patient appointment summary", {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       clientIp,
+//       createdBy: req.username,
+//       error: error.message,
+//     });
+
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         executionTime,
+//         errorCode,
+//         hospitalDatabase,
+//       },
+//       error: {
+//         message: "Error fetching appointment summary: " + error.message,
+//       },
+//     });
+//   }
+// };
+
+
+
+// exports.getPatientAppointmentSummary = async (req, res, next) => {
+//   const startTime = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const hospitalDatabase = req.hospitalDatabase;
+
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+
+//   try {
+//     const {
+//       start,
+//       end,
+//       duration,
+//       doctor_ID,
+//       service_ID,
+//       department_ID,
+//       HospitalID,
+//       mode_Of_Booking,
+//     } = req.query;
+
+//     const PatientAppointment = require("../models/PatientAppointment_Model.js")(req.sequelize);
+
+//     const FORMAT = "DD-MM-YYYY";
+//     let from, to;
+//     let durationUsed = "";
+
+//     let allData = false;
+
+//     if (!start && !end && !duration) {
+//       allData = true; // fetch all data without date filters
+//     } else if (!start) {
+//       return res.status(400).json({ message: "Start date is required in DD-MM-YYYY format when using end or duration" });
+//     }
+
+//     if (!dayjs(start, FORMAT, true).isValid()) {
+//       return res.status(400).json({ message: "Invalid start date format" });
+//     }
+
+//     from = dayjs(start, FORMAT).startOf("day");
+
+//     if (end) {
+//       if (!dayjs(end, FORMAT, true).isValid()) {
+//         return res.status(400).json({ message: "Invalid end date format" });
+//       }
+//       to = dayjs(end, FORMAT).endOf("day");
+//       durationUsed = "custom_range";
+//     } else {
+//       switch (duration) {
+//         case "one_day":
+//           to = from.endOf("day");
+//           durationUsed = "one_day";
+//           break;
+//         case "one_week":
+//           to = from.add(6, "day").endOf("day");
+//           durationUsed = "one_week";
+//           break;
+//         case "one_month":
+//           to = from.add(1, "month").subtract(1, "day").endOf("day");
+//           durationUsed = "one_month";
+//           break;
+//         default:
+//           return res.status(400).json({ message: "Invalid duration. Use one_day, one_week, or one_month." });
+//       }
+//     }
+
+//     if (from.isAfter(to)) {
+//       return res.status(400).json({ message: "Start date must be before end date" });
+//     }
+
+//     const whereCondition = {};
+
+//     if (!allData) {
+//       whereCondition.appointment_Start_Time = {
+//         [Op.between]: [from.toDate(), to.toDate()],
+//       };
+//     }
+
+//     if (doctor_ID) whereCondition.employee_IDR = doctor_ID;
+//     if (service_ID) whereCondition.service_IDR = service_ID;
+//     if (department_ID) whereCondition.department_IDR = department_ID;
+//     if (HospitalID) whereCondition.hospital_IDR = HospitalID;
+//     if (mode_Of_Booking) whereCondition.mode_Of_Booking = mode_Of_Booking;
+
+//     const appointments = await PatientAppointment.findAll({
+//       where: {
+//         ...whereCondition,
+//         is_canceled: false,
+//       },
+//       attributes: [
+//         "employee_IDR",
+//         "service_IDR",
+//         "department_IDR",
+//         "hospital_IDR",
+//         "mode_Of_Booking",
+//       ],
+//       raw: true,
+//     });
+
+//     const totalAppointments = appointments.length;
+//     const doctorWiseCount = {};
+//     const serviceWiseCount = {};
+//     const departmentWiseCount = {};
+//     const hospitalWiseCount = {};
+//     const modeWiseCount = {};
+
+//     appointments.forEach((appointment) => {
+//       if (doctor_ID && appointment.employee_IDR == doctor_ID) {
+//         doctorWiseCount[appointment.employee_IDR] = (doctorWiseCount[appointment.employee_IDR] || 0) + 1;
+//         if (appointment.mode_Of_Booking) {
+//           modeWiseCount[appointment.mode_Of_Booking] = (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//         }
+//       } else if (service_ID && appointment.service_IDR == service_ID) {
+//         serviceWiseCount[appointment.service_IDR] = (serviceWiseCount[appointment.service_IDR] || 0) + 1;
+//         if (appointment.mode_Of_Booking) {
+//           modeWiseCount[appointment.mode_Of_Booking] = (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//         }
+//       } else if (department_ID && appointment.department_IDR == department_ID) {
+//         departmentWiseCount[appointment.department_IDR] = (departmentWiseCount[appointment.department_IDR] || 0) + 1;
+//         if (appointment.mode_Of_Booking) {
+//           modeWiseCount[appointment.mode_Of_Booking] = (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//         }
+//       } else if (HospitalID && appointment.hospital_IDR == HospitalID) {
+//         hospitalWiseCount[appointment.hospital_IDR] = (hospitalWiseCount[appointment.hospital_IDR] || 0) + 1;
+//         if (appointment.mode_Of_Booking) {
+//           modeWiseCount[appointment.mode_Of_Booking] = (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//         }
+//       } else if (mode_Of_Booking && appointment.mode_Of_Booking == mode_Of_Booking) {
+//         modeWiseCount[appointment.mode_Of_Booking] = (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//       } else {
+//         if (appointment.employee_IDR) doctorWiseCount[appointment.employee_IDR] = (doctorWiseCount[appointment.employee_IDR] || 0) + 1;
+//         if (appointment.service_IDR) serviceWiseCount[appointment.service_IDR] = (serviceWiseCount[appointment.service_IDR] || 0) + 1;
+//         if (appointment.department_IDR) departmentWiseCount[appointment.department_IDR] = (departmentWiseCount[appointment.department_IDR] || 0) + 1;
+//         if (appointment.hospital_IDR) hospitalWiseCount[appointment.hospital_IDR] = (hospitalWiseCount[appointment.hospital_IDR] || 0) + 1;
+//         if (appointment.mode_Of_Booking) modeWiseCount[appointment.mode_Of_Booking] = (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//       }
+//     });
+
+//     const executionTime = `${Date.now() - startTime}ms`;
+
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         totalAppointments,
+//         hospitalDatabase,
+//         filtersApplied: {
+//           doctor_ID: doctor_ID || null,
+//           service_ID: service_ID || null,
+//           department_ID: department_ID || null,
+//           HospitalID: HospitalID || null,
+//           mode_Of_Booking: mode_Of_Booking || null,
+//         },
+//         dateRange: allData
+//         ? { type: "full_data", message: "No date filters applied" }
+//         : {
+//             startDate: from.format(FORMAT),
+//             endDate: to.format(FORMAT),
+//             durationUsed,
+//           },
+
+//       },
+//       data: {
+//         doctorWiseCount,
+//         serviceWiseCount,
+//         departmentWiseCount,
+//         hospitalWiseCount,
+//         modeWiseCount,
+//       },
+//     });
+
+//   } catch (error) {
+//     const executionTime = `${Date.now() - startTime}ms`;
+//     const errorCode = 9271;
+
+//     logger.logWithMeta("error", "Error fetching patient appointment summary", {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       clientIp,
+//       createdBy: req.username,
+//       error: error.message,
+//     });
+
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         executionTime,
+//         errorCode,
+//         hospitalDatabase,
+//       },
+//       error: {
+//         message: "Error fetching appointment summary: " + error.message,
+//       },
+//     });
+//   }
+// };
+// exports.getPatientAppointmentSummary = async (req, res, next) => {
+//   const startTime = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const hospitalDatabase = req.hospitalDatabase;
+
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+
+//   try {
+//     const {
+//       start,
+//       end,
+//       doctor_ID,
+//       service_ID,
+//       department_ID,
+//       HospitalID,
+//       mode_Of_Booking,
+//     } = req.query;
+//     const PatientAppointment = require("../models/PatientAppointment_Model.js")(req.sequelize);
+
+//     const FORMAT = "DD-MM-YYYY";
+
+//     if (!start || !end) {
+//       return res.status(400).json({ message: "Provide start & end in DD-MM-YYYY format" });
+//     }
+
+//     if (!dayjs(start, FORMAT, true).isValid() || !dayjs(end, FORMAT, true).isValid()) {
+//       return res.status(400).json({ message: "Invalid date format" });
+//     }
+
+//     const from = dayjs(start, FORMAT).startOf("day");
+//     const to = dayjs(end, FORMAT).endOf("day");
+
+//     if (from.isAfter(to)) {
+//       return res.status(400).json({ message: "Start date must be before end date" });
+//     }
+
+//     // Building the where condition
+//     const whereCondition = {
+//       appointment_Start_Time: {
+//         [Op.between]: [from.toDate(), to.toDate()],
+//       },
+//     };
+
+//     // Optional filters
+//     if (doctor_ID) {
+//       whereCondition.employee_IDR = doctor_ID;
+//     }
+//     if (service_ID) {
+//       whereCondition.service_IDR = service_ID;
+//     }
+//     if (department_ID) {
+//       whereCondition.department_IDR = department_ID;
+//     }
+//     if (HospitalID) {
+//       whereCondition.hospital_IDR = HospitalID;
+//     }
+//     if (mode_Of_Booking) {
+//       whereCondition.mode_Of_Booking = mode_Of_Booking;
+//     }
+
+//     // Fetch filtered appointments
+//     const appointments = await PatientAppointment.findAll({
+//       where: whereCondition,
+//       attributes: [
+//         "employee_IDR",
+//         "service_IDR",
+//         "department_IDR",
+//         "hospital_IDR",
+//         "mode_Of_Booking",
+//       ],
+//       raw: true,
+//     });
+
+//     const totalAppointments = appointments.length;
+//     let doctorWiseCount = {};
+//     let serviceWiseCount = {};
+//     let departmentWiseCount = {};
+//     let hospitalWiseCount = {};
+//     let modeWiseCount = {};
+
+//     appointments.forEach((appointment) => {
+//       // Doctor-wise
+//       if (!doctor_ID || appointment.employee_IDR == doctor_ID) {
+//         if (appointment.employee_IDR) {
+//           doctorWiseCount[appointment.employee_IDR] =
+//             (doctorWiseCount[appointment.employee_IDR] || 0) + 1;
+//         }
+//       }
+
+//       // Service-wise
+//       if (!service_ID || appointment.service_IDR == service_ID) {
+//         if (appointment.service_IDR) {
+//           serviceWiseCount[appointment.service_IDR] =
+//             (serviceWiseCount[appointment.service_IDR] || 0) + 1;
+//         }
+//       }
+
+//       // Department-wise
+//       if (!department_ID || appointment.department_IDR == department_ID) {
+//         if (appointment.department_IDR) {
+//           departmentWiseCount[appointment.department_IDR] =
+//             (departmentWiseCount[appointment.department_IDR] || 0) + 1;
+//         }
+//       }
+
+//       // Hospital-wise
+//       if (!HospitalID || appointment.hospital_IDR == HospitalID) {
+//         if (appointment.hospital_IDR) {
+//           hospitalWiseCount[appointment.hospital_IDR] =
+//             (hospitalWiseCount[appointment.hospital_IDR] || 0) + 1;
+//         }
+//       }
+
+//       // Mode-wise
+//       if (!mode_Of_Booking || appointment.mode_Of_Booking == mode_Of_Booking) {
+//         if (appointment.mode_Of_Booking) {
+//           modeWiseCount[appointment.mode_Of_Booking] =
+//             (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//         }
+//       }
+//     });
+
+//     const executionTime = `${Date.now() - startTime}ms`;
+
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         totalAppointments,
+//         hospitalDatabase,
+//         filtersApplied: {
+//           doctor_ID: doctor_ID || null,
+//           service_ID: service_ID || null,
+//           department_ID: department_ID || null,
+//           HospitalID: HospitalID || null,
+//           mode_Of_Booking: mode_Of_Booking || null,
+//         },
+//       },
+//       data: {
+//         doctorWiseCount,
+//         serviceWiseCount,
+//         departmentWiseCount,
+//         hospitalWiseCount,
+//         modeWiseCount,
+//       },
+//     });
+//   } catch (error) {
+//     const executionTime = `${Date.now() - startTime}ms`;
+//     const errorCode = 9271;
+
+//     logger.logWithMeta("error", "Error fetching patient appointment summary", {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       clientIp,
+//       createdBy: req.username,
+//       error: error.message,
+//     });
+
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         executionTime,
+//         errorCode,
+//         hospitalDatabase,
+//       },
+//       error: {
+//         message: "Error fetching appointment summary: " + error.message,
+//       },
+//     });
+//   }
+// };
 
 // exports.getAppointmentsByDoctor = async (req, res, next) => {
 //   const { employee_IDR } = req.params;
@@ -1733,5 +2884,583 @@ exports.getAppointmentsByDoctor = async (req, res, next) => {
 //     res.json(result);
 //   } catch (err) {
 //     next(err);
+//   }
+// };
+
+// exports.getPatientAppointmentSummary = async (req, res, next) => {
+//   const startTime = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const hospitalDatabase = req.hospitalDatabase;
+
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+
+//   try {
+//     const { start, end } = req.query;
+//     const PatientAppointment = require("../models/PatientAppointment_Model.js")(req.sequelize);
+
+//     let from, to;
+//     const FORMAT = "DD-MM-YYYY";
+
+//     if (!start || !end) {
+//       return res.status(400).json({ message: "Provide start & end in DD-MM-YYYY format" });
+//     }
+
+//     if (!dayjs(start, FORMAT, true).isValid() || !dayjs(end, FORMAT, true).isValid()) {
+//       return res.status(400).json({ message: "Invalid date format" });
+//     }
+
+//     from = dayjs(start, FORMAT).startOf("day");
+//     to = dayjs(end, FORMAT).endOf("day");
+
+//     if (from.isAfter(to)) {
+//       return res.status(400).json({ message: "Start date must be before end date" });
+//     }
+
+//     // Fetch all appointments within the date range
+//     const appointments = await PatientAppointment.findAll({
+//       where: {
+//         appointment_Start_Time: {
+//           [Op.between]: [from.toDate(), to.toDate()],
+//         },
+//       },
+//       attributes: [
+//         'employee_IDR',
+//         'service_IDR',
+//         'department_IDR',
+//       ],
+//       raw: true,
+//     });
+
+//     // Initialize counters
+//     const totalAppointments = appointments.length;
+//     const doctorWiseCount = {};
+//     const serviceWiseCount = {};
+//     const departmentWiseCount = {};
+
+//     // Grouping logic
+//     appointments.forEach(appointment => {
+//       // Group by Doctor
+//       if (appointment.employee_IDR) {
+//         doctorWiseCount[appointment.employee_IDR] = (doctorWiseCount[appointment.employee_IDR] || 0) + 1;
+//       }
+//       // Group by Service
+//       if (appointment.service_IDR) {
+//         serviceWiseCount[appointment.service_IDR] = (serviceWiseCount[appointment.service_IDR] || 0) + 1;
+//       }
+//       // Group by Department
+//       if (appointment.department_IDR) {
+//         departmentWiseCount[appointment.department_IDR] = (departmentWiseCount[appointment.department_IDR] || 0) + 1;
+//       }
+//     });
+
+//     const executionTime = `${Date.now() - startTime}ms`;
+
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         totalAppointments,
+//         hospitalDatabase,
+//       },
+//       data: {
+//         doctorWiseCount,
+//         serviceWiseCount,
+//         departmentWiseCount,
+//       },
+//     });
+
+//   } catch (error) {
+//     const executionTime = `${Date.now() - startTime}ms`;
+//     const errorCode = 9271;
+
+//     logger.logWithMeta("error", "Error fetching patient appointment summary", {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       clientIp,
+//       createdBy: req.username,
+//       error: error.message,
+//     });
+
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         executionTime,
+//         errorCode,
+//         hospitalDatabase,
+//       },
+//       error: {
+//         message: "Error fetching appointment summary: " + error.message,
+//       },
+//     });
+//   }
+// };
+
+// exports.getPatientAppointmentSummary = async (req, res, next) => {
+//   const startTime = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const hospitalDatabase = req.hospitalDatabase;
+
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+
+//   try {
+//     const {
+//       start,
+//       end,
+//       doctor_ID,
+//       service_ID,
+//       department_ID,
+//       HospitalID,
+//       mode_Of_Booking,
+//     } = req.query;
+//     const PatientAppointment = require("../models/PatientAppointment_Model.js")(
+//       req.sequelize
+//     );
+
+//     let from, to;
+//     const FORMAT = "DD-MM-YYYY";
+
+//     if (!start || !end) {
+//       return res
+//         .status(400)
+//         .json({ message: "Provide start & end in DD-MM-YYYY format" });
+//     }
+
+//     if (
+//       !dayjs(start, FORMAT, true).isValid() ||
+//       !dayjs(end, FORMAT, true).isValid()
+//     ) {
+//       return res.status(400).json({ message: "Invalid date format" });
+//     }
+
+//     from = dayjs(start, FORMAT).startOf("day");
+//     to = dayjs(end, FORMAT).endOf("day");
+
+//     if (from.isAfter(to)) {
+//       return res
+//         .status(400)
+//         .json({ message: "Start date must be before end date" });
+//     }
+
+//     // Building the where condition
+//     const whereCondition = {
+//       appointment_Start_Time: {
+//         [Op.between]: [from.toDate(), to.toDate()],
+//       },
+//     };
+
+//     // Optional filters
+//     if (doctor_ID) {
+//       whereCondition.employee_IDR = doctor_ID;
+//     }
+//     if (service_ID) {
+//       whereCondition.service_IDR = service_ID;
+//     }
+//     if (department_ID) {
+//       whereCondition.department_IDR = department_ID;
+//     }
+//     if (HospitalID) {
+//       whereCondition.hospital_IDR = HospitalID;
+//     }
+//     if (mode_Of_Booking) {
+//       whereCondition.mode_Of_Booking = mode_Of_Booking;
+//     }
+
+//     // Fetch filtered appointments
+//     const appointments = await PatientAppointment.findAll({
+//       where: whereCondition,
+//       attributes: [
+//         "employee_IDR",
+//         "service_IDR",
+//         "department_IDR",
+//         "hospital_IDR",
+//         "mode_Of_Booking",
+//       ],
+//       raw: true,
+//     });
+
+//     const totalAppointments = appointments.length;
+//     const doctorWiseCount = {};
+//     const serviceWiseCount = {};
+//     const departmentWiseCount = {};
+//     const hospitalWiseCount = {};
+//     const modeWiseCount = {};
+
+//     appointments.forEach((appointment) => {
+//       // if (appointment.employee_IDR) {
+//       //   doctorWiseCount[appointment.employee_IDR] =
+//       //     (doctorWiseCount[appointment.employee_IDR] || 0) + 1;
+//       // }
+//       // if (appointment.service_IDR) {
+//       //   serviceWiseCount[appointment.service_IDR] =
+//       //     (serviceWiseCount[appointment.service_IDR] || 0) + 1;
+//       // }
+//       // if (appointment.department_IDR) {
+//       //   departmentWiseCount[appointment.department_IDR] =
+//       //     (departmentWiseCount[appointment.department_IDR] || 0) + 1;
+//       // }
+//       // if (appointment.hospital_IDR) {
+//       //   hospitalWiseCount[appointment.hospital_IDR] =
+//       //     (hospitalWiseCount[appointment.hospital_IDR] || 0) + 1;
+//       // }
+//       // if (appointment.mode_Of_Booking) {
+//       //   modeWiseCount[appointment.mode_Of_Booking] =
+//       //     (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//       // }
+//       // 👉 INSERT THIS after appointments.forEach ends
+
+// let finalDoctorWiseCount = doctorWiseCount;
+// let finalServiceWiseCount = serviceWiseCount;
+// let finalDepartmentWiseCount = departmentWiseCount;
+// let finalHospitalWiseCount = hospitalWiseCount;
+// let finalModeWiseCount = modeWiseCount;
+
+// // 👉 APPLY filters if provided
+// if (doctor_ID) {
+//   finalDoctorWiseCount = {
+//     [doctor_ID]: doctorWiseCount[doctor_ID] || 0,
+//   };
+// }
+// if (service_ID) {
+//   finalServiceWiseCount = {
+//     [service_ID]: serviceWiseCount[service_ID] || 0,
+//   };
+// }
+// if (department_ID) {
+//   finalDepartmentWiseCount = {
+//     [department_ID]: departmentWiseCount[department_ID] || 0;
+//   };
+// }
+// if (HospitalID) {
+//   finalHospitalWiseCount = {
+//     [HospitalID]: hospitalWiseCount[HospitalID] || 0,
+//   };
+// }
+// if (mode_Of_Booking) {
+//   finalModeWiseCount = {
+//     [mode_Of_Booking]: modeWiseCount[mode_Of_Booking] || 0,
+//   };
+// }
+
+//     });
+
+//     const executionTime = `${Date.now() - startTime}ms`;
+
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         totalAppointments,
+//         hospitalDatabase,
+//         filtersApplied: {
+//           doctor_ID: doctor_ID || null,
+//           service_ID: service_ID || null,
+//           department_ID: department_ID || null,
+//           HospitalID: HospitalID || null,
+//         },
+//       },
+//       data: {
+//         doctorWiseCount: finalDoctorWiseCount,
+//         serviceWiseCount: finalServiceWiseCount,
+//         departmentWiseCount: finalDepartmentWiseCount,
+//         hospitalWiseCount: finalHospitalWiseCount,
+//         modeWiseCount: finalModeWiseCount,
+//       },
+//     });
+//   } catch (error) {
+//     const executionTime = `${Date.now() - startTime}ms`;
+//     const errorCode = 9271;
+
+//     logger.logWithMeta("error", "Error fetching patient appointment summary", {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       clientIp,
+//       createdBy: req.username,
+//       error: error.message,
+//     });
+
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         executionTime,
+//         errorCode,
+//         hospitalDatabase,
+//       },
+//       error: {
+//         message: "Error fetching appointment summary: " + error.message,
+//       },
+//     });
+//   }
+// };
+
+// exports.getPatientAppointmentSummary = async (req, res, next) => {
+//   const startTime = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const hospitalDatabase = req.hospitalDatabase;
+
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+
+//   try {
+//     const {
+//       start,
+//       end,
+//       doctor_ID,
+//       service_ID,
+//       department_ID,
+//       HospitalID,
+//       mode_Of_Booking,
+//     } = req.query;
+
+//     const PatientAppointment = require("../models/PatientAppointment_Model.js")(req.sequelize);
+
+//     let from, to;
+//     const FORMAT = "DD-MM-YYYY";
+
+//     if (!start || !end) {
+//       return res.status(400).json({ message: "Provide start & end in DD-MM-YYYY format" });
+//     }
+
+//     if (!dayjs(start, FORMAT, true).isValid() || !dayjs(end, FORMAT, true).isValid()) {
+//       return res.status(400).json({ message: "Invalid date format" });
+//     }
+
+//     from = dayjs(start, FORMAT).startOf("day");
+//     to = dayjs(end, FORMAT).endOf("day");
+
+//     if (from.isAfter(to)) {
+//       return res.status(400).json({ message: "Start date must be before end date" });
+//     }
+
+//     // Building the where condition
+//     const whereCondition = {
+//       appointment_Start_Time: {
+//         [Op.between]: [from.toDate(), to.toDate()],
+//       },
+//     };
+
+//     // Optional filters
+//     if (doctor_ID) whereCondition.employee_IDR = doctor_ID;
+//     if (service_ID) whereCondition.service_IDR = service_ID;
+//     if (department_ID) whereCondition.department_IDR = department_ID;
+//     if (HospitalID) whereCondition.hospital_IDR = HospitalID;
+//     if (mode_Of_Booking) whereCondition.mode_Of_Booking = mode_Of_Booking;
+
+//     // Fetch filtered appointments
+//     const appointments = await PatientAppointment.findAll({
+//       where: {
+//         ...whereCondition,
+//         is_canceled: false,
+//       },
+//       attributes: [
+//         "employee_IDR",
+//         "service_IDR",
+//         "department_IDR",
+//         "hospital_IDR",
+//         "mode_Of_Booking",
+//       ],
+//       raw: true,
+//     });
+
+//     const totalAppointments = appointments.length;
+//     const doctorWiseCount = {};
+//     const serviceWiseCount = {};
+//     const departmentWiseCount = {};
+//     const hospitalWiseCount = {};
+//     const modeWiseCount = {};
+
+//     // 👉 Count the values
+//     appointments.forEach((appointment) => {
+//         // ✅ Only count modes for the specific doctor if doctor_ID is passed
+//         if (doctor_ID) {
+//           if (appointment.employee_IDR == doctor_ID) {
+//             if (appointment.mode_Of_Booking) {
+//               doctorWiseCount[appointment.employee_IDR] = (doctorWiseCount[appointment.employee_IDR] || 0) + 1;
+//               modeWiseCount[appointment.mode_Of_Booking] =
+//                 (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//             }
+//           }
+//         }
+//         else if (service_ID) {
+//           if (appointment.service_IDR == service_ID) {
+//             if (appointment.mode_Of_Booking) {
+//               serviceWiseCount[appointment.service_IDR] = (serviceWiseCount[appointment.service_IDR] || 0) + 1;
+//               modeWiseCount[appointment.mode_Of_Booking] =
+//                 (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//             }
+//           }
+//         }
+//         else if (department_ID) {
+//           if (appointment.department_IDR == department_ID) {
+//             if (appointment.mode_Of_Booking) {
+//               departmentWiseCount[appointment.department_IDR] = (departmentWiseCount[appointment.department_IDR] || 0) + 1;
+//               modeWiseCount[appointment.mode_Of_Booking] =
+//                 (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//             }
+//           }
+//         }
+//         else if (HospitalID) {
+//           if (appointment.hospital_IDR == HospitalID) {
+//             if (appointment.mode_Of_Booking) {
+//               hospitalWiseCount[appointment.hospital_IDR] = (hospitalWiseCount[appointment.hospital_IDR] || 0) + 1;
+//               modeWiseCount[appointment.mode_Of_Booking] =
+//                 (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//             }
+//           }
+//         }
+//         else if (mode_Of_Booking) {
+//           if (appointment.mode_Of_Booking == mode_Of_Booking) {
+//             if (appointment.mode_Of_Booking) {
+//               modeWiseCount[appointment.mode_Of_Booking] = (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//               // modeWiseCount[appointment.mode_Of_Booking] =
+//               //   (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//             }
+//           }
+//         }
+//         else {
+//           // If no doctor_ID filter, count normally for all doctors and modes
+//           if (appointment.employee_IDR) {
+//             doctorWiseCount[appointment.employee_IDR] =
+//               (doctorWiseCount[appointment.employee_IDR] || 0) + 1;
+//           }
+//           if (appointment.service_IDR) {
+//             serviceWiseCount[appointment.service_IDR] =
+//               (serviceWiseCount[appointment.service_IDR] || 0) + 1;
+//           }
+//           if (appointment.department_IDR) {
+//             departmentWiseCount[appointment.department_IDR] =
+//               (departmentWiseCount[appointment.department_IDR] || 0) + 1;
+//           }
+//           if (appointment.hospital_IDR) {
+//             hospitalWiseCount[appointment.hospital_IDR] =
+//               (hospitalWiseCount[appointment.hospital_IDR] || 0) + 1;
+//           }
+//           if (appointment.mode_Of_Booking) {
+//             modeWiseCount[appointment.mode_Of_Booking] =
+//               (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//           }
+//         }
+//       });
+
+//       // if (appointment.employee_IDR) {
+//       //   doctorWiseCount[appointment.employee_IDR] = (doctorWiseCount[appointment.employee_IDR] || 0) + 1;
+//       // }
+//       // if (appointment.service_IDR) {
+//       //   serviceWiseCount[appointment.service_IDR] = (serviceWiseCount[appointment.service_IDR] || 0) + 1;
+//       // }
+//       // if (appointment.department_IDR) {
+//       //   departmentWiseCount[appointment.department_IDR] = (departmentWiseCount[appointment.department_IDR] || 0) + 1;
+//       // }
+//       // if (appointment.hospital_IDR) {
+//       //   hospitalWiseCount[appointment.hospital_IDR] = (hospitalWiseCount[appointment.hospital_IDR] || 0) + 1;
+//       // }
+//       // if (appointment.mode_Of_Booking) {
+//       //   modeWiseCount[appointment.mode_Of_Booking] = (modeWiseCount[appointment.mode_Of_Booking] || 0) + 1;
+//       // }
+//     //});
+
+//     // 👉 After counting, filter output if filter is passed
+//     let finalDoctorWiseCount = doctorWiseCount;
+//     let finalServiceWiseCount = serviceWiseCount;
+//     let finalDepartmentWiseCount = departmentWiseCount;
+//     let finalHospitalWiseCount = hospitalWiseCount;
+//     let finalModeWiseCount = modeWiseCount;
+
+//     if (doctor_ID) {
+//       finalDoctorWiseCount = {
+//         [doctor_ID]: doctorWiseCount[doctor_ID] || 0,
+//       };
+//     }
+//     if (service_ID) {
+//       finalServiceWiseCount = {
+//         [service_ID]: serviceWiseCount[service_ID] || 0,
+//       };
+//     }
+//     if (department_ID) {
+//       finalDepartmentWiseCount = {
+//         [department_ID]: departmentWiseCount[department_ID] || 0,
+//       };
+//     }
+//     if (HospitalID) {
+//       finalHospitalWiseCount = {
+//         [HospitalID]: hospitalWiseCount[HospitalID] || 0,
+//       };
+//     }
+//     if (mode_Of_Booking) {
+//       finalModeWiseCount = {
+//         [mode_Of_Booking]: modeWiseCount[mode_Of_Booking] || 0,
+//       };
+//     }
+
+//     const executionTime = `${Date.now() - startTime}ms`;
+
+//     return res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         totalAppointments,
+//         hospitalDatabase,
+//         filtersApplied: {
+//           doctor_ID: doctor_ID || null,
+//           service_ID: service_ID || null,
+//           department_ID: department_ID || null,
+//           HospitalID: HospitalID || null,
+//           mode_Of_Booking: mode_Of_Booking || null,
+//         },
+//       },
+//       data: {
+//         doctorWiseCount: finalDoctorWiseCount,
+//         serviceWiseCount: finalServiceWiseCount,
+//         departmentWiseCount: finalDepartmentWiseCount,
+//         hospitalWiseCount: finalHospitalWiseCount,
+//         modeWiseCount: finalModeWiseCount,
+//       },
+//     });
+
+//   } catch (error) {
+//     const executionTime = `${Date.now() - startTime}ms`;
+//     const errorCode = 9271;
+
+//     logger.logWithMeta("error", "Error fetching patient appointment summary", {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       clientIp,
+//       createdBy: req.username,
+//       error: error.message,
+//     });
+
+//     return res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         executionTime,
+//         errorCode,
+//         hospitalDatabase,
+//       },
+//       error: {
+//         message: "Error fetching appointment summary: " + error.message,
+//       },
+//     });
 //   }
 // };
