@@ -14,6 +14,7 @@ router.put('/patient-appointment/:appointment_ID', validateJSONContentType, User
 router.delete('/patient-appointment/:appointment_ID', authenticate, Userverification, ensureSequelizeInstance, patient_Appointment.deletePatientAppointmentById);
 router.get("/doctor/:employee_IDR", authenticate, Userverification, ensureSequelizeInstance, patient_Appointment.getAppointmentsByDoctorId);
 router.get('/Appointment/:employee_IDR', authenticate, Userverification, ensureSequelizeInstance, patient_Appointment.getAppointmentsByDoctor);
+router.get('/summary',authenticate, Userverification, ensureSequelizeInstance, patient_Appointment.getPatientAppointmentSummary);
 //router.get("/patient-appointment/:employee_IDR/filter", authenticate, Userverification, ensureSequelizeInstance, patient_Appointment.getAppointmentsByDoctorAndDateRange);
 
 
