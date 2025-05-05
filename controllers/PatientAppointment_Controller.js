@@ -183,7 +183,7 @@ function createSlotStructure(doctorSlots, appointments) {
     appointmentsByDate[app.date].push(app);
   });
 
-  // console.log("appointmentsByDate;;;", appointmentsByDate)
+  console.log("appointmentsByDate;;;", appointmentsByDate)
   Object.entries(appointmentsByDate).forEach(([dateStr, dailyAppointments]) => {
     const dateObj = new Date(dateStr);
     const jsDay = dateObj.getDay(); // 0 (Sun) to 6 (Sat)
@@ -207,17 +207,14 @@ function createSlotStructure(doctorSlots, appointments) {
     // Process Slot1
     if (slot.Slot1Times) {
       slot.Slot1Times.forEach((time) => {
-        const matched = dailyAppointments.find((app) => app.startTime === time);
-
-        // console.log("matched::::::::::::::::::::::::::", matched);
-
-        if (matched) {
-          dayObj.bookedSlotsInSlot1[time] = {
-            appointment_ID:matched.appointment_ID,
+        const matchedAppointments = dailyAppointments.filter((app) => app.startTime === time);
+      
+        if (matchedAppointments.length > 0) {
+          dayObj.bookedSlotsInSlot1[time] = matchedAppointments.map((matched) => ({
+            appointment_ID: matched.appointment_ID,
             patientname: typeof matched.patientDetails === "string" ? matched.patientDetails : "",
             patientIDR: typeof matched.patientDetails === "number" ? matched.patientDetails : null,
             ServiceIdr: matched.ServiceID,
-            appointment_ID: matched.appointment_ID,
             appointment_Code: matched.appointment_Code,
             appointment_Purpose: matched.appointment_Purpose,
             appointment_Book_Reason: matched.appointment_Book_Reason,
@@ -226,31 +223,29 @@ function createSlotStructure(doctorSlots, appointments) {
             is_canceled: matched.is_canceled,
             appointment_Cancle_Reason: matched.appointment_Cancle_Reason,
             patient_Contact_Number: matched.patient_Contact_Number,
-            is_canceled:matched.is_canceled,
-            appointment_Cancle_Reason:matched.appointment_Cancle_Reason,
-            is_Arrived:matched.is_Arrived,
-          };
+          }));
         } else {
-          dayObj.availableSlotsInSlot1[time] = {
+          dayObj.availableSlotsInSlot1[time] = [{
             patientname: "",
             patientIDR: null,
             ServiceIdr: null,
-          };
+          }];
         }
       });
+      
     }
 
     // Process Slot2
     if (slot.Slot2Times) {
       slot.Slot2Times.forEach((time) => {
-        const matched = dailyAppointments.find((app) => app.startTime === time);
-        if (matched) {
-          dayObj.bookedSlotsInSlot2[time] = {
-            appointment_ID:matched.appointment_ID,
+        const matchedAppointments = dailyAppointments.filter((app) => app.startTime === time);
+      
+        if (matchedAppointments.length > 0) {
+          dayObj.bookedSlotsInSlot2[time] = matchedAppointments.map((matched) => ({
+            appointment_ID: matched.appointment_ID,
             patientname: typeof matched.patientDetails === "string" ? matched.patientDetails : "",
             patientIDR: typeof matched.patientDetails === "number" ? matched.patientDetails : null,
             ServiceIdr: matched.ServiceID,
-            appointment_ID: matched.appointment_ID,
             appointment_Code: matched.appointment_Code,
             appointment_Purpose: matched.appointment_Purpose,
             appointment_Book_Reason: matched.appointment_Book_Reason,
@@ -259,18 +254,16 @@ function createSlotStructure(doctorSlots, appointments) {
             is_canceled: matched.is_canceled,
             appointment_Cancle_Reason: matched.appointment_Cancle_Reason,
             patient_Contact_Number: matched.patient_Contact_Number,
-            is_canceled:matched.is_canceled,
-            appointment_Cancle_Reason:matched.appointment_Cancle_Reason,
-            is_Arrived:matched.is_Arrived,
-          };
+          }));
         } else {
-          dayObj.availableSlotsInSlot2[time] = {
+          dayObj.availableSlotsInSlot2[time] = [{
             patientname: "",
             patientIDR: null,
             ServiceIdr: null,
-          };
+          }];
         }
       });
+      
     }
 
     result.push(dayObj);
