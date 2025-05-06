@@ -1578,6 +1578,13 @@ exports.getPatientAppointmentSummary = async (req, res, next) => {
       HospitalID,
       mode_Of_Booking,
     } = req.query;
+    const parseArrayQuery = (param) =>
+      param ? (Array.isArray(param) ? param : param.split(",")) : null;
+
+    const doctor_IDs = parseArrayQuery(req.query.doctor_ID); 
+    const department_IDs = parseArrayQuery(req.query.department_ID); 
+    const service_IDs = parseArrayQuery(req.query.service_ID);
+    const mode_Of_Bookings=parseArrayQuery(req.query.mode_Of_Booking)
 
     const PatientAppointment = require("../models/PatientAppointment_Model.js")(
       req.sequelize
@@ -1636,11 +1643,14 @@ exports.getPatientAppointmentSummary = async (req, res, next) => {
       };
     }
 
-    if (doctor_ID) whereCondition.employee_IDR = doctor_ID;
-    if (service_ID) whereCondition.service_IDR = service_ID;
-    if (department_ID) whereCondition.department_IDR = department_ID;
+    // if (doctor_ID) whereCondition.employee_IDR = doctor_ID;
+    // if (service_ID) whereCondition.service_IDR = service_ID;
+    // if (department_ID) whereCondition.department_IDR = department_ID;
+    if (doctor_IDs) whereCondition.employee_IDR = { [Op.in]: doctor_IDs };
+    if (department_IDs) whereCondition.department_IDR = { [Op.in]: department_IDs };
+    if (service_IDs) whereCondition.service_IDR = { [Op.in]: service_IDs };
     if (HospitalID) whereCondition.hospital_IDR = HospitalID;
-    if (mode_Of_Booking) whereCondition.mode_Of_Booking = mode_Of_Booking;
+    if (mode_Of_Bookings) whereCondition.mode_Of_Booking = {[Op.in]:mode_Of_Bookings};
 
     const appointments = await PatientAppointment.findAll({
       where: {
