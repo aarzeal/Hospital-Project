@@ -1578,22 +1578,17 @@ exports.getPatientAppointmentSummary = async (req, res, next) => {
       HospitalID,
       mode_Of_Booking,
     } = req.query;
-    const parseJsonArrayQuery = (param) => {
-      try {
-        return param ? JSON.parse(param) : null;
-      } catch (e) {
-        return null; 
-      }
+    
+    const toArray = (param) => {
+      if (!param) return null;
+      return Array.isArray(param) ? param : [param];
     };
 
-    // const doctor_IDs = parseArrayQuery(req.query.doctor_ID); 
-    // const department_IDs = parseArrayQuery(req.query.department_ID); 
-    // const service_IDs = parseArrayQuery(req.query.service_ID);
-    // const mode_Of_Bookings=parseArrayQuery(req.query.mode_Of_Booking)
-    const doctor_IDs = parseJsonArrayQuery(req.query.doctor_ID); 
-const department_IDs = parseJsonArrayQuery(req.query.department_ID); 
-const service_IDs = parseJsonArrayQuery(req.query.service_ID);
-const mode_Of_Bookings = parseJsonArrayQuery(req.query.mode_Of_Booking);
+    
+const doctor_IDs = toArray(req.query.doctor_ID);
+const department_IDs = toArray(req.query.department_ID);
+const service_IDs = toArray(req.query.service_ID);
+const mode_Of_Bookings = toArray(req.query.mode_Of_Booking);
 
 
     const PatientAppointment = require("../models/PatientAppointment_Model.js")(
