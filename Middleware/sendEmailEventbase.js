@@ -128,8 +128,8 @@ const requestIp = require('request-ip');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'sudhir.kale@aarzeal.com',
-    pass: 'bujaybhcbhtbgyis',
+    user: 'khaja.shaikh@aarzeal.com',
+    pass: 'wfla taoq cgio yweu',
   },
 });
 
@@ -147,7 +147,7 @@ const sendEmail = async (filePath, fileName) => {
 
       // Set up email data with Unicode symbols
       const mailOptions = {
-        from: 'sudhir.kale@aarzeal.com',
+        from: 'khaja.shaikh@aarzeal.com',
         to: emailConfig.emails.join(','),
         subject: 'Scheduled Report PDF',
         text: 'Please find the attached report PDF.',

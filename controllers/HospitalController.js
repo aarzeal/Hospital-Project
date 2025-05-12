@@ -1439,10 +1439,12 @@ exports.login = async (req, res) => {
     }
 
     // Log and compare passwords
-    console.log('Password from request:', Password);
+    console.log('Password from request:', decryptedPassword);
     console.log('Password from database:', hospital.Password); // Log the database password
 
     const passwordMatch = await bcrypt.compare(decryptedPassword, hospital.Password);
+
+    console.log("passwordMatch:::", passwordMatch)
 
     // If password doesn't match
     if (!passwordMatch) {
@@ -2489,6 +2491,7 @@ exports.createUser = async (req, res) => {
       message: "User created successfully. Verification email sent.",
     });
   } catch (error) {
+    console.log("Error:::",error)
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 939;
@@ -2876,7 +2879,7 @@ exports.resendVerificationEmail = async (req, res) => {
     await user.save();
 
     // Construct the verification link
-    const verificationLink = `http://localhost:3000/api/v1/hospital/verify/${encryptedtoken}?db=${encryptedDB}`;
+    const verificationLink = `http://${process.env.HOST}:3000/api/v1/hospital/verify/${encryptedtoken}?db=${encryptedDB}`;
 
 /////////////
 
@@ -3633,6 +3636,8 @@ exports.sendOtp = async (req, res) => {
   // Extract token from headers
   const token = req.headers["accesstoken"];
 
+  console.log("token:::", token)
+
   if (!token) {
     const end = Date.now();
     const executionTime = `${end - start}ms`;
@@ -3669,6 +3674,8 @@ exports.sendOtp = async (req, res) => {
     const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
 
     const email = decoded.email;
+
+    console.log("email:::", decoded)
 
     if (!email) {
       const end = Date.now();
@@ -4624,14 +4631,14 @@ exports.forgotPassword = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "Gmail", // Use your email service
       auth: {
-        user: process.env.EMAIL, // Your email
-        pass: process.env.EMAIL_PASSWORD, // Your email password
+        user: "khaja.shaikh@aarzeal.com", // Your email
+        pass: "wfla taoq cgio yweu", // Your email password
       },
     });
 
     const mailOptions = {
       to: email,
-      from: process.env.EMAIL,
+      from: process.env.EMAIL_USER,
       subject: "Password Reset",
       text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
       Please click on the following link, or paste this into your browser to complete the process:\n\n
