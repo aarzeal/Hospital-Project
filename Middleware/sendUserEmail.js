@@ -11,14 +11,14 @@ const sendUserEmail = async (to, subject, text) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: "khaja.shaikh@aarzeal.com",
+        pass: "wfla taoq cgio yweu"
       }
     });
 
     // Construct email options
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: "khaja.shaikh@aarzeal.com",
       to: to,
       subject: subject,
       text: text // Plain text email body
