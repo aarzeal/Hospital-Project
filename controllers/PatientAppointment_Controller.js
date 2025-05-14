@@ -1719,7 +1719,7 @@ exports.getAppointmentsByDoctor = async (req, res, next) => {
 
 
 
-//------------------------------------------------------------------------------------------------------------------------------------
+// //------------------------------------------------------------------------------------------------------------------------------------
 // exports.getPatientAppointmentSummary = async (req, res, next) => {
 //   const startTime = Date.now();
 //   const clientIp = await getClientIp(req);
