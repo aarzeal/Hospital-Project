@@ -258,5 +258,9 @@
   "View": {
     "en": "View",
     "hi": "देखना"
+  },
+  "TaxDetails": {
+    "en": "Tax Details",
+    "hi": "कर विवरण"
   }
 }

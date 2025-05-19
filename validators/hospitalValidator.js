@@ -749,8 +749,8 @@ exports.createEmployeeValidationRules = () => {
       .matches(/^[a-zA-Z\s]+$/).withMessage('First Name can only contain letters and spaces'),
     body('MName')
       .optional()
-      .isLength({ max: 40 }).withMessage('Middle Name cannot exceed 40 characters')
-      .matches(/^[a-zA-Z\s]+$/).withMessage('Middle Name can only contain letters and spaces'),
+      .isLength({ max: 40 }).withMessage('Middle Name cannot exceed 40 characters'),
+      // .matches(/^[a-zA-Z\s]+$/).withMessage('Middle Name can only contain letters and spaces'),
     body('LName')
       .notEmpty().withMessage('Last Name is required')
       .isLength({ max: 40 }).withMessage('Last Name cannot exceed 40 characters')
@@ -811,8 +811,8 @@ exports.updateEmployeeValidationRules = () => {
       .matches(/^[a-zA-Z\s]+$/).withMessage('First Name can only contain letters and spaces'),
     body('MName')
       .optional()
-      .isLength({ max: 40 }).withMessage('Middle Name cannot exceed 40 characters')
-      .matches(/^[a-zA-Z\s]+$/).withMessage('Middle Name can only contain letters and spaces'),
+      .isLength({ max: 40 }).withMessage('Middle Name cannot exceed 40 characters'),
+      // .matches(/^[a-zA-Z\s]+$/).withMessage('Middle Name can only contain letters and spaces'),
     body('LName')
       .optional()
       .isLength({ max: 40 }).withMessage('Last Name cannot exceed 40 characters')

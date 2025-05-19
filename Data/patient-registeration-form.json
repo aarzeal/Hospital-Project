@@ -362,5 +362,37 @@
   "EMRnumberCopied": {
     "en": "EMR number Copied",
     "hi": "ई एम आर नंबर कॉपी किया गया"
+  },
+  "Selectgender": {
+    "en": "Select gender",
+    "hi": "लिंग चुनें"
+  },
+  "Selectnationality": {
+    "en": "Select nationality",
+    "hi": "राष्ट्रीयता चुनें"
+  },
+  "Selectbloodgroup": {
+    "en": "Select blood group",
+    "hi": "रक्त समूह का चयन करें"
+  },
+  "Selectmaritalstatus": {
+    "en": "Select marital status",
+    "hi": "वैवाहिक स्थिति चुनें"
+  },
+  "Selectracial": {
+    "en": "Select racial",
+    "hi": "नस्लीय का चयन करें"
+  },
+  "Selectcountry": {
+    "en": "Select country",
+    "hi": "देश चुनें"
+  },
+  "Selectstate": {
+    "en": "Select state",
+    "hi": "राज्य चुनें"
+  },
+  "Selectcity": {
+    "en": "Select city",
+    "hi": "शहर चुनें"
   }
 }

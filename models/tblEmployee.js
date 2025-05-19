@@ -429,7 +429,7 @@ module.exports = (sequelize) => {
     },
     MName: {
       type: DataTypes.STRING(40),
-      allowNull: false
+      allowNull: true
     },
     LName: {
       type: DataTypes.STRING(40),

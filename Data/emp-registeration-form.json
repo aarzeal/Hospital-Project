@@ -478,5 +478,37 @@
   "EnterPassportNumberHere": {
     "en": "Enter Passport Number Here",
     "hi": "यहां पासपोर्ट नंबर दर्ज करें"
+  },
+  "Selectnationality": {
+    "en": "Select nationality",
+    "hi": "राष्ट्रीयता चुनें"
+  },
+  "Selectreligion": {
+    "en": "Select religion",
+    "hi": "धर्म का चयन करें"
+  },
+  "Selectcaste": {
+    "en": "Select caste",
+    "hi": "जाति का चयन करें"
+  },
+  "Selectbloodgroup": {
+    "en": "Select blood group",
+    "hi": "रक्त समूह का चयन करें"
+  },
+  "Selectmaritalstatus": {
+    "en": "Select marital status",
+    "hi": "वैवाहिक स्थिति चुनें"
+  },
+  "Selectemployeecategory": {
+    "en": "Select employee category",
+    "hi": "कर्मचारी श्रेणी का चयन करें"
+  },
+  "SelectemployeeType": {
+    "en": "Select employee Type",
+    "hi": "कर्मचारी प्रकार चुनें"
+  },
+  "Selectemployeeskills": {
+    "en": "Select employee skills",
+    "hi": "कर्मचारी कौशल का चयन करें"
   }
 }
