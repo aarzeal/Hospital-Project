@@ -262,7 +262,10 @@ exports.getward = async (req, res) => {
     });
   }
 };
-exports.getwarddataasperQueryParam = async (req, res) => {
+
+
+
+ exports.getwarddataasperQueryParam = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
@@ -273,25 +276,25 @@ exports.getwarddataasperQueryParam = async (req, res) => {
 
     const { ward_ID, page = 1, limit = 10, ...queryColumns } = req.query;
 
-    // Convert page and limit to integers
     const pageNum = parseInt(page);
     const limitNum = parseInt(limit);
     const offset = (pageNum - 1) * limitNum;
 
-    // Get requested column names
     let attributes = Object.keys(queryColumns);
 
-    // Always include ward_ID
     if (!attributes.includes("ward_ID")) {
       attributes.push("ward_ID");
     }
 
-    // If no specific columns are requested (i.e. only ward_ID in query), fetch all columns
     if (attributes.length === 1 && attributes[0] === "ward_ID") {
-      attributes = undefined; // fetch all columns
+      attributes = undefined;
     }
 
     let data, totalRecords;
+
+    // Declare filterKeys here
+    const queryKeys = Object.keys(req.query);
+    const filterKeys = queryKeys.filter((key) => key !== "page" && key !== "limit");
 
     if (ward_ID) {
       data = await ward.findOne({
@@ -319,15 +322,20 @@ exports.getwarddataasperQueryParam = async (req, res) => {
         return res.status(404).json({ errorCode, message: "ward not found" });
       }
     } else {
-      // Get total count for pagination metadata
-      totalRecords = await ward.count();
+      if (filterKeys.length === 0) {
+        data = await ward.findAll({
+          attributes,
+        });
+        totalRecords = data.length;
+      } else {
+        totalRecords = await ward.count();
 
-      // Apply pagination
-      data = await ward.findAll({
-        offset,
-        limit: limitNum,
-        attributes,
-      });
+        data = await ward.findAll({
+          offset,
+          limit: limitNum,
+          attributes,
+        });
+      }
     }
 
     const executionTime = `${Date.now() - start}ms`;
@@ -345,7 +353,6 @@ exports.getwarddataasperQueryParam = async (req, res) => {
       updatedBy: req.username,
     });
 
-    // Format data with ward_ID as first key
     const formatData = (record) => {
       const obj = record.toJSON();
       const { ward_ID, ...rest } = obj;
@@ -358,23 +365,32 @@ exports.getwarddataasperQueryParam = async (req, res) => {
       ? formatData(data)
       : null;
 
-    // Final response
+    const meta = {
+      statusCode: 200,
+      executionTime,
+      hospitalDatabase,
+    };
+
+    if (!ward_ID) {
+      if (filterKeys.length === 0) {
+        meta.pagination = {
+          page: 1,
+          limit: totalRecords,
+          totalRecords,
+          totalPages: 1,
+        };
+      } else {
+        meta.pagination = {
+          page: pageNum,
+          limit: limitNum,
+          totalRecords,
+          totalPages: Math.ceil(totalRecords / limitNum),
+        };
+      }
+    }
+
     res.status(200).json({
-      meta: {
-        statusCode: 200,
-        executionTime,
-        hospitalDatabase,
-        ...(ward_ID
-          ? {}
-          : {
-              pagination: {
-                page: pageNum,
-                limit: limitNum,
-                totalRecords,
-                totalPages: Math.ceil(totalRecords / limitNum),
-              },
-            }),
-      },
+      meta,
       data: formattedData,
     });
   } catch (error) {
