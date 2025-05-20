@@ -263,9 +263,7 @@ exports.getward = async (req, res) => {
   }
 };
 
-
-
- exports.getwarddataasperQueryParam = async (req, res) => {
+exports.getwarddataasperQueryParam = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
@@ -274,7 +272,7 @@ exports.getward = async (req, res) => {
   try {
     const ward = require("../models/WardModel")(req.sequelize);
 
-    const { ward_ID, page = 1, limit = 10, ...queryColumns } = req.query;
+    const { ward_ID, page, limit, ...queryColumns } = req.query;
 
     const pageNum = parseInt(page);
     const limitNum = parseInt(limit);
@@ -292,7 +290,6 @@ exports.getward = async (req, res) => {
 
     let data, totalRecords;
 
-    // Declare filterKeys here
     const queryKeys = Object.keys(req.query);
     const filterKeys = queryKeys.filter((key) => key !== "page" && key !== "limit");
 
@@ -322,19 +319,40 @@ exports.getward = async (req, res) => {
         return res.status(404).json({ errorCode, message: "ward not found" });
       }
     } else {
-      if (filterKeys.length === 0) {
-        data = await ward.findAll({
-          attributes,
-        });
-        totalRecords = data.length;
-      } else {
-        totalRecords = await ward.count();
+      const isPagination = req.query.page && req.query.limit;
 
-        data = await ward.findAll({
-          offset,
-          limit: limitNum,
-          attributes,
-        });
+      if (filterKeys.length === 0) {
+        if (isPagination) {
+          totalRecords = await ward.count();
+          data = await ward.findAll({
+            offset,
+            limit: limitNum,
+            attributes,
+            order: [['ward_ID', 'ASC']],
+          });
+        } else {
+          data = await ward.findAll({
+            attributes,
+            order: [['ward_ID', 'ASC']],
+          });
+          totalRecords = data.length;
+        }
+      } else {
+        if (isPagination) {
+          totalRecords = await ward.count();
+          data = await ward.findAll({
+            offset,
+            limit: limitNum,
+            attributes,
+            order: [['ward_ID', 'ASC']],
+          });
+        } else {
+          data = await ward.findAll({
+            attributes,
+            order: [['ward_ID', 'ASC']],
+          });
+          totalRecords = data.length;
+        }
       }
     }
 
@@ -371,22 +389,13 @@ exports.getward = async (req, res) => {
       hospitalDatabase,
     };
 
-    if (!ward_ID) {
-      if (filterKeys.length === 0) {
-        meta.pagination = {
-          page: 1,
-          limit: totalRecords,
-          totalRecords,
-          totalPages: 1,
-        };
-      } else {
-        meta.pagination = {
-          page: pageNum,
-          limit: limitNum,
-          totalRecords,
-          totalPages: Math.ceil(totalRecords / limitNum),
-        };
-      }
+    if (!ward_ID && req.query.page && req.query.limit) {
+      meta.pagination = {
+        page: pageNum,
+        limit: limitNum,
+        totalRecords,
+        totalPages: Math.ceil(totalRecords / limitNum),
+      };
     }
 
     res.status(200).json({
@@ -416,6 +425,297 @@ exports.getward = async (req, res) => {
     });
   }
 };
+
+//  exports.getwarddataasperQueryParam = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const hospitalDatabase = req.hospitalDatabase;
+//   const locationData = await getLocationData(clientIp);
+
+//   try {
+//     const ward = require("../models/WardModel")(req.sequelize);
+
+//     const { ward_ID, page = 1, limit = 10, ...queryColumns } = req.query;
+
+//     const pageNum = parseInt(page);
+//     const limitNum = parseInt(limit);
+//     const offset = (pageNum - 1) * limitNum;
+
+//     let attributes = Object.keys(queryColumns);
+
+//     if (!attributes.includes("ward_ID")) {
+//       attributes.push("ward_ID");
+//     }
+
+//     if (attributes.length === 1 && attributes[0] === "ward_ID") {
+//       attributes = undefined;
+//     }
+
+//     let data, totalRecords;
+
+//     // Declare filterKeys here
+//     const queryKeys = Object.keys(req.query);
+//     const filterKeys = queryKeys.filter((key) => key !== "page" && key !== "limit");
+
+//     if (ward_ID) {
+//       data = await ward.findOne({
+//         where: { ward_ID },
+//         attributes,
+//       });
+
+//       if (!data) {
+//         const executionTime = `${Date.now() - start}ms`;
+//         const errorCode = 1262;
+
+//         logger.logWithMeta("error", "ward not found", {
+//           errorCode,
+//           executionTime,
+//           hospitalId: req.hospitalName,
+//           apiName: req.originalUrl,
+//           city: locationData?.city,
+//           country: locationData?.country,
+//           method: req.method,
+//           userAgent: req.headers["user-agent"],
+//           createdBy: req.username,
+//           updatedBy: req.username,
+//         });
+
+//         return res.status(404).json({ errorCode, message: "ward not found" });
+//       }
+//     } else {
+//       if (filterKeys.length === 0) {
+//         data = await ward.findAll({
+//           attributes,
+//         });
+//         totalRecords = data.length;
+//       } else {
+//         totalRecords = await ward.count();
+
+//         data = await ward.findAll({
+//           offset,
+//           limit: limitNum,
+//           attributes,
+//         });
+//       }
+//     }
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     logger.logWithMeta("info", "Fetched wards successfully", {
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       city: locationData?.city,
+//       country: locationData?.country,
+//       ip: clientIp,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       createdBy: req.username,
+//       updatedBy: req.username,
+//     });
+
+//     const formatData = (record) => {
+//       const obj = record.toJSON();
+//       const { ward_ID, ...rest } = obj;
+//       return { ward_ID, ...rest };
+//     };
+
+//     const formattedData = Array.isArray(data)
+//       ? data.map(formatData)
+//       : data
+//       ? formatData(data)
+//       : null;
+
+//     const meta = {
+//       statusCode: 200,
+//       executionTime,
+//       hospitalDatabase,
+//     };
+
+//     if (!ward_ID) {
+//       if (filterKeys.length === 0) {
+//         meta.pagination = {
+//           page: 1,
+//           limit: totalRecords,
+//           totalRecords,
+//           totalPages: 1,
+//         };
+//       } else {
+//         meta.pagination = {
+//           page: pageNum,
+//           limit: limitNum,
+//           totalRecords,
+//           totalPages: Math.ceil(totalRecords / limitNum),
+//         };
+//       }
+//     }
+
+//     res.status(200).json({
+//       meta,
+//       data: formattedData,
+//     });
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 1263;
+
+//     logger.logWithMeta("error", "Error fetching ward data", {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       city: locationData?.city,
+//       country: locationData?.country,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       createdBy: req.username,
+//       updatedBy: req.username,
+//     });
+
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+//       error: { message: "Error fetching ward: " + error.message },
+//     });
+//   }
+// };
+
+// exports.getwarddataasperQueryParam = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const hospitalDatabase = req.hospitalDatabase;
+//   const locationData = await getLocationData(clientIp);
+
+//   try {
+//     const ward = require("../models/WardModel")(req.sequelize);
+
+//     const { ward_ID, page = 1, limit = 10, ...queryColumns } = req.query;
+
+//     // Convert page and limit to integers
+//     const pageNum = parseInt(page);
+//     const limitNum = parseInt(limit);
+//     const offset = (pageNum - 1) * limitNum;
+
+//     // Get requested column names
+//     let attributes = Object.keys(queryColumns);
+
+//     // Always include ward_ID
+//     if (!attributes.includes("ward_ID")) {
+//       attributes.push("ward_ID");
+//     }
+
+//     // If no specific columns are requested (i.e. only ward_ID in query), fetch all columns
+//     if (attributes.length === 1 && attributes[0] === "ward_ID") {
+//       attributes = undefined; // fetch all columns
+//     }
+
+//     let data, totalRecords;
+
+//     if (ward_ID) {
+//       data = await ward.findOne({
+//         where: { ward_ID },
+//         attributes,
+//       });
+
+//       if (!data) {
+//         const executionTime = `${Date.now() - start}ms`;
+//         const errorCode = 1262;
+
+//         logger.logWithMeta("error", "ward not found", {
+//           errorCode,
+//           executionTime,
+//           hospitalId: req.hospitalName,
+//           apiName: req.originalUrl,
+//           city: locationData?.city,
+//           country: locationData?.country,
+//           method: req.method,
+//           userAgent: req.headers["user-agent"],
+//           createdBy: req.username,
+//           updatedBy: req.username,
+//         });
+
+//         return res.status(404).json({ errorCode, message: "ward not found" });
+//       }
+//     } else {
+//       // Get total count for pagination metadata
+//       totalRecords = await ward.count();
+
+//       // Apply pagination
+//       data = await ward.findAll({
+//         offset,
+//         limit: limitNum,
+//         attributes,
+//       });
+//     }
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     logger.logWithMeta("info", "Fetched wards successfully", {
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       city: locationData?.city,
+//       country: locationData?.country,
+//       ip: clientIp,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       createdBy: req.username,
+//       updatedBy: req.username,
+//     });
+
+//     // Format data with ward_ID as first key
+//     const formatData = (record) => {
+//       const obj = record.toJSON();
+//       const { ward_ID, ...rest } = obj;
+//       return { ward_ID, ...rest };
+//     };
+
+//     const formattedData = Array.isArray(data)
+//       ? data.map(formatData)
+//       : data
+//       ? formatData(data)
+//       : null;
+
+//     // Final response
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         hospitalDatabase,
+//         ...(ward_ID
+//           ? {}
+//           : {
+//               pagination: {
+//                 page: pageNum,
+//                 limit: limitNum,
+//                 totalRecords,
+//                 totalPages: Math.ceil(totalRecords / limitNum),
+//               },
+//             }),
+//       },
+//       data: formattedData,
+//     });
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 1263;
+
+//     logger.logWithMeta("error", "Error fetching ward data", {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       city: locationData?.city,
+//       country: locationData?.country,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       createdBy: req.username,
+//       updatedBy: req.username,
+//     });
+
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+//       error: { message: "Error fetching ward: " + error.message },
+//     });
+//   }
+// };
 
 exports.getWardById = async (req, res) => {
   const start = Date.now();
