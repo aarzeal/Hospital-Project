@@ -394,5 +394,33 @@
   "Searchbyitemcontentdetails": {
     "en": "Search by item content details",
     "hi": "आइटम सामग्री विवरण द्वारा खोजें"
+  },
+  "Selectitemcategory": {
+    "en": "Select item category",
+    "hi": "आइटम श्रेणी का चयन करें"
+  },
+  "Selectitemgroup": {
+    "en": "Select item group",
+    "hi": "आइटम समूह का चयन करें"
+  },
+  "Selectitem": {
+    "en": "Select item",
+    "hi": "आइटम चुनें"
+  },
+  "Selecttax": {
+    "en": "Select tax",
+    "hi": "कर चुनें"
+  },
+  "Selectparentgroup": {
+    "en": "Select parent group",
+    "hi": "मूल समूह का चयन करें"
+  },
+  "Selectpurchaseledger": {
+    "en": "Select purchase ledger",
+    "hi": "खरीद बही का चयन करें"
+  },
+  "Selectsalesledger": {
+    "en": "Select sales ledger",
+    "hi": "विक्रय खाता चुनें"
   }
 }

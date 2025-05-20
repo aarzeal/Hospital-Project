@@ -234,5 +234,33 @@
   "Download": {
     "en": "Download",
     "hi": "डाउनलोड"
+  },
+  "Selectnoticeperiodtype": {
+    "en": "Select notice period type",
+    "hi": "नोटिस अवधि प्रकार का चयन करें"
+  },
+  "Selectnoticeperiodvalue": {
+    "en": "Select notice period value",
+    "hi": "नोटिस अवधि मान चुनें"
+  },
+  "Selectprobationperiodtype": {
+    "en": "Select probation period type",
+    "hi": "परिवीक्षा अवधि का प्रकार चुनें"
+  },
+  "Selectprobationperiodvalue": {
+    "en": "Select probation period value",
+    "hi": "परिवीक्षा अवधि मान चुनें"
+  },
+  "Selectroundingtype": {
+    "en": "Select rounding type",
+    "hi": "गोलाकार प्रकार का चयन करें"
+  },
+  "Selectsalaryheadledger": {
+    "en": "Select salary head ledger",
+    "hi": "वेतन शीर्ष बहीखाता चुनें"
+  },
+  "Selectsalarypayableledger": {
+    "en": "Select salary payable ledger",
+    "hi": "वेतन देय खाता बही का चयन करें"
   }
 }
