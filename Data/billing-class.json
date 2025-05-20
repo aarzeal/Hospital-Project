@@ -391,8 +391,28 @@
     "en": "Updated at",
     "hi": "अद्यतन किया गया"
   },
-  "Searchbybillingdetails":{
-    "en":"Search by billing details",
-    "hi":"बिलिंग विवरण द्वारा खोजें"
+  "Searchbybillingdetails": {
+    "en": "Search by billing details",
+    "hi": "बिलिंग विवरण द्वारा खोजें"
+  },
+  "Selectbillingclasscategory": {
+    "en": "Select billing class category",
+    "hi": "बिलिंग क्लास श्रेणी का चयन करें"
+  },
+  "Selectledger": {
+    "en": "Select ledger",
+    "hi": "बही का चयन करें"
+  },
+  "Selectcashlessapplicableon": {
+    "en": "Select cashless applicable on",
+    "hi": "लागू कैशलेस का चयन करें"
+  },
+  "Selectcurrency": {
+    "en": "Select currency",
+    "hi": "मुद्रा चुनें"
+  },
+  "Selectratebaseon": {
+    "en": "Select rate base on",
+    "hi": "के आधार पर दर का चयन करें"
   }
 }

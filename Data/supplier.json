@@ -482,5 +482,9 @@
   "NO": {
     "en": "NO",
     "hi": "नहीं"
+  },
+  "Selectledger": {
+    "en": "Select ledger",
+    "hi": "बही का चयन करें"
   }
 }
