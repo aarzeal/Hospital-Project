@@ -262,7 +262,144 @@ exports.getward = async (req, res) => {
     });
   }
 };
+exports.getwarddataasperQueryParam = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
 
+  try {
+    const ward = require("../models/WardModel")(req.sequelize);
+
+    const { ward_ID, page = 1, limit = 10, ...queryColumns } = req.query;
+
+    // Convert page and limit to integers
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const offset = (pageNum - 1) * limitNum;
+
+    // Get requested column names
+    let attributes = Object.keys(queryColumns);
+
+    // Always include ward_ID
+    if (!attributes.includes("ward_ID")) {
+      attributes.push("ward_ID");
+    }
+
+    // If no specific columns are requested (i.e. only ward_ID in query), fetch all columns
+    if (attributes.length === 1 && attributes[0] === "ward_ID") {
+      attributes = undefined; // fetch all columns
+    }
+
+    let data, totalRecords;
+
+    if (ward_ID) {
+      data = await ward.findOne({
+        where: { ward_ID },
+        attributes,
+      });
+
+      if (!data) {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 1262;
+
+        logger.logWithMeta("error", "ward not found", {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalName,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: req.username,
+        });
+
+        return res.status(404).json({ errorCode, message: "ward not found" });
+      }
+    } else {
+      // Get total count for pagination metadata
+      totalRecords = await ward.count();
+
+      // Apply pagination
+      data = await ward.findAll({
+        offset,
+        limit: limitNum,
+        attributes,
+      });
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Fetched wards successfully", {
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    // Format data with ward_ID as first key
+    const formatData = (record) => {
+      const obj = record.toJSON();
+      const { ward_ID, ...rest } = obj;
+      return { ward_ID, ...rest };
+    };
+
+    const formattedData = Array.isArray(data)
+      ? data.map(formatData)
+      : data
+      ? formatData(data)
+      : null;
+
+    // Final response
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime,
+        hospitalDatabase,
+        ...(ward_ID
+          ? {}
+          : {
+              pagination: {
+                page: pageNum,
+                limit: limitNum,
+                totalRecords,
+                totalPages: Math.ceil(totalRecords / limitNum),
+              },
+            }),
+      },
+      data: formattedData,
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1263;
+
+    logger.logWithMeta("error", "Error fetching ward data", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error fetching ward: " + error.message },
+    });
+  }
+};
 
 exports.getWardById = async (req, res) => {
   const start = Date.now();

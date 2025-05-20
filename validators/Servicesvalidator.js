@@ -359,7 +359,7 @@ exports. finGroupUpdateValidationRules = [
 
     body("billing_Class_Category")
         .notEmpty().withMessage("Billing class category is required")
-        .isString().withMessage("Billing class category must be a string"),
+        .isInt().withMessage("Billing class category must be a Integer"),
 
     body("ledger_IDR")
         .notEmpty().withMessage("Ledger ID is required")
@@ -382,7 +382,7 @@ exports. finGroupUpdateValidationRules = [
 
     body("cashless_Applicable_On")
         .notEmpty().withMessage("Cashless Applicable On is required")
-        .isString().withMessage("Cashless Applicable On must be a string"),
+       .isInt().withMessage("Cashless Applicable On must be a Integer"),
 
     body("issTax_Applicable")
         .optional().isBoolean().withMessage("Tax Applicable must be a boolean"),
@@ -430,11 +430,11 @@ exports. finGroupUpdateValidationRules = [
 
     body("currancy")
         .notEmpty().withMessage("Currency is required")
-        .isString().withMessage("Currency must be a string"),
+        .isInt().withMessage("Currency must be a Number"),
 
     body("rate_baseOn")
         .notEmpty().withMessage("Rate base on is required")
-        .isString().withMessage("Rate base on must be a string"),
+        .isInt().withMessage("Rate base on must be a Number"),
 
     body("createdBy")
         .optional().isString().withMessage("Created By must be a string"),

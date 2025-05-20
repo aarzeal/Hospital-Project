@@ -10,6 +10,7 @@ const Userverifiction = require('../validators/Accesstokenverify');
 router.post('/create_ward', validateJSONContentType,authenticate,Userverifiction,ensureSequelizeInstance,wardcontroller.createWard);
 router.get('/get_ward', authenticate,Userverifiction,ensureSequelizeInstance,wardcontroller.getward);
 router.get('/get_ward/:ward_ID', authenticate,Userverifiction,ensureSequelizeInstance,wardcontroller.getWardById);
+router.get('/getwarddataasperQueryParam',authenticate,Userverifiction,ensureSequelizeInstance,wardcontroller.getwarddataasperQueryParam);
 router.put('/put_ward/:ward_ID', authenticate,Userverifiction,ensureSequelizeInstance,wardcontroller.updateWard);
 router.delete('/delete_ward/:ward_ID', authenticate,Userverifiction,ensureSequelizeInstance,wardcontroller.deleteWard);
 
