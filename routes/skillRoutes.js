@@ -17,6 +17,8 @@ router.get('/skills/:id', authenticate, hospitalController.ensureSequelizeInstan
 // GET single skill by pagination
 router.get('/paginated', authenticate, hospitalController.ensureSequelizeInstance,skillController.getSkillsWithPagination);
 
+router.get('/getskillsasperqueryparams', authenticate, hospitalController.ensureSequelizeInstance, skillController.getcustomskillsbyqueryparam);
+
 // POST create a new skill
 router.post('/skills', authenticate ,validateJSONContentType,createSkillValidationRules(),  hospitalController.ensureSequelizeInstance,skillController.createSkill);
 

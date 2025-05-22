@@ -11,6 +11,7 @@ const Userverifiction = require('../validators/Accesstokenverify');
 router.post('/acc-Ledger', validateJSONContentType,validator.validateAccLedger,authenticate,Userverifiction,ensureSequelizeInstance,accLedgerController.createAccLedger);
 router.get('/acc-Ledger', authenticate,Userverifiction,ensureSequelizeInstance,accLedgerController.getAccLedger);
 router.get('/acc-Ledger/:id', authenticate,Userverifiction,ensureSequelizeInstance,accLedgerController.getAccLedgerById);
+router.get('/getAccLedgerByQueryParams', authenticate,Userverifiction, ensureSequelizeInstance, accLedgerController.getaccledgerasperqueryparams);
 router.delete('/acc-Ledger-delete/:id', authenticate,Userverifiction,ensureSequelizeInstance,accLedgerController.deleteAccLedger);
 router.put('/acc-Ledger-update/:id',validateJSONContentType, validator.validateAccLedgerUpdate,authenticate,Userverifiction,ensureSequelizeInstance,accLedgerController.updateAccLedger);
 

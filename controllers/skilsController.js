@@ -192,6 +192,7 @@
 const Skill = require('../models/skillMaster');
 const logger = require('../logger'); // Adjust path as per your project structure
 const requestIp = require('request-ip');
+const getLocationData = require('../util/locationHelper');
 
 async function getClientIp(req) {
   let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
@@ -263,6 +264,316 @@ exports.getAllSkills = async (req, res) => {
     });
   }
 };
+
+
+exports.getcustomskillsbyqueryparam = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
+  const errorCode = 11111;
+
+  try {
+    const Skill = require('../models/skillMaster.js')(req.sequelize);
+    const { SpecialtyId, page, limit, ...queryColumns } = req.query;
+
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const offset = (pageNum - 1) * limitNum;
+
+    let attributes = Object.keys(queryColumns);
+    if (!attributes.includes("SpecialtyId")) {
+      attributes.push("SpecialtyId");
+    }
+    if (attributes.length === 1 && attributes[0] === "SpecialtyId") {
+      attributes = undefined;
+    }
+
+    let data, totalRecords;
+
+    const queryKeys = Object.keys(req.query);
+    const filterKeys = queryKeys.filter((key) => key !== "page" && key !== "limit");
+
+    if (SpecialtyId) {
+      data = await Skill.findOne({
+        where: { SpecialtyId },
+        attributes,
+      });
+
+      if (!data) {
+        const executionTime = `${Date.now() - start}ms`;
+        logger.logWithMeta("warn", `Skill not found for SpecialtyId: ${SpecialtyId}`, {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalId,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          ip: clientIp,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: req.username,
+        });
+
+        return res.status(404).json({ errorCode, message: "Skill not found" });
+      }
+    } else {
+      const isPagination = req.query.page && req.query.limit;
+
+      if (filterKeys.length === 0) {
+        if (isPagination) {
+          totalRecords = await Skill.count();
+          data = await Skill.findAll({
+            offset,
+            limit: limitNum,
+            attributes,
+            order: [["SpecialtyId", "ASC"]],
+          });
+        } else {
+          data = await Skill.findAll({
+            attributes,
+            order: [["SpecialtyId", "ASC"]],
+          });
+          totalRecords = data.length;
+        }
+      } else {
+        if (isPagination) {
+          totalRecords = await Skill.count();
+          data = await Skill.findAll({
+            offset,
+            limit: limitNum,
+            attributes,
+            order: [["SpecialtyId", "ASC"]],
+          });
+        } else {
+          data = await Skill.findAll({
+            attributes,
+            order: [["SpecialtyId", "ASC"]],
+          });
+          totalRecords = data.length;
+        }
+      }
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Fetched skills successfully", {
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    const formatData = (record) => {
+      const obj = record.toJSON();
+      const { SpecialtyId, ...rest } = obj;
+      return { SpecialtyId, ...rest };
+    };
+
+    const formattedData = Array.isArray(data)
+      ? data.map(formatData)
+      : data
+      ? formatData(data)
+      : null;
+
+    const meta = {
+      statusCode: 200,
+      executionTime,
+      hospitalDatabase,
+    };
+
+    if (!SpecialtyId && req.query.page && req.query.limit) {
+      meta.pagination = {
+        page: pageNum,
+        limit: limitNum,
+        totalRecords,
+        totalPages: Math.ceil(totalRecords / limitNum),
+      };
+    }
+
+    return res.status(200).json({
+      meta,
+      data: formattedData,
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("error", `Error fetching skills: ${error.message}`, {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    return res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error fetching skills: " + error.message },
+    });
+  }
+};
+
+
+// exports.getcustomskillsbyqueryparam = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+
+//   try {
+//     const Skill = require('../models/skillMaster')(req.sequelize);
+
+//     // Dynamic filters (adjust keys as per your skill model columns)
+//     const { SpecialtyId, page, limit, ...queryColumns } = req.query;
+
+//     // Pagination parameters
+//     const pageNum = parseInt(page);
+//     const limitNum = parseInt(limit);
+//     const offset = (pageNum - 1) * limitNum;
+
+//     let attributes= Object.keys(queryColumns);
+
+//     if(!attributes.includes("SpecialtyId")){
+//       attributes.push("SpecialtyId");
+//     }
+
+//     if (attributes.length === 1 && attributes[0] === "SpecialtyId") {
+//       attributes = undefined;
+//     }
+
+//     let data,totalRecords;
+//      const queryKeys = Object.keys(req.query);
+//     const filterKeys = queryKeys.filter((key) => key !== "page" && key !== "limit");
+
+//     if (SpecialtyId) {
+//       data = await Skill.findOne({
+//         where: { SpecialtyId },
+//         attributes,
+//       });
+
+//       if (!data) {
+//         const executionTime = `${Date.now() - start}ms`;
+
+//       logger.logWithMeta("warn", `Error fetching skills: ${error.message}`, {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl,
+//       method: req.method
+//     });
+//      return res.status(404).json({ errorCode, message: "Error fetching skills" });
+//   }
+//    } else {
+//       const isPagination = req.query.page && req.query.limit;
+
+//       if (filterKeys.length === 0) {
+//         if (isPagination) {
+//           totalRecords = await Skill.count();
+//           data = await Skill.findAll({
+//             offset,
+//             limit: limitNum,
+//             attributes,
+//             order: [['SpecialtyId', 'ASC']],
+//           });
+//         } else {
+//           data = await Skill.findAll({
+//             attributes,
+//             order: [['SpecialtyId', 'ASC']],
+//           });
+//           totalRecords = data.length;
+//         }
+//       } else {
+//         if (isPagination) {
+//           totalRecords = await Skill.count();
+//           data = await Skill.findAll({
+//             offset,
+//             limit: limitNum,
+//             attributes,
+//             order: [['SpecialtyId', 'ASC']],
+//           });
+//         } else {
+//           data = await Skill.findAll({
+//             attributes,
+//             order: [['SpecialtyId', 'ASC']],
+//           });
+//           totalRecords = data.length;
+//         }
+//       }
+//     }
+//      const executionTime = `${end - start}ms`;
+
+//     logger.logWithMeta("info", `Fetched skills successfully in ${executionTime}`, {
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       userId: req.userId,
+//       ip: clientIp,
+//       userAgent: req.headers['user-agent'],
+//       apiName: req.originalUrl,
+//       method: req.method
+//     });
+//     const formatData = (record) => {
+//       const obj = record.toJSON();
+//       const { SpecialtyId, ...rest } = obj;
+//       return { SpecialtyId, ...rest };
+//     };
+
+//     const formattedData = Array.isArray(data)
+//       ? data.map(formatData)
+//       : data
+//       ? formatData(data)
+//       : null;
+
+//     const meta = {
+//       statusCode: 200,
+//       executionTime,
+//       hospitalDatabase,
+//     };
+
+//     if (!SpecialtyId && req.query.page && req.query.limit) {
+//       meta.pagination = {
+//         page: pageNum,
+//         limit: limitNum,
+//         totalRecords,
+//         totalPages: Math.ceil(totalRecords / limitNum),
+//       };
+//     }
+//      res.status(200).json({
+//       meta,
+//       data: formattedData,
+//     });
+//   } catch(error){
+//      const executionTime = `${Date.now() - start}ms`;
+//      const errorCode=11111;
+//       logger.logWithMeta("warn", `Error fetching skills: ${error.message}`, {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl,
+//       method: req.method
+//     });
+//  res.status(500).json({
+//       meta: { statusCode: 500, errorCode, executionTime },
+//       error: { message: 'Failed to fetch skills due to a server error. Please try again later.'+error.message }  
+//     })
+//   }
+  
+// };
+
+
 
 
 // GET single skill by ID

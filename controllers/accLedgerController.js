@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const requestIp = require('request-ip');
 const { Sequelize } = require("sequelize");
 const Group = require("../models/HospitalGroup"); 
+const getLocationData = require('../util/locationHelper');
 dotenv.config();
 async function getClientIp(req) {
   // Get client IP from headers or request
@@ -246,6 +247,162 @@ exports.getAccLedger = async (req, res) => {
       userAgent: req.headers["user-agent"],
       createdBy: req.username,  // Assign username from token
             updatedBy: req.username
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error fetching AccLedger: " + error.message },
+    });
+  }
+};
+
+exports.getaccledgerasperqueryparams=async(req, res)=>{
+   const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
+  try {
+    const AccLedger = require("../models/AccLedger")(req.sequelize);
+    const { ledger_id, page, limit, ...queryColumns } = req.query;
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const offset = (pageNum - 1) * limitNum;
+
+    let attributes = Object.keys(queryColumns);
+    if (!attributes.includes("ledger_id")) {
+      attributes.push("ledger_id");
+    }
+
+    if (attributes.length === 1 && attributes[0] === "ledger_id") {
+      attributes = undefined;
+    }
+    let data, totalRecords;
+    const queryKeys = Object.keys(req.query);
+    const filterKeys = queryKeys.filter(
+      (key) => key !== "page" && key !== "limit"
+    );
+
+    if (ledger_id) {
+      data = await AccLedger.findOne({
+        where: { ledger_id },
+        attributes,
+      });
+      if (!data) {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 2123;
+        logger.logWithMeta("error", "AccLedger not found", {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalName,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: req.username,
+        });
+        return res
+          .status(404)
+          .json({ errorCode, message: "AccLedger Not Found" });
+      }
+    } else{
+      const isPagination=req.query.page && req.query.limit;
+      if(filterKeys.length===0){
+        if(isPagination){
+          totalRecords=await AccLedger.count();
+          data= await AccLedger.findAll({
+            offset,
+            limit: limitNum,
+            attributes,
+            order:[['ledger_id','ASC']],
+          });
+        }else{
+          data=await AccLedger.findAll({
+            attributes,
+            order:[['ledger_id','ASC']],
+          });
+          totalRecords=data.length;
+        }
+      }else{
+         if(isPagination){
+          totalRecords=await AccLedger.count();
+          data= await AccLedger.findAll({
+            offset,
+            limit: limitNum,
+            attributes,
+            order:[['ledger_id','ASC']],
+          });
+        }else{
+          data=await AccLedger.findAll({
+            attributes,
+            order:[['ledger_id','ASC']],
+          });
+          totalRecords=data.length;
+        }
+      }
+    }
+const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Fetched AccLedger Successfully",{
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    const formatData = (record) => {
+      const obj = record.toJSON();
+      const { ledger_id, ...rest } = obj;
+      return {ledger_id, ...rest };
+    };
+
+    const formattedData = Array.isArray(data)
+      ? data.map(formatData)
+      : data
+      ? formatData(data)
+      : null;
+
+    const meta = {
+      statusCode: 200,
+      executionTime,
+      hospitalDatabase,
+    };
+
+    if (!ledger_id && req.query.page && req.query.limit) {
+      meta.pagination = {
+        page: pageNum,
+        limit: limitNum,
+        totalRecords,
+        totalPages: Math.ceil(totalRecords / limitNum),
+      };
+    }
+
+    res.status(200).json({
+      meta,
+      data: formattedData,
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1263;
+
+    logger.logWithMeta("error", "Error fetching AccLedger data", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
     });
 
     res.status(500).json({

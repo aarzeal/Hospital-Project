@@ -2,6 +2,7 @@ const EmpCategory = require('../models/tblEmpCategory');
 const logger = require('../logger');
 
 const requestIp = require('request-ip');
+const getLocationData = require('../util/locationHelper');
 
 async function getClientIp(req) {
   let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
@@ -101,7 +102,161 @@ exports.createEmpCategory= async (req, res) => {
     }
   };
   
+exports.getempcategoriesasperqueryparams= async(req,res)=>{
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
+  try {
+      const EmpCategory = require('../models/tblEmpCategory')(req.sequelize);
+    const { EmployeeCategoryID, page, limit, ...queryColumns } = req.query;
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const offset = (pageNum - 1) * limitNum;
 
+    let attributes = Object.keys(queryColumns);
+    if (!attributes.includes("EmployeeCategoryID")) {
+      attributes.push("EmployeeCategoryID");
+    }
+
+    if (attributes.length === 1 && attributes[0] === "EmployeeCategoryID") {
+      attributes = undefined;
+    }
+    let data, totalRecords;
+    const queryKeys = Object.keys(req.query);
+    const filterKeys = queryKeys.filter(
+      (key) => key !== "page" && key !== "limit"
+    );
+
+    if (EmployeeCategoryID) {
+      data = await EmpCategory.findOne({
+        where: { EmployeeCategoryID },
+        attributes,
+      });
+      if (!data) {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 2123;
+        logger.logWithMeta("error", "EmpCategory not found", {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalName,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: req.username,
+        });
+        return res
+          .status(404)
+          .json({ errorCode, message: "EmpCategory Not Found" });
+      }
+    } else{
+      const isPagination=req.query.page && req.query.limit;
+      if(filterKeys.length===0){
+        if(isPagination){
+          totalRecords=await EmpCategory.count();
+          data= await EmpCategory.findAll({
+            offset,
+            limit: limitNum,
+            attributes,
+            order:[['EmployeeCategoryID','ASC']],
+          });
+        }else{
+          data=await EmpCategory.findAll({
+            attributes,
+            order:[['EmployeeCategoryID','ASC']],
+          });
+          totalRecords=data.length;
+        }
+      }else{
+         if(isPagination){
+          totalRecords=await EmpCategory.count();
+          data= await EmpCategory.findAll({
+            offset,
+            limit: limitNum,
+            attributes,
+            order:[['EmployeeCategoryID','ASC']],
+          });
+        }else{
+          data=await EmpCategory.findAll({
+            attributes,
+            order:[['EmployeeCategoryID','ASC']],
+          });
+          totalRecords=data.length;
+        }
+      }
+    }
+const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Fetched EmpCategory Successfully",{
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    const formatData = (record) => {
+      const obj = record.toJSON();
+      const { EmployeeCategoryID, ...rest } = obj;
+      return {EmployeeCategoryID, ...rest };
+    };
+
+    const formattedData = Array.isArray(data)
+      ? data.map(formatData)
+      : data
+      ? formatData(data)
+      : null;
+
+    const meta = {
+      statusCode: 200,
+      executionTime,
+      hospitalDatabase,
+    };
+
+    if (!EmployeeCategoryID && req.query.page && req.query.limit) {
+      meta.pagination = {
+        page: pageNum,
+        limit: limitNum,
+        totalRecords,
+        totalPages: Math.ceil(totalRecords / limitNum),
+      };
+    }
+
+    res.status(200).json({
+      meta,
+      data: formattedData,
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1263;
+
+    logger.logWithMeta("error", "Error fetching EmpCategory data", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error fetching EmpCategory: " + error.message },
+    });
+  }
+};
 exports.getEmpCategoryById = async (req, res) => {
     const { id } = req.params;
     const start = Date.now();

@@ -7,6 +7,7 @@ const hospitalController = require('../controllers/HospitalController');
 
 router.get('/departments',authenticate,hospitalController.ensureSequelizeInstance, departmentController.getAllDepartments);
 router.get('/departments/:id',authenticate,hospitalController.ensureSequelizeInstance, departmentController.getDepartmentById);
+router.get('/getDepartmentByQueryParams', authenticate, hospitalController.ensureSequelizeInstance, departmentController.getDepartmentsasperqueryparams);
 router.post('/departments',authenticate,hospitalController.ensureSequelizeInstance, departmentController.createDepartment);
 router.put('/departments/:id',authenticate, hospitalController.ensureSequelizeInstance,departmentController.updateDepartment);
 router.delete('/departments/:id',authenticate, hospitalController.ensureSequelizeInstance,departmentController.deleteDepartment);

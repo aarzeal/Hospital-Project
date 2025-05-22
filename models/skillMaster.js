@@ -4,7 +4,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Skill = sequelize.define('tblspecialty', {
+  return sequelize.define('Skill', {
     SpecialtyId: {
           type: DataTypes.INTEGER,
           primaryKey: true,
@@ -70,7 +70,7 @@ module.exports = (sequelize) => {
     timestamps: false
   });
 
-  return Skill;
+  // return Skill;
 };
 
 
