@@ -3,6 +3,7 @@ const Currency = require('../models/CurrencyModel');
 
 const logger = require('../logger'); // Assuming you have a logger utility
 const requestIp = require('request-ip');
+const getLocationData = require('../util/locationHelper');
 
 async function getClientIp(req) {
   let clientIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || requestIp.getClientIp(req);
@@ -151,6 +152,88 @@ exports.getAllCurrencies = async (req, res) => {
     return res.status(500).json({ errorCode: 1118, message: 'Internal server error' });
   }
 };
+
+
+exports.getAllCurrenciesbypagination = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase=req.hospitalDatabase;
+  const locationData=await getLocationData(clientIp);
+  
+
+   try {
+    //const currency = require('../models/CurrencyModel')(req.sequelize);
+    const { page = 1, limit = 10 } = req.query;
+  page = parseInt(page);
+  limit = parseInt(limit);
+  const offset = (page - 1) * limit;
+
+ 
+    const currency = require('../models/CurrencyModel');
+    // Fetch data with pagination
+    const { rows: currencies, count: totalItems } = await currency.findAndCountAll({
+      offset,
+      limit,
+      order: [['id', 'ASC']], // Optional: sort by id
+    });
+
+    const totalPages = Math.ceil(totalItems / limit);
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+
+    // Log the event
+    logger.logWithMeta("info", `Currencies retrieved successfully`, {
+      executionTime,
+      statusCode: 200,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers['user-agent'],
+      pagination: {
+        page,
+        limit,
+        totalItems,
+        totalPages
+      }
+    });
+
+    return res.status(200).json({
+      message: 'Currencies retrieved successfully',
+      pagination: {
+        page,
+        limit,
+        totalItems,
+        totalPages
+      },
+      data: currencies
+    });
+  } catch (error) {
+    const end = Date.now();
+    const executionTime = `${end - start}ms`;
+    const errorCode = 1118;
+    const statusCode = 500;
+
+    // Log the error
+    logger.logWithMeta("error", `Error fetching currencies: ${error.message}`, {
+      errorCode,
+      errorMessage: error.message,
+      executionTime,
+      statusCode,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers['user-agent'],
+    });
+
+    return res.status(500).json({
+      errorCode,
+      message: 'Internal server error'
+    });
+  }
+};
+
 
 // GET: Get currency by code
 exports.getCurrencyByCode = async (req, res) => {
