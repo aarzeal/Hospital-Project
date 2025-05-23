@@ -11,6 +11,7 @@ const upload = multer();
 
 // GET all patients
 router.get('/patients', authenticate, patientController.getAllPatients);
+router.get('/getpatientbycustomqueryparams', authenticate, patientController.getpatientasperqueryparam);
 
 // GET patient by ID
 router.get('/patients/:id', authenticate, patientController.getPatientById);

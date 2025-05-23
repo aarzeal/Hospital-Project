@@ -27,5 +27,6 @@ router.put('/employee/:id',authenticate,validateJSONContentType,updateEmployeeVa
 router.delete('/employee/:id',authenticate, hospitalController.ensureSequelizeInstance, employeeController.deleteEmployee);
 
 router.get('/pagination',authenticate, hospitalController.ensureSequelizeInstance, employeeController.getEmployeeWithPagination);
+router.get('/getEmpByCustomQueryParam', authenticate, hospitalController.ensureSequelizeInstance, employeeController.getEmployeeAsPerQueryParam);
 
 module.exports = router;
