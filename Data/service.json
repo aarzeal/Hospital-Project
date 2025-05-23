@@ -458,5 +458,17 @@
   "ServiceSORDetails": {
     "en": "Service SOR Details",
     "hi": "सेवा एसओआर विवरण"
+  },
+  "Selectservicetype": {
+    "en": "Select service type",
+    "hi": "सेवा प्रकार चुनें"
+  },
+  "Selectservicecategory": {
+    "en": "Select service category",
+    "hi": "सेवा श्रेणी का चयन करें"
+  },
+  "Selectledger": {
+    "en": "Select ledger",
+    "hi": "बही का चयन करें"
   }
 }
