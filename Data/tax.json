@@ -258,5 +258,13 @@
   "View": {
     "en": "View",
     "hi": "देखना"
+  },
+  "Selecttax": {
+    "en": "Select tax",
+    "hi": "कर का चयन करें"
+  },
+  "Selectledger": {
+    "en": "Select ledger",
+    "hi": "बही का चयन करें"
   }
 }

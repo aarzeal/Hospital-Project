@@ -186,5 +186,9 @@
   "Creditperiod": {
     "en": "Credit period",
     "hi": "ऋण अवधि"
+  },
+  "Selecttaxplan": {
+    "en": "Select tax plan",
+    "hi": "कर योजना चुनें"
   }
 }

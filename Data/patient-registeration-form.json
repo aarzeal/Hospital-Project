@@ -362,5 +362,13 @@
   "EMRnumberCopied": {
     "en": "EMR number Copied",
     "hi": "ई एम आर नंबर कॉपी किया गया"
+  },
+  "Selectpatienttoupdate": {
+    "en": "Select patient to update",
+    "hi": "अद्यतन करने के लिए रोगी का चयन करें"
+  },
+  "Select": {
+    "en": "Select",
+    "hi": "चुनें"
   }
 }
