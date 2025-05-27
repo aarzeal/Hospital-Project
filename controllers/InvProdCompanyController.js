@@ -246,3 +246,331 @@ exports.deleteInvProduct = async (req, res) => {
         return res.status(400).json({ errorCode: error.errorCode || 9194, message: error.message });
     }
 };
+
+// exports.getInvProductCompanyByCustomQueryParam= async(req,res)=>{
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const hospitalDatabase = req.hospitalDatabase;
+//   const locationData = await getLocationData(clientIp);
+
+//   try {
+//         const Company = require("../models/InvProdCompany.js")(req.sequelize);
+//     const { InvProductID, page, limit,...queryColumns } = req.query;
+//     const pageNum = parseInt(page);
+//     const limitNum = parseInt(limit);
+//     const offset = (pageNum - 1) * limitNum;
+
+//     let attributes = Object.keys(queryColumns);
+//     if (!attributes.includes("InvProductID")) {
+//       attributes.push("InvProductID");
+//     }
+
+//    if (attributes.length === 1 && attributes[0] === "InvProductID") {
+//       attributes = undefined;
+//     }
+//     let data, totalRecords;
+//     const queryKeys = Object.keys(req.query);
+//     const filterKeys = queryKeys.filter(
+//       (key) => key !== "page" && key !== "limit"
+//     );
+
+//    if (InvProductID) {
+//          data = await Company.findOne({
+//            where: { InvProductID },
+//            attributes,
+//          });
+//          if (!data) {
+//            const executionTime = `${Date.now() - start}ms`;
+//            const errorCode = 2123;
+//            logger.logWithMeta("error", "Company not found", {
+//              errorCode,
+//              executionTime,
+//              hospitalId: req.hospitalName,
+//              apiName: req.originalUrl,
+//              city: locationData?.city,
+//              country: locationData?.country,
+//              method: req.method,
+//              userAgent: req.headers["user-agent"],
+//              createdBy: req.username,
+//              updatedBy: req.username,
+//            });
+//             return res
+//           .status(404)
+//           .json({ errorCode, message: "Company Not Found" });
+//       }
+//     } else{
+//         const isPagination=req.query.page && req.query.limit;
+//       if(filterKeys.length===0){
+//         if(isPagination){
+//           totalRecords=await Company.count();
+//           data= await Company.findAll({
+//             offset,
+//             limit: limitNum,
+//             attributes,
+//             order:[['InvProductID','ASC']],
+//           });
+//         }else{
+//           data=await Company.findAll({
+//             attributes,
+//             order:[['InvProductID','ASC']],
+//           });
+//           totalRecords=data.length;
+//         }
+//       }else{
+//          if(isPagination){
+//           totalRecords=await Company.count();
+//           data= await Company.findAll({
+//             offset,
+//             limit: limitNum,
+//             attributes,
+//             order:[['InvProductID','ASC']],
+//           });
+//         }else{
+//           data=await Company.findAll({
+//             attributes,
+//             order:[['InvProductID','ASC']],
+//           });
+//           totalRecords=data.length;
+//         }
+//       }
+//     }
+
+// const executionTime = `${Date.now() - start}ms`;
+
+//     logger.logWithMeta("info", "Fetched Company Successfully",{
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       city: locationData?.city,
+//       country: locationData?.country,
+//       ip: clientIp,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       createdBy: req.username,
+//       updatedBy: req.username,
+//     });
+
+//     const formatData = (record) => {
+//       const obj = record.toJSON();
+//       const { InvProductID, ...rest } = obj;
+//       return {InvProductID, ...rest };
+//     };
+
+//     const formattedData = Array.isArray(data)
+//       ? data.map(formatData)
+//       : data
+//       ? formatData(data)
+//       : null;
+
+//     const meta = {
+//       statusCode: 200,
+//       executionTime,
+//       hospitalDatabase,
+//     };
+
+//     if (!InvProductID && req.query.page && req.query.limit) {
+//       meta.pagination = {
+//         page: pageNum,
+//         limit: limitNum,
+//         totalRecords,
+//         totalPages: Math.ceil(totalRecords / limitNum),
+//       };
+//     }
+
+//     res.status(200).json({
+//       meta,
+//       data: formattedData,
+//     });
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 1263;
+
+//     logger.logWithMeta("error", "Error fetching Company data", {
+//       errorCode,
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       city: locationData?.city,
+//       country: locationData?.country,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       createdBy: req.username,
+//       updatedBy: req.username,
+//     });
+
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+//       error: { message: "Error fetching Company: " + error.message },
+//     });
+//   }
+ 
+// }
+
+exports.getInvProductCompanyByCustomQueryParam = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
+
+  try {
+    const Company = require("../models/InvProdCompany.js")(req.sequelize);
+    const { InvProductID, page, limit, ...queryColumns } = req.query;
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const offset = (pageNum - 1) * limitNum;
+
+    // PUBLIC-TO-PRIVATE COLUMN MAPPING
+    const columnMap = {
+      Name: "CompanyName",
+      code: "CompanyCode",
+      address: "City",
+      phone: "Mobile",
+      EmailID:"Email",
+      // Add more public => db field mappings here
+    };
+
+    const reverseColumnMap = Object.fromEntries(
+      Object.entries(columnMap).map(([publicKey, dbKey]) => [dbKey, publicKey])
+    );
+
+    // Extract only valid DB field names from query parameters
+    let attributes = Object.keys(queryColumns)
+      .map((key) => columnMap[key])
+      .filter(Boolean);
+
+    // Always include InvProductID
+    if (!attributes.includes("InvProductID")) {
+      attributes.push("InvProductID");
+    }
+
+    // If no valid fields selected, get full data
+    if (attributes.length === 1 && attributes[0] === "InvProductID") {
+      attributes = undefined;
+    }
+
+    let data, totalRecords;
+    const queryKeys = Object.keys(req.query);
+    const filterKeys = queryKeys.filter((key) => key !== "page" && key !== "limit");
+
+    if (InvProductID) {
+      data = await Company.findOne({
+        where: { InvProductID },
+        attributes,
+      });
+      if (!data) {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 2123;
+        logger.logWithMeta("error", "Company not found", {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalName,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: req.username,
+        });
+        return res.status(404).json({ errorCode, message: "Company Not Found" });
+      }
+    } else {
+      const isPagination = req.query.page && req.query.limit;
+      if (filterKeys.length === 0) {
+        totalRecords = isPagination ? await Company.count() : null;
+        data = await Company.findAll({
+          offset: isPagination ? offset : undefined,
+          limit: isPagination ? limitNum : undefined,
+          attributes,
+          order: [["InvProductID", "ASC"]],
+        });
+        totalRecords = isPagination ? totalRecords : data.length;
+      } else {
+        totalRecords = isPagination ? await Company.count() : null;
+        data = await Company.findAll({
+          offset: isPagination ? offset : undefined,
+          limit: isPagination ? limitNum : undefined,
+          attributes,
+          order: [["InvProductID", "ASC"]],
+        });
+        totalRecords = isPagination ? totalRecords : data.length;
+      }
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Fetched Company Successfully", {
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    // FORMAT RESPONSE TO PUBLIC KEYS
+    const formatData = (record) => {
+      const obj = record.toJSON();
+      const result = {};
+
+      for (const [key, value] of Object.entries(obj)) {
+        const publicKey = reverseColumnMap[key] || key;
+        result[publicKey] = value;
+      }
+
+      return result;
+    };
+
+    const formattedData = Array.isArray(data)
+      ? data.map(formatData)
+      : data
+      ? formatData(data)
+      : null;
+
+    const meta = {
+      statusCode: 200,
+      executionTime,
+      hospitalDatabase,
+    };
+
+    if (!InvProductID && req.query.page && req.query.limit) {
+      meta.pagination = {
+        page: pageNum,
+        limit: limitNum,
+        totalRecords,
+        totalPages: Math.ceil(totalRecords / limitNum),
+      };
+    }
+
+    res.status(200).json({
+      meta,
+      data: formattedData,
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1263;
+
+    logger.logWithMeta("error", "Error fetching Company data", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error fetching Company: " + error.message },
+    });
+  }
+};
+

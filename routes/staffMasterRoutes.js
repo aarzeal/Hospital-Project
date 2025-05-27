@@ -19,6 +19,7 @@ router.delete('/staff/:id', authenticate,hospitalController.ensureSequelizeInsta
 router.get('/staff',authenticate, hospitalController.ensureSequelizeInstance,staffController.getAllStaff);
 router.get('/hospitalId/:hospitalId', authenticate,hospitalController.ensureSequelizeInstance, staffController.getStaffByHospitalIDR);
  router.get('/hospital/staff', authenticate, hospitalController.ensureSequelizeInstance,staffController.getPaginatedStaff);
+ router.get('/getStaffByCustomQueryParam', authenticate, hospitalController.ensureSequelizeInstance,staffController.getstaffbycustomqueryparams);
 
 
 module.exports = router;
