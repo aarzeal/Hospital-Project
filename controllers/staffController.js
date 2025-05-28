@@ -305,6 +305,7 @@ const logger = require('../logger'); // Adjust path as needed
 const { validationResult } = require('express-validator');
 const { error } = require('winston');
 const requestIp = require('request-ip');
+const getLocationData = require('../util/locationHelper');
 
 const logExecutionTime = (start, end, functionName) => {
   const duration = end - start;
@@ -1245,5 +1246,161 @@ exports.getPaginatedStaff = async (req, res) => {
   }
 };
 
+
+exports.getstaffbycustomqueryparams=async(req,res)=>{
+  const start=Date.now();
+  const clientIp= await getClientIp(req);
+  const hospitalDatabase= req.hospitalDatabase;
+  const locationData= await getLocationData(clientIp);
+
+  try {
+    const StaffMaster = require('../models/staffMaster')(req.sequelize);
+    const { Id, page, limit, ...queryColumns}=req.query;
+    const pageNum=parseInt(page);
+    const limitNum=parseInt(limit);
+    const offset=(pageNum-1) * limitNum;
+
+    let attributes=Object.keys(queryColumns);
+    if(!attributes.includes(Id)){
+      attributes.push("Id");
+    }
+
+    if(attributes.length===1 && attributes[0]==="Id"){
+      attributes=undefined;
+    }
+    let data, totalRecords;
+    const queryKeys=Object.keys(req.query);
+    const filterKeys=queryKeys.filter(
+      (key)=>key !=="page" && key !=="limit"
+    );
+
+    if(Id){
+      data=await StaffMaster.findOne({
+        where:{Id},
+        attributes,
+      });
+      if(!data){
+         const executionTime = `${Date.now() - start}ms`;
+         const errorCode = 2123;
+         logger.logWithMeta("error", "Staff not found", {
+         errorCode,
+         executionTime,
+         hospitalId: req.hospitalName,
+         apiName: req.originalUrl,
+         city: locationData?.city,
+         country: locationData?.country,
+         method: req.method,
+         userAgent: req.headers["user-agent"],
+         createdBy: req.username,
+         updatedBy: req.username,
+         });
+          return res
+          .status(404)
+          .json({ errorCode, message: "Staff Not Found" });
+        }
+      }else{
+        const isPagination=req.query.page && req.query.limit;
+        if(filterKeys.length===0){
+          if(isPagination){
+             totalRecords=await StaffMaster.count();
+             data=await StaffMaster.findAll({
+              offset,
+              limit:limitNum,
+              attributes,
+              order:[['Id', 'ASC']]
+             });
+          }else{
+            data = await StaffMaster.findAll({
+              attributes,
+              order:[['Id', 'ASC']],
+            });
+            totalRecords=data.length;
+          }
+        }else{
+          if(isPagination){
+             totalRecords=await StaffMaster.count();
+             data=await StaffMaster.findAll({
+              offset,
+              limit:limitNum,
+              attributes,
+              order:[['Id', 'ASC']]
+             });
+          }else{
+            data = await StaffMaster.findAll({
+              attributes,
+              order:[['Id', 'ASC']],
+            });
+            totalRecords=data.length;
+          }
+        }
+      }
+      const executionTime=`${Date.now()-start}ms`;
+        logger.logWithMeta("info", "Fetched Staff Successfully",{
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        ip: clientIp,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      });
+
+      const formatData = (record) => {
+      const obj = record.toJSON();
+      const { Id, ...rest } = obj;
+      return {Id, ...rest };
+       };
+
+    const formattedData = Array.isArray(data)
+      ? data.map(formatData)
+      : data
+      ? formatData(data)
+      : null;
+
+    const meta = {
+      statusCode: 200,
+      executionTime,
+      hospitalDatabase,
+    };
+
+    if (!Id && req.query.page && req.query.limit) {
+      meta.pagination = {
+        page: pageNum,
+        limit: limitNum,
+        totalRecords,
+        totalPages: Math.ceil(totalRecords / limitNum),
+      };
+    }
+
+    res.status(200).json({
+      meta,
+      data: formattedData,
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1263;
+
+    logger.logWithMeta("error", "Error fetching Staff data", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error fetching Staff: " + error.message },
+    });
+  }
+};
 
 

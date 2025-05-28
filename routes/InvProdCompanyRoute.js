@@ -10,8 +10,9 @@ const Userverifiction = require('../validators/Accesstokenverify');
 
 router.post('/create-ItemCompany', validateJSONContentType,validator.validateInvProductCompany,authenticate,Userverifiction,ensureSequelizeInstance,itemCompany.createInvProduct);
 router.get('/get-ItemCompany',authenticate, Userverifiction,ensureSequelizeInstance,itemCompany.getAllInvProducts);
+router.get('/getCompanyByCustomQueryParam', authenticate, Userverifiction, ensureSequelizeInstance, itemCompany.getInvProductCompanyByCustomQueryParam);
 router.get('/get-ItemCompany/:id',authenticate, Userverifiction,ensureSequelizeInstance,itemCompany.getInvProductById);
 router.delete('/delete-ItemCompany/:id',authenticate, Userverifiction,ensureSequelizeInstance,itemCompany.deleteInvProduct);
 router.put('/update-ItemCompany/:id',validateJSONContentType,validator.validateInvProductCompanyUpdate,authenticate, Userverifiction,ensureSequelizeInstance,itemCompany.updateInvProduct);
-
+//router.get('/secure-companies', validator.validateInvProductCompany, Userverifiction,ensureSequelizeInstance,authenticate,itemCompany.getCompaniesSecure);
 module.exports = router;

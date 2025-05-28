@@ -415,9 +415,24 @@ exports.createDoctor = async (req, res) => {
   }
 
   const { 
-    FirstName, MiddleName, LastName, Qualification, Specialization, Email, 
-    Address, WhatsAppNumber, MobileNumber, DateOfBirth, Gender, LicenseNumber, 
-    YearsOfExperience, Reserve1, Reserve2, Reserve3, Reserve4 
+    FirstName,
+     MiddleName,
+      LastName,
+       Qualification,
+        Specialization,
+         Email,
+
+    Address,
+     WhatsAppNumber,
+      MobileNumber,
+       DateOfBirth, 
+       Gender,
+        LicenseNumber, 
+    YearsOfExperience,
+    //  Reserve1, 
+    //  Reserve2,
+    //   Reserve3,
+    //    Reserve4 
   } = req.body;
 
   const parsedQualification = parseInt(Qualification, 10);
@@ -466,7 +481,8 @@ exports.createDoctor = async (req, res) => {
       FirstName, MiddleName, LastName, Qualification: parsedQualification,
       Specialization, Email, Address, WhatsAppNumber, MobileNumber, DateOfBirth,
       Gender: parsedGender, LicenseNumber, YearsOfExperience, HospitalID,
-      Reserve1, Reserve2, Reserve3, Reserve4, IsActive: true, CreatedBy
+      // Reserve1, Reserve2, Reserve3, Reserve4,
+       IsActive: true, CreatedBy
     });
 
     const executionTime = `${Date.now() - start}ms`;

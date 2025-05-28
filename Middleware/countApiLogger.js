@@ -111,7 +111,7 @@
 
 const CountAPI = require('../models/ApisCounts'); // Adjust the path as necessary
 const logger = require('../logger'); // Adjust the path as necessary
-const useragent = require('useragent');
+// const useragent = require('useragent');
 const requestIp = require('request-ip');
 const geoip = require('geoip-lite');
 const jwt = require('jsonwebtoken');
