@@ -183,9 +183,9 @@
     "en": "Item description length must greater than 1",
     "hi": "आइटम विवरण वर्ण 1 से अधिक होना चाहिए"
   },
-  "Itemdescriptionlengthmustlessthan50": {
-    "en": "Item description length must less than 50",
-    "hi": "आइटम विवरण वर्ण 50 से कम होना चाहिए"
+  "Itemdescriptionlengthmustlessthan250": {
+    "en": "Item description length must less than 250",
+    "hi": "आइटम विवरण वर्ण 250 से कम होना चाहिए"
   },
   "Itemcodelengthmustgreaterthan1": {
     "en": "Item code length must greater than 1",

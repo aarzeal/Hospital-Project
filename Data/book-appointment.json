@@ -1,0 +1,278 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "Appointmentcodemustbealphanumeric": {
+    "en": "Appointment code must be alphanumeric",
+    "hi": "अपॉइंटमेंट कोड अल्फ़ान्यूमेरिक होना चाहिए"
+  },
+  "Appointmentcodemustbeatleast1characterslong": {
+    "en": "Appointment code must be at least 1 characters long",
+    "hi": "अपॉइंटमेंट कोड कम से कम 1 अक्षर लंबा होना चाहिए"
+  },
+  "Appointmentcodelengthmustlessthan50": {
+    "en": "Appointment code length must less than 50",
+    "hi": "अपॉइंटमेंट कोड की लंबाई 50 से कम होनी चाहिए"
+  },
+  "Appointmentpurposeisrequired": {
+    "en": "Appointment purpose is required",
+    "hi": "नियुक्ति उद्देश्य आवश्यक है"
+  },
+  "Custompurposeisrequired": {
+    "en": "Custom purpose is required",
+    "hi": "कस्टम उद्देश्य आवश्यक है"
+  },
+  "Mustbeatleast1character": {
+    "en": "Must be at least 1 character",
+    "hi": "कम से कम 1 वर्ण होना चाहिए"
+  },
+  "Mustbe50charactersorless": {
+    "en": "Must be 50 characters or less",
+    "hi": "50 अक्षर या उससे कम होना चाहिए"
+  },
+  "Mobilenumberbenumeric": {
+    "en": "Mobile number be numeric",
+    "hi": "मोबाइल नंबर अंकीय होना चाहिए"
+  },
+  "Invalidvalueforactivestatus": {
+    "en": "Invalid value for active status",
+    "hi": "सक्रिय स्थिति के लिए अमान्य मान"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "SomethingWentWrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes, delete it!",
+    "hi": "हाँ, इसे हटा दें!"
+  },
+  "Nocancel": {
+    "en": "No, cancel!",
+    "hi": "नहीं, रद्द करें!"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "NonActive": {
+    "en": "Non Active",
+    "hi": "गैर सक्रिय"
+  },
+  "Loading": {
+    "en": "Loading",
+    "hi": "लोड हो रहा है"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "SlotBookedSuccessfully": {
+    "en": "Slot Booked Successfully",
+    "hi": "स्लॉट सफलतापूर्वक बुक किया गया"
+  },
+  "BookAppointment": {
+    "en": "Book Appointment",
+    "hi": "अपॉइंटमेंट बुक करें"
+  },
+  "Isnewpatient": {
+    "en": "Is new patient",
+    "hi": "क्या यह नया मरीज है?"
+  },
+  "Existingpatient": {
+    "en": "Existing patient",
+    "hi": "मौजूदा मरीज"
+  },
+  "Searchbyexistingpatientdetails": {
+    "en": "Search by existing patient details",
+    "hi": "मौजूदा मरीज़ के विवरण के आधार पर खोजें"
+  },
+  "Nomatchingpatientsfound": {
+    "en": "No matching patients found",
+    "hi": "कोई मिलता-जुलता मरीज़ नहीं मिला"
+  },
+  "Enterpatientnamehere": {
+    "en": "Enter patient name here",
+    "hi": "यहां मरीज का नाम दर्ज करें"
+  },
+  "Patientname": {
+    "en": "Patient name",
+    "hi": "रोगी का नाम"
+  },
+  "Selectservice": {
+    "en": "Select service",
+    "hi": "सेवा का चयन करें"
+  },
+  "Appointmentcode": {
+    "en": "Appointment code",
+    "hi": "नियुक्ति कोड"
+  },
+  "Enterappointmentcodehere": {
+    "en": "Enter appointment code here",
+    "hi": "यहां अपॉइंटमेंट कोड दर्ज करें"
+  },
+  "Appointmentpurpose": {
+    "en": "Appointment purpose",
+    "hi": "नियुक्ति का उद्देश्य"
+  },
+  "Specifyappointmentpurpose": {
+    "en": "Specify appointment purpose",
+    "hi": "नियुक्ति का उद्देश्य निर्दिष्ट करें"
+  },
+  "Enterappointmentpurposehere": {
+    "en": "Enter appointment purpose here",
+    "hi": "यहां नियुक्ति का उद्देश्य दर्ज करें"
+  },
+  "Speciality": {
+    "en": "Speciality",
+    "hi": "विशेषता"
+  },
+  "Selectspeciality": {
+    "en": "Select speciality",
+    "hi": "विशेषता चुनें"
+  },
+  "AllDoctors": {
+    "en": "All Doctors",
+    "hi": "सभी डॉक्टर"
+  },
+  "SearchDoctor": {
+    "en": "Search Doctor",
+    "hi": "डॉक्टर खोजें"
+  },
+  "SearchbyDoctordetails": {
+    "en": "Search by Doctor details",
+    "hi": "डॉक्टर विवरण के आधार पर खोजें"
+  },
+  "Slotsavailable": {
+    "en": "Slots available",
+    "hi": "स्लॉट उपलब्ध हैं"
+  },
+  "Noslotavailable": {
+    "en": "No slot available",
+    "hi": "कोई स्लॉट उपलब्ध नहीं है"
+  },
+  "Nodoctorsavailablehavingskill": {
+    "en": "No doctors available having skill:",
+    "hi": "निम्नलिखित कौशल रखने वाले कोई डॉक्टर उपलब्ध नहीं हैं:"
+  },
+  "Booked": {
+    "en": "Booked",
+    "hi": "आरक्षित"
+  },
+  "Available": {
+    "en": "Available",
+    "hi": "उपलब्ध"
+  },
+  "BookaAppointmentfor": {
+    "en": "Book a Appointment for:",
+    "hi": "अपॉइंटमेंट बुक करें:"
+  },
+  "Modeofbooking": {
+    "en": "Mode of booking",
+    "hi": "बुकिंग का तरीका"
+  },
+  "Selectmodeofbooking": {
+    "en": "Select mode of booking",
+    "hi": "बुकिंग का तरीका चुनें"
+  },
+  "Enterappointmentbookingreasonhere": {
+    "en": "Enter appointment booking reason here",
+    "hi": "अपॉइंटमेंट बुकिंग का कारण यहां दर्ज करें"
+  },
+  "Appointmentbookingreason": {
+    "en": "Appointment booking reason",
+    "hi": "अपॉइंटमेंट बुकिंग का कारण"
+  },
+  "Enterpatientcontacnumberhere": {
+    "en": "Enter patient contact number here",
+    "hi": "मरीज का संपर्क नंबर यहां दर्ज करें"
+  },
+  "WantSMSreminder": {
+    "en": "Want SMS reminder",
+    "hi": "एसएमएस अनुस्मारक चाहते हैं"
+  },
+  "Wantemailreminder": {
+    "en": "Want email reminder",
+    "hi": "ईमेल अनुस्मारक चाहते हैं"
+  },
+  "WantWhatsAppremainder": {
+    "en": "Want WhatsApp remainder",
+    "hi": "व्हाट्सएप शेष चाहिए"
+  },
+  "Isactive": {
+    "en": "Is active",
+    "hi": "सक्रिय है"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "SlotUpdatedSuccessfully": {
+    "en": "Slot Updated Successfully",
+    "hi": "स्लॉट सफलतापूर्वक अपडेट किया गया"
+  },
+  "IsArrived": {
+    "en": "Is Arrived",
+    "hi": "आ गया है"
+  },
+  "IsCancel": {
+    "en": "Is Cancel",
+    "hi": "रद्द है"
+  },
+  "CancelReason": {
+    "en": "Cancel Reason",
+    "hi": "कारण रद्द करें"
+  },
+  "Entercancelreason": {
+    "en": "Enter cancel reason",
+    "hi": "रद्द करने का कारण दर्ज करें"
+  },
+  "Errorloadingappointmentdata": {
+    "en": "Error loading appointment data",
+    "hi": "अपॉइंटमेंट डेटा लोड करते समय त्रुटि"
+  },
+  "Patient": {
+    "en": "Patient",
+    "hi": "मरीज़"
+  },
+  "Service": {
+    "en": "Service",
+    "hi": "सेवा"
+  },
+  "CancelledReason": {
+    "en": "Cancelled Reason",
+    "hi": "रद्द किया गया कारण"
+  }
+}
