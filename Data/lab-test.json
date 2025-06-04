@@ -1,0 +1,194 @@
+{
+  "LabTestDetails": {
+    "en": "Lab Test Details",
+    "hi": "लैब परीक्षण विवरण"
+  },
+  "Labtestname": {
+    "en": "Lab test name",
+    "hi": "लैब परीक्षण का नाम"
+  },
+  "Enterlabtestnamehere": {
+    "en": "Enter lab test name here",
+    "hi": "प्रयोगशाला परीक्षण का नाम यहाँ दर्ज करें"
+  },
+  "Labtestcode": {
+    "en": "Lab test code",
+    "hi": "लैब परीक्षण कोड"
+  },
+  "Enterlabtestcodehere": {
+    "en": "Enter lab test code here",
+    "hi": "लैब टेस्ट कोड यहाँ दर्ज करें"
+  },
+  "LabCPTcode": {
+    "en": "Lab CPT code",
+    "hi": "लैब सीपीटी कोड"
+  },
+  "Fieldtype": {
+    "en": "Field type",
+    "hi": "क्षेत्र प्रकार"
+  },
+  "Selectfieldtype": {
+    "en": "Select field type",
+    "hi": "फ़ील्ड प्रकार चुनें"
+  },
+  "Rangefrom": {
+    "en": "Range from",
+    "hi": "रेंज से शुरू"
+  },
+  "Enterrangefromhere": {
+    "en": "Enter range from here",
+    "hi": "यहां से शुरू रेंज दर्ज करें"
+  },
+  "Rangeto": {
+    "en": "Range to",
+    "hi": "रेंज अंत तक"
+  },
+  "Enterrangetohere": {
+    "en": "Enter range to here",
+    "hi": "अंतिम सीमा यहां दर्ज करें"
+  },
+  "Maximumlength": {
+    "en": "Maximum length",
+    "hi": "ज्यादा से ज्यादा लंबाई"
+  },
+  "Entermaximumlengthhere": {
+    "en": "Enter maximum length here",
+    "hi": "यहां अधिकतम लंबाई दर्ज करें"
+  },
+  "Detailtype": {
+    "en": "Detail type",
+    "hi": "विवरण प्रकार"
+  },
+  "Selectdetailtype": {
+    "en": "Select detail type",
+    "hi": "विवरण प्रकार चुनें"
+  },
+  "Labtestmethod": {
+    "en": "Lab test method",
+    "hi": "लैब परीक्षण विधि"
+  },
+  "Selectlabtestmethod": {
+    "en": "Select lab test method",
+    "hi": "प्रयोगशाला परीक्षण विधि का चयन करें"
+  },
+  "Labtestunit": {
+    "en": "Lab test unit",
+    "hi": "प्रयोगशाला परीक्षण इकाई"
+  },
+  "Selectlabtestunit": {
+    "en": "Select lab test unit",
+    "hi": "प्रयोगशाला परीक्षण इकाई का चयन करें"
+  },
+  "Ismulticolumn": {
+    "en": "Is multi column",
+    "hi": "मल्टी कॉलम है"
+  },
+  "Usedforcalculatedtest": {
+    "en": "Used for calculated test",
+    "hi": "गणना परीक्षण के लिए उपयोग किया जाता है"
+  },
+  "Iscalculated": {
+    "en": "Is calculated",
+    "hi": "गणना की जाती है"
+  },
+  "Createformula": {
+    "en": "Create formula",
+    "hi": "सूत्र बनाएं"
+  },
+  "Normalstartvalue": {
+    "en": "Normal start value",
+    "hi": "सामान्य प्रारंभ मान"
+  },
+  "Enternormalstartvaluehere": {
+    "en": "Enter normalstart value here",
+    "hi": "यहाँ सामान्य प्रारंभ मान दर्ज करें"
+  },
+  "Normalendvalue": {
+    "en": "Normal end value",
+    "hi": "सामान्य अंत मान"
+  },
+  "Enternormalendvaluehere": {
+    "en": "Enter normal end value here",
+    "hi": "यहां सामान्य अंतिम मान दर्ज करें"
+  },
+  "Gender": {
+    "en": "Gender",
+    "hi": "लिंग"
+  },
+  "Selectgender": {
+    "en": "Select gender",
+    "hi": "लिंग चुनें"
+  },
+  "Agegroup": {
+    "en": "Age group",
+    "hi": "आयु वर्ग"
+  },
+  "Selectagegroup": {
+    "en": "Select age group",
+    "hi": "आयु समूह चुनें"
+  },
+  "Racial": {
+    "en": "Racial",
+    "hi": "जातीय"
+  },
+  "Selectracial": {
+    "en": "Select racial",
+    "hi": "जातीय का चयन करें"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "EnterlabCPTcodehere": {
+    "en": "Enter lab CPT code here",
+    "hi": "लैब सीपीटी कोड यहां दर्ज करें"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "LabTestNamemustbealphanumeric": {
+    "en": "Lab Test Name must be alphanumeric",
+    "hi": "लैब टेस्ट का नाम अक्षरांकीय होना चाहिए"
+  },
+  "LabTestNamemustbeatleast1characterslong": {
+    "en": "Lab Test Name must be at least 1 characters long",
+    "hi": "लैब टेस्ट का नाम कम से कम 1 अक्षर लंबा होना चाहिए"
+  },
+  "LabTestNamelengthmustlessthan100": {
+    "en": "Lab Test Name length must less than 100",
+    "hi": "लैब टेस्ट नाम की लंबाई 100 से कम होनी चाहिए"
+  },
+  "LabTestCodemustbealphanumeric": {
+    "en": "Lab Test Code must be alphanumeric",
+    "hi": "लैब टेस्ट कोड अल्फ़ान्यूमेरिक होना चाहिए"
+  },
+  "LabTestCodemustbeatleast1characterslong": {
+    "en": "Lab Test Code must be at least 1 characters long",
+    "hi": "लैब टेस्ट कोड कम से कम 1 अक्षर लंबा होना चाहिए"
+  },
+  "LabTestCodelengthmustlessthan50": {
+    "en": "Lab Test Code length must less than 50",
+    "hi": "लैब टेस्ट कोड की लंबाई 50 से कम होनी चाहिए"
+  },
+  "LabCPTCodemustbealphanumeric": {
+    "en": "Lab CPT Code must be alphanumeric",
+    "hi": "लैब सीपीटी कोड अल्फ़ान्यूमेरिक होना चाहिए"
+  },
+  "LabCPTCodemustbeatleast1characterslong": {
+    "en": "Lab CPT Code must be at least 1 characters long",
+    "hi": "लैब सीपीटी कोड कम से कम 1 अक्षर लंबा होना चाहिए"
+  },
+  "InvalidvalueforIsmulticolumnstatus": {
+    "en": "Invalid value for Is multi column status",
+    "hi": "बहु स्तंभ स्थिति के लिए अमान्य मान"
+  },
+  "InvalidvalueforUsedforcalculatedteststatus": {
+    "en": "Invalid value for Used for calculated test status",
+    "hi": "परिकलित परीक्षण स्थिति के लिए प्रयुक्त मान अमान्य है"
+  },
+  "InvalidvalueforIscalculatedstatus": {
+    "en": "Invalid value for Is calculated status",
+    "hi": "गणना की गई स्थिति के लिए मान अमान्य है"
+  }
+}
