@@ -28,19 +28,19 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-      created_By: {
+      created_by: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      Created_At: {
+      created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
-      updated_By: {
+      updated_by: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      Updated_At: {
+      updated_at: {
         type: DataTypes.DATE,
         allowNull: true,
       },
