@@ -1,26 +1,34 @@
 const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
-  const LabTestMethod = sequelize.define(
-    "tbl_labtestmethod",
+  const AgeGroup = sequelize.define(
+    "tbl_age_group",
     {
-      lab_test_method_id: {
+      age_group_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
-      lab_test_method_name: {
-        type: DataTypes.STRING(100),
-        allowNull: false,
-      },
-      lab_test_method_code: {
+      age_group_name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      remark: {
-        type: DataTypes.STRING,
+      from_age: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      to_age: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      age_from_type:{
+        type:DataTypes.STRING,
+        allowNull:false,
+      },
+      is_active: {
+        type: DataTypes.BOOLEAN,
         allowNull: true,
       },
-        is_active: {
+      is_any_age_group: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
       },
@@ -36,23 +44,15 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      // created_at: {
-      //   type: DataTypes.DATE,
-      //   defaultValue: DataTypes.NOW,
-      //},
       updated_by: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      // updated_at: {
-      //   type: DataTypes.DATE,
-      //   allowNull: true,
-      // },
     },
     {
-      tableName: "tbl_labtestmethod",
+      tableName: "tbl_age_group",
       timestamps: true,
     }
   );
-  return LabTestMethod;
+  return AgeGroup;
 };

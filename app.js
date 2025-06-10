@@ -61,6 +61,8 @@ const appointmentSchedule=require("./routes/AppointmentSchedule_Routes.js")
 const patientAppointment=require("./routes/PatientAppointment_Routes.js")
 const product=require("./routes/productRoutes.js")
 const LabTestMethod=require("./routes/LabTestMethodRoutes.js")
+const LabTest=require("./routes/LabTestRoutes.js")
+const AgeGroup=require("./routes/AgeGroupRoutes.js")
 
 
 
@@ -161,6 +163,8 @@ app.use('/api/v1/appointmentSchedule',appointmentSchedule)
 app.use('/api/v1/patientAppointment',patientAppointment)
 app.use('/api/v1', product);
 app.use('/api/v1',LabTestMethod);
+app.use('/api/v1/labtest',LabTest);
+app.use('/api/v1',AgeGroup);
 
 
 sendEmail();

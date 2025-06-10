@@ -1,4 +1,4 @@
-exports.createLabTestMethod = async (sequelize, labtestmethodData) => {
+exports.createLabTestMethodDao = async (sequelize, labtestmethodData) => {
   const LabTestMethod = require("../models/LabTestMethodModel")(sequelize);
   await LabTestMethod.sync({ force: false });
   return await LabTestMethod.create(labtestmethodData);
@@ -6,7 +6,6 @@ exports.createLabTestMethod = async (sequelize, labtestmethodData) => {
 
 exports.getAllLabTestMethodDAO = async (sequelize) => {
   const LabTestMethod = require("../models/LabTestMethodModel")(sequelize);
-
   return await LabTestMethod.findAll();
 };
 
