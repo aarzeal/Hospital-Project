@@ -12,6 +12,7 @@ router.get('/all-age-group', authenticate, ensureSequelizeInstance, Userverifica
 router.get("/age-group/:id", authenticate, ensureSequelizeInstance, Userverification, controller.getAgeGroupById);
 router.put('/update-age-group/:age_group_id', authenticate, validateJSONContentType, ensureSequelizeInstance, Userverification, controller.updateAgeGroupById);
 router.delete("/delete-age-group/:age_group_id", authenticate, ensureSequelizeInstance, Userverification, controller.deleteAgeGroupById);
+router.get('/as-per-query', authenticate,ensureSequelizeInstance,Userverification,controller.getDataAsPerQueryParam);
 
 
 module.exports = router;

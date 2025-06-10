@@ -22,3 +22,15 @@ exports.toAgeGroupEntity = (dto) => ({
   hospitalIDR: dto.hospital_IDR,
   hospitalGroupIDR: dto.hospital_group_IDR,
 });
+
+exports.ageGroupFieldMap={
+  ageGroupId: 'age_group_id',
+  ageGroupName:'age_group_name',
+  fromAge: 'from_age',
+  toAge: 'to_age',
+  ageFromType: 'age_from_type',
+  isActive:'is_active',
+  isAnyAgeGroup:'is_any_age_group',  
+  hospitalIDR: 'hospital_IDR',
+  hospitalGroupIDR: 'hospital_group_IDR',
+}

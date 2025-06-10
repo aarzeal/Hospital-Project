@@ -12,5 +12,6 @@ router.get('/all-lab-test-method', authenticate, ensureSequelizeInstance, Userve
 router.get("/lab-test-method/:id", authenticate, ensureSequelizeInstance, Userverification, controller.getLabTestMethodById);
 router.put('/update-lab-test-method/:lab_test_method_id', authenticate, validateJSONContentType, ensureSequelizeInstance, Userverification, controller.updateLabTestMethodById);
 router.delete("/delete-lab-test-method/:lab_test_method_id", authenticate, ensureSequelizeInstance, Userverification, controller.deleteLabTestMethodById);
+router.get('/as-per-query-param',authenticate,ensureSequelizeInstance,Userverification,controller.getCustomDataAsPerQueryParam);
 
 module.exports = router;

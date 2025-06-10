@@ -26,3 +26,13 @@ exports.deleteAgeGroupByIdDAO = async (sequelize, age_group_id) => {
   if (product) await product.destroy();
   return product;
 };
+
+exports.getDataAsPerQueryParamDAO= async (sequelize, options) => {
+  const AgeGroup = require("../models/AgeGroupModel")(sequelize);
+  return await AgeGroup.findAndCountAll({
+    attributes: options.attributes,
+    offset: options.offset,
+    limit: options.limit,
+    raw: true
+  });
+}
