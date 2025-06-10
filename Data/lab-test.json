@@ -100,7 +100,7 @@
     "hi": "सामान्य प्रारंभ मान"
   },
   "Enternormalstartvaluehere": {
-    "en": "Enter normalstart value here",
+    "en": "Enter normal start value here",
     "hi": "यहाँ सामान्य प्रारंभ मान दर्ज करें"
   },
   "Normalendvalue": {
@@ -190,5 +190,73 @@
   "InvalidvalueforIscalculatedstatus": {
     "en": "Invalid value for Is calculated status",
     "hi": "गणना की गई स्थिति के लिए मान अमान्य है"
+  },
+  "LabTestMethodNamemustbealphanumeric": {
+    "en": "Lab Test Method Name must be alphanumeric",
+    "hi": "लैब परीक्षण विधि का नाम अल्फ़ान्यूमेरिक होना चाहिए"
+  },
+  "LabTestMethodNamemustbeatleast1characterslong": {
+    "en": "Lab Test Method Name must be at least 1 characters long",
+    "hi": "लैब परीक्षण विधि का नाम कम से कम 1 अक्षर लंबा होना चाहिए"
+  },
+  "LabTestMethodNamelengthmustlessthan100": {
+    "en": "Lab Test Method Name length must less than 100",
+    "hi": "लैब टेस्ट विधि नाम की लंबाई 100 से कम होनी चाहिए"
+  },
+  "LabTestMethodCodemustbealphanumeric": {
+    "en": "Lab Test Method Code must be alphanumeric",
+    "hi": "लैब टेस्ट विधि कोड अल्फ़ान्यूमेरिक होना चाहिए"
+  },
+  "LabTestMethodCodemustbeatleast1characterslong": {
+    "en": "Lab Test Method Code must be at least 1 characters long",
+    "hi": "लैब टेस्ट विधि कोड कम से कम 1 अक्षर लंबा होना चाहिए"
+  },
+  "LabTestMethodCodelengthmustlessthan50": {
+    "en": "Lab Test Method Code length must less than 50",
+    "hi": "लैब टेस्ट विधि कोड की लंबाई 50 से कम होनी चाहिए"
+  },
+  "Remarkmustbealphanumeric": {
+    "en": "Remark must be alphanumeric",
+    "hi": "टिप्पणी अक्षरांकीय होनी चाहिए"
+  },
+  "Remarkmustbeatleast1characterslong": {
+    "en": "Remark must be at least 1 characters long",
+    "hi": "टिप्पणी कम से कम 1 अक्षर लंबी होनी चाहिए"
+  },
+  "Remarklengthmustlessthan100": {
+    "en": "Remark length must less than 100",
+    "hi": "टिप्पणी की लंबाई 100 से कम होनी चाहिए"
+  },
+  "Invalidvalueforactivestatus": {
+    "en": "Invalid value for active status",
+    "hi": "सक्रिय स्थिति के लिए अमान्य मान"
+  },
+  "LabTestMethod": {
+    "en": "Lab Test Method",
+    "hi": "लैब परीक्षण विधि"
+  },
+  "Labtestmethodname": {
+    "en": "Lab test method name",
+    "hi": "लैब परीक्षण विधि का नाम"
+  },
+  "Enterlabtestmethodnamehere": {
+    "en": "Enter lab test method name here",
+    "hi": "प्रयोगशाला परीक्षण विधि का नाम यहाँ दर्ज करें"
+  },
+  "Labtestmethodcode": {
+    "en": "Lab test method code",
+    "hi": "लैब परीक्षण विधि कोड"
+  },
+  "Enterlabtestmethodcodehere": {
+    "en": "Enter lab test method code here",
+    "hi": "प्रयोगशाला परीक्षण विधि कोड यहाँ दर्ज करें"
+  },
+  "Remark": {
+    "en": "Remark",
+    "hi": "टिप्पणी"
+  },
+  "Enterremarkhere": {
+    "en": "Enter remark here",
+    "hi": "यहां टिप्पणी दर्ज करें"
   }
 }
