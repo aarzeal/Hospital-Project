@@ -659,6 +659,9 @@ exports.getDataAsPerQueryParam = async (req, res) => {
 
     // Extract valid DTO fields from query params
     let requestedDtoFields = Object.keys(queryFields).filter(field => field in fieldMap);
+     if (requestedDtoFields.length === 0) {
+  requestedDtoFields = Object.keys(fieldMap);
+}
 
     // Always include the ID field
     if (!requestedDtoFields.includes(ID_DTO_FIELD)) {
