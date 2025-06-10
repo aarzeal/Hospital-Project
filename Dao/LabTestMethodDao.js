@@ -28,6 +28,16 @@ exports.deleteLabTestMethodByIdDAO = async (sequelize, lab_test_method_id) => {
   return product;
 };
 
+exports.getCustomDataAsPerQueryParamDAO= async (sequelize, options) => {
+  const LabTestMethod = require("../models/LabTestMethodModel")(sequelize);
+  return await LabTestMethod.findAndCountAll({
+    attributes: options.attributes,
+    offset: options.offset,
+    limit: options.limit,
+    raw: true
+  });
+}
+
 
 
 
