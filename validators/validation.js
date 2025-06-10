@@ -1161,13 +1161,7 @@ exports.patientappointmentcreate = [
       .optional()
       .isString()
       .withMessage("Updated by must be a string"),
-  ],
-  exports.registerAgeGroup = [
-    body("ageGroupName")
-      .notEmpty()
-      .isString()
-      .withMessage("Age group is required and must be String ")
-  ]
+  ];
 
 
 exports.product = [
