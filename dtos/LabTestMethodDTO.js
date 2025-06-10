@@ -22,3 +22,15 @@ exports.toLabTestMethodEntity = (dto) => ({
   // updatedBy: dto.updated_by,
   // updatedAt: dto.updated_at,
 });
+
+exports.labTestMethodFieldMap = {
+  labTestMethodId: 'lab_test_method_id',
+  labTestMethodName: 'lab_test_method_name',
+  labTestMethodCode: 'lab_test_method_code',
+  Remark: 'remark',
+  isActive: 'is_active',
+  hospitalIDR: 'hospital_IDR',
+  hospitalGroupIDR: 'hospital_group_IDR',
+  createdBy: 'created_by',
+  updatedBy: 'updated_by'
+};
