@@ -1,13 +1,12 @@
-const { toProductEntity } = require("../dtos/LabTestMethodDTO");
 const logger = require("../logger");
-const LabTestMethodDao = require("../Dao/LabTestMethodDao");
-const dto = require("../dtos/LabTestMethodDTO");
+const AgeGroupDao = require("../Dao/AgeGroupDao");
+const dto = require("../dtos/AgeGroupDTO");
 const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
 const Hospital = require("../models/HospitalModel");
 const HospitalGroup = require("../models/HospitalGroup");
 
-exports.createLabTestMethod = async (req, res) => {
+exports.createAgeGroup = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
@@ -69,16 +68,16 @@ exports.createLabTestMethod = async (req, res) => {
       ...req.body,
       createdBy: username,
     };
-    const labtestmethodData = dto.toLabTestMethodPOST(RequestBody);
+    const ageGroupData = dto.toAgeGroupPOST(RequestBody);
 
-    const result = await LabTestMethodDao.createLabTestMethodDao(
+    const result = await AgeGroupDao.createAgeGroupDao(
       req.sequelize,
-      labtestmethodData
+      ageGroupData
     );
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Lab test method created successfully", {
+    logger.logWithMeta("info", "Age Group created successfully", {
       executionTime,
       hospitalId: req.hospitalName,
       apiName: req.originalUrl,
@@ -92,19 +91,19 @@ exports.createLabTestMethod = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Lab test method created successfully",
+      message: "Age Group created successfully",
       meta: {
         statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
-      data: dto.toLabTestMethodEntity(result),
+      data: dto.toAgeGroupEntity(result),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 2;
 
-    logger.logWithMeta("error", "Error creating Lab Test Method", {
+    logger.logWithMeta("error", "Error creating Age Group", {
       errorCode,
       executionTime,
       hospitalId: req.hospitalName,
@@ -118,12 +117,12 @@ exports.createLabTestMethod = async (req, res) => {
     });
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime,hospitalDatabase },
-      error: { message: "Error creating Lab Test Method: " + error.message },
+      error: { message: "Error creating Age Group  : " + error.message },
     });
   }
 };
 
-exports.getAllLabTestMethod = async (req, res) => {
+exports.getAllAgeGroups = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
@@ -153,12 +152,10 @@ exports.getAllLabTestMethod = async (req, res) => {
         errorCode,
       });
     }
-
-    const result = await LabTestMethodDao.getAllLabTestMethodDAO(req.sequelize);
-
+    const result = await AgeGroupDao.getAllAgeGroupDAO(req.sequelize);
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Fetched Lab Test Methods successfully", {
+    logger.logWithMeta("info", "Fetched Age Groups successfully", {
       executionTime,
       hospitalId: req.hospitalName,
       apiName: req.originalUrl,
@@ -173,19 +170,19 @@ exports.getAllLabTestMethod = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "All Lab test methods Feached successfully",
+      message: "All Age Groups Feached successfully",
       meta: {
         statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
-      data: result.map(dto.toLabTestMethodEntity),
+      data: result.map(dto.toAgeGroupEntity),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 1263;
 
-    logger.logWithMeta("error", "Error fetching Lab Test Method", {
+    logger.logWithMeta("error", "Error fetching Age Groups", {
       errorCode,
       executionTime,
       hospitalId: req.hospitalName,
@@ -200,19 +197,19 @@ exports.getAllLabTestMethod = async (req, res) => {
     });
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-      error: { message: "Error fetching Lab Test Methods: " + error.message },
+      error: { message: "Error fetching Age Groups: " + error.message },
     });
   }
 };
 
-exports.getLabTestMethodById = async (req, res) => {
+exports.getAgeGroupById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
   const locationData = await getLocationData(clientIp);
   try {
     const { id } = req.params;
-    const result = await LabTestMethodDao.getLabTestMethodByIdDAO(
+    const result = await AgeGroupDao.getAgeGroupByIdDAO(
       req.sequelize,
       id
     );
@@ -221,7 +218,7 @@ exports.getLabTestMethodById = async (req, res) => {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1262;
 
-      logger.logWithMeta("error", "Lab test method not found", {
+      logger.logWithMeta("error", "Age Group not found", {
         errorCode,
         executionTime,
         hospitalId: req.hospitalName,
@@ -237,11 +234,11 @@ exports.getLabTestMethodById = async (req, res) => {
 
       return res
         .status(404)
-        .json({ errorCode: 1263, message: "Lab test method not found in Database",hospitalDatabase });
+        .json({ errorCode: 1263, message: "Age Group not found in Database",hospitalDatabase });
     }
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Fetched lab test method successfully", {
+    logger.logWithMeta("info", "Fetched Age Group successfully", {
       executionTime,
       hospitalId: req.hospitalName,
       apiName: req.originalUrl,
@@ -260,13 +257,13 @@ exports.getLabTestMethodById = async (req, res) => {
         executionTime: `${Date.now() - start}ms`,
         hospitalDatabase,
       },
-      data: dto.toLabTestMethodEntity(result),
+      data: dto.toAgeGroupEntity(result),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 1262;
 
-    logger.logWithMeta("error", "Error fetching lab test method", {
+    logger.logWithMeta("error", "Error fetching Age Group", {
       errorCode,
       executionTime,
       hospitalId: req.hospitalName,
@@ -286,12 +283,12 @@ exports.getLabTestMethodById = async (req, res) => {
         executionTime: `${Date.now() - start}ms`,
         hospitalDatabase,
       },
-      error: { message: "Error fetching lab test method: " + error.message },
+      error: { message: "Error fetching Age Group: " + error.message },
     });
   }
 };
 
-exports.updateLabTestMethodById = async (req, res) => {
+exports.updateAgeGroupById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
@@ -351,20 +348,17 @@ exports.updateLabTestMethodById = async (req, res) => {
         message: "Invalid HospitalGroupID, not found in MasterDB",
       });
     }
-    const RequestBody={
-      ...req.body,
-      updatedBy:username,
-    }
+    const { age_group_id } = req.params;
+          const RequestBody={
+            ...req.body,
+            updatedBy:username,
+        };
+        const ageGroupData = dto.toAgeGroupPOST(RequestBody);
+        const updated = await AgeGroupDao.updateAgeGroupByIdDAO(req.sequelize, age_group_id, ageGroupData);
 
-    const updated = await LabTestMethodDao.updateLabTestMethodByIdDAO(
-      req.sequelize,
-      req.params.lab_test_method_id,
-      dto.toLabTestMethodPOST(RequestBody)
-    );
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Lab test method updated successfully", {
-      ID: req.params.lab_test_method_id,
+    logger.logWithMeta("info", "Age Group updated successfully", {
       hospitalDatabase,
       executionTime,
       apiName: req.originalUrl,
@@ -374,10 +368,9 @@ exports.updateLabTestMethodById = async (req, res) => {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 9245;
 
-      logger.logWithMeta("error", "Invalid lab test method id, not found in DB", {
+      logger.logWithMeta("error", "Invalid Age Group id, not found in DB", {
         errorCode,
         executionTime,
-        ID: req.params.lab_test_method_id,
         apiName: req.originalUrl,
         city: locationData?.city,
         country: locationData?.country,
@@ -388,20 +381,20 @@ exports.updateLabTestMethodById = async (req, res) => {
       });
       return res.status(400).json({
         errorCode,
-        message: "Invalid lab test method id, not found in DB",
+        message: "Invalid Age Group id, not found in DB",
       });
     }
 
     res.status(200).json({
-      message:"LabTestMethod Updated Successfully",
+      message:"AgeGroup Updated Successfully",
       meta: { statusCode: 200, executionTime, hospitalDatabase },
-      data: dto.toLabTestMethodEntity(updated),
+      data: dto.toAgeGroupEntity(updated),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9249;
 
-    logger.logWithMeta("error", "Error updating lab test method", {
+    logger.logWithMeta("error", "Error updating Age Group", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -411,30 +404,30 @@ exports.updateLabTestMethodById = async (req, res) => {
 
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-      error: { message: "Error updating lab test method: " + error.message },
+      error: { message: "Error updating Age Group: " + error.message },
     });
   }
 };
 
-exports.deleteLabTestMethodById = async (req, res) => {
+exports.deleteAgeGroupById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
-  const { lab_test_method_id } = req.params;
+  const { age_group_id } = req.params;
   try {
-    const deleted = await LabTestMethodDao.deleteLabTestMethodByIdDAO(
+    const deleted = await AgeGroupDao.deleteAgeGroupByIdDAO(
       req.sequelize,
-      lab_test_method_id
+      age_group_id
     );
     if (!deleted) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 9245;
 
-      logger.logWithMeta("error", "Invalid lab test method id, not found in Database", {
+      logger.logWithMeta("error", "Invalid Age Group id, not found in Database", {
         errorCode,
         executionTime,
-        ID: req.params.lab_test_method_id,
+        ID: req.params.age_group_id,
         apiName: req.originalUrl,
         city: locationData?.city,
         country: locationData?.country,
@@ -451,9 +444,9 @@ exports.deleteLabTestMethodById = async (req, res) => {
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Lab test method Deleted successfully", {
+    logger.logWithMeta("info", "Age Group Deleted successfully", {
       executionTime,
-      ID: req.params.lab_test_method_id,
+      ID: req.params.age_group_id,
       apiName: req.originalUrl,
       city: locationData?.city,
       country: locationData?.country,
@@ -464,13 +457,13 @@ exports.deleteLabTestMethodById = async (req, res) => {
 
     res.status(200).json({
       meta: { statusCode: 200, executionTime, hospitalDatabase },
-      message: "Lab test method deleted successfully",
+      message: "Age Group deleted successfully",
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9249;
 
-    logger.logWithMeta("error", "Error Deleting lab test method", {
+    logger.logWithMeta("error", "Error Deleting Age Group", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -480,7 +473,7 @@ exports.deleteLabTestMethodById = async (req, res) => {
 
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-      error: { message: "Error Deleting lab test method: " + error.message },
+      error: { message: "Error Deleting Age Group: " + error.message },
     });
   }
 };

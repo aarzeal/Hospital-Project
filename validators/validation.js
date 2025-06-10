@@ -338,6 +338,44 @@ exports.roomsupdate = [
     .isString()
     .withMessage("Updated by must be a string"),
 ];
+ exports.labtestmethodcreate = [
+    body("labTestMethodName")
+      .notEmpty()
+      .isString()
+      .withMessage("Lab Test Method Name is Required"),
+
+    body("labTestMethodCode")
+      .notEmpty()
+      .isString()
+      .withMessage("Lab Test Method Code must be an String"),
+
+    body("Remark")
+      .optional()
+      .isString()
+      .withMessage("Lab Test Method Remark must be an String"),
+
+    body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
+
+    body("hospitalIDR")
+      .optional()
+      .isInt()
+      .withMessage("Hospital ID must be an integer"),
+
+    body("hospitalGroupIDR")
+      .optional()
+      .isInt()
+      .withMessage("Hospital Group ID must be an integer"),
+
+    body("createdBy")
+      .optional()
+      .isString()
+      .withMessage("Created by must be a string"),
+
+    body("updatedBy")
+      .optional()
+      .isString()
+      .withMessage("Updated by must be a string"),
+  ];
 
 exports.wardroomlinkcreate = [
   body("ward_IDR")
@@ -541,94 +579,93 @@ exports.registerAppointmentSchedule = [
 
   body("Day").notEmpty(),
 
-  body("Slot1")
-    .isBoolean()
-    .withMessage("Is Slot1 must be a boolean"),
+  body("Slot1").isBoolean().withMessage("Is Slot1 must be a boolean"),
 
+  body("Slot2").isBoolean().withMessage("Is Slot2 must be a boolean"),
 
-  body("Slot2")
-    .isBoolean()
-    .withMessage("Is Slot2 must be a boolean"),
-
-  body("Slot1_StartTime")
-    .custom((value, { req }) => {
-      if (req.body.Slot1 === false) {
-        if (value !== undefined && value !== null) {
-          throw new Error("Slot1_StartTime must not be provided when Slot1 is false");
-        }
-        return true;
-      }
-
-      // If Slot2 is true, validate value
-      if (value === undefined || value === null || value === '') {
-        throw new Error("Slot1_StartTime is required when Slot1 is true");
-      }
-
-      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
-      if (!regex.test(value)) {
-        throw new Error("Invalid Slot1 time format. Please use HH:mm");
+  body("Slot1_StartTime").custom((value, { req }) => {
+    if (req.body.Slot1 === false) {
+      if (value !== undefined && value !== null) {
+        throw new Error(
+          "Slot1_StartTime must not be provided when Slot1 is false"
+        );
       }
       return true;
-    }),
+    }
 
-  body("Slot1_EndTime")
-    .custom((value, { req }) => {
-      if (req.body.Slot1 === false) {
-        if (value !== undefined && value !== null) {
-          throw new Error("Slot1_EndTime must not be provided when Slot1 is false");
-        }
-        return true;
+    // If Slot2 is true, validate value
+    if (value === undefined || value === null || value === "") {
+      throw new Error("Slot1_StartTime is required when Slot1 is true");
+    }
+
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+    if (!regex.test(value)) {
+      throw new Error("Invalid Slot1 time format. Please use HH:mm");
+    }
+    return true;
+  }),
+
+  body("Slot1_EndTime").custom((value, { req }) => {
+    if (req.body.Slot1 === false) {
+      if (value !== undefined && value !== null) {
+        throw new Error(
+          "Slot1_EndTime must not be provided when Slot1 is false"
+        );
       }
-
-      // If Slot2 is true, validate value
-      if (value === undefined || value === null || value === '') {
-        throw new Error("Slot1_EndTime is required when Slot1 is true");
-      }
-
-      // If Slot2 is true, validate time format
-      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
-      if (!regex.test(value)) {
-        throw new Error("Invalid Slot1 end time format. Please use HH:mm");
-      }
-
-      const startTimestamp = timeToSeconds(req.body.Slot1_StartTime);
-      const endTimestamp = timeToSeconds(value);
-      if (endTimestamp <= startTimestamp) {
-        throw new Error("End time must be greater than start time");
-      }
-
       return true;
-    }),
+    }
 
-  body("Slot2_StartTime")
-    .custom((value, { req }) => {
-      if (req.body.Slot2 === false) {
-        if (value !== undefined && value !== null) {
-          throw new Error("Slot2_StartTime must not be provided when Slot2 is false");
-        }
-        return true;
+    // If Slot2 is true, validate value
+    if (value === undefined || value === null || value === "") {
+      throw new Error("Slot1_EndTime is required when Slot1 is true");
+    }
+
+    // If Slot2 is true, validate time format
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+    if (!regex.test(value)) {
+      throw new Error("Invalid Slot1 end time format. Please use HH:mm");
+    }
+
+    const startTimestamp = timeToSeconds(req.body.Slot1_StartTime);
+    const endTimestamp = timeToSeconds(value);
+    if (endTimestamp <= startTimestamp) {
+      throw new Error("End time must be greater than start time");
+    }
+
+    return true;
+  }),
+
+  body("Slot2_StartTime").custom((value, { req }) => {
+    if (req.body.Slot2 === false) {
+      if (value !== undefined && value !== null) {
+        throw new Error(
+          "Slot2_StartTime must not be provided when Slot2 is false"
+        );
       }
-
-      // If Slot2 is true, validate value
-      if (value === undefined || value === null || value === '') {
-        throw new Error("Slot2_StartTime is required when Slot2 is true");
-      }
-
-      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
-      if (!regex.test(value)) {
-        throw new Error("Invalid Slot2 start time format. Please use HH:mm or HH:mm:ss");
-      }
-
-      const slot1endTimestamp = timeToSeconds(req.body.Slot1_EndTime);
-      const slot2startTimestamp = timeToSeconds(value);
-
-      if (slot2startTimestamp <= slot1endTimestamp) {
-        throw new Error("Slot2 Start time must be greater than Slot1 End time");
-      }
-
       return true;
-    })
-  ,
+    }
+
+    // If Slot2 is true, validate value
+    if (value === undefined || value === null || value === "") {
+      throw new Error("Slot2_StartTime is required when Slot2 is true");
+    }
+
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
+    if (!regex.test(value)) {
+      throw new Error(
+        "Invalid Slot2 start time format. Please use HH:mm or HH:mm:ss"
+      );
+    }
+
+    const slot1endTimestamp = timeToSeconds(req.body.Slot1_EndTime);
+    const slot2startTimestamp = timeToSeconds(value);
+
+    if (slot2startTimestamp <= slot1endTimestamp) {
+      throw new Error("Slot2 Start time must be greater than Slot1 End time");
+    }
+
+    return true;
+  }),
   // .optional({ nullable: true }) // allow null
   // .custom((value, { req }) => {
   //   if (req.body.Slot2 === false) return true; // Skip if Slot2 is false
@@ -644,35 +681,35 @@ exports.registerAppointmentSchedule = [
   //   return true;
   // }),
 
-  body("Slot2_EndTime")
-    .custom((value, { req }) => {
-      if (req.body.Slot2 === false) {
-        if (value !== undefined && value !== null) {
-          throw new Error("Slot2_EndTime must not be provided when Slot2 is false");
-        }
-        return true;
+  body("Slot2_EndTime").custom((value, { req }) => {
+    if (req.body.Slot2 === false) {
+      if (value !== undefined && value !== null) {
+        throw new Error(
+          "Slot2_EndTime must not be provided when Slot2 is false"
+        );
       }
-
-      // If Slot2 is true, validate value
-      if (value === undefined || value === null || value === '') {
-        throw new Error("Slot2_StartTime is required when Slot2 is true");
-      }
-
-      // If Slot2 is true, validate time format
-      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
-      if (!regex.test(value)) {
-        throw new Error("Invalid Slot2 end time format. Please use HH:mm");
-      }
-
-      const startTimestamp = timeToSeconds(req.body.Slot2_StartTime);
-      const endTimestamp = timeToSeconds(value);
-      if (endTimestamp <= startTimestamp) {
-        throw new Error("End time must be greater than start time");
-      }
-
       return true;
-    }),
+    }
 
+    // If Slot2 is true, validate value
+    if (value === undefined || value === null || value === "") {
+      throw new Error("Slot2_StartTime is required when Slot2 is true");
+    }
+
+    // If Slot2 is true, validate time format
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
+    if (!regex.test(value)) {
+      throw new Error("Invalid Slot2 end time format. Please use HH:mm");
+    }
+
+    const startTimestamp = timeToSeconds(req.body.Slot2_StartTime);
+    const endTimestamp = timeToSeconds(value);
+    if (endTimestamp <= startTimestamp) {
+      throw new Error("End time must be greater than start time");
+    }
+
+    return true;
+  }),
 
   body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
 
@@ -702,93 +739,93 @@ exports.updateAppointmentSchedule = [
 
   body("Day").notEmpty(),
 
-  body("Slot1")
-    .isBoolean()
-    .withMessage("Is Slot2 must be a boolean"),
+  body("Slot1").isBoolean().withMessage("Is Slot2 must be a boolean"),
 
-  body("Slot2")
-    .isBoolean()
-    .withMessage("Is Slot2 must be a boolean"),
+  body("Slot2").isBoolean().withMessage("Is Slot2 must be a boolean"),
 
-    body("Slot1_StartTime")
-    .custom((value, { req }) => {
-      if (req.body.Slot1 === false) {
-        if (value !== undefined && value !== null) {
-          throw new Error("Slot1_StartTime must not be provided when Slot1 is false");
-        }
-        return true;
-      }
-
-      // If Slot2 is true, validate value
-      if (value === undefined || value === null || value === '') {
-        throw new Error("Slot1_StartTime is required when Slot1 is true");
-      }
-
-      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
-      if (!regex.test(value)) {
-        throw new Error("Invalid Slot1 time format. Please use HH:mm");
+  body("Slot1_StartTime").custom((value, { req }) => {
+    if (req.body.Slot1 === false) {
+      if (value !== undefined && value !== null) {
+        throw new Error(
+          "Slot1_StartTime must not be provided when Slot1 is false"
+        );
       }
       return true;
-    }),
+    }
 
-  body("Slot1_EndTime")
-    .custom((value, { req }) => {
-      if (req.body.Slot1 === false) {
-        if (value !== undefined && value !== null) {
-          throw new Error("Slot1_EndTime must not be provided when Slot1 is false");
-        }
-        return true;
+    // If Slot2 is true, validate value
+    if (value === undefined || value === null || value === "") {
+      throw new Error("Slot1_StartTime is required when Slot1 is true");
+    }
+
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+    if (!regex.test(value)) {
+      throw new Error("Invalid Slot1 time format. Please use HH:mm");
+    }
+    return true;
+  }),
+
+  body("Slot1_EndTime").custom((value, { req }) => {
+    if (req.body.Slot1 === false) {
+      if (value !== undefined && value !== null) {
+        throw new Error(
+          "Slot1_EndTime must not be provided when Slot1 is false"
+        );
       }
-
-      // If Slot2 is true, validate value
-      if (value === undefined || value === null || value === '') {
-        throw new Error("Slot1_EndTime is required when Slot1 is true");
-      }
-
-      // If Slot2 is true, validate time format
-      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
-      if (!regex.test(value)) {
-        throw new Error("Invalid Slot1 end time format. Please use HH:mm");
-      }
-
-      const startTimestamp = timeToSeconds(req.body.Slot1_StartTime);
-      const endTimestamp = timeToSeconds(value);
-      if (endTimestamp <= startTimestamp) {
-        throw new Error("End time must be greater than start time");
-      }
-
       return true;
-    }),
+    }
 
-  body("Slot2_StartTime")
-    .custom((value, { req }) => {
-      if (req.body.Slot2 === false) {
-        if (value !== undefined && value !== null) {
-          throw new Error("Slot2_StartTime must not be provided when Slot2 is false");
-        }
-        return true;
+    // If Slot2 is true, validate value
+    if (value === undefined || value === null || value === "") {
+      throw new Error("Slot1_EndTime is required when Slot1 is true");
+    }
+
+    // If Slot2 is true, validate time format
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
+    if (!regex.test(value)) {
+      throw new Error("Invalid Slot1 end time format. Please use HH:mm");
+    }
+
+    const startTimestamp = timeToSeconds(req.body.Slot1_StartTime);
+    const endTimestamp = timeToSeconds(value);
+    if (endTimestamp <= startTimestamp) {
+      throw new Error("End time must be greater than start time");
+    }
+
+    return true;
+  }),
+
+  body("Slot2_StartTime").custom((value, { req }) => {
+    if (req.body.Slot2 === false) {
+      if (value !== undefined && value !== null) {
+        throw new Error(
+          "Slot2_StartTime must not be provided when Slot2 is false"
+        );
       }
-
-      // If Slot2 is true, validate value
-      if (value === undefined || value === null || value === '') {
-        throw new Error("Slot2_StartTime is required when Slot2 is true");
-      }
-
-      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
-      if (!regex.test(value)) {
-        throw new Error("Invalid Slot2 start time format. Please use HH:mm or HH:mm:ss");
-      }
-
-      const slot1endTimestamp = timeToSeconds(req.body.Slot1_EndTime);
-      const slot2startTimestamp = timeToSeconds(value);
-
-      if (slot2startTimestamp <= slot1endTimestamp) {
-        throw new Error("Slot2 Start time must be greater than Slot1 End time");
-      }
-
       return true;
-    })
-  ,
+    }
+
+    // If Slot2 is true, validate value
+    if (value === undefined || value === null || value === "") {
+      throw new Error("Slot2_StartTime is required when Slot2 is true");
+    }
+
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
+    if (!regex.test(value)) {
+      throw new Error(
+        "Invalid Slot2 start time format. Please use HH:mm or HH:mm:ss"
+      );
+    }
+
+    const slot1endTimestamp = timeToSeconds(req.body.Slot1_EndTime);
+    const slot2startTimestamp = timeToSeconds(value);
+
+    if (slot2startTimestamp <= slot1endTimestamp) {
+      throw new Error("Slot2 Start time must be greater than Slot1 End time");
+    }
+
+    return true;
+  }),
   // .optional({ nullable: true }) // allow null
   // .custom((value, { req }) => {
   //   if (req.body.Slot2 === false) return true; // Skip if Slot2 is false
@@ -804,34 +841,35 @@ exports.updateAppointmentSchedule = [
   //   return true;
   // }),
 
-  body("Slot2_EndTime")
-    .custom((value, { req }) => {
-      if (req.body.Slot2 === false) {
-        if (value !== undefined && value !== null) {
-          throw new Error("Slot2_EndTime must not be provided when Slot2 is false");
-        }
-        return true;
+  body("Slot2_EndTime").custom((value, { req }) => {
+    if (req.body.Slot2 === false) {
+      if (value !== undefined && value !== null) {
+        throw new Error(
+          "Slot2_EndTime must not be provided when Slot2 is false"
+        );
       }
-
-      // If Slot2 is true, validate value
-      if (value === undefined || value === null || value === '') {
-        throw new Error("Slot2_StartTime is required when Slot2 is true");
-      }
-
-      // If Slot2 is true, validate time format
-      const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
-      if (!regex.test(value)) {
-        throw new Error("Invalid Slot2 end time format. Please use HH:mm");
-      }
-
-      const startTimestamp = timeToSeconds(req.body.Slot2_StartTime);
-      const endTimestamp = timeToSeconds(value);
-      if (endTimestamp <= startTimestamp) {
-        throw new Error("End time must be greater than start time");
-      }
-
       return true;
-    }),
+    }
+
+    // If Slot2 is true, validate value
+    if (value === undefined || value === null || value === "") {
+      throw new Error("Slot2_StartTime is required when Slot2 is true");
+    }
+
+    // If Slot2 is true, validate time format
+    const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
+    if (!regex.test(value)) {
+      throw new Error("Invalid Slot2 end time format. Please use HH:mm");
+    }
+
+    const startTimestamp = timeToSeconds(req.body.Slot2_StartTime);
+    const endTimestamp = timeToSeconds(value);
+    if (endTimestamp <= startTimestamp) {
+      throw new Error("End time must be greater than start time");
+    }
+
+    return true;
+  }),
 
   body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
 
@@ -856,11 +894,11 @@ exports.updateAppointmentSchedule = [
     .withMessage("Updated by must be a string"),
 ];
 
-exports.patientappointmentcreate=[
+exports.patientappointmentcreate = [
   body("appointment_Code")
-  .notEmpty()
-   .isString()
-   .withMessage("Appointment code is required and it should be String" ),
+    .notEmpty()
+    .isString()
+    .withMessage("Appointment code is required and it should be String"),
 
   body("appointment_Purpose")
     .isString()
@@ -914,9 +952,7 @@ exports.patientappointmentcreate=[
 
   body("service_IDR"),
 
-  body("isActive")
-    .isBoolean()
-    .withMessage("Is Active must be a boolean"),
+  body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
 
   body("hospital_IDR")
     .optional()
@@ -938,89 +974,93 @@ exports.patientappointmentcreate=[
     .isString()
     .withMessage("Updated by must be a string"),
 ],
+  exports.patientappointmentupdate = [
+    body("appointment_Code")
+      .notEmpty()
+      .isString()
+      .withMessage("Appointment code is required and it should be String"),
 
-exports.patientappointmentupdate=[
-  body("appointment_Code")
-  .notEmpty()
-   .isString()
-   .withMessage("Appointment code is required and it should be String" ),
+    body("bookDate"),
 
-  body("bookDate"),
+    body("appointment_Purpose")
+      .isString()
+      .withMessage("Give the proper Appointment Purpose in String "),
 
-  body("appointment_Purpose")
-    .isString()
-    .withMessage("Give the proper Appointment Purpose in String "),
+    body("is_New_Patient")
+      .isBoolean()
+      .withMessage("Is new Patient must be a boolean"),
 
-  body("is_New_Patient")
-    .isBoolean()
-    .withMessage("Is new Patient must be a boolean"),
+    body("patient_Name")
+      .optional()
+      .isString()
+      .withMessage("Patient name is optional "),
 
-  body("patient_Name")
-    .optional()
-    .isString()
-    .withMessage("Patient name is optional "),
+    body("patient_IDR")
+      .optional()
+      .isInt()
+      .withMessage("Patient IDR is optional according to is new patient"),
 
-  body("patient_IDR")
-    .optional()
-    .isInt()
-    .withMessage("Patient IDR is optional according to is new patient"),
+    body("employee_IDR")
+      .notEmpty()
+      .isInt()
+      .withMessage("Employee IDR is according to Doctors ID"),
 
-  body("employee_IDR")
+    body("department_IDR")
+      .notEmpty()
+      .isInt()
+      .withMessage("Department IDR is required"),
+
+    body("appointment_Start_Time"),
+
+    body("appointment_End_Time"),
+
+    body("mode_Of_Booking"),
+
+    body("appointment_Book_Reason"),
+
+    body("is_Arrived"),
+
+    body("is_canceled"),
+
+    body("appointment_Cancle_Reason"),
+
+    body("want_SMS_Reminder"),
+
+    body("want_Email_Reminder"),
+
+    body("want_WhatsAPP_Reminder"),
+
+    body("patient_Contact_Number"),
+
+    body("service_IDR"),
+
+    body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
+
+    body("hospital_IDR")
+      .optional()
+      .isInt()
+      .withMessage("Hospital ID must be an integer"),
+
+    body("hospitalGroup_IDR")
+      .optional()
+      .isInt()
+      .withMessage("Hospital Group ID must be an integer"),
+
+    body("createdBy")
+      .optional()
+      .isString()
+      .withMessage("Created by must be a string"),
+
+    body("updatedBy")
+      .optional()
+      .isString()
+      .withMessage("Updated by must be a string"),
+  ],
+  exports.registerAgeGroup=[
+    body("ageGroupName")
     .notEmpty()
-    .isInt()
-    .withMessage("Employee IDR is according to Doctors ID"),
-
-  body("department_IDR")
-    .notEmpty()
-    .isInt()
-    .withMessage("Department IDR is required"),
-
-  body("appointment_Start_Time"),
-
-  body("appointment_End_Time"),
-
-  body("mode_Of_Booking"),
-
-  body("appointment_Book_Reason"),
-
-  body("is_Arrived"),
-
-  body("is_canceled"),
-
-  body("appointment_Cancle_Reason"),
-
-  body("want_SMS_Reminder"),
-
-  body("want_Email_Reminder"),
-
-  body("want_WhatsAPP_Reminder"),
-
-  body("patient_Contact_Number"),
-
-  body("service_IDR"),
-
-  body("isActive")
-    .isBoolean()
-    .withMessage("Is Active must be a boolean"),
-
-  body("hospital_IDR")
-    .optional()
-    .isInt()
-    .withMessage("Hospital ID must be an integer"),
-
-  body("hospitalGroup_IDR")
-    .optional()
-    .isInt()
-    .withMessage("Hospital Group ID must be an integer"),
-
-  body("createdBy")
-    .optional()
     .isString()
-    .withMessage("Created by must be a string"),
+    .withMessage("Age group is required and must be String ")
+  ]
 
-  body("updatedBy")
-    .optional()
-    .isString()
-    .withMessage("Updated by must be a string"),
-]
-     
+ 
