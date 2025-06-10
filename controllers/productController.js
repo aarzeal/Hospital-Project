@@ -15,7 +15,7 @@ exports.createProduct = async (req, res) => {
     if (error) return res.status(400).json({ error: error.details[0].message });
 
     const productData = dto.toProductEntityPOST(req.body);
-    const result = await productDAO.createProduct(req.sequelize, productData);  
+    const result = await productDAO.createProduct(req.sequelize, productData);
 
     const executionTime = `${Date.now() - start}ms`;
     logger.logWithMeta("info", "Product created successfully", {
@@ -36,7 +36,7 @@ exports.createProduct = async (req, res) => {
         statusCode: 200,
         executionTime,
       },
-      data:  dto.toProductEntity(result),
+      data: dto.toProductEntity(result),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;

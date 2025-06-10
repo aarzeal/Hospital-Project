@@ -57,7 +57,7 @@ module.exports = (sequelize) => {
         allowNull: true,
       },
       calculation_test_IDR: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
       remark: {

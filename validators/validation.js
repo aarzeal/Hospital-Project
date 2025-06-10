@@ -338,44 +338,150 @@ exports.roomsupdate = [
     .isString()
     .withMessage("Updated by must be a string"),
 ];
- exports.labtestmethodcreate = [
-    body("labTestMethodName")
-      .notEmpty()
-      .isString()
-      .withMessage("Lab Test Method Name is Required"),
 
-    body("labTestMethodCode")
-      .notEmpty()
-      .isString()
-      .withMessage("Lab Test Method Code must be an String"),
+exports.labtestmethodcreate = [
+  body("labTestMethodName")
+    .trim()
+    .notEmpty().withMessage("Lab Test Method Name is required")
+    .isString().withMessage("Lab Test Method Name must be a string")
+    .isLength({ max: 50 }).withMessage("Lab Test Method Name must not exceed 50 characters"),
 
-    body("Remark")
-      .optional()
-      .isString()
-      .withMessage("Lab Test Method Remark must be an String"),
+  body("labTestMethodCode")
+    .notEmpty()
+    .isString()
+    .isLength({ max: 50 })
+    .withMessage("Lab Test Method Code must be an String"),
 
-    body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
+  body("Remark")
+    .optional()
+    .isString()
+    .withMessage("Lab Test Method Remark must be an String"),
 
-    body("hospitalIDR")
-      .optional()
-      .isInt()
-      .withMessage("Hospital ID must be an integer"),
+  body("isActive").isBoolean().withMessage("Is Active must be a boolean"),
 
-    body("hospitalGroupIDR")
-      .optional()
-      .isInt()
-      .withMessage("Hospital Group ID must be an integer"),
+  body("hospitalIDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital ID must be an integer"),
 
-    body("createdBy")
-      .optional()
-      .isString()
-      .withMessage("Created by must be a string"),
+  body("hospitalGroupIDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital Group ID must be an integer"),
 
-    body("updatedBy")
-      .optional()
-      .isString()
-      .withMessage("Updated by must be a string"),
-  ];
+  body("createdBy")
+    .optional()
+    .isString()
+    .withMessage("Created by must be a string"),
+
+  body("updatedBy")
+    .optional()
+    .isString()
+    .withMessage("Updated by must be a string"),
+];
+
+exports.labTestDetailsCreate = [
+  body("lab_test_name")
+    .notEmpty()
+    .isString()
+    .isLength({ max: 100 })
+    .withMessage("Lab Test Name is Required"),
+
+  body("lab_test_code")
+    .notEmpty()
+    .isString()
+    .isLength({ max: 50 })
+    .withMessage("Lab Test Code is Required"),
+
+  body("cpt_code")
+    .notEmpty()
+    .isString()
+    .isLength({ max: 50 })
+    .withMessage("CPT Code is Required"),
+
+  body("lab_test_method_IDR")
+    .isInt()
+    .notEmpty()
+    .withMessage("Lab Test Method ID is required"),
+
+  body("lab_test_unit")
+    .isInt()
+    .notEmpty()
+    .withMessage("Lab Test Unit ID is required"),
+
+  body("is_multi_column")
+    .isBoolean()
+    .withMessage("Is Multi Column must be a boolean"),
+
+  body("field_type")
+    .isInt()
+    .notEmpty()
+    .withMessage("Field type is required"),
+
+  body("from_range")
+    .notEmpty()
+    .isString()
+    .isLength({ max: 50 })
+    .withMessage("From range is required"),
+
+  body("to_range")
+    .notEmpty()
+    .isString()
+    .isLength({ max: 50 })
+    .withMessage("To range is required"),
+
+  body("is_calculated")
+    .isBoolean()
+    .withMessage("Is Calculated must be a boolean"),
+
+  body("is_active")
+    .isBoolean()
+    .withMessage("Is Active must be a boolean"),
+
+  body("formula")
+    .notEmpty()
+    .isString()
+    .isLength({ max: 50 })
+    .withMessage("Formula is required"),
+
+  body("calculation_test_IDR")
+    .notEmpty()
+    .isInt()
+    .withMessage("Calculation test is required"),
+
+  body("remark")
+    .isString()
+    .isLength({ max: 500 }),
+
+  body("used_for_calculation")
+    .isBoolean()
+    .withMessage("Used For Calculation must be a boolean"),
+
+  body("detail_type")
+    .notEmpty()
+    .isInt()
+    .withMessage("Detail Type is required"),
+
+  body("hospital_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital ID must be an integer"),
+
+  body("hospital_group_IDR")
+    .optional()
+    .isInt()
+    .withMessage("Hospital Group ID must be an integer"),
+
+  body("created_by")
+    .optional()
+    .isString()
+    .withMessage("Created by must be a string"),
+
+  body("updated_by")
+    .optional()
+    .isString()
+    .withMessage("Updated by must be a string"),
+]
 
 exports.wardroomlinkcreate = [
   body("ward_IDR")
@@ -1056,11 +1162,21 @@ exports.patientappointmentcreate = [
       .isString()
       .withMessage("Updated by must be a string"),
   ],
-  exports.registerAgeGroup=[
+  exports.registerAgeGroup = [
     body("ageGroupName")
-    .notEmpty()
-    .isString()
-    .withMessage("Age group is required and must be String ")
+      .notEmpty()
+      .isString()
+      .withMessage("Age group is required and must be String ")
   ]
 
- 
+
+exports.product = [
+  body("Name")
+    .notEmpty()
+    .isString()
+    .withMessage("Product name is required and it should be String"),
+  body("product_price")
+    .notEmpty()
+    .isFloat()
+    .withMessage("Product name is required and it should be Float"),
+]

@@ -52,17 +52,17 @@ const itemCompany = require("./routes/InvProdCompanyRoute.js")
 const Supplier = require("./routes/SupplierRoute.js")
 const ServiceSOR = require("./routes/ServiceSORroutes.js")
 const ward = require("./routes/WardRoutes.js")
-const roomType=require("./routes/RoomType_Routes.js")
+const roomType = require("./routes/RoomType_Routes.js")
 const wardWiseCostAddition = require("./routes/wardwiseCAroutes.js")
-const rooms=require("./routes/Rooms_Routes.js")
-const wardRoomLink=require("./routes/LinkWardRoom_Routes.js")
-const store=require("./routes/Store_Routes.js")
-const appointmentSchedule=require("./routes/AppointmentSchedule_Routes.js")
-const patientAppointment=require("./routes/PatientAppointment_Routes.js")
-const product=require("./routes/productRoutes.js")
-const LabTestMethod=require("./routes/LabTestMethodRoutes.js")
-const LabTest=require("./routes/LabTestRoutes.js")
-const AgeGroup=require("./routes/AgeGroupRoutes.js")
+const rooms = require("./routes/Rooms_Routes.js")
+const wardRoomLink = require("./routes/LinkWardRoom_Routes.js")
+const store = require("./routes/Store_Routes.js")
+const appointmentSchedule = require("./routes/AppointmentSchedule_Routes.js")
+const patientAppointment = require("./routes/PatientAppointment_Routes.js")
+const product = require("./routes/productRoutes.js")
+const LabTestMethod = require("./routes/LabTestMethodRoutes.js")
+const LabTest = require("./routes/LabTestRoutes.js")
+const AgeGroup = require("./routes/AgeGroupRoutes.js")
 
 
 
@@ -154,17 +154,17 @@ app.use('/api/v1/item-company', itemCompany);
 app.use('/api/v1/supplier', Supplier);
 app.use('/api/v1/ServiceSOR', ServiceSOR);
 app.use('/api/v1/ward', ward);
-app.use('/api/v1/room-type',roomType)
-app.use('/api/v1/room',rooms)
-app.use('/api/v1/wardRoomLink',wardRoomLink)
-app.use('/api/v1/ward-wise-cost-addition',wardWiseCostAddition);
-app.use('/api/v1/store',store)
-app.use('/api/v1/appointmentSchedule',appointmentSchedule)
-app.use('/api/v1/patientAppointment',patientAppointment)
+app.use('/api/v1/room-type', roomType)
+app.use('/api/v1/room', rooms)
+app.use('/api/v1/wardRoomLink', wardRoomLink)
+app.use('/api/v1/ward-wise-cost-addition', wardWiseCostAddition);
+app.use('/api/v1/store', store)
+app.use('/api/v1/appointmentSchedule', appointmentSchedule)
+app.use('/api/v1/patientAppointment', patientAppointment)
 app.use('/api/v1', product);
-app.use('/api/v1',LabTestMethod);
-app.use('/api/v1/labtest',LabTest);
-app.use('/api/v1',AgeGroup);
+app.use('/api/v1/lab-test-method', LabTestMethod);
+app.use('/api/v1/labtest', LabTest);
+app.use('/api/v1', AgeGroup);
 
 
 sendEmail();

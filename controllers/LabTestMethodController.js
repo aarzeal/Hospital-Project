@@ -6,6 +6,7 @@ const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
 const Hospital = require("../models/HospitalModel");
 const HospitalGroup = require("../models/HospitalGroup");
+const { labtestmethodcreateSchema } = require("../validators/joi-validator");
 
 exports.createLabTestMethod = async (req, res) => {
   const start = Date.now();
@@ -14,6 +15,10 @@ exports.createLabTestMethod = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
   try {
+
+    const { error } = labtestmethodcreateSchema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
     const hospitalid = await Hospital.findOne({
       where: { HospitalID: req.body.hospitalIDR },
     });
@@ -64,7 +69,7 @@ exports.createLabTestMethod = async (req, res) => {
         errorCode,
         message: "Invalid HospitalGroupID, not found in MasterDB",
       });
-    }  
+    }
     const RequestBody = {
       ...req.body,
       createdBy: username,
@@ -117,7 +122,7 @@ exports.createLabTestMethod = async (req, res) => {
       createdBy: username,
     });
     res.status(500).json({
-      meta: { statusCode: 500, errorCode, executionTime,hospitalDatabase },
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
       error: { message: "Error creating Lab Test Method: " + error.message },
     });
   }
@@ -131,7 +136,7 @@ exports.getAllLabTestMethod = async (req, res) => {
   try {
     if (!req.sequelize) {
       const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 9088; 
+      const errorCode = 9088;
 
       logger.logWithMeta("error", "Database connection not found", {
         errorCode,
@@ -237,7 +242,7 @@ exports.getLabTestMethodById = async (req, res) => {
 
       return res
         .status(404)
-        .json({ errorCode: 1263, message: "Lab test method not found in Database",hospitalDatabase });
+        .json({ errorCode: 1263, message: "Lab test method not found in Database", hospitalDatabase });
     }
     const executionTime = `${Date.now() - start}ms`;
 
@@ -296,7 +301,7 @@ exports.updateLabTestMethodById = async (req, res) => {
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
-  const username =req.username;
+  const username = req.username;
   try {
     const hospitalid = await Hospital.findOne({
       where: { HospitalID: req.body.hospitalIDR },
@@ -351,9 +356,9 @@ exports.updateLabTestMethodById = async (req, res) => {
         message: "Invalid HospitalGroupID, not found in MasterDB",
       });
     }
-    const RequestBody={
+    const RequestBody = {
       ...req.body,
-      updatedBy:username,
+      updatedBy: username,
     }
 
     const updated = await LabTestMethodDao.updateLabTestMethodByIdDAO(
@@ -393,7 +398,7 @@ exports.updateLabTestMethodById = async (req, res) => {
     }
 
     res.status(200).json({
-      message:"LabTestMethod Updated Successfully",
+      message: "LabTestMethod Updated Successfully",
       meta: { statusCode: 200, executionTime, hospitalDatabase },
       data: dto.toLabTestMethodEntity(updated),
     });
@@ -441,7 +446,7 @@ exports.deleteLabTestMethodById = async (req, res) => {
         method: req.method,
         userAgent: req.headers["user-agent"],
         createdBy: req.username,
-        updatedBy:req.username
+        updatedBy: req.username
       });
       return res.status(400).json({
         errorCode,

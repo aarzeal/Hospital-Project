@@ -11,17 +11,17 @@ exports.createLabTest = async (req, res) => {
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
-  const username=req.username;
+  const username = req.username;
 
   try {
     const Labtestmethod = require("../models/LabTestMethodModel")(req.sequelize);
-      const labTestMethod = await Labtestmethod.findOne({
-        where: { lab_test_method_id: req.body.labTestMethodIDR},
+    const labTestMethod = await Labtestmethod.findOne({
+      where: { lab_test_method_id: req.body.labTestMethodIDR },
     });
-    if(!labTestMethod){
-        const executionTime=`${Date.now()-start}ms`;
-        const errorCode=5454;
-        logger.logWithMeta("error", "Invalid Lab Test Method ID, not found in Database", {
+    if (!labTestMethod) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 5454;
+      logger.logWithMeta("error", "Invalid Lab Test Method ID, not found in Database", {
         errorCode,
         executionTime,
         hospitalId: req.hospitalName,
@@ -56,7 +56,7 @@ exports.createLabTest = async (req, res) => {
         apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
-        createdBy:username,
+        createdBy: username,
       });
       return res.status(400).json({
         errorCode,
@@ -92,9 +92,9 @@ exports.createLabTest = async (req, res) => {
       });
     }
 
-    const RequestBody={
-        ...req.body,
-        createdBy:username,
+    const RequestBody = {
+      ...req.body,
+      createdBy: username,
     };
 
     const labtestData = dto.toLabTestPOST(RequestBody);
@@ -116,7 +116,7 @@ exports.createLabTest = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
-      createdBy:username,
+      createdBy: username,
     });
 
     res.status(201).json({
@@ -142,7 +142,7 @@ exports.createLabTest = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
-      createdBy:username,
+      createdBy: username,
     });
 
     res.status(500).json({
@@ -322,16 +322,16 @@ exports.updateLabTestById = async (req, res) => {
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
-  const username=req.username;
+  const username = req.username;
   try {
-     const Labtestmethod = require("../models/LabTestMethodModel")(req.sequelize);
-      const labTestMethod = await Labtestmethod.findOne({
-        where: { lab_test_method_id: req.body.labTestMethodIDR},
+    const Labtestmethod = require("../models/LabTestMethodModel")(req.sequelize);
+    const labTestMethod = await Labtestmethod.findOne({
+      where: { lab_test_method_id: req.body.labTestMethodIDR },
     });
-    if(!labTestMethod){
-        const executionTime=`${Date.now()-start}ms`;
-        const errorCode=5454;
-        logger.logWithMeta("error", "Invalid Lab Test Method ID, not found in Database", {
+    if (!labTestMethod) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 5454;
+      logger.logWithMeta("error", "Invalid Lab Test Method ID, not found in Database", {
         errorCode,
         executionTime,
         hospitalId: req.hospitalName,
@@ -401,9 +401,9 @@ exports.updateLabTestById = async (req, res) => {
       });
     }
     const { lab_test_id } = req.params;
-      const RequestBody={
-        ...req.body,
-        updatedBy:username,
+    const RequestBody = {
+      ...req.body,
+      updatedBy: username,
     };
     const labtestData = dto.toLabTestPOST(RequestBody);
     const updated = await LabTestDao.updateLabTestByIdDAO(req.sequelize, lab_test_id, labtestData);
