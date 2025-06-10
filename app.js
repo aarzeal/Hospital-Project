@@ -59,7 +59,6 @@ const wardRoomLink = require("./routes/LinkWardRoom_Routes.js")
 const store = require("./routes/Store_Routes.js")
 const appointmentSchedule = require("./routes/AppointmentSchedule_Routes.js")
 const patientAppointment = require("./routes/PatientAppointment_Routes.js")
-const product = require("./routes/productRoutes.js")
 const LabTestMethod = require("./routes/LabTestMethodRoutes.js")
 const LabTest = require("./routes/LabTestRoutes.js")
 const AgeGroup = require("./routes/AgeGroupRoutes.js")
@@ -161,7 +160,6 @@ app.use('/api/v1/ward-wise-cost-addition', wardWiseCostAddition);
 app.use('/api/v1/store', store)
 app.use('/api/v1/appointmentSchedule', appointmentSchedule)
 app.use('/api/v1/patientAppointment', patientAppointment)
-app.use('/api/v1', product);
 app.use('/api/v1/lab-test-method', LabTestMethod);
 app.use('/api/v1/labtest', LabTest);
 app.use('/api/v1', AgeGroup);
