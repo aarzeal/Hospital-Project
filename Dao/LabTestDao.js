@@ -26,3 +26,13 @@ exports.deleteLabTestByIdDAO = async (sequelize, lab_test_id) => {
   if (product) await product.destroy();
   return product;
 };
+
+exports.getLabTestAsPerQueryParamDAO= async (sequelize, options) => {
+  const LabTest = require("../models/LabTestModel")(sequelize);
+  return await LabTest.findAndCountAll({
+    attributes: options.attributes,
+    offset: options.offset,
+    limit: options.limit,
+    raw: true
+  });
+}

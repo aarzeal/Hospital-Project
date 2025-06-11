@@ -18,9 +18,7 @@ exports.toLabTestPOST = (dto) => ({
   hospital_IDR: dto.hospitalIDR,
   hospital_group_IDR: dto.hospitalGroupIDR,
   created_by: dto.createdBy,
-  //created_at: dto.createdAt,
   updated_by: dto.updatedBy,
- //updated_at: dto.updatedAt,
 });
 
 exports.toLabTestEntity = (dto) => ({
@@ -43,8 +41,26 @@ exports.toLabTestEntity = (dto) => ({
   detailType:dto.detail_type,
   hospitalIDR: dto.hospital_IDR,
   hospitalGroupIDR: dto.hospital_group_IDR,
-  // createdBy: dto.created_by,
-  // createdAt: dto.created_at,
-  // updatedBy: dto.updated_by,
-  // updatedAt: dto.updated_at,
 });
+
+exports.labTestFieldMap = {
+  labTestId: 'lab_test_id',
+  labTestName: 'lab_test_name',
+  labTestCode: 'lab_test_code',
+  cptCode: 'cpt_code',
+  labTestMethodIDR: 'lab_test_method_IDR',
+  labTestUnit: 'lab_test_unit',
+  isMultiColumn: 'is_multi_column',
+  fieldType: 'field_type',
+  fromRange: 'from_range',
+  toRange: 'to_range',
+  isCalculated: 'is_calculated',
+  isActive: 'is_active',
+  Formula: 'formula',
+  calculationTestIDR: 'calculation_test_IDR',
+  Remark: 'remark',
+  usedForCalculation: 'used_for_calculation',
+  detailType: 'detail_type',
+  hospitalIDR: 'hospital_IDR',
+  hospitalGroupIDR: 'hospital_group_IDR',
+};
