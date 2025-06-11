@@ -5,6 +5,7 @@ const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
 const Hospital = require("../models/HospitalModel");
 const HospitalGroup = require("../models/HospitalGroup");
+const {agegroupschema}=require("../validators/joi-validator");
 
 exports.createAgeGroup = async (req, res) => {
   const start = Date.now();
@@ -13,6 +14,9 @@ exports.createAgeGroup = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
   try {
+     const { error } = agegroupschema.validate(req.body);
+        if (error) return res.status(400).json({ error: error.details[0].message });
+
     const hospitalid = await Hospital.findOne({
       where: { HospitalID: req.body.hospitalIDR },
     });
@@ -295,6 +299,9 @@ exports.updateAgeGroupById = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
   const username =req.username;
   try {
+         const { error } = agegroupschema.validate(req.body);
+        if (error) return res.status(400).json({ error: error.details[0].message });
+        
     const hospitalid = await Hospital.findOne({
       where: { HospitalID: req.body.hospitalIDR },
     });

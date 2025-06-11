@@ -1,69 +1,227 @@
 const Joi = require("joi");
 
 exports.labtestmethodcreateSchema = Joi.object({
-    labTestMethodName: Joi.string()
-        .max(50)
-        .required()
-        .messages({
-            "string.base": "Lab Test Method Name must be a string",
-            "string.empty": "Lab Test Method Name is required",
-            "string.max": "Lab Test Method Name must not exceed 50 characters",
-            "any.required": "Lab Test Method Name is required"
-        }),
+  labTestMethodName: Joi.string().max(50).required().messages({
+    "string.base": "Lab Test Method Name must be a string",
+    "string.empty": "Lab Test Method Name is required",
+    "string.max": "Lab Test Method Name must not exceed 50 characters",
+    "any.required": "Lab Test Method Name is required",
+  }),
 
-    labTestMethodCode: Joi.string()
-        .max(50)
-        .required()
-        .messages({
-            "string.base": "Lab Test Method Code must be a string",
-            "string.empty": "Lab Test Method Code is required",
-            "string.max": "Lab Test Method Code must not exceed 50 characters",
-            "any.required": "Lab Test Method Code is required"
-        }),
+  labTestMethodCode: Joi.string().max(50).required().messages({
+    "string.base": "Lab Test Method Code must be a string",
+    "string.empty": "Lab Test Method Code is required",
+    "string.max": "Lab Test Method Code must not exceed 50 characters",
+    "any.required": "Lab Test Method Code is required",
+  }),
 
-    Remark: Joi.string()
-        .allow("")
-        .optional()
-        .messages({
-            "string.base": "Lab Test Method Remark must be a string"
-        }),
+  Remark: Joi.string().allow("").optional().messages({
+    "string.base": "Lab Test Method Remark must be a string",
+  }),
 
-    isActive: Joi.boolean()
-        .required()
-        .messages({
-            "boolean.base": "Is Active must be a boolean",
-            "any.required": "Is Active is required"
-        }),
+  isActive: Joi.boolean().required().messages({
+    "boolean.base": "Is Active must be a boolean",
+    "any.required": "Is Active is required",
+  }),
 
-    hospitalIDR: Joi.number()
-        .integer()
-        .required()
-        .messages({
-            "number.base": "Hospital ID must be an integer",
-            "number.integer": "Hospital ID must be an integer",
-            "number.empty": "Hospital ID is required",
-            "any.required": "Hospital ID is required"
-        }),
+  hospitalIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital ID must be an integer",
+    "number.integer": "Hospital ID must be an integer",
+    "number.empty": "Hospital ID is required",
+    "any.required": "Hospital ID is required",
+  }),
 
-    hospitalGroupIDR: Joi.number()
-        .integer()
-        .required()
-        .messages({
-            "number.base": "Hospital Group ID must be an integer",
-            "number.integer": "Hospital Group ID must be an integer",
-            "number.empty": "Hospital Group ID is required",
-            "any.required": "Hospital Group ID is required"
-        }),
+  hospitalGroupIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital Group ID must be an integer",
+    "number.integer": "Hospital Group ID must be an integer",
+    "number.empty": "Hospital Group ID is required",
+    "any.required": "Hospital Group ID is required",
+  }),
 
-    createdBy: Joi.string()
-        .optional()
-        .messages({
-            "string.base": "Created by must be a string"
-        }),
+  createdBy: Joi.string().optional().messages({
+    "string.base": "Created by must be a string",
+  }),
 
-    updatedBy: Joi.string()
-        .optional()
-        .messages({
-            "string.base": "Updated by must be a string"
-        })
+  updatedBy: Joi.string().optional().messages({
+    "string.base": "Updated by must be a string",
+  }),
+});
+
+exports.agegroupschema = Joi.object({
+  ageGroupName: Joi.string().required().messages({
+    "string.base": "Age Group Name must be a string",
+    "string.empty": "Age Group Name is required",
+    "string.max": "Age Group Name must not exceed 50 characters",
+    "any.required": "Age Group Name is required",
+  }),
+  fromAge: Joi.number().integer().required().messages({
+    "number.base": "From Age must be an integer",
+    "number.integer": "From Age must be an integer",
+    "number.empty": "From Age is required",
+    "any.required": "From Age is required",
+  }),
+  toAge: Joi.number().integer().required().messages({
+    "number.base": "To Age must be an integer",
+    "number.integer": "To Age must be an integer",
+    "number.empty": "To Age is required",
+    "any.required": "To Age is required",
+  }),
+  ageFromType: Joi.string().required().messages({
+    "string.base": "Age From Type must be a string",
+    "string.empty": "Age From Type is required",
+    "string.max": "Age From Type must not exceed 50 characters",
+    "any.required": "Age From Type is required",
+  }),
+  isActive: Joi.boolean().required().messages({
+    "boolean.base": "Is Active must be a boolean",
+    "any.required": "Is Active is required",
+  }),
+  isAnyAgeGroup: Joi.boolean().required().messages({
+    "boolean.base": "Is Any Age Group must be a boolean",
+    "any.required": "Is Any Age Group is required",
+  }),
+  hospitalIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital ID must be an integer",
+    "number.integer": "Hospital ID must be an integer",
+    "number.empty": "Hospital ID is required",
+    "any.required": "Hospital ID is required",
+  }),
+
+  hospitalGroupIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital Group ID must be an integer",
+    "number.integer": "Hospital Group ID must be an integer",
+    "number.empty": "Hospital Group ID is required",
+    "any.required": "Hospital Group ID is required",
+  }),
+
+  createdBy: Joi.string().optional().messages({
+    "string.base": "Created by must be a string",
+  }),
+
+  updatedBy: Joi.string().optional().messages({
+    "string.base": "Updated by must be a string",
+  }),
+});
+
+exports.labtestschema=Joi.object({
+    labTestName:Joi.string().required().messages({
+    "string.base": "Lab Test Name must be a string",
+    "string.empty": "Lab Test Name is required",
+    "string.max": "Lab Test Name must not exceed 50 characters",
+    "any.required": "Lab Test Name is required",   
+    }),
+
+    labTestCode:Joi.string().required().messages({
+    "string.base": "Lab Test Code must be a string",
+    "string.empty": "Lab Test Code is required",
+    "string.max": "Lab Test Code must not exceed 50 characters",
+    "any.required": "Lab Test Code is required",    
+    }),
+
+    cptCode:Joi.string().required().messages({
+    "string.base": "CPT Code must be a string",
+    "string.empty": "CPT Code is required",
+    "string.max": "CPT Code must not exceed 50 characters",
+    "any.required": "CPT Code is required",   
+    }),
+
+    labTestMethodIDR:Joi.number().integer().required().messages({
+    "number.base": "Lab Test Method ID must be an integer",
+    "number.integer": "Lab Test Method ID must be an integer",
+    "number.empty": "Lab Test Method ID is required",
+    "any.required": "Lab Test Method ID is required",    
+    }),
+
+    labTestUnit:Joi.number().integer().required().messages({
+    "number.base": "Lab Test Unit must be an integer",
+    "number.integer": "Lab Test Unit must be an integer",
+    "number.empty": "Lab Test Unit is required",
+    "any.required": "Lab Test Unit is required",   
+    }),
+
+    isMultiColumn:Joi.boolean().optional().messages({
+    "boolean.base": "Is Multi Column must be a boolean",
+    }),
+
+    fieldType:Joi.number().integer().required().messages({
+    "number.base": "Field Type must be an integer",
+    "number.integer": "Field Type must be an integer",
+    "number.empty": "Field Type is required",
+    "any.required": "Field Type is required",    
+    }),
+
+    fromRange:Joi.string().required().messages({
+    "string.base": "From Range must be a string",
+    "string.empty": "From Range is required",
+    "string.max": "From Range must not exceed 50 characters",
+    "any.required": "From Range is required",    
+    }),
+
+    toRange:Joi.string().required().messages({
+    "string.base": "To Range must be a string",
+    "string.empty": "To Range is required",
+    "string.max": "To Range must not exceed 50 characters",
+    "any.required": "To Range is required",    
+    }),
+
+    isCalculated:Joi.boolean().optional().messages({
+    "boolean.base": "Is Calculated must be a boolean",
+    }),
+
+    isActive: Joi.boolean().required().messages({
+    "boolean.base": "Is Active must be a boolean",
+    "any.required": "Is Active is required",
+  }),
+
+    Formula:Joi.string().required().messages({
+    "string.base": "Formula must be a string",
+    "string.empty": "Formula is required",
+    "string.max": "Formula must not exceed 50 characters",
+    "any.required": "Formula is required",  
+  }),
+
+    calculationTestIDR:Joi.number().integer().required().messages({
+    "number.base": "Calculation Test ID must be an integer",
+    "number.integer": "Calculation Test ID must be an integer",
+    "number.empty": "Calculation Test ID is required",
+    "any.required": "Calculation Test ID is required",
+  }),
+
+    Remark:Joi.string().required().messages({
+    "string.base": "Remark must be a string",
+    "string.empty": "Remark is required",
+    "string.max": "Remark must not exceed 50 characters",
+    "any.required": "Remark is required",    
+    }),
+
+    usedForCalculation:Joi.boolean().optional().messages({
+    "boolean.base": "Used For Calculation must be a boolean",
+    }),
+
+    detailType:Joi.number().integer().optional().messages({
+    "number.base": "Detail Type must be an integer",
+    "number.integer": "Detail Type must be an integer",    
+    }),
+
+    hospitalIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital ID must be an integer",
+    "number.integer": "Hospital ID must be an integer",
+    "number.empty": "Hospital ID is required",
+    "any.required": "Hospital ID is required",
+    }),
+
+    hospitalGroupIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital Group ID must be an integer",
+    "number.integer": "Hospital Group ID must be an integer",
+    "number.empty": "Hospital Group ID is required",
+    "any.required": "Hospital Group ID is required",
+    }),
+
+    createdBy: Joi.string().optional().messages({
+    "string.base": "Created by must be a string",
+    }),
+
+    updatedBy: Joi.string().optional().messages({
+    "string.base": "Updated by must be a string",
+    })
 });

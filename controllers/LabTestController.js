@@ -5,6 +5,7 @@ const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
 const Hospital = require("../models/HospitalModel");
 const HospitalGroup = require("../models/HospitalGroup");
+const {labtestschema} = require("../validators/joi-validator");
 
 exports.createLabTest = async (req, res) => {
   const start = Date.now();
@@ -14,6 +15,9 @@ exports.createLabTest = async (req, res) => {
   const username = req.username;
 
   try {
+    const { error } = labtestschema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
     const Labtestmethod = require("../models/LabTestMethodModel")(req.sequelize);
     const labTestMethod = await Labtestmethod.findOne({
       where: { lab_test_method_id: req.body.labTestMethodIDR },
@@ -324,6 +328,9 @@ exports.updateLabTestById = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
   try {
+    const { error } = labtestschema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
     const Labtestmethod = require("../models/LabTestMethodModel")(req.sequelize);
     const labTestMethod = await Labtestmethod.findOne({
       where: { lab_test_method_id: req.body.labTestMethodIDR },
