@@ -303,6 +303,8 @@ exports.updateLabTestMethodById = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
   try {
+     const { error } = labtestmethodcreateSchema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
     const hospitalid = await Hospital.findOne({
       where: { HospitalID: req.body.hospitalIDR },
     });
