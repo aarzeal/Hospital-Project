@@ -36,6 +36,10 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
+      max_length:{
+         type: DataTypes.STRING,
+        allowNull: true,
+      },
       from_range: {
         type: DataTypes.STRING,
         allowNull: true,

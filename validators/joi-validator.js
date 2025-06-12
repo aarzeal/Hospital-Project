@@ -4,7 +4,7 @@ exports.labtestmethodcreateSchema = Joi.object({
   labTestMethodName: Joi.string().max(50).required().messages({
     "string.base": "Lab Test Method Name must be a string",
     "string.empty": "Lab Test Method Name is required",
-    "string.max": "Lab Test Method Name must not exceed 50 characters",
+    "string.max": "Lab Test Method Name must not exceed 200 characters",
     "any.required": "Lab Test Method Name is required",
   }),
 
@@ -51,7 +51,7 @@ exports.agegroupschema = Joi.object({
   ageGroupName: Joi.string().required().messages({
     "string.base": "Age Group Name must be a string",
     "string.empty": "Age Group Name is required",
-    "string.max": "Age Group Name must not exceed 50 characters",
+    "string.max": "Age Group Name must not exceed 100 characters",
     "any.required": "Age Group Name is required",
   }),
   fromAge: Joi.number().integer().required().messages({
@@ -107,7 +107,7 @@ exports.labtestschema=Joi.object({
     labTestName:Joi.string().required().messages({
     "string.base": "Lab Test Name must be a string",
     "string.empty": "Lab Test Name is required",
-    "string.max": "Lab Test Name must not exceed 50 characters",
+    "string.max": "Lab Test Name must not exceed 100 characters",
     "any.required": "Lab Test Name is required",   
     }),
 
@@ -150,6 +150,13 @@ exports.labtestschema=Joi.object({
     "any.required": "Field Type is required",    
     }),
 
+     maxLength:Joi.string().required().messages({
+    "string.base": "Max Length must be a string",
+    "string.empty": "Max Length is required",
+    "string.max": "Max Length must not exceed 100 characters",
+    "any.required": "Max Length is required",    
+    }),
+
     fromRange:Joi.string().required().messages({
     "string.base": "From Range must be a string",
     "string.empty": "From Range is required",
@@ -190,7 +197,7 @@ exports.labtestschema=Joi.object({
     Remark:Joi.string().required().messages({
     "string.base": "Remark must be a string",
     "string.empty": "Remark is required",
-    "string.max": "Remark must not exceed 50 characters",
+    "string.max": "Remark must not exceed 200 characters",
     "any.required": "Remark is required",    
     }),
 
@@ -225,3 +232,49 @@ exports.labtestschema=Joi.object({
     "string.base": "Updated by must be a string",
     })
 });
+
+exports.labtestrefdetailschema=Joi.object({
+   labTestIDR:Joi.number().integer().required().messages({
+    "number.base": "Lab Test ID must be an integer",
+    "number.integer": "Lab Test ID must be an integer",
+    "number.empty": "Lab Test ID is required",
+    "any.required": "Lab Test ID is required",    
+    }),
+    refTitle:Joi.string().required().messages({
+    "string.base": "Reference Title must be a string",
+    "string.empty": "Reference Title is required",
+    "string.max": "Reference Title must not exceed 100 characters",
+    "any.required": "Reference Title is required",
+    }),
+    refDetail:Joi.string().required().messages({
+    "string.base": "Reference Detail must be a string",
+    "string.empty": "Reference Detail is required",
+    "string.max": "Reference Detail must not exceed 250 characters",
+    "any.required": "Reference Detail is required",
+    }),
+    isActive: Joi.boolean().required().messages({
+    "boolean.base": "Is Active must be a boolean",
+    "any.required": "Is Active is required",
+  }),
+    hospitalIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital ID must be an integer",
+    "number.integer": "Hospital ID must be an integer",
+    "number.empty": "Hospital ID is required",
+    "any.required": "Hospital ID is required",
+    }),
+
+    hospitalGroupIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital Group ID must be an integer",
+    "number.integer": "Hospital Group ID must be an integer",
+    "number.empty": "Hospital Group ID is required",
+    "any.required": "Hospital Group ID is required",
+    }),
+
+    createdBy: Joi.string().optional().messages({
+    "string.base": "Created by must be a string",
+    }),
+
+    updatedBy: Joi.string().optional().messages({
+    "string.base": "Updated by must be a string",
+    })
+})

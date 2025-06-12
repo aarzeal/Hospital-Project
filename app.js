@@ -62,6 +62,7 @@ const patientAppointment = require("./routes/PatientAppointment_Routes.js")
 const LabTestMethod = require("./routes/LabTestMethodRoutes.js")
 const LabTest = require("./routes/LabTestRoutes.js")
 const AgeGroup = require("./routes/AgeGroupRoutes.js")
+const LabTestRefDetail= require("./routes/LabTestRefDetailsRoutes.js")
 
 
 
@@ -163,6 +164,7 @@ app.use('/api/v1/patientAppointment', patientAppointment)
 app.use('/api/v1/lab-test-method', LabTestMethod);
 app.use('/api/v1/labtest', LabTest);
 app.use('/api/v1', AgeGroup);
+app.use('/api/v1/labtestrefdetail',LabTestRefDetail);
 
 
 sendEmail();
