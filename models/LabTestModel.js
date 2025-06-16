@@ -36,8 +36,8 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-      max_length:{
-         type: DataTypes.STRING,
+      max_length: {
+        type: DataTypes.STRING,
         allowNull: true,
       },
       from_range: {
@@ -61,7 +61,7 @@ module.exports = (sequelize) => {
         allowNull: true,
       },
       calculation_test_IDR: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: true,
       },
       remark: {
