@@ -1,34 +1,34 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-require('dotenv').config();
+const express = require("express");
+const bodyParser = require("body-parser");
+require("dotenv").config();
 const app = express();
-const swaggerUi = require('swagger-ui-express');
-const YAML = require('yamljs');
-const swaggerDocument = YAML.load('./swagger.yaml'); // Load your YAML file
-const hospitalGroupRoutes = require('./routes/hospitalGroupRoutes');
-const hospitalRoutes = require('./routes/HospitlRoutes')
-const sequelize = require('./database/connection');
-const userRoutes = require('./routes/userRoutes');
-const patientRoutes = require('./routes/patientRoutes');
-const moduleRoutes = require('./routes/hospitalModulesRoutes');
-const hospitalUserRidesRoutes = require('./routes/hospitalUserRights');
-const submoduleRoutes = require('./routes/submoduleRoutes');
-const staffRoutes = require('./routes/staffMasterRoutes');
-const doctorRoutes = require('./routes/doctorRoutes');
-const skillRoutes = require('./routes/skillRoutes');
-const designationRoutes = require('./routes/designationRoutes');
-const departmentRoutes = require('./routes/departmentRoutes');
-const empCategoryRoutes = require('./routes/empCategoryRoutes');
-const employeeRoutes = require('./routes/employeeRoutes');
-const countApiLogger = require('./Middleware/countApiLogger');
-const job = require('./Middleware/sendEmailAuto');
-const { sendEmail } = require('./Middleware/sendEmailEventbase');
-const locationRoutes = require('./routes/CountryStateCityroute');
-const translationsRoutes = require('./routes/translationsRoutes');
-const apisRatesRoutes = require('./routes/apisRatesRoutes');
-const ApisListRoutes = require("./routes/ApisListRoutes")
-const CurrencyRoutes = require("./routes/currencyRoutes")
-const logRoutes = require('./routes/logRoutes');
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml"); // Load your YAML file
+const hospitalGroupRoutes = require("./routes/hospitalGroupRoutes");
+const hospitalRoutes = require("./routes/HospitlRoutes");
+const sequelize = require("./database/connection");
+const userRoutes = require("./routes/userRoutes");
+const patientRoutes = require("./routes/patientRoutes");
+const moduleRoutes = require("./routes/hospitalModulesRoutes");
+const hospitalUserRidesRoutes = require("./routes/hospitalUserRights");
+const submoduleRoutes = require("./routes/submoduleRoutes");
+const staffRoutes = require("./routes/staffMasterRoutes");
+const doctorRoutes = require("./routes/doctorRoutes");
+const skillRoutes = require("./routes/skillRoutes");
+const designationRoutes = require("./routes/designationRoutes");
+const departmentRoutes = require("./routes/departmentRoutes");
+const empCategoryRoutes = require("./routes/empCategoryRoutes");
+const employeeRoutes = require("./routes/employeeRoutes");
+const countApiLogger = require("./Middleware/countApiLogger");
+const job = require("./Middleware/sendEmailAuto");
+const { sendEmail } = require("./Middleware/sendEmailEventbase");
+const locationRoutes = require("./routes/CountryStateCityroute");
+const translationsRoutes = require("./routes/translationsRoutes");
+const apisRatesRoutes = require("./routes/apisRatesRoutes");
+const ApisListRoutes = require("./routes/ApisListRoutes");
+const CurrencyRoutes = require("./routes/currencyRoutes");
+const logRoutes = require("./routes/logRoutes");
 const roomRoutes = require("./routes/MRDRoomRoutes");
 const masterSubRoutes = require("./routes/MasterSubModulesRoute");
 const masterRoutes = require("./routes/MasterModuleRoutes");
@@ -47,36 +47,34 @@ const Billing_Class = require("./routes/Billing_Routes");
 const unit = require("./routes/Unit_Routes");
 const item_category = require("./routes/item_category_Routes");
 const item_group = require("./routes/itemGroup_routes");
-const itemContent = require("./routes/itemContentRoutes.js")
-const itemCompany = require("./routes/InvProdCompanyRoute.js")
-const Supplier = require("./routes/SupplierRoute.js")
-const ServiceSOR = require("./routes/ServiceSORroutes.js")
-const ward = require("./routes/WardRoutes.js")
-const roomType = require("./routes/RoomType_Routes.js")
-const wardWiseCostAddition = require("./routes/wardwiseCAroutes.js")
-const rooms = require("./routes/Rooms_Routes.js")
-const wardRoomLink = require("./routes/LinkWardRoom_Routes.js")
-const store = require("./routes/Store_Routes.js")
-const appointmentSchedule = require("./routes/AppointmentSchedule_Routes.js")
-const patientAppointment = require("./routes/PatientAppointment_Routes.js")
-const LabTestMethod = require("./routes/LabTestMethodRoutes.js")
-const LabTest = require("./routes/LabTestRoutes.js")
-const AgeGroup = require("./routes/AgeGroupRoutes.js")
-const LabTestRefDetail= require("./routes/LabTestRefDetailsRoutes.js")
+const itemContent = require("./routes/itemContentRoutes.js");
+const itemCompany = require("./routes/InvProdCompanyRoute.js");
+const Supplier = require("./routes/SupplierRoute.js");
+const ServiceSOR = require("./routes/ServiceSORroutes.js");
+const ward = require("./routes/WardRoutes.js");
+const roomType = require("./routes/RoomType_Routes.js");
+const wardWiseCostAddition = require("./routes/wardwiseCAroutes.js");
+const rooms = require("./routes/Rooms_Routes.js");
+const wardRoomLink = require("./routes/LinkWardRoom_Routes.js");
+const store = require("./routes/Store_Routes.js");
+const appointmentSchedule = require("./routes/AppointmentSchedule_Routes.js");
+const patientAppointment = require("./routes/PatientAppointment_Routes.js");
+const LabTestMethod = require("./routes/LabTestMethodRoutes.js");
+const LabTest = require("./routes/LabTestRoutes.js");
+const AgeGroup = require("./routes/AgeGroupRoutes.js");
+const LabTestRefDetail = require("./routes/LabTestRefDetailsRoutes.js");
+const labFacultyRoutes = require("./routes/labFacultyRoutes.js");
 
-
-
-
-const multer = require('multer');
-const cors = require('cors');
+const multer = require("multer");
+const cors = require("cors");
 // Middleware for parsing JSON bodies
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // const storage = multer.diskStorage({
 //   destination: function (req, file, cb) {
@@ -91,86 +89,85 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // const upload = multer({ dest: 'uploads/' });
 
-
-const session = require('express-session');
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // Set to true if using HTTPS
-}));
+const session = require("express-session");
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // Set to true if using HTTPS
+  })
+);
 
 app.use(countApiLogger);
 app.use(cors());
-app.set('trust proxy', true);
-
+app.set("trust proxy", true);
 
 // Serve Swagger UI
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Use hospitalGroupRoutes
 
-app.use('/api/v1/hospital', hospitalGroupRoutes);
-app.use('/api/v1/hospital', hospitalRoutes);
-app.use('/api/v1/hospital', userRoutes);
-app.use('/api/v1/patient/', patientRoutes);
-app.use('/api/v1/hospital/module', moduleRoutes);
-app.use('/api/v1/hospital', hospitalUserRidesRoutes);
-app.use('/api/v1/hospital/submodules', submoduleRoutes);
-app.use('/api/v1/hospital/staff', staffRoutes);
-app.use('/api/v1/doctors', doctorRoutes);
-app.use('/api/v1', skillRoutes);
-app.use('/api/v1', designationRoutes);
-app.use('/api/v1/hospital', departmentRoutes);
-app.use('/api/v1/', empCategoryRoutes);
-app.use('/api/v1/employee', employeeRoutes);
-app.use('/api/v1', hospitalGroupRoutes);
-app.use('/api/v1', apisRatesRoutes);
-app.use('/api/v1', ApisListRoutes)
-app.use('/api/v1', CurrencyRoutes)
-app.use('/api/v1', logRoutes);
+app.use("/api/v1/hospital", hospitalGroupRoutes);
+app.use("/api/v1/hospital", hospitalRoutes);
+app.use("/api/v1/hospital", userRoutes);
+app.use("/api/v1/patient/", patientRoutes);
+app.use("/api/v1/hospital/module", moduleRoutes);
+app.use("/api/v1/hospital", hospitalUserRidesRoutes);
+app.use("/api/v1/hospital/submodules", submoduleRoutes);
+app.use("/api/v1/hospital/staff", staffRoutes);
+app.use("/api/v1/doctors", doctorRoutes);
+app.use("/api/v1", skillRoutes);
+app.use("/api/v1", designationRoutes);
+app.use("/api/v1/hospital", departmentRoutes);
+app.use("/api/v1/", empCategoryRoutes);
+app.use("/api/v1/employee", employeeRoutes);
+app.use("/api/v1", hospitalGroupRoutes);
+app.use("/api/v1", apisRatesRoutes);
+app.use("/api/v1", ApisListRoutes);
+app.use("/api/v1", CurrencyRoutes);
+app.use("/api/v1", logRoutes);
 
-app.use('/api/v1/location', locationRoutes);
-app.use('/api/v1', translationsRoutes);
-app.use('/api/v1/master-submodule', masterSubRoutes);
-app.use('/api/v1/master-module', masterRoutes);
-app.use('/api/v1/accLedger', accLedgerRoutes);
-app.use('/api/v1/service', serviceRoutes);
-app.use('/api/v1/serviceCategory', serviceCategory);
-app.use('/api/v1/tax', Tax);
-app.use('/api/v1/tax-deatils', Tax_Deatils);
-app.use('/api/v1/item', Item);
-app.use('/api/v1/itemMap', ItemMap);
-app.use('/api/v1/servicePriceList', ServicePriceList);
-app.use('/api/v1/Financial-year', Financial_Year);
-app.use('/api/v1/fin-details', Fin_Year_Details);
-app.use('/api/v1/fin-group', Fin_group);
-app.use('/api/v1/billing_Class', Billing_Class);
-app.use('/api/v1/unit', unit);
-app.use('/api/v1/item-category', item_category);
-app.use('/api/v1/itemgroup', item_group);
-app.use('/api/v1/item-content', itemContent);
-app.use('/api/v1/item-company', itemCompany);
-app.use('/api/v1/supplier', Supplier);
-app.use('/api/v1/ServiceSOR', ServiceSOR);
-app.use('/api/v1/ward', ward);
-app.use('/api/v1/room-type', roomType)
-app.use('/api/v1/room', rooms)
-app.use('/api/v1/wardRoomLink', wardRoomLink)
-app.use('/api/v1/ward-wise-cost-addition', wardWiseCostAddition);
-app.use('/api/v1/store', store)
-app.use('/api/v1/appointmentSchedule', appointmentSchedule)
-app.use('/api/v1/patientAppointment', patientAppointment)
-app.use('/api/v1/lab-test-method', LabTestMethod);
-app.use('/api/v1/labtest', LabTest);
-app.use('/api/v1', AgeGroup);
-app.use('/api/v1/labtestrefdetail',LabTestRefDetail);
-
+app.use("/api/v1/location", locationRoutes);
+app.use("/api/v1", translationsRoutes);
+app.use("/api/v1/master-submodule", masterSubRoutes);
+app.use("/api/v1/master-module", masterRoutes);
+app.use("/api/v1/accLedger", accLedgerRoutes);
+app.use("/api/v1/service", serviceRoutes);
+app.use("/api/v1/serviceCategory", serviceCategory);
+app.use("/api/v1/tax", Tax);
+app.use("/api/v1/tax-deatils", Tax_Deatils);
+app.use("/api/v1/item", Item);
+app.use("/api/v1/itemMap", ItemMap);
+app.use("/api/v1/servicePriceList", ServicePriceList);
+app.use("/api/v1/Financial-year", Financial_Year);
+app.use("/api/v1/fin-details", Fin_Year_Details);
+app.use("/api/v1/fin-group", Fin_group);
+app.use("/api/v1/billing_Class", Billing_Class);
+app.use("/api/v1/unit", unit);
+app.use("/api/v1/item-category", item_category);
+app.use("/api/v1/itemgroup", item_group);
+app.use("/api/v1/item-content", itemContent);
+app.use("/api/v1/item-company", itemCompany);
+app.use("/api/v1/supplier", Supplier);
+app.use("/api/v1/ServiceSOR", ServiceSOR);
+app.use("/api/v1/ward", ward);
+app.use("/api/v1/room-type", roomType);
+app.use("/api/v1/room", rooms);
+app.use("/api/v1/wardRoomLink", wardRoomLink);
+app.use("/api/v1/ward-wise-cost-addition", wardWiseCostAddition);
+app.use("/api/v1/store", store);
+app.use("/api/v1/appointmentSchedule", appointmentSchedule);
+app.use("/api/v1/patientAppointment", patientAppointment);
+app.use("/api/v1/lab-test-method", LabTestMethod);
+app.use("/api/v1/labtest", LabTest);
+app.use("/api/v1", AgeGroup);
+app.use("/api/v1/labtestrefdetail", LabTestRefDetail);
+app.use("/api/v1/lab-faculty", labFacultyRoutes);
 
 sendEmail();
 
 app.use(roomRoutes);
-
 
 // Start server
 const PORT = process.env.PORT || 3000;
