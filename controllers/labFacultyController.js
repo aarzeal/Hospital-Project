@@ -295,3 +295,31 @@ exports.getLabFacultyById = async (req, res) => {
     });
   }
 };
+
+exports.updateLabFacultyById = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const locationData = await getLocationData(clientIp);
+  const hospitalDatabase = req.hospitalDatabase;
+  const username = req.username;
+  try {
+    const { error } = labFacultySchema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 9249;
+
+    logger.logWithMeta("error", "Error updating Age Group", {
+      errorCode,
+      executionTime,
+      hospitalDatabase,
+      apiName: req.originalUrl,
+      error: error.message,
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error updating Age Group: " + error.message },
+    });
+  }
+};
