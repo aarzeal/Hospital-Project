@@ -8,13 +8,17 @@ exports.getAllLabTestRefDetailsDAO = async (sequelize) => {
   const LabTestRefDetails = require("../models/LabTestRefDetailsModel")(sequelize);
   return await LabTestRefDetails.findAll();
 };
+exports.getAllLabTestRefDetailsByLabTestIdDAO = async (sequelize, id) => {
+  const LabTestRefDetails = require("../models/LabTestRefDetailsModel")(sequelize);
+  return await LabTestRefDetails.findAll({ where: { lab_test_IDR: id } });
+};
 
 exports.getLabTestRefDetailsByIdDAO = async (sequelize, id) => {
   const LabTestRefDetails = require("../models/LabTestRefDetailsModel")(sequelize);
   return await LabTestRefDetails.findByPk(id);
 };
 
-exports.getLabTestRefDetailsAsPerQueryParamDAO= async (sequelize, options) => {
+exports.getLabTestRefDetailsAsPerQueryParamDAO = async (sequelize, options) => {
   const LabTestRefDetails = require("../models/LabTestRefDetailsModel")(sequelize);
   return await LabTestRefDetails.findAndCountAll({
     attributes: options.attributes,
@@ -23,6 +27,21 @@ exports.getLabTestRefDetailsAsPerQueryParamDAO= async (sequelize, options) => {
     raw: true
   });
 };
+
+exports.getLabTestRefDetailsByLabTestIdAsPerQueryParamDAO = async (sequelize, options) => {
+  const LabTestRefDetails = require("../models/LabTestRefDetailsModel")(sequelize);
+
+  const query = {
+    attributes: options.attributes || undefined,
+    offset: options.offset || 0,
+    limit: options.limit || 10,
+    where: options.where || {},
+    raw: true,
+  };
+
+  return await LabTestRefDetails.findAndCountAll(query);
+};
+
 
 exports.updateLabTestRefDetailByIdDAO = async (sequelize, lab_test_ref_id, updateData) => {
   const LabTestRefDetails = require("../models/LabTestRefDetailsModel")(sequelize);

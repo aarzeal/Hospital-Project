@@ -5,7 +5,7 @@ const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
 const Hospital = require("../models/HospitalModel");
 const HospitalGroup = require("../models/HospitalGroup");
-const {labtestrefdetailschema} = require("../validators/joi-validator");
+const { labtestrefdetailschema } = require("../validators/joi-validator");
 
 exports.createLabTestRefDetail = async (req, res) => {
   const start = Date.now();
@@ -238,6 +238,134 @@ exports.getAllLabTestRefDetails = async (req, res) => {
   }
 };
 
+exports.getAllLabTestRefDetailsByLabTestId = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
+
+  try {
+    // Check for database connection
+    if (!req.sequelize) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 9088;
+
+      logger.logWithMeta("error", "Database connection not found", {
+        errorCode,
+        executionTime,
+        hospitalName: req.hospitalName || "Unknown",
+        ip: clientIp,
+        city: locationData?.city,
+        country: locationData?.country,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      });
+
+      return res.status(500).json({
+        message: "Database connection not found",
+        statusCode: 500,
+        errorCode,
+      });
+    }
+
+    const { lab_test_id: labTestId } = req.params;
+
+    if (!labTestId) {
+      return res.status(400).json({
+        errorCode: 4001,
+        message: "Lab Test ID is required",
+      });
+    }
+
+    const LabTest = require("../models/LabTestModel")(req.sequelize);
+    const labTest = await LabTest.findOne({ where: { lab_test_id: labTestId } });
+
+    if (!labTest) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 5454;
+
+      logger.logWithMeta("error", "Invalid Lab Test ID, not found in database", {
+        errorCode,
+        executionTime,
+        hospitalName: req.hospitalName,
+        ip: clientIp,
+        city: locationData?.city,
+        country: locationData?.country,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      });
+
+      return res.status(400).json({
+        errorCode,
+        message: "Invalid Lab Test ID, not found in database",
+      });
+    }
+
+    const result = await LabTestRefDetailsDao.getAllLabTestRefDetailsByLabTestIdDAO(req.sequelize, labTestId);
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Fetched Lab Test Reference Details successfully", {
+      executionTime,
+      hospitalName: req.hospitalName,
+      ip: clientIp,
+      city: locationData?.city,
+      country: locationData?.country,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime,
+        hospitalDatabase,
+      },
+      data: result.map(dto.toLabTestRefDetailsEntity),
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1263;
+
+    logger.logWithMeta("error", "Error fetching Lab Test reference details", {
+      errorCode,
+      executionTime,
+      hospitalName: req.hospitalName,
+      ip: clientIp,
+      city: locationData?.city,
+      country: locationData?.country,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+      errorMessage: error.message,
+    });
+
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode,
+        executionTime,
+        hospitalDatabase,
+      },
+      error: {
+        message: `Error fetching Lab Test reference details: ${error.message}`,
+      },
+    });
+  }
+};
+
 exports.getLabTestRefDetailsById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -360,9 +488,9 @@ exports.getLabTestRefDetailAsPerQueryParam = async (req, res) => {
     // const ID_DB_FIELD = fieldMap[ID_DTO_FIELD];
 
     let requestedDtoFields = Object.keys(queryFields).filter(field => field in fieldMap);
-     if (requestedDtoFields.length === 0) {
+    if (requestedDtoFields.length === 0) {
       requestedDtoFields = Object.keys(fieldMap);
-}
+    }
     if (!requestedDtoFields.includes(ID_DTO_FIELD)) {
       requestedDtoFields.unshift(ID_DTO_FIELD);
     }
@@ -457,6 +585,190 @@ exports.getLabTestRefDetailAsPerQueryParam = async (req, res) => {
     });
 
     res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error fetching Lab Test Reference Details: " + error.message },
+    });
+  }
+};
+
+exports.getLabTestRefDetailByLabTestIdAsPerQueryParam = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
+
+  try {
+    if (!req.sequelize) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 9088;
+
+      logger.logWithMeta("error", "Database connection not found", {
+        errorCode,
+        executionTime,
+        hospitalName: req.hospitalName || "Unknown",
+        ip: clientIp,
+        city: locationData?.city,
+        country: locationData?.country,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      });
+
+      return res.status(500).json({
+        message: "Database connection not found",
+        statusCode: 500,
+        errorCode,
+      });
+    }
+
+    const { lab_test_id: labTestId } = req.params;
+
+    if (!labTestId) {
+      return res.status(400).json({
+        errorCode: 4001,
+        message: "Lab Test ID is required",
+      });
+    }
+
+    const LabTest = require("../models/LabTestModel")(req.sequelize);
+    const labTest = await LabTest.findOne({ where: { lab_test_id: labTestId } });
+
+    if (!labTest) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 5454;
+
+      logger.logWithMeta("error", "Invalid Lab Test ID, not found in database", {
+        errorCode,
+        executionTime,
+        hospitalName: req.hospitalName,
+        ip: clientIp,
+        city: locationData?.city,
+        country: locationData?.country,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      });
+
+      return res.status(400).json({
+        errorCode,
+        message: "Invalid Lab Test ID, not found in database",
+      });
+    }
+
+    // Extract and process query fields
+    const { page, limit, ...queryFields } = req.query;
+    const fieldMap = dto.labTestRefDetailsFieldMap;
+
+    const ID_DTO_FIELD = "labTestRefId";
+    let requestedDtoFields = Object.keys(queryFields).filter(field => field in fieldMap);
+
+    if (requestedDtoFields.length === 0) {
+      requestedDtoFields = Object.keys(fieldMap);
+    }
+
+    if (!requestedDtoFields.includes(ID_DTO_FIELD)) {
+      requestedDtoFields.unshift(ID_DTO_FIELD);
+    }
+
+    const attributes = [...new Set(requestedDtoFields.map(field => fieldMap[field]))];
+
+    if (Object.keys(queryFields).length && attributes.length === 0) {
+      return res.status(400).json({
+        message: "Invalid or unknown fields in query parameters",
+        statusCode: 400,
+      });
+    }
+
+    // Pagination
+    let pagination = {};
+    let pageNum = parseInt(page, 10);
+    let limitNum = parseInt(limit, 10);
+
+    if (!isNaN(pageNum) && !isNaN(limitNum)) {
+      pagination.offset = (pageNum - 1) * limitNum;
+      pagination.limit = limitNum;
+    }
+
+    // Fetch data
+    const { count: totalRecords, rows } = await LabTestRefDetailsDao.getLabTestRefDetailsAsPerQueryParamDAO(
+      req.sequelize,
+      {
+        attributes,
+        where: { lab_test_IDR: labTestId },
+        ...pagination,
+      }
+    );
+
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Fetched Lab Test Reference Details successfully", {
+      executionTime,
+      hospitalName: req.hospitalName,
+      ip: clientIp,
+      city: locationData?.city,
+      country: locationData?.country,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    const responseData = rows.map(record => {
+      const fullDto = dto.toLabTestRefDetailsEntity(record);
+      const filteredDto = {};
+      for (const key of requestedDtoFields) {
+        if (key in fullDto) {
+          filteredDto[key] = fullDto[key];
+        }
+      }
+      return filteredDto;
+    });
+
+    const responseMeta = {
+      statusCode: 200,
+      executionTime,
+      hospitalDatabase,
+    };
+
+    if (!isNaN(pageNum) && !isNaN(limitNum)) {
+      responseMeta.pagination = {
+        page: pageNum,
+        limit: limitNum,
+        totalRecords,
+        totalPages: Math.ceil(totalRecords / limitNum),
+      };
+    }
+
+    return res.status(200).json({
+      meta: responseMeta,
+      data: responseData,
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1263;
+
+    logger.logWithMeta("error", "Error fetching Lab Test Reference Details", {
+      errorCode,
+      executionTime,
+      hospitalName: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+      errorMessage: error.message,
+    });
+
+    return res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
       error: { message: "Error fetching Lab Test Reference Details: " + error.message },
     });

@@ -5,7 +5,7 @@ const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
 const Hospital = require("../models/HospitalModel");
 const HospitalGroup = require("../models/HospitalGroup");
-const {agegroupschema}=require("../validators/joi-validator");
+const { agegroupschema } = require("../validators/joi-validator");
 
 exports.createAgeGroup = async (req, res) => {
   const start = Date.now();
@@ -14,8 +14,8 @@ exports.createAgeGroup = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
   try {
-     const { error } = agegroupschema.validate(req.body);
-        if (error) return res.status(400).json({ error: error.details[0].message });
+    const { error } = agegroupschema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
 
     const hospitalid = await Hospital.findOne({
       where: { HospitalID: req.body.hospitalIDR },
@@ -67,7 +67,7 @@ exports.createAgeGroup = async (req, res) => {
         errorCode,
         message: "Invalid HospitalGroupID, not found in MasterDB",
       });
-    }  
+    }
     const RequestBody = {
       ...req.body,
       createdBy: username,
@@ -120,7 +120,7 @@ exports.createAgeGroup = async (req, res) => {
       createdBy: username,
     });
     res.status(500).json({
-      meta: { statusCode: 500, errorCode, executionTime,hospitalDatabase },
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
       error: { message: "Error creating Age Group  : " + error.message },
     });
   }
@@ -134,7 +134,7 @@ exports.getAllAgeGroups = async (req, res) => {
   try {
     if (!req.sequelize) {
       const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 9088; 
+      const errorCode = 9088;
 
       logger.logWithMeta("error", "Database connection not found", {
         errorCode,
@@ -213,10 +213,7 @@ exports.getAgeGroupById = async (req, res) => {
   const locationData = await getLocationData(clientIp);
   try {
     const { id } = req.params;
-    const result = await AgeGroupDao.getAgeGroupByIdDAO(
-      req.sequelize,
-      id
-    );
+    const result = await AgeGroupDao.getAgeGroupByIdDAO(req.sequelize, id);
 
     if (!result) {
       const executionTime = `${Date.now() - start}ms`;
@@ -238,7 +235,11 @@ exports.getAgeGroupById = async (req, res) => {
 
       return res
         .status(404)
-        .json({ errorCode: 1263, message: "Age Group not found in Database",hospitalDatabase });
+        .json({
+          errorCode: 1263,
+          message: "Age Group not found in Database",
+          hospitalDatabase,
+        });
     }
     const executionTime = `${Date.now() - start}ms`;
 
@@ -297,11 +298,11 @@ exports.updateAgeGroupById = async (req, res) => {
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
-  const username =req.username;
+  const username = req.username;
   try {
-         const { error } = agegroupschema.validate(req.body);
-        if (error) return res.status(400).json({ error: error.details[0].message });
-        
+    const { error } = agegroupschema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
     const hospitalid = await Hospital.findOne({
       where: { HospitalID: req.body.hospitalIDR },
     });
@@ -347,7 +348,7 @@ exports.updateAgeGroupById = async (req, res) => {
           method: req.method,
           userAgent: req.headers["user-agent"],
           createdBy: req.username,
-          updatedBy: username
+          updatedBy: username,
         }
       );
       return res.status(400).json({
@@ -356,12 +357,16 @@ exports.updateAgeGroupById = async (req, res) => {
       });
     }
     const { age_group_id } = req.params;
-          const RequestBody={
-            ...req.body,
-            updatedBy:username,
-        };
-        const ageGroupData = dto.toAgeGroupPOST(RequestBody);
-        const updated = await AgeGroupDao.updateAgeGroupByIdDAO(req.sequelize, age_group_id, ageGroupData);
+    const RequestBody = {
+      ...req.body,
+      updatedBy: username,
+    };
+    const ageGroupData = dto.toAgeGroupPOST(RequestBody);
+    const updated = await AgeGroupDao.updateAgeGroupByIdDAO(
+      req.sequelize,
+      age_group_id,
+      ageGroupData
+    );
 
     const executionTime = `${Date.now() - start}ms`;
 
@@ -384,7 +389,7 @@ exports.updateAgeGroupById = async (req, res) => {
         method: req.method,
         userAgent: req.headers["user-agent"],
         createdBy: req.username,
-        updatedBy: username
+        updatedBy: username,
       });
       return res.status(400).json({
         errorCode,
@@ -393,7 +398,7 @@ exports.updateAgeGroupById = async (req, res) => {
     }
 
     res.status(200).json({
-      message:"AgeGroup Updated Successfully",
+      message: "AgeGroup Updated Successfully",
       meta: { statusCode: 200, executionTime, hospitalDatabase },
       data: dto.toAgeGroupEntity(updated),
     });
@@ -431,18 +436,22 @@ exports.deleteAgeGroupById = async (req, res) => {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 9245;
 
-      logger.logWithMeta("error", "Invalid Age Group id, not found in Database", {
-        errorCode,
-        executionTime,
-        ID: req.params.age_group_id,
-        apiName: req.originalUrl,
-        city: locationData?.city,
-        country: locationData?.country,
-        method: req.method,
-        userAgent: req.headers["user-agent"],
-        createdBy: req.username,
-        updatedBy:req.username
-      });
+      logger.logWithMeta(
+        "error",
+        "Invalid Age Group id, not found in Database",
+        {
+          errorCode,
+          executionTime,
+          ID: req.params.age_group_id,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: req.username,
+        }
+      );
       return res.status(400).json({
         errorCode,
         message: "Invalid lab test id, not found in DB",
@@ -665,10 +674,12 @@ exports.getDataAsPerQueryParam = async (req, res) => {
     const ID_DB_FIELD = fieldMap[ID_DTO_FIELD];
 
     // Extract valid DTO fields from query params
-    let requestedDtoFields = Object.keys(queryFields).filter(field => field in fieldMap);
-     if (requestedDtoFields.length === 0) {
-  requestedDtoFields = Object.keys(fieldMap);
-}
+    let requestedDtoFields = Object.keys(queryFields).filter(
+      (field) => field in fieldMap
+    );
+    if (requestedDtoFields.length === 0) {
+      requestedDtoFields = Object.keys(fieldMap);
+    }
 
     // Always include the ID field
     if (!requestedDtoFields.includes(ID_DTO_FIELD)) {
@@ -676,7 +687,9 @@ exports.getDataAsPerQueryParam = async (req, res) => {
     }
 
     // Map DTO fields to DB fields, remove duplicates
-    const attributes = [...new Set(requestedDtoFields.map(field => fieldMap[field]))];
+    const attributes = [
+      ...new Set(requestedDtoFields.map((field) => fieldMap[field])),
+    ];
 
     if (Object.keys(queryFields).length && attributes.length === 0) {
       return res.status(400).json({
@@ -698,13 +711,11 @@ exports.getDataAsPerQueryParam = async (req, res) => {
     }
 
     // Fetch data from DAO
-    const { count: totalRecords, rows } = await AgeGroupDao.getDataAsPerQueryParamDAO(
-      req.sequelize,
-      {
+    const { count: totalRecords, rows } =
+      await AgeGroupDao.getDataAsPerQueryParamDAO(req.sequelize, {
         attributes,
         ...pagination,
-      }
-    );
+      });
 
     const executionTime = `${Date.now() - start}ms`;
 
@@ -722,7 +733,7 @@ exports.getDataAsPerQueryParam = async (req, res) => {
     });
 
     // Filter DTO output based on requested fields
-    const responseData = rows.map(record => {
+    const responseData = rows.map((record) => {
       const fullDto = dto.toAgeGroupEntity(record);
       const filteredDto = {};
       for (const key of requestedDtoFields) {
@@ -753,7 +764,6 @@ exports.getDataAsPerQueryParam = async (req, res) => {
       meta: responseMeta,
       data: responseData,
     });
-
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 1263;
