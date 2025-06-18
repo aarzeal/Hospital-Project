@@ -185,7 +185,7 @@ exports.getAllLabFaculties = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "All Lab Faculties Feached successfully",
+      message: "All Lab Faculties Fetched successfully",
       meta: {
         statusCode: 200,
         executionTime,
@@ -451,7 +451,7 @@ exports.deleteLabFacultyById = async (req, res) => {
         {
           errorCode,
           executionTime,
-          ID: req.params.age_group_id,
+          ID: req.params.id,
           apiName: req.originalUrl,
           city: locationData?.city,
           country: locationData?.country,
@@ -471,7 +471,7 @@ exports.deleteLabFacultyById = async (req, res) => {
 
     logger.logWithMeta("info", "Lab Faculty Deleted successfully", {
       executionTime,
-      ID: req.params.age_group_id,
+      ID: req.params.id,
       apiName: req.originalUrl,
       city: locationData?.city,
       country: locationData?.country,

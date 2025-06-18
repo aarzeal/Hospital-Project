@@ -7,7 +7,7 @@ exports.labSampleTypePOST = (dto) => ({
   updated_by: dto.updatedBy,
 });
 
-exports.labFacultyGET = (dto) => ({
+exports.labSampleTypeGET = (dto) => ({
   labSampleTypeId: dto.lab_sample_type_id,
   labSampleType: dto.lab_sample_type,
   isActive: dto.is_active,
@@ -17,7 +17,7 @@ exports.labFacultyGET = (dto) => ({
   updatedBy: dto.updated_by,
 });
 
-exports.labFacultyFieldMap = {
+exports.labSampleTypeMap = {
   labSampleTypeId: "lab_sample_type_id",
   labSampleType: "lab_sample_type",
   isActive: "is_active",

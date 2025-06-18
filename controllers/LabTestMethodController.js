@@ -15,7 +15,6 @@ exports.createLabTestMethod = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
   try {
-
     const { error } = labtestmethodcreateSchema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
 
@@ -178,7 +177,7 @@ exports.getAllLabTestMethod = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "All Lab test methods Feached successfully",
+      message: "All Lab test methods Fetched successfully",
       meta: {
         statusCode: 200,
         executionTime,
@@ -242,7 +241,11 @@ exports.getLabTestMethodById = async (req, res) => {
 
       return res
         .status(404)
-        .json({ errorCode: 1263, message: "Lab test method not found in Database", hospitalDatabase });
+        .json({
+          errorCode: 1263,
+          message: "Lab test method not found in Database",
+          hospitalDatabase,
+        });
     }
     const executionTime = `${Date.now() - start}ms`;
 
@@ -303,7 +306,7 @@ exports.updateLabTestMethodById = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
   try {
-     const { error } = labtestmethodcreateSchema.validate(req.body);
+    const { error } = labtestmethodcreateSchema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
     const hospitalid = await Hospital.findOne({
       where: { HospitalID: req.body.hospitalIDR },
@@ -350,7 +353,7 @@ exports.updateLabTestMethodById = async (req, res) => {
           method: req.method,
           userAgent: req.headers["user-agent"],
           createdBy: req.username,
-          updatedBy: username
+          updatedBy: username,
         }
       );
       return res.status(400).json({
@@ -361,7 +364,7 @@ exports.updateLabTestMethodById = async (req, res) => {
     const RequestBody = {
       ...req.body,
       updatedBy: username,
-    }
+    };
 
     const updated = await LabTestMethodDao.updateLabTestMethodByIdDAO(
       req.sequelize,
@@ -381,18 +384,22 @@ exports.updateLabTestMethodById = async (req, res) => {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 9245;
 
-      logger.logWithMeta("error", "Invalid lab test method id, not found in DB", {
-        errorCode,
-        executionTime,
-        ID: req.params.lab_test_method_id,
-        apiName: req.originalUrl,
-        city: locationData?.city,
-        country: locationData?.country,
-        method: req.method,
-        userAgent: req.headers["user-agent"],
-        createdBy: req.username,
-        updatedBy: username
-      });
+      logger.logWithMeta(
+        "error",
+        "Invalid lab test method id, not found in DB",
+        {
+          errorCode,
+          executionTime,
+          ID: req.params.lab_test_method_id,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: username,
+        }
+      );
       return res.status(400).json({
         errorCode,
         message: "Invalid lab test method id, not found in DB",
@@ -438,18 +445,22 @@ exports.deleteLabTestMethodById = async (req, res) => {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 9245;
 
-      logger.logWithMeta("error", "Invalid lab test method id, not found in Database", {
-        errorCode,
-        executionTime,
-        ID: req.params.lab_test_method_id,
-        apiName: req.originalUrl,
-        city: locationData?.city,
-        country: locationData?.country,
-        method: req.method,
-        userAgent: req.headers["user-agent"],
-        createdBy: req.username,
-        updatedBy: req.username
-      });
+      logger.logWithMeta(
+        "error",
+        "Invalid lab test method id, not found in Database",
+        {
+          errorCode,
+          executionTime,
+          ID: req.params.lab_test_method_id,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: req.username,
+        }
+      );
       return res.status(400).json({
         errorCode,
         message: "Invalid lab test id, not found in DB",
@@ -529,15 +540,19 @@ exports.getCustomDataAsPerQueryParam = async (req, res) => {
 
     const ID_DTO_FIELD = "labTestMethodId";
 
-    let requestedDtoFields = Object.keys(queryFields).filter(field => field in fieldMap);
+    let requestedDtoFields = Object.keys(queryFields).filter(
+      (field) => field in fieldMap
+    );
     if (requestedDtoFields.length === 0) {
-  requestedDtoFields = Object.keys(fieldMap);
-}
+      requestedDtoFields = Object.keys(fieldMap);
+    }
     if (!requestedDtoFields.includes(ID_DTO_FIELD)) {
       requestedDtoFields.unshift(ID_DTO_FIELD);
     }
 
-    const attributes = [...new Set(requestedDtoFields.map(dtoField => fieldMap[dtoField]))];
+    const attributes = [
+      ...new Set(requestedDtoFields.map((dtoField) => fieldMap[dtoField])),
+    ];
 
     if (Object.keys(queryFields).length && attributes.length === 0) {
       return res.status(400).json({
@@ -557,13 +572,11 @@ exports.getCustomDataAsPerQueryParam = async (req, res) => {
       }
     }
 
-    const { count: totalRecords, rows } = await LabTestMethodDao.getCustomDataAsPerQueryParamDAO(
-      req.sequelize,
-      {
+    const { count: totalRecords, rows } =
+      await LabTestMethodDao.getCustomDataAsPerQueryParamDAO(req.sequelize, {
         attributes,
         ...pagination,
-      }
-    );
+      });
 
     const executionTime = `${Date.now() - start}ms`;
 
@@ -580,7 +593,7 @@ exports.getCustomDataAsPerQueryParam = async (req, res) => {
       updatedBy: req.username,
     });
 
-    const responseData = rows.map(record => {
+    const responseData = rows.map((record) => {
       const fullDto = dto.toLabTestMethodEntity(record);
       const filteredDto = {};
       for (const key of requestedDtoFields) {
@@ -610,7 +623,6 @@ exports.getCustomDataAsPerQueryParam = async (req, res) => {
       meta: responseMeta,
       data: responseData,
     });
-
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 1263;

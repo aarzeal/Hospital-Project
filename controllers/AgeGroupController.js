@@ -174,7 +174,7 @@ exports.getAllAgeGroups = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "All Age Groups Feached successfully",
+      message: "All Age Groups Fetched successfully",
       meta: {
         statusCode: 200,
         executionTime,
@@ -233,13 +233,11 @@ exports.getAgeGroupById = async (req, res) => {
         updatedBy: req.username,
       });
 
-      return res
-        .status(404)
-        .json({
-          errorCode: 1263,
-          message: "Age Group not found in Database",
-          hospitalDatabase,
-        });
+      return res.status(404).json({
+        errorCode: 1263,
+        message: "Age Group not found in Database",
+        hospitalDatabase,
+      });
     }
     const executionTime = `${Date.now() - start}ms`;
 
