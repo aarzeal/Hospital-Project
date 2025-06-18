@@ -37,7 +37,7 @@ router.get(
   getLabSampleTypeById
 );
 
-router.get(
+router.put(
   "/update-lab-sample-type/:id",
   authenticate,
   ensureSequelizeInstance,
