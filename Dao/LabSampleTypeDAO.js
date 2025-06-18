@@ -16,7 +16,7 @@ exports.getLabSampleTypeByIdDAO = async (sequelize, id) => {
 
 exports.updatLabSampleTypeByIdDAO = async (sequelize, id, updateData) => {
   const LabSampleType = require("../models/labSampleTypeModel")(sequelize);
-  await LabSampleType.update(updateData, { where: { id } });
+  await LabSampleType.update(updateData, { where: { lab_sample_type_id: id } });
   return await LabSampleType.findByPk(id);
 };
 

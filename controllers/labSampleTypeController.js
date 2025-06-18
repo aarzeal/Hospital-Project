@@ -359,7 +359,7 @@ exports.updateLabSampleTypeById = async (req, res) => {
     };
     const labSampleTypeData = labSampleTypePOST(RequestBody);
 
-    const updated = await this.updateLabSampleTypeById(
+    const updated = await updatLabSampleTypeByIdDAO(
       req.sequelize,
       id,
       labSampleTypeData
@@ -590,7 +590,7 @@ exports.getLabSampleTypeByQueryParams = async (req, res) => {
 
     // Filter DTO output based on requested fields
     const responseData = rows.map((record) => {
-      const fullDto = labFacultyGET(record);
+      const fullDto = labSampleTypeGET(record);
       const filteredDto = {};
       for (const key of requestedDtoFields) {
         if (key in fullDto) {
