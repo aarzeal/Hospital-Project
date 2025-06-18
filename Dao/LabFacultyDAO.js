@@ -16,7 +16,7 @@ exports.getLabFacultyByIdDAO = async (sequelize, id) => {
 
 exports.updatLabFacultyByIdDAO = async (sequelize, id, updateData) => {
   const LabFaculty = require("../models/labFacultyModel")(sequelize);
-  await LabFaculty.update(updateData, { where: { id } });
+  await LabFaculty.update(updateData, { where: { lab_faculty_id: id } });
   return await LabFaculty.findByPk(id);
 };
 

@@ -37,7 +37,7 @@ router.get(
   getLabFacultyById
 );
 
-router.get(
+router.put(
   "/update-lab-faculty/:id",
   authenticate,
   ensureSequelizeInstance,

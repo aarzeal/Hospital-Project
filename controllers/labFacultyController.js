@@ -14,6 +14,7 @@ const {
   getLabFacultyByIdDAO,
   deleteLabFacultyByIdDAO,
   getLabFacultyDataAsPerQueryParamDAO,
+  updatLabFacultyByIdDAO,
 } = require("../Dao/LabFacultyDAO.js");
 const { labFacultySchema } = require("../validators/joi-validator.js");
 
@@ -373,7 +374,7 @@ exports.updateLabFacultyById = async (req, res) => {
     };
     const labFacultyData = labFacultyPOST(RequestBody);
 
-    const updated = await this.updateLabFacultyById(
+    const updated = await updatLabFacultyByIdDAO(
       req.sequelize,
       id,
       labFacultyData
@@ -462,7 +463,7 @@ exports.deleteLabFacultyById = async (req, res) => {
       );
       return res.status(400).json({
         errorCode,
-        message: "Invalid lab test id, not found in DB",
+        message: "Invalid lab faculty id, not found in DB",
       });
     }
 
