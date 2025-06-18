@@ -5,61 +5,61 @@ const ensureSequelizeInstance = require("../util/databasedyanamic");
 const Userverification = require("../validators/Accesstokenverify");
 const validateJSONContentType = require("../Middleware/jsonvalidation");
 const {
-  createLabFaculty,
-  getAllLabFaculties,
-  getLabFacultyById,
-  updateLabFacultyById,
-  deleteLabFacultyById,
-  getLabFacultyDataAsPerQueryParam,
-} = require("../controllers/labFacultyController");
+  createLabSampleType,
+  getAllLabSampleTypes,
+  getLabSampleTypeById,
+  updateLabSampleTypeById,
+  deleteLabSampleTypeById,
+  getLabSampleTypeByQueryParams,
+} = require("../controllers/labSampleTypeController");
 
 router.post(
-  "/create-lab-faculty",
+  "/create-lab-sample-type",
   authenticate,
   validateJSONContentType,
   ensureSequelizeInstance,
   Userverification,
-  createLabFaculty
+  createLabSampleType
 );
 router.get(
-  "/all-lab-faculties",
+  "/all-lab-sample-types",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  getAllLabFaculties
+  getAllLabSampleTypes
 );
 
 router.get(
-  "/lab-faculty/:id",
+  "/lab-sample-type/:id",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  getLabFacultyById
+  getLabSampleTypeById
 );
 
 router.get(
-  "/update-lab-faculty/:id",
+  "/update-lab-sample-type/:id",
   authenticate,
   ensureSequelizeInstance,
   validateJSONContentType,
   Userverification,
-  updateLabFacultyById
+  updateLabSampleTypeById
 );
 
 router.delete(
-  "/delete-lab-faculty/:id",
+  "/delete-lab-sample-type/:id",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  deleteLabFacultyById
+  deleteLabSampleTypeById
 );
 
 router.get(
-  "/lab-faculty-as-per-query",
+  "/lab-sample-type-as-per-query",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  getLabFacultyDataAsPerQueryParam
+  getLabSampleTypeByQueryParams
 );
 
 module.exports = router;

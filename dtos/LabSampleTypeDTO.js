@@ -1,7 +1,5 @@
-exports.labFacultyPOST = (dto) => ({
-  lab_faculty_name: dto.labFacultyName,
-  lab_faculty_code: dto.labFacultyCode,
-  remarks: dto.remarks,
+exports.labSampleTypePOST = (dto) => ({
+  lab_sample_type: dto.labSampleType,
   is_active: dto.isActive,
   hospital_IDR: dto.hospitalIDR,
   hospital_group_IDR: dto.hospitalGroupIDR,
@@ -10,10 +8,8 @@ exports.labFacultyPOST = (dto) => ({
 });
 
 exports.labFacultyGET = (dto) => ({
-  labFacultyId: dto.lab_faculty_id,
-  labFacultyName: dto.lab_faculty_name,
-  labFacultyCode: dto.lab_faculty_code,
-  remarks: dto.remarks,
+  labSampleTypeId: dto.lab_sample_type_id,
+  labSampleType: dto.lab_sample_type,
   isActive: dto.is_active,
   hospitalIDR: dto.hospital_IDR,
   hospitalGroupIDR: dto.hospital_group_IDR,
@@ -22,10 +18,8 @@ exports.labFacultyGET = (dto) => ({
 });
 
 exports.labFacultyFieldMap = {
-  labFacultyId: "lab_faculty_id",
-  labFacultyName: "lab_faculty_name",
-  labFacultyCode: "lab_faculty_code",
-  remarks: "remarks",
+  labSampleTypeId: "lab_sample_type_id",
+  labSampleType: "lab_sample_type",
   isActive: "is_active",
   hospitalIDR: "hospital_IDR",
   hospitalGroupIDR: "hospital_group_IDR",
