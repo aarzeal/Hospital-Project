@@ -64,6 +64,7 @@ const LabTest = require("./routes/LabTestRoutes.js");
 const AgeGroup = require("./routes/AgeGroupRoutes.js");
 const LabTestRefDetail = require("./routes/LabTestRefDetailsRoutes.js");
 const labFacultyRoutes = require("./routes/labFacultyRoutes.js");
+const labSampleTypeRoutes = require("./routes/labSampleTypeRoute.js");
 
 const multer = require("multer");
 const cors = require("cors");
@@ -164,6 +165,7 @@ app.use("/api/v1/labtest", LabTest);
 app.use("/api/v1", AgeGroup);
 app.use("/api/v1/labtestrefdetail", LabTestRefDetail);
 app.use("/api/v1/lab-faculty", labFacultyRoutes);
+app.use("/api/v1/lab-sample-type", labSampleTypeRoutes);
 
 sendEmail();
 

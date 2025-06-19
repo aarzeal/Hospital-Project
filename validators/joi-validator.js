@@ -143,6 +143,39 @@ exports.labFacultySchema = Joi.object({
   }),
 });
 
+exports.labTestSampleType = Joi.object({
+  labSampleType: Joi.string().required().messages({
+    "string.base": "Lab Test Sample Type must be a string",
+    "string.empty": "Lab Test Sample Type is required",
+    "string.max": "Lab Test Sample Type must not exceed 100 characters",
+    "any.required": "Lab Test Sample Type is required",
+  }),
+
+  isActive: Joi.boolean().required().messages({
+    "boolean.base": "Is Active must be a boolean",
+    "any.required": "Is Active is required",
+  }),
+  hospitalIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital ID must be an integer",
+    "number.integer": "Hospital ID must be an integer",
+    "number.empty": "Hospital ID is required",
+    "any.required": "Hospital ID is required",
+  }),
+
+  hospitalGroupIDR: Joi.number().integer().messages({
+    "number.base": "Hospital Group ID must be an integer",
+    "number.integer": "Hospital Group ID must be an integer",
+  }),
+
+  createdBy: Joi.string().optional().messages({
+    "string.base": "Created by must be a string",
+  }),
+
+  updatedBy: Joi.string().optional().messages({
+    "string.base": "Updated by must be a string",
+  }),
+});
+
 exports.labtestschema = Joi.object({
   labTestName: Joi.string().required().messages({
     "string.base": "Lab Test Name must be a string",

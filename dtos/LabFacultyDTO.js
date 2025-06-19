@@ -20,3 +20,13 @@ exports.labFacultyGET = (dto) => ({
   createdBy: dto.created_by,
   updatedBy: dto.updated_by,
 });
+
+exports.labFacultyFieldMap = {
+  labFacultyId: "lab_faculty_id",
+  labFacultyName: "lab_faculty_name",
+  labFacultyCode: "lab_faculty_code",
+  remarks: "remarks",
+  isActive: "is_active",
+  hospitalIDR: "hospital_IDR",
+  hospitalGroupIDR: "hospital_group_IDR",
+};
