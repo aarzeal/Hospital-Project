@@ -10,10 +10,11 @@ const {
   getLabTestCategoryById,
   updateLabTestCategory,
   deleteLabTestCategory,
+  getLabTestCategoryByQueryParams,
 } = require("../controllers/labTestCategoryController");
 
 router.post(
-  "/create-lab-test-note",
+  "/create-lab-test-category",
   authenticate,
   validateJSONContentType,
   ensureSequelizeInstance,
@@ -21,7 +22,7 @@ router.post(
   createLabTestCategory
 );
 router.get(
-  "/all-lab-test-notes",
+  "/all-lab-test-categories",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
@@ -29,7 +30,7 @@ router.get(
 );
 
 router.get(
-  "/lab-test-note/:id",
+  "/lab-test-category/:id",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
@@ -37,7 +38,7 @@ router.get(
 );
 
 router.put(
-  "/update-lab-test-note/:id",
+  "/update-lab-test-category/:id",
   authenticate,
   ensureSequelizeInstance,
   validateJSONContentType,
@@ -46,7 +47,7 @@ router.put(
 );
 
 router.delete(
-  "/delete-lab-test-note/:id",
+  "/delete-lab-test-category/:id",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
@@ -54,11 +55,11 @@ router.delete(
 );
 
 router.get(
-  "/lab-test-note-as-per-query",
+  "/lab-test-category-as-per-query",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  getLabTestNoteByQueryParams
+  getLabTestCategoryByQueryParams
 );
 
 module.exports = router;
