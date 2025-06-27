@@ -1,3 +1,4 @@
+// DTO converters
 exports.labTestNotesPOST = (dto) => ({
   lab_test_IDR: dto.labTestIDR,
   is_lab_test_report: dto.isLabTestReport,
@@ -27,15 +28,16 @@ exports.labTestNotesGET = (dto) => ({
   updatedBy: dto.updated_by,
 });
 
+// ✅ Correct Field Map (DTO → DB)
 exports.labTestNotesFieldMap = {
-  lab_test_notes_id: "labTestNotesId",
-  lab_test_IDR: "labTestIDR",
-  is_lab_test_report: "isLabTestReport",
-  lab_test_report_IDR: "labTestReportIDR",
-  lab_test_note: "labTestNote",
-  is_default: "isDefault",
+  labTestNotesId: "lab_test_notes_id",
+  labTestIDR: "lab_test_IDR",
+  isLabTestReport: "is_lab_test_report",
+  labTestReportIDR: "lab_test_report_IDR",
+  labTestNote: "lab_test_note",
+  isDefault: "is_default",
   remarks: "remarks",
-  is_active: "isActive",
-  hospital_IDR: "hospitalIDR",
-  hospital_group_IDR: "hospitalGroupIDR",
+  isActive: "is_active",
+  hospitalIDR: "hospital_IDR",
+  hospitalGroupIDR: "hospital_group_IDR",
 };

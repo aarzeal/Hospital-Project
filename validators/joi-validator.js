@@ -356,26 +356,26 @@ exports.labtestschema = Joi.object({
 });
 
 exports.labTestNotes = Joi.object({
-  lab_test_IDR: Joi.number().required().messages({
+  labTestIDR: Joi.number().required().messages({
     "string.base": "Lab Test ID must be a number",
     "string.empty": "Lab Test ID is required",
     "any.required": "Lab Test ID is required",
   }),
-  is_lab_test_report: Joi.boolean().required().messages({
+  isLabTestReport: Joi.boolean().required().messages({
     "boolean.base": "Is Active must be a boolean",
   }),
-  lab_test_report_IDR: Joi.number().required().messages({
+  labTestReportIDR: Joi.number().required().messages({
     "string.base": "Lab Test Report must be a number",
     "string.empty": "Lab Test Report is required",
     "any.required": "Lab Test Report is required",
   }),
-  lab_test_note: Joi.string().max(100).required().messages({
+  labTestNote: Joi.string().max(100).required().messages({
     "string.base": "Lab Test Note must be a string",
     "string.empty": "Lab Test Note is required",
     "string.max": "Lab Test Note must not exceed 100 characters",
     "any.required": "Lab Test Note is required",
   }),
-  is_default: Joi.boolean().required().messages({
+  isDefault: Joi.boolean().required().messages({
     "boolean.base": "Is Default must be a boolean",
   }),
   remarks: Joi.string().max(200).required().messages({
