@@ -190,13 +190,13 @@ const sendEmail = async (to, subject, templateName, templateData, attachment) =>
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: "khaja.shaikh@aarzeal.com",
-        pass: "wfla taoq cgio yweu"
+        user: "asad94758@gmail.com",
+        pass: "nysg fofo uppg drvz"
       }
     });
 
     // Ensure environment variables are set
-    if (!"khaja.shaikh@aarzeal.com" || !"wfla taoq cgio yweu") {
+    if (!"asad94758@gmail.com" || !"nysg fofo uppg drvz") {
       throw new Error('Missing email credentials in environment variables');
     }
 
@@ -218,7 +218,7 @@ const sendEmail = async (to, subject, templateName, templateData, attachment) =>
 
     // Construct email options
     const mailOptions = {
-      from: "khaja.shaikh@aarzeal.com",
+      from: "asad94758@gmail.com",
       to: to,
       subject: subject,
       html: html,

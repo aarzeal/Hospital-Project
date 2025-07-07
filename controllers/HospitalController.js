@@ -3425,7 +3425,7 @@ exports.loginUser = async (req, res) => {
   //   const Pass="1234"
   // // Encrypt
   // const encrypted = CryptoJS.AES.encrypt(Password, secretKey).toString();
-  // console.log('Encrypted00000000000:', encrypted);
+  console.log('Encrypted00000000000:', Password);
   
   // Decrypt
   const decryptedBytes = CryptoJS.AES.decrypt(Password, secretKey);
@@ -4631,8 +4631,8 @@ exports.forgotPassword = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "Gmail", // Use your email service
       auth: {
-        user: "khaja.shaikh@aarzeal.com", // Your email
-        pass: "wfla taoq cgio yweu", // Your email password
+        user: "asad94758@gmail.comm", // Your email
+        pass: "nysg fofo uppg drvz", // Your email password
       },
     });
 

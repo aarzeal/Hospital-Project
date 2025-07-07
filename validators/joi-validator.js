@@ -468,11 +468,12 @@ exports.labTestCategorySchema = Joi.object({
     "string.max": "Lab Test Category Code must not exceed 50 characters",
     "any.required": "Lab Test Category Code is required",
   }),
-  fitToHundred: Joi.string().required().messages({
-    "string.base": "Fit to hundred must be a string",
-    "string.empty": "Fit to hundred is required",
-    "any.required": "Fit to hundred is required",
-  }),
+
+  fitToHundred: Joi.boolean().required().messages({
+  "boolean.base": "Fit to hundred must be a boolean",
+  "any.required": "Fit to hundred is required",
+}),
+
   remarks: Joi.string().max(250).required().messages({
     "string.base": "Remarks must be a string",
     "string.empty": "Remarks is required",

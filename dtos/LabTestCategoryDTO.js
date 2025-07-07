@@ -23,13 +23,15 @@ exports.labTestCategoryGET = (dto) => ({
   updatedBy: dto.updated_by,
 });
 
+
+
 exports.labTestCategoryFieldMap = {
-  lab_test_category_id: "labTestCategoryId",
-  lab_test_category_name: "labTestCategoryName",
-  lab_test_category_code: "labTestCategoryCode",
-  fit_to_hundred: "fitToHundred",
-  remarks: "remarks",
-  is_active: "isActive",
-  hospital_IDR: "hospitalIDR",
-  hospital_group_IDR: "hospitalGroupIDR",
+  labTestCategoryId:"lab_test_category_id",
+  labTestCategoryName:"lab_test_category_name",
+  labTestCategoryCode:"lab_test_category_code",
+  fitToHundred:"fit_to_hundred",
+  remarks:"remarks",
+  isActive:"is_active",
+  hospitalIDR:"hospital_IDR",
+  hospitalGroupIDR:"hospital_group_IDR",
 };
