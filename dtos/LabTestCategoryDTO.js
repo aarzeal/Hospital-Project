@@ -35,3 +35,5 @@ exports.labTestCategoryFieldMap = {
   hospitalIDR:"hospital_IDR",
   hospitalGroupIDR:"hospital_group_IDR",
 };
+
+
