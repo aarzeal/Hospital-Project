@@ -1,7 +1,7 @@
 exports.labTestCategoryDetailsPOST = (dto) => ({
   lab_test_category_IDR: dto.labTestCategoryIDR,
   lab_test_IDR: dto.labTestIDR,
-  sr_no:dto.dto.srNo,
+  sr_no:dto.srNo,
   is_active: dto.isActive,
   hospital_IDR: dto.hospitalIDR,
   hospital_group_IDR: dto.hospitalGroupIDR,

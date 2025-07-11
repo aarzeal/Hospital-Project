@@ -4,62 +4,62 @@ const authenticate = require("../validators/authenticate");
 const ensureSequelizeInstance = require("../util/databasedyanamic");
 const Userverification = require("../validators/Accesstokenverify");
 const validateJSONContentType = require("../Middleware/jsonvalidation");
-const {
-  createLabTestCategory,
-  getAllLabTestCategories,
-  getLabTestCategoryById,
-  updateLabTestCategory,
-  deleteLabTestCategory,
-  getLabTestCategoryByQueryParams,
-} = require("../controllers/labTestCategoryController");
+
+const { 
+  createLabTestCategoryDetails, 
+  getAllLabTestCategoryDetails, 
+  getLabTestCategoryDetailsById,
+   updateLabTestCategoryDetails, 
+   deleteLabTestCategoryDetails, 
+   getLabTestCategoryDetailsByQueryParams } = require("../controllers/labTestCategoryDetailsController");
 
 router.post(
-  "/create-lab-test-category",
+  "/create-lab-test-category-details",
   authenticate,
   validateJSONContentType,
   ensureSequelizeInstance,
   Userverification,
-  createLabTestCategory
+  createLabTestCategoryDetails
 );
 router.get(
-  "/all-lab-test-categories",
+  "/all-lab-test-categories-details",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  getAllLabTestCategories
+  getAllLabTestCategoryDetails
 );
 
 router.get(
-  "/lab-test-category/:id",
+  "/lab-test-category-details/:id",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  getLabTestCategoryById
+  getLabTestCategoryDetailsById
 );
 
 router.put(
-  "/update-lab-test-category/:id",
+  "/update-lab-test-category-details/:id",
   authenticate,
   ensureSequelizeInstance,
   validateJSONContentType,
   Userverification,
-  updateLabTestCategory
+  updateLabTestCategoryDetails
 );
 
 router.delete(
-  "/delete-lab-test-category/:id",
+  "/delete-lab-test-category-details/:id",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  deleteLabTestCategory
+  deleteLabTestCategoryDetails
 );
 
 router.get(
-  "/lab-test-category-as-per-query",
+  "/lab-test-category-details-as-per-query",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  getLabTestCategoryByQueryParams
+  getLabTestCategoryDetailsByQueryParams
 );
 
 module.exports = router;

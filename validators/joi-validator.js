@@ -505,3 +505,12 @@ exports.labTestCategorySchema = Joi.object({
     "string.base": "Updated by must be a string",
   }),
 });
+
+exports.labTestCategoryDetailsSchema = Joi.object({
+  labTestCategoryIDR: Joi.number().required().label("Lab Test Category ID"),
+  labTestIDR: Joi.number().required().label("Lab Test ID"),
+  srNo: Joi.number().required().label("Serial Number"),
+  isActive: Joi.boolean().optional().label("Is Active"),
+  hospitalIDR: Joi.number().required().label("Hospital ID"),
+  hospitalGroupIDR: Joi.number().optional().label("Hospital Group ID"),
+});

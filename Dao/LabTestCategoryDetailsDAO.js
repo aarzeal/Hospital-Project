@@ -1,4 +1,4 @@
-exports.createLabTestCategoryDAO = async (sequelize, data) => {
+exports.createLabTestCategoryDetailsDAO = async (sequelize, data) => {
   const LabTestCategoryDetails = require("../models/labTestCategoryDetailsModel")(sequelize);
   await LabTestCategoryDetails.sync({ force: false });
   return await LabTestCategoryDetails.create(data);
