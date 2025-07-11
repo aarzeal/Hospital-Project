@@ -16,7 +16,11 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-
+      sr_no:{
+         type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      
       is_active: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
