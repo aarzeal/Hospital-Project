@@ -10,6 +10,8 @@ const LabTestCategory = require("../models/labTestCategoryModel.js");
 const { labTestCategorySchema, labTestCategoryDetailsSchema } = require("../validators/joi-validator.js");
 const { labTestCategoryDetailsPOST, labTestCategoryDetailsGET, labTestCategoryDetailsFieldMap } = require("../dtos/LabTestCategoryDetailsDTO.js");
 const { createLabTestCategoryDetailsDAO, getAllLabTestCategoryDetailsDAO, getLabTestCategoryDetailsByIdDAO, updatLabTestCategoryDetailsByIdDAO, deleteLabTestCategoryDetailsByIdDAO, getLabTestCategoryDetailsDataAsPerQueryParamDAO } = require("../Dao/LabTestCategoryDetailsDAO.js");
+const { getLabTestByIdDAO } = require("../Dao/LabTestDao.js");
+const { getLabTestCategoryByIdDAO } = require("../Dao/LabTestCategoryDAO.js");
 
 exports.createLabTestCategoryDetails = async (req, res) => {
   const start = Date.now();
@@ -74,11 +76,13 @@ exports.createLabTestCategoryDetails = async (req, res) => {
       });
     }
 
-    const labTest = await LabTest.findOne({ 
-      where: { LabTestID: req.body.labTestIDR },
-    });
+    // const labTest = await LabTest.findOne({ 
+    //   where: { LabTestID: req.body.labTestIDR },
+    // });
 
-     if (!labTest) {
+    const labTest = await getLabTestByIdDAO(req.sequelize, req.body.labTestIDR);
+
+    if (!labTest) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1260;
 
@@ -100,9 +104,12 @@ exports.createLabTestCategoryDetails = async (req, res) => {
       });
     }
 
-    const labTestCategory = await LabTestCategory.findOne({ 
-      where: { LabTestCategoryID: req.body.labTestCategoryIDR },
-    });
+    // const labTestCategory = await LabTestCategory.findOne({
+    //   where: { LabTestCategoryID: req.body.labTestCategoryIDR },
+    // });
+
+    const labTestCategory= await getLabTestCategoryByIdDAO(req.sequelize, req.body.labTestCategoryIDR);
+
     if (!labTestCategory) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1260;
@@ -357,7 +364,7 @@ exports.updateLabTestCategoryDetails = async (req, res) => {
   const username = req.username;
 
   try {
-    const { error } = labTestCategorySchema.validate(req.body);
+    const { error } = labTestCategoryDetailsSchema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
 
     const hospitalid = await Hospital.findOne({
@@ -413,12 +420,10 @@ exports.updateLabTestCategoryDetails = async (req, res) => {
         message: "Invalid HospitalGroupID, not found in MasterDB",
       });
     }
+const labTest = await getLabTestByIdDAO(req.sequelize, req.body.labTestIDR);
 
-     const labTest = await LabTest.findOne({ 
-      where: { LabTestID: req.body.labTestIDR }, 
-    });
 
-     if (!labTest) {
+    if (!labTest) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1260;
 
@@ -439,10 +444,8 @@ exports.updateLabTestCategoryDetails = async (req, res) => {
         message: "Invalid LabTestIDR, not found in MasterDB",
       });
     }
+    const labTestCategory= await getLabTestCategoryByIdDAO(req.sequelize, req.body.labTestCategoryIDR);
 
-    const labTestCategory = await LabTestCategory.findOne({ 
-      where: { LabTestCategoryID: req.body.labTestCategoryIDR }, 
-    });
     if (!labTestCategory) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1260;
