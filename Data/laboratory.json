@@ -1,0 +1,10 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "LabTestCategoryNamemuststartwithanalphabetandcontainonlyalphanumericcharactershyphensunderscoresorspaces": {
+    "en": "Lab Test Category Name must start with an alphabet and contain only alphanumeric characters, hyphens, underscores, or spaces",
+    "hi": "लैब टेस्ट श्रेणी का नाम किसी वर्णमाला से शुरू होना चाहिए और उसमें केवल अल्फ़ान्यूमेरिक वर्ण, हाइफ़न, अंडरस्कोर या रिक्त स्थान होने चाहिए"
+  }
+}
