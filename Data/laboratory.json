@@ -6,5 +6,133 @@
   "LabTestCategoryNamemuststartwithanalphabetandcontainonlyalphanumericcharactershyphensunderscoresorspaces": {
     "en": "Lab Test Category Name must start with an alphabet and contain only alphanumeric characters, hyphens, underscores, or spaces",
     "hi": "लैब टेस्ट श्रेणी का नाम किसी वर्णमाला से शुरू होना चाहिए और उसमें केवल अल्फ़ान्यूमेरिक वर्ण, हाइफ़न, अंडरस्कोर या रिक्त स्थान होने चाहिए"
+  },
+  "Namemuststartwithanalphabet": {
+    "en": "Name must start with an alphabet",
+    "hi": "नाम वर्णमाला से शुरू होना चाहिए"
+  },
+  "LabTestCategoryNamemustnotstartwithaspace": {
+    "en": "Lab Test Category Name must not start with a space",
+    "hi": "लैब टेस्ट श्रेणी का नाम रिक्त स्थान से शुरू नहीं होना चाहिए"
+  },
+  "LabTestCategoryNamemustbeatleast3characterslong": {
+    "en": "Lab Test Category Name must be at least 3 characters long",
+    "hi": "लैब टेस्ट श्रेणी का नाम कम से कम 3 अक्षरों का होना चाहिए"
+  },
+  "LabTestCategoryNamemustbelessthan100characters": {
+    "en": "Lab Test Category Name must be less than 100 characters",
+    "hi": "लैब टेस्ट श्रेणी का नाम 100 अक्षरों से कम होना चाहिए"
+  },
+  "LabTestCategoryCodemustnotstartwithaspace": {
+    "en": "Lab Test Category Code must not start with a space",
+    "hi": "लैब टेस्ट श्रेणी कोड रिक्त स्थान से शुरू नहीं होना चाहिए"
+  },
+  "LabTestCategoryCodemustbealphanumeric": {
+    "en": "Lab Test Category Code must be alphanumeric",
+    "hi": "लैब टेस्ट श्रेणी कोड अल्फ़ान्यूमेरिक होना चाहिए"
+  },
+  "Enterlabtestcategorynamehere": {
+    "en": "Enter lab test category name here",
+    "hi": "लैब परीक्षण श्रेणी का नाम यहां दर्ज करें"
+  },
+  "LabTestCategory": {
+    "en": "Lab Test Category",
+    "hi": "लैब परीक्षण श्रेणी"
+  },
+  "labTestCategoryName": {
+    "en": "Lab Test Category Name",
+    "hi": "लैब टेस्ट श्रेणी का नाम"
+  },
+  "LabTestCategoryCode": {
+    "en": "Lab Test Category Code",
+    "hi": "लैब टेस्ट श्रेणी कोड"
+  },
+  "FitToHundred": {
+    "en": "Fit To Hundred",
+    "hi": "सौ तक फ़िट"
+  },
+  "Remarks": {
+    "en": "Remarks",
+    "hi": "टिप्पणी"
+  },
+  "LabTests": {
+    "en": "Lab Tests",
+    "hi": "प्रयोगशाला परीक्षण"
+  },
+  "LabTestName": {
+    "en": "Lab Test Name",
+    "hi": "लैब परीक्षण का नाम"
+  },
+  "Calculated": {
+    "en": "Calculated",
+    "hi": "परिकलित"
+  },
+  "SrNo": {
+    "en": "Sr No",
+    "hi": "क्रमांक"
+  },
+  "LinkedLabTests": {
+    "en": "Linked Lab Tests",
+    "hi": "लिंक्ड लैब टेस्ट"
+  },
+  "Add": {
+    "en": "Add",
+    "hi": "जोड़ना"
+  },
+  "Remove": {
+    "en": "Remove",
+    "hi": "निकालना"
+  },
+  "Search": {
+    "en": "Search",
+    "hi": "खोज"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "AllLabTestCategories": {
+    "en": "Submit",
+    "hi": "सभी लैब परीक्षण श्रेणियाँ"
+  },
+  "CategoryName": {
+    "en": "Category Name",
+    "hi": "श्रेणी नाम"
+  },
+  "CategoryCode": {
+    "en": "Category Code",
+    "hi": "श्रेणी कोड"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "isActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है"
+  },
+  "Inactive": {
+    "en": "Inactive",
+    "hi": "निष्क्रिय"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "No": {
+    "en": "No",
+    "hi": "नहीं"
+  },
+  "Yes": {
+    "en": "Yes",
+    "hi": "हाँ"
   }
 }
