@@ -286,5 +286,45 @@
   "City": {
     "en": "City",
     "hi": "शहर"
+  },
+  "AppointmentCode": {
+    "en": "Appointment Code",
+    "hi": "नियुक्ति कोड"
+  },
+  "Bookingdate": {
+    "en": "Booking date",
+    "hi": "बुकिंग की तारीख"
+  },
+  "Isnewpatient": {
+    "en": "Is new patient",
+    "hi": "नया मरीज है"
+  },
+  "Patient": {
+    "en": "Patient",
+    "hi": "मरीज़"
+  },
+  "EmployeeIDR": {
+    "en": "Employee IDR",
+    "hi": "कर्मचारी आईडीआर"
+  },
+  "Starttime": {
+    "en": "Start time",
+    "hi": "समय शुरू"
+  },
+  "Endtime": {
+    "en": "End time",
+    "hi": "अंत समय"
+  },
+  "Yes": {
+    "en": "Yes",
+    "hi": "हाँ"
+  },
+  "No": {
+    "en": "No",
+    "hi": "नहीं"
+  },
+  "AllAppointments": {
+    "en": "All Appointments",
+    "hi": "सभी नियुक्तियाँ"
   }
 }

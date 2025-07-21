@@ -134,5 +134,125 @@
   "Yes": {
     "en": "Yes",
     "hi": "हाँ"
+  },
+  "Areyousure": {
+    "en": "Are you sure",
+    "hi": "क्या आपको यकीन है"
+  },
+  "DoyoureallywanttodeletethisCategory": {
+    "en": "Do you really want to delete this category?",
+    "hi": "क्या आप सचमुच इस श्रेणी को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it",
+    "hi": "हाँ इसे हटा दो"
+  },
+  "Nocancel": {
+    "en": "No, cancel",
+    "hi": "कोई रद्द नहीं"
+  },
+  "deletedsuccessfully": {
+    "en": "deleted successfully",
+    "hi": "सफलतापूर्वक मिटाया गया"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "LabTestCategoryaddedsuccessfully": {
+    "en": "Lab Test Category added successfully",
+    "hi": "लैब टेस्ट श्रेणी सफलतापूर्वक जोड़ी गई"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "loading": {
+    "en": "Loading...",
+    "hi": "लोड हो रहा है..."
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अपडेट किया गया"
+  },
+  "LabTestCategoryupdatedsuccessfully": {
+    "en": "Lab Test Category updated successfully",
+    "hi": "लैब टेस्ट श्रेणी सफलतापूर्वक अपडेट की गई"
+  },
+  "DeviationDetails": {
+    "en": "Deviation Details",
+    "hi": "विचलन विवरण"
+  },
+  "LabTestCode": {
+    "en": "Lab Test Code",
+    "hi": "लैब टेस्ट कोड"
+  },
+  "CPTCode": {
+    "en": "CPT Code",
+    "hi": "सीपीटी कोड"
+  },
+  "LabTestMethod": {
+    "en": "Lab Test Method",
+    "hi": "लैब परीक्षण विधि"
+  },
+  "LabTestUnit": {
+    "en": "Lab Test Unit",
+    "hi": "लैब टेस्ट यूनिट"
+  },
+  "IsMultiColumn": {
+    "en": "Is Multi Column",
+    "hi": "मल्टी कॉलम है"
+  },
+  "FieldType": {
+    "en": "Field Type",
+    "hi": "क्षेत्र प्रकार"
+  },
+  "MaximumLength": {
+    "en": "Maximum Length",
+    "hi": "ज्यादा से ज्यादा लंबाई"
+  },
+  "FromRange": {
+    "en": "From Range",
+    "hi": "रेंज से"
+  },
+  "ToRange": {
+    "en": "ToRange",
+    "hi": "क्रम से करना"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है"
+  },
+  "IsCalculated": {
+    "en": "Is Calculated",
+    "hi": "गणना की जाती है"
+  },
+  "Formula": {
+    "en": "Formula",
+    "hi": "सूत्र"
+  },
+  "CalculationTest": {
+    "en": "Calculation Test",
+    "hi": "गणना परीक्षण"
+  },
+  "Remark": {
+    "en": "Remark",
+    "hi": "टिप्पणी"
+  },
+  "UsedForCalculation": {
+    "en": "Used For Calculation",
+    "hi": "गणना के लिए प्रयुक्त"
+  },
+  "DetailType": {
+    "en": "Detail Type",
+    "hi": "विवरण प्रकार"
   }
 }

@@ -60,7 +60,7 @@
     "hi": "नहीं, रद्द करें"
   },
   "SrNo": {
-    "en": "Sr. No",
+    "en": "Sr.No",
     "hi": "क्रमांक"
   },
   "Financegroupname": {
@@ -150,5 +150,9 @@
   "YES": {
     "en": "YES",
     "hi": "हाँ"
+  },
+  "FinanceGroup": {
+    "en": "Finance Group",
+    "hi": "वित्त समूह"
   }
 }

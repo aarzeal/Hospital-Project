@@ -1,0 +1,194 @@
+{
+  "LabFacultyNamemuststartwithanalphabetandcontainonlyalphanumericcharacters,hyphens,underscores,orspaces": {
+    "en": "Lab Faculty Name must start with an alphabet and contain only alphanumeric characters, hyphens, underscores, or spaces",
+    "hi": "लैब संकाय का नाम किसी वर्णमाला से शुरू होना चाहिए और उसमें केवल अल्फ़ान्यूमेरिक वर्ण, हाइफ़न, अंडरस्कोर या रिक्त स्थान होने चाहिए"
+  },
+  "LabFacultyNamemustnotstartwithaspace": {
+    "en": "Lab Faculty Name must not start with a space",
+    "hi": "लैब संकाय का नाम रिक्त स्थान से शुरू नहीं होना चाहिए"
+  },
+  "LabFacultyNamemustbeatleast3characterslong": {
+    "en": "Lab Faculty Name must be at least 3 characters long",
+    "hi": "लैब संकाय का नाम कम से कम 3 अक्षरों का होना चाहिए"
+  },
+  "LabFacultyNamelengthmustbelessthan100": {
+    "en": "Lab Faculty Name length must be less than 100",
+    "hi": "लैब संकाय नाम की लंबाई 100 से कम होनी चाहिए"
+  },
+  "LabFacultyCodemustbealphanumeric": {
+    "en": "Lab Faculty Code must be alphanumeric",
+    "hi": "लैब संकाय कोड अल्फ़ान्यूमेरिक होना चाहिए"
+  },
+  "LabFacultyCodelengthmustlessthan50": {
+    "en": "Lab Faculty Code length must less than 50",
+    "hi": "लैब फैकल्टी कोड की लंबाई 50 से कम होनी चाहिए"
+  },
+  "Remarkslengthmustlessthan250": {
+    "en": "Remarks length must less than 250",
+    "hi": "टिप्पणी की लंबाई 250 से कम होनी चाहिए"
+  },
+  "LabTypeNamemuststartwithanalphabetandcontainonlyalphanumericcharacters, hyphens,underscores,orspaces": {
+    "en": "Lab Type Name must start with an alphabet and contain only alphanumeric characters, hyphens, underscores, or spaces",
+    "hi": "लैब प्रकार का नाम किसी वर्णमाला से शुरू होना चाहिए और उसमें केवल अल्फ़ान्यूमेरिक वर्ण, हाइफ़न, अंडरस्कोर या रिक्त स्थान होने चाहिए"
+  },
+  "LabTypeNamemustnotstartwithaspace": {
+    "en": "Lab Type Name must not start with a space",
+    "hi": "लैब प्रकार का नाम रिक्त स्थान से शुरू नहीं होना चाहिए"
+  },
+  "LabTypeNamemustbeatleast3characterslong": {
+    "en": "Lab Type Name must be at least 3 characters long",
+    "hi": "लैब प्रकार का नाम कम से कम 3 अक्षरों का होना चाहिए"
+  },
+  "LabTypeNamelengthmustbelessthan100": {
+    "en": "Lab Type Name length must be less than 100",
+    "hi": "लैब प्रकार नाम की लंबाई 100 से कम होनी चाहिए"
+  },
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "LabFacultyNamemuststartwithanalphabetandcontainonlyalphanumericcharacters": {
+    "en": "Lab Faculty Name must start with an alphabet and contain only alphanumeric characters",
+    "hi": "लैब संकाय का नाम किसी वर्णमाला से शुरू होना चाहिए और उसमें केवल अल्फ़ान्यूमेरिक वर्ण होने चाहिए"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "LabFacultyupdatedsuccessfully": {
+    "en": "Lab Faculty updated successfully",
+    "hi": "लैब संकाय सफलतापूर्वक अद्यतन किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "LabFacultyaddedsuccessfully": {
+    "en": "Lab Faculty added successfully",
+    "hi": "लैब संकाय सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है"
+  },
+  "Doyoureallywanttodeletethislabfaculty": {
+    "en": "Do you really want to delete this lab faculty?",
+    "hi": "क्या आप सचमुच इस लैब संकाय को हटाना चाहते हैं?"
+  },
+  "No,cancel": {
+    "en": "No, cancel",
+    "hi": "नहीं, रद्द करें"
+  },
+  "Thelabfacultyhasbeendeleted": {
+    "en": "The lab faculty has been deleted",
+    "hi": "लैब संकाय को हटा दिया गया है"
+  },
+  "Nocancel": {
+    "en": "No cancel",
+    "hi": "कोई रद्द नहीं"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it",
+    "hi": "हाँ इसे हटा दो"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "LabFacultyName": {
+    "en": "Lab Faculty Name",
+    "hi": "लैब संकाय का नाम"
+  },
+  "LabFacultyCode": {
+    "en": "Lab Faculty Code",
+    "hi": "लैब फैकल्टी कोड"
+  },
+  "remarks": {
+    "en": "remarks",
+    "hi": "टिप्पणी"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "NonActive": {
+    "en": "Non Active",
+    "hi": "गैर सक्रिय"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "LabFaculty": {
+    "en": "Lab Faculty",
+    "hi": "प्रयोगशाला संकाय"
+  },
+  "Labfacultyname": {
+    "en": "Lab faculty name",
+    "hi": "लैब संकाय का नाम"
+  },
+  "Enterlabfacultynamehere": {
+    "en": "Enter lab faculty name",
+    "hi": "लैब संकाय का नाम दर्ज करें"
+  },
+  "Labfacultycode": {
+    "en": "Lab faculty code",
+    "hi": "लैब संकाय कोड"
+  },
+  "EnterLabfacultycodehere": {
+    "en": "Enter lab faculty code here",
+    "hi": "लैब संकाय कोड यहां दर्ज करें"
+  },
+  "Remarks": {
+    "en": "Remarks",
+    "hi": "टिप्पणी"
+  },
+  "EnterRemarkshere": {
+    "en": "Enter remarks here",
+    "hi": "यहां टिप्पणियाँ दर्ज करें"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Alllabfaculty": {
+    "en": "All lab faculty",
+    "hi": "सभी प्रयोगशाला संकाय"
+  },
+  "Searchbylabfacultydetails": {
+    "en": "Search by lab faculty details",
+    "hi": "प्रयोगशाला संकाय विवरण द्वारा खोजें"
+  },
+  "Loading": {
+    "en": "Loading...",
+    "hi": "लोड हो रहा है..."
+  },
+  "Submitted": {
+    "en": "Submitted",
+    "hi": "जमा किया गया"
+  }
+}

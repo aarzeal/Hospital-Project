@@ -1,0 +1,194 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "LabTestNotemuststartwithanalphabetandcontainonlyalphanumericcharacters": {
+    "en": "Lab Test Note must start with an alphabet and contain only alphanumeric characters",
+    "hi": "लैब टेस्ट नोट एक वर्णमाला से शुरू होना चाहिए और इसमें केवल अल्फ़ान्यूमेरिक अक्षर होने चाहिए"
+  },
+  "LabTestNotemustnotstartwithaspace": {
+    "en": "Lab Test Note must not start with a space",
+    "hi": "लैब टेस्ट नोट स्पेस से शुरू नहीं होना चाहिए"
+  },
+  "LabTestNotemustbeatleast3characterslong": {
+    "en": "Lab Test Note must be at least 3 characters long",
+    "hi": "लैब टेस्ट नोट कम से कम 3 अक्षरों का होना चाहिए"
+  },
+  "LabTypeNamelengthmustbelessthan100": {
+    "en": "Lab Type Name length must be less than 100",
+    "hi": "लैब प्रकार नाम की लंबाई 100 से कम होनी चाहिए"
+  },
+  "LabTestNotelengthmustbelessthan100": {
+    "en": "Lab Test Note length must be less than 100",
+    "hi": "लैब टेस्ट नोट की लंबाई 100 से कम होनी चाहिए"
+  },
+  "Remarkslengthmustlessthan250": {
+    "en": "Remarks length must less than 250",
+    "hi": "टिप्पणी की लंबाई 250 से कम होनी चाहिए"
+  },
+  "Searchbylabsampletypedetails": {
+    "en": "Search by lab sample type details",
+    "hi": "प्रयोगशाला नमूना प्रकार विवरण द्वारा खोजें"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "LabTestNoteupdatedsuccessfully": {
+    "en": "Lab Test Note updated successfully",
+    "hi": "लैब टेस्ट नोट सफलतापूर्वक अपडेट किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "LabTestNoteaddedsuccessfully": {
+    "en": "Lab Test Note added successfully",
+    "hi": "लैब टेस्ट नोट सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure?",
+    "hi": "क्या आपको यकीन है?"
+  },
+  "Doyoureallywanttodeletethislabtestnote": {
+    "en": "Do you really want to delete this lab test note?",
+    "hi": "क्या आप सचमुच इस लैब टेस्ट नोट को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it!",
+    "hi": "हाँ इसे हटा दो!"
+  },
+  "Nocancel": {
+    "en": "No, cancel",
+    "hi": "नहीं, रद्द करें"
+  },
+  "thislabtestnoteDeletedsuccessfully": {
+    "en": "this lab test note Deleted successfully",
+    "hi": "यह लैब परीक्षण नोट सफलतापूर्वक हटा दिया गया"
+  },
+  "SrNo": {
+    "en": "Sr No",
+    "hi": "क्रमांक"
+  },
+  "LabTest": {
+    "en": "Lab Test",
+    "hi": "लैब परीक्षण"
+  },
+  "IsLabTestReport": {
+    "en": "Is Lab Test Report",
+    "hi": "लैब टेस्ट रिपोर्ट है"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "LabTestReport": {
+    "en": "Lab Test Report",
+    "hi": "लैब टेस्ट रिपोर्ट"
+  },
+  "LabTestNote": {
+    "en": "Lab Test Note",
+    "hi": "लैब टेस्ट नोट"
+  },
+  "IsDefault": {
+    "en": "Is Default",
+    "hi": "डिफ़ॉल्ट है"
+  },
+  "Remarks": {
+    "en": "Remarks",
+    "hi": "टिप्पणी"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "InActive": {
+    "en": "In Active",
+    "hi": "निष्क्रिय"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "SelectlabTest": {
+    "en": "Select lab Test",
+    "hi": "लैब टेस्ट का चयन करें"
+  },
+  "Islabtestreport": {
+    "en": "Is lab test report",
+    "hi": "लैब टेस्ट रिपोर्ट है"
+  },
+  "Labtestreport": {
+    "en": "Lab test report",
+    "hi": "लैब परीक्षण रिपोर्ट"
+  },
+  "SelectlabtestReport": {
+    "en": "Select lab test Report",
+    "hi": "प्रयोगशाला परीक्षण रिपोर्ट का चयन करें"
+  },
+  "Labtestnote": {
+    "en": "Lab test note",
+    "hi": "लैब परीक्षण नोट"
+  },
+  "Enterlabtestnotehere": {
+    "en": "Enter lab test note here",
+    "hi": "लैब टेस्ट नोट यहां दर्ज करें"
+  },
+  "Isdefault": {
+    "en": "Is default",
+    "hi": "डिफ़ॉल्ट है"
+  },
+  "Enteremarkshere": {
+    "en": "Enter remarks here",
+    "hi": "यहां टिप्पणियाँ दर्ज करें"
+  },
+  "Alllabtestnotes": {
+    "en": "All lab test notes",
+    "hi": "सभी प्रयोगशाला परीक्षण नोट्स"
+  },
+  "Searchbylabtestnoteorstatus": {
+    "en": "Search by lab test note or status",
+    "hi": "प्रयोगशाला परीक्षण नोट या स्थिति के आधार पर खोजें"
+  },
+  "Loading": {
+    "en": "Loading...",
+    "hi": "लोड हो रहा है..."
+  },
+  "LabTestNotes": {
+    "en": "Lab Test Notes",
+    "hi": "लैब टेस्ट नोट्स"
+  }
+}

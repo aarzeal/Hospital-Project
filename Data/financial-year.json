@@ -174,5 +174,21 @@
   "Searchbyyear": {
     "en": "Search by year",
     "hi": "वर्ष के अनुसार खोजें"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "Remark": {
+    "en": "Remark",
+    "hi": "टिप्पणी"
+  },
+  "Enter remarks here": {
+    "en": "Enterremarkshere",
+    "hi": "यहां टिप्पणियाँ दर्ज करें"
+  },
+  "Enterremarkshere": {
+    "en": "Enter remarks here",
+    "hi": "यहां टिप्पणियाँ दर्ज करें"
   }
 }

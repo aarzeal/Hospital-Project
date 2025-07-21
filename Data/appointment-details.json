@@ -1,0 +1,110 @@
+{
+  "Selectdoctorhere": {
+    "en": "Select doctor here",
+    "hi": "यहां डॉक्टर का चयन करें"
+  },
+  "AppointmentSummary": {
+    "en": "Appointment Summary",
+    "hi": "नियुक्ति सारांश"
+  },
+  "Selectdepartmenthere": {
+    "en": "Select departmenthere",
+    "hi": "यहां विभाग का चयन करें"
+  },
+  "Selectservicehere": {
+    "en": "Select service here",
+    "hi": "यहां सेवा चुनें"
+  },
+  "Doctor": {
+    "en": "Doctor",
+    "hi": "चिकित्सक"
+  },
+  "Department": {
+    "en": "Department",
+    "hi": "विभाग"
+  },
+  "Service": {
+    "en": "Service",
+    "hi": "सेवा"
+  },
+  "Selectmodehere": {
+    "en": "Select mode here",
+    "hi": "यहां मोड चुनें"
+  },
+  "Mode of Booking": {
+    "en": "Mode of Booking",
+    "hi": "बुकिंग का तरीका"
+  },
+  "ModeofBooking": {
+    "en": "Mode of Booking",
+    "hi": "बुकिंग का तरीका"
+  },
+  "FromDate": {
+    "en": "From Date",
+    "hi": "की तिथि से"
+  },
+  "ToDate": {
+    "en": "To Date",
+    "hi": "तारीख तक"
+  },
+  "Selectdurationhere": {
+    "en": "Select duration here",
+    "hi": "यहां अवधि चुनें"
+  },
+  "ActiveBookings": {
+    "en": "Active Bookings",
+    "hi": "सक्रिय बुकिंग"
+  },
+  "CanceledBookings": {
+    "en": "Canceled Bookings",
+    "hi": "रद्द की गई बुकिंग"
+  },
+  "Duration": {
+    "en": "Duration",
+    "hi": "अवधि"
+  },
+  "Searching": {
+    "en": "Searching",
+    "hi": "खोज रहे हैं"
+  },
+  "Search": {
+    "en": "Search",
+    "hi": "खोज"
+  },
+  "Doctorwisesummary": {
+    "en": "Doctor wise summary",
+    "hi": "डॉक्टर के अनुसार सारांश"
+  },
+  "Departmentwisesummary": {
+    "en": "Department wise summary",
+    "hi": "विभागवार सारांश"
+  },
+  "Servicewisesummary": {
+    "en": "Service wise summary",
+    "hi": "सेवावार सारांश"
+  },
+  "Modewisesummary": {
+    "en": "Mode wise summary",
+    "hi": "मोड वार सारांश"
+  },
+  "Bookings": {
+    "en": "Bookings",
+    "hi": "बुकिंग के"
+  },
+  "Doctors": {
+    "en": "Doctors",
+    "hi": "चिकित्सक"
+  },
+  "Departments": {
+    "en": "Departments",
+    "hi": "विभागों"
+  },
+  "Services": {
+    "en": "Services",
+    "hi": "सेवाएं"
+  },
+  "ModeofBookings": {
+    "en": "Mode of Bookings",
+    "hi": "बुकिंग का तरीका"
+  }
+}

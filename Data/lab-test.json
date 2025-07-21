@@ -258,5 +258,357 @@
   "Enterremarkhere": {
     "en": "Enter remark here",
     "hi": "यहां टिप्पणी दर्ज करें"
+  },
+  "Enterremarkshere": {
+    "en": "Enter remarks here",
+    "hi": "यहां टिप्पणियाँ दर्ज करें"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "LabTestMethodName": {
+    "en": "Lab Test Method Name",
+    "hi": "लैब परीक्षण विधि का नाम"
+  },
+  "LabTestMethodCode": {
+    "en": "Lab Test Method Code",
+    "hi": "लैब परीक्षण विधि कोड"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "NonActive": {
+    "en": "Non Active",
+    "hi": "गैर सक्रिय"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "Alllabtestmethods": {
+    "en": "All lab test methods",
+    "hi": "सभी प्रयोगशाला परीक्षण विधियाँ"
+  },
+  "Searchbylabtestdetails": {
+    "en": "Search by lab test details",
+    "hi": "प्रयोगशाला परीक्षण विवरण द्वारा खोजें"
+  },
+  "LabTestMethodupdatedsuccessfully": {
+    "en": "Lab Test Method updated successfully",
+    "hi": "लैब परीक्षण विधि सफलतापूर्वक अपडेट की गई"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "LabTestMethodaddedsuccessfully": {
+    "en": "Lab Test Method added successfully",
+    "hi": "लैब टेस्ट विधि सफलतापूर्वक जोड़ी गई"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "labtestmethod": {
+    "en": "lab test method",
+    "hi": "प्रयोगशाला परीक्षण विधि"
+  },
+  "Areyousure": {
+    "en": "Are you sure",
+    "hi": "क्या आपको यकीन है"
+  },
+  "Doyoureallywanttodeletethislabtestmethod": {
+    "en": "Do you really want to delete this lab test method",
+    "hi": "क्या आप सचमुच इस लैब परीक्षण विधि को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it!",
+    "hi": "हाँ इसे हटा दो!"
+  },
+  "Nocancel": {
+    "en": "No cancel",
+    "hi": "कोई रद्द नहीं"
+  },
+  "Thelabtestmethodhasbeendeleted": {
+    "en": "The lab test method has been deleted",
+    "hi": "प्रयोगशाला परीक्षण विधि हटा दी गई है"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अद्यतन"
+  },
+  "AgeGroupNamemustbeatleast3characterslong": {
+    "en": "Age Group Name must be at least 3 characters long",
+    "hi": "आयु समूह का नाम कम से कम 3 अक्षर लंबा होना चाहिए"
+  },
+  "AgeGroupNamemustbealphanumeric": {
+    "en": "Age Group Name must be alphanumeric",
+    "hi": "आयु समूह का नाम अल्फ़ान्यूमेरिक होना चाहिए"
+  },
+  "AgeGroupNamelengthmustlessthan100": {
+    "en": "Age Group Name length must less than 100",
+    "hi": "आयु समूह के नाम की लंबाई 100 से कम होनी चाहिए"
+  },
+  "AgeGroupTypemustbealphanumeric": {
+    "en": "Age Group Type must be alphanumeric",
+    "hi": "आयु समूह प्रकार अल्फ़ान्यूमेरिक होना चाहिए"
+  },
+  "ReferenceTitlemustbealphanumeric": {
+    "en": "Reference Title must be at least 1 characters long",
+    "hi": "संदर्भ शीर्षक कम से कम 1 अक्षर लंबा होना चाहिए"
+  },
+  "ReferenceTitlemustbeatleast1characterslong": {
+    "en": "Reference Title must be at least 1 characters long",
+    "hi": "संदर्भ शीर्षक कम से कम 1 अक्षर लंबा होना चाहिए"
+  },
+  "ReferenceTitlelengthmustlessthan100": {
+    "en": "Reference Title length must less than 100",
+    "hi": "संदर्भ शीर्षक की लंबाई 100 से कम होनी चाहिए"
+  },
+  "ReferenceDetailsmustbeatleast1characterslong": {
+    "en": "Reference Details must be at least 1 characters long",
+    "hi": "संदर्भ विवरण कम से कम 1 वर्ण लंबा होना चाहिए"
+  },
+  "ReferenceDetailslengthmustlessthan100": {
+    "en": "Reference Details length must less than 100",
+    "hi": "संदर्भ विवरण की लंबाई 100 से कम होनी चाहिए"
+  },
+  "Agegroupname": {
+    "en": "Age group name",
+    "hi": "आयु समूह का नाम   "
+  },
+  "Enteragegroupnamehere": {
+    "en": "Enter age group name here",
+    "hi": "यहां आयु समूह का नाम दर्ज करें"
+  },
+  "Fromage": {
+    "en": "From age",
+    "hi": "उम्र से"
+  },
+  "Enterfromagehere": {
+    "en": "Enter from age here",
+    "hi": "यहां उम्र से दर्ज करें"
+  },
+  "Toage": {
+    "en": "To age",
+    "hi": "उम्र बढ़ने के लिए"
+  },
+  "Entertoagehere": {
+    "en": "Enter to age here",
+    "hi": "यहां आयु दर्ज करें"
+  },
+  "Agetype": {
+    "en": "Age type",
+    "hi": "आयु प्रकार"
+  },
+  "Entertoagetypehere": {
+    "en": "Enter to age type here",
+    "hi": "यहां आयु प्रकार दर्ज करें"
+  },
+  "Isanyagegroup": {
+    "en": "Is any age group",
+    "hi": "क्या कोई आयु वर्ग है"
+  },
+  "Allagegroup": {
+    "en": "All age group",
+    "hi": "सभी आयु वर्ग"
+  },
+  "AgeGroupupdatedsuccessfully": {
+    "en": "Age Group updated successfully",
+    "hi": "आयु समूह सफलतापूर्वक अपडेट किया गया"
+  },
+  "AgeGroupaddedsuccessfully": {
+    "en": "Age Group added successfully",
+    "hi": "आयु समूह सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Doyoureallywanttodeletethisagegroup": {
+    "en": "Do you really want to delete this age group?",
+    "hi": "क्या आप सचमुच इस आयु वर्ग को हटाना चाहते हैं?"
+  },
+  "Theagegrouphasbeendeleted": {
+    "en": "The age group has been deleted",
+    "hi": "आयु समूह हटा दिया गया है"
+  },
+  "ageGroupName": {
+    "en": "ageGroupName",
+    "hi": "आयु समूह का नाम"
+  },
+  "fromAge": {
+    "en": "fromAge",
+    "hi": "उम्र से"
+  },
+  "toAge": {
+    "en": "toAge",
+    "hi": "उम्र तक"
+  },
+  "ageType": {
+    "en": "ageType",
+    "hi": "आयु प्रकार"
+  },
+  "isAnyAgeGroup": {
+    "en": "isAnyAgeGroup",
+    "hi": "कोई भी आयु समूह है"
+  },
+  "YES": {
+    "en": "YES",
+    "hi": "हाँ"
+  },
+  "NO": {
+    "en": "NO",
+    "hi": "नहीं"
+  },
+  "Searchbyagegroup": {
+    "en": "Search by age group",
+    "hi": "आयु समूह के अनुसार खोजें"
+  },
+  "AgeGroup": {
+    "en": "Age Group",
+    "hi": "आयु वर्ग"
+  },
+  "DoyoureallywanttodeletethisLabTestDetails": {
+    "en": "Do you really want to delete this Lab Test Details",
+    "hi": "क्या आप वाकई इस लैब टेस्ट विवरण को हटाना चाहते हैं?"
+  },
+  "TheLabTestDetailshasbeendeleted": {
+    "en": "The Lab Test Details has been deleted",
+    "hi": "लैब टेस्ट विवरण हटा दिया गया है"
+  },
+  "SomethingWentWrong": {
+    "en": "Something Went Wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "ReadMore": {
+    "en": "Read More",
+    "hi": "और पढ़ें"
+  },
+  "LabTestName": {
+    "en": "Lab Test Name",
+    "hi": "लैब परीक्षण का नाम"
+  },
+  "LabTestCode": {
+    "en": "Lab Test Code",
+    "hi": "लैब टेस्ट कोड"
+  },
+  "CPTCode": {
+    "en": "CPT Code",
+    "hi": "सीपीटी कोड"
+  },
+  "IsCalculated": {
+    "en": "Is Calculated",
+    "hi": "गणना की जाती है"
+  },
+  "UsedForCalculation": {
+    "en": "Used For Calculation",
+    "hi": "गणना के लिए प्रयुक्त"
+  },
+  "View": {
+    "en": "View",
+    "hi": "देखना"
+  },
+  "AllLabTestDetails": {
+    "en": "All Lab Test Details",
+    "hi": "सभी लैब परीक्षण विवरण"
+  },
+  "Searchbylabtestname": {
+    "en": "Search by lab test name",
+    "hi": "प्रयोगशाला परीक्षण के नाम से खोजें"
+  },
+  "Submitting": {
+    "en": "Submitting...",
+    "hi": "सबमिट किया जा रहा है..."
+  },
+  "Updating": {
+    "en": "Updating...",
+    "hi": "अद्यतन किया जा रहा है..."
+  },
+  "Submitted": {
+    "en": "Submitted",
+    "hi": "जमा किया गया"
+  },
+  "LabTestDetailsUpdatedSuccessfully": {
+    "en": "Lab Test Details Updated Successfully",
+    "hi": "लैब परीक्षण विवरण सफलतापूर्वक अपडेट किया गया"
+  },
+  "LabTestDetailsAddedSuccessfully": {
+    "en": "Lab Test Details Added Successfully",
+    "hi": "लैब परीक्षण विवरण सफलतापूर्वक जोड़ा गया"
+  },
+  "Loading": {
+    "en": "Loading...",
+    "hi": "लोड हो रहा है..."
+  },
+  "LabTestReferenceAddedupdatedsuccessfully": {
+    "en": "Lab Test Reference Added updated successfully",
+    "hi": "लैब टेस्ट संदर्भ जोड़ा गया सफलतापूर्वक अपडेट किया गया"
+  },
+  "LabTestReferenceAddedSuccessfully": {
+    "en": "Lab Test Reference Added Successfully",
+    "hi": "लैब टेस्ट संदर्भ सफलतापूर्वक जोड़ा गया"
+  },
+  "Doyoureallywanttodeletethislabtestreference": {
+    "en": "Do you really want to delete this lab test reference?",
+    "hi": "क्या आप सचमुच इस लैब परीक्षण संदर्भ को हटाना चाहते हैं?"
+  },
+  "Thelabtestreferencehasbeendeleted": {
+    "en": "The lab test reference has been deleted",
+    "hi": "प्रयोगशाला परीक्षण संदर्भ हटा दिया गया है"
+  },
+  "refTitle": {
+    "en": "ref Title",
+    "hi": "रेफरी शीर्षक"
+  },
+  "refDetail": {
+    "en": "ref Detail",
+    "hi": "रेफरी विवरण"
+  },
+  "UpdateSkill": {
+    "en": "Update Skill",
+    "hi": "कौशल अद्यतन करें"
+  },
+  "Referencetitle": {
+    "en": "Reference title",
+    "hi": "संदर्भ शीर्षक"
+  },
+  "Enterreferencetitlehere": {
+    "en": "Enter reference title here",
+    "hi": "यहां संदर्भ शीर्षक दर्ज करें"
+  },
+  "Referencedetails": {
+    "en": "Reference details",
+    "hi": "संदर्भ विवरण"
+  },
+  "Enterreferencedetailshere": {
+    "en": "Enter reference details here",
+    "hi": "यहां संदर्भ विवरण दर्ज करें"
+  },
+  "AllServiceSOR": {
+    "en": "Reference",
+    "hi": "संदर्भ"
+  },
+  "Searchbyreferencetitle": {
+    "en": "Search by reference title",
+    "hi": "संदर्भ शीर्षक के आधार पर खोजें"
   }
 }

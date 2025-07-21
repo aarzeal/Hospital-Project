@@ -266,5 +266,9 @@
   "Selectledger": {
     "en": "Select ledger",
     "hi": "बही का चयन करें"
+  },
+  "TaxDetails": {
+    "en": "Tax Details",
+    "hi": "कर विवरण"
   }
 }

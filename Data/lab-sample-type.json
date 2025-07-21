@@ -1,0 +1,138 @@
+{
+  "Required": {
+    "en": "Required",
+    "hi": "आवश्यक"
+  },
+  "LabTypeNamemuststartwithanalphabetandcontainonlyalphanumericcharacters": {
+    "en": "Lab Type Name must start with an alphabet and contain only alphanumeric characters",
+    "hi": "लैब प्रकार का नाम किसी वर्णमाला से शुरू होना चाहिए और उसमें केवल अल्फ़ान्यूमेरिक वर्ण होने चाहिए"
+  },
+  "LabTypeNamemustnotstartwithaspace": {
+    "en": "Lab Type Name must not start with a space",
+    "hi": "लैब प्रकार का नाम रिक्त स्थान से शुरू नहीं होना चाहिए"
+  },
+  "LabTypeNamemustbeatleast3characterslong": {
+    "en": "Lab Type Name must be at least 3 characters long",
+    "hi": "लैब प्रकार का नाम कम से कम 3 अक्षरों का होना चाहिए"
+  },
+  "LabTypeNamelengthmustbelessthan100": {
+    "en": "Lab Type Name length must be less than 100",
+    "hi": "लैब प्रकार नाम की लंबाई 100 से कम होनी चाहिए"
+  },
+  "Searchbylabfacultydetails": {
+    "en": "Search by lab faculty details",
+    "hi": "प्रयोगशाला संकाय विवरण द्वारा खोजें"
+  },
+  "Updated": {
+    "en": "Updated",
+    "hi": "अपडेट किया गया"
+  },
+  "LabSampleTypeupdatedsuccessfully": {
+    "en": "Lab Sample Type updated successfully",
+    "hi": "लैब नमूना प्रकार सफलतापूर्वक अपडेट किया गया"
+  },
+  "Added": {
+    "en": "Added",
+    "hi": "जोड़ा"
+  },
+  "LabSampleTypeaddedsuccessfully": {
+    "en": "Lab Sample Type added successfully",
+    "hi": "लैब नमूना प्रकार सफलतापूर्वक जोड़ा गया"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "Help": {
+    "en": "Help",
+    "hi": "मदद"
+  },
+  "Areyousure": {
+    "en": "Are you sure",
+    "hi": "क्या आपको यकीन है"
+  },
+  "Doyoureallywanttodeletethislabsampletype": {
+    "en": "Do you really want to delete this lab sample type?",
+    "hi": "क्या आप सचमुच इस लैब नमूना प्रकार को हटाना चाहते हैं?"
+  },
+  "Yesdeleteit": {
+    "en": "Yes delete it!",
+    "hi": "हाँ इसे हटा दो!"
+  },
+  "Nocancel": {
+    "en": "No,cancel",
+    "hi": "कोई रद्द नहीं"
+  },
+  "Thelabsampletypehasbeendeleted": {
+    "en": "The lab sample type has been deleted",
+    "hi": "लैब नमूना प्रकार हटा दिया गया है"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "LabSampleTypeName": {
+    "en": "Lab Sample Type Name",
+    "hi": "लैब नमूना प्रकार का नाम"
+  },
+  "IsActive": {
+    "en": "Is Active",
+    "hi": "सक्रिय है"
+  },
+  "Active": {
+    "en": "Active",
+    "hi": "सक्रिय"
+  },
+  "NonActive": {
+    "en": "Non Active",
+    "hi": "गैर सक्रिय"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Delete": {
+    "en": "Delete",
+    "hi": "मिटाना"
+  },
+  "LabSampleType": {
+    "en": "Lab Sample Type",
+    "hi": "लैब नमूना प्रकार"
+  },
+  "SampleType": {
+    "en": "Sample Type",
+    "hi": "नमूना प्रकार"
+  },
+  "Entersampletypehere": {
+    "en": "Enter sample type here",
+    "hi": "यहां नमूना प्रकार दर्ज करें"
+  },
+  "Submit": {
+    "en": "Submit",
+    "hi": "जमा करना"
+  },
+  "Alllabsampletype": {
+    "en": "All lab sample type",
+    "hi": "सभी प्रयोगशाला नमूना प्रकार"
+  },
+  "Searchbylabsampletypedetails": {
+    "en": "Search by lab sample type details",
+    "hi": "प्रयोगशाला नमूना प्रकार विवरण द्वारा खोजें"
+  },
+  "Submitted": {
+    "en": "Submitted",
+    "hi": "जमा किया गया"
+  },
+  "Loading": {
+    "en": "Loading...",
+    "hi": "लोड हो रहा है..."
+  }
+}
