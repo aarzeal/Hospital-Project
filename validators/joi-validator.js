@@ -516,9 +516,9 @@ exports.labTestCategoryDetailsSchema = Joi.object({
 });
 
 exports.labTestSensitivitySchema = Joi.object({
-  LabTestSensitivityID: Joi.number().integer().optional().label("Lab Test Sensitivity ID"),
+  labTestSensitivityID: Joi.number().integer().optional().label("Lab Test Sensitivity ID"),
   
-  SensivityPattern: Joi.string()
+  sensitivityPattern: Joi.string()
     .max(50)
     .required()
     .label("Sensitivity Pattern"),
@@ -536,20 +536,20 @@ exports.labTestSensitivitySchema = Joi.object({
     "number.empty": "Hospital Group ID is required",
     "any.required": "Hospital Group ID is required",
   }),
+  });
 
-  CreatedBy: Joi.string()
-    .required()
-    .label("Created By"),
+  // CreatedBy: Joi.string()
+  //   .required()
+  //   .label("Created By"),
 
-  CreatedAt: Joi.date()
-    .optional()
-    .label("Created At"),
+  // CreatedAt: Joi.date()
+  //   .optional()
+  //   .label("Created At"),
 
-  UpdatedBy: Joi.string()
-    .optional()
-    .label("Updated By"),
+  // UpdatedBy: Joi.string()
+  //   .optional()
+  //   .label("Updated By"),
 
-  UpdatedAt: Joi.date()
-    .optional()
-    .label("Updated At")
-});
+  // UpdatedAt: Joi.date()
+  //   .optional()
+  //   .label("Updated At")

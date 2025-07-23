@@ -1,6 +1,6 @@
 // POST DTO: From client to DB format
 exports.labTestSensitivityPOST = (dto) => ({
-  sensivity_pattern: dto.sensivityPattern,
+  sensitivity_pattern: dto.sensitivityPattern,
   hospital_IDR: dto.hospitalIDR,
   hospital_group_IDR: dto.hospitalGroupIDR,
   created_by: dto.createdBy,
@@ -9,8 +9,8 @@ exports.labTestSensitivityPOST = (dto) => ({
 
 // GET DTO: From DB to client format
 exports.labTestSensitivityGET = (dto) => ({
-  labTestSensitivityID: dto.LabTestSensitivityID,
-  sensivityPattern: dto.sensivity_pattern,
+  labTestSensitivityID: dto.lab_test_sensitivity_id,
+  sensitivityPattern: dto.sensitivity_pattern,
   hospitalIDR: dto.hospital_IDR,
   hospitalGroupIDR: dto.hospital_group_IDR,
   createdBy: dto.created_by,
@@ -21,8 +21,8 @@ exports.labTestSensitivityGET = (dto) => ({
 
 // Field mapping: camelCase → snake_case
 exports.labTestSensitivityFieldMap = {
-  labTestSensitivityID: "LabTestSensitivityID",
-  sensivityPattern: "sensivity_pattern",
+  labTestSensitivityID: "lab_test_sensitivity_id",
+  sensitivityPattern: "sensitivity_pattern",
   hospitalIDR: "hospital_IDR",
   hospitalGroupIDR: "hospital_group_IDR",
   createdBy: "created_by",

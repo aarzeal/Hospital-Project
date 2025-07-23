@@ -17,8 +17,8 @@ const HospitalGroup = require("../models/HospitalGroup");
 const Hospital = require("../models/HospitalModel");
 const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
-const { labTestSensitivity } = require("../validators/joi-validator");
-const { getLabTestCategoryByIdDAO } = require("../Dao/LabTestCategoryDAO.js");
+const { labTestSensitivitySchema } = require("../validators/joi-validator");
+
 
 exports.createLabTestSensitivity = async (req, res) => {
   const start = Date.now();
@@ -28,7 +28,7 @@ exports.createLabTestSensitivity = async (req, res) => {
   const username = req.username;
 
   try {
-    const { error } = labTestSensitivity.validate(req.body);
+    const { error } = labTestSensitivitySchema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
 
     const hospitalid = await Hospital.findOne({
@@ -213,7 +213,7 @@ exports.getAllLabTestSensitivity = async (req, res) => {
   }
 };
 
-exports.getLabTestSensivityById = async (req, res) => {
+exports.getLabTestSensitivityById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
@@ -221,7 +221,7 @@ exports.getLabTestSensivityById = async (req, res) => {
 
   try {
     const { id } = req.params;
-    const result = await getLabTestCategoryByIdDAO(req.sequelize, id);
+    const result = await getLabTestSensitivityByIdDAO(req.sequelize, id);
 
     if (!result) {
       const executionTime = `${Date.now() - start}ms`;
@@ -296,7 +296,7 @@ exports.updateLabTestSensitivityById = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
   try {
-    const { error } = labTestSensitivity.validate(req.body);
+    const { error } = labTestSensitivitySchema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
 
     const hospitalid = await Hospital.findOne({
@@ -527,7 +527,7 @@ exports.getLabTestSensitivityByQueryParams = async (req, res) => {
     const { page, limit, ...queryFields } = req.query;
     const fieldMap = labTestSensitivityFieldMap;
 
-    const ID_DTO_FIELD = "LabTestSensitivityId"; // Ensure this matches your DTO
+    const ID_DTO_FIELD = "labTestSensitivityID"; // Ensure this matches your DTO
     const ID_DB_FIELD = fieldMap[ID_DTO_FIELD];
 
     // Extract valid DTO fields from query params

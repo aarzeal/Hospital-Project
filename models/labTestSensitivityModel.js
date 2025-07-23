@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
         autoIncrement: true,
         primaryKey: true,
       },
-      sensivity_pattern: {
+      sensitivity_pattern: {
         type: DataTypes.STRING(50),
         allowNull: false,
       },

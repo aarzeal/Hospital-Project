@@ -6,60 +6,60 @@ const Userverification = require("../validators/Accesstokenverify");
 const validateJSONContentType = require("../Middleware/jsonvalidation");
 
 const { 
-  createLabTestCategoryDetails, 
-  getAllLabTestCategoryDetails, 
-  getLabTestCategoryDetailsById,
-   updateLabTestCategoryDetails, 
-   deleteLabTestCategoryDetails, 
-   getLabTestCategoryDetailsByQueryParams } = require("../controllers/labTestCategoryDetailsController");
+  createLabTestSensitivity, 
+  getAllLabTestSensitivity, 
+   updateLabTestSensitivityById, 
+   deleteLabTestSensitivityById, 
+   getLabTestSensitivityByQueryParams, 
+   getLabTestSensitivityById} = require("../controllers/labTestSensitivityController");
 
 router.post(
-  "/create-lab-test-category-details",
+  "/create-lab-test-sensitivity",
   authenticate,
   validateJSONContentType,
   ensureSequelizeInstance,
   Userverification,
-  createLabTestCategoryDetails
+  createLabTestSensitivity
 );
 router.get(
-  "/all-lab-test-categories-details",
+  "/all-lab-test-sensitivity",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  getAllLabTestCategoryDetails
+  getAllLabTestSensitivity
 );
 
 router.get(
-  "/lab-test-category-details/:id",
+  "/lab-test-sensitivity/:id",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  getLabTestCategoryDetailsById
+  getLabTestSensitivityById
 );
 
 router.put(
-  "/update-lab-test-category-details/:id",
+  "/update-lab-test-sensitivity/:id",
   authenticate,
   ensureSequelizeInstance,
   validateJSONContentType,
   Userverification,
-  updateLabTestCategoryDetails
+  updateLabTestSensitivityById
 );
 
 router.delete(
-  "/delete-lab-test-category-details/:id",
+  "/delete-lab-test-sensitivity/:id",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  deleteLabTestCategoryDetails
+  deleteLabTestSensitivityById
 );
 
 router.get(
-  "/lab-test-category-details-as-per-query",
+  "/lab-test-sensitivity-as-per-query",
   authenticate,
   ensureSequelizeInstance,
   Userverification,
-  getLabTestCategoryDetailsByQueryParams
+  getLabTestSensitivityByQueryParams
 );
 
 module.exports = router;

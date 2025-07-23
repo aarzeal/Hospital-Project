@@ -20,7 +20,7 @@ exports.getLabTestSensitivityByIdDAO = async (sequelize, id) => {
 // UPDATE BY ID
 exports.updateLabTestSensitivityByIdDAO = async (sequelize, id, updateData) => {
   const LabTestSensitivity = require("../models/labTestSensitivityModel")(sequelize);
-  await LabTestSensitivity.update(updateData, { where: { LabTestSensitivityID: id } });
+  await LabTestSensitivity.update(updateData, { where: { lab_test_sensitivity_id: id } });
   return await LabTestSensitivity.findByPk(id);
 };
 
