@@ -11,6 +11,7 @@ const {
   getLabTestCategoryDetailsById,
    updateLabTestCategoryDetails, 
    deleteLabTestCategoryDetails, 
+   getLinkedTestsByCategoryId,
    getLabTestCategoryDetailsByQueryParams } = require("../controllers/labTestCategoryDetailsController");
 
 router.post(
@@ -36,6 +37,15 @@ router.get(
   Userverification,
   getLabTestCategoryDetailsById
 );
+
+router.get(
+  "/categories/:categoryId/linked-test",  // Matches your preferred URL pattern
+  authenticate,
+  ensureSequelizeInstance,
+  Userverification,
+  getLinkedTestsByCategoryId
+);
+
 
 router.put(
   "/update-lab-test-category-details/:id",

@@ -3,13 +3,10 @@ const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
 const Hospital = require("../models/HospitalModel.js");
 const HospitalGroup = require("../models/HospitalGroup.js");
-const LabTest = require("../models/LabTestModel.js")
 const LabTestCategory = require("../models/labTestCategoryModel.js");
-
-
 const { labTestCategorySchema, labTestCategoryDetailsSchema } = require("../validators/joi-validator.js");
 const { labTestCategoryDetailsPOST, labTestCategoryDetailsGET, labTestCategoryDetailsFieldMap } = require("../dtos/LabTestCategoryDetailsDTO.js");
-const { createLabTestCategoryDetailsDAO, getAllLabTestCategoryDetailsDAO, getLabTestCategoryDetailsByIdDAO, updatLabTestCategoryDetailsByIdDAO, deleteLabTestCategoryDetailsByIdDAO, getLabTestCategoryDetailsDataAsPerQueryParamDAO } = require("../Dao/LabTestCategoryDetailsDAO.js");
+const { createLabTestCategoryDetailsDAO, getAllLabTestCategoryDetailsDAO, getLabTestCategoryDetailsByIdDAO, updatLabTestCategoryDetailsByIdDAO, deleteLabTestCategoryDetailsByIdDAO, getLabTestCategoryDetailsDataAsPerQueryParamDAO, getLinkedLabTestsByCategoryIdDAO } = require("../Dao/LabTestCategoryDetailsDAO.js");
 const { getLabTestByIdDAO } = require("../Dao/LabTestDao.js");
 const { getLabTestCategoryByIdDAO } = require("../Dao/LabTestCategoryDAO.js");
 
@@ -355,6 +352,107 @@ exports.getLabTestCategoryDetailsById = async (req, res) => {
     });
   }
 };
+
+exports.getLinkedTestsByCategoryId = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
+
+  try {
+
+    const { categoryId } = req.params;
+    
+    // Using DAO instead of direct Sequelize call
+    const result = await getLinkedLabTestsByCategoryIdDAO(req.sequelize, categoryId);
+
+    if (!result || result.length === 0) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1262;
+
+      logger.logWithMeta("error", "No linked tests found", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      });
+
+      return res.status(404).json({
+        errorCode: 1263,
+        message: "No linked tests found in Database",
+        hospitalDatabase,
+      });
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Fetched linked tests successfully", {
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime: `${Date.now() - start}ms`,
+        hospitalDatabase,
+      },
+      data: result, // Direct DAO result without transformation
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1262;
+
+    logger.logWithMeta("error", "Error fetching linked tests", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode: 1264,
+        executionTime: `${Date.now() - start}ms`,
+        hospitalDatabase,
+      },
+      error: { message: "Error fetching linked tests: " + error.message },
+    });
+  }
+};
+
+exports.getLinkedTestsByCategoryId = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
+
+}
+
 
 exports.updateLabTestCategoryDetails = async (req, res) => {
   const start = Date.now();

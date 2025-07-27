@@ -50,7 +50,8 @@ const verifyAccessToken = (req, res, next) => {
     // Attach the decoded token to the request object
     req.user = decoded;
     req.userId= decoded
-    req.username = decoded.username;
+    // req.username = decoded.username;
+        req.username = decoded.userId;
     console.log("decoded",  req.userId)
 
 

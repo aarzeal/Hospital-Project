@@ -41,3 +41,29 @@ exports.getLabTestCategoryDetailsDataAsPerQueryParamDAO = async (
     raw: true,
   });
 };
+
+exports.getLinkedLabTestsByCategoryIdDAO = async (sequelize, categoryId) => {
+  const LabTest = require("../models/labTestModel")(sequelize);
+  const LabTestCategoryDetails = require("../models/labTestCategoryDetailsModel")(sequelize);
+  
+  return await LabTest.findAll({
+    include: [{
+      model: LabTestCategoryDetails,
+      where: { lab_test_category_IDR: categoryId },
+      required: true
+    }],
+    raw: true,
+    nest: true
+  });
+};
+
+// NEW METHOD: Check if a test is already linked to a category
+exports.isTestLinkedToCategoryDAO = async (sequelize, categoryId, testId) => {
+  const LabTestCategoryDetails = require("../models/labTestCategoryDetailsModel")(sequelize);
+  return await LabTestCategoryDetails.findOne({
+    where: {
+      lab_test_category_IDR: categoryId,
+      lab_test_IDR: testId
+    }
+  });
+};

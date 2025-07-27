@@ -610,5 +610,57 @@
   "Searchbyreferencetitle": {
     "en": "Search by reference title",
     "hi": "संदर्भ शीर्षक के आधार पर खोजें"
+  },
+  "LabTestSensitivityPatternmustnotstartwithaspace": {
+    "en": "Lab Test Sensitivity Pattern must not start with a space",
+    "hi": "लैब टेस्ट संवेदनशीलता पैटर्न रिक्त स्थान से शुरू नहीं होना चाहिए"
+  },
+  "LabTestSensitivityPatternmuststartwithanalphabetandcontainonlyalphanumericcharacters": {
+    "en": "Lab Test Sensitivity Pattern must start with an alphabet and contain only alphanumeric characters",
+    "hi": "लैब टेस्ट संवेदनशीलता पैटर्न एक वर्णमाला से शुरू होना चाहिए और इसमें केवल अल्फ़ान्यूमेरिक वर्ण होने चाहिए"
+  },
+  "LabTestSensitivityPatternmustbeatleast3characterslong": {
+    "en": "Lab Test Sensitivity Pattern must be at least 3 characters long",
+    "hi": "लैब टेस्ट संवेदनशीलता पैटर्न कम से कम 3 अक्षरों का होना चाहिए"
+  },
+  "LabTestSensitivityPatternlengthmustbelessthan100": {
+    "en": "Lab Test Sensitivity Pattern length must be less than 100",
+    "hi": "लैब टेस्ट संवेदनशीलता पैटर्न की लंबाई 100 से कम होनी चाहिए"
+  },
+  "LabTestSensitivityupdatedsuccessfully": {
+    "en": "Lab Test Sensitivity updated successfully",
+    "hi": "लैब टेस्ट संवेदनशीलता सफलतापूर्वक अपडेट की गई"
+  },
+  "LabTestSensitivityaddedsuccessfully": {
+    "en": "Lab Test Sensitivity added successfully",
+    "hi": "लैब टेस्ट संवेदनशीलता सफलतापूर्वक जोड़ी गई"
+  },
+  "Doyoureallywanttodeletethislabtestsensitivity": {
+    "en": "Do you really want to delete this lab test sensitivity?",
+    "hi": "क्या आप सचमुच इस लैब परीक्षण संवेदनशीलता को हटाना चाहते हैं?"
+  },
+  "Thelabtestsensitivityhasbeendeleted": {
+    "en": "The lab test sensitivity has been deleted",
+    "hi": "लैब परीक्षण संवेदनशीलता हटा दी गई है"
+  },
+  "SensitivityPattern": {
+    "en": "Sensitivity Pattern",
+    "hi": "संवेदनशीलता पैटर्न"
+  },
+  "Entersensitivitypatternhere": {
+    "en": "Enter sensitivity pattern here",
+    "hi": "यहां संवेदनशीलता पैटर्न दर्ज करें"
+  },
+  "LabTestSensitivity": {
+    "en": "Lab Test Sensitivity",
+    "hi": "लैब टेस्ट संवेदनशीलता"
+  },
+  "AlllabTestSensitivity": {
+    "en": "All lab Test Sensitivity",
+    "hi": "सभी प्रयोगशाला परीक्षण संवेदनशीलता"
+  },
+  "SearchbylabTestSensitivity": {
+    "en": "Search by lab Test Sensitivity",
+    "hi": "प्रयोगशाला परीक्षण संवेदनशीलता द्वारा खोजें"
   }
 }
