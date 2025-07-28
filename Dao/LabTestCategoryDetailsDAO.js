@@ -45,25 +45,17 @@ exports.getLabTestCategoryDetailsDataAsPerQueryParamDAO = async (
 exports.getLinkedLabTestsByCategoryIdDAO = async (sequelize, categoryId) => {
   const LabTest = require("../models/labTestModel")(sequelize);
   const LabTestCategoryDetails = require("../models/labTestCategoryDetailsModel")(sequelize);
-  
-  return await LabTest.findAll({
-    include: [{
-      model: LabTestCategoryDetails,
-      where: { lab_test_category_IDR: categoryId },
-      required: true
-    }],
-    raw: true,
-    nest: true
-  });
-};
 
-// NEW METHOD: Check if a test is already linked to a category
-exports.isTestLinkedToCategoryDAO = async (sequelize, categoryId, testId) => {
-  const LabTestCategoryDetails = require("../models/labTestCategoryDetailsModel")(sequelize);
-  return await LabTestCategoryDetails.findOne({
+  const linkedDetails = await LabTestCategoryDetails.findAll({
+    where: { lab_test_category_IDR: categoryId },
+    attributes: ['lab_test_IDR']
+  });
+
+  const labTestIds = linkedDetails.map(item => item.lab_test_IDR);
+
+  return await LabTest.findAll({
     where: {
-      lab_test_category_IDR: categoryId,
-      lab_test_IDR: testId
+      lab_test_id: labTestIds
     }
   });
 };

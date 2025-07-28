@@ -413,7 +413,7 @@ exports.getLinkedTestsByCategoryId = async (req, res) => {
         executionTime: `${Date.now() - start}ms`,
         hospitalDatabase,
       },
-      data: result, // Direct DAO result without transformation
+      data: labTestCategoryDetailsGET(result),
     });
 
   } catch (error) {
@@ -444,14 +444,6 @@ exports.getLinkedTestsByCategoryId = async (req, res) => {
     });
   }
 };
-
-exports.getLinkedTestsByCategoryId = async (req, res) => {
-  const start = Date.now();
-  const clientIp = await getClientIp(req);
-  const hospitalDatabase = req.hospitalDatabase;
-  const locationData = await getLocationData(clientIp);
-
-}
 
 
 exports.updateLabTestCategoryDetails = async (req, res) => {

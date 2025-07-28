@@ -39,7 +39,7 @@ router.get(
 );
 
 router.get(
-  "/categories/:categoryId/linked-test",  // Matches your preferred URL pattern
+  "/categories/:categoryId",  // Matches your preferred URL pattern
   authenticate,
   ensureSequelizeInstance,
   Userverification,
