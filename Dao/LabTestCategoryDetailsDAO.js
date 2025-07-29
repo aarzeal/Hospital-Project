@@ -42,20 +42,32 @@ exports.getLabTestCategoryDetailsDataAsPerQueryParamDAO = async (
   });
 };
 
-exports.getLinkedLabTestsByCategoryIdDAO = async (sequelize, categoryId) => {
-  const LabTest = require("../models/labTestModel")(sequelize);
+// exports.getLinkedLabTestsByCategoryIdDAO = async (sequelize, categoryId) => {
+//   const LabTest = require("../models/labTestModel")(sequelize);
+//   const LabTestCategoryDetails = require("../models/labTestCategoryDetailsModel")(sequelize);
+
+//   const linkedDetails = await LabTestCategoryDetails.findAll({
+//     where: { lab_test_category_IDR: categoryId },
+//     attributes: ['lab_test_IDR']
+//   });
+
+//   const labTestIds = linkedDetails.map(item => item.lab_test_IDR);
+
+//   return await LabTest.findAll({
+//     where: {
+//       lab_test_id: labTestIds
+//     }
+//   });
+// };
+
+// DAO: labTestCategoryDetailsDAO.js
+
+// DAO: labTestCategoryDetailsDAO.js (ya jahan DAO functions defined hain)
+
+exports.getLinkedLabTestsByCategoryIdDAO = async (sequelize, lab_test_category_IDR) => {
   const LabTestCategoryDetails = require("../models/labTestCategoryDetailsModel")(sequelize);
 
-  const linkedDetails = await LabTestCategoryDetails.findAll({
-    where: { lab_test_category_IDR: categoryId },
-    attributes: ['lab_test_IDR']
-  });
-
-  const labTestIds = linkedDetails.map(item => item.lab_test_IDR);
-
-  return await LabTest.findAll({
-    where: {
-      lab_test_id: labTestIds
-    }
+  return await LabTestCategoryDetails.findAll({
+    where: { lab_test_category_IDR },
   });
 };
