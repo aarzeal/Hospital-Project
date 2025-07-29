@@ -68,6 +68,6 @@ exports.getLinkedLabTestsByCategoryIdDAO = async (sequelize, lab_test_category_I
   const LabTestCategoryDetails = require("../models/labTestCategoryDetailsModel")(sequelize);
 
   return await LabTestCategoryDetails.findAll({
-    where: { lab_test_category_IDR },
+    where: { lab_test_category_IDR: lab_test_category_IDR },
   });
 };

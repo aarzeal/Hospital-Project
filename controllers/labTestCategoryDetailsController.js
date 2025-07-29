@@ -365,6 +365,7 @@ exports.getLinkedTestsByCategoryId = async (req, res) => {
     
     // Using DAO instead of direct Sequelize call
     const result = await getLinkedLabTestsByCategoryIdDAO(req.sequelize, categoryId);
+    console.log("result ++ ++ ",result.data)
 
     if (!result || result.length === 0) {
       const executionTime = `${Date.now() - start}ms`;
@@ -413,7 +414,7 @@ exports.getLinkedTestsByCategoryId = async (req, res) => {
         executionTime: `${Date.now() - start}ms`,
         hospitalDatabase,
       },
-      data: labTestCategoryDetailsGET(result),
+      data: result.map(labTestCategoryDetailsGET),
     });
 
   } catch (error) {
