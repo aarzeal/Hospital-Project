@@ -553,3 +553,38 @@ exports.labTestSensitivitySchema = Joi.object({
   // UpdatedAt: Joi.date()
   //   .optional()
   //   .label("Updated At")
+
+// exports.labTestPackageSchema = Joi.object()
+
+
+exports.labTestPackageSchema = Joi.object({
+  labTestPackageName: Joi.string().max(100).required().label("Lab Test Package Name"),
+
+  labTestPackageCode: Joi.string().max(50).required().label("Lab Test Package Code"),
+
+  remarks: Joi.string().allow("", null).max(255).label("Remarks"),
+
+  isActive: Joi.boolean().required().label("Is Active"),
+
+  isDefault: Joi.boolean().required().label("Is Default"),
+
+  hospitalIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital ID must be an integer",
+    "number.integer": "Hospital ID must be an integer",
+    "any.required": "Hospital ID is required",
+  }),
+
+  hospitalGroupIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital Group ID must be an integer",
+    "number.integer": "Hospital Group ID must be an integer",
+    "any.required": "Hospital Group ID is required",
+  }),
+
+  createdBy: Joi.string().max(100).optional().label("Created By"),
+
+  updatedBy: Joi.string().max(100).optional().label("Updated By"),
+
+  createdAt: Joi.date().optional().label("Created At"),
+
+  updatedAt: Joi.date().optional().label("Updated At"),
+});

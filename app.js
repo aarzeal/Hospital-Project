@@ -69,6 +69,7 @@ const labTestNoteRoutes = require("./routes/labTestNoteRoutes.js");
 const labTestCategoryRoutes = require("./routes/labTestCategoryRoutes.js");
 const labTestCategoryDetailsRoutes = require("./routes/labTestCategoryDetailsRoutes.js")
 const labTestSensitivityRoutes=require("./routes/labTestSensitivityRoutes.js")
+const labTestPackageRoutes=require("./routes/labTestPackageRoutes.js");
 
 const multer = require("multer");
 const cors = require("cors");
@@ -174,6 +175,7 @@ app.use("/api/v1/lab-test-note", labTestNoteRoutes);
 app.use("/api/v1/lab-test-category", labTestCategoryRoutes);
 app.use("/api/v1/lab-test-category-details",labTestCategoryDetailsRoutes);
 app.use("/api/v1/lab-test-sensitivity",labTestSensitivityRoutes);
+app.use("/api/v1/lab-test-package",labTestPackageRoutes);
 
 sendEmail();
 
