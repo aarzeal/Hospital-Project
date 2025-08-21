@@ -254,5 +254,97 @@
   "DetailType": {
     "en": "Detail Type",
     "hi": "विवरण प्रकार"
+  },
+  "LabTestPackageNamemustnotstartwithaspace": {
+    "en": "Lab Test Package Name must not start with a space",
+    "hi": "लैब टेस्ट पैकेज का नाम स्पेस से शुरू नहीं होना चाहिए"
+  },
+  "LabTestPackageNamemustbeatleast3characterslong": {
+    "en": "Lab Test Package Name must be at least 3 characters long",
+    "hi": "लैब टेस्ट पैकेज का नाम कम से कम 3 अक्षरों का होना चाहिए"
+  },
+  "LabTestPackageNamemustbelessthan100characters": {
+    "en": "Lab Test Package Name must be less than 100 characters",
+    "hi": "लैब टेस्ट पैकेज का नाम 100 अक्षरों से कम होना चाहिए"
+  },
+  "LabTestPackageCodemustnotstartwithaspace": {
+    "en": "Lab Test Package Code must not start with a space",
+    "hi": "लैब टेस्ट पैकेज कोड स्पेस से शुरू नहीं होना चाहिए"
+  },
+  "LabTestPackageCodemustbealphanumeric": {
+    "en": "Lab Test Package Code must be alphanumeric",
+    "hi": "लैब टेस्ट पैकेज कोड अल्फ़ान्यूमेरिक होना चाहिए"
+  },
+  "LabTestPackageCodemustbeatleast1characterlong": {
+    "en": "Lab Test Package Code must be at least 1 character long",
+    "hi": "लैब टेस्ट पैकेज कोड कम से कम 1 वर्ण लंबा होना चाहिए"
+  },
+  "LabTestPackageCodemustbelessthan15characters": {
+    "en": "Lab Test Package Code must be less than 15 characters",
+    "hi": "लैब टेस्ट पैकेज कोड 15 अक्षरों से कम होना चाहिए"
+  },
+  "labTestPackageName": {
+    "en": "Lab Test Package Name",
+    "hi": "लैब टेस्ट पैकेज का नाम"
+  },
+  "Enterlabtestpackagenamehere": {
+    "en": "Enter lab test package name here",
+    "hi": "लैब टेस्ट पैकेज का नाम यहां दर्ज करें"
+  },
+  "LabTestPackageCode": {
+    "en": "Lab Test Package Code",
+    "hi": "लैब टेस्ट पैकेज कोड"
+  },
+  "EnterLabTestPackageCodeHere": {
+    "en": "Enter lab test package code here",
+    "hi": "लैब टेस्ट पैकेज कोड यहां दर्ज करें"
+  },
+  "IsDefault": {
+    "en": "Is Default",
+    "hi": "डिफ़ॉल्ट है"
+  },
+  "PackageName": {
+    "en": "Package Name",
+    "hi": "पैकेज का नाम"
+  },
+  "PackageCode": {
+    "en": "Package Code",
+    "hi": "पैकेज कोड"
+  },
+  "Doyoureallywanttodeletethislabtestpackage": {
+    "en": "Do you really want to delete this lab test package?",
+    "hi": "क्या आप वास्तव में इस लैब टेस्ट पैकेज को हटाना चाहते हैं?"
+  },
+  "Thelabtestpackagehasbeendeleted": {
+    "en": "The lab test package has been deleted",
+    "hi": "लैब परीक्षण पैकेज हटा दिया गया है"
+  },
+  "Error": {
+    "en": "Error",
+    "hi": "गलती"
+  },
+  "Somethingwentwrong": {
+    "en": "Something went wrong",
+    "hi": "कुछ गलत हो गया"
+  },
+  "Readmore": {
+    "en": "Read more",
+    "hi": "और पढ़ें"
+  },
+  "LabTestPackageaddedsuccessfully": {
+    "en": "Lab Test Package added successfully",
+    "hi": "लैब टेस्ट पैकेज सफलतापूर्वक जोड़ा गया"
+  },
+  "LabTestPackageupdatedsuccessfully": {
+    "en": "Lab Test Package updated successfully",
+    "hi": "लैब टेस्ट पैकेज सफलतापूर्वक अपडेट किया गया"
+  },
+  "LabTestPackage": {
+    "en": "Lab Test Package",
+    "hi": "लैब टेस्ट पैकेज"
+  },
+  "AllLabTestPackages": {
+    "en": "All Lab Test Packages",
+    "hi": "सभी लैब टेस्ट पैकेज"
   }
 }

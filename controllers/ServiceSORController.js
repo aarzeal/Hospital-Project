@@ -193,6 +193,29 @@ exports.getServiceSOR = async (req, res) => {
 
     try {
         const ServiceSOR = require('../models/ServiceSOR.js')(req.sequelize);
+        // newly added
+        // const Service = require('../models/ser.js')(req.sequelize);
+
+        // newly added
+        // ServiceSOR.belongsTo(Service, { foreignKey: 'serviceIDR', targetKey: 'service_id' });
+
+        // const serviceSORRecords = await ServiceSOR.findAll({
+        //     attributes: [
+        //         "serviceRate",
+        //         "firstEmergancyRate",
+        //         "secondEmergancyRate",
+        //         "isNotApplicable",
+        //         "isEffectiveNow"
+        //     ],
+        //     include: [
+        //         {
+        //             model: Service,
+        //             attributes: ["service_code", "service_name"]
+        //         }
+        //     ]
+        // });
+
+
 
         const serviceSORRecords = await ServiceSOR.findAll();
 
