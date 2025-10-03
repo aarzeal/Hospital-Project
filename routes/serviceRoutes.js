@@ -25,6 +25,7 @@ router.get('/service/:id', authenticate,Userverifiction,ensureSequelizeInstance,
 router.get('/service-type/:service_type', authenticate,Userverifiction,ensureSequelizeInstance,serviceController.getServicebyservicetype);
 router.put("/update/:id", validateService.validateServiceUpdate,validateJSONContentType,authenticate,Userverifiction,ensureSequelizeInstance,serviceController.updateService);
 router.delete("/delete/:service_id", authenticate,Userverifiction,ensureSequelizeInstance,serviceController.deleteService);
+router.get('/service-report',authenticate,Userverifiction,ensureSequelizeInstance,serviceController.getServiceReport);
 
 
 module.exports = router;

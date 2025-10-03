@@ -145,7 +145,7 @@ dotenv.config();
 
 //             return res.status(400).json({ message: "Invalid ledger_IDR, not found in MasterDB", errorCode });
 //         }
-        
+
 //         const existingService = await Service.findOne({
 //             where: { service_name, HospitalGroupIDR }
 //         });
@@ -302,42 +302,42 @@ dotenv.config();
 // };
 
 exports.createService = async (req, res) => {
- const errors = validationResult(req);
- const start = Date.now();
-    
- const clientIp = await getClientIp(req);
- const locationData = await getLocationData(clientIp);
- const logId = uuidv4();
+    const errors = validationResult(req);
+    const start = Date.now();
 
- if (!errors.isEmpty()) {
-     const executionTime = `${Date.now() - start}ms`;
-     const errorCode = 9047; // Validation error
+    const clientIp = await getClientIp(req);
+    const locationData = await getLocationData(clientIp);
+    const logId = uuidv4();
 
-     logger.logWithMeta("error", "Validation error in createFinYrDetails", {
-         errorCode,
-         executionTime,
-         hospitalName: req.hospitalName || "Unknown",
-         ip: clientIp,
-         apiName: req.originalUrl,
-         method: req.method,
-         userAgent: req.headers["user-agent"],
-         validationErrors: errors.array(),
-         createdBy: req.username,
-         updatedBy:req.username
+    if (!errors.isEmpty()) {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 9047; // Validation error
+
+        logger.logWithMeta("error", "Validation error in createFinYrDetails", {
+            errorCode,
+            executionTime,
+            hospitalName: req.hospitalName || "Unknown",
+            ip: clientIp,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            validationErrors: errors.array(),
+            createdBy: req.username,
+            updatedBy: req.username
 
 
-     });
+        });
 
-     return res.status(400).json({ 
-         message: "Validation failed", 
-         statusCode: 400,
-         errorCode,
-         errors: errors.array(),
-     });
- }
+        return res.status(400).json({
+            message: "Validation failed",
+            statusCode: 400,
+            errorCode,
+            errors: errors.array(),
+        });
+    }
 
-   
-   
+
+
 
 
     const { service_code, service_name, service_type, service_category_IDR, service_charge_applicable, service_tax_applicable, non_active, ledger_IDR, HospitalGroupIDR } = req.body;
@@ -345,7 +345,7 @@ exports.createService = async (req, res) => {
 
     try {
         const Service = require("../models/ser")(req.sequelize);
-        
+
         await Service.sync({ force: false });
 
 
@@ -358,21 +358,21 @@ exports.createService = async (req, res) => {
         if (!group) {
             const executionTime = `${Date.now() - start}ms`;
             const errorCode = 9048;
-    
+
             logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", {
                 errorCode,
                 executionTime,
                 hospitalName: req.hospitalName,
                 ip: clientIp,
-              city: locationData?.city,
-              country: locationData?.country,
-              regionName: locationData?.regionName,
-              zip: locationData?.zip,
+                city: locationData?.city,
+                country: locationData?.country,
+                regionName: locationData?.regionName,
+                zip: locationData?.zip,
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
                 createdBy: req.username,
-                updatedBy:req.username
+                updatedBy: req.username
             });
             return res.status(400).json({ message: "Invalid HospitalGroupID, not found in MasterDB" });
         }
@@ -388,23 +388,23 @@ exports.createService = async (req, res) => {
         if (!service_category) {
             const executionTime = `${Date.now() - start}ms`;
             const errorCode = 9049;
-    
+
             logger.logWithMeta("error", "Invalid Service Category ID, not found in MasterDB", {
                 errorCode,
                 executionTime,
                 hospitalName: req.hospitalName,
                 ip: clientIp,
-              city: locationData?.city,
-              country: locationData?.country,
-              regionName: locationData?.regionName,
-              zip: locationData?.zip,
+                city: locationData?.city,
+                country: locationData?.country,
+                regionName: locationData?.regionName,
+                zip: locationData?.zip,
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
                 createdBy: req.username,
-                updatedBy:req.username
+                updatedBy: req.username
             });
-            return res.status(400).json({errorCode, message: "Invalid Service Category ID, not found in MasterDB" });
+            return res.status(400).json({ errorCode, message: "Invalid Service Category ID, not found in MasterDB" });
         }
 
 
@@ -417,21 +417,21 @@ exports.createService = async (req, res) => {
         if (!accLedger) {
             const executionTime = `${Date.now() - start}ms`;
             const errorCode = 9050;
-    
+
             logger.logWithMeta("error", "Invalid ledger_IDR, not found in MasterDB", {
                 errorCode,
                 executionTime,
                 hospitalName: req.hospitalName,
                 ip: clientIp,
-              city: locationData?.city,
-              country: locationData?.country,
-              regionName: locationData?.regionName,
-              zip: locationData?.zip,
+                city: locationData?.city,
+                country: locationData?.country,
+                regionName: locationData?.regionName,
+                zip: locationData?.zip,
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
                 createdBy: req.username,
-                updatedBy:req.username
+                updatedBy: req.username
             });
 
             return res.status(400).json({ message: "Invalid ledger_IDR, not found in MasterDB" });
@@ -461,26 +461,26 @@ exports.createService = async (req, res) => {
             logId,
             hospitalName: req.hospitalName,
             ip: clientIp,
-          city: locationData?.city,
-          country: locationData?.country,
-          regionName: locationData?.regionName,
-          zip: locationData?.zip,
+            city: locationData?.city,
+            country: locationData?.country,
+            regionName: locationData?.regionName,
+            zip: locationData?.zip,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
             createdBy: req.username,
-            updatedBy:req.username,
-            
-            
+            updatedBy: req.username,
+
+
             data: [
                 {
                     service_code: service_code,
                     service_name: service_name,
-                    service_type:service_type
+                    service_type: service_type
 
                 }
             ]
-            
+
         });
 
         res.status(200).json({
@@ -500,15 +500,15 @@ exports.createService = async (req, res) => {
             executionTime,
             hospitalName: req.hospitalName,
             ip: clientIp,
-          city: locationData?.city,
-          country: locationData?.country,
-          regionName: locationData?.regionName,
-          zip: locationData?.zip,
+            city: locationData?.city,
+            country: locationData?.country,
+            regionName: locationData?.regionName,
+            zip: locationData?.zip,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         res.status(500).json({
@@ -543,7 +543,7 @@ exports.getService = async (req, res) => {
                 method: req.method,
                 userAgent: req.headers["user-agent"],
                 createdBy: req.username,
-                updatedBy:req.username
+                updatedBy: req.username
             });
 
             return res.status(500).json({
@@ -575,7 +575,7 @@ exports.getService = async (req, res) => {
                     userAgent: req.headers["user-agent"],
                     service_id: id,
                     createdBy: req.username,
-                    updatedBy:req.username
+                    updatedBy: req.username
                 });
 
                 return res.status(404).json({
@@ -601,7 +601,7 @@ exports.getService = async (req, res) => {
                     method: req.method,
                     userAgent: req.headers["user-agent"],
                     createdBy: req.username,
-                    updatedBy:req.username
+                    updatedBy: req.username
                 });
 
                 return res.status(404).json({
@@ -626,7 +626,7 @@ exports.getService = async (req, res) => {
             userAgent: req.headers["user-agent"],
             service_id: id || "all",
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         res.status(200).json({
@@ -655,7 +655,7 @@ exports.getService = async (req, res) => {
             service_id: id || "all",
             errorMessage: error.message,
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         res.status(500).json({
@@ -705,7 +705,7 @@ exports.getService = async (req, res) => {
 //             if (!response) {
 //                 const executionTime = `${Date.now() - start}ms`;
 //                 const errorCode = 1282;
-        
+
 //                 logger.logWithMeta("error", `Service not found"}`, {
 //                     errorCode,
 //                     executionTime,
@@ -777,31 +777,31 @@ exports.getService = async (req, res) => {
 //     const start = Date.now();
 //     const errors = validationResult(req);
 //     const clientIp = await getClientIp(req);
-    // const locationData = await getLocationData(clientIp);
-    // const logId = uuidv4();
+// const locationData = await getLocationData(clientIp);
+// const logId = uuidv4();
 
-    // if (!errors.isEmpty()) {
-    //     const executionTime = `${Date.now() - start}ms`;
-    //     const errorCode = 9057; // Validation error
+// if (!errors.isEmpty()) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 9057; // Validation error
 
-    //     logger.logWithMeta("error", "Validation error in updateService", {
-    //         errorCode,
-    //         executionTime,
-    //         hospitalName: req.hospitalName || "Unknown",
-    //         ip: clientIp,
-    //         apiName: req.originalUrl,
-    //         method: req.method,
-    //         userAgent: req.headers["user-agent"],
-    //         validationErrors: errors.array(),
-    //     });
+//     logger.logWithMeta("error", "Validation error in updateService", {
+//         errorCode,
+//         executionTime,
+//         hospitalName: req.hospitalName || "Unknown",
+//         ip: clientIp,
+//         apiName: req.originalUrl,
+//         method: req.method,
+//         userAgent: req.headers["user-agent"],
+//         validationErrors: errors.array(),
+//     });
 
-    //     return res.status(400).json({
-    //         message: "Validation failed",
-    //         statusCode: 400,
-    //         errorCode,
-    //         errors: errors.array(),
-    //     });
-    // }
+//     return res.status(400).json({
+//         message: "Validation failed",
+//         statusCode: 400,
+//         errorCode,
+//         errors: errors.array(),
+//     });
+// }
 
 //     const { id } = req.params;
 //     const { service_code, service_name, service_type, service_category_IDR, service_charge_applicable, 
@@ -992,8 +992,8 @@ exports.getService = async (req, res) => {
 //     }
 // };
 exports.updateService = async (req, res) => {
-  
-  const errors = validationResult(req);
+
+    const errors = validationResult(req);
     const start = Date.now();
     const clientIp = await getClientIp(req);
     const locationData = await getLocationData(clientIp);
@@ -1014,7 +1014,7 @@ exports.updateService = async (req, res) => {
             userAgent: req.headers["user-agent"],
             validationErrors: errors.array(),
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         return res.status(400).json({
@@ -1031,7 +1031,7 @@ exports.updateService = async (req, res) => {
 
     try {
         const Service = require("../models/ser")(req.sequelize);
-       
+
         // 🔍 Validate Service Exists
         let service = await Service.findByPk(id);
         if (!service) return res.status(404).json({ message: "Service not found" });
@@ -1040,37 +1040,37 @@ exports.updateService = async (req, res) => {
         const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR } });
         if (!group) return res.status(400).json({ message: "Invalid HospitalGroupID, not found in MasterDB" });
 
-        
+
         const AccLedger = require("../models/AccLedger")(req.sequelize);
 
         const accLedger = await AccLedger.findOne({
-            where: { ledger_id: ledger_IDR}
+            where: { ledger_id: ledger_IDR }
         });
 
         if (!accLedger) {
             const executionTime = `${Date.now() - start}ms`;
             const errorCode = 1283;
-    
+
             logger.logWithMeta("error", "Invalid Service AccLedger ID, not found in MasterDB", {
                 errorCode,
                 executionTime,
                 hospitalName: req.hospitalName,
                 ip: clientIp,
                 logId,
-              city: locationData?.city,
-              country: locationData?.country,
-              regionName: locationData?.regionName,
-              zip: locationData?.zip,
+                city: locationData?.city,
+                country: locationData?.country,
+                regionName: locationData?.regionName,
+                zip: locationData?.zip,
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
                 createdBy: req.username,
-                updatedBy:req.username
+                updatedBy: req.username
             });
-    
-            return res.status(400).json({errorCode, message: "Invalid Service AccLedger ID, not found in MasterDB" });
+
+            return res.status(400).json({ errorCode, message: "Invalid Service AccLedger ID, not found in MasterDB" });
         }
-        
+
 
 
         const Service_category = require("../models/servicecategory")(req.sequelize);
@@ -1082,30 +1082,32 @@ exports.updateService = async (req, res) => {
         if (!service_category) {
             const executionTime = `${Date.now() - start}ms`;
             const errorCode = 1284;
-    
+
             logger.logWithMeta("error", "Invalid Service Category ID, not found in MasterDB", {
                 errorCode,
                 executionTime,
                 hospitalName: req.hospitalName,
                 ip: clientIp,
                 logId,
-              city: locationData?.city,
-              country: locationData?.country,
-              regionName: locationData?.regionName,
-              zip: locationData?.zip,
+                city: locationData?.city,
+                country: locationData?.country,
+                regionName: locationData?.regionName,
+                zip: locationData?.zip,
                 apiName: req.originalUrl,
                 method: req.method,
                 userAgent: req.headers["user-agent"],
                 createdBy: req.username,
-                updatedBy:req.username
+                updatedBy: req.username
             });
-    
-            return res.status(400).json({ errorCode,message: "Invalid Service Category ID, not found in MasterDB" });
+
+            return res.status(400).json({ errorCode, message: "Invalid Service Category ID, not found in MasterDB" });
         }
 
         // **UPDATE SERVICE**
-        await service.update({ service_code, service_name, service_type, service_category_IDR, service_charge_applicable, service_tax_applicable, non_active, ledger_IDR, HospitalGroupIDR ,  updatedBy: req.username,  // Track who updated it
-            updatedAt: new Date(), });
+        await service.update({
+            service_code, service_name, service_type, service_category_IDR, service_charge_applicable, service_tax_applicable, non_active, ledger_IDR, HospitalGroupIDR, updatedBy: req.username,  // Track who updated it
+            updatedAt: new Date(),
+        });
 
         const executionTime = `${Date.now() - start}ms`;
 
@@ -1114,15 +1116,15 @@ exports.updateService = async (req, res) => {
             hospitalName: req.hospitalName,
             ip: clientIp,
             logId,
-          city: locationData?.city,
-          country: locationData?.country,
-          regionName: locationData?.regionName,
-          zip: locationData?.zip,
+            city: locationData?.city,
+            country: locationData?.country,
+            regionName: locationData?.regionName,
+            zip: locationData?.zip,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         res.status(200).json({
@@ -1143,15 +1145,15 @@ exports.updateService = async (req, res) => {
             hospitalName: req.hospitalName,
             ip: clientIp,
             logId,
-          city: locationData?.city,
-          country: locationData?.country,
-          regionName: locationData?.regionName,
-          zip: locationData?.zip,
+            city: locationData?.city,
+            country: locationData?.country,
+            regionName: locationData?.regionName,
+            zip: locationData?.zip,
             apiName: req.originalUrl,
             method: req.method,
             userAgent: req.headers["user-agent"],
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         res.status(500).json({
@@ -1186,7 +1188,7 @@ exports.deleteService = async (req, res) => {
                 method: req.method,
                 userAgent: req.headers["user-agent"],
                 createdBy: req.username,
-                updatedBy:req.username
+                updatedBy: req.username
             });
 
             return res.status(500).json({
@@ -1218,7 +1220,7 @@ exports.deleteService = async (req, res) => {
                 userAgent: req.headers["user-agent"],
                 service_id,
                 createdBy: req.username,
-                updatedBy:req.username
+                updatedBy: req.username
             });
 
             return res.status(404).json({
@@ -1245,7 +1247,7 @@ exports.deleteService = async (req, res) => {
             userAgent: req.headers["user-agent"],
             service_id,
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         res.status(200).json({
@@ -1275,7 +1277,7 @@ exports.deleteService = async (req, res) => {
             service_id,
             errorMessage: error.message,
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         res.status(500).json({
@@ -1305,11 +1307,11 @@ exports.deleteService = async (req, res) => {
 //         await Service.sync();
 
 //         const service = await Service.findOne({ where: { service_id } });
-        
+
 //         if (!service) {
 //             const executionTime = `${Date.now() - start}ms`;
 //             const errorCode = 1286;
-    
+
 //             logger.logWithMeta("error", "Service not found", {
 //                 errorCode,
 //                 executionTime,
@@ -1323,12 +1325,12 @@ exports.deleteService = async (req, res) => {
 //                 method: req.method,
 //                 userAgent: req.headers["user-agent"],
 //             });
-    
+
 //             return res.status(404).json({errorCode, message: "Service not found" });
 //         }
 
 //         await service.destroy();
-        
+
 //         const executionTime = `${Date.now() - start}ms`;
 
 //         logger.logWithMeta("info", "Service deleted successfully", {
@@ -1412,7 +1414,7 @@ exports.getServicebyservicetype = async (req, res) => {
                 method: req.method,
                 userAgent: req.headers["user-agent"],
                 createdBy: req.username,
-                updatedBy:req.username
+                updatedBy: req.username
             });
 
             return res.status(500).json({
@@ -1444,7 +1446,7 @@ exports.getServicebyservicetype = async (req, res) => {
                     userAgent: req.headers["user-agent"],
                     // service_id: id,
                     createdBy: req.username,
-                    updatedBy:req.username
+                    updatedBy: req.username
                 });
 
                 return res.status(404).json({
@@ -1470,7 +1472,7 @@ exports.getServicebyservicetype = async (req, res) => {
                     method: req.method,
                     userAgent: req.headers["user-agent"],
                     createdBy: req.username,
-                    updatedBy:req.username
+                    updatedBy: req.username
                 });
 
                 return res.status(404).json({
@@ -1495,7 +1497,7 @@ exports.getServicebyservicetype = async (req, res) => {
             userAgent: req.headers["user-agent"],
             // service_id: id || "all",
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         res.status(200).json({
@@ -1524,12 +1526,133 @@ exports.getServicebyservicetype = async (req, res) => {
             // service_id: id || "all",
             errorMessage: error.message,
             createdBy: req.username,
-            updatedBy:req.username
+            updatedBy: req.username
         });
 
         res.status(500).json({
             meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
             error: { message: `Error fetching ${service_type ? "service by service_type" : "services"}: ` + error.message },
+        });
+    }
+};
+
+exports.getServiceReport = async (req, res) => {
+    const start = Date.now();
+
+    const clientIp = await getClientIp(req);
+    const logId = uuidv4();
+    const locationData = await getLocationData(clientIp);
+    const hospitalDatabase = req.hospitalDatabase;
+
+    try {
+
+        const Service = require("../models/ser")(req.sequelize);
+        let response;
+        if (!req.sequelize) {
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 9053; // Database connection error
+
+            logger.logWithMeta("error", "Database connection not found", {
+                errorCode,
+                executionTime,
+                hospitalName: req.hospitalName || "Unknown",
+                ip: clientIp,
+                city: locationData?.city,
+                country: locationData?.country,
+                apiName: req.originalUrl,
+                method: req.method,
+                userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy: req.username
+            });
+
+            return res.status(500).json({
+                message: "Database connection not found",
+                statusCode: 500,
+                errorCode
+            });
+        }
+
+        response = await Service.findAll();
+        if (!response || response.length === 0) {
+            const executionTime = `${Date.now() - start}ms`;
+            const errorCode = 9055; // No services found
+
+            logger.logWithMeta("error", "No services found", {
+                errorCode,
+                executionTime,
+                hospitalName: req.hospitalName,
+                ip: clientIp,
+                city: locationData?.city,
+                country: locationData?.country,
+                apiName: req.originalUrl,
+                method: req.method,
+                userAgent: req.headers["user-agent"],
+                createdBy: req.username,
+                updatedBy: req.username
+            });
+
+            return res.status(404).json({
+                message: "No services found",
+                statusCode: 404,
+                errorCode
+            });
+        }
+
+        const executionTime = `${Date.now() - start}ms`;
+
+        logger.logWithMeta("info", `Fetched all services successfully`, {
+            executionTime,
+            logId,
+            hospitalName: req.hospitalName,
+            ip: clientIp,
+            city: locationData?.city,
+            country: locationData?.country,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            createdBy: req.username,
+            updatedBy: req.username
+        });
+
+        res.status(200).json({
+            meta: {
+                statusCode: 200,
+                executionTime,
+                hospitalDatabase,
+            },
+            data: response,
+        });
+
+    } catch (error) {
+        const executionTime = `${Date.now() - start}ms`;
+        const errorCode = 9056; // General error in fetching service
+
+        logger.logWithMeta("error", `Error fetching Service report`, {
+            errorCode,
+            executionTime,
+            hospitalName: req.hospitalName,
+            ip: clientIp,
+            city: locationData?.city,
+            country: locationData?.country,
+            apiName: req.originalUrl,
+            method: req.method,
+            userAgent: req.headers["user-agent"],
+            errorMessage: error.message,
+            createdBy: req.username,
+            updatedBy: req.username,
+        });
+
+        res.status(500).json({
+            meta: {
+                statusCode: 500,
+                errorCode,
+                executionTime,
+                hospitalDatabase,
+            },
+            error: {
+                message: `Error fetching Service Report: ${error.message}`,
+            },
         });
     }
 };

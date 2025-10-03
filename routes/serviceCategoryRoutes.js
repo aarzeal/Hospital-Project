@@ -11,5 +11,6 @@ router.post('/service-category', validateJSONContentType,validator.validateServi
 router.get('/service-category', authenticate,Userverifiction,ensureSequelizeInstance,serviceCategoryController.getServiceCategories);
 router.put('/service-categories/:servicecategoryId', validateJSONContentType,validator.validateServiceCategoryupdate,authenticate,Userverifiction,ensureSequelizeInstance,serviceCategoryController.updateServiceCategory);
 router.delete('/service-categories/:servicecategoryId', authenticate,Userverifiction,ensureSequelizeInstance,serviceCategoryController.deleteServiceCategory);
+router.get('/service-report',authenticate,Userverifiction,ensureSequelizeInstance,serviceCategoryController.getServiceReport);
 
 module.exports = router;

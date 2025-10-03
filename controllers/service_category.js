@@ -1,14 +1,18 @@
 const Module = require("../models/masterModule");
 const logger = require('../logger');
 const bcrypt = require('bcryptjs');
+const { Op } = require("sequelize");
+const redisClient=require("../controllers/rediClient")
 
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const requestIp = require('request-ip');
 const { Sequelize } = require("sequelize");
-const Group = require("../models/HospitalGroup"); 
+const Group = require("../models/HospitalGroup");
 const { validationResult } = require('express-validator');
 const getClientIp = require('../util/clientip');
+const getLocationData = require("../util/locationHelper");
+
 dotenv.config();
 // async function getClientIp(req) {
 //   // Get client IP from headers or request
@@ -115,19 +119,19 @@ exports.createServiceCategory = async (req, res) => {
 
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
-}
+  }
 
 
   try {
     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
     await ServiceCategory.sync({ force: false });
 
-    const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR} });
+    const group = await Group.findOne({ where: { HospitalGroupID: HospitalGroupIDR } });
 
     if (!group) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1260;
-  
+
       logger.logWithMeta("error", "Invalid HospitalGroupID, not found in MasterDB", {
         errorCode,
         executionTime,
@@ -136,16 +140,16 @@ exports.createServiceCategory = async (req, res) => {
         method: req.method,
         userAgent: req.headers["user-agent"],
         createdBy: req.username,
-        updatedBy:req.username
+        updatedBy: req.username
       });
-      return res.status(400).json({errorCode, message: "Invalid HospitalGroupID, not found in MasterDB" });
+      return res.status(400).json({ errorCode, message: "Invalid HospitalGroupID, not found in MasterDB" });
     }
 
     const serviceCategory = await ServiceCategory.create({
       servicecategoryname,
-        HospitalGroupIDR,
-        createdBy: req.username,
-        
+      HospitalGroupIDR,
+      createdBy: req.username,
+
     });
 
     const executionTime = `${Date.now() - start}ms`;
@@ -158,7 +162,7 @@ exports.createServiceCategory = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"],
       createdBy: req.username,
-      updatedBy:req.username
+      updatedBy: req.username
     });
 
     res.status(200).json({
@@ -181,7 +185,7 @@ exports.createServiceCategory = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"],
       createdBy: req.username,
-      updatedBy:req.username
+      updatedBy: req.username
     });
 
     res.status(500).json({
@@ -215,10 +219,10 @@ exports.getServiceCategories = async (req, res) => {
           method: req.method,
           userAgent: req.headers["user-agent"],
           createdBy: req.username,
-          updatedBy:req.username
+          updatedBy: req.username
         });
 
-        return res.status(404).json({errorCode, message: "Service category not found" });
+        return res.status(404).json({ errorCode, message: "Service category not found" });
       }
     } else {
       data = await ServiceCategory.findAll();
@@ -234,7 +238,7 @@ exports.getServiceCategories = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"],
       createdBy: req.username,
-      updatedBy:req.username
+      updatedBy: req.username
     });
 
     res.status(200).json({
@@ -257,7 +261,7 @@ exports.getServiceCategories = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"],
       createdBy: req.username,
-      updatedBy:req.username
+      updatedBy: req.username
     });
 
     res.status(500).json({
@@ -278,7 +282,7 @@ exports.updateServiceCategory = async (req, res) => {
 
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
-}
+  }
 
   try {
     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
@@ -287,7 +291,7 @@ exports.updateServiceCategory = async (req, res) => {
     if (!serviceCategory) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1264;
-  
+
       logger.logWithMeta("error", "Service category not found", {
         errorCode,
         executionTime,
@@ -296,9 +300,9 @@ exports.updateServiceCategory = async (req, res) => {
         method: req.method,
         userAgent: req.headers["user-agent"],
         createdBy: req.username,
-        updatedBy:req.username
+        updatedBy: req.username
       });
-      return res.status(404).json({ errorCode,message: "Service category not found" });
+      return res.status(404).json({ errorCode, message: "Service category not found" });
     }
 
     serviceCategory.servicecategoryname = servicecategoryname;
@@ -323,7 +327,7 @@ exports.updateServiceCategory = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"],
       createdBy: req.username,
-      updatedBy:req.username
+      updatedBy: req.username
     });
 
     res.status(200).json({
@@ -346,7 +350,7 @@ exports.updateServiceCategory = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"],
       createdBy: req.username,
-      updatedBy:req.username
+      updatedBy: req.username
     });
 
     res.status(500).json({
@@ -363,71 +367,768 @@ exports.deleteServiceCategory = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
 
   try {
-      const ServiceCategory = require("../models/servicecategory")(req.sequelize);
-      await ServiceCategory.sync();
+    const ServiceCategory = require("../models/servicecategory")(req.sequelize);
+    await ServiceCategory.sync();
 
-      const serviceCategory = await ServiceCategory.findOne({ where: { servicecategoryId } });
-      
-      if (!serviceCategory) {
+    const serviceCategory = await ServiceCategory.findOne({ where: { servicecategoryId } });
 
-        const executionTime = `${Date.now() - start}ms`;
-        const errorCode = 1266;
-  
-        logger.logWithMeta("error", "Service category not found", {
-            errorCode,
-            executionTime,
-            hospitalId: req.hospitalId,
-            apiName: req.originalUrl,
-            method: req.method,
-            userAgent: req.headers["user-agent"],
-            createdBy: req.username,
-            updatedBy:req.username
-        });
-  
-          return res.status(404).json({errorCode, message: "Service category not found" });
-      }
+    if (!serviceCategory) {
 
-      await serviceCategory.destroy();
-      
       const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1266;
 
-      logger.logWithMeta("info", "Service category deleted successfully", {
-          executionTime,
-          hospitalId: req.hospitalId,
-          ip: clientIp,
-          apiName: req.originalUrl,
-          method: req.method,
-          userAgent: req.headers["user-agent"],
-          createdBy: req.username,
-          updatedBy:req.username
+      logger.logWithMeta("error", "Service category not found", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalId,
+        apiName: req.originalUrl,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username
       });
 
-      res.status(200).json({
-          meta: {
-              statusCode: 200,
-              executionTime,
-              hospitalDatabase,
-          },
-          message: "Service category deleted successfully",
-      });
+      return res.status(404).json({ errorCode, message: "Service category not found" });
+    }
+
+    await serviceCategory.destroy();
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Service category deleted successfully", {
+      executionTime,
+      hospitalId: req.hospitalId,
+      ip: clientIp,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username
+    });
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime,
+        hospitalDatabase,
+      },
+      message: "Service category deleted successfully",
+    });
   } catch (error) {
-      const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 1267;
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 1267;
 
-      logger.logWithMeta("error", "Error deleting service category", {
-          errorCode,
-          executionTime,
-          hospitalId: req.hospitalId,
-          apiName: req.originalUrl,
-          method: req.method,
-          userAgent: req.headers["user-agent"],
-          createdBy: req.username,
-          updatedBy:req.username
-      });
+    logger.logWithMeta("error", "Error deleting service category", {
+      errorCode,
+      executionTime,
+      hospitalId: req.hospitalId,
+      apiName: req.originalUrl,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username
+    });
 
-      res.status(500).json({
-          meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-          error: { message: "Error deleting service category: " + error.message },
-      });
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error deleting service category: " + error.message },
+    });
   }
 };
+
+// exports.getServiceReport = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const hospitalDatabase = req.hospitalDatabase;
+//   const locationData = await getLocationData(clientIp);
+
+//   try {
+//     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
+//     const Service = require("../models/ser")(req.sequelize);
+
+//     // Define associations (if not already done in your central associations file)
+//     ServiceCategory.hasMany(Service, {
+//       foreignKey: "service_category_IDR",
+//       as: "services",
+//     });
+//     Service.belongsTo(ServiceCategory, {
+//       foreignKey: "service_category_IDR",
+//       as: "category",
+//     });
+
+//     // Fetch categories with their services
+//     const data = await ServiceCategory.findAll({
+//       include: [
+//         {
+//           model: Service,
+//           as: "services",
+//         },
+//       ],
+//     });
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     logger.logWithMeta("info", "Fetched service categories with services successfully", {
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       createdBy: req.username,
+//       updatedBy: req.username,
+//     });
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         hospitalDatabase,
+//       },
+//       data,
+//     });
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 9056; // General error in fetching service
+
+//     logger.logWithMeta("error", `Error fetching Service report`, {
+//       errorCode,
+//       executionTime,
+//       hospitalName: req.hospitalName,
+//       ip: clientIp,
+//       city: locationData?.city,
+//       country: locationData?.country,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       errorMessage: error.message,
+//       createdBy: req.username,
+//       updatedBy: req.username,
+//     });
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode,
+//         executionTime,
+//         hospitalDatabase,
+//       },
+//       error: {
+//         message: `Error fetching Service Report: ${error.message}`,
+//       },
+//     });
+//   }
+// };
+// ------------------------------
+// exports.getServiceReportsssssss = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const hospitalDatabase = req.hospitalDatabase;
+//   const locationData = await getLocationData(clientIp);
+
+//   try {
+//     const { startDate, endDate, page = 1, limit = 50 } = req.query;
+//     const offset = (page - 1) * limit;
+
+//     const Service = require("../models/ser")(req.sequelize);
+//     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
+//     const ServiceSOR = require("../models/ServiceSOR")(req.sequelize);
+//     const Service_Price_List = require("../models/Service_PriceList_Model")(req.sequelize);
+//     const BillingClass = require("../models/Billing_Class")(req.sequelize);
+
+//     // Associations
+//     Service.belongsTo(ServiceCategory, { foreignKey: "service_category_IDR", as: "category" });
+//     Service.hasMany(Service_Price_List, { foreignKey: "service_IDR", as: "priceList" });
+//     Service.hasMany(ServiceSOR, { foreignKey: "serviceIDR", as: "sors" });
+//     ServiceSOR.belongsTo(BillingClass, { foreignKey: "classIDR", as: "billingClass" });
+
+//     // Filter only on Service createdAt
+//     const serviceDateFilter = {};
+//     if (startDate) serviceDateFilter[Op.gte] = new Date(startDate);
+//     if (endDate) serviceDateFilter[Op.lte] = new Date(endDate);
+
+//     const services = await Service.findAll({
+//       where: Object.keys(serviceDateFilter).length ? { createdAt: serviceDateFilter } : undefined,
+//       limit: parseInt(limit),
+//       offset: parseInt(offset),
+//       include: [
+//         { model: ServiceCategory, as: "category" },
+//         { model: Service_Price_List, as: "priceList" },
+//         {
+//           model: ServiceSOR,
+//           as: "sors",
+//           include: [{ model: BillingClass, as: "billingClass" }]
+//         }
+//       ],
+//       order: [["createdAt", "DESC"]]
+//     });
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         hospitalDatabase,
+//         page: parseInt(page),
+//         limit: parseInt(limit)
+//       },
+//       data: services
+//     });
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 9056;
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode,
+//         executionTime,
+//         hospitalDatabase
+//       },
+//       error: {
+//         message: `Error fetching Service Report: ${error.message}`
+//       }
+//     });
+//   }
+// };
+// // ----------------------------------
+// exports.getServiceReport = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const hospitalDatabase = req.hospitalDatabase;
+//   const locationData = await getLocationData(clientIp);
+
+//   try {
+//     const {
+//       startDate,
+//       endDate,
+//       categoryIds,
+//       classIds,
+//       active,
+//       serviceIds,
+//       serviceType,
+//       search,
+//       financialYear,
+//       page = 1,
+//       limit = 10,
+//     } = req.query;
+
+//     const Service = require("../models/ser")(req.sequelize);
+//     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
+//     const ServiceSOR = require("../models/ServiceSOR")(req.sequelize);
+//     const Service_Price_List = require("../models/Service_PriceList_Model")(req.sequelize);
+//     const BillingClass = require("../models/Billing_Class")(req.sequelize);
+
+//     // Associations
+//     Service.belongsTo(ServiceCategory, { foreignKey: "service_category_IDR", as: "category" });
+//     Service.hasMany(Service_Price_List, { foreignKey: "service_IDR", as: "priceList" });
+//     Service.hasMany(ServiceSOR, { foreignKey: "serviceIDR", as: "sors" });
+//     ServiceSOR.belongsTo(BillingClass, { foreignKey: "classIDR", as: "billingClass" });
+
+//     // Filters
+//     const whereService = {};
+//     const whereSOR = {};
+
+//     if (serviceIds) whereService.service_id = { [Op.in]: serviceIds.split(",") };
+//     if (serviceType) whereService.service_type = serviceType;
+//     if (active !== undefined) whereService.non_active = active === "true" ? false : true;
+//     if (categoryIds) whereService.service_category_IDR = { [Op.in]: categoryIds.split(",") };
+//     if (search) whereService.service_name = { [Op.like]: `%${search}%` };
+
+//     if (classIds) whereSOR.classIDR = { [Op.in]: classIds.split(",") };
+//     if (startDate) whereSOR.fromDate = { [Op.gte]: new Date(startDate) };
+//     if (endDate) whereSOR.toDate = { [Op.lte]: new Date(endDate) };
+
+//     // Fetch services with associations
+//     const services = await Service.findAndCountAll({
+//       where: whereService,
+//       include: [
+//         { model: ServiceCategory, as: "category" },
+//         {
+//           model: Service_Price_List,
+//           as: "priceList",
+//           limit: 10, // first 10 priceList items per service
+//         },
+//         {
+//           model: ServiceSOR,
+//           as: "sors",
+//           where: Object.keys(whereSOR).length ? whereSOR : undefined,
+//           // required: false,
+//           required: !!classIds,
+//           include: [{ model: BillingClass, as: "billingClass" }],
+//         },
+//       ],
+//       offset: (page - 1) * limit,
+//       limit: parseInt(limit),
+//       distinct: true,
+//     });
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         hospitalDatabase,
+//         locationData,
+//       },
+//       filters: req.query,
+//       pagination: {
+//         page: parseInt(page),
+//         limit: parseInt(limit),
+//         totalRecords: services.count,
+//         totalPages: Math.ceil(services.count / limit),
+//       },
+//       masterDetail: services.rows,
+//     });
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 9056;
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode,
+//         executionTime,
+//         hospitalDatabase,
+//       },
+//       error: {
+//         message: `Error fetching Service Report: ${error.message}`,
+//       },
+//     });
+//   }
+// };
+
+// exports.getServiceReport = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const hospitalDatabase = req.hospitalDatabase;
+//   const locationData = await getLocationData(clientIp);
+
+//   try {
+//     const {
+//       startDate,
+//       endDate,
+//       categoryIds,
+//       classIds,
+//       active,
+//       serviceIds,
+//       serviceType,
+//       search,
+//       financialYear,
+//       page = 1,
+//       limit = 10,
+//     } = req.query;
+
+//     const cacheKey = `serviceReport:${JSON.stringify(req.query)}`;
+//     const cachedData = await redisClient.get(cacheKey);
+//     if (cachedData) {
+//       console.log("🔹 Cache HIT");
+//       return res.json(JSON.parse(cachedData));
+//     }
+//     console.log("🔹 Cache MISS");
+
+//     const Service = require("../models/ser")(req.sequelize);
+//     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
+//     const ServiceSOR = require("../models/ServiceSOR")(req.sequelize);
+//     const Service_Price_List = require("../models/Service_PriceList_Model")(req.sequelize);
+//     const BillingClass = require("../models/Billing_Class")(req.sequelize);
+
+//     // Associations
+//     Service.belongsTo(ServiceCategory, { foreignKey: "service_category_IDR", as: "category" });
+//     Service.hasMany(Service_Price_List, { foreignKey: "service_IDR", as: "priceList" });
+//     Service.hasMany(ServiceSOR, { foreignKey: "serviceIDR", as: "sors" });
+//     ServiceSOR.belongsTo(BillingClass, { foreignKey: "classIDR", as: "billingClass" });
+
+//     // Filters
+//     const whereService = {};
+//     const whereSOR = {};
+
+//     if (serviceIds) whereService.service_id = { [Op.in]: serviceIds.split(",") };
+//     if (serviceType) whereService.service_type = serviceType;
+//     if (active !== undefined) whereService.non_active = active === "true" ? false : true;
+//     if (categoryIds) whereService.service_category_IDR = { [Op.in]: categoryIds.split(",") };
+//     if (search) whereService.service_name = { [Op.like]: `%${search}%` };
+
+//     if (classIds) whereSOR.classIDR = { [Op.in]: classIds.split(",") };
+
+//     // ✅ Date / Financial Year Filter Logic
+//     if (startDate && endDate) {
+//       // Strict filter: only records within given range
+//       whereSOR.fromDate = { [Op.gte]: new Date(startDate) };
+//       whereSOR.toDate = { [Op.lte]: new Date(endDate) };
+//     } else if (financialYear) {
+//       whereSOR.financialYear = financialYear;
+//     } else {
+//       // Default: current financial year
+//       const today = new Date();
+//       const year = today.getMonth() >= 3 ? today.getFullYear() : today.getFullYear() - 1;
+//       const fyStart = new Date(`${year}-04-01`);
+//       const fyEnd = new Date(`${year + 1}-03-31`);
+//       whereSOR.fromDate = { [Op.gte]: fyStart };
+//       whereSOR.toDate = { [Op.lte]: fyEnd };
+//     }
+
+//     // Fetch services with associations
+//     const services = await Service.findAndCountAll({
+//       where: whereService,
+//       include: [
+//         { model: ServiceCategory, as: "category" },
+//         {
+//           model: Service_Price_List,
+//           as: "priceList",
+//           limit: 10,
+//         },
+//         {
+//           model: ServiceSOR,
+//           as: "sors",
+//           where: Object.keys(whereSOR).length ? whereSOR : undefined,
+//           required: !!classIds || !!startDate || !!endDate, // ✅ agar date diya hai to strict required
+//           include: [{ model: BillingClass, as: "billingClass" }],
+//         },
+//       ],
+//       offset: (page - 1) * limit,
+//       limit: parseInt(limit),
+//       distinct: true,
+//     });
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     const responseData = {
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         hospitalDatabase,
+//         locationData,
+//       },
+//       filters: req.query,
+//       pagination: {
+//         page: parseInt(page),
+//         limit: parseInt(limit),
+//         totalRecords: services.count,
+//         totalPages: Math.ceil(services.count / limit),
+//       },
+//       masterDetail: services.rows,
+//     };
+
+//     // ✅ Redis cache 5 min
+//     await redisClient
+//       .set(cacheKey, JSON.stringify(responseData), "EX", 300)
+//       .catch(err => console.error("Redis set error:", err));
+
+//     res.json(responseData);
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 9056;
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode,
+//         executionTime,
+//         hospitalDatabase,
+//       },
+//       error: {
+//         message: `Error fetching Service Report: ${error.message}`,
+//       },
+//     });
+//   }
+// };
+
+
+// exports.getServiceReport = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const hospitalDatabase = req.hospitalDatabase;
+//   const locationData = await getLocationData(clientIp);
+
+//   try {
+//     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
+//     const Service = require("../models/ser")(req.sequelize);
+//     const ServiceSOR = require("../models/ServiceSOR")(req.sequelize);
+//     const Service_Price_List = require("../models/Service_PriceList_Model")(req.sequelize);
+//     const BillingClass = require("../models/Billing_Class")(req.sequelize);
+
+
+//     // Define associations (only if not defined globally)
+//     ServiceCategory.hasMany(Service, { foreignKey: "service_category_IDR", as: "services" });
+//     Service.belongsTo(ServiceCategory, { foreignKey: "service_category_IDR", as: "category" });
+
+//     Service.hasMany(ServiceSOR, { foreignKey: "serviceIDR", as: "sors" });
+//     ServiceSOR.belongsTo(Service, { foreignKey: "serviceIDR", as: "service" });
+
+//     Service.hasMany(Service_Price_List, { foreignKey: "service_IDR", as: "priceList" });
+//     Service_Price_List.belongsTo(Service, { foreignKey: "service_IDR", as: "service" });
+
+
+//     ServiceSOR.belongsTo(BillingClass, { foreignKey: "classIDR", as: "billingClass" });
+//     BillingClass.hasMany(ServiceSOR, { foreignKey: "classIDR", as: "serviceSORs" });
+
+//     // Fetch categories with services and their ServiceSORs
+//     const data = await ServiceCategory.findAll({
+//       include: [
+//         {
+//           model: Service,
+//           as: "services",
+//           include: [
+//             {
+//               model: ServiceSOR,
+//               as: "sors",
+//               include: [
+//                 {
+//                   model: BillingClass,
+//                   as: "billingClass"
+//                 }
+//               ]
+//             },
+//             {
+//               model: Service_Price_List,
+//               as: "priceList"
+//             }
+//           ]
+//         }
+//       ]
+//     });
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     logger.logWithMeta("info", "Fetched service report successfully", {
+//       executionTime,
+//       hospitalId: req.hospitalId,
+//       ip: clientIp,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       createdBy: req.username,
+//       updatedBy: req.username
+//     });
+
+//     res.status(200).json({
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         hospitalDatabase
+//       },
+//       data
+//     });
+
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 9056;
+
+//     logger.logWithMeta("error", "Error fetching Service report", {
+//       errorCode,
+//       executionTime,
+//       hospitalName: req.hospitalName,
+//       ip: clientIp,
+//       city: locationData?.city,
+//       country: locationData?.country,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       errorMessage: error.message,
+//       createdBy: req.username,
+//       updatedBy: req.username
+//     });
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode,
+//         executionTime,
+//         hospitalDatabase
+//       },
+//       error: {
+//         message: `Error fetching Service Report: ${error.message}`
+//       }
+//     });
+//   }
+// };
+
+exports.getServiceReport = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
+
+  try {
+    const {
+      startDate,
+      endDate,
+      categoryIds,
+      classIds,
+      active,
+      serviceIds,
+      serviceType,
+      search,
+      financialYear,
+      page = 1,
+      limit = 10,
+    } = req.query;
+
+        const cacheKey = `serviceReport:${JSON.stringify(req.query)}`;
+    const cachedData = await redisClient.get(cacheKey);
+    if (cachedData) {
+      console.log("🔹 Cache HIT");
+      return res.json(JSON.parse(cachedData));
+    }
+    console.log("🔹 Cache MISS");
+
+    const Service = require("../models/ser")(req.sequelize);
+    const ServiceCategory = require("../models/servicecategory")(req.sequelize);
+    const ServiceSOR = require("../models/ServiceSOR")(req.sequelize);
+    const Service_Price_List = require("../models/Service_PriceList_Model")(req.sequelize);
+    const BillingClass = require("../models/Billing_Class")(req.sequelize);
+
+    // Associations
+    Service.belongsTo(ServiceCategory, { foreignKey: "service_category_IDR", as: "category" });
+    Service.hasMany(Service_Price_List, { foreignKey: "service_IDR", as: "priceList" });
+    Service.hasMany(ServiceSOR, { foreignKey: "serviceIDR", as: "sors" });
+    ServiceSOR.belongsTo(BillingClass, { foreignKey: "classIDR", as: "billingClass" });
+
+    // Filters
+    const whereService = {};
+    const whereSOR = {};
+
+    if (serviceIds) whereService.service_id = { [Op.in]: serviceIds.split(",") };
+    if (serviceType) whereService.service_type = serviceType;
+    if (active !== undefined) whereService.non_active = active === "true" ? false : true;
+    if (categoryIds) whereService.service_category_IDR = { [Op.in]: categoryIds.split(",") };
+    if (search) whereService.service_name = { [Op.like]: `%${search}%` };
+    if (classIds) whereSOR.classIDR = { [Op.in]: classIds.split(",") };
+
+    // ✅ Priority Logic for Date and Financial Year
+    // if (startDate && endDate) {
+    //   // User selected custom date range
+    //   whereSOR.fromDate = { [Op.gte]: new Date(startDate) };
+    //   whereSOR.toDate = { [Op.lte]: new Date(endDate) };
+    // } else if (financialYear) {
+    //   // Default financial year logic (Apr 1 - Mar 31)
+    //   const currentYear = new Date().getFullYear();
+    //   const currentMonth = new Date().getMonth() + 1;
+    //   let fyStart, fyEnd;
+
+    //   if (currentMonth >= 4) {
+    //     fyStart = new Date(currentYear, 3, 1); // Apr 1 current year
+    //     fyEnd = new Date(currentYear + 1, 2, 31, 23, 59, 59); // Mar 31 next year
+    //   } else {
+    //     fyStart = new Date(currentYear - 1, 3, 1); // Apr 1 previous year
+    //     fyEnd = new Date(currentYear, 2, 31, 23, 59, 59); // Mar 31 current year
+    //   }
+
+    //   whereSOR.fromDate = { [Op.gte]: fyStart };
+    //   whereSOR.toDate = { [Op.lte]: fyEnd };
+    // }
+    
+    // Date & Financial Year logic
+if (startDate && endDate) {
+  // User provided custom date range → financial year logic ignore
+  whereSOR.fromDate = { [Op.gte]: new Date(startDate) };
+  whereSOR.toDate = { [Op.lte]: new Date(endDate) };
+} else if (financialYear || (!startDate && !endDate)) {
+  // Default financial year applied only if startDate/endDate missing
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
+  let fyStart, fyEnd;
+
+  if (currentMonth >= 4) {
+    fyStart = new Date(currentYear, 3, 1); // Apr 1 current year
+    fyEnd = new Date(currentYear + 1, 2, 31, 23, 59, 59); // Mar 31 next year
+  } else {
+    fyStart = new Date(currentYear - 1, 3, 1); // Apr 1 previous year
+    fyEnd = new Date(currentYear, 2, 31, 23, 59, 59); // Mar 31 current year
+  }
+ if (!classIds && !serviceIds && !categoryIds) {
+  whereSOR.fromDate = { [Op.gte]: fyStart };
+  whereSOR.toDate = { [Op.lte]: fyEnd };
+}
+}
+// Baaki filters jaise classIds, categoryIds, serviceIds, search etc. unaffected
+
+
+    // Fetch services with associations
+    const services = await Service.findAndCountAll({
+      where: whereService,
+      include: [
+        { model: ServiceCategory, as: "category" },
+        {
+          model: Service_Price_List,
+          as: "priceList",
+          limit: 10, // first 10 priceList items per service
+        },
+        {
+          model: ServiceSOR,
+          as: "sors",
+          where: Object.keys(whereSOR).length ? whereSOR : undefined,
+          required: true, // ✅ only records matching date/class filter will be returned
+          include: [{ model: BillingClass, as: "billingClass" }],
+        },
+      ],
+      offset: (page - 1) * limit,
+      limit: parseInt(limit),
+      distinct: true,
+    });
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    // res.status(200).json({
+    //   meta: {
+    //     statusCode: 200,
+    //     executionTime,
+    //     hospitalDatabase,
+    //     locationData,
+    //   },
+    //   filters: req.query,
+    //   pagination: {
+    //     page: parseInt(page),
+    //     limit: parseInt(limit),
+    //     totalRecords: services.count,
+    //     totalPages: Math.ceil(services.count / limit),
+    //   },
+    //   masterDetail: services.rows, // ✅ agar koi record nahi hoga to [] return hoga
+    // });
+
+        const responseData = {
+      meta: {
+        statusCode: 200,
+        executionTime,
+        hospitalDatabase,
+        locationData,
+      },
+      filters: req.query,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        totalRecords: services.count,
+        totalPages: Math.ceil(services.count / limit),
+      },
+      masterDetail: services.rows,
+    };
+
+    // ✅ Redis cache 5 min
+    await redisClient
+      .set(cacheKey, JSON.stringify(responseData), "EX", 300)
+      .catch(err => console.error("Redis set error:", err));
+
+    res.json(responseData);
+    
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 9056;
+
+    res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode,
+        executionTime,
+        hospitalDatabase,
+      },
+      error: {
+        message: `Error fetching Service Report: ${error.message}`,
+      },
+    });
+  }
+};
+

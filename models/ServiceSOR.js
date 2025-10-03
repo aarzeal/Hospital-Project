@@ -1,188 +1,188 @@
 
-// const { DataTypes } = require('sequelize');
-
-// module.exports = (sequelize) => {
-//   const ServiceSOR = sequelize.define(
-//     "ServiceSOR", {
-//         serviceSOR_ID: {
-//       type: DataTypes.INTEGER,
-//       autoIncrement: true,
-//       primaryKey: true,
-//     },
-//     serviceRate: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//     },
-//     serviceIDR: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//     },
-//     firstEmergancyRate: {
-//       type: DataTypes.INTEGER,
-//       allowNull: true,
-//     },
-//     secondEmergancyRate: {
-//       type: DataTypes.INTEGER,
-//       allowNull: true,
-//     },
-//     classIDR: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//     },
-//     isNotApplicable: {
-//       type: DataTypes.BOOLEAN,
-//       allowNull: true,
-//     },
-//     fromDate: {
-//       type: DataTypes.DATE,
-//       allowNull: true,
-//     },
-//     toDate: {
-//       type: DataTypes.DATE,
-//       allowNull: true,
-//     },
-//     isEffectiveNow: {
-//       type: DataTypes.BOOLEAN,
-//       allowNull: true,
-//     },
-//     versionNumber: {
-//       type: DataTypes.STRING(50),
-//       allowNull: true,
-//     },
-//     isCashPriceList: {
-//       type: DataTypes.BOOLEAN,
-//       allowNull: true,
-//     },
-
-//    hospital_IDR: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-
-//     },
-//     hospitalGroup_IDR: {
-//       type: DataTypes.INTEGER,
-//       allowNull: true,
-//     },
-
-//     createdBy: {
-//       type: DataTypes.STRING,
-//       allowNull: true,
-
-//     },
-//     updatedBy: {
-//       type: DataTypes.STRING,
-//       allowNull: true,
-
-//     },
-//     Non_Active: {
-//       type: DataTypes.BOOLEAN,
-//       allowNull: true,
-
-//     },
-//     UpdatedAt: {
-//         type: DataTypes.DATE,
-//         allowNull: true,
-//     },
-//     CreatedAt: {
-//         type: DataTypes.DATE,
-//         defaultValue: DataTypes.NOW,
-//     },
-
-
-//   }, {
-//     tableName: 'ServiceSOR',
-//     timestamps: false
-//   });
-
-//   return ServiceSOR;
-// };
-
-
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database/connection'); // your connected instance
 
-const ServiceSOR = sequelize.define('ServiceSOR', 
-  {
-  serviceSOR_ID: { 
-    type: DataTypes.INTEGER, 
-    autoIncrement: true,
-     primaryKey: true 
+module.exports = (sequelize) => {
+  const ServiceSOR = sequelize.define(
+    "ServiceSOR", {
+        serviceSOR_ID: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-  serviceRate: { 
-    type: DataTypes.INTEGER, 
-    allowNull: false
-   },
-  serviceIDR: { 
-    type: DataTypes.INTEGER, 
-    allowNull: false 
-  },
-  firstEmergancyRate: { 
-    type: DataTypes.INTEGER, 
-    allowNull: true 
-  },
-  secondEmergancyRate: {
-     type: DataTypes.INTEGER, 
-     allowNull: true 
+    serviceRate: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
-  classIDR: { 
-    type: DataTypes.INTEGER, 
-    allowNull: false 
-  },
-  isNotApplicable: {
-     type: DataTypes.BOOLEAN, 
-     allowNull: true 
+    serviceIDR: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
-  fromDate: { 
-    type: DataTypes.DATE,
-     allowNull: true 
+    firstEmergancyRate: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
-  toDate: { 
-    type: DataTypes.DATE, 
-    allowNull: true 
-  },
-  isEffectiveNow: {
-    type: DataTypes.BOOLEAN,
-     allowNull: true 
+    secondEmergancyRate: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
-  versionNumber: { 
-    type: DataTypes.STRING(50), 
-    allowNull: true 
-  },
-  isCashPriceList: { 
-    type: DataTypes.BOOLEAN, 
-    allowNull: true 
-  },
-  hospital_IDR: { 
-    type: DataTypes.INTEGER,
-     allowNull: false
-     },
-  hospitalGroup_IDR: {
-     type: DataTypes.INTEGER, 
-     allowNull: true 
+    classIDR: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
-  createdBy: { 
-    type: DataTypes.STRING, 
-    allowNull: true 
-  },
-  updatedBy: { 
-    type: DataTypes.STRING, 
-    allowNull: true 
-  },
-  Non_Active: { 
-    type: DataTypes.BOOLEAN, 
-    allowNull: true
-   },
-  UpdatedAt: { 
-    type: DataTypes.DATE,
-     allowNull: true
-     },
-  CreatedAt: {
-     type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
-     },
-}, {
-  tableName: 'ServiceSOR',
-  timestamps: false
-});
+    isNotApplicable: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
+    fromDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    toDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    isEffectiveNow: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
+    versionNumber: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    isCashPriceList: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
 
-module.exports = ServiceSOR; // ✅ export as model, not function
+   hospital_IDR: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+
+    },
+    hospitalGroup_IDR: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+
+    createdBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+
+    },
+    updatedBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+
+    },
+    Non_Active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+
+    },
+    UpdatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+    CreatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+    },
+
+
+  }, {
+    tableName: 'tbl_servicesor',
+    timestamps: false
+  });
+
+  return ServiceSOR;
+};
+
+
+// const { DataTypes } = require('sequelize');
+// const sequelize = require('../database/connection'); // your connected instance
+
+// const ServiceSOR = sequelize.define('ServiceSOR', 
+//   {
+//   serviceSOR_ID: { 
+//     type: DataTypes.INTEGER, 
+//     autoIncrement: true,
+//      primaryKey: true 
+//     },
+//   serviceRate: { 
+//     type: DataTypes.INTEGER, 
+//     allowNull: false
+//    },
+//   serviceIDR: { 
+//     type: DataTypes.INTEGER, 
+//     allowNull: false 
+//   },
+//   firstEmergancyRate: { 
+//     type: DataTypes.INTEGER, 
+//     allowNull: true 
+//   },
+//   secondEmergancyRate: {
+//      type: DataTypes.INTEGER, 
+//      allowNull: true 
+//     },
+//   classIDR: { 
+//     type: DataTypes.INTEGER, 
+//     allowNull: false 
+//   },
+//   isNotApplicable: {
+//      type: DataTypes.BOOLEAN, 
+//      allowNull: true 
+//     },
+//   fromDate: { 
+//     type: DataTypes.DATE,
+//      allowNull: true 
+//     },
+//   toDate: { 
+//     type: DataTypes.DATE, 
+//     allowNull: true 
+//   },
+//   isEffectiveNow: {
+//     type: DataTypes.BOOLEAN,
+//      allowNull: true 
+//     },
+//   versionNumber: { 
+//     type: DataTypes.STRING(50), 
+//     allowNull: true 
+//   },
+//   isCashPriceList: { 
+//     type: DataTypes.BOOLEAN, 
+//     allowNull: true 
+//   },
+//   hospital_IDR: { 
+//     type: DataTypes.INTEGER,
+//      allowNull: false
+//      },
+//   hospitalGroup_IDR: {
+//      type: DataTypes.INTEGER, 
+//      allowNull: true 
+//     },
+//   createdBy: { 
+//     type: DataTypes.STRING, 
+//     allowNull: true 
+//   },
+//   updatedBy: { 
+//     type: DataTypes.STRING, 
+//     allowNull: true 
+//   },
+//   Non_Active: { 
+//     type: DataTypes.BOOLEAN, 
+//     allowNull: true
+//    },
+//   UpdatedAt: { 
+//     type: DataTypes.DATE,
+//      allowNull: true
+//      },
+//   CreatedAt: {
+//      type: DataTypes.DATE,
+//       defaultValue: DataTypes.NOW
+//      },
+// }, {
+//   tableName: 'ServiceSOR',
+//   timestamps: false
+// });
+
+// module.exports = ServiceSOR; // ✅ export as model, not function
