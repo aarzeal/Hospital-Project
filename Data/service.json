@@ -470,5 +470,109 @@
   "Selectledger": {
     "en": "Select ledger",
     "hi": "बही का चयन करें"
+  },
+  "SrNo": {
+    "en": "Sr. No",
+    "hi": "क्रमांक"
+  },
+  "StartDate": {
+    "en": "Start Date",
+    "hi": "आरंभ करने की तिथि"
+  },
+  "EndDate": {
+    "en": "End Date",
+    "hi": "अंतिम तिथि"
+  },
+  "Class": {
+    "en": "Class",
+    "hi": "सेवा वर्ग"
+  },
+  "PriceListFirstEmergencyRate": {
+    "en": "Price List First Emergency Rate",
+    "hi": "मूल्य सूची प्रथम आपातकालीन दर"
+  },
+  "PriceListSecondEmergencyRate": {
+    "en": "Price List Second Emergency Rate",
+    "hi": "मूल्य सूची दूसरी आपातकालीन दर"
+  },
+  "IsCashPriceList": {
+    "en": "IsCashPriceList",
+    "hi": "नकद मूल्य सूची है"
+  },
+  "Yes": {
+    "en": "Yes",
+    "hi": "हाँ"
+  },
+  "No": {
+    "en": "No",
+    "hi": "नहीं"
+  },
+  "ServiceReport": {
+    "en": "Service Report",
+    "hi": "सेवा रिपोर्ट"
+  },
+  "SelectCategories": {
+    "en": "Select Categories",
+    "hi": "श्रेणियाँ चुनें"
+  },
+  "EnableStartDate": {
+    "en": "Enable StartDate",
+    "hi": "आरंभ तिथि सक्षम करें"
+  },
+  "EnableEndDate": {
+    "en": "Enable EndDate",
+    "hi": "सक्षम करें समाप्ति तिथि"
+  },
+  "EnableServiceCategory": {
+    "en": "Enable Service Category",
+    "hi": "सेवा श्रेणी सक्षम करें"
+  },
+  "SelectServices": {
+    "en": "Select Services",
+    "hi": "सेवाएँ चुनें"
+  },
+  "EnableService": {
+    "en": "Enable Service",
+    "hi": "सेवा सक्षम करें"
+  },
+  "ServiceClass": {
+    "en": "Service Class",
+    "hi": "सेवा वर्ग"
+  },
+  "SelectBillingClass": {
+    "en": "Select Billing Class",
+    "hi": "बिलिंगक्लास चुनें"
+  },
+  "EnableClass": {
+    "en": "Enable Class",
+    "hi": "कक्षा सक्षम करें"
+  },
+  "EnableStatus": {
+    "en": "Enable Status",
+    "hi": "स्थिति सक्षम करें"
+  },
+  "Page": {
+    "en": "Page",
+    "hi": "पेज"
+  },
+  "EnablePage": {
+    "en": "Enable Page",
+    "hi": "पेज सक्षम करें"
+  },
+  "Limit": {
+    "en": "Limit",
+    "hi": "सीमा"
+  },
+  "EnableLimit": {
+    "en": "Enable Limit",
+    "hi": "सीमा सक्षम करें"
+  },
+  "ApplyFilters": {
+    "en": "Apply Filters",
+    "hi": "फ़िल्टर लागू करें"
+  },
+  "Download": {
+    "en": "Download",
+    "hi": "डाउनलोड करना"
   }
 }

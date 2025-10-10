@@ -946,6 +946,192 @@ exports.deleteServiceCategory = async (req, res) => {
 //   }
 // };
 
+// exports.getServiceReport = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const hospitalDatabase = req.hospitalDatabase;
+//   const locationData = await getLocationData(clientIp);
+
+//   try {
+//     const {
+//       startDate,
+//       endDate,
+//       categoryIds,
+//       classIds,
+//       active,
+//       serviceIds,
+//       serviceType,
+//       search,
+//       financialYear,
+//       page = 1,
+//       limit = 10,
+//     } = req.query;
+
+//         const cacheKey = `serviceReport:${JSON.stringify(req.query)}`;
+//     const cachedData = await redisClient.get(cacheKey);
+//     if (cachedData) {
+//       console.log("🔹 Cache HIT");
+//       return res.json(JSON.parse(cachedData));
+//     }
+//     console.log("🔹 Cache MISS");
+
+//     const Service = require("../models/ser")(req.sequelize);
+//     const ServiceCategory = require("../models/servicecategory")(req.sequelize);
+//     const ServiceSOR = require("../models/ServiceSOR")(req.sequelize);
+//     const Service_Price_List = require("../models/Service_PriceList_Model")(req.sequelize);
+//     const BillingClass = require("../models/Billing_Class")(req.sequelize);
+
+//     // Associations
+//     Service.belongsTo(ServiceCategory, { foreignKey: "service_category_IDR", as: "category" });
+//     Service.hasMany(Service_Price_List, { foreignKey: "service_IDR", as: "priceList" });
+//     Service.hasMany(ServiceSOR, { foreignKey: "serviceIDR", as: "sors" });
+//     ServiceSOR.belongsTo(BillingClass, { foreignKey: "classIDR", as: "billingClass" });
+
+//     // Filters
+//     const whereService = {};
+//     const whereSOR = {};
+
+//     if (serviceIds) whereService.service_id = { [Op.in]: serviceIds.split(",") };
+//     if (serviceType) whereService.service_type = serviceType;
+//     if (active !== undefined) whereService.non_active = active === "true" ? false : true;
+//     if (categoryIds) whereService.service_category_IDR = { [Op.in]: categoryIds.split(",") };
+//     if (search) whereService.service_name = { [Op.like]: `%${search}%` };
+//     if (classIds) whereSOR.classIDR = { [Op.in]: classIds.split(",") };
+
+//     // ✅ Priority Logic for Date and Financial Year
+//     // if (startDate && endDate) {
+//     //   // User selected custom date range
+//     //   whereSOR.fromDate = { [Op.gte]: new Date(startDate) };
+//     //   whereSOR.toDate = { [Op.lte]: new Date(endDate) };
+//     // } else if (financialYear) {
+//     //   // Default financial year logic (Apr 1 - Mar 31)
+//     //   const currentYear = new Date().getFullYear();
+//     //   const currentMonth = new Date().getMonth() + 1;
+//     //   let fyStart, fyEnd;
+
+//     //   if (currentMonth >= 4) {
+//     //     fyStart = new Date(currentYear, 3, 1); // Apr 1 current year
+//     //     fyEnd = new Date(currentYear + 1, 2, 31, 23, 59, 59); // Mar 31 next year
+//     //   } else {
+//     //     fyStart = new Date(currentYear - 1, 3, 1); // Apr 1 previous year
+//     //     fyEnd = new Date(currentYear, 2, 31, 23, 59, 59); // Mar 31 current year
+//     //   }
+
+//     //   whereSOR.fromDate = { [Op.gte]: fyStart };
+//     //   whereSOR.toDate = { [Op.lte]: fyEnd };
+//     // }
+    
+//     // Date & Financial Year logic
+// if (startDate && endDate) {
+//   // User provided custom date range → financial year logic ignore
+//   whereSOR.fromDate = { [Op.gte]: new Date(startDate) };
+//   whereSOR.toDate = { [Op.lte]: new Date(endDate) };
+// } else if (financialYear || (!startDate && !endDate)) {
+//   // Default financial year applied only if startDate/endDate missing
+//   const today = new Date();
+//   const currentYear = today.getFullYear();
+//   const currentMonth = today.getMonth() + 1;
+//   let fyStart, fyEnd;
+
+//   if (currentMonth >= 4) {
+//     fyStart = new Date(currentYear, 3, 1); // Apr 1 current year
+//     fyEnd = new Date(currentYear + 1, 2, 31, 23, 59, 59); // Mar 31 next year
+//   } else {
+//     fyStart = new Date(currentYear - 1, 3, 1); // Apr 1 previous year
+//     fyEnd = new Date(currentYear, 2, 31, 23, 59, 59); // Mar 31 current year
+//   }
+//  if (!classIds && !serviceIds && !categoryIds) {
+//   whereSOR.fromDate = { [Op.gte]: fyStart };
+//   whereSOR.toDate = { [Op.lte]: fyEnd };
+// }
+// }
+// // Baaki filters jaise classIds, categoryIds, serviceIds, search etc. unaffected
+
+
+//     // Fetch services with associations
+//     const services = await Service.findAndCountAll({
+//       where: whereService,
+//       include: [
+//         { model: ServiceCategory, as: "category" },
+//         {
+//           model: Service_Price_List,
+//           as: "priceList",
+//           limit: 10, // first 10 priceList items per service
+//         },
+//         {
+//           model: ServiceSOR,
+//           as: "sors",
+//           where: Object.keys(whereSOR).length ? whereSOR : undefined,
+//           required: true, // ✅ only records matching date/class filter will be returned
+//           include: [{ model: BillingClass, as: "billingClass" }],
+//         },
+//       ],
+//       offset: (page - 1) * limit,
+//       limit: parseInt(limit),
+//       distinct: true,
+//     });
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     // res.status(200).json({
+//     //   meta: {
+//     //     statusCode: 200,
+//     //     executionTime,
+//     //     hospitalDatabase,
+//     //     locationData,
+//     //   },
+//     //   filters: req.query,
+//     //   pagination: {
+//     //     page: parseInt(page),
+//     //     limit: parseInt(limit),
+//     //     totalRecords: services.count,
+//     //     totalPages: Math.ceil(services.count / limit),
+//     //   },
+//     //   masterDetail: services.rows, // ✅ agar koi record nahi hoga to [] return hoga
+//     // });
+
+//         const responseData = {
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         hospitalDatabase,
+//         locationData,
+//       },
+//       filters: req.query,
+//       pagination: {
+//         page: parseInt(page),
+//         limit: parseInt(limit),
+//         totalRecords: services.count,
+//         totalPages: Math.ceil(services.count / limit),
+//       },
+//       masterDetail: services.rows,
+//     };
+
+//     // ✅ Redis cache 5 min
+//     await redisClient
+//       .set(cacheKey, JSON.stringify(responseData), "EX", 300)
+//       .catch(err => console.error("Redis set error:", err));
+
+//     res.json(responseData);
+    
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 9056;
+
+//     res.status(500).json({
+//       meta: {
+//         statusCode: 500,
+//         errorCode,
+//         executionTime,
+//         hospitalDatabase,
+//       },
+//       error: {
+//         message: `Error fetching Service Report: ${error.message}`,
+//       },
+//     });
+//   }
+// };
+
 exports.getServiceReport = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -963,11 +1149,12 @@ exports.getServiceReport = async (req, res) => {
       serviceType,
       search,
       financialYear,
+      skipDateFilter,
       page = 1,
       limit = 10,
     } = req.query;
 
-        const cacheKey = `serviceReport:${JSON.stringify(req.query)}`;
+    const cacheKey = `serviceReport:${JSON.stringify(req.query)}`;
     const cachedData = await redisClient.get(cacheKey);
     if (cachedData) {
       console.log("🔹 Cache HIT");
@@ -991,22 +1178,29 @@ exports.getServiceReport = async (req, res) => {
     const whereService = {};
     const whereSOR = {};
 
+    // Service filters
     if (serviceIds) whereService.service_id = { [Op.in]: serviceIds.split(",") };
     if (serviceType) whereService.service_type = serviceType;
-    if (active !== undefined) whereService.non_active = active === "true" ? false : true;
     if (categoryIds) whereService.service_category_IDR = { [Op.in]: categoryIds.split(",") };
     if (search) whereService.service_name = { [Op.like]: `%${search}%` };
     if (classIds) whereSOR.classIDR = { [Op.in]: classIds.split(",") };
 
-    // ✅ Priority Logic for Date and Financial Year
+    // Active filter applied to ServiceSOR only
+    if (active !== undefined) {
+      const isActive = active.trim() === "true";
+      whereSOR.non_active = !isActive; // true -> non_active=false, false -> non_active=true
+    }
+
+    // Date & Financial Year logic
     // if (startDate && endDate) {
-    //   // User selected custom date range
+    //   // Custom date range provided → ignore financial year
     //   whereSOR.fromDate = { [Op.gte]: new Date(startDate) };
     //   whereSOR.toDate = { [Op.lte]: new Date(endDate) };
-    // } else if (financialYear) {
-    //   // Default financial year logic (Apr 1 - Mar 31)
-    //   const currentYear = new Date().getFullYear();
-    //   const currentMonth = new Date().getMonth() + 1;
+    // } else if ((!startDate && !endDate) && (active === undefined || active === null) || financialYear) {
+    //   // Apply default financial year only if start/end date not provided AND active filter not specified
+    //   const today = new Date();
+    //   const currentYear = today.getFullYear();
+    //   const currentMonth = today.getMonth() + 1;
     //   let fyStart, fyEnd;
 
     //   if (currentMonth >= 4) {
@@ -1017,36 +1211,37 @@ exports.getServiceReport = async (req, res) => {
     //     fyEnd = new Date(currentYear, 2, 31, 23, 59, 59); // Mar 31 current year
     //   }
 
-    //   whereSOR.fromDate = { [Op.gte]: fyStart };
-    //   whereSOR.toDate = { [Op.lte]: fyEnd };
+    //   // Only apply FY filter if no other filters provided
+    //   if (!classIds && !serviceIds && !categoryIds) {
+    //     whereSOR.fromDate = { [Op.gte]: fyStart };
+    //     whereSOR.toDate = { [Op.lte]: fyEnd };
+    //   }
     // }
-    
-    // Date & Financial Year logic
-if (startDate && endDate) {
-  // User provided custom date range → financial year logic ignore
-  whereSOR.fromDate = { [Op.gte]: new Date(startDate) };
-  whereSOR.toDate = { [Op.lte]: new Date(endDate) };
-} else if (financialYear || (!startDate && !endDate)) {
-  // Default financial year applied only if startDate/endDate missing
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth() + 1;
-  let fyStart, fyEnd;
 
-  if (currentMonth >= 4) {
-    fyStart = new Date(currentYear, 3, 1); // Apr 1 current year
-    fyEnd = new Date(currentYear + 1, 2, 31, 23, 59, 59); // Mar 31 next year
-  } else {
-    fyStart = new Date(currentYear - 1, 3, 1); // Apr 1 previous year
-    fyEnd = new Date(currentYear, 2, 31, 23, 59, 59); // Mar 31 current year
+    if (!skipDateFilter) { // Only apply date filters if not skipped
+  if (startDate && endDate) {
+    whereSOR.fromDate = { [Op.gte]: new Date(startDate) };
+    whereSOR.toDate = { [Op.lte]: new Date(endDate) };
+  } else if ((!startDate && !endDate) && (active === undefined || active === null) || financialYear) {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth() + 1;
+    let fyStart, fyEnd;
+
+    if (currentMonth >= 4) {
+      fyStart = new Date(currentYear, 3, 1);
+      fyEnd = new Date(currentYear + 1, 2, 31, 23, 59, 59);
+    } else {
+      fyStart = new Date(currentYear - 1, 3, 1);
+      fyEnd = new Date(currentYear, 2, 31, 23, 59, 59);
+    }
+
+    if (!classIds && !serviceIds && !categoryIds) {
+      whereSOR.fromDate = { [Op.gte]: fyStart };
+      whereSOR.toDate = { [Op.lte]: fyEnd };
+    }
   }
- if (!classIds && !serviceIds && !categoryIds) {
-  whereSOR.fromDate = { [Op.gte]: fyStart };
-  whereSOR.toDate = { [Op.lte]: fyEnd };
 }
-}
-// Baaki filters jaise classIds, categoryIds, serviceIds, search etc. unaffected
-
 
     // Fetch services with associations
     const services = await Service.findAndCountAll({
@@ -1056,13 +1251,13 @@ if (startDate && endDate) {
         {
           model: Service_Price_List,
           as: "priceList",
-          limit: 10, // first 10 priceList items per service
+          limit: 10,
         },
         {
           model: ServiceSOR,
           as: "sors",
           where: Object.keys(whereSOR).length ? whereSOR : undefined,
-          required: true, // ✅ only records matching date/class filter will be returned
+          required: true, // Only services with matching SOR records
           include: [{ model: BillingClass, as: "billingClass" }],
         },
       ],
@@ -1073,24 +1268,7 @@ if (startDate && endDate) {
 
     const executionTime = `${Date.now() - start}ms`;
 
-    // res.status(200).json({
-    //   meta: {
-    //     statusCode: 200,
-    //     executionTime,
-    //     hospitalDatabase,
-    //     locationData,
-    //   },
-    //   filters: req.query,
-    //   pagination: {
-    //     page: parseInt(page),
-    //     limit: parseInt(limit),
-    //     totalRecords: services.count,
-    //     totalPages: Math.ceil(services.count / limit),
-    //   },
-    //   masterDetail: services.rows, // ✅ agar koi record nahi hoga to [] return hoga
-    // });
-
-        const responseData = {
+    const responseData = {
       meta: {
         statusCode: 200,
         executionTime,
@@ -1107,13 +1285,13 @@ if (startDate && endDate) {
       masterDetail: services.rows,
     };
 
-    // ✅ Redis cache 5 min
+    // Redis cache 5 min
     await redisClient
       .set(cacheKey, JSON.stringify(responseData), "EX", 300)
       .catch(err => console.error("Redis set error:", err));
 
     res.json(responseData);
-    
+
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9056;
@@ -1131,4 +1309,5 @@ if (startDate && endDate) {
     });
   }
 };
+
 
