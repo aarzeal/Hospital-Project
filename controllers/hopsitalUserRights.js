@@ -5,200 +5,200 @@
 
 
 
-  // const getModulesAndSubModulesByUserId = async (req, res) => {
-  //   try {
-  //     const userId = req.user.userId; // Extract userId from the token payload
-  
-  //     if (!userId) {
-  //       return res.status(400).json({ message: 'User ID is required' });
-  //     }
-  
-  //     const { UserModules, UserSubModules, UserRides } = req.models;
-  
-  //     const userRights = await UserRides.findAll({
-  //       where: { userId },
-  //       include: [
-  //         {
-  //           model: UserModules,
-  //           as: 'module',
-  //           attributes: ['modules_name']
-  //         },
-  //         {
-  //           model: UserSubModules,
-  //           as: 'submodule',
-  //           attributes: ['submodule_name']
-  //         }
-  //       ]
-  //     });
-  
-  //     // Group submodules by module
-  //     const modulesMap = new Map();
-  //     userRights.forEach(right => {
-  //       const moduleName = right.module.modules_name;
-  //       const submoduleName = right.submodule.submodule_name;
-  
-  //       if (!modulesMap.has(moduleName)) {
-  //         modulesMap.set(moduleName, []);
-  //       }
-  //       modulesMap.get(moduleName).push(submoduleName);
-  //     });
-  
-  //     // Format the response
-  //     const response = Array.from(modulesMap.entries()).map(([moduleName, submodules]) => ({
-  //       moduleName: `${moduleName} { ${submodules.join(', ')} }`
-  //     }));
-  
-  //     res.json(response);
-  //   } catch (error) {
-  //     console.error('Error fetching modules and submodules:', error);
-  //     res.status(500).json({ message: 'Internal Server Error' });
-  //   }
-  // };
-  
-  // module.exports = {
-  //   getModulesAndSubModulesByUserId
-  // };
-  
-  
-    ////without query end
+// const getModulesAndSubModulesByUserId = async (req, res) => {
+//   try {
+//     const userId = req.user.userId; // Extract userId from the token payload
+
+//     if (!userId) {
+//       return res.status(400).json({ message: 'User ID is required' });
+//     }
+
+//     const { UserModules, UserSubModules, UserRides } = req.models;
+
+//     const userRights = await UserRides.findAll({
+//       where: { userId },
+//       include: [
+//         {
+//           model: UserModules,
+//           as: 'module',
+//           attributes: ['modules_name']
+//         },
+//         {
+//           model: UserSubModules,
+//           as: 'submodule',
+//           attributes: ['submodule_name']
+//         }
+//       ]
+//     });
+
+//     // Group submodules by module
+//     const modulesMap = new Map();
+//     userRights.forEach(right => {
+//       const moduleName = right.module.modules_name;
+//       const submoduleName = right.submodule.submodule_name;
+
+//       if (!modulesMap.has(moduleName)) {
+//         modulesMap.set(moduleName, []);
+//       }
+//       modulesMap.get(moduleName).push(submoduleName);
+//     });
+
+//     // Format the response
+//     const response = Array.from(modulesMap.entries()).map(([moduleName, submodules]) => ({
+//       moduleName: `${moduleName} { ${submodules.join(', ')} }`
+//     }));
+
+//     res.json(response);
+//   } catch (error) {
+//     console.error('Error fetching modules and submodules:', error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// };
+
+// module.exports = {
+//   getModulesAndSubModulesByUserId
+// };
+
+
+////without query end
 
 
 
-  // exports.getUserModulesAndSubmodulesbyusingthereuserId = async (req, res) => {
-  //   // Ensure `userId` is extracted correctly and is a number or string
-  //   // const userId = parseInt(req.params.userId, 10); // Adjust as needed depending on how userId is passed
-  //   const userId = req.user.userId;
-  
-  //   if (isNaN(userId)) {
-  //     return res.status(400).json({ error: 'Invalid userId' });
-  //   }
-  
-  //   const { UserRides, UserModules, UserSubModules } = req.models;
-  
-  //   try {
-  //     const userRides = await UserRides.findAll({
-  //       where: { userId },
-  //       include: [
-  //         {
-  //           model: UserModules,
-  //           as: 'module',
-  //           include: [
-  //             {
-  //               model: UserSubModules,
-  //               as: 'submodules',
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     });
-  
-  //     console.log('UserRides:', JSON.stringify(userRides, null, 2)); // Debugging output
-  
-  //     const formattedData = userRides.reduce((acc, ride) => {
-  //       let module = acc.find((mod) => mod.moduleId === ride.module.modules_Id);
-  
-  //       if (!module) {
-  //         module = {
+// exports.getUserModulesAndSubmodulesbyusingthereuserId = async (req, res) => {
+//   // Ensure `userId` is extracted correctly and is a number or string
+//   // const userId = parseInt(req.params.userId, 10); // Adjust as needed depending on how userId is passed
+//   const userId = req.user.userId;
 
-  //           moduleId: ride.module.modules_Id,
-  //           moduleName: ride.module.modules_name,
-  //           submodules: []
+//   if (isNaN(userId)) {
+//     return res.status(400).json({ error: 'Invalid userId' });
+//   }
 
-  //         };
-  //         acc.push(module);
-  //       }
-  
-  //       ride.module.submodules.forEach((submodule) => {
+//   const { UserRides, UserModules, UserSubModules } = req.models;
 
-  //         if (!module.submodules.some((sub) => sub.submoduleId === submodule.submodule_id)) {
+//   try {
+//     const userRides = await UserRides.findAll({
+//       where: { userId },
+//       include: [
+//         {
+//           model: UserModules,
+//           as: 'module',
+//           include: [
+//             {
+//               model: UserSubModules,
+//               as: 'submodules',
+//             },
+//           ],
+//         },
+//       ],
+//     });
 
-  //           module.submodules.push({
+//     console.log('UserRides:', JSON.stringify(userRides, null, 2)); // Debugging output
 
-  //             submoduleId: submodule.submodule_id,
-  //             submoduleName: submodule.submodule_name,
-  //             url: submodule.url
-  //           });
-  //         }
-  //       });
-  
-  //       return acc;
-  //     }, []);
-  
-  //     res.status(200).json({ userId,modules: formattedData });
-  //   } catch (err) {
-  //     console.error('Error:', err); // Detailed error logging
-  //     res.status(500).json({ error: 'An error occurred while fetching data' });
-  //   }
-  // };
+//     const formattedData = userRides.reduce((acc, ride) => {
+//       let module = acc.find((mod) => mod.moduleId === ride.module.modules_Id);
 
-  ///////start  sql quert 
-  
-  // const { QueryTypes } = require('sequelize');
+//       if (!module) {
+//         module = {
 
-  // exports.getUserModulesAndSubmodulesByUserId = async (req, res) => {
-  //   const userId = req.user.userId; // or req.params.userId depending on how userId is passed
-  
-  //   // Validate userId
-  //   if (isNaN(userId)) {
-  //     return res.status(400).json({ error: 'Invalid userId' });
-  //   }
-  
-  //   // SQL query to fetch modules, submodules, and their names
-  //   const sqlQuery = `
-  //     SELECT 
-  //       ur.userId, 
-  //       um.modules_Id AS module_id, 
-  //       um.modules_name AS module_name, 
-  //       us.submodule_id, 
-  //       us.submodule_name AS submodule_name
-  //     FROM 
-  //       UserRights ur
-  //     LEFT JOIN 
-  //       UserModules um ON ur.modules_Id = um.modules_Id
-  //     LEFT JOIN 
-  //       UserSubModules us ON ur.submodule_id = us.submodule_id
-  //     WHERE 
-  //       ur.userId = :userId
-  //   `;
-  
-  //   try {
-  //     // Execute the raw SQL query
-  //     const userRights = await req.sequelize.query(sqlQuery, {
-  //       replacements: { userId },
-  //       type: QueryTypes.SELECT
-  //     });
-  
-  //     // Process and format the results
-  //     const formattedData = userRights.reduce((acc, item) => {
-  //       let module = acc.find((mod) => mod.moduleId === item.module_id);
-  
-  //       if (!module) {
-  //         module = {
-  //           moduleId: item.module_id,
-  //           moduleName: item.module_name,
-  //           submodules: []
-  //         };
-  //         acc.push(module);
-  //       }
-  
-  //       if (item.submodule_id) {
-  //         module.submodules.push({
-  //           submoduleId: item.submodule_id,
-  //           submoduleName: item.submodule_name
-  //         });
-  //       }
-  
-  //       return acc;
-  //     }, []);
-  
-  //     // Respond with the formatted data
-  //     res.status(200).json({ userId, modules: formattedData });
-  //   } catch (err) {
-  //     console.error('Error:', err); // Detailed error logging
-  //     res.status(500).json({ error: 'An error occurred while fetching data' });
-  //   }
-  // };
-  
+//           moduleId: ride.module.modules_Id,
+//           moduleName: ride.module.modules_name,
+//           submodules: []
+
+//         };
+//         acc.push(module);
+//       }
+
+//       ride.module.submodules.forEach((submodule) => {
+
+//         if (!module.submodules.some((sub) => sub.submoduleId === submodule.submodule_id)) {
+
+//           module.submodules.push({
+
+//             submoduleId: submodule.submodule_id,
+//             submoduleName: submodule.submodule_name,
+//             url: submodule.url
+//           });
+//         }
+//       });
+
+//       return acc;
+//     }, []);
+
+//     res.status(200).json({ userId,modules: formattedData });
+//   } catch (err) {
+//     console.error('Error:', err); // Detailed error logging
+//     res.status(500).json({ error: 'An error occurred while fetching data' });
+//   }
+// };
+
+///////start  sql quert 
+
+// const { QueryTypes } = require('sequelize');
+
+// exports.getUserModulesAndSubmodulesByUserId = async (req, res) => {
+//   const userId = req.user.userId; // or req.params.userId depending on how userId is passed
+
+//   // Validate userId
+//   if (isNaN(userId)) {
+//     return res.status(400).json({ error: 'Invalid userId' });
+//   }
+
+//   // SQL query to fetch modules, submodules, and their names
+//   const sqlQuery = `
+//     SELECT 
+//       ur.userId, 
+//       um.modules_Id AS module_id, 
+//       um.modules_name AS module_name, 
+//       us.submodule_id, 
+//       us.submodule_name AS submodule_name
+//     FROM 
+//       UserRights ur
+//     LEFT JOIN 
+//       UserModules um ON ur.modules_Id = um.modules_Id
+//     LEFT JOIN 
+//       UserSubModules us ON ur.submodule_id = us.submodule_id
+//     WHERE 
+//       ur.userId = :userId
+//   `;
+
+//   try {
+//     // Execute the raw SQL query
+//     const userRights = await req.sequelize.query(sqlQuery, {
+//       replacements: { userId },
+//       type: QueryTypes.SELECT
+//     });
+
+//     // Process and format the results
+//     const formattedData = userRights.reduce((acc, item) => {
+//       let module = acc.find((mod) => mod.moduleId === item.module_id);
+
+//       if (!module) {
+//         module = {
+//           moduleId: item.module_id,
+//           moduleName: item.module_name,
+//           submodules: []
+//         };
+//         acc.push(module);
+//       }
+
+//       if (item.submodule_id) {
+//         module.submodules.push({
+//           submoduleId: item.submodule_id,
+//           submoduleName: item.submodule_name
+//         });
+//       }
+
+//       return acc;
+//     }, []);
+
+//     // Respond with the formatted data
+//     res.status(200).json({ userId, modules: formattedData });
+//   } catch (err) {
+//     console.error('Error:', err); // Detailed error logging
+//     res.status(500).json({ error: 'An error occurred while fetching data' });
+//   }
+// };
+
 //////////end sql query
 
 
@@ -212,7 +212,7 @@
 // const {UserRides} = require('../models/hospitalUserRights');
 
 // const getModulesAndSubModulesByUserId = async (req, res) => {
-  
+
 //   try {
 //     const userId = req.user.userId; // Extract userId from the token payload
 
@@ -300,7 +300,7 @@
 //             data: []
 //           });
 //         }
-    
+
 //     console.error('Error fetching modules and submodules:', error);
 
 //     res.status(500).json({ message: 'Internal Server Error' });
@@ -310,6 +310,160 @@
 // module.exports = {
 //   getModulesAndSubModulesByUserId
 // };
+
+// new methods added 
+const createUserRights = async (req, res) => {
+  try {
+    const sequelize = req.sequelize;
+    const UserRights = require('../models/hospitalUserRights')(sequelize);
+
+    const {
+      userId,
+      modules_Id,
+      submodule_id,
+      permissionId,
+      isAllowed
+    } = req.body;
+
+    if (!userId || !modules_Id || !submodule_id || !permissionId) {
+      return res.status(400).json({
+        message: "All fields (userId, modules_Id, submodule_id, permissionId) are required"
+      });
+    }
+
+    const newRight = await UserRights.create({
+      userId,
+      modules_Id,
+      submodule_id,
+      permissionId,
+      isAllowed
+    });
+
+    return res.status(201).json({
+      message: "User Right Created Successfully",
+      data: newRight
+    });
+
+  } catch (error) {
+    console.error("Create UserRights Error:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+
+const getAllUserRights = async (req, res) => {
+  try {
+    const sequelize = req.sequelize;
+    const UserRights = require('../models/hospitalUserRights')(sequelize);
+
+    const rights = await UserRights.findAll();
+
+    return res.status(200).json({
+      message: "All User Rights Fetched",
+      data: rights
+    });
+
+  } catch (error) {
+    console.error("Fetch UserRights Error:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+
+const getUserRightById = async (req, res) => {
+  try {
+    const sequelize = req.sequelize;
+    const UserRights = require('../models/hospitalUserRights')(sequelize);
+
+    const { id } = req.params;
+
+    const right = await UserRights.findByPk(id);
+
+    if (!right) {
+      return res.status(404).json({ message: "User Right Not Found" });
+    }
+
+    return res.status(200).json({
+      message: "User Right Found",
+      data: right
+    });
+
+  } catch (error) {
+    console.error("Fetch UserRight Error:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+
+const updateUserRight = async (req, res) => {
+  try {
+    const sequelize = req.sequelize;
+    const UserRights = require('../models/hospitalUserRights')(sequelize);
+
+    const { id } = req.params;
+
+    const {
+      userId,
+      modules_Id,
+      submodule_id,
+      permissionId,
+      isAllowed
+    } = req.body;
+
+    const right = await UserRights.findByPk(id);
+
+    if (!right) {
+      return res.status(404).json({ message: "User Right Not Found" });
+    }
+
+    await right.update({
+      userId,
+      modules_Id,
+      submodule_id,
+      permissionId,
+      isAllowed
+    });
+
+    return res.status(200).json({
+      message: "User Right Updated Successfully",
+      data: right
+    });
+
+  } catch (error) {
+    console.error("Update UserRight Error:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+
+const deleteUserRight = async (req, res) => {
+  try {
+    const sequelize = req.sequelize;
+    const UserRights = require('../models/hospitalUserRights')(sequelize);
+
+    const { id } = req.params;
+
+    const right = await UserRights.findByPk(id);
+
+    if (!right) {
+      return res.status(404).json({ message: "User Right Not Found" });
+    }
+
+    await right.destroy();
+
+    return res.status(200).json({
+      message: "User Right Deleted Successfully"
+    });
+
+  } catch (error) {
+    console.error("Delete UserRight Error:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 
 const getModulesAndSubModulesByUserId = async (req, res) => {
@@ -396,7 +550,7 @@ const getModulesAndSubModulesByUserId = async (req, res) => {
       },
       data: response
     });
-  } 
+  }
   catch (error) {
     // Handle specific table error
     if (error.message.includes("Table 'umc54.userrights' doesn't exist")) {
@@ -415,5 +569,10 @@ const getModulesAndSubModulesByUserId = async (req, res) => {
 };
 
 module.exports = {
+  createUserRights,
+  getAllUserRights,
+  getUserRightById,
+  updateUserRight,
+  deleteUserRight,
   getModulesAndSubModulesByUserId
 };
