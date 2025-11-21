@@ -785,19 +785,57 @@ exports.getServiceReport = async (req, res) => {
     //   }
     // }
 
-    if (!skipDateFilter) { // Only apply date filters if not skipped
+//     if (!skipDateFilter) { // Only apply date filters if not skipped
+//   if (startDate && endDate) {
+//     whereSOR.fromDate = { [Op.gte]: new Date(startDate) };
+//     whereSOR.toDate = { [Op.lte]: new Date(endDate) };
+//   } else if ((!startDate && !endDate) && (active === undefined || active === null) || financialYear) {
+//     const today = new Date();
+//     const currentYear = today.getFullYear();
+//     const currentMonth = today.getMonth() + 1;
+//     let fyStart, fyEnd;
+
+//     if (currentMonth >= 4) {
+//       fyStart = new Date(currentYear, 3, 1);
+//       fyEnd = new Date(currentYear + 1, 2, 31, 23, 59, 59);
+//     } else {
+//       fyStart = new Date(currentYear - 1, 3, 1);
+//       fyEnd = new Date(currentYear, 2, 31, 23, 59, 59);
+//     }
+
+//     if (!classIds && !serviceIds && !categoryIds) {
+//       whereSOR.fromDate = { [Op.gte]: fyStart };
+//       whereSOR.toDate = { [Op.lte]: fyEnd };
+//     }
+//   }
+// }
+
+if (!skipDateFilter) { // Only apply date filters if not skipped
+  const today = new Date();
+
   if (startDate && endDate) {
+    // Case 1: Dono dates given → between start and end
     whereSOR.fromDate = { [Op.gte]: new Date(startDate) };
     whereSOR.toDate = { [Op.lte]: new Date(endDate) };
+
+  } else if (startDate && !endDate) {
+    // Case 2: Sirf startDate → from that date till today
+    whereSOR.fromDate = { [Op.gte]: new Date(startDate) };
+    whereSOR.toDate = { [Op.lte]: today };
+
+  } else if (!startDate && endDate) {
+    // Case 3: Sirf endDate → till that date (no lower limit)
+    whereSOR.toDate = { [Op.lte]: new Date(endDate) };
+
   } else if ((!startDate && !endDate) && (active === undefined || active === null) || financialYear) {
-    const today = new Date();
+    // Case 4: No dates → default to current financial year
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth() + 1;
     let fyStart, fyEnd;
 
     if (currentMonth >= 4) {
-      fyStart = new Date(currentYear, 3, 1);
-      fyEnd = new Date(currentYear + 1, 2, 31, 23, 59, 59);
+      fyStart = new Date(currentYear, 3, 1); // 1 April current year
+      fyEnd = new Date(currentYear + 1, 2, 31, 23, 59, 59); // 31 March next year
     } else {
       fyStart = new Date(currentYear - 1, 3, 1);
       fyEnd = new Date(currentYear, 2, 31, 23, 59, 59);
@@ -809,6 +847,10 @@ exports.getServiceReport = async (req, res) => {
     }
   }
 }
+
+
+
+
 
     // Fetch services with associations
     const services = await Service.findAndCountAll({

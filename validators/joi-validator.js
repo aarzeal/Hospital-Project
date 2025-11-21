@@ -588,3 +588,26 @@ exports.labTestPackageSchema = Joi.object({
 
   updatedAt: Joi.date().optional().label("Updated At"),
 });
+
+
+exports.permissionValidator = Joi.object({
+  permissionName: Joi.string().max(100).required().messages({
+    "string.base": "Permission Name must be a string",
+    "string.empty": "Permission Name is required",
+    "string.max": "Permission Name must not exceed 100 characters",
+    "any.required": "Permission Name is required",
+  }),
+
+  isActive: Joi.boolean().required().messages({
+    "boolean.base": "Is Active must be a boolean",
+    "any.required": "Is Active is required",
+  }),
+
+  createdBy: Joi.string().optional().messages({
+    "string.base": "Created by must be a string",
+  }),
+
+  updatedBy: Joi.string().optional().messages({
+    "string.base": "Updated by must be a string",
+  }),
+});
