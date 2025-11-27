@@ -174,34 +174,34 @@ exports.createHospital = [
       const uniqueKey = uuidv4();
       logger.info(`Generated unique key: ${uniqueKey}`);
 
-    // Function to store the unique key in the existing apikey.json file inside the config folder
-    // E:\Hospital-Project\Hospital_gateway-main\Hospital_gateway\config\apiKey.json
-    const storeApiKey = (HospitalCode, uniqueKey) => {
-      try {
-        const configDir = path.join(__dirname, `../../${process.env.GATEWAYCONFIGPATH}`);
-        const apiKeyFilePath = path.join(configDir, 'apiKey.json');
+      // Function to store the unique key in the existing apikey.json file inside the config folder
+      // E:\Hospital-Project\Hospital_gateway-main\Hospital_gateway\config\apiKey.json
+      const storeApiKey = (HospitalCode, uniqueKey) => {
+        try {
+          const configDir = path.join(__dirname, `../../${process.env.GATEWAYCONFIGPATH}`);
+          const apiKeyFilePath = path.join(configDir, 'apiKey.json');
 
-        let apiKeyData = {};
+          let apiKeyData = {};
 
-        if (fs.existsSync(apiKeyFilePath)) {
-          const existingData = fs.readFileSync(apiKeyFilePath, 'utf8');
-          apiKeyData = JSON.parse(existingData);
+          if (fs.existsSync(apiKeyFilePath)) {
+            const existingData = fs.readFileSync(apiKeyFilePath, 'utf8');
+            apiKeyData = JSON.parse(existingData);
+          }
+
+          apiKeyData[HospitalCode] = uniqueKey;
+
+          fs.writeFileSync(apiKeyFilePath, JSON.stringify(apiKeyData, null, 2));
+          logger.info(`Stored unique key in file: ${apiKeyFilePath}`);
+        } catch (err) {
+          logger.error(`Error writing to file for unique key: ${err.message}`);
+          throw err;
         }
+      };
 
-        apiKeyData[HospitalCode] =   uniqueKey ;
-
-        fs.writeFileSync(apiKeyFilePath, JSON.stringify(apiKeyData, null, 2));
-        logger.info(`Stored unique key in file: ${apiKeyFilePath}`);
-      } catch (err) {
-        logger.error(`Error writing to file for unique key: ${err.message}`);
-        throw err;
-      }
-    };
-
-    storeApiKey(HospitalCode, uniqueKey);
+      storeApiKey(HospitalCode, uniqueKey);
 
 
-    
+
 
 
       let savedImagePath = null;
@@ -217,7 +217,7 @@ exports.createHospital = [
         const imgBuffer = fs.readFileSync(savedImagePath);
         imgBase64 = `data:image/${path.extname(savedImagePath).slice(1)};base64,${imgBuffer.toString('base64')}`;
       }
- 
+
 
 
       const newHospital = await Hospital.create({
@@ -238,7 +238,7 @@ exports.createHospital = [
       await sequelize.query(`CREATE DATABASE \`${databaseName}\`;`);
       logger.info(`Database ${databaseName} created successfully`);
 
-      console.log("uniqueKey",uniqueKey)
+      console.log("uniqueKey", uniqueKey)
 
 
       res.status(200).json({
@@ -272,7 +272,7 @@ exports.createHospital = [
 exports.getAllHospitals = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
-  
+
   try {
     const hospitals = await Hospital.findAll();
     let imgBase64 = null;
@@ -282,38 +282,38 @@ exports.getAllHospitals = async (req, res) => {
         // if (hospital.HospitalLogo) {
         //   console.log("hospital.HospitalLogo",hospital.HospitalLogo)
         //   try {
-          
+
         //     const logoPath = path.resolve(__dirname, `../../uploads/${hospital.HospitalLogo}`);
         //     const imgBuffer = fs.readFileSync(logoPath);
         //     const imgBase64 = `data:image/${path.extname(logoPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
         //     hospital.HospitalLogo = imgBase64;
-            
+
 
         //   } catch (error) {
         //     hospital.HospitalLogo = null; // If there's an error reading the logo, set it to null
         //   }
         // }
-           
-              if (hospital.HospitalLogo) {
-                  const imgPath = path.join(__dirname, '../profileImg', path.basename(hospital.HospitalLogo));
-                  if (fs.existsSync(imgPath)) {
-                      const imgBuffer = fs.readFileSync(imgPath);
-                     
-                      imgBase64 = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
-                      hospital.HospitalLogo = imgBase64;
-                  }
 
-              }
-              
+        if (hospital.HospitalLogo) {
+          const imgPath = path.join(__dirname, '../profileImg', path.basename(hospital.HospitalLogo));
+          if (fs.existsSync(imgPath)) {
+            const imgBuffer = fs.readFileSync(imgPath);
+
+            imgBase64 = `data:image/${path.extname(imgPath).slice(1)};base64,${imgBuffer.toString('base64')}`;
+            hospital.HospitalLogo = imgBase64;
+          }
+
+        }
+
         return hospital;
       })
     );
     // console.log("imgBase640000000000",imgBase64)
-    
-    
+
+
     const end = Date.now();
     const executionTime = `${end - start}ms`;
-    
+
     // Log the request details
     logger.logWithMeta("warn", `Retrieved all hospitals successfully`, {
       executionTime,
@@ -331,7 +331,7 @@ exports.getAllHospitals = async (req, res) => {
         executionTime: executionTime,
       },
       data: hospitalsWithLogo,
-       
+
     });
   } catch (error) {
     const end = Date.now();
@@ -415,20 +415,20 @@ exports.getHospitalById = async (req, res) => {
 
     let imgBase64 = null;
     if (hospital.HospitalLogo) {
-        const imgPath = path.join(__dirname, '../profileImg', path.basename(hospital.HospitalLogo));
-        console.log("Checking file path:", imgPath);
-    
-        if (fs.existsSync(imgPath)) {
-            try {
-                const imgBuffer = fs.readFileSync(imgPath);
-                const ext = path.extname(imgPath).slice(1) || 'png'; // Default to png if empty
-                imgBase64 = `data:image/${ext};base64,${imgBuffer.toString('base64')}`;
-            } catch (error) {
-                console.error("Error reading file:", error);
-            }
-        } else {
-            console.warn("File not found:", imgPath);
+      const imgPath = path.join(__dirname, '../profileImg', path.basename(hospital.HospitalLogo));
+      console.log("Checking file path:", imgPath);
+
+      if (fs.existsSync(imgPath)) {
+        try {
+          const imgBuffer = fs.readFileSync(imgPath);
+          const ext = path.extname(imgPath).slice(1) || 'png'; // Default to png if empty
+          imgBase64 = `data:image/${ext};base64,${imgBuffer.toString('base64')}`;
+        } catch (error) {
+          console.error("Error reading file:", error);
         }
+      } else {
+        console.warn("File not found:", imgPath);
+      }
     }
     console.log("Final imgBase64:", imgBase64);
 
@@ -660,7 +660,7 @@ exports.updateHospital = async (req, res) => {
 
 //      let savedImagePath = hospital.HospitalLogo; // Use the existing image if no new image is uploaded
 //           let imgBase64 = null;
-    
+
 //           if (HospitalLogo) {
 //             imgBase64 = img.startsWith('data:image/jpeg;base64/') ? HospitalLogo.split(',')[1] : HospitalLogo;
 //             savedImagePath = saveBase64Image(img, );
@@ -668,7 +668,7 @@ exports.updateHospital = async (req, res) => {
 //             const imgBuffer = fs.readFileSync(req.file.path);
 //             imgBase64 = imgBuffer.toString('base64');
 //           }
-    
+
 //     if (updatedRows === 0) {
 //       //       const end = Date.now();
 //       // logger.warn(`Hospital with ID ${id} not found for update, executionTime: ${end - start}ms`);
@@ -684,7 +684,7 @@ exports.updateHospital = async (req, res) => {
 //         {
 //           errorCode,
 //           statusCode: 404,
-        
+
 //           executionTime,
 //           hospitalId: req.hospitalId,
 //           ip: clientIp,
@@ -746,7 +746,7 @@ exports.updateHospital = async (req, res) => {
 //       {
 //         errorCode,
 //         statusCode: 500,
-      
+
 //         executionTime,
 //         hospitalId: req.hospitalId,
 //         ip: clientIp,
@@ -1261,7 +1261,7 @@ exports.HospitalCode = async (req, res) => {
     //     message: `Execution Time: ${executionTime} ms, Log ID: ${logId}, statusCode: 200, Hospital ID: ${req.hospitalId}, Hospital Name: ${hospital.HospitalName || "Unknown Hospital"}, IP Address: ${clientIp}, API Name: ${req.originalUrl}, Method: ${req.method}, User Agent: ${req.headers["user-agent"]}`
     //   }
     // );
-    
+
     logger.logWithMeta(
       "warn",
       `Hospital with HospitalCode ${HospitalCode} found successfully`,
@@ -1270,7 +1270,7 @@ exports.HospitalCode = async (req, res) => {
         logId,
         statusCode: 200,
         hospitalId: req.hospitalId,
-        hospitalName: hospital.HospitalName || "Unknown Hospital", 
+        hospitalName: hospital.HospitalName || "Unknown Hospital",
         ip: clientIp,
         apiName: req.originalUrl, // API name
         method: req.method,
@@ -1368,16 +1368,16 @@ exports.login = async (req, res) => {
 
   try {
 
-   
+
     // const secretKey = "mKJDnzbwLQxPriGj";  // Replace with actual key
     // const Password = "U2FsdGVkX1/VSkATXE/GCBNOA/mAhXYvaYpGCwm8T2o=";
     // const secretKey = process.env.SYSTEM_SECRET_KEY;
-    
+
     // Encrypt
     // const encrypted = CryptoJS.AES.encrypt(Password, secretKey).toString();
 
     // console.log('Encrypted:', encrypted);
-    
+
     // Decrypt
     // const decryptedBytes = CryptoJS.AES.decrypt(Password, secretKey);
 
@@ -1386,14 +1386,14 @@ exports.login = async (req, res) => {
     // console.log('Decrypted:', decryptedPassword);
 
 
- const secretKey = process.env.SYSTEM_SECRET_KEY;
-//  const Password = "moin";
-    
+    const secretKey = process.env.SYSTEM_SECRET_KEY;
+    //  const Password = "moin";
+
     // Encrypt
     // const encrypted = CryptoJS.AES.encrypt(Password, secretKey).toString();
 
     // console.log('Encrypted:', encrypted);
-    
+
     // Decrypt
     const decryptedBytes = CryptoJS.AES.decrypt(Password, secretKey);
     const decryptedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
@@ -2375,7 +2375,7 @@ const encryptAES = (text, secretKey) => {
 exports.createUser = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
-  const { name, username, phone, email, password, empid, usertype } = req.body;
+  const { name, username, phone, email, password, empid, usertype, role_id } = req.body;// role_id added
   const hospitalId = req.hospitalId;
   const hospitalDatabase = req.hospitalDatabase;
 
@@ -2453,6 +2453,7 @@ exports.createUser = async (req, res) => {
       email,
       empid,
       usertype,
+      role_id,   // ✅ ROLE ID ADDED HERE
       emailtoken: encryptedtoken,
       createdBy: hospitalId,
     });
@@ -2491,7 +2492,7 @@ exports.createUser = async (req, res) => {
       message: "User created successfully. Verification email sent.",
     });
   } catch (error) {
-    console.log("Error:::",error)
+    console.log("Error:::", error)
     const end = Date.now();
     const executionTime = `${end - start}ms`;
     const errorCode = 939;
@@ -2786,11 +2787,11 @@ exports.resendVerificationEmail = async (req, res) => {
   const { email } = req.body;
   const User = require("../models/user")(req.sequelize);
 
-  
+
 
   try {
 
-  
+
     // Find the user by email
     const user = await User.findOne({ where: { email } });
 
@@ -2881,22 +2882,22 @@ exports.resendVerificationEmail = async (req, res) => {
     // Construct the verification link
     const verificationLink = `http://${process.env.HOST}:3000/api/v1/hospital/verify/${encryptedtoken}?db=${encryptedDB}`;
 
-/////////////
+    /////////////
 
-const secretKey = process.env.SYSTEM_SECRET_KEY;
-const encrypted = CryptoJS.AES.encrypt(verificationLink, secretKey).toString();
-const urlSafeEncrypted = encodeURIComponent(encrypted); // Make it URL-safe
+    const secretKey = process.env.SYSTEM_SECRET_KEY;
+    const encrypted = CryptoJS.AES.encrypt(verificationLink, secretKey).toString();
+    const urlSafeEncrypted = encodeURIComponent(encrypted); // Make it URL-safe
 
-console.log("Encrypted (URL Safe):", urlSafeEncrypted);
+    console.log("Encrypted (URL Safe):", urlSafeEncrypted);
 
-// Decrypt
-const decryptedBytes = CryptoJS.AES.decrypt(decodeURIComponent(urlSafeEncrypted), secretKey);
-const decryptedLink = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    // Decrypt
+    const decryptedBytes = CryptoJS.AES.decrypt(decodeURIComponent(urlSafeEncrypted), secretKey);
+    const decryptedLink = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
-console.log("Decrypted Link:", decryptedLink);
+    console.log("Decrypted Link:", decryptedLink);
 
 
-///////////////
+    ///////////////
 
 
 
@@ -3068,7 +3069,7 @@ exports.updateUser = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const { id } = req.params;
-  const { name, phone, email, empid, usertype } = req.body;
+  const { name, phone, email, empid, usertype, role_id } = req.body; //role_id added
 
   try {
     const User = require("../models/user")(req.sequelize);
@@ -3109,6 +3110,8 @@ exports.updateUser = async (req, res) => {
     if (email) user.email = email;
     if (empid) user.empid = empid;
     if (usertype) user.usertype = usertype;
+    if (role_id) user.role_id = role_id;  // ⭐ role_id update added here
+
 
     await user.save();
 
@@ -3137,6 +3140,7 @@ exports.updateUser = async (req, res) => {
         email: user.email,
         empid: user.empid,
         usertype: user.usertype,
+        role_id: user.role_id,  // ⭐ role_id added in response
       },
     });
   } catch (error) {
@@ -3426,7 +3430,7 @@ exports.loginUser = async (req, res) => {
   // // Encrypt
   // const encrypted = CryptoJS.AES.encrypt(Password, secretKey).toString();
   console.log('Encrypted00000000000:', Password);
-  
+
   // Decrypt
   const decryptedBytes = CryptoJS.AES.decrypt(Password, secretKey);
   const decryptedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
@@ -4000,7 +4004,7 @@ exports.verifyOtp = async (req, res) => {
         executionTime: `${end - start}ms`,
       },
       error: {
-        message: "Error verifying OTP: " ,
+        message: "Error verifying OTP: ",
       },
     });
   }
@@ -4447,7 +4451,7 @@ exports.resetuserPassword = async (req, res) => {
 exports.decodeToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const start = Date.now();
-  
+
 
   // const clientIp = await getClientIp(req);
   if (!authHeader) {

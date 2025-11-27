@@ -312,158 +312,158 @@
 // };
 
 // new methods added 
-const createUserRights = async (req, res) => {
-  try {
-    const sequelize = req.sequelize;
-    const UserRights = require('../models/hospitalUserRights')(sequelize);
+// const createUserRights = async (req, res) => {
+//   try {
+//     const sequelize = req.sequelize;
+//     const UserRights = require('../models/hospitalUserRights')(sequelize);
 
-    const {
-      userId,
-      modules_Id,
-      submodule_id,
-      permissionId,
-      isAllowed
-    } = req.body;
+//     const {
+//       userId,
+//       modules_Id,
+//       submodule_id,
+//       permissionId,
+//       isAllowed
+//     } = req.body;
 
-    if (!userId || !modules_Id || !submodule_id || !permissionId) {
-      return res.status(400).json({
-        message: "All fields (userId, modules_Id, submodule_id, permissionId) are required"
-      });
-    }
+//     if (!userId || !modules_Id || !submodule_id || !permissionId) {
+//       return res.status(400).json({
+//         message: "All fields (userId, modules_Id, submodule_id, permissionId) are required"
+//       });
+//     }
 
-    const newRight = await UserRights.create({
-      userId,
-      modules_Id,
-      submodule_id,
-      permissionId,
-      isAllowed
-    });
+//     const newRight = await UserRights.create({
+//       userId,
+//       modules_Id,
+//       submodule_id,
+//       permissionId,
+//       isAllowed
+//     });
 
-    return res.status(201).json({
-      message: "User Right Created Successfully",
-      data: newRight
-    });
+//     return res.status(201).json({
+//       message: "User Right Created Successfully",
+//       data: newRight
+//     });
 
-  } catch (error) {
-    console.error("Create UserRights Error:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
-};
-
-
-
-const getAllUserRights = async (req, res) => {
-  try {
-    const sequelize = req.sequelize;
-    const UserRights = require('../models/hospitalUserRights')(sequelize);
-
-    const rights = await UserRights.findAll();
-
-    return res.status(200).json({
-      message: "All User Rights Fetched",
-      data: rights
-    });
-
-  } catch (error) {
-    console.error("Fetch UserRights Error:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
-};
+//   } catch (error) {
+//     console.error("Create UserRights Error:", error);
+//     return res.status(500).json({ message: "Internal Server Error" });
+//   }
+// };
 
 
 
-const getUserRightById = async (req, res) => {
-  try {
-    const sequelize = req.sequelize;
-    const UserRights = require('../models/hospitalUserRights')(sequelize);
+// const getAllUserRights = async (req, res) => {
+//   try {
+//     const sequelize = req.sequelize;
+//     const UserRights = require('../models/hospitalUserRights')(sequelize);
 
-    const { id } = req.params;
+//     const rights = await UserRights.findAll();
 
-    const right = await UserRights.findByPk(id);
+//     return res.status(200).json({
+//       message: "All User Rights Fetched",
+//       data: rights
+//     });
 
-    if (!right) {
-      return res.status(404).json({ message: "User Right Not Found" });
-    }
-
-    return res.status(200).json({
-      message: "User Right Found",
-      data: right
-    });
-
-  } catch (error) {
-    console.error("Fetch UserRight Error:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
-};
+//   } catch (error) {
+//     console.error("Fetch UserRights Error:", error);
+//     return res.status(500).json({ message: "Internal Server Error" });
+//   }
+// };
 
 
 
-const updateUserRight = async (req, res) => {
-  try {
-    const sequelize = req.sequelize;
-    const UserRights = require('../models/hospitalUserRights')(sequelize);
+// const getUserRightById = async (req, res) => {
+//   try {
+//     const sequelize = req.sequelize;
+//     const UserRights = require('../models/hospitalUserRights')(sequelize);
 
-    const { id } = req.params;
+//     const { id } = req.params;
 
-    const {
-      userId,
-      modules_Id,
-      submodule_id,
-      permissionId,
-      isAllowed
-    } = req.body;
+//     const right = await UserRights.findByPk(id);
 
-    const right = await UserRights.findByPk(id);
+//     if (!right) {
+//       return res.status(404).json({ message: "User Right Not Found" });
+//     }
 
-    if (!right) {
-      return res.status(404).json({ message: "User Right Not Found" });
-    }
+//     return res.status(200).json({
+//       message: "User Right Found",
+//       data: right
+//     });
 
-    await right.update({
-      userId,
-      modules_Id,
-      submodule_id,
-      permissionId,
-      isAllowed
-    });
-
-    return res.status(200).json({
-      message: "User Right Updated Successfully",
-      data: right
-    });
-
-  } catch (error) {
-    console.error("Update UserRight Error:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
-};
+//   } catch (error) {
+//     console.error("Fetch UserRight Error:", error);
+//     return res.status(500).json({ message: "Internal Server Error" });
+//   }
+// };
 
 
 
-const deleteUserRight = async (req, res) => {
-  try {
-    const sequelize = req.sequelize;
-    const UserRights = require('../models/hospitalUserRights')(sequelize);
+// const updateUserRight = async (req, res) => {
+//   try {
+//     const sequelize = req.sequelize;
+//     const UserRights = require('../models/hospitalUserRights')(sequelize);
 
-    const { id } = req.params;
+//     const { id } = req.params;
 
-    const right = await UserRights.findByPk(id);
+//     const {
+//       userId,
+//       modules_Id,
+//       submodule_id,
+//       permissionId,
+//       isAllowed
+//     } = req.body;
 
-    if (!right) {
-      return res.status(404).json({ message: "User Right Not Found" });
-    }
+//     const right = await UserRights.findByPk(id);
 
-    await right.destroy();
+//     if (!right) {
+//       return res.status(404).json({ message: "User Right Not Found" });
+//     }
 
-    return res.status(200).json({
-      message: "User Right Deleted Successfully"
-    });
+//     await right.update({
+//       userId,
+//       modules_Id,
+//       submodule_id,
+//       permissionId,
+//       isAllowed
+//     });
 
-  } catch (error) {
-    console.error("Delete UserRight Error:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
-};
+//     return res.status(200).json({
+//       message: "User Right Updated Successfully",
+//       data: right
+//     });
+
+//   } catch (error) {
+//     console.error("Update UserRight Error:", error);
+//     return res.status(500).json({ message: "Internal Server Error" });
+//   }
+// };
+
+
+
+// const deleteUserRight = async (req, res) => {
+//   try {
+//     const sequelize = req.sequelize;
+//     const UserRights = require('../models/hospitalUserRights')(sequelize);
+
+//     const { id } = req.params;
+
+//     const right = await UserRights.findByPk(id);
+
+//     if (!right) {
+//       return res.status(404).json({ message: "User Right Not Found" });
+//     }
+
+//     await right.destroy();
+
+//     return res.status(200).json({
+//       message: "User Right Deleted Successfully"
+//     });
+
+//   } catch (error) {
+//     console.error("Delete UserRight Error:", error);
+//     return res.status(500).json({ message: "Internal Server Error" });
+//   }
+// };
 
 
 const getModulesAndSubModulesByUserId = async (req, res) => {
@@ -569,10 +569,10 @@ const getModulesAndSubModulesByUserId = async (req, res) => {
 };
 
 module.exports = {
-  createUserRights,
-  getAllUserRights,
-  getUserRightById,
-  updateUserRight,
-  deleteUserRight,
+  // createUserRights,
+  // getAllUserRights,
+  // getUserRightById,
+  // updateUserRight,
+  // deleteUserRight,
   getModulesAndSubModulesByUserId
 };

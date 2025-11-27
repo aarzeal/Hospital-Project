@@ -101,22 +101,22 @@ module.exports = (sequelize) => {
     //     model: 'tblEmployee', // Ensure case sensitivity and table name match
     //     key: 'EmployeeID',
     //   },
-      
-      
+
+
     // }, 
     empid: {
       type: DataTypes.INTEGER,
       allowNull: true,
-  //     references: {
-  //       model: 'tblEmployee', // Adjusted to match your actual table name
-  //       key: 'EmployeeID',
-  //       onDelete: 'CASCADE', // or other appropriate action
-  // onUpdate: 'CASCADE' // or other appropriate action
-  //     }
-    },  
+      //     references: {
+      //       model: 'tblEmployee', // Adjusted to match your actual table name
+      //       key: 'EmployeeID',
+      //       onDelete: 'CASCADE', // or other appropriate action
+      // onUpdate: 'CASCADE' // or other appropriate action
+      //     }
+    },
     is_emailVerify: {
       type: DataTypes.STRING,
-      allowNull: true ,// Adjust allowNull as per your requirements
+      allowNull: true,// Adjust allowNull as per your requirements
       defaultValue: false
     },
     usertype: {
@@ -133,11 +133,11 @@ module.exports = (sequelize) => {
     },
     otp: {
       type: DataTypes.STRING,
-      
+
     },
     emailtoken: {
       type: DataTypes.STRING,
-      
+
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -147,7 +147,7 @@ module.exports = (sequelize) => {
     createdBy: {
       type: DataTypes.INTEGER,
       allowNull: false
-    }, Reserve1 : {
+    }, Reserve1: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
@@ -172,9 +172,17 @@ module.exports = (sequelize) => {
       allowNull: true
     },
 
-
-
-
+    // new column added role_id
+    role_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'tbl_role',
+        key: 'role_id'
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT'
+    },
 
 
   }, {

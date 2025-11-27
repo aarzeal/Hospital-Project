@@ -73,6 +73,8 @@ const labTestSensitivityRoutes=require("./routes/labTestSensitivityRoutes.js")
 const labTestPackageRoutes=require("./routes/labTestPackageRoutes.js");
 const reportRoutes=require("./routes/reportRoutes.js")
 const permissionRoutes=require("./routes/PermissionRoutes.js")
+const roleRoutes=require("./routes/roleRoutes.js")
+const rolePermissionRoutes=require("./routes/rolePermissionRoutes.js")
 
 const multer = require("multer");
 const cors = require("cors");
@@ -181,6 +183,8 @@ app.use("/api/v1/lab-test-sensitivity",labTestSensitivityRoutes);
 app.use("/api/v1/lab-test-package",labTestPackageRoutes);
 app.use("/api/v1/labreport",reportRoutes);
 app.use("/api/v1/permission",permissionRoutes);
+app.use("/api/v1/role",roleRoutes);
+app.use("/api/v1/role-permission",rolePermissionRoutes);
 
 sendEmail();
 

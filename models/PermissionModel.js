@@ -18,11 +18,29 @@ module.exports = (sequelize) => {
                 type: DataTypes.BOOLEAN,
                 allowNull: true,
             },
-         
+            hospital_IDR: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+
+            hospital_group_IDR: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+            },
+
+            created_by: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+
+            updated_by: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
 
         }, {
         tableName: "permissions",
-         timestamps: false,       // <-- Enable createdAt / updatedAt
+        timestamps: true,       // <-- Enable createdAt / updatedAt
     });
 
     return Permission;

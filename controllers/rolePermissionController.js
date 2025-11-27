@@ -1,14 +1,13 @@
 const logger = require("../logger");
-
 const HospitalGroup = require("../models/HospitalGroup");
 const Hospital = require("../models/HospitalModel");
 const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
-const { permissionValidator  } = require("../validators/joi-validator");
-const { createPermissionDAO, getAllPermissionsDAO, getPermissionByIdDAO, updatePermissionByIdDAO, deletePermissionByIdDAO, getPermissionDataAsPerQueryParamDAO } = require("../Dao/PermissionDAO");
-const { permissionPOST, permissionGET, permissionMap } = require("../dtos/PermissionDTO");
+const { rolepermission } = require("../validators/joi-validator");
+const { rolePermissionPOST, rolePermissionGET, rolePermissionMap } = require("../dtos/RolePermissionDTO");
+const { createRolePermissionDAO, getAllRolePermissionsDAO, getRolePermissionByIdDAO, updateRolePermissionByIdDAO, deleteRolePermissionByIdDAO, getRolePermissionDataAsPerQueryParamDAO } = require("../Dao/RolePermissionDAO");
 
-exports.createPermission  = async (req, res) => {
+exports.createRolePermission = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
@@ -16,7 +15,7 @@ exports.createPermission  = async (req, res) => {
   const username = req.username;
 
   try {
-    const { error } = permissionValidator.validate(req.body);
+    const { error } = rolepermission.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
 
     const hospitalid = await Hospital.findOne({
@@ -76,15 +75,15 @@ exports.createPermission  = async (req, res) => {
       createdBy: username,
     };
 
-    const permissionData  = permissionPOST(RequestBody);
-    const result = await createPermissionDAO(
+    const rolepermissionData = rolePermissionPOST(RequestBody);
+    const result = await createRolePermissionDAO(
       req.sequelize,
-      permissionData
+      rolepermissionData
     );
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Permission created successfully", {
+    logger.logWithMeta("info", "Role Permission created successfully", {
       executionTime,
       hospitalId: req.hospitalName,
       apiName: req.originalUrl,
@@ -98,19 +97,19 @@ exports.createPermission  = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Permission created successfully",
+      message: "Role Permission created successfully",
       meta: {
         statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
-      data: permissionGET(result),
+      data: rolePermissionGET(result),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9249;
 
-    logger.logWithMeta("error", "Error Creating Permission", {
+    logger.logWithMeta("error", "Error Creating Role Permission", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -120,12 +119,12 @@ exports.createPermission  = async (req, res) => {
 
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-      error: { message: "Error Creating Permission: " + error.message },
+      error: { message: "Error Creating Role Permission: " + error.message },
     });
   }
 };
 
-exports.getAllPermissions  = async (req, res) => {
+exports.getAllRolePermissions = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
@@ -156,10 +155,10 @@ exports.getAllPermissions  = async (req, res) => {
         errorCode,
       });
     }
-    const result = await getAllPermissionsDAO(req.sequelize);
+    const result = await getAllRolePermissionsDAO(req.sequelize);
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Fetched Permissions successfully", {
+    logger.logWithMeta("info", "Fetched Roles Permissions successfully", {
       executionTime,
       hospitalId: req.hospitalName,
       apiName: req.originalUrl,
@@ -174,19 +173,19 @@ exports.getAllPermissions  = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "All Permissions Fetched successfully",
+      message: "All Roles Permissions Fetched successfully",
       meta: {
         statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
-      data: result.map(permissionGET),
+      data: result.map(rolePermissionGET),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9249;
 
-    logger.logWithMeta("error", "Error Fetching Permissions", {
+    logger.logWithMeta("error", "Error Fetching Role Permission", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -196,12 +195,12 @@ exports.getAllPermissions  = async (req, res) => {
 
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-      error: { message: "Error Fetching Permissions: " + error.message },
+      error: { message: "Error Fetching Role Permission: " + error.message },
     });
   }
 };
 
-exports.getPermissionById = async (req, res) => {
+exports.getRolePermissionById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
@@ -209,13 +208,13 @@ exports.getPermissionById = async (req, res) => {
 
   try {
     const { id } = req.params;
-    const result = await getPermissionByIdDAO(req.sequelize, id);
+    const result = await getRolePermissionByIdDAO(req.sequelize, id);
 
     if (!result) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1262;
 
-      logger.logWithMeta("error", "Permission not found", {
+      logger.logWithMeta("error", "Role Permission not found", {
         errorCode,
         executionTime,
         hospitalId: req.hospitalName,
@@ -231,13 +230,13 @@ exports.getPermissionById = async (req, res) => {
 
       return res.status(404).json({
         errorCode: 1263,
-        message: "Permission not found in Database",
+        message: "Role Permission not found in Database",
         hospitalDatabase,
       });
     }
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Fetched Permission successfully", {
+    logger.logWithMeta("info", "Fetched Role Permission successfully", {
       executionTime,
       hospitalId: req.hospitalName,
       apiName: req.originalUrl,
@@ -256,13 +255,13 @@ exports.getPermissionById = async (req, res) => {
         executionTime: `${Date.now() - start}ms`,
         hospitalDatabase,
       },
-      data: permissionGET(result),
+      data: rolePermissionGET(result),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9249;
 
-    logger.logWithMeta("error", "Error Fetching Permission", {
+    logger.logWithMeta("error", "Error Fetching Role", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -272,19 +271,19 @@ exports.getPermissionById = async (req, res) => {
 
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-      error: { message: "Error Fetching Permission: " + error.message },
+      error: { message: "Error Fetching Role: " + error.message },
     });
   }
 };
 
-exports.updatePermissionById = async (req, res) => {
+exports.updateRolePermissionById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
   try {
-    const { error } = permissionValidator.validate(req.body);
+    const { error } = rolepermission.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
 
     const hospitalid = await Hospital.findOne({
@@ -346,17 +345,17 @@ exports.updatePermissionById = async (req, res) => {
       ...req.body,
       updatedBy: username,
     };
-    const permissionData  = permissionPOST(RequestBody);
+    const rolepermissionData = rolePermissionPOST(RequestBody);
 
-    const updated = await updatePermissionByIdDAO(
+    const updated = await updateRolePermissionByIdDAO(
       req.sequelize,
       id,
-      permissionData
+      rolepermissionData
     );
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Permission updated successfully", {
+    logger.logWithMeta("info", "Role Permission updated successfully", {
       hospitalDatabase,
       executionTime,
       apiName: req.originalUrl,
@@ -368,7 +367,7 @@ exports.updatePermissionById = async (req, res) => {
 
       logger.logWithMeta(
         "error",
-        "Invalid Permission id, not found in DB",
+        "Invalid Role Permission id, not found in DB",
         {
           errorCode,
           executionTime,
@@ -383,20 +382,20 @@ exports.updatePermissionById = async (req, res) => {
       );
       return res.status(400).json({
         errorCode,
-        message: "Invalid Permission id, not found in DB",
+        message: "Invalid Role Permission id, not found in DB",
       });
     }
 
     res.status(200).json({
-      message: "Permission Updated Successfully",
+      message: "Role Updated Permission Successfully",
       meta: { statusCode: 200, executionTime, hospitalDatabase },
-      data: permissionGET(updated),
+      data: rolePermissionGET(updated),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9249;
 
-    logger.logWithMeta("error", "Error Permission Permission", {
+    logger.logWithMeta("error", "Error Updating Role Permission", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -406,26 +405,26 @@ exports.updatePermissionById = async (req, res) => {
 
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-      error: { message: "Error Updating Permission: " + error.message },
+      error: { message: "Error Updating Role Permission: " + error.message },
     });
   }
 };
 
-exports.deletePermissionById = async (req, res) => {
+exports.deleteRolePermissionById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
   const { id } = req.params;
   try {
-    const deleted = await deletePermissionByIdDAO(req.sequelize, id);
+    const deleted = await deleteRolePermissionByIdDAO(req.sequelize, id);
     if (!deleted) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 9245;
 
       logger.logWithMeta(
         "error",
-        "Invalid Permission id, not found in Database",
+        "Invalid Role Permission id, not found in Database",
         {
           errorCode,
           executionTime,
@@ -441,13 +440,13 @@ exports.deletePermissionById = async (req, res) => {
       );
       return res.status(400).json({
         errorCode,
-        message: "Invalid Permission id, not found in DB",
+        message: "Invalid Role Permission id, not found in DB",
       });
     }
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Permission Deleted successfully", {
+    logger.logWithMeta("info", "Role Permission Deleted successfully", {
       executionTime,
       ID: req.params.id,
       apiName: req.originalUrl,
@@ -460,13 +459,13 @@ exports.deletePermissionById = async (req, res) => {
 
     res.status(200).json({
       meta: { statusCode: 200, executionTime, hospitalDatabase },
-      message: "Permission deleted successfully",
+      message: "Role Permission deleted successfully",
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9249;
 
-    logger.logWithMeta("error", "Error Deleting Permission ", {
+    logger.logWithMeta("error", "Error Deleting Role Permission", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -476,12 +475,12 @@ exports.deletePermissionById = async (req, res) => {
 
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-      error: { message: "Error Deleting Permission : " + error.message },
+      error: { message: "Error Deleting Role Permission: " + error.message },
     });
   }
 };
 
-exports.getPermissionByQueryParams = async (req, res) => {
+exports.getRolePermissionByQueryParams = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
@@ -513,9 +512,9 @@ exports.getPermissionByQueryParams = async (req, res) => {
     }
 
     const { page, limit, ...queryFields } = req.query;
-    const fieldMap = permissionMap;
+    const fieldMap = rolePermissionMap;
 
-    const ID_DTO_FIELD = "permissionId"; // Ensure this matches your DTO
+    const ID_DTO_FIELD = "rolePermissionId"; // Ensure this matches your DTO
     const ID_DB_FIELD = fieldMap[ID_DTO_FIELD];
 
     // Extract valid DTO fields from query params
@@ -557,14 +556,14 @@ exports.getPermissionByQueryParams = async (req, res) => {
 
     // Fetch data from DAO
     const { count: totalRecords, rows } =
-      await getPermissionDataAsPerQueryParamDAO(req.sequelize, {
+      await getRolePermissionDataAsPerQueryParamDAO(req.sequelize, {
         attributes,
         ...pagination,
       });
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Fetched Permision successfully", {
+    logger.logWithMeta("info", "Fetched Role Permission successfully", {
       executionTime,
       hospitalId: req.hospitalName,
       apiName: req.originalUrl,
@@ -579,7 +578,7 @@ exports.getPermissionByQueryParams = async (req, res) => {
 
     // Filter DTO output based on requested fields
     const responseData = rows.map((record) => {
-      const fullDto = permissionGET(record);
+      const fullDto = rolePermissionGET(record);
       const filteredDto = {};
       for (const key of requestedDtoFields) {
         if (key in fullDto) {
@@ -613,7 +612,7 @@ exports.getPermissionByQueryParams = async (req, res) => {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9249;
 
-    logger.logWithMeta("error", "Error Fetching Permission", {
+    logger.logWithMeta("error", "Error Fetching Role Permission", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -623,7 +622,7 @@ exports.getPermissionByQueryParams = async (req, res) => {
 
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-      error: { message: "Error Fetching Permission: " + error.message },
+      error: { message: "Error Fetching Role Permission: " + error.message },
     });
   }
 };
