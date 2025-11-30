@@ -4,7 +4,7 @@ const authenticate = require("../validators/authenticate");
 const ensureSequelizeInstance = require("../util/databasedyanamic");
 const Userverification = require("../validators/Accesstokenverify");
 const validateJSONContentType = require("../Middleware/jsonvalidation");
-// const hospitalController = require('../controllers/HospitalController');
+const hospitalController = require('../controllers/HospitalController');
 const { createRolePermission, getAllRolePermissions, getRolePermissionById, updateRolePermissionById, deleteRolePermissionById, getRolePermissionByQueryParams } = require("../controllers/rolePermissionController");
 
 
@@ -20,9 +20,9 @@ router.post(
 router.get(
   "/all-role-permissions",
   authenticate,
-  ensureSequelizeInstance,
-  Userverification,
-// hospitalController.ensureSequelizeInstance,
+  // ensureSequelizeInstance,
+  // Userverification,
+hospitalController.ensureSequelizeInstance,
   getAllRolePermissions
 );
 

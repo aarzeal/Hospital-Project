@@ -203,6 +203,8 @@ exports.creatmodules = async (req, res) => {
       // Fetch all modules
       const allModules = await UserModules.findAll();
   
+            console.log(`allModules::`, allModules)
+
       // If no modules found
       if (!allModules || allModules.length === 0) {
         const end = Date.now();
@@ -247,6 +249,7 @@ exports.creatmodules = async (req, res) => {
         userAgent: req.headers['user-agent'],    // HTTP method
       });
       logger.info(`Modules retrieved successfully, executionTime: ${end - start}ms`);
+
       
       // Return all modules
       res.status(200).json({
@@ -284,7 +287,7 @@ exports.creatmodules = async (req, res) => {
           executionTime: `${end - start}ms`
         },
         error: {
-          message: 'Error retrieving modules: ' + error.message
+          message: 'Error retrieving modules: ' + error
         }
       });
     }
