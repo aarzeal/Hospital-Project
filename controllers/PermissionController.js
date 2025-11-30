@@ -159,6 +159,8 @@ exports.getAllPermissions  = async (req, res) => {
     const result = await getAllPermissionsDAO(req.sequelize);
     const executionTime = `${Date.now() - start}ms`;
 
+    console.log("result::", result)
+
     logger.logWithMeta("info", "Fetched Permissions successfully", {
       executionTime,
       hospitalId: req.hospitalName,

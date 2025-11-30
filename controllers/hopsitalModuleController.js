@@ -203,7 +203,7 @@ exports.creatmodules = async (req, res) => {
       // Fetch all modules
       const allModules = await UserModules.findAll();
   
-            console.log(`allModules::`, allModules)
+            // console.log(`allModules::`, allModules)
 
       // If no modules found
       if (!allModules || allModules.length === 0) {
