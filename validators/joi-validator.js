@@ -658,12 +658,43 @@ exports.role = Joi.object({
   }),
 });
 
-exports.rolepermission = Joi.object({
+// exports.rolepermission = Joi.object({
+//   roleId: Joi.number().required().label("Role ID"),
+//   moduleId: Joi.number().required().label("Module ID"),
+//   submoduleId: Joi.number().required().label("Submodule ID"),
+//    permissionId: Joi.number().required().label("Permission ID"),
+//   isActive: Joi.boolean().optional().label("Is Active"),
+//   hospitalIDR: Joi.number().required().label("Hospital ID"),
+//   hospitalGroupIDR: Joi.number().optional().label("Hospital Group ID"),
+// });
+
+// Single entry schema
+const rolePermissionEntry = Joi.object({
   roleId: Joi.number().required().label("Role ID"),
   moduleId: Joi.number().required().label("Module ID"),
   submoduleId: Joi.number().required().label("Submodule ID"),
-   permissionId: Joi.number().required().label("Permission ID"),
+  permissionId: Joi.number().required().label("Permission ID"),
   isActive: Joi.boolean().optional().label("Is Active"),
   hospitalIDR: Joi.number().required().label("Hospital ID"),
   hospitalGroupIDR: Joi.number().optional().label("Hospital Group ID"),
 });
+
+// Bulk create schema
+exports.rolepermissionBulk = Joi.array().items(
+  Joi.object({
+    roleId: Joi.number().required().label("Role ID"),
+    moduleId: Joi.number().required().label("Module ID"),
+    submodules: Joi.array().items(
+      Joi.object({
+        submoduleId: Joi.number().required().label("Submodule ID"),
+        permissionId: Joi.number().required().label("Permission ID"),
+        isActive: Joi.boolean().optional().default(true),
+        hospitalIDR: Joi.number().required().label("Hospital ID"),
+        hospitalGroupIDR: Joi.number().optional().label("Hospital Group ID"),
+      })
+    ).min(1).required().label("Submodules")
+  })
+).min(1).label("Role Permissions");
+
+exports.rolepermission = rolePermissionEntry;
+

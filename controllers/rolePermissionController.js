@@ -3,10 +3,417 @@ const HospitalGroup = require("../models/HospitalGroup");
 const Hospital = require("../models/HospitalModel");
 const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
-const { rolepermission } = require("../validators/joi-validator");
+const { rolepermission, rolepermissionBulk } = require("../validators/joi-validator");
 const { rolePermissionPOST, rolePermissionGET, rolePermissionMap } = require("../dtos/RolePermissionDTO");
-const { createRolePermissionDAO, getAllRolePermissionsDAO, getRolePermissionByIdDAO, updateRolePermissionByIdDAO, deleteRolePermissionByIdDAO, getRolePermissionDataAsPerQueryParamDAO } = require("../Dao/RolePermissionDAO");
+const { createRolePermissionDAO, getAllRolePermissionsDAO, getRolePermissionByIdDAO, updateRolePermissionByIdDAO, deleteRolePermissionByIdDAO, getRolePermissionDataAsPerQueryParamDAO, bulkCreateRolePermissionsDAO, deleteRolePermissionByRoleModuleDAO, getAllAccessByRoleIdDAO } = require("../Dao/RolePermissionDAO");
 
+// exports.createRolePermission = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const hospitalDatabase = req.hospitalDatabase;
+//   const username = req.username;
+
+//   try {
+//     const { error } = rolepermission.validate(req.body);
+//     if (error) return res.status(400).json({ error: error.details[0].message });
+
+//     const hospitalid = await Hospital.findOne({
+//       where: { HospitalID: req.body.hospitalIDR },
+//     });
+//     if (!hospitalid) {
+//       const executionTime = `${Date.now() - start}ms`;
+//       const errorCode = 1260;
+
+//       logger.logWithMeta("error", "Invalid HospitaID, not found in MasterDB", {
+//         errorCode,
+//         executionTime,
+//         hospitalId: req.hospitalName,
+//         apiName: req.originalUrl,
+//         city: locationData?.city,
+//         country: locationData?.country,
+//         apiName: req.originalUrl,
+//         method: req.method,
+//         userAgent: req.headers["user-agent"],
+//         createdBy: username,
+//       });
+//       return res.status(400).json({
+//         errorCode,
+//         message: "Invalid HospitalID, not found in MasterDB",
+//       });
+//     }
+//     const group = await HospitalGroup.findOne({
+//       where: { HospitalGroupID: req.body.hospitalGroupIDR },
+//     });
+//     if (!group) {
+//       const executionTime = `${Date.now() - start}ms`;
+//       const errorCode = 1260;
+
+//       logger.logWithMeta(
+//         "error",
+//         "Invalid Hospital Group ID, not found in MasterDB",
+//         {
+//           errorCode,
+//           executionTime,
+//           hospitalId: req.hospitalName,
+//           apiName: req.originalUrl,
+//           city: locationData?.city,
+//           country: locationData?.country,
+//           method: req.method,
+//           userAgent: req.headers["user-agent"],
+//           createdBy: username,
+//         }
+//       );
+//       return res.status(400).json({
+//         errorCode,
+//         message: "Invalid HospitalGroupID, not found in MasterDB",
+//       });
+//     }
+
+//     const RequestBody = {
+//       ...req.body,
+//       createdBy: username,
+//     };
+
+//     const rolepermissionData = rolePermissionPOST(RequestBody);
+//     const result = await createRolePermissionDAO(
+//       req.sequelize,
+//       rolepermissionData
+//     );
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     logger.logWithMeta("info", "Role Permission created successfully", {
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       city: locationData?.city,
+//       country: locationData?.country,
+//       ip: clientIp,
+//       apiName: req.originalUrl,
+//       method: req.method,
+//       userAgent: req.headers["user-agent"],
+//       createdBy: username,
+//     });
+
+//     res.status(201).json({
+//       message: "Role Permission created successfully",
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         hospitalDatabase,
+//       },
+//       data: rolePermissionGET(result),
+//     });
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 9249;
+
+//     logger.logWithMeta("error", "Error Creating Role Permission", {
+//       errorCode,
+//       executionTime,
+//       hospitalDatabase,
+//       apiName: req.originalUrl,
+//       error: error.message,
+//     });
+
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+//       error: { message: "Error Creating Role Permission: " + error.message },
+//     });
+//   }
+// };
+
+// BULK CREATE Role Permissions
+exports.createRolePermissionsBulk = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const locationData = await getLocationData(clientIp);
+  const hospitalDatabase = req.hospitalDatabase;
+  const username = req.username;
+
+  try {
+    const { error } = rolepermissionBulk.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
+    const allRolePermissions = [];
+    const validationErrors = [];
+
+    // Process each role-module combination
+    for (const item of req.body) {
+      const { roleId, moduleId, submodules } = item;
+
+      // Validate hospital ID from first submodule
+      const firstHospitalIDR = submodules[0]?.hospitalIDR;
+      if (!firstHospitalIDR) {
+        validationErrors.push({
+          roleId,
+          moduleId,
+          error: "HospitalIDR is required"
+        });
+        continue;
+      }
+
+      const hospitalid = await Hospital.findOne({
+        where: { HospitalID: firstHospitalIDR },
+      });
+      
+      if (!hospitalid) {
+        validationErrors.push({
+          roleId,
+          moduleId,
+          error: "Invalid HospitalID, not found in MasterDB"
+        });
+        continue;
+      }
+
+      // Validate hospital group ID if provided
+      const firstHospitalGroupIDR = submodules[0]?.hospitalGroupIDR;
+      if (firstHospitalGroupIDR) {
+        const group = await HospitalGroup.findOne({
+          where: { HospitalGroupID: firstHospitalGroupIDR },
+        });
+        
+        if (!group) {
+          validationErrors.push({
+            roleId,
+            moduleId,
+            error: "Invalid HospitalGroupID, not found in MasterDB"
+          });
+          continue;
+        }
+      }
+
+      // Create permission entries for each submodule
+      for (const submodule of submodules) {
+        const permissionData = rolePermissionPOST({
+          roleId: roleId,
+          moduleId: moduleId,
+          submoduleId: submodule.submoduleId,
+          permissionId: submodule.permissionId,
+          isActive: submodule.isActive !== undefined ? submodule.isActive : true,
+          hospitalIDR: submodule.hospitalIDR,
+          hospitalGroupIDR: submodule.hospitalGroupIDR,
+          createdBy: username,
+          updatedBy: username
+        });
+
+        allRolePermissions.push(permissionData);
+      }
+    }
+
+    // If there were validation errors
+    if (validationErrors.length > 0) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1260;
+
+      logger.logWithMeta("error", "Validation errors in bulk create", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        validationErrors,
+        createdBy: username,
+      });
+
+      return res.status(400).json({
+        errorCode,
+        message: "Some entries have validation errors",
+        errors: validationErrors
+      });
+    }
+
+    // Bulk create all permissions
+    const results = await bulkCreateRolePermissionsDAO(
+      req.sequelize,
+      allRolePermissions
+    );
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Role Permissions created successfully in bulk", {
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      count: results.length,
+      createdBy: username,
+    });
+
+    // Convert results to GET DTO format
+    const responseData = results.map(result => rolePermissionGET(result));
+
+    res.status(201).json({
+      message: "Role Permissions created successfully",
+      meta: {
+        statusCode: 200,
+        executionTime,
+        hospitalDatabase,
+        count: results.length
+      },
+      data: responseData
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 9250;
+
+    logger.logWithMeta("error", "Error Creating Role Permissions in bulk", {
+      errorCode,
+      executionTime,
+      hospitalDatabase,
+      apiName: req.originalUrl,
+      error: error.message,
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error Creating Role Permissions: " + error.message },
+    });
+  }
+};
+
+// REPLACE Role Permissions (Delete old and create new)
+exports.replaceRolePermissions = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const locationData = await getLocationData(clientIp);
+  const hospitalDatabase = req.hospitalDatabase;
+  const username = req.username;
+
+  try {
+    const { error } = rolepermissionBulk.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
+    const transaction = await req.sequelize.transaction();
+    
+    try {
+      const allRolePermissions = [];
+      const deletedCounts = [];
+
+      // Process each role-module combination
+      for (const item of req.body) {
+        const { roleId, moduleId, submodules } = item;
+        const hospitalIDR = submodules[0]?.hospitalIDR;
+
+        if (!hospitalIDR) {
+          await transaction.rollback();
+          return res.status(400).json({
+            errorCode: 1260,
+            message: `HospitalIDR is required for role ${roleId}, module ${moduleId}`
+          });
+        }
+
+        // Validate hospital ID
+        const hospitalid = await Hospital.findOne({
+          where: { HospitalID: hospitalIDR },
+        });
+        
+        if (!hospitalid) {
+          await transaction.rollback();
+          return res.status(400).json({
+            errorCode: 1260,
+            message: `Invalid HospitalID ${hospitalIDR}, not found in MasterDB`
+          });
+        }
+
+        // Delete existing permissions for this role-module-hospital combination
+        const deleted = await deleteRolePermissionByRoleModuleDAO(
+          req.sequelize,
+          roleId,
+          moduleId,
+          hospitalIDR
+        );
+
+        deletedCounts.push({
+          roleId,
+          moduleId,
+          hospitalIDR,
+          deletedCount: deleted
+        });
+
+        // Create new permission entries for each submodule
+        for (const submodule of submodules) {
+          const permissionData = rolePermissionPOST({
+            roleId: roleId,
+            moduleId: moduleId,
+            submoduleId: submodule.submoduleId,
+            permissionId: submodule.permissionId,
+            isActive: submodule.isActive !== undefined ? submodule.isActive : true,
+            hospitalIDR: submodule.hospitalIDR,
+            hospitalGroupIDR: submodule.hospitalGroupIDR,
+            createdBy: username,
+            updatedBy: username
+          });
+
+          allRolePermissions.push(permissionData);
+        }
+      }
+
+      // Bulk create all new permissions
+      const results = await bulkCreateRolePermissionsDAO(
+        req.sequelize,
+        allRolePermissions
+      );
+
+      await transaction.commit();
+
+      const executionTime = `${Date.now() - start}ms`;
+
+      logger.logWithMeta("info", "Role Permissions replaced successfully", {
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        ip: clientIp,
+        deleted: deletedCounts,
+        createdCount: results.length,
+        createdBy: username,
+      });
+
+      // Convert results to GET DTO format
+      const responseData = results.map(result => rolePermissionGET(result));
+
+      res.status(200).json({
+        message: "Role Permissions replaced successfully",
+        meta: {
+          statusCode: 200,
+          executionTime,
+          hospitalDatabase,
+          deletedCounts,
+          createdCount: results.length
+        },
+        data: responseData
+      });
+
+    } catch (error) {
+      await transaction.rollback();
+      throw error;
+    }
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 9251;
+
+    logger.logWithMeta("error", "Error replacing Role Permissions", {
+      errorCode,
+      executionTime,
+      hospitalDatabase,
+      apiName: req.originalUrl,
+      error: error.message,
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error replacing Role Permissions: " + error.message },
+    });
+  }
+};
+
+// Original single create function (unchanged)
 exports.createRolePermission = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -25,14 +432,13 @@ exports.createRolePermission = async (req, res) => {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1260;
 
-      logger.logWithMeta("error", "Invalid HospitaID, not found in MasterDB", {
+      logger.logWithMeta("error", "Invalid HospitalID, not found in MasterDB", {
         errorCode,
         executionTime,
         hospitalId: req.hospitalName,
         apiName: req.originalUrl,
         city: locationData?.city,
         country: locationData?.country,
-        apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
         createdBy: username,
@@ -275,6 +681,89 @@ exports.getRolePermissionById = async (req, res) => {
     });
   }
 };
+
+// CONTROLLER: GET ALL ACCESS BY ROLE ID
+exports.getAllAccessByRoleId = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
+
+  try {
+    const { roleId } = req.params;
+    const result = await getAllAccessByRoleIdDAO(req.sequelize, roleId);
+
+    console.log("Role Access Result:", result);
+
+    if (!result || result.length === 0) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1264;
+
+      logger.logWithMeta("error", "No Access found for Role", {
+        errorCode,
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      });
+
+      return res.status(404).json({
+        errorCode: 1265,
+        message: "No access found for this Role in Database",
+        hospitalDatabase,
+      });
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Fetched Role Access successfully", {
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime,
+        hospitalDatabase,
+      },
+      // ✅ AB DIRECT grouped data jaayega (no map)
+      data: result
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 9250;
+
+    logger.logWithMeta("error", "Error Fetching Role Access", {
+      errorCode,
+      executionTime,
+      hospitalDatabase,
+      apiName: req.originalUrl,
+      error: error.message,
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error Fetching Role Access: " + error.message },
+    });
+  }
+};
+
+
 
 exports.updateRolePermissionById = async (req, res) => {
   const start = Date.now();
