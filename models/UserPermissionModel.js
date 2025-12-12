@@ -2,32 +2,24 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
 
-  const RolePermission = sequelize.define(
-    "RolePermission",   // Model name
+  const UserPermission = sequelize.define(
+    "UserPermission",   // Model name
     {
-      role_permission_id: {
+      user_permission_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
 
-      role_id: {
+      userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "tbl_role",
-          key: "role_id",
+          model: "users",
+          key: "userId",
         },
       },
 
-      module_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: "userModules",
-          key: "modules_Id",
-        },
-      },
 
       submodule_id: {
         type: DataTypes.INTEGER,
@@ -77,34 +69,30 @@ module.exports = (sequelize) => {
     {
       // tableName: "role_permission_table", // final table name
       // timestamps: true, // createdAt & updatedAt
-       tableName: "role_permission_table",
+       tableName: "user_permission_table",
     timestamps: true,
     // freezeTableName: true,  // ✅ ADD THIS LINE
     }
   );
 
   // Associations
-  RolePermission.associate = (models) => {
-    RolePermission.belongsTo(models.tbl_role, {
-      foreignKey: "role_id",
-      as: "role",
+  UserPermission.associate = (models) => {
+    UserPermission.belongsTo(models.users, {
+      foreignKey: "userId",
+      as: "user",
     });
 
-    RolePermission.belongsTo(models.UserModules, {
-      foreignKey: "module_id",
-      as: "module",
-    });
 
-    RolePermission.belongsTo(models.UserSubModules, {
+    UserPermission.belongsTo(models.UserSubModules, {
       foreignKey: "submodule_id",
       as: "submodule",
     });
 
-    RolePermission.belongsTo(models.Permission, {
+    UserPermission.belongsTo(models.Permission, {
       foreignKey: "permission_id",
       as: "permission",
     });
   };
 
-  return RolePermission;
+  return UserPermission;
 };

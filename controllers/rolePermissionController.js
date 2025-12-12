@@ -5,7 +5,7 @@ const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
 const { rolepermission, rolepermissionBulk } = require("../validators/joi-validator");
 const { rolePermissionPOST, rolePermissionGET, rolePermissionMap } = require("../dtos/RolePermissionDTO");
-const { createRolePermissionDAO, getAllRolePermissionsDAO, getRolePermissionByIdDAO, updateRolePermissionByIdDAO, deleteRolePermissionByIdDAO, getRolePermissionDataAsPerQueryParamDAO, bulkCreateRolePermissionsDAO, deleteRolePermissionByRoleModuleDAO, getAllAccessByRoleIdDAO } = require("../Dao/RolePermissionDAO");
+const { createRolePermissionDAO, getAllRolePermissionsDAO, getRolePermissionByIdDAO, updateRolePermissionByIdDAO, deleteRolePermissionByIdDAO, getRolePermissionDataAsPerQueryParamDAO, bulkCreateRolePermissionsDAO, deleteRolePermissionByRoleModuleDAO, getAllAccessByRoleIdDAO, getExistingRolePermissionsDAO, updateRolePermissionBySubmoduleDAO } = require("../Dao/RolePermissionDAO");
 
 // exports.createRolePermission = async (req, res) => {
 //   const start = Date.now();
@@ -125,6 +125,343 @@ const { createRolePermissionDAO, getAllRolePermissionsDAO, getRolePermissionById
 // };
 
 // BULK CREATE Role Permissions
+// exports.createRolePermissionsBulk = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const hospitalDatabase = req.hospitalDatabase;
+//   const username = req.username;
+
+//   try {
+//     const { error } = rolepermissionBulk.validate(req.body);
+//     if (error) return res.status(400).json({ error: error.details[0].message });
+
+//     const allRolePermissions = [];
+//     const validationErrors = [];
+
+//     // Process each role-module combination
+//     for (const item of req.body) {
+//       const { roleId, moduleId, submodules } = item;
+
+//       // Validate hospital ID from first submodule
+//       const firstHospitalIDR = submodules[0]?.hospitalIDR;
+//       if (!firstHospitalIDR) {
+//         validationErrors.push({
+//           roleId,
+//           moduleId,
+//           error: "HospitalIDR is required"
+//         });
+//         continue;
+//       }
+
+//       const hospitalid = await Hospital.findOne({
+//         where: { HospitalID: firstHospitalIDR },
+//       });
+      
+//       if (!hospitalid) {
+//         validationErrors.push({
+//           roleId,
+//           moduleId,
+//           error: "Invalid HospitalID, not found in MasterDB"
+//         });
+//         continue;
+//       }
+
+//       // Validate hospital group ID if provided
+//       const firstHospitalGroupIDR = submodules[0]?.hospitalGroupIDR;
+//       if (firstHospitalGroupIDR) {
+//         const group = await HospitalGroup.findOne({
+//           where: { HospitalGroupID: firstHospitalGroupIDR },
+//         });
+        
+//         if (!group) {
+//           validationErrors.push({
+//             roleId,
+//             moduleId,
+//             error: "Invalid HospitalGroupID, not found in MasterDB"
+//           });
+//           continue;
+//         }
+//       }
+
+//       // Create permission entries for each submodule
+//       for (const submodule of submodules) {
+//         const permissionData = rolePermissionPOST({
+//           roleId: roleId,
+//           moduleId: moduleId,
+//           submoduleId: submodule.submoduleId,
+//           permissionId: submodule.permissionId,
+//           isActive: submodule.isActive !== undefined ? submodule.isActive : true,
+//           hospitalIDR: submodule.hospitalIDR,
+//           hospitalGroupIDR: submodule.hospitalGroupIDR,
+//           createdBy: username,
+//           updatedBy: username
+//         });
+
+//         allRolePermissions.push(permissionData);
+//       }
+//     }
+
+//     // If there were validation errors
+//     if (validationErrors.length > 0) {
+//       const executionTime = `${Date.now() - start}ms`;
+//       const errorCode = 1260;
+
+//       logger.logWithMeta("error", "Validation errors in bulk create", {
+//         errorCode,
+//         executionTime,
+//         hospitalId: req.hospitalName,
+//         apiName: req.originalUrl,
+//         validationErrors,
+//         createdBy: username,
+//       });
+
+//       return res.status(400).json({
+//         errorCode,
+//         message: "Some entries have validation errors",
+//         errors: validationErrors
+//       });
+//     }
+
+//     // Bulk create all permissions
+//     const results = await bulkCreateRolePermissionsDAO(
+//       req.sequelize,
+//       allRolePermissions
+//     );
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     logger.logWithMeta("info", "Role Permissions created successfully in bulk", {
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       city: locationData?.city,
+//       country: locationData?.country,
+//       ip: clientIp,
+//       count: results.length,
+//       createdBy: username,
+//     });
+
+//     // Convert results to GET DTO format
+//     const responseData = results.map(result => rolePermissionGET(result));
+
+//     res.status(201).json({
+//       message: "Role Permissions created successfully",
+//       meta: {
+//         statusCode: 200,
+//         executionTime,
+//         hospitalDatabase,
+//         count: results.length
+//       },
+//       data: responseData
+//     });
+
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 9250;
+
+//     logger.logWithMeta("error", "Error Creating Role Permissions in bulk", {
+//       errorCode,
+//       executionTime,
+//       hospitalDatabase,
+//       apiName: req.originalUrl,
+//       error: error.message,
+//     });
+
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+//       error: { message: "Error Creating Role Permissions: " + error.message },
+//     });
+//   }
+// };
+
+// exports.createRolePermissionsBulk = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const hospitalDatabase = req.hospitalDatabase;
+//   const username = req.username;
+
+//   try {
+//     const { error } = rolepermissionBulk.validate(req.body);
+//     if (error) return res.status(400).json({ error: error.details[0].message });
+
+//     const allRolePermissions = [];
+//     const validationErrors = [];
+//     const duplicateErrors = [];
+
+//     // Get all requested combinations for checking
+//     let allRequestedSubmodules = [];
+
+//     for (const item of req.body) {
+//       const { roleId, moduleId, submodules } = item;
+
+//       const firstHospitalIDR = submodules[0]?.hospitalIDR;
+//       if (!firstHospitalIDR) {
+//         validationErrors.push({
+//           roleId,
+//           moduleId,
+//           error: "HospitalIDR is required"
+//         });
+//         continue;
+//       }
+
+//       const hospitalid = await Hospital.findOne({ where: { HospitalID: firstHospitalIDR } });
+
+//       if (!hospitalid) {
+//         validationErrors.push({
+//           roleId,
+//           moduleId,
+//           error: "Invalid HospitalID, not found in MasterDB"
+//         });
+//         continue;
+//       }
+
+//       const firstHospitalGroupIDR = submodules[0]?.hospitalGroupIDR;
+//       if (firstHospitalGroupIDR) {
+//         const group = await HospitalGroup.findOne({
+//           where: { HospitalGroupID: firstHospitalGroupIDR },
+//         });
+
+//         if (!group) {
+//           validationErrors.push({
+//             roleId,
+//             moduleId,
+//             error: "Invalid HospitalGroupID, not found in MasterDB"
+//           });
+//           continue;
+//         }
+//       }
+
+//       submodules.forEach((sub) => {
+//         allRequestedSubmodules.push({
+//           roleId,
+//           moduleId,
+//           submoduleId: sub.submoduleId,
+//           permissionId: sub.permissionId,
+//           isActive: sub.isActive !== undefined ? sub.isActive : true,
+//           hospitalIDR: sub.hospitalIDR,
+//           hospitalGroupIDR: sub.hospitalGroupIDR,
+//         });
+//       });
+//     }
+// console.log("Current DB:", req.sequelize.getDatabaseName());
+
+//     // If input had validation errors
+//     if (validationErrors.length > 0) {
+//       return res.status(400).json({
+//         message: "Validation errors found",
+//         errors: validationErrors
+//       });
+//     }
+
+//     // ✅ Get all unique combinations to check in DB
+//     const uniqueConditions = allRequestedSubmodules.map(item => ({
+//       role_id: item.roleId,
+//       module_id: item.moduleId,
+//       submodule_id: item.submoduleId,
+//     }));
+
+//     // const existingPermissions = await RolePermission.findAll({
+//     //   where: {
+//     //     [Op.or]: uniqueConditions
+//     //   },
+//     //   attributes: ["role_id", "module_id", "submodule_id"]
+//     // });
+
+//     const existingPermissions = await getExistingRolePermissionsDAO(
+//   req.sequelize,
+//   uniqueConditions
+// );
+
+
+//     const existingSet = new Set(
+//       existingPermissions.map(
+//         r => `${r.role_id}_${r.module_id}_${r.submodule_id}`
+//       )
+//     );
+
+//     // ✅ Separate NEW & DUPLICATE records
+//     for (const sub of allRequestedSubmodules) {
+//       const key = `${sub.roleId}_${sub.moduleId}_${sub.submoduleId}`;
+
+//       if (existingSet.has(key)) {
+//         duplicateErrors.push({
+//           roleId: sub.roleId,
+//           moduleId: sub.moduleId,
+//           submoduleId: sub.submoduleId,
+//           error: "Module and submodules already exist"
+//         });
+//       } else {
+//         allRolePermissions.push(
+//           rolePermissionPOST({
+//             roleId: sub.roleId,
+//             moduleId: sub.moduleId,
+//             submoduleId: sub.submoduleId,
+//             permissionId: sub.permissionId,
+//             isActive: sub.isActive,
+//             hospitalIDR: sub.hospitalIDR,
+//             hospitalGroupIDR: sub.hospitalGroupIDR,
+//             createdBy: username,
+//             updatedBy: username
+//           })
+//         );
+//       }
+//     }
+
+//     // If ALL were duplicates
+//     if (allRolePermissions.length === 0) {
+//       return res.status(409).json({
+//         message: "All selected module & submodules already exist",
+//         duplicates: duplicateErrors
+//       });
+//     }
+
+//     // ✅ Create ONLY new data
+//     const results = await bulkCreateRolePermissionsDAO(
+//       req.sequelize,
+//       allRolePermissions
+//     );
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     const responseData = results.map(result =>
+//       rolePermissionGET(result)
+//     );
+
+//     res.status(201).json({
+//       message: "Role Permissions processed successfully",
+//       meta: {
+//         statusCode: 201,
+//         executionTime,
+//         hospitalDatabase,
+//         totalReceived: allRequestedSubmodules.length,
+//         totalInserted: results.length,
+//         totalDuplicates: duplicateErrors.length
+//       },
+//       data: responseData,
+//       duplicates: duplicateErrors
+//     });
+
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 9250;
+
+//     logger.logWithMeta("error", "Error Creating Role Permissions in bulk", {
+//       errorCode,
+//       executionTime,
+//       hospitalDatabase,
+//       apiName: req.originalUrl,
+//       error: error.message,
+//     });
+
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+//       error: { message: "Error Creating Role Permissions: " + error.message },
+//     });
+//   }
+// };
+
 exports.createRolePermissionsBulk = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -138,12 +475,14 @@ exports.createRolePermissionsBulk = async (req, res) => {
 
     const allRolePermissions = [];
     const validationErrors = [];
+    const duplicateErrors = [];
 
-    // Process each role-module combination
+    let allRequestedSubmodules = [];
+
+    // --------- STEP 1 : Validate Input + Hospital / Group ---------
     for (const item of req.body) {
       const { roleId, moduleId, submodules } = item;
 
-      // Validate hospital ID from first submodule
       const firstHospitalIDR = submodules[0]?.hospitalIDR;
       if (!firstHospitalIDR) {
         validationErrors.push({
@@ -155,9 +494,9 @@ exports.createRolePermissionsBulk = async (req, res) => {
       }
 
       const hospitalid = await Hospital.findOne({
-        where: { HospitalID: firstHospitalIDR },
+        where: { HospitalID: firstHospitalIDR }
       });
-      
+
       if (!hospitalid) {
         validationErrors.push({
           roleId,
@@ -167,13 +506,12 @@ exports.createRolePermissionsBulk = async (req, res) => {
         continue;
       }
 
-      // Validate hospital group ID if provided
       const firstHospitalGroupIDR = submodules[0]?.hospitalGroupIDR;
       if (firstHospitalGroupIDR) {
         const group = await HospitalGroup.findOne({
           where: { HospitalGroupID: firstHospitalGroupIDR },
         });
-        
+
         if (!group) {
           validationErrors.push({
             roleId,
@@ -184,46 +522,84 @@ exports.createRolePermissionsBulk = async (req, res) => {
         }
       }
 
-      // Create permission entries for each submodule
-      for (const submodule of submodules) {
-        const permissionData = rolePermissionPOST({
-          roleId: roleId,
-          moduleId: moduleId,
-          submoduleId: submodule.submoduleId,
-          permissionId: submodule.permissionId,
-          isActive: submodule.isActive !== undefined ? submodule.isActive : true,
-          hospitalIDR: submodule.hospitalIDR,
-          hospitalGroupIDR: submodule.hospitalGroupIDR,
-          createdBy: username,
-          updatedBy: username
+      // Store all submodules for duplicate checking
+      submodules.forEach((sub) => {
+        allRequestedSubmodules.push({
+          roleId,
+          moduleId,
+          submoduleId: sub.submoduleId,
+          permissionId: sub.permissionId,
+          isActive: sub.isActive !== undefined ? sub.isActive : true,
+          hospitalIDR: sub.hospitalIDR,
+          hospitalGroupIDR: sub.hospitalGroupIDR,
         });
-
-        allRolePermissions.push(permissionData);
-      }
+      });
     }
 
-    // If there were validation errors
+    console.log("Current DB:", req.sequelize.getDatabaseName());
+
     if (validationErrors.length > 0) {
-      const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 1260;
-
-      logger.logWithMeta("error", "Validation errors in bulk create", {
-        errorCode,
-        executionTime,
-        hospitalId: req.hospitalName,
-        apiName: req.originalUrl,
-        validationErrors,
-        createdBy: username,
-      });
-
       return res.status(400).json({
-        errorCode,
-        message: "Some entries have validation errors",
+        message: "Validation errors found",
         errors: validationErrors
       });
     }
 
-    // Bulk create all permissions
+    // ---------- STEP 2 : Check duplicates in DB ----------
+    const uniqueConditions = allRequestedSubmodules.map(item => ({
+      role_id: item.roleId,
+      module_id: item.moduleId,
+      submodule_id: item.submoduleId,
+    }));
+
+    const existingPermissions = await getExistingRolePermissionsDAO(
+      req.sequelize,
+      uniqueConditions
+    );
+
+    const existingSet = new Set(
+      existingPermissions.map(
+        r => `${r.role_id}_${r.module_id}_${r.submodule_id}`
+      )
+    );
+
+    // ---------- STEP 3 : Filter new & duplicate records ----------
+    for (const sub of allRequestedSubmodules) {
+      const key = `${sub.roleId}_${sub.moduleId}_${sub.submoduleId}`;
+
+      if (existingSet.has(key)) {
+        duplicateErrors.push({
+          roleId: sub.roleId,
+          moduleId: sub.moduleId,
+          submoduleId: sub.submoduleId,
+          error: "Module and submodule already exist"
+        });
+      } else {
+        allRolePermissions.push(
+          rolePermissionPOST({
+            roleId: sub.roleId,
+            moduleId: sub.moduleId,
+            submoduleId: sub.submoduleId,
+            permissionId: sub.permissionId,
+            isActive: sub.isActive,
+            hospitalIDR: sub.hospitalIDR,
+            hospitalGroupIDR: sub.hospitalGroupIDR,
+            createdBy: username,
+            updatedBy: username
+          })
+        );
+      }
+    }
+
+    // ---------- STEP 4 : If ALL are duplicate ----------
+    if (allRolePermissions.length === 0) {
+      return res.status(409).json({
+        message: "All selected module & submodules already exist",
+        duplicates: duplicateErrors
+      });
+    }
+
+    // ---------- STEP 5 : Insert only NEW records ----------
     const results = await bulkCreateRolePermissionsDAO(
       req.sequelize,
       allRolePermissions
@@ -242,18 +618,22 @@ exports.createRolePermissionsBulk = async (req, res) => {
       createdBy: username,
     });
 
-    // Convert results to GET DTO format
-    const responseData = results.map(result => rolePermissionGET(result));
+    const responseData = results.map(result =>
+      rolePermissionGET(result)
+    );
 
     res.status(201).json({
-      message: "Role Permissions created successfully",
+      message: "Role Permissions processed successfully",
       meta: {
-        statusCode: 200,
+        statusCode: 201,
         executionTime,
         hospitalDatabase,
-        count: results.length
+        totalReceived: allRequestedSubmodules.length,
+        totalInserted: results.length,
+        totalDuplicates: duplicateErrors.length
       },
-      data: responseData
+      data: responseData,
+      duplicates: duplicateErrors
     });
 
   } catch (error) {
@@ -274,6 +654,8 @@ exports.createRolePermissionsBulk = async (req, res) => {
     });
   }
 };
+
+
 
 // REPLACE Role Permissions (Delete old and create new)
 exports.replaceRolePermissions = async (req, res) => {
@@ -895,6 +1277,103 @@ exports.updateRolePermissionById = async (req, res) => {
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
       error: { message: "Error Updating Role Permission: " + error.message },
+    });
+  }
+};
+
+// ✅ NEW API: Update Role Permission Status by Submodule
+exports.updateRolePermissionBySubmodule = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
+
+  try {
+    const { roleId } = req.params;
+    const { moduleId, submoduleId, permissionId, isActive } = req.body;
+
+    // Validation
+    if (!moduleId || !submoduleId || !permissionId || isActive === undefined) {
+      return res.status(400).json({
+        meta: { statusCode: 400, hospitalDatabase },
+        error: { message: "Missing required fields: moduleId, submoduleId, permissionId, isActive" }
+      });
+    }
+
+    // Update in database
+    const result = await updateRolePermissionBySubmoduleDAO(
+      req.sequelize, 
+      roleId, 
+      moduleId, 
+      submoduleId, 
+      permissionId, 
+      isActive
+    );
+
+    if (!result) {
+      const executionTime = `${Date.now() - start}ms`;
+      
+      logger.logWithMeta("error", "Role permission not found for update", {
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+        data: { roleId, moduleId, submoduleId, permissionId }
+      });
+
+      return res.status(404).json({
+        meta: { statusCode: 404, executionTime, hospitalDatabase },
+        error: { message: "Role permission record not found" }
+      });
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Role permission status updated successfully", {
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+      data: { roleId, moduleId, submoduleId, permissionId, isActive }
+    });
+
+    res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime,
+        hospitalDatabase,
+        message: "Role permission status updated successfully"
+      },
+      data: result
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 9251;
+
+    logger.logWithMeta("error", "Error updating role permission status", {
+      errorCode,
+      executionTime,
+      hospitalDatabase,
+      apiName: req.originalUrl,
+      error: error.message,
+      data: req.body
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error updating role permission status: " + error.message }
     });
   }
 };

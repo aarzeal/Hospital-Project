@@ -49,18 +49,19 @@
 //   });
 // };
 
+const { Op } = require("sequelize");
 
 // CREATE SINGLE
 exports.createRolePermissionDAO = async (sequelize, data) => {
   const RolePermission = require("../models/rolePermissionModel")(sequelize);
-  await RolePermission.sync({ force: false });
+  await RolePermission.sync({ alter: true  });
   return await RolePermission.create(data);
 };
 
 // BULK CREATE
 exports.bulkCreateRolePermissionsDAO = async (sequelize, dataArray) => {
-  const RolePermission = require("../models/rolePermissionModel")(sequelize);
-  await RolePermission.sync({ force: false });
+  const RolePermission = require("../models/rolePermissionModel.js")(sequelize);
+  await RolePermission.sync({ alter: true  });
   return await RolePermission.bulkCreate(dataArray, {
     returning: true
   });
@@ -70,6 +71,19 @@ exports.bulkCreateRolePermissionsDAO = async (sequelize, dataArray) => {
 exports.getAllRolePermissionsDAO = async (sequelize) => {
   const RolePermission = require("../models/rolePermissionModel")(sequelize);
   return await RolePermission.findAll();
+};
+
+
+exports.getExistingRolePermissionsDAO = async (sequelize, uniqueConditions) => {
+  const RolePermission = require("../models/rolePermissionModel")(sequelize);
+  await RolePermission.sync({ alter: true }); // ✅ यहां भी sync करें
+
+  return await RolePermission.findAll({
+    where: {
+      [Op.or]: uniqueConditions
+    },
+    attributes: ["role_id", "module_id", "submodule_id"]
+  });
 };
 
 // GET BY ID
@@ -128,6 +142,47 @@ exports.updateRolePermissionByIdDAO = async (sequelize, id, updateData) => {
   const RolePermission = require("../models/rolePermissionModel")(sequelize);
   await RolePermission.update(updateData, { where: { role_permission_id: id } });
   return await RolePermission.findByPk(id);
+};
+
+// ✅ UPDATE ROLE PERMISSION BY SUBMODULE
+exports.updateRolePermissionBySubmoduleDAO = async (
+  sequelize, 
+  roleId, 
+  moduleId, 
+  submoduleId, 
+  permissionId, 
+  isActive
+) => {
+  const RolePermission = require("../models/rolePermissionModel")(sequelize);
+  
+  // Find the record first
+  const record = await RolePermission.findOne({
+    where: {
+      role_id: roleId,
+      module_id: moduleId,
+      submodule_id: submoduleId,
+      permission_id: permissionId
+    }
+  });
+
+  if (!record) {
+    return null;
+  }
+
+  // Update only is_active field
+  record.is_active = isActive;
+  record.updated_at = new Date();
+  
+  await record.save();
+  
+  return {
+    role_id: record.role_id,
+    module_id: record.module_id,
+    submodule_id: record.submodule_id,
+    permission_id: record.permission_id,
+    is_active: record.is_active,
+    updated_at: record.updated_at
+  };
 };
 
 // DELETE BY ID

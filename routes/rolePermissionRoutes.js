@@ -77,7 +77,8 @@ const {
   getRolePermissionByQueryParams,
   createRolePermissionsBulk,
   replaceRolePermissions, 
-  getAllAccessByRoleId
+  getAllAccessByRoleId,
+  updateRolePermissionBySubmodule
 } = require("../controllers/rolePermissionController");
 
 // Existing single create route
@@ -140,6 +141,15 @@ router.put(
   validateJSONContentType,
   Userverification,
   updateRolePermissionById
+);
+
+router.put(
+  "/update-role-permission-status/:roleId",
+  authenticate,
+  ensureSequelizeInstance,
+  validateJSONContentType,
+  Userverification,
+  updateRolePermissionBySubmodule
 );
 
 router.delete(
