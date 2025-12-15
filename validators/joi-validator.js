@@ -696,5 +696,29 @@ exports.rolepermissionBulk = Joi.array().items(
   })
 ).min(1).label("Role Permissions");
 
+
 exports.rolepermission = rolePermissionEntry;
 
+exports.userPermissionBulkSchema = Joi.array().items(
+  Joi.object({
+    userId: Joi.number().required(),
+    submodules: Joi.array().items(
+      Joi.object({
+        submoduleId: Joi.number().required(),
+        permissionId: Joi.number().required(),
+        isActive: Joi.boolean().optional(),
+        hospitalIDR: Joi.number().required(),
+        hospitalGroupIDR: Joi.number().optional(),
+      })
+    ).required(),
+  })
+);
+
+exports.userPermission = Joi.object({
+  userId: Joi.number().required(),
+  submoduleId: Joi.number().required(),
+  permissionId: Joi.number().required(),
+  isActive: Joi.boolean().required(),
+  hospitalIDR: Joi.number().required(),
+ hospitalGroupIDR: Joi.number().optional(),
+});

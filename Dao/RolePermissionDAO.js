@@ -122,6 +122,7 @@ exports.getAllAccessByRoleIdDAO = async (sequelize, roleId) => {
 
     // ✅ Push submodule inside module
     module.submodules.push({
+      rolePermissionId:item.role_permission_id,
       submodule_id: item.submodule_id,
       isActive: item.is_active,
       permission_id: item.permission_id,

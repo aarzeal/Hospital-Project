@@ -3,8 +3,24 @@
 // =====================================
 exports.createUserPermissionDAO = async (sequelize, data) => {
   const UserPermission = require("../models/UserPermissionModel")(sequelize);
-  await UserPermission.sync({ force: false });
+  await UserPermission.sync({  alter: true });
   return await UserPermission.create(data);
+};
+
+
+// =====================================
+// BULK CREATE USER PERMISSIONS DAO
+// =====================================
+exports.bulkCreateUserPermissionsDAO = async (sequelize, dataArray) => {
+  const UserPermission = require("../models/UserPermissionModel")(sequelize);
+
+  // ✅ Sync model (alter = true ensures table matches model)
+  await UserPermission.sync({ alter: true });
+
+  // ✅ Bulk create
+  return await UserPermission.bulkCreate(dataArray, {
+    returning: true, // Created records ko return kare
+  });
 };
 
 
@@ -13,9 +29,7 @@ exports.createUserPermissionDAO = async (sequelize, data) => {
 // =====================================
 exports.getAllUserPermissionsDAO = async (sequelize) => {
   const UserPermission = require("../models/UserPermissionModel")(sequelize);
-  return await UserPermission.findAll({
-    include: ["user", "submodule", "permission"],
-  });
+  return await UserPermission.findAll();
 };
 
 
@@ -24,9 +38,7 @@ exports.getAllUserPermissionsDAO = async (sequelize) => {
 // =====================================
 exports.getUserPermissionByIdDAO = async (sequelize, id) => {
   const UserPermission = require("../models/UserPermissionModel")(sequelize);
-  return await UserPermission.findByPk(id, {
-    include: ["user", "submodule", "permission"],
-  });
+  return await UserPermission.findByPk(id);
 };
 
 
@@ -65,7 +77,7 @@ exports.getUserPermissionDataAsPerQueryParamDAO = async (sequelize, options) => 
     attributes: options.attributes,
     offset: options.offset,
     limit: options.limit,
-    include: ["user", "submodule", "permission"],
+    // include: ["user", "submodule", "permission"],
     raw: true,
   });
 };
@@ -79,7 +91,7 @@ exports.getPermissionsByUserIdDAO = async (sequelize, userId) => {
 
   return await UserPermission.findAll({
     where: { userId },
-    include: ["submodule", "permission"],
+    // include: ["submodule", "permission"],
   });
 };
 
@@ -89,13 +101,14 @@ exports.getPermissionsByUserIdDAO = async (sequelize, userId) => {
 // =====================================
 exports.getPermissionsByUserAndSubmoduleDAO = async (sequelize, userId, submoduleId) => {
   const UserPermission = require("../models/UserPermissionModel")(sequelize);
+  await UserPermission.sync({ alter: true });
 
   return await UserPermission.findAll({
     where: {
       userId,
       submodule_id: submoduleId,
     },
-    include: ["permission"],
+    // include: ["permission"],
   });
 };
 

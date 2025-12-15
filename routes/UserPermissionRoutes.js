@@ -12,7 +12,8 @@ const {
   getPermissionsByUserId,
   updateUserPermissionById,
   deleteUserPermissionById,
-  getUserPermissionByQueryParams
+  getUserPermissionByQueryParams,
+  bulkCreateUserPermissions
 } = require("../controllers/UserPermissionController");
 
 // CREATE single permission
@@ -25,6 +26,14 @@ router.post(
   createUserPermission
 );
 
+router.post(
+  "/bulk-create-user-permissions",  // ✅ new bulk route
+  authenticate,
+  validateJSONContentType,
+  ensureSequelizeInstance,
+  Userverification,
+  bulkCreateUserPermissions
+);
 // GET all permissions (optional, admin)
 router.get(
   "/all-user-permissions",

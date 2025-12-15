@@ -5,140 +5,10 @@ const Hospital = require("../models/HospitalModel");
 const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
 const { userPermissionPOST, userPermissionGET, userPermissionMap } = require("../dtos/UserPermissionDTO");
-const { createUserPermissionDAO, getAllUserPermissionsDAO, getUserPermissionByIdDAO, updateUserPermissionByIdDAO, deleteUserPermissionByIdDAO, getUserPermissionDataAsPerQueryParamDAO, checkDuplicateUserPermissionDAO } = require("../Dao/UserPermissionDAO");
+const { createUserPermissionDAO, getAllUserPermissionsDAO, getUserPermissionByIdDAO, updateUserPermissionByIdDAO, deleteUserPermissionByIdDAO, getUserPermissionDataAsPerQueryParamDAO, checkDuplicateUserPermissionDAO, getPermissionsByUserAndSubmoduleDAO, bulkCreateUserPermissionsDAO, getPermissionsByUserIdDAO } = require("../Dao/UserPermissionDAO");
+const { userPermissionBulkSchema, userPermission }=require("../validators/joi-validator")
 
-// exports.createUserPermission = async (req, res) => {
-//   const start = Date.now();
-//   const clientIp = await getClientIp(req);
-//   const locationData = await getLocationData(clientIp);
-//   const hospitalDatabase = req.hospitalDatabase;
-//   const username = req.username;
 
-//   try {
-//     // VALIDATION (like your role validation)
-//     const body = req.body;
-
-//     if (!body.userId || !body.submoduleId || !body.permissionId) {
-//       return res.status(400).json({
-//         message: "userId, submoduleId & permissionId are required",
-//       });
-//     }
-
-//     // Hospital Validation
-//     const hospital = await Hospital.findOne({
-//       where: { HospitalID: body.hospitalIDR },
-//     });
-
-//     if (!hospital) {
-//       const executionTime = `${Date.now() - start}ms`;
-//       const errorCode = 1260;
-
-//       logger.logWithMeta("error", "Invalid HospitalID, not found in MasterDB", {
-//         errorCode,
-//         executionTime,
-//         hospitalId: req.hospitalName,
-//         apiName: req.originalUrl,
-//         city: locationData?.city,
-//         country: locationData?.country,
-//         method: req.method,
-//         userAgent: req.headers["user-agent"],
-//         createdBy: username,
-//       });
-
-//       return res.status(400).json({
-//         errorCode,
-//         message: "Invalid HospitalID, not found in MasterDB",
-//       });
-//     }
-
-//     // Hospital Group Validation
-//     const group = await HospitalGroup.findOne({
-//       where: { HospitalGroupID: body.hospitalGroupIDR },
-//     });
-
-//     if (!group) {
-//       const executionTime = `${Date.now() - start}ms`;
-//       const errorCode = 1260;
-
-//       logger.logWithMeta(
-//         "error",
-//         "Invalid Hospital Group ID, not found in MasterDB",
-//         {
-//           errorCode,
-//           executionTime,
-//           hospitalId: req.hospitalName,
-//           apiName: req.originalUrl,
-//           city: locationData?.city,
-//           country: locationData?.country,
-//           method: req.method,
-//           userAgent: req.headers["user-agent"],
-//           createdBy: username,
-//         }
-//       );
-
-//       return res.status(400).json({
-//         errorCode,
-//         message: "Invalid HospitalGroupID, not found in MasterDB",
-//       });
-//     }
-
-//     // BUILD DTO
-//     const RequestBody = {
-//       ...body,
-//       createdBy: username,
-//       updatedBy: username,
-//     };
-
-//     const permissionData = userPermissionPOST(RequestBody);
-
-//     // DAO
-//     const result = await createUserPermissionDAO(req.sequelize, permissionData);
-
-//     const executionTime = `${Date.now() - start}ms`;
-
-//     // SUCCESS LOG
-//     logger.logWithMeta("info", "UserPermission created successfully", {
-//       executionTime,
-//       hospitalId: req.hospitalName,
-//       apiName: req.originalUrl,
-//       city: locationData?.city,
-//       country: locationData?.country,
-//       ip: clientIp,
-//       method: req.method,
-//       userAgent: req.headers["user-agent"],
-//       createdBy: username,
-//     });
-
-//     // RESPONSE
-//     return res.status(201).json({
-//       message: "UserPermission created successfully",
-//       meta: {
-//         statusCode: 200,
-//         executionTime,
-//         hospitalDatabase,
-//       },
-//       data: userPermissionGET(result),
-//     });
-//   } catch (error) {
-//     const executionTime = `${Date.now() - start}ms`;
-//     const errorCode = 9249;
-
-//     logger.logWithMeta("error", "Error Creating UserPermission", {
-//       errorCode,
-//       executionTime,
-//       hospitalDatabase,
-//       apiName: req.originalUrl,
-//       error: error.message,
-//     });
-
-//     res.status(500).json({
-//       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-//       error: { message: "Error Creating UserPermission: " + error.message },
-//     });
-//   }
-// };
-
-// POST /user-permissions
 exports.createUserPermission = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -210,6 +80,165 @@ exports.createUserPermission = async (req, res) => {
   }
 };
 
+exports.bulkCreateUserPermissions = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const locationData = await getLocationData(clientIp);
+  const hospitalDatabase = req.hospitalDatabase;
+  const username = req.username;
+
+  try {
+    // ---------- STEP 0 : Validate Request Body ----------
+    const { error } = userPermissionBulkSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
+
+    const allRequestedSubmodules = [];
+    const validationErrors = [];
+
+    // ---------- STEP 1 : Validate Hospitals & Submodules ----------
+    for (const item of req.body) {
+      const { userId, submodules } = item;
+
+      if (!submodules || submodules.length === 0) continue;
+
+      const firstHospitalIDR = submodules[0]?.hospitalIDR;
+      if (!firstHospitalIDR) {
+        validationErrors.push({ userId, error: "HospitalIDR is required" });
+        continue;
+      }
+
+      const hospital = await Hospital.findOne({ where: { HospitalID: firstHospitalIDR } });
+      if (!hospital) {
+        validationErrors.push({ userId, error: "Invalid HospitalID" });
+        continue;
+      }
+
+      const firstHospitalGroupIDR = submodules[0]?.hospitalGroupIDR;
+      if (firstHospitalGroupIDR) {
+        const group = await HospitalGroup.findOne({ where: { HospitalGroupID: firstHospitalGroupIDR } });
+        if (!group) {
+          validationErrors.push({ userId, error: "Invalid HospitalGroupID" });
+          continue;
+        }
+      }
+
+      // Collect submodules
+      submodules.forEach((sub) => {
+        allRequestedSubmodules.push({
+          userId,
+          submoduleId: sub.submoduleId,
+          permissionId: sub.permissionId,
+          isActive: sub.isActive ?? true,
+          hospitalIDR: sub.hospitalIDR,
+          hospitalGroupIDR: sub.hospitalGroupIDR,
+        });
+      });
+    }
+
+    if (validationErrors.length > 0) {
+      return res.status(400).json({
+        message: "Validation errors found",
+        errors: validationErrors,
+      });
+    }
+
+    // ---------- STEP 2 : Check Existing Permissions ----------
+    const newPermissions = [];
+
+    for (const sub of allRequestedSubmodules) {
+      const existing = await getPermissionsByUserAndSubmoduleDAO(
+        req.sequelize,
+        sub.userId,
+        sub.submoduleId
+      );
+
+      // Only add if not already exists
+      const exists = existing.some(
+        (r) => r.permission_id === sub.permissionId
+      );
+
+      if (!exists) {
+        newPermissions.push(
+          userPermissionPOST({
+            userId: sub.userId,
+            submoduleId: sub.submoduleId,
+            permissionId: sub.permissionId,
+            isActive: sub.isActive,
+            hospitalIDR: sub.hospitalIDR,
+            hospitalGroupIDR: sub.hospitalGroupIDR,
+            createdBy: username,
+            updatedBy: username,
+          })
+        );
+      }
+    }
+
+    // ---------- STEP 3 : If nothing new, return success ----------
+    if (newPermissions.length === 0) {
+      const executionTime = `${Date.now() - start}ms`;
+      return res.status(200).json({
+        message: "No new user permissions to add",
+        meta: {
+          statusCode: 200,
+          executionTime,
+          hospitalDatabase,
+          totalReceived: allRequestedSubmodules.length,
+          totalInserted: 0,
+        },
+        data: [],
+      });
+    }
+
+    // ---------- STEP 4 : Bulk Insert ----------
+    const results = await bulkCreateUserPermissionsDAO(req.sequelize, newPermissions);
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "User Permissions added (new only)", {
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      count: results.length,
+      createdBy: username,
+    });
+
+    const responseData = results.map(userPermissionGET);
+
+    res.status(201).json({
+      message: "User Permissions created successfully",
+      meta: {
+        statusCode: 201,
+        executionTime,
+        hospitalDatabase,
+        totalReceived: allRequestedSubmodules.length,
+        totalInserted: results.length,
+      },
+      data: responseData,
+    });
+
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 9250;
+
+    logger.logWithMeta("error", "Error Creating User Permissions in bulk", {
+      errorCode,
+      executionTime,
+      hospitalDatabase,
+      apiName: req.originalUrl,
+      error: error.message,
+    });
+
+    res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: { message: "Error Creating User Permissions: " + error.message },
+    });
+  }
+};
 
 
 exports.getAllUserPermissions = async (req, res) => {
@@ -293,7 +322,6 @@ exports.getAllUserPermissions = async (req, res) => {
     });
   }
 };
-
 
 exports.getUserPermissionById = async (req, res) => {
   const start = Date.now();
@@ -434,43 +462,38 @@ exports.updateUserPermissionById = async (req, res) => {
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
-
   try {
-    const { id } = req.params;
+    const { error } = userPermission.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
 
-    // 🔹 Validate HospitalIDR exists in MasterDB
     const hospitalid = await Hospital.findOne({
       where: { HospitalID: req.body.hospitalIDR },
     });
-
     if (!hospitalid) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1260;
 
-      logger.logWithMeta("error", "Invalid HospitalID, not found in MasterDB", {
+      logger.logWithMeta("error", "Invalid HospitaID, not found in MasterDB", {
         errorCode,
         executionTime,
         hospitalId: req.hospitalName,
         apiName: req.originalUrl,
         city: locationData?.city,
         country: locationData?.country,
+        apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
-        createdBy: username,
+        createdBy: req.username,
         updatedBy: username,
       });
-
       return res.status(400).json({
         errorCode,
-        message: "Invalid HospitalIDR, not found in MasterDB",
+        message: "Invalid HospitalID, not found in MasterDB",
       });
     }
-
-    // 🔹 Validate HospitalGroupIDR exists
     const group = await HospitalGroup.findOne({
       where: { HospitalGroupID: req.body.hospitalGroupIDR },
     });
-
     if (!group) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1260;
@@ -487,30 +510,27 @@ exports.updateUserPermissionById = async (req, res) => {
           country: locationData?.country,
           method: req.method,
           userAgent: req.headers["user-agent"],
-          createdBy: username,
+          createdBy: req.username,
           updatedBy: username,
         }
       );
-
       return res.status(400).json({
         errorCode,
-        message: "Invalid HospitalGroupIDR, not found in MasterDB",
+        message: "Invalid HospitalGroupID, not found in MasterDB",
       });
     }
+    const { id } = req.params;
 
-    // 🔹 Prepare DTO
     const RequestBody = {
       ...req.body,
       updatedBy: username,
     };
+    const userpermissionData = userPermissionPOST(RequestBody);
 
-    const permissionData = userPermissionPOST(RequestBody);
-
-    // 🔹 Update DAO
     const updated = await updateUserPermissionByIdDAO(
       req.sequelize,
       id,
-      permissionData
+      userpermissionData
     );
 
     const executionTime = `${Date.now() - start}ms`;
@@ -521,36 +541,36 @@ exports.updateUserPermissionById = async (req, res) => {
       apiName: req.originalUrl,
     });
 
-    // 🔹 Check if invalid ID
     if (!updated) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 9245;
 
-      logger.logWithMeta("error", "Invalid user_permission_id", {
-        errorCode,
-        executionTime,
-        apiName: req.originalUrl,
-        city: locationData?.city,
-        country: locationData?.country,
-        method: req.method,
-        userAgent: req.headers["user-agent"],
-        createdBy: username,
-        updatedBy: username,
-      });
-
+      logger.logWithMeta(
+        "error",
+        "Invalid User Permission id, not found in DB",
+        {
+          errorCode,
+          executionTime,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: username,
+        }
+      );
       return res.status(400).json({
         errorCode,
-        message: "Invalid UserPermission id, not found in DB",
+        message: "Invalid User Permission id, not found in DB",
       });
     }
 
-    // 🔹 Final Response
-    return res.status(200).json({
-      message: "User Permission Updated Successfully",
+    res.status(200).json({
+      message: "User Updated Permission Successfully",
       meta: { statusCode: 200, executionTime, hospitalDatabase },
       data: userPermissionGET(updated),
     });
-
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9249;
@@ -563,14 +583,12 @@ exports.updateUserPermissionById = async (req, res) => {
       error: error.message,
     });
 
-    return res.status(500).json({
+    res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
       error: { message: "Error Updating User Permission: " + error.message },
     });
   }
 };
-
-
 exports.deleteUserPermissionById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -790,4 +808,3 @@ exports.getUserPermissionByQueryParams = async (req, res) => {
     });
   }
 };
-
