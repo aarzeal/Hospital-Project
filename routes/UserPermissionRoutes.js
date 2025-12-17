@@ -13,7 +13,8 @@ const {
   updateUserPermissionById,
   deleteUserPermissionById,
   getUserPermissionByQueryParams,
-  bulkCreateUserPermissions
+  bulkCreateUserPermissions,
+  toggleUserPermissionStatus
 } = require("../controllers/UserPermissionController");
 
 // CREATE single permission
@@ -69,6 +70,17 @@ router.put(
   Userverification,
   updateUserPermissionById
 );
+
+// TOGGLE user permission (active / inactive)
+router.patch(
+  "/toggle-user-permission/:id",
+  authenticate,
+  ensureSequelizeInstance,
+  validateJSONContentType,
+  Userverification,
+  toggleUserPermissionStatus
+);
+
 
 // DELETE permission by ID
 router.delete(

@@ -5,7 +5,7 @@ const Hospital = require("../models/HospitalModel");
 const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
 const { userPermissionPOST, userPermissionGET, userPermissionMap } = require("../dtos/UserPermissionDTO");
-const { createUserPermissionDAO, getAllUserPermissionsDAO, getUserPermissionByIdDAO, updateUserPermissionByIdDAO, deleteUserPermissionByIdDAO, getUserPermissionDataAsPerQueryParamDAO, checkDuplicateUserPermissionDAO, getPermissionsByUserAndSubmoduleDAO, bulkCreateUserPermissionsDAO, getPermissionsByUserIdDAO } = require("../Dao/UserPermissionDAO");
+const { createUserPermissionDAO, getAllUserPermissionsDAO, getUserPermissionByIdDAO, updateUserPermissionByIdDAO, deleteUserPermissionByIdDAO, getUserPermissionDataAsPerQueryParamDAO, checkDuplicateUserPermissionDAO, getPermissionsByUserAndSubmoduleDAO, bulkCreateUserPermissionsDAO, getPermissionsByUserIdDAO, toggleUserPermissionStatusDAO } = require("../Dao/UserPermissionDAO");
 const { userPermissionBulkSchema, userPermission }=require("../validators/joi-validator")
 
 
@@ -589,6 +589,109 @@ exports.updateUserPermissionById = async (req, res) => {
     });
   }
 };
+
+exports.toggleUserPermissionStatus = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const locationData = await getLocationData(clientIp);
+
+  const hospitalDatabase = req.hospitalDatabase;
+  const username = req.username;
+
+  try {
+    const { id } = req.params;
+    const { is_active } = req.body; // true / false
+
+    // ✅ Basic validation
+    if (typeof is_active !== "boolean") {
+      return res.status(400).json({
+        errorCode: 4001,
+        message: "is_active must be boolean (true/false)",
+      });
+    }
+
+    // ✅ Toggle using DAO
+    const updatedPermission =
+      await toggleUserPermissionStatusDAO(
+        req.sequelize,
+        id,
+        is_active
+      );
+
+    if (!updatedPermission) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 9245;
+
+      logger.logWithMeta(
+        "error",
+        "Invalid User Permission id, not found in DB",
+        {
+          errorCode,
+          executionTime,
+          hospitalDatabase,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: username,
+        }
+      );
+
+      return res.status(400).json({
+        errorCode,
+        message: "Invalid User Permission id, not found in DB",
+      });
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta(
+      "info",
+      "User Permission status toggled successfully",
+      {
+        hospitalDatabase,
+        executionTime,
+        apiName: req.originalUrl,
+      }
+    );
+
+    return res.status(200).json({
+      message: "User Permission status updated successfully",
+      meta: {
+        statusCode: 200,
+        executionTime,
+        hospitalDatabase,
+      },
+      data: userPermissionGET(updatedPermission),
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 9249;
+
+    logger.logWithMeta("error", "Error Toggling User Permission Status", {
+      errorCode,
+      executionTime,
+      hospitalDatabase,
+      apiName: req.originalUrl,
+      error: error.message,
+    });
+
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode,
+        executionTime,
+        hospitalDatabase,
+      },
+      error: {
+        message: "Error Updating User Permission Status: " + error.message,
+      },
+    });
+  }
+};
+
 exports.deleteUserPermissionById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);

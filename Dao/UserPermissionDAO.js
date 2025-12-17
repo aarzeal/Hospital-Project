@@ -15,7 +15,7 @@ exports.bulkCreateUserPermissionsDAO = async (sequelize, dataArray) => {
   const UserPermission = require("../models/UserPermissionModel")(sequelize);
 
   // ✅ Sync model (alter = true ensures table matches model)
-  await UserPermission.sync({ alter: true });
+  await UserPermission.sync({alter:false});
 
   // ✅ Bulk create
   return await UserPermission.bulkCreate(dataArray, {
@@ -101,7 +101,7 @@ exports.getPermissionsByUserIdDAO = async (sequelize, userId) => {
 // =====================================
 exports.getPermissionsByUserAndSubmoduleDAO = async (sequelize, userId, submoduleId) => {
   const UserPermission = require("../models/UserPermissionModel")(sequelize);
-  await UserPermission.sync({ alter: true });
+  await UserPermission.sync({ alter: false });
 
   return await UserPermission.findAll({
     where: {
