@@ -3582,7 +3582,7 @@ exports.loginUser = async (req, res) => {
       method: req.method,
       userAgent: req.headers["user-agent"],
     });
-
+console.log("llllalaall",user)
     return res.status(200).json({
       meta: {
         statusCode: 200,
@@ -3595,6 +3595,7 @@ exports.loginUser = async (req, res) => {
           id: user.userId,
           username: user.username,
           email: user.email,
+          roleId:user.role_id,
         },
         message: "Login successful",
       },
