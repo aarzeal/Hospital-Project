@@ -54,14 +54,14 @@ const { Op } = require("sequelize");
 // CREATE SINGLE
 exports.createRolePermissionDAO = async (sequelize, data) => {
   const RolePermission = require("../models/rolePermissionModel")(sequelize);
-  await RolePermission.sync({ alter: true  });
+  // await RolePermission.sync({ alter: true  });
   return await RolePermission.create(data);
 };
 
 // BULK CREATE
 exports.bulkCreateRolePermissionsDAO = async (sequelize, dataArray) => {
   const RolePermission = require("../models/rolePermissionModel.js")(sequelize);
-  await RolePermission.sync({ alter: true  });
+  // await RolePermission.sync({ alter: true  });
   return await RolePermission.bulkCreate(dataArray, {
     returning: true
   });
@@ -76,7 +76,7 @@ exports.getAllRolePermissionsDAO = async (sequelize) => {
 
 exports.getExistingRolePermissionsDAO = async (sequelize, uniqueConditions) => {
   const RolePermission = require("../models/rolePermissionModel")(sequelize);
-  await RolePermission.sync({ alter: true }); // ✅ यहां भी sync करें
+  await RolePermission.sync({ alter: true }); 
 
   return await RolePermission.findAll({
     where: {
