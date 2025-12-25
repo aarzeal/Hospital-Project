@@ -680,21 +680,67 @@ const rolePermissionEntry = Joi.object({
 });
 
 // Bulk create schema
-exports.rolepermissionBulk = Joi.array().items(
-  Joi.object({
-    roleId: Joi.number().required().label("Role ID"),
-    moduleId: Joi.number().required().label("Module ID"),
-    submodules: Joi.array().items(
-      Joi.object({
-        submoduleId: Joi.number().required().label("Submodule ID"),
-        permissionId: Joi.number().required().label("Permission ID"),
-        isActive: Joi.boolean().optional().default(true),
-        hospitalIDR: Joi.number().required().label("Hospital ID"),
-        hospitalGroupIDR: Joi.number().optional().label("Hospital Group ID"),
-      })
-    ).min(1).required().label("Submodules")
-  })
-).min(1).label("Role Permissions");
+// exports.rolepermissionBulk = Joi.array().items(
+//   Joi.object({
+//     roleId: Joi.number().required().label("Role ID"),
+//     moduleId: Joi.number().required().label("Module ID"),
+//     submodules: Joi.array().items(
+//       Joi.object({
+//         submoduleId: Joi.number().required().label("Submodule ID"),
+//         permissionId: Joi.number().required().label("Permission ID"),
+//         isActive: Joi.boolean().optional().default(true),
+//         hospitalIDR: Joi.number().required().label("Hospital ID"),
+//         hospitalGroupIDR: Joi.number().optional().label("Hospital Group ID"),
+//          createdBy: Joi.string().optional().messages({
+//     "string.base": "Created by must be a string",
+//   }),
+
+//   updatedBy: Joi.string().optional().messages({
+//     "string.base": "Updated by must be a string",
+//   }),
+//       })
+//     ).min(1).required().label("Submodules")
+//   })
+// ).min(1).label("Role Permissions");
+
+exports.rolepermissionBulk = Joi.array()
+  .items(
+    Joi.object({
+      roleId: Joi.number().required().label("Role ID"),
+      moduleId: Joi.number().required().label("Module ID"),
+
+      submodules: Joi.array()
+        .items(
+          Joi.object({
+            submoduleId: Joi.number().required().label("Submodule ID"),
+            permissionId: Joi.number().required().label("Permission ID"),
+
+            isActive: Joi.boolean().default(true),
+
+            hospitalIDR: Joi.number().required().label("Hospital ID"),
+            hospitalGroupIDR: Joi.number()
+              .optional()
+              .allow(null)
+              .label("Hospital Group ID"),
+
+            createdBy: Joi.number()
+              .optional()
+              .label("Created By"),
+
+            updatedBy: Joi.number()
+              .optional()
+              .label("Updated By"),
+          })
+        )
+        .min(1)
+        .required()
+        .label("Submodules"),
+    })
+  )
+  .min(1)
+  .required()
+  .label("Role Permissions");
+
 
 
 exports.rolepermission = rolePermissionEntry;

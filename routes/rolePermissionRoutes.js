@@ -101,15 +101,15 @@ router.post(
   createRolePermissionsBulk
 );
 
-// New replace route
-router.post(
-  "/replace-role-permissions",
-  authenticate,
-  validateJSONContentType,
-  ensureSequelizeInstance,
-  Userverification,
-  replaceRolePermissions
-);
+// // New replace route
+// router.post(
+//   "/replace-role-permissions",
+//   authenticate,
+//   validateJSONContentType,
+//   ensureSequelizeInstance,
+//   Userverification,
+//   replaceRolePermissions
+// );
 
 router.get(
   "/all-role-permissions",
