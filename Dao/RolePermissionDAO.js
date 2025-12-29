@@ -152,7 +152,9 @@ exports.updateRolePermissionBySubmoduleDAO = async (
   moduleId, 
   submoduleId, 
   permissionId, 
-  isActive
+  isActive,
+  updatedBy // ✅ ADD THIS
+
 ) => {
   const RolePermission = require("../models/rolePermissionModel")(sequelize);
   
@@ -172,6 +174,7 @@ exports.updateRolePermissionBySubmoduleDAO = async (
 
   // Update only is_active field
   record.is_active = isActive;
+  record.updated_by = updatedBy;   // ✅ userId yaha jayega
   record.updated_at = new Date();
   
   await record.save();
@@ -182,6 +185,7 @@ exports.updateRolePermissionBySubmoduleDAO = async (
     submodule_id: record.submodule_id,
     permission_id: record.permission_id,
     is_active: record.is_active,
+    updated_by: record.updated_by,
     updated_at: record.updated_at
   };
 };

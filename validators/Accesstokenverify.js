@@ -32,6 +32,7 @@ const verifyAccessToken = (req, res, next) => {
   jwt.verify(AccessToken, process.env.JWT_SECRET, (err, decoded) => {
     const end = Date.now();
 
+    console.log("decoded:::", decoded)
     if (err) {
       logger.error('Invalid or expired token', { executionTime: `${end - start}ms`, error: err.message });
 
@@ -52,7 +53,7 @@ const verifyAccessToken = (req, res, next) => {
     req.userId= decoded
     // req.username = decoded.username;
         req.username = decoded.userId;
-    console.log("decoded",  req.userId)
+    console.log("decoded/////",  req.userId)
 
 
     // logger.info('Token verified successfully', { executionTime: `${end - start}ms` });

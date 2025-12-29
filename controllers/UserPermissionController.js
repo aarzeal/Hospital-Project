@@ -6,7 +6,9 @@ const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
 const { userPermissionPOST, userPermissionGET, userPermissionMap } = require("../dtos/UserPermissionDTO");
 const { createUserPermissionDAO, getAllUserPermissionsDAO, getUserPermissionByIdDAO, updateUserPermissionByIdDAO, deleteUserPermissionByIdDAO, getUserPermissionDataAsPerQueryParamDAO, checkDuplicateUserPermissionDAO, getPermissionsByUserAndSubmoduleDAO, bulkCreateUserPermissionsDAO, getPermissionsByUserIdDAO, toggleUserPermissionStatusDAO } = require("../Dao/UserPermissionDAO");
-const { userPermissionBulkSchema, userPermission }=require("../validators/joi-validator")
+const { userPermissionBulkSchema, userPermission }=require("../validators/joi-validator");
+const { decodeAccessToken } = require("../util/decodeAccessToken");
+
 
 
 exports.createUserPermission = async (req, res) => {
@@ -15,6 +17,7 @@ exports.createUserPermission = async (req, res) => {
   const hospitalDatabase = req.hospitalDatabase;
   const locationData = await getLocationData(clientIp);
   const username = req.username;
+  const user= decodeAccessToken(req)
 
   try {
     const { userId, submoduleId, permissionId, hospitalIDR, hospitalGroupIDR } = req.body;
@@ -38,8 +41,8 @@ exports.createUserPermission = async (req, res) => {
     const data = userPermissionPOST({
       ...req.body,
       isActive: 1,
-      createdBy: username,
-      updatedBy: username,
+      createdBy: user?.userId,
+      updatedBy: null,
     });
 
     const created = await createUserPermissionDAO(req.sequelize, data);
@@ -53,7 +56,7 @@ exports.createUserPermission = async (req, res) => {
       ip: clientIp,
       method: req.method,
       userAgent: req.headers["user-agent"],
-      createdBy: username,
+      createdBy: user?.userId,
     });
 
     res.status(201).json({
@@ -86,6 +89,8 @@ exports.bulkCreateUserPermissions = async (req, res) => {
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
+
+  const user= decodeAccessToken(req);
 
   try {
     // ---------- STEP 0 : Validate Request Body ----------
@@ -168,8 +173,8 @@ exports.bulkCreateUserPermissions = async (req, res) => {
             isActive: sub.isActive,
             hospitalIDR: sub.hospitalIDR,
             hospitalGroupIDR: sub.hospitalGroupIDR,
-            createdBy: username,
-            updatedBy: username,
+            createdBy: user?.userId,
+            updatedBy: null,
           })
         );
       }
@@ -204,7 +209,7 @@ exports.bulkCreateUserPermissions = async (req, res) => {
       country: locationData?.country,
       ip: clientIp,
       count: results.length,
-      createdBy: username,
+      createdBy: user?.userId,
     });
 
     const responseData = results.map(userPermissionGET);
@@ -462,6 +467,8 @@ exports.updateUserPermissionById = async (req, res) => {
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
+  const user=decodeAccessToken(req)
+
   try {
     const { error } = userPermission.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
@@ -483,8 +490,8 @@ exports.updateUserPermissionById = async (req, res) => {
         apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
-        createdBy: req.username,
-        updatedBy: username,
+        createdBy: req.user?.userId,
+        updatedBy: user?.userId,
       });
       return res.status(400).json({
         errorCode,
@@ -510,8 +517,8 @@ exports.updateUserPermissionById = async (req, res) => {
           country: locationData?.country,
           method: req.method,
           userAgent: req.headers["user-agent"],
-          createdBy: req.username,
-          updatedBy: username,
+          createdBy: req.user?.userId,
+          updatedBy: user?.userId,
         }
       );
       return res.status(400).json({
@@ -523,7 +530,7 @@ exports.updateUserPermissionById = async (req, res) => {
 
     const RequestBody = {
       ...req.body,
-      updatedBy: username,
+      updatedBy: user?.userId,
     };
     const userpermissionData = userPermissionPOST(RequestBody);
 
@@ -556,8 +563,8 @@ exports.updateUserPermissionById = async (req, res) => {
           country: locationData?.country,
           method: req.method,
           userAgent: req.headers["user-agent"],
-          createdBy: req.username,
-          updatedBy: username,
+          createdBy: req.user?.userId,
+          updatedBy: user?.userId,
         }
       );
       return res.status(400).json({
@@ -597,6 +604,8 @@ exports.toggleUserPermissionStatus = async (req, res) => {
 
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
+  const user=decodeAccessToken(req)
+
 
   try {
     const { id } = req.params;
@@ -615,7 +624,9 @@ exports.toggleUserPermissionStatus = async (req, res) => {
       await toggleUserPermissionStatusDAO(
         req.sequelize,
         id,
-        is_active
+        is_active,
+        user?.userId // ✅ PASS USER ID
+
       );
 
     if (!updatedPermission) {
@@ -634,8 +645,8 @@ exports.toggleUserPermissionStatus = async (req, res) => {
           country: locationData?.country,
           method: req.method,
           userAgent: req.headers["user-agent"],
-          createdBy: req.username,
-          updatedBy: username,
+          createdBy: req.user?.userId,
+          updatedBy: user?.userId,
         }
       );
 

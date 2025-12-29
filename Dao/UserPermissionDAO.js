@@ -116,11 +116,14 @@ exports.getPermissionsByUserAndSubmoduleDAO = async (sequelize, userId, submodul
 // =====================================
 // EXTRA: TOGGLE ACTIVE STATUS
 // =====================================
-exports.toggleUserPermissionStatusDAO = async (sequelize, id, newStatus) => {
+exports.toggleUserPermissionStatusDAO = async (sequelize, id, newStatus,updatedBy ) => {
   const UserPermission = require("../models/UserPermissionModel")(sequelize);
 
   await UserPermission.update(
-    { is_active: newStatus },
+    { is_active: newStatus,
+      updated_by: updatedBy, // ✅ yahin set hoga
+
+    },
     { where: { user_permission_id: id } }
   );
 

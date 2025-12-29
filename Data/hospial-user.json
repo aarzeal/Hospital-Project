@@ -94,5 +94,41 @@
   "Submit": {
     "en": "Submit",
     "hi": "जमा करना"
+  },
+  "Email": {
+    "en": "Email",
+    "hi": "ईमेल"
+  },
+  "IsEmailVerified": {
+    "en": "Is Email Verified",
+    "hi": "क्या ईमेल सत्यापित है"
+  },
+  "Update": {
+    "en": "Update",
+    "hi": "अद्यतन"
+  },
+  "Details": {
+    "en": "Details",
+    "hi": "विवरण"
+  },
+  "SelectRole": {
+    "en": "Select Role",
+    "hi": "भूमिका चुनें"
+  },
+  "Role": {
+    "en": "Role",
+    "hi": "भूमिका"
+  },
+  "ProvideAccess": {
+    "en": "Provide Access",
+    "hi": "पहुंच प्रदान करें"
+  },
+  "UserAccessProvider": {
+    "en": "User Access Provider",
+    "hi": "उपयोगकर्ता पहुंच प्रदाता"
+  },
+  "Cancel": {
+    "en": "Cancel",
+    "hi": "रद्द करना"
   }
 }

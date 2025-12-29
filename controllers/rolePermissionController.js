@@ -1,3 +1,4 @@
+const { decodeAccessToken } = require("../util/decodeAccessToken");
 const logger = require("../logger");
 const HospitalGroup = require("../models/HospitalGroup");
 const Hospital = require("../models/HospitalModel");
@@ -6,6 +7,30 @@ const getClientIp = require("../util/clientip");
 const { rolepermission, rolepermissionBulk } = require("../validators/joi-validator");
 const { rolePermissionPOST, rolePermissionGET, rolePermissionMap } = require("../dtos/RolePermissionDTO");
 const { createRolePermissionDAO, getAllRolePermissionsDAO, getRolePermissionByIdDAO, updateRolePermissionByIdDAO, deleteRolePermissionByIdDAO, getRolePermissionDataAsPerQueryParamDAO, bulkCreateRolePermissionsDAO, deleteRolePermissionByRoleModuleDAO, getAllAccessByRoleIdDAO, getExistingRolePermissionsDAO, updateRolePermissionBySubmoduleDAO } = require("../Dao/RolePermissionDAO");
+// const jwt = require("jsonwebtoken");
+
+// exports.decodeAccessToken = (req) => {
+//   try {
+//     const authHeader = req.headers.accesstoken;
+
+//     if (!authHeader) {
+//       return null;
+//     }
+
+//     // Remove "Bearer " from token
+//     const token = authHeader.startsWith("Bearer ")
+//       ? authHeader.split(" ")[1]
+//       : authHeader;
+
+//     // Verify & decode
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+//     return decoded; // user details
+//   } catch (error) {
+//     console.error("JWT Decode Error:", error.message);
+//     return null;
+//   }
+// };
 
 exports.createRolePermissionsBulk = async (req, res) => {
   const start = Date.now();
@@ -13,6 +38,9 @@ exports.createRolePermissionsBulk = async (req, res) => {
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
+
+  const user = decodeAccessToken(req);
+
 
   try {
     const { error } = rolepermissionBulk.validate(req.body);
@@ -123,8 +151,10 @@ exports.createRolePermissionsBulk = async (req, res) => {
             isActive: sub.isActive,
             hospitalIDR: sub.hospitalIDR,
             hospitalGroupIDR: sub.hospitalGroupIDR,
-            createdBy: username,
-            updatedBy: username,
+            createdBy: user?.userId,
+            // updatedBy: user?.userId,
+            updatedBy: null,
+
           })
         );
       }
@@ -163,7 +193,7 @@ exports.createRolePermissionsBulk = async (req, res) => {
       country: locationData?.country,
       ip: clientIp,
       count: results.length,
-      createdBy: username,
+      createdBy: user?.userId,
     });
 
     const responseData = results.map((result) =>
@@ -201,144 +231,6 @@ exports.createRolePermissionsBulk = async (req, res) => {
 };
 
 
-// REPLACE Role Permissions (Delete old and create new)
-exports.replaceRolePermissions = async (req, res) => {
-  const start = Date.now();
-  const clientIp = await getClientIp(req);
-  const locationData = await getLocationData(clientIp);
-  const hospitalDatabase = req.hospitalDatabase;
-  const username = req.username;
-
-  try {
-    const { error } = rolepermissionBulk.validate(req.body);
-    if (error) return res.status(400).json({ error: error.details[0].message });
-
-    const transaction = await req.sequelize.transaction();
-    
-    try {
-      const allRolePermissions = [];
-      const deletedCounts = [];
-
-      // Process each role-module combination
-      for (const item of req.body) {
-        const { roleId, moduleId, submodules } = item;
-        const hospitalIDR = submodules[0]?.hospitalIDR;
-
-        if (!hospitalIDR) {
-          await transaction.rollback();
-          return res.status(400).json({
-            errorCode: 1260,
-            message: `HospitalIDR is required for role ${roleId}, module ${moduleId}`
-          });
-        }
-
-        // Validate hospital ID
-        const hospitalid = await Hospital.findOne({
-          where: { HospitalID: hospitalIDR },
-        });
-        
-        if (!hospitalid) {
-          await transaction.rollback();
-          return res.status(400).json({
-            errorCode: 1260,
-            message: `Invalid HospitalID ${hospitalIDR}, not found in MasterDB`
-          });
-        }
-
-        // Delete existing permissions for this role-module-hospital combination
-        const deleted = await deleteRolePermissionByRoleModuleDAO(
-          req.sequelize,
-          roleId,
-          moduleId,
-          hospitalIDR
-        );
-
-        deletedCounts.push({
-          roleId,
-          moduleId,
-          hospitalIDR,
-          deletedCount: deleted
-        });
-
-        // Create new permission entries for each submodule
-        for (const submodule of submodules) {
-          const permissionData = rolePermissionPOST({
-            roleId: roleId,
-            moduleId: moduleId,
-            submoduleId: submodule.submoduleId,
-            permissionId: submodule.permissionId,
-            isActive: submodule.isActive !== undefined ? submodule.isActive : true,
-            hospitalIDR: submodule.hospitalIDR,
-            hospitalGroupIDR: submodule.hospitalGroupIDR,
-            createdBy: username,
-            updatedBy: username
-          });
-
-          allRolePermissions.push(permissionData);
-        }
-      }
-
-      // Bulk create all new permissions
-      const results = await bulkCreateRolePermissionsDAO(
-        req.sequelize,
-        allRolePermissions
-      );
-
-      await transaction.commit();
-
-      const executionTime = `${Date.now() - start}ms`;
-
-      logger.logWithMeta("info", "Role Permissions replaced successfully", {
-        executionTime,
-        hospitalId: req.hospitalName,
-        apiName: req.originalUrl,
-        city: locationData?.city,
-        country: locationData?.country,
-        ip: clientIp,
-        deleted: deletedCounts,
-        createdCount: results.length,
-        createdBy: username,
-      });
-
-      // Convert results to GET DTO format
-      const responseData = results.map(result => rolePermissionGET(result));
-
-      res.status(200).json({
-        message: "Role Permissions replaced successfully",
-        meta: {
-          statusCode: 200,
-          executionTime,
-          hospitalDatabase,
-          deletedCounts,
-          createdCount: results.length
-        },
-        data: responseData
-      });
-
-    } catch (error) {
-      await transaction.rollback();
-      throw error;
-    }
-
-  } catch (error) {
-    const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 9251;
-
-    logger.logWithMeta("error", "Error replacing Role Permissions", {
-      errorCode,
-      executionTime,
-      hospitalDatabase,
-      apiName: req.originalUrl,
-      error: error.message,
-    });
-
-    res.status(500).json({
-      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
-      error: { message: "Error replacing Role Permissions: " + error.message },
-    });
-  }
-};
-
 // Original single create function (unchanged)
 exports.createRolePermission = async (req, res) => {
   const start = Date.now();
@@ -346,6 +238,9 @@ exports.createRolePermission = async (req, res) => {
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
+
+  const user = decodeAccessToken(req);
+
 
   try {
     const { error } = rolepermission.validate(req.body);
@@ -367,7 +262,7 @@ exports.createRolePermission = async (req, res) => {
         country: locationData?.country,
         method: req.method,
         userAgent: req.headers["user-agent"],
-        createdBy: username,
+        createdBy: user?.userId,
       });
       return res.status(400).json({
         errorCode,
@@ -393,7 +288,7 @@ exports.createRolePermission = async (req, res) => {
           country: locationData?.country,
           method: req.method,
           userAgent: req.headers["user-agent"],
-          createdBy: username,
+          createdBy: user?.userId,
         }
       );
       return res.status(400).json({
@@ -404,7 +299,7 @@ exports.createRolePermission = async (req, res) => {
 
     const RequestBody = {
       ...req.body,
-      createdBy: username,
+      createdBy: user?.userId,
     };
 
     const rolepermissionData = rolePermissionPOST(RequestBody);
@@ -425,7 +320,7 @@ exports.createRolePermission = async (req, res) => {
       apiName: req.originalUrl,
       method: req.method,
       userAgent: req.headers["user-agent"],
-      createdBy: username,
+      createdBy: user?.userId,
     });
 
     res.status(201).json({
@@ -697,6 +592,8 @@ exports.updateRolePermissionById = async (req, res) => {
   const locationData = await getLocationData(clientIp);
   const hospitalDatabase = req.hospitalDatabase;
   const username = req.username;
+  const user = decodeAccessToken(req);
+
   try {
     const { error } = rolepermission.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
@@ -718,8 +615,9 @@ exports.updateRolePermissionById = async (req, res) => {
         apiName: req.originalUrl,
         method: req.method,
         userAgent: req.headers["user-agent"],
-        createdBy: req.username,
-        updatedBy: username,
+        createdBy: req.user?.userId,
+        // updatedBy: username,
+        updatedBy: user?.userId,
       });
       return res.status(400).json({
         errorCode,
@@ -745,8 +643,10 @@ exports.updateRolePermissionById = async (req, res) => {
           country: locationData?.country,
           method: req.method,
           userAgent: req.headers["user-agent"],
-          createdBy: req.username,
-          updatedBy: username,
+          // createdBy: req.username,
+          createdBy: req.user?.userId,
+          // updatedBy: username,
+          updatedBy: user?.userId,
         }
       );
       return res.status(400).json({
@@ -758,7 +658,7 @@ exports.updateRolePermissionById = async (req, res) => {
 
     const RequestBody = {
       ...req.body,
-      updatedBy: username,
+      updatedBy: user?.userId,
     };
     const rolepermissionData = rolePermissionPOST(RequestBody);
 
@@ -791,8 +691,10 @@ exports.updateRolePermissionById = async (req, res) => {
           country: locationData?.country,
           method: req.method,
           userAgent: req.headers["user-agent"],
-          createdBy: req.username,
-          updatedBy: username,
+          // createdBy: req.username,
+          createdBy: req.user?.userId,
+          // updatedBy: username,
+          updatedBy: user?.userId,
         }
       );
       return res.status(400).json({
@@ -831,6 +733,8 @@ exports.updateRolePermissionBySubmodule = async (req, res) => {
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
   const locationData = await getLocationData(clientIp);
+  const user = decodeAccessToken(req);
+
 
   try {
     const { roleId } = req.params;
@@ -851,7 +755,8 @@ exports.updateRolePermissionBySubmodule = async (req, res) => {
       moduleId, 
       submoduleId, 
       permissionId, 
-      isActive
+      isActive,
+      user?.userId // ✅ ADD THIS
     );
 
     if (!result) {
@@ -865,8 +770,10 @@ exports.updateRolePermissionBySubmodule = async (req, res) => {
         country: locationData?.country,
         method: req.method,
         userAgent: req.headers["user-agent"],
-        createdBy: req.username,
-        updatedBy: req.username,
+        // createdBy: req.username,
+        createdBy: user?.userId,
+        // updatedBy: req.username,
+        updatedBy: user?.userId,
         data: { roleId, moduleId, submoduleId, permissionId }
       });
 
@@ -887,8 +794,10 @@ exports.updateRolePermissionBySubmodule = async (req, res) => {
       ip: clientIp,
       method: req.method,
       userAgent: req.headers["user-agent"],
-      createdBy: req.username,
-      updatedBy: req.username,
+      // createdBy: req.username,
+      createdBy: user?.userId,
+      // updatedBy: req.username,
+      updatedBy: user?.userId,
       data: { roleId, moduleId, submoduleId, permissionId, isActive }
     });
 
