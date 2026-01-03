@@ -247,7 +247,35 @@ exports.createSubmodules = async (req, res) => {
   try {
     const UserSubModules = require("../models/hospitalsubmodule")(req.sequelize);
 
-    await UserSubModules.sync({ alter: true }); 
+    // await UserSubModules.sync({ alter: true }); 
+    await UserSubModules.sync(); 
+
+    // new logic for submodule if already exist
+
+      const existingSubmodules = await UserSubModules.findAll({
+      where: {
+        modules_Id,
+        submodule_name: submodule_names,
+      },
+      attributes: ["submodule_name"],
+    });
+
+    if (existingSubmodules.length > 0) {
+      const duplicateNames = existingSubmodules.map(
+        (item) => item.submodule_name
+      );
+
+      return res.status(409).json({
+        meta: {
+          statusCode: 409,
+          errorCode: 1241,
+          executionTime: `${Date.now() - start}ms`,
+        },
+        error: {
+          message: `Submodule already exists: ${duplicateNames.join(", ")}`,
+        },
+      });
+    }
 
     // Prepare bulk insert data
     const submodulesData = submodule_names.map((name) => ({
@@ -839,8 +867,10 @@ exports.createModulesWithSubmodules = async (req, res) => {
 
     const Module = require("../models/HospitalModules")(sequelize);
     const Submodule = require("../models/hospitalsubmodule")(sequelize);
-    await Module.sync({ alter: true }); 
-    await Submodule.sync({ alter: true });
+    // await Module.sync({ alter: true }); 
+    await Module.sync(); 
+    // await Submodule.sync({ alter: true });
+    await Submodule.sync();
 
     const transaction = await sequelize.transaction();
 
