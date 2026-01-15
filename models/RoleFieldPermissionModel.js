@@ -2,26 +2,30 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
 
-  const SubmoduleFields = sequelize.define(
-    "SubmoduleFields",   
+  const RoleFieldPermission = sequelize.define(
+    "RoleFieldPermission",   
     {
-      field_id: {
+      role_field_permission_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
 
-        field_name: {
+       field_name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
 
-      field_type: {
-        type: DataTypes.STRING, // text, dropdown, checkbox, radio, multiselect, file, etc
+         role_id: {
+        type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+          model: "tbl_role",
+          key: "role_id",
+        },
       },
 
-      submodule_id: {
+        submodule_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -29,6 +33,26 @@ module.exports = (sequelize) => {
           key: "submodule_id",
         },
       },
+
+       // ✅ ENUM PERMISSION
+      permission: {
+        type: DataTypes.ENUM(
+          "create",
+          "read",
+          "update",
+          "delete",
+          "display",
+          "no_access",  // ✅ Added for blacklist approach
+          "disable",
+        ),
+        allowNull: false,
+      },
+
+        field_type: {
+        type: DataTypes.STRING, // text, dropdown, checkbox, radio, multiselect, file, etc
+        allowNull: false,
+      },
+
 
       is_active: {
         type: DataTypes.BOOLEAN,
@@ -58,18 +82,23 @@ module.exports = (sequelize) => {
     },
     {
 
-       tableName: "submodule_fields_table",
+       tableName: "role_fields_permission_table",
     timestamps: true,
     }
   );
 
-  SubmoduleFields.associate = (models) => {
+  RoleFieldPermission.associate = (models) => {
 
-    SubmoduleFields.belongsTo(models.UserSubModules, {
+    RoleFieldPermission.belongsTo(models.tbl_role, {
+      foreignKey: "role_id",
+      as: "role",
+    });
+
+    RoleFieldPermission.belongsTo(models.UserSubModules, {
       foreignKey: "submodule_id",
       as: "submodule",
     });
   };
 
-  return SubmoduleFields;
+  return RoleFieldPermission;
 };

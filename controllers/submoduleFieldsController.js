@@ -11,6 +11,203 @@ const { bulkCreateSubmoduleFieldsDAO, createSubmoduleFieldDAO, getAllSubmoduleFi
 
 
 
+// exports.bulkCreateSubmoduleFields = async (req, res) => {
+//   const start = Date.now();
+//   const clientIp = await getClientIp(req);
+//   const locationData = await getLocationData(clientIp);
+//   const hospitalDatabase = req.hospitalDatabase;
+
+//   const user = decodeAccessToken(req);
+
+//   try {
+//     // ---------- STEP 0 : Validate Request Body ----------
+//     const { error } = submoduleFieldsBulkSchema.validate(req.body);
+//     if (error) {
+//       return res.status(400).json({ error: error.details[0].message });
+//     }
+
+//     const allRequestedFields = [];
+//     const validationErrors = [];
+
+//     // ---------- STEP 1 : Validate Input ----------
+//     for (const item of req.body) {
+//       const { submoduleId, fields } = item;
+
+//       if (!fields || fields.length === 0) continue;
+
+//       const firstHospitalIDR = fields[0]?.hospitalIDR;
+//       if (!firstHospitalIDR) {
+//         validationErrors.push({
+//           submoduleId,
+//           error: "HospitalIDR is required",
+//         });
+//         continue;
+//       }
+
+//       const hospital = await Hospital.findOne({
+//         where: { HospitalID: firstHospitalIDR },
+//       });
+
+//       if (!hospital) {
+//         validationErrors.push({
+//           submoduleId,
+//           error: "Invalid HospitalID",
+//         });
+//         continue;
+//       }
+
+//       const firstHospitalGroupIDR = fields[0]?.hospitalGroupIDR;
+//       if (firstHospitalGroupIDR) {
+//         const group = await HospitalGroup.findOne({
+//           where: { HospitalGroupID: firstHospitalGroupIDR },
+//         });
+
+//         if (!group) {
+//           validationErrors.push({
+//             submoduleId,
+//             error: "Invalid HospitalGroupID",
+//           });
+//           continue;
+//         }
+//       }
+
+//       // Collect fields
+//       fields.forEach((field) => {
+//         allRequestedFields.push({
+//           fieldName: field.fieldName,
+//           fieldType: field.fieldType,
+//           submoduleId,
+//           isActive: field.isActive ?? true,
+//           hospitalIDR: field.hospitalIDR,
+//           hospitalGroupIDR: field.hospitalGroupIDR,
+//         });
+//       });
+//     }
+
+//     if (validationErrors.length > 0) {
+//       return res.status(400).json({
+//         message: "Validation errors found",
+//         errors: validationErrors,
+//       });
+//     }
+
+//     // ---------- STEP 2 : Find Existing Records ----------
+//     const SubmoduleFields = require("../models/submoduleFieldsModel")(req.sequelize);
+
+//     const existingFields = await SubmoduleFields.findAll({
+//       where: {
+//         [Op.or]: allRequestedFields.map((f) => ({
+//           submodule_id: f.submoduleId,
+//           field_name: f.fieldName,
+//         })),
+//       },
+//     });
+
+//     const existingSet = new Set(
+//       existingFields.map(
+//         (r) => `${r.submodule_id}_${r.field_name}`
+//       )
+//     );
+
+//     // ---------- STEP 3 : Prepare ONLY NEW records ----------
+//     const newSubmoduleFields = [];
+
+//     for (const field of allRequestedFields) {
+//       const key = `${field.submoduleId}_${field.fieldName}`;
+
+//       if (!existingSet.has(key)) {
+//         newSubmoduleFields.push(
+//           submoduleFieldsPOST({
+//             fieldName: field.fieldName,
+//             fieldType: field.fieldType,
+//             submoduleId: field.submoduleId,
+//             isActive: field.isActive,
+//             hospitalIDR: field.hospitalIDR,
+//             hospitalGroupIDR: field.hospitalGroupIDR,
+//             createdBy: user?.userId,
+//             updatedBy: null,
+//           })
+//         );
+//       }
+//     }
+
+//     // ---------- STEP 4 : If nothing new ----------
+//     if (newSubmoduleFields.length === 0) {
+//       const executionTime = `${Date.now() - start}ms`;
+
+//       return res.status(200).json({
+//         message: "No new submodule fields to add",
+//         meta: {
+//           statusCode: 200,
+//           executionTime,
+//           hospitalDatabase,
+//           totalReceived: allRequestedFields.length,
+//           totalInserted: 0,
+//         },
+//         data: [],
+//       });
+//     }
+
+//     // ---------- STEP 5 : Insert only NEW ----------
+//     const results = await bulkCreateSubmoduleFieldsDAO(
+//       req.sequelize,
+//       newSubmoduleFields
+//     );
+
+//     const executionTime = `${Date.now() - start}ms`;
+
+//     logger.logWithMeta("info", "Submodule Fields added (bulk)", {
+//       executionTime,
+//       hospitalId: req.hospitalName,
+//       apiName: req.originalUrl,
+//       city: locationData?.city,
+//       country: locationData?.country,
+//       ip: clientIp,
+//       count: results.length,
+//       createdBy: user?.userId,
+//     });
+
+//     const responseData = results.map((r) =>
+//       submoduleFieldsGET(r)
+//     );
+
+//     res.status(201).json({
+//       message: "Submodule Fields saved successfully",
+//       meta: {
+//         statusCode: 201,
+//         executionTime,
+//         hospitalDatabase,
+//         totalReceived: allRequestedFields.length,
+//         totalInserted: results.length,
+//       },
+//       data: responseData,
+//     });
+//   } catch (error) {
+//     const executionTime = `${Date.now() - start}ms`;
+//     const errorCode = 9262;
+
+//     logger.logWithMeta("error", "Error Creating Submodule Fields (bulk)", {
+//       errorCode,
+//       executionTime,
+//       hospitalDatabase,
+//       apiName: req.originalUrl,
+//       error: error.message,
+//     });
+
+//     res.status(500).json({
+//       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+//       error: {
+//         message: "Error Creating Submodule Fields: " + error.message,
+//       },
+//     });
+//   }
+// };
+
+
+
+
+
+// Original single create function (unchanged)
 exports.bulkCreateSubmoduleFields = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
@@ -30,57 +227,46 @@ exports.bulkCreateSubmoduleFields = async (req, res) => {
     const validationErrors = [];
 
     // ---------- STEP 1 : Validate Input ----------
-    for (const item of req.body) {
-      const { submoduleId, fields } = item;
+    const { submoduleId, fields } = req.body;
 
-      if (!fields || fields.length === 0) continue;
+    if (!fields || fields.length === 0) {
+      validationErrors.push({
+        submoduleId,
+        error: "Fields array is required",
+      });
+    }
 
-      const firstHospitalIDR = fields[0]?.hospitalIDR;
-      if (!firstHospitalIDR) {
-        validationErrors.push({
-          submoduleId,
-          error: "HospitalIDR is required",
-        });
-        continue;
-      }
+    const firstHospitalIDR = fields?.[0]?.hospitalIDR;
+    if (!firstHospitalIDR) {
+      validationErrors.push({
+        submoduleId,
+        error: "HospitalIDR is required",
+      });
+    }
 
-      const hospital = await Hospital.findOne({
-        where: { HospitalID: firstHospitalIDR },
+    const hospital = await Hospital.findOne({
+      where: { HospitalID: firstHospitalIDR },
+    });
+
+    if (!hospital) {
+      validationErrors.push({
+        submoduleId,
+        error: "Invalid HospitalID",
+      });
+    }
+
+    const firstHospitalGroupIDR = fields?.[0]?.hospitalGroupIDR;
+    if (firstHospitalGroupIDR) {
+      const group = await HospitalGroup.findOne({
+        where: { HospitalGroupID: firstHospitalGroupIDR },
       });
 
-      if (!hospital) {
+      if (!group) {
         validationErrors.push({
           submoduleId,
-          error: "Invalid HospitalID",
+          error: "Invalid HospitalGroupID",
         });
-        continue;
       }
-
-      const firstHospitalGroupIDR = fields[0]?.hospitalGroupIDR;
-      if (firstHospitalGroupIDR) {
-        const group = await HospitalGroup.findOne({
-          where: { HospitalGroupID: firstHospitalGroupIDR },
-        });
-
-        if (!group) {
-          validationErrors.push({
-            submoduleId,
-            error: "Invalid HospitalGroupID",
-          });
-          continue;
-        }
-      }
-
-      // Collect fields
-      fields.forEach((field) => {
-        allRequestedFields.push({
-          fieldName: field.fieldName,
-          submoduleId,
-          isActive: field.isActive ?? true,
-          hospitalIDR: field.hospitalIDR,
-          hospitalGroupIDR: field.hospitalGroupIDR,
-        });
-      });
     }
 
     if (validationErrors.length > 0) {
@@ -89,6 +275,18 @@ exports.bulkCreateSubmoduleFields = async (req, res) => {
         errors: validationErrors,
       });
     }
+
+    // Collect fields
+    fields.forEach((field) => {
+      allRequestedFields.push({
+        fieldName: field.fieldName,
+        fieldType: field.fieldType,
+        submoduleId,
+        isActive: field.isActive ?? true,
+        hospitalIDR: field.hospitalIDR,
+        hospitalGroupIDR: field.hospitalGroupIDR,
+      });
+    });
 
     // ---------- STEP 2 : Find Existing Records ----------
     const SubmoduleFields = require("../models/submoduleFieldsModel")(req.sequelize);
@@ -118,6 +316,7 @@ exports.bulkCreateSubmoduleFields = async (req, res) => {
         newSubmoduleFields.push(
           submoduleFieldsPOST({
             fieldName: field.fieldName,
+            fieldType: field.fieldType,
             submoduleId: field.submoduleId,
             isActive: field.isActive,
             hospitalIDR: field.hospitalIDR,
@@ -182,7 +381,7 @@ exports.bulkCreateSubmoduleFields = async (req, res) => {
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 9262;
+    const errorCode = 9262; // ❌ NOT CHANGED
 
     logger.logWithMeta("error", "Error Creating Submodule Fields (bulk)", {
       errorCode,
@@ -202,8 +401,6 @@ exports.bulkCreateSubmoduleFields = async (req, res) => {
 };
 
 
-
-// Original single create function (unchanged)
 exports.createSubmoduleField = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);

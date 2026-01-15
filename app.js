@@ -77,6 +77,7 @@ const roleRoutes=require("./routes/roleRoutes.js")
 const rolePermissionRoutes=require("./routes/rolePermissionRoutes.js")
 const userPermissionRoutes=require("./routes/UserPermissionRoutes.js");
 const submoduleFieldsRoutes=require("./routes/SubmoduleFieldsRoutes.js");
+const roleFieldsPermissionRoutes=require("./routes/RoleFieldsPermissionRoutes.js");
 
 
 const multer = require("multer");
@@ -190,6 +191,7 @@ app.use("/api/v1/role",roleRoutes);
 app.use("/api/v1/role-permission",rolePermissionRoutes);
 app.use("/api/v1/user-permission",userPermissionRoutes);
 app.use("/api/v1/submodule-fields",submoduleFieldsRoutes);
+app.use("/api/v1/role-fields-permission",roleFieldsPermissionRoutes);
 
 sendEmail();
 
