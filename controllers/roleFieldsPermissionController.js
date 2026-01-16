@@ -6,7 +6,7 @@ const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
 const { roleFieldPermission, roleFieldPermissionBulk } = require("../validators/joi-validator");
 const { roleFieldPermissionPOST, roleFieldPermissionGET, roleFieldPermissionMap } = require("../dtos/RoleFieldsPermissionDTO");
-const { createRoleFieldPermissionDAO, getAllRoleFieldPermissionsDAO, updateRoleFieldPermissionByIdDAO, deleteRoleFieldPermissionDAO, getRoleFieldPermissionDataAsPerQueryParamDAO, bulkCreateRoleFieldPermissionsDAO, getRoleFieldPermissionByRoleAndFieldDAO, getRoleFieldPermissionsByRoleIdDAO, checkFieldAccessForRoleDAO, getRestrictedFieldsForRoleDAO, getIdByRoleFieldPermissionDAO, getRoleFieldPermissionsBySubmoduleIdDAO, bulkUpdateRoleFieldPermissionDAO } = require("../Dao/RoleFieldsPermissionDAO");
+const { createRoleFieldPermissionDAO, getAllRoleFieldPermissionsDAO, updateRoleFieldPermissionByIdDAO, deleteRoleFieldPermissionDAO, getRoleFieldPermissionDataAsPerQueryParamDAO, bulkCreateRoleFieldPermissionsDAO, getRoleFieldPermissionByRoleAndFieldDAO, getRoleFieldPermissionsByRoleIdDAO, getIdByRoleFieldPermissionDAO, getRoleFieldPermissionsBySubmoduleIdDAO, bulkUpdateRoleFieldPermissionDAO, getAllAccessByRoleIdAndSubmoduleIdDAO, getRoleFieldPermissionByUniqueKeyDAO } = require("../Dao/RoleFieldsPermissionDAO");
 
 
 exports.createRoleFieldPermissionsBulk = async (req, res) => {
@@ -82,35 +82,59 @@ exports.createRoleFieldPermissionsBulk = async (req, res) => {
     const existingSet = new Set();
 
     for (const perm of allRequestedPermissions) {
-      const existing = await getRoleFieldPermissionByRoleAndFieldDAO(
+      const existing = await getRoleFieldPermissionByUniqueKeyDAO(
         req.sequelize,
         perm.roleId,
+        perm.submoduleId,
         perm.fieldName,
         perm.hospitalIDR
       );
 
       if (existing) {
-        existingSet.add(`${perm.roleId}_${perm.fieldName}_${perm.hospitalIDR}`);
+        existingSet.add(`${perm.roleId}_${perm.submoduleId}_${perm.fieldName}_${perm.hospitalIDR}`);
       }
     }
 
     // ---------- STEP 3 : Prepare ONLY NEW records ----------
+    // const newPermissions = allRequestedPermissions
+    //   .filter((perm) => !existingSet.has(`${perm.roleId}_${perm.fieldName}_${perm.hospitalIDR}`))
+    //   .map((perm) =>
+    //     roleFieldPermissionPOST({
+    //       roleId: perm.roleId,
+    //       submoduleId: perm.submoduleId,
+    //       fieldName: perm.fieldName,
+    //       fieldType: perm.fieldType,
+    //       permission: perm.permission,
+    //       isActive: perm.isActive,
+    //       hospitalIDR: perm.hospitalIDR,
+    //       hospitalGroupIDR: perm.hospitalGroupIDR,
+    //       createdBy: user?.userId,
+    //       updatedBy: null,
+    //     })
+    //   );
+
     const newPermissions = allRequestedPermissions
-      .filter((perm) => !existingSet.has(`${perm.roleId}_${perm.fieldName}_${perm.hospitalIDR}`))
-      .map((perm) =>
-        roleFieldPermissionPOST({
-          roleId: perm.roleId,
-          submoduleId: perm.submoduleId,
-          fieldName: perm.fieldName,
-          fieldType: perm.fieldType,
-          permission: perm.permission,
-          isActive: perm.isActive,
-          hospitalIDR: perm.hospitalIDR,
-          hospitalGroupIDR: perm.hospitalGroupIDR,
-          createdBy: user?.userId,
-          updatedBy: null,
-        })
-      );
+  .filter(
+    (perm) =>
+      !existingSet.has(
+        `${perm.roleId}_${perm.submoduleId}_${perm.fieldName}_${perm.hospitalIDR}`
+      )
+  )
+  .map((perm) =>
+    roleFieldPermissionPOST({
+      roleId: perm.roleId,
+      submoduleId: perm.submoduleId,
+      fieldName: perm.fieldName,
+      fieldType: perm.fieldType,
+      permission: perm.permission,
+      isActive: perm.isActive,
+      hospitalIDR: perm.hospitalIDR,
+      hospitalGroupIDR: perm.hospitalGroupIDR,
+      createdBy: user?.userId,
+      updatedBy: null,
+    })
+  );
+
 
     // ---------- STEP 4 : If nothing new, still SUCCESS ----------
     if (newPermissions.length === 0) {
@@ -681,6 +705,98 @@ exports.getRoleFieldPermissionsByFieldId = async (req, res) => {
     });
   }
 };
+
+exports.getAllRoleFieldAccessByRoleAndSubmodule = async (req, res) => {
+  const start = Date.now();
+  const clientIp = await getClientIp(req);
+  const hospitalDatabase = req.hospitalDatabase;
+  const locationData = await getLocationData(clientIp);
+
+  try {
+    const { roleId, submoduleId } = req.params;
+
+    const result =
+      await getAllAccessByRoleIdAndSubmoduleIdDAO(
+        req.sequelize,
+        roleId,
+        submoduleId
+      );
+
+    console.log("Role Field Access Result:", result);
+
+    if (!result || !result.fields || result.fields.length === 0) {
+      const executionTime = `${Date.now() - start}ms`;
+      const errorCode = 1264;
+
+      logger.logWithMeta(
+        "error",
+        "No Field Access found for Role & Submodule",
+        {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalName,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: req.username,
+          updatedBy: req.username,
+        }
+      );
+
+      return res.status(404).json({
+        errorCode: 1265,
+        message:
+          "No field access found for this Role & Submodule in Database",
+        hospitalDatabase,
+      });
+    }
+
+    const executionTime = `${Date.now() - start}ms`;
+
+    logger.logWithMeta("info", "Fetched Role Field Access successfully", {
+      executionTime,
+      hospitalId: req.hospitalName,
+      apiName: req.originalUrl,
+      city: locationData?.city,
+      country: locationData?.country,
+      ip: clientIp,
+      method: req.method,
+      userAgent: req.headers["user-agent"],
+      createdBy: req.username,
+      updatedBy: req.username,
+    });
+
+    return res.status(200).json({
+      meta: {
+        statusCode: 200,
+        executionTime,
+        hospitalDatabase,
+      },
+      data: result,
+    });
+  } catch (error) {
+    const executionTime = `${Date.now() - start}ms`;
+    const errorCode = 9250;
+
+    logger.logWithMeta("error", "Error Fetching Role Field Access", {
+      errorCode,
+      executionTime,
+      hospitalDatabase,
+      apiName: req.originalUrl,
+      error: error.message,
+    });
+
+    return res.status(500).json({
+      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      error: {
+        message: "Error Fetching Role Field Access: " + error.message,
+      },
+    });
+  }
+};
+
 
 
 exports.updateRoleFieldPermissionById = async (req, res) => {
@@ -1264,217 +1380,3 @@ exports.getRoleFieldPermissionByQueryParams = async (req, res) => {
   }
 };
 
-
-/**
- * CHECK FIELD ACCESS FOR ROLE (Blacklist Approach)
- * Returns true if user has access, false if no access
- */
-exports.checkFieldAccessForRole = async (req, res) => {
-  const start = Date.now();
-  const clientIp = await getClientIp(req);
-  const hospitalDatabase = req.hospitalDatabase;
-  const locationData = await getLocationData(clientIp);
-
-  try {
-    const { roleId, fieldId } = req.params;
-    const hospitalIDR = req.hospitalIDR;
-
-    if (!roleId || !fieldId) {
-      const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 1400;
-
-      logger.logWithMeta("error", "Role ID and Field ID are required", {
-        errorCode,
-        executionTime,
-        hospitalId: req.hospitalName,
-        apiName: req.originalUrl,
-        city: locationData?.city,
-        country: locationData?.country,
-        ip: clientIp,
-        method: req.method,
-        userAgent: req.headers["user-agent"],
-        createdBy: req.username,
-        updatedBy: req.username,
-      });
-
-      return res.status(400).json({
-        meta: {
-          statusCode: 400,
-          errorCode,
-          executionTime,
-          hospitalDatabase,
-        },
-        message: "Role ID and Field ID are required",
-      });
-    }
-
-    // Import the DAO function
-
-    const hasAccess = await checkFieldAccessForRoleDAO(
-      req.sequelize,
-      roleId,
-      fieldId,
-      hospitalIDR
-    );
-
-    const executionTime = `${Date.now() - start}ms`;
-
-    logger.logWithMeta("info", "Field access checked successfully", {
-      executionTime,
-      hospitalId: req.hospitalName,
-      apiName: req.originalUrl,
-      city: locationData?.city,
-      country: locationData?.country,
-      ip: clientIp,
-      method: req.method,
-      userAgent: req.headers["user-agent"],
-      createdBy: req.username,
-      updatedBy: req.username,
-      roleId,
-      fieldId,
-      hasAccess,
-    });
-
-    res.status(200).json({
-      meta: {
-        statusCode: 200,
-        executionTime,
-        hospitalDatabase,
-      },
-      data: {
-        roleId,
-        fieldId,
-        hasAccess,
-      },
-    });
-  } catch (error) {
-    const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 9485;
-
-    logger.logWithMeta("error", "Error checking field access", {
-      errorCode,
-      executionTime,
-      hospitalDatabase,
-      apiName: req.originalUrl,
-      error: error.message,
-    });
-
-    res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode,
-        executionTime,
-        hospitalDatabase,
-      },
-      error: {
-        message: "Error checking field access: " + error.message,
-      },
-    });
-  }
-};
-
-
-/**
- * GET RESTRICTED FIELDS FOR A ROLE (Fields with "no_access" permission)
- */
-exports.getRestrictedFieldsForRole = async (req, res) => {
-  const start = Date.now();
-  const clientIp = await getClientIp(req);
-  const hospitalDatabase = req.hospitalDatabase;
-  const locationData = await getLocationData(clientIp);
-
-  try {
-    const { roleId } = req.params;
-    const hospitalIDR = req.hospitalIDR;
-
-    if (!roleId) {
-      const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 1400;
-
-      logger.logWithMeta("error", "Role ID is required", {
-        errorCode,
-        executionTime,
-        hospitalId: req.hospitalName,
-        apiName: req.originalUrl,
-        city: locationData?.city,
-        country: locationData?.country,
-        ip: clientIp,
-        method: req.method,
-        userAgent: req.headers["user-agent"],
-        createdBy: req.username,
-        updatedBy: req.username,
-      });
-
-      return res.status(400).json({
-        meta: {
-          statusCode: 400,
-          errorCode,
-          executionTime,
-          hospitalDatabase,
-        },
-        message: "Role ID is required",
-      });
-    }
-
-    // Import the DAO function
-
-    const restrictedFields = await getRestrictedFieldsForRoleDAO(
-      req.sequelize,
-      roleId,
-      hospitalIDR
-    );
-
-    const executionTime = `${Date.now() - start}ms`;
-
-    logger.logWithMeta("info", "Restricted fields fetched successfully", {
-      executionTime,
-      hospitalId: req.hospitalName,
-      apiName: req.originalUrl,
-      city: locationData?.city,
-      country: locationData?.country,
-      ip: clientIp,
-      method: req.method,
-      userAgent: req.headers["user-agent"],
-      createdBy: req.username,
-      updatedBy: req.username,
-      roleId,
-      count: restrictedFields.length,
-    });
-
-    res.status(200).json({
-      meta: {
-        statusCode: 200,
-        executionTime,
-        hospitalDatabase,
-      },
-      data: {
-        roleId,
-        restrictedFields: restrictedFields.map(roleFieldPermissionGET),
-        count: restrictedFields.length,
-      },
-    });
-  } catch (error) {
-    const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 9486;
-
-    logger.logWithMeta("error", "Error fetching restricted fields", {
-      errorCode,
-      executionTime,
-      hospitalDatabase,
-      apiName: req.originalUrl,
-      error: error.message,
-    });
-
-    res.status(500).json({
-      meta: {
-        statusCode: 500,
-        errorCode,
-        executionTime,
-        hospitalDatabase,
-      },
-      error: {
-        message: "Error fetching restricted fields: " + error.message,
-      },
-    });
-  }
-};

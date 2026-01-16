@@ -1,166 +1,3 @@
-// const { Op } = require("sequelize");
-
-// /**
-//  * CREATE SINGLE ROLE FIELD PERMISSION
-//  */
-// exports.createRoleFieldPermissionDAO = async (sequelize, data) => {
-//   const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(sequelize);
-//   await RoleFieldPermission.sync();
-
-//   return await RoleFieldPermission.create(data);
-// };
-
-// /**
-//  * BULK CREATE ROLE FIELD PERMISSIONS
-//  * (UI / Excel import)
-//  */
-// exports.bulkCreateRoleFieldPermissionsDAO = async (sequelize, dataArray) => {
-//   const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(sequelize);
-//   await RoleFieldPermission.sync();
-
-//   return await RoleFieldPermission.bulkCreate(dataArray, {
-//     returning: true,
-//   });
-// };
-
-// /**
-//  * GET ROLE FIELD PERMISSIONS BY ROLE ID
-//  */
-// exports.getRoleFieldPermissionsByRoleIdDAO = async (
-//   sequelize,
-//   roleId,
-//   hospitalIDR
-// ) => {
-//   const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(sequelize);
-
-//   const whereClause = {
-//     role_id: roleId,
-//     is_active: true,
-//   };
-
-//   if (hospitalIDR !== undefined && hospitalIDR !== null) {
-//     whereClause.hospital_IDR = hospitalIDR;
-//   }
-
-//   return await RoleFieldPermission.findAll({
-//     where: whereClause,
-//     order: [["role_field_permission_id", "ASC"]],
-//   });
-// };
-
-// /**
-//  * GET ROLE FIELD PERMISSION BY ROLE + FIELD
-//  */
-// exports.getRoleFieldPermissionByRoleAndFieldDAO = async (
-//   sequelize,
-//   roleId,
-//   fieldId,
-//   hospitalIDR
-// ) => {
-//   const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(sequelize);
-
-//   const whereClause = {
-//     role_id: roleId,
-//     field_id: fieldId,
-//     is_active: true,
-//   };
-
-//   if (hospitalIDR !== undefined && hospitalIDR !== null) {
-//     whereClause.hospital_IDR = hospitalIDR;
-//   }
-
-//   return await RoleFieldPermission.findOne({ where: whereClause });
-// };
-
-// /**
-//  * GET ALL ROLE FIELD PERMISSIONS
-//  * (Admin / config screen)
-//  */
-// exports.getAllRoleFieldPermissionsDAO = async (sequelize, hospitalIDR) => {
-//   const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(sequelize);
-
-//   const whereClause = {};
-
-//   if (hospitalIDR !== undefined && hospitalIDR !== null) {
-//     whereClause.hospital_IDR = hospitalIDR;
-//   }
-
-//   return await RoleFieldPermission.findAll({
-//     where: whereClause,
-//     order: [["role_field_permission_id", "ASC"]],
-//   });
-// };
-
-// /**
-//  * UPDATE ROLE FIELD PERMISSION
-//  * (permission / is_active etc.)
-//  */
-// exports.updateRoleFieldPermissionByIdDAO = async (
-//   sequelize,
-//   roleFieldPermissionId,
-//   updateData
-// ) => {
-//   const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(sequelize);
-
-//   await RoleFieldPermission.update(updateData, {
-//     where: { role_field_permission_id: roleFieldPermissionId },
-//   });
-
-//   return await RoleFieldPermission.findByPk(roleFieldPermissionId);
-// };
-
-// /**
-//  * BULK UPDATE ROLE FIELD PERMISSIONS BY ROLE ID
-//  */
-// exports.bulkUpdateRoleFieldPermissionsByRoleIdDAO = async (
-//   sequelize,
-//   roleId,
-//   hospitalIDR,
-//   updatePayload
-// ) => {
-//   const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(sequelize);
-
-//   return await RoleFieldPermission.update(updatePayload, {
-//     where: {
-//       role_id: roleId,
-//       hospital_IDR: hospitalIDR,
-//     },
-//   });
-// };
-
-// /**
-//  * DELETE ROLE FIELD PERMISSION (HARD DELETE)
-//  */
-// exports.deleteRoleFieldPermissionDAO = async (
-//   sequelize,
-//   roleFieldPermissionId
-// ) => {
-//   const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(sequelize);
-
-//   const record = await RoleFieldPermission.findByPk(roleFieldPermissionId);
-//   if (!record) return null;
-
-//   await record.destroy();
-//   return record;
-// };
-
-// /**
-//  * GET DATA BY QUERY PARAMS (pagination, filters)
-//  */
-// exports.getRoleFieldPermissionDataAsPerQueryParamDAO = async (
-//   sequelize,
-//   options
-// ) => {
-//   const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(sequelize);
-
-//   return await RoleFieldPermission.findAndCountAll({
-//     attributes: options.attributes,
-//     offset: options.offset,
-//     limit: options.limit,
-//     raw: true,
-//   });
-// };
-
 const { Op } = require("sequelize");
 
 /**
@@ -256,29 +93,68 @@ exports.getIdByRoleFieldPermissionDAO = async (
     },
   });
 };
-/**
- * GET ROLE FIELD PERMISSION BY ROLE + FIELD
- */
-exports.getRoleFieldPermissionByRoleAndFieldDAO = async (
+
+exports.getRoleFieldPermissionByUniqueKeyDAO = async (
   sequelize,
   roleId,
+  submoduleId,
+  fieldName,
   hospitalIDR
 ) => {
-  const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(
-    sequelize
-  );
-  await RoleFieldPermission.sync();
+  const RoleFieldPermission =
+    require("../models/RoleFieldPermissionModel")(sequelize);
 
-  const whereClause = {
+  return await RoleFieldPermission.findOne({
+    where: {
+      role_id: roleId,
+      submodule_id: submoduleId,
+      field_name: fieldName,
+      hospital_IDR: hospitalIDR,
+      is_active: true,
+    },
+  });
+};
+
+
+
+exports.getAllAccessByRoleIdAndSubmoduleIdDAO = async (
+  sequelize,
+  roleId,
+  submoduleId
+) => {
+  const RoleFieldPermission =
+    require("../models/RoleFieldPermissionModel")(sequelize);
+
+  const data = await RoleFieldPermission.findAll({
+    where: {
+      role_id: roleId,
+      submodule_id: submoduleId,
+    },
+    raw: true,
+  });
+
+  // ✅ Grouping data field-wise (clean & frontend-ready)
+  const grouped = {
     role_id: roleId,
-    is_active: true,
+    submodule_id: submoduleId,
+    fields: [],
   };
 
-  if (hospitalIDR !== undefined && hospitalIDR !== null) {
-    whereClause.hospital_IDR = hospitalIDR;
-  }
+  data.forEach((item) => {
+    grouped.fields.push({
+      roleFieldPermissionId: item.role_field_permission_id,
+      fieldName: item.field_name,
+      fieldType: item.field_type,
+      permission: item.permission,
+      isActive: item.is_active,
+      hospitalIDR: item.hospital_IDR,
+      hospitalGroupIDR: item.hospital_group_IDR,
+      createdBy: item.created_by,
+      updatedBy: item.updated_by,
+    });
+  });
 
-  return await RoleFieldPermission.findOne({ where: whereClause });
+  return grouped;
 };
 
 /**
@@ -414,99 +290,4 @@ exports.getRoleFieldPermissionDataAsPerQueryParamDAO = async (
   });
 };
 
-/**
- * CHECK IF USER HAS ACCESS TO A FIELD (Blacklist Approach)
- * Returns true if user has access, false if no access
- */
-// exports.checkFieldAccessForRoleDAO = async (
-//   sequelize,
-//   roleId,
-//   fieldId,
-//   hospitalIDR
-// ) => {
-//   const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(sequelize);
 
-//   const whereClause = {
-//     role_id: roleId,
-//     field_id: fieldId,
-//     is_active: true,
-//   };
-
-//   if (hospitalIDR !== undefined && hospitalIDR !== null) {
-//     whereClause.hospital_IDR = hospitalIDR;
-//   }
-
-//   const permissionRecord = await RoleFieldPermission.findOne({
-//     where: whereClause
-//   });
-
-//   // Blacklist logic:
-//   // If no record exists → Default full access
-//   if (!permissionRecord) {
-//     return true;
-//   }
-
-//   // If record exists and permission is "no_access" → No access
-//   // If record exists and permission is any other value (read, write, etc.) → Has access
-//   return permissionRecord.permission !== "no_access";
-// };
-
-exports.checkFieldAccessForRoleDAO = async (
-  sequelize,
-  roleId,
-  fieldId,
-  hospitalIDR
-) => {
-  const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(
-    sequelize
-  );
-
-  const whereClause = {
-    role_id: roleId,
-    field_id: fieldId,
-    is_active: true,
-  };
-
-  if (hospitalIDR !== undefined && hospitalIDR !== null) {
-    whereClause.hospital_IDR = hospitalIDR;
-  }
-
-  const permissionRecord = await RoleFieldPermission.findOne({
-    where: whereClause,
-  });
-
-  // ✅ Whitelist logic
-  if (!permissionRecord) {
-    return false;
-  }
-
-  return permissionRecord.permission !== "no_access";
-};
-
-/**
- * GET RESTRICTED FIELDS FOR A ROLE (Fields with "no_access" permission)
- */
-exports.getRestrictedFieldsForRoleDAO = async (
-  sequelize,
-  roleId,
-  hospitalIDR
-) => {
-  const RoleFieldPermission = require("../models/RoleFieldPermissionModel")(
-    sequelize
-  );
-
-  const whereClause = {
-    role_id: roleId,
-    permission: "no_access",
-    is_active: true,
-  };
-
-  if (hospitalIDR !== undefined && hospitalIDR !== null) {
-    whereClause.hospital_IDR = hospitalIDR;
-  }
-
-  return await RoleFieldPermission.findAll({
-    where: whereClause,
-    order: [["role_field_permission_id", "ASC"]],
-  });
-};

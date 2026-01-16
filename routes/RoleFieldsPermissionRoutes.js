@@ -17,7 +17,8 @@ const {
   getRestrictedFieldsForRole,
   getRoleFieldPermissionsByFieldId,
   getRoleFieldPermissionsBySubModuleId,
-  bulkUpdateRoleFieldPermission
+  bulkUpdateRoleFieldPermission,
+  getAllRoleFieldAccessByRoleAndSubmodule
 } = require("../controllers/roleFieldsPermissionController");
 
 // Existing single create route
@@ -71,6 +72,15 @@ router.get(
   getRoleFieldPermissionsByFieldId
 );
 
+router.get(
+  "/role-fields-permission-by-role-and-submodule/:roleId/:submoduleId",
+  authenticate,
+  ensureSequelizeInstance,
+  Userverification,
+  getAllRoleFieldAccessByRoleAndSubmodule
+);
+
+
 
 router.put(
   "/update-role-fields-permission/:id",
@@ -110,22 +120,5 @@ router.get(
   getRoleFieldPermissionByQueryParams
 );
 
-// New: Check field access for role (Blacklist approach)
-router.get(
-  "/check-field-access/:roleId/:fieldId",
-  authenticate,
-  ensureSequelizeInstance,
-  Userverification,
-  checkFieldAccessForRole
-);
-
-// New: Get restricted fields for role (fields with "no_access" permission)
-router.get(
-  "/restricted-fields/:roleId",
-  authenticate,
-  ensureSequelizeInstance,
-  Userverification,
-  getRestrictedFieldsForRole
-);
 
 module.exports = router;
