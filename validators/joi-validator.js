@@ -1044,5 +1044,148 @@ exports.roleFieldPermissionBulk = Joi.object({
 });
 
 
+exports.userFieldPermission = Joi.object({
+
+  submoduleId: Joi.number().required().messages({
+    "number.base": "Submodule ID must be a number",
+    "any.required": "Submodule ID is required",
+  }),
+
+  userId: Joi.number().required().messages({
+    "number.base": "User ID must be a number",
+    "number.empty": "User ID is required",
+    "any.required": "User ID is required",
+  }),
+
+  fieldName: Joi.string().max(200).required().messages({
+    "string.empty": "Field Name is required",
+    "any.required": "Field Name is required",
+  }),
+
+  fieldType: Joi.string().required().messages({
+    "string.empty": "Field Type is required",
+    "any.required": "Field Type is required",
+  }),
+
+  permission: Joi.string()
+    .valid(
+      "create",
+      "read",
+      "update",
+      "delete",
+      "display",
+      "disable",
+      "no_access"
+    )
+    .required()
+    .messages({
+      "string.base": "Permission must be a string",
+      "string.empty": "Permission is required",
+      "any.required": "Permission is required",
+      "any.only":
+        "Permission must be one of: create, read, update, delete, disable, display, no_access",
+    }),
+
+  isActive: Joi.boolean().required().messages({
+    "boolean.base": "Is Active must be a boolean",
+    "any.required": "Is Active is required",
+  }),
+
+  hospitalIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital ID must be an integer",
+    "number.integer": "Hospital ID must be an integer",
+    "number.empty": "Hospital ID is required",
+    "any.required": "Hospital ID is required",
+  }),
+
+  hospitalGroupIDR: Joi.number().integer().required().messages({
+    "number.base": "Hospital Group ID must be an integer",
+    "number.integer": "Hospital Group ID must be an integer",
+    "number.empty": "Hospital Group ID is required",
+    "any.required": "Hospital Group ID is required",
+  }),
+
+  createdBy: Joi.string().optional().messages({
+    "string.base": "Created by must be a string",
+  }),
+
+  updatedBy: Joi.string().optional().messages({
+    "string.base": "Updated by must be a string",
+  }),
+});
+
+
+exports.userFieldPermissionBulk = Joi.object({
+  userId: Joi.number().required().messages({
+    "number.base": "User ID must be a number",
+    "any.required": "User ID is required",
+  }),
+
+  submoduleId: Joi.number().required().messages({
+    "number.base": "Submodule ID must be a number",
+    "any.required": "Submodule ID is required",
+  }),
+
+  fields: Joi.array()
+    .items(
+      Joi.object({
+        fieldName: Joi.string().max(200).required().messages({
+          "string.empty": "Field Name is required",
+          "any.required": "Field Name is required",
+        }),
+
+        fieldType: Joi.string().required().messages({
+          "string.empty": "Field Type is required",
+          "any.required": "Field Type is required",
+        }),
+
+        permission: Joi.string()
+          .valid(
+            "create",
+            "read",
+            "update",
+            "delete",
+            "display",
+            "no_access",
+            "disable"
+          )
+          .required()
+          .messages({
+            "string.base": "Permission must be a string",
+            "any.required": "Permission is required",
+            "any.only":
+              "Permission must be one of: create, read, update, delete, display, no_access, disable",
+          }),
+
+        isActive: Joi.boolean().required().messages({
+          "boolean.base": "Is Active must be a boolean",
+          "any.required": "Is Active is required",
+        }),
+
+        hospitalIDR: Joi.number().integer().required().messages({
+          "number.base": "Hospital ID must be a number",
+          "any.required": "Hospital ID is required",
+        }),
+
+        hospitalGroupIDR: Joi.number().integer().required().messages({
+          "number.base": "Hospital Group ID must be a number",
+          "any.required": "Hospital Group ID is required",
+        }),
+
+        createdBy: Joi.string().optional(),
+        updatedBy: Joi.string().optional(),
+      })
+    )
+    .min(1)
+    .required()
+    .messages({
+      "array.min": "At least one field is required",
+      "any.required": "Fields array is required",
+    }),
+})
+  .required()
+  .messages({
+    "any.required": "User Field Permission object is required",
+  });
 
 

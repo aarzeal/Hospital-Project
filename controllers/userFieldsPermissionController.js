@@ -4,32 +4,11 @@ const HospitalGroup = require("../models/HospitalGroup");
 const Hospital = require("../models/HospitalModel");
 const getLocationData = require("../util/locationHelper");
 const getClientIp = require("../util/clientip");
-const {
-  roleFieldPermission,
-  roleFieldPermissionBulk,
-} = require("../validators/joi-validator");
-const {
-  roleFieldPermissionPOST,
-  roleFieldPermissionGET,
-  roleFieldPermissionMap,
-} = require("../dtos/RoleFieldsPermissionDTO");
-const {
-  createRoleFieldPermissionDAO,
-  getAllRoleFieldPermissionsDAO,
-  updateRoleFieldPermissionByIdDAO,
-  deleteRoleFieldPermissionDAO,
-  getRoleFieldPermissionDataAsPerQueryParamDAO,
-  bulkCreateRoleFieldPermissionsDAO,
-  getRoleFieldPermissionByRoleAndFieldDAO,
-  getRoleFieldPermissionsByRoleIdDAO,
-  getIdByRoleFieldPermissionDAO,
-  getRoleFieldPermissionsBySubmoduleIdDAO,
-  bulkUpdateRoleFieldPermissionDAO,
-  getAllAccessByRoleIdAndSubmoduleIdDAO,
-  getRoleFieldPermissionByUniqueKeyDAO,
-} = require("../Dao/RoleFieldsPermissionDAO");
+const {  userFieldPermissionBulk, userFieldPermission } = require("../validators/joi-validator");
+const { userFieldPermissionGET, userFieldPermissionPOST, userFieldPermissionMap } = require("../dtos/UserFieldsPermissionDTO");
+const { getUserFieldPermissionByUniqueKeyDAO, bulkCreateUserFieldPermissionsDAO, createUserFieldPermissionDAO, getAllUserFieldPermissionsDAO, getUserFieldPermissionsByUserIdDAO, getUserFieldPermissionsBySubmoduleIdDAO, getIdByUserFieldPermissionDAO, getAllAccessByUserIdAndSubmoduleIdDAO, updateUserFieldPermissionByIdDAO, bulkUpdateUserFieldPermissionDAO, deleteUserFieldPermissionDAO, getUserFieldPermissionDataAsPerQueryParamDAO } = require("../Dao/UserFieldsPermissionDAO");
 
-exports.createRoleFieldPermissionsBulk = async (req, res) => {
+exports.createUserFieldPermissionsBulk = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
@@ -37,12 +16,12 @@ exports.createRoleFieldPermissionsBulk = async (req, res) => {
   const user = decodeAccessToken(req);
 
   try {
-    // Wrap single object into an array for uniform processing
+    // Wrap single object into array
     const requestBody = Array.isArray(req.body) ? req.body : [req.body];
 
     // ---------- STEP 1 : Validate Input ----------
     for (const item of requestBody) {
-      const { error } = roleFieldPermissionBulk.validate(item);
+      const { error } = userFieldPermissionBulk.validate(item);
       if (error) {
         return res.status(400).json({ error: error.details[0].message });
       }
@@ -52,21 +31,22 @@ exports.createRoleFieldPermissionsBulk = async (req, res) => {
     const validationErrors = [];
 
     for (const item of requestBody) {
-      const { roleId, submoduleId, fields } = item;
+      const { userId, submoduleId, fields } = item;
 
       if (!fields || fields.length === 0) continue;
 
       const firstHospitalIDR = fields[0]?.hospitalIDR;
       if (!firstHospitalIDR) {
-        validationErrors.push({ roleId, error: "HospitalIDR is required" });
+        validationErrors.push({ userId, error: "HospitalIDR is required" });
         continue;
       }
 
       const hospital = await Hospital.findOne({
         where: { HospitalID: firstHospitalIDR },
       });
+
       if (!hospital) {
-        validationErrors.push({ roleId, error: "Invalid HospitalID" });
+        validationErrors.push({ userId, error: "Invalid HospitalID" });
         continue;
       }
 
@@ -75,15 +55,19 @@ exports.createRoleFieldPermissionsBulk = async (req, res) => {
         const group = await HospitalGroup.findOne({
           where: { HospitalGroupID: firstHospitalGroupIDR },
         });
+
         if (!group) {
-          validationErrors.push({ roleId, error: "Invalid HospitalGroupID" });
+          validationErrors.push({
+            userId,
+            error: "Invalid HospitalGroupID",
+          });
           continue;
         }
       }
 
       fields.forEach((field) => {
         allRequestedPermissions.push({
-          roleId,
+          userId,
           submoduleId,
           fieldName: field.fieldName,
           fieldType: field.fieldType,
@@ -106,49 +90,32 @@ exports.createRoleFieldPermissionsBulk = async (req, res) => {
     const existingSet = new Set();
 
     for (const perm of allRequestedPermissions) {
-      const existing = await getRoleFieldPermissionByUniqueKeyDAO(
+      const existing = await getUserFieldPermissionByUniqueKeyDAO(
         req.sequelize,
-        perm.roleId,
+        perm.userId,
         perm.submoduleId,
         perm.fieldName,
-        perm.hospitalIDR,
+        perm.hospitalIDR
       );
 
       if (existing) {
         existingSet.add(
-          `${perm.roleId}_${perm.submoduleId}_${perm.fieldName}_${perm.hospitalIDR}`,
+          `${perm.userId}_${perm.submoduleId}_${perm.fieldName}_${perm.hospitalIDR}`
         );
       }
     }
 
     // ---------- STEP 3 : Prepare ONLY NEW records ----------
-    // const newPermissions = allRequestedPermissions
-    //   .filter((perm) => !existingSet.has(`${perm.roleId}_${perm.fieldName}_${perm.hospitalIDR}`))
-    //   .map((perm) =>
-    //     roleFieldPermissionPOST({
-    //       roleId: perm.roleId,
-    //       submoduleId: perm.submoduleId,
-    //       fieldName: perm.fieldName,
-    //       fieldType: perm.fieldType,
-    //       permission: perm.permission,
-    //       isActive: perm.isActive,
-    //       hospitalIDR: perm.hospitalIDR,
-    //       hospitalGroupIDR: perm.hospitalGroupIDR,
-    //       createdBy: user?.userId,
-    //       updatedBy: null,
-    //     })
-    //   );
-
     const newPermissions = allRequestedPermissions
       .filter(
         (perm) =>
           !existingSet.has(
-            `${perm.roleId}_${perm.submoduleId}_${perm.fieldName}_${perm.hospitalIDR}`,
-          ),
+            `${perm.userId}_${perm.submoduleId}_${perm.fieldName}_${perm.hospitalIDR}`
+          )
       )
       .map((perm) =>
-        roleFieldPermissionPOST({
-          roleId: perm.roleId,
+        userFieldPermissionPOST({
+          userId: perm.userId,
           submoduleId: perm.submoduleId,
           fieldName: perm.fieldName,
           fieldType: perm.fieldType,
@@ -158,13 +125,13 @@ exports.createRoleFieldPermissionsBulk = async (req, res) => {
           hospitalGroupIDR: perm.hospitalGroupIDR,
           createdBy: user?.userId,
           updatedBy: null,
-        }),
+        })
       );
 
-    // ---------- STEP 4 : If nothing new, still SUCCESS ----------
+    // ---------- STEP 4 : If nothing new ----------
     if (newPermissions.length === 0) {
       return res.status(200).json({
-        message: "No new role field permissions to add",
+        message: "No new user field permissions to add",
         meta: {
           statusCode: 200,
           executionTime: `${Date.now() - start}ms`,
@@ -177,30 +144,30 @@ exports.createRoleFieldPermissionsBulk = async (req, res) => {
     }
 
     // ---------- STEP 5 : Insert only NEW ----------
-    const results = await bulkCreateRoleFieldPermissionsDAO(
+    const results = await bulkCreateUserFieldPermissionsDAO(
       req.sequelize,
-      newPermissions,
+      newPermissions
     );
 
     const executionTime = `${Date.now() - start}ms`;
-
-    logger.logWithMeta("info", "Role Field Permissions added (new only)", {
-      executionTime,
-      hospitalId: req.hospitalName,
-      apiName: req.originalUrl,
-      city: locationData?.city,
-      country: locationData?.country,
-      ip: clientIp,
-      count: results.length,
-      createdBy: user?.userId,
-    });
+    logger.logWithMeta("info", "User Field Permission created successfully", {
+          executionTime,
+          hospitalId: req.hospitalName,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          ip: clientIp,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: user?.userId,
+        });
 
     const responseData = results.map((result) =>
-      roleFieldPermissionGET(result),
+      userFieldPermissionGET(result)
     );
 
     res.status(201).json({
-      message: "Role Field Permissions saved successfully",
+      message: "User Field Permissions saved successfully",
       meta: {
         statusCode: 201,
         executionTime,
@@ -212,29 +179,17 @@ exports.createRoleFieldPermissionsBulk = async (req, res) => {
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 9250;
-
-    logger.logWithMeta(
-      "error",
-      "Error Creating Role Field Permissions in bulk",
-      {
-        errorCode,
-        executionTime,
-        hospitalDatabase,
-        apiName: req.originalUrl,
-        error: error.message,
-      },
-    );
     res.status(500).json({
       meta: { statusCode: 500, executionTime, hospitalDatabase },
       error: {
-        message: "Error Creating Role Field Permissions: " + error.message,
+        message:
+          "Error Creating User Field Permissions: " + error.message,
       },
     });
   }
 };
 
-exports.createRoleFieldPermission = async (req, res) => {
+exports.createUserFieldPermission = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
@@ -244,7 +199,7 @@ exports.createRoleFieldPermission = async (req, res) => {
 
   try {
     // ✅ Validation
-    const { error } = roleFieldPermission.validate(req.body);
+    const { error } = userFieldPermission.validate(req.body);
     if (error) {
       return res.status(400).json({
         error: error.details[0].message,
@@ -309,6 +264,7 @@ exports.createRoleFieldPermission = async (req, res) => {
       });
     }
 
+
     // ✅ Prepare payload
     const requestBody = {
       ...req.body,
@@ -316,43 +272,47 @@ exports.createRoleFieldPermission = async (req, res) => {
       updatedBy: user?.userId,
     };
 
-    const roleFieldPermissionData = roleFieldPermissionPOST(requestBody);
+    const userFieldPermissionData = userFieldPermissionPOST(requestBody);
 
     // ✅ DB insert
-    const result = await createRoleFieldPermissionDAO(
+    const result = await createUserFieldPermissionDAO(
       req.sequelize,
-      roleFieldPermissionData,
+      userFieldPermissionData,
     );
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Role Field Permission created successfully", {
-      executionTime,
-      hospitalId: req.hospitalName,
-      apiName: req.originalUrl,
-      city: locationData?.city,
-      country: locationData?.country,
-      ip: clientIp,
-      method: req.method,
-      userAgent: req.headers["user-agent"],
-      createdBy: user?.userId,
-    });
+    logger.logWithMeta(
+      "info",
+      "User Field Permission created successfully",
+      {
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        ip: clientIp,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: user?.userId,
+      },
+    );
 
     // ✅ Response
     return res.status(201).json({
-      message: "Role Field Permission created successfully",
+      message: "User Field Permission created successfully",
       meta: {
         statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
-      data: roleFieldPermissionGET(result),
+      data: userFieldPermissionGET(result),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9249;
 
-    logger.logWithMeta("error", "Error Creating Role Field Permission", {
+    logger.logWithMeta("error", "Error Creating User Field Permission", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -368,13 +328,14 @@ exports.createRoleFieldPermission = async (req, res) => {
         hospitalDatabase,
       },
       error: {
-        message: "Error Creating Role Field Permission: " + error.message,
+        message: "Error Creating User Field Permission: " + error.message,
       },
     });
   }
 };
 
-exports.getAllRoleFieldPermissions = async (req, res) => {
+
+exports.getAllUserFieldPermissions = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
@@ -408,41 +369,45 @@ exports.getAllRoleFieldPermissions = async (req, res) => {
     }
 
     // ✅ Fetch data
-    const result = await getAllRoleFieldPermissionsDAO(
+    const result = await getAllUserFieldPermissionsDAO(
       req.sequelize,
       req.query?.hospitalIDR, // optional
     );
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Fetched Role Field Permissions successfully", {
-      executionTime,
-      hospitalId: req.hospitalName,
-      apiName: req.originalUrl,
-      city: locationData?.city,
-      country: locationData?.country,
-      ip: clientIp,
-      method: req.method,
-      userAgent: req.headers["user-agent"],
-      createdBy: req.username,
-      updatedBy: req.username,
-    });
+    logger.logWithMeta(
+      "info",
+      "Fetched User Field Permissions successfully",
+      {
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        ip: clientIp,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      },
+    );
 
     // ✅ Response
     return res.status(200).json({
-      message: "All Role Field Permissions fetched successfully",
+      message: "All User Field Permissions fetched successfully",
       meta: {
         statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
-      data: result.map(roleFieldPermissionGET),
+      data: result.map(userFieldPermissionGET),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9249;
 
-    logger.logWithMeta("error", "Error Fetching Role Field Permissions", {
+    logger.logWithMeta("error", "Error Fetching User Field Permissions", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -458,25 +423,25 @@ exports.getAllRoleFieldPermissions = async (req, res) => {
         hospitalDatabase,
       },
       error: {
-        message: "Error Fetching Role Field Permissions: " + error.message,
+        message: "Error Fetching User Field Permissions: " + error.message,
       },
     });
   }
 };
 
-exports.getRoleFieldPermissionsByRoleId = async (req, res) => {
+exports.getUserFieldPermissionsByUserId = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
   const locationData = await getLocationData(clientIp);
 
   try {
-    const { roleId } = req.params;
+    const { userId } = req.params;
     const hospitalIDR = req.hospitalIDR;
 
-    const result = await getRoleFieldPermissionsByRoleIdDAO(
+    const result = await getUserFieldPermissionsByUserIdDAO(
       req.sequelize,
-      roleId,
+      userId,
       hospitalIDR,
     );
 
@@ -484,7 +449,7 @@ exports.getRoleFieldPermissionsByRoleId = async (req, res) => {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1481;
 
-      logger.logWithMeta("error", "Role Field Permissions not found", {
+      logger.logWithMeta("error", "User Field Permissions not found", {
         errorCode,
         executionTime,
         hospitalId: req.hospitalName,
@@ -505,38 +470,42 @@ exports.getRoleFieldPermissionsByRoleId = async (req, res) => {
           executionTime,
           hospitalDatabase,
         },
-        message: "Role Field Permissions not found",
+        message: "User Field Permissions not found",
       });
     }
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Fetched Role Field Permissions successfully", {
-      executionTime,
-      hospitalId: req.hospitalName,
-      apiName: req.originalUrl,
-      city: locationData?.city,
-      country: locationData?.country,
-      ip: clientIp,
-      method: req.method,
-      userAgent: req.headers["user-agent"],
-      createdBy: req.username,
-      updatedBy: req.username,
-    });
+    logger.logWithMeta(
+      "info",
+      "Fetched User Field Permissions successfully",
+      {
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        ip: clientIp,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      },
+    );
 
-    res.status(200).json({
+    return res.status(200).json({
       meta: {
         statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
-      data: result.map(roleFieldPermissionGET),
+      data: result.map(userFieldPermissionGET),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9481;
 
-    logger.logWithMeta("error", "Error Fetching Role Field Permissions", {
+    logger.logWithMeta("error", "Error Fetching User Field Permissions", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -544,7 +513,7 @@ exports.getRoleFieldPermissionsByRoleId = async (req, res) => {
       error: error.message,
     });
 
-    res.status(500).json({
+    return res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode,
@@ -552,13 +521,13 @@ exports.getRoleFieldPermissionsByRoleId = async (req, res) => {
         hospitalDatabase,
       },
       error: {
-        message: "Error Fetching Role Field Permissions: " + error.message,
+        message: "Error Fetching User Field Permissions: " + error.message,
       },
     });
   }
 };
 
-exports.getRoleFieldPermissionsBySubModuleId = async (req, res) => {
+exports.getUserFieldPermissionsBySubModuleId = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
@@ -568,7 +537,7 @@ exports.getRoleFieldPermissionsBySubModuleId = async (req, res) => {
     const { submoduleId } = req.params;
     const hospitalIDR = req.hospitalIDR;
 
-    const result = await getRoleFieldPermissionsBySubmoduleIdDAO(
+    const result = await getUserFieldPermissionsBySubmoduleIdDAO(
       req.sequelize,
       submoduleId,
       hospitalIDR,
@@ -578,7 +547,7 @@ exports.getRoleFieldPermissionsBySubModuleId = async (req, res) => {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1481;
 
-      logger.logWithMeta("error", "Role Field Permissions not found", {
+      logger.logWithMeta("error", "User Field Permissions not found", {
         errorCode,
         executionTime,
         hospitalId: req.hospitalName,
@@ -599,38 +568,42 @@ exports.getRoleFieldPermissionsBySubModuleId = async (req, res) => {
           executionTime,
           hospitalDatabase,
         },
-        message: "Role Field Permissions not found",
+        message: "User Field Permissions not found",
       });
     }
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Fetched Role Field Permissions successfully", {
-      executionTime,
-      hospitalId: req.hospitalName,
-      apiName: req.originalUrl,
-      city: locationData?.city,
-      country: locationData?.country,
-      ip: clientIp,
-      method: req.method,
-      userAgent: req.headers["user-agent"],
-      createdBy: req.username,
-      updatedBy: req.username,
-    });
+    logger.logWithMeta(
+      "info",
+      "Fetched User Field Permissions successfully",
+      {
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        ip: clientIp,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      },
+    );
 
-    res.status(200).json({
+    return res.status(200).json({
       meta: {
         statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
-      data: result.map(roleFieldPermissionGET),
+      data: result.map(userFieldPermissionGET),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9481;
 
-    logger.logWithMeta("error", "Error Fetching Role Field Permissions", {
+    logger.logWithMeta("error", "Error Fetching User Field Permissions", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -638,7 +611,7 @@ exports.getRoleFieldPermissionsBySubModuleId = async (req, res) => {
       error: error.message,
     });
 
-    res.status(500).json({
+    return res.status(500).json({
       meta: {
         statusCode: 500,
         errorCode,
@@ -646,13 +619,14 @@ exports.getRoleFieldPermissionsBySubModuleId = async (req, res) => {
         hospitalDatabase,
       },
       error: {
-        message: "Error Fetching Role Field Permissions: " + error.message,
+        message: "Error Fetching User Field Permissions: " + error.message,
       },
     });
   }
 };
 
-exports.getRoleFieldPermissionsByFieldId = async (req, res) => {
+
+exports.getUserFieldPermissionsByFieldId = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
@@ -661,14 +635,17 @@ exports.getRoleFieldPermissionsByFieldId = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const result = await getIdByRoleFieldPermissionDAO(req.sequelize, id);
+    const result = await getIdByUserFieldPermissionDAO(
+      req.sequelize,
+      id
+    );
 
     // ---------- NOT FOUND ----------
     if (!result) {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1262;
 
-      logger.logWithMeta("error", "Role Field Permission not found", {
+      logger.logWithMeta("error", "User Field Permission not found", {
         errorCode,
         executionTime,
         hospitalId: req.hospitalName,
@@ -683,7 +660,7 @@ exports.getRoleFieldPermissionsByFieldId = async (req, res) => {
 
       return res.status(404).json({
         errorCode: 1263,
-        message: "Role Field Permission not found in Database",
+        message: "User Field Permission not found in Database",
         hospitalDatabase,
       });
     }
@@ -691,33 +668,37 @@ exports.getRoleFieldPermissionsByFieldId = async (req, res) => {
     const executionTime = `${Date.now() - start}ms`;
 
     // ---------- SUCCESS LOG ----------
-    logger.logWithMeta("info", "Fetched Role Field Permission successfully", {
-      executionTime,
-      hospitalId: req.hospitalName,
-      apiName: req.originalUrl,
-      city: locationData?.city,
-      country: locationData?.country,
-      ip: clientIp,
-      method: req.method,
-      userAgent: req.headers["user-agent"],
-      createdBy: req.username,
-      updatedBy: req.username,
-    });
+    logger.logWithMeta(
+      "info",
+      "Fetched User Field Permission successfully",
+      {
+        executionTime,
+        hospitalId: req.hospitalName,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        ip: clientIp,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+        updatedBy: req.username,
+      },
+    );
 
     // ---------- RESPONSE ----------
-    res.status(200).json({
+    return res.status(200).json({
       meta: {
         statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
-      data: roleFieldPermissionGET(result),
+      data: userFieldPermissionGET(result),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9272;
 
-    logger.logWithMeta("error", "Error Fetching Role Field Permission", {
+    logger.logWithMeta("error", "Error Fetching User Field Permission", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -725,31 +706,37 @@ exports.getRoleFieldPermissionsByFieldId = async (req, res) => {
       error: error.message,
     });
 
-    res.status(500).json({
-      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+    return res.status(500).json({
+      meta: {
+        statusCode: 500,
+        errorCode,
+        executionTime,
+        hospitalDatabase,
+      },
       error: {
-        message: "Error Fetching Role Field Permission: " + error.message,
+        message: "Error Fetching User Field Permission: " + error.message,
       },
     });
   }
 };
 
-exports.getAllRoleFieldAccessByRoleAndSubmodule = async (req, res) => {
+
+exports.getAllUserFieldAccessByUserAndSubmodule = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
   const locationData = await getLocationData(clientIp);
 
   try {
-    const { roleId, submoduleId } = req.params;
+    const { userId, submoduleId } = req.params;
 
-    const result = await getAllAccessByRoleIdAndSubmoduleIdDAO(
+    const result = await getAllAccessByUserIdAndSubmoduleIdDAO(
       req.sequelize,
-      roleId,
+      userId,
       submoduleId,
     );
 
-    console.log("Role Field Access Result:", result);
+    console.log("User Field Access Result:", result);
 
     if (!result || !result.fields || result.fields.length === 0) {
       const executionTime = `${Date.now() - start}ms`;
@@ -757,7 +744,7 @@ exports.getAllRoleFieldAccessByRoleAndSubmodule = async (req, res) => {
 
       logger.logWithMeta(
         "error",
-        "No Field Access found for Role & Submodule",
+        "No Field Access found for User & Submodule",
         {
           errorCode,
           executionTime,
@@ -774,14 +761,15 @@ exports.getAllRoleFieldAccessByRoleAndSubmodule = async (req, res) => {
 
       return res.status(404).json({
         errorCode: 1265,
-        message: "No field access found for this Role & Submodule in Database",
+        message:
+          "No field access found for this User & Submodule in Database",
         hospitalDatabase,
       });
     }
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Fetched Role Field Access successfully", {
+    logger.logWithMeta("info", "Fetched User Field Access successfully", {
       executionTime,
       hospitalId: req.hospitalName,
       apiName: req.originalUrl,
@@ -806,7 +794,7 @@ exports.getAllRoleFieldAccessByRoleAndSubmodule = async (req, res) => {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9250;
 
-    logger.logWithMeta("error", "Error Fetching Role Field Access", {
+    logger.logWithMeta("error", "Error Fetching User Field Access", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -815,15 +803,21 @@ exports.getAllRoleFieldAccessByRoleAndSubmodule = async (req, res) => {
     });
 
     return res.status(500).json({
-      meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
+      meta: {
+        statusCode: 500,
+        errorCode,
+        executionTime,
+        hospitalDatabase,
+      },
       error: {
-        message: "Error Fetching Role Field Access: " + error.message,
+        message: "Error Fetching User Field Access: " + error.message,
       },
     });
   }
 };
 
-exports.updateRoleFieldPermissionById = async (req, res) => {
+
+exports.updateUserFieldPermissionById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
@@ -831,8 +825,8 @@ exports.updateRoleFieldPermissionById = async (req, res) => {
   const user = decodeAccessToken(req);
 
   try {
-    // 🔹 Validation (agar schema hai)
-    const { error } = roleFieldPermission.validate(req.body);
+    // 🔹 Validation
+    const { error } = userFieldPermission.validate(req.body);
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }
@@ -905,13 +899,13 @@ exports.updateRoleFieldPermissionById = async (req, res) => {
       updatedBy: user?.userId,
     };
 
-    const roleFieldPermissionData = roleFieldPermissionPOST(requestBody);
+    const userFieldPermissionData = userFieldPermissionPOST(requestBody);
 
     // 🔹 Update DAO
-    const updated = await updateRoleFieldPermissionByIdDAO(
+    const updated = await updateUserFieldPermissionByIdDAO(
       req.sequelize,
       id,
-      roleFieldPermissionData,
+      userFieldPermissionData,
     );
 
     const executionTime = `${Date.now() - start}ms`;
@@ -921,7 +915,7 @@ exports.updateRoleFieldPermissionById = async (req, res) => {
 
       logger.logWithMeta(
         "error",
-        "Invalid Role Field Permission id, not found in DB",
+        "Invalid User Field Permission id, not found in DB",
         {
           errorCode,
           executionTime,
@@ -937,31 +931,31 @@ exports.updateRoleFieldPermissionById = async (req, res) => {
 
       return res.status(400).json({
         errorCode,
-        message: "Invalid Role Field Permission id, not found in DB",
+        message: "Invalid User Field Permission id, not found in DB",
       });
     }
 
     // 🔹 Success Log
-    logger.logWithMeta("info", "Role Field Permission updated successfully", {
+    logger.logWithMeta("info", "User Field Permission updated successfully", {
       hospitalDatabase,
       executionTime,
       apiName: req.originalUrl,
     });
 
     res.status(200).json({
-      message: "Role Field Permission Updated Successfully",
+      message: "User Field Permission Updated Successfully",
       meta: {
         statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
-      data: roleFieldPermissionGET(updated),
+      data: userFieldPermissionGET(updated),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9369;
 
-    logger.logWithMeta("error", "Error Updating Role Field Permission", {
+    logger.logWithMeta("error", "Error Updating User Field Permission", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -977,13 +971,14 @@ exports.updateRoleFieldPermissionById = async (req, res) => {
         hospitalDatabase,
       },
       error: {
-        message: "Error Updating Role Field Permission: " + error.message,
+        message: "Error Updating User Field Permission: " + error.message,
       },
     });
   }
 };
 
-exports.bulkUpdateRoleFieldPermission = async (req, res) => {
+
+exports.bulkUpdateUserFieldPermission = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
@@ -991,8 +986,8 @@ exports.bulkUpdateRoleFieldPermission = async (req, res) => {
   const user = decodeAccessToken(req);
 
   try {
-    // 🔹 Validation (bulk schema hona chahiye – array fields)
-    const { error } = roleFieldPermissionBulk.validate(req.body);
+    // 🔹 Validation (bulk schema – array of fields)
+    const { error } = userFieldPermissionBulk.validate(req.body);
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }
@@ -1008,18 +1003,22 @@ exports.bulkUpdateRoleFieldPermission = async (req, res) => {
       const executionTime = `${Date.now() - start}ms`;
       const errorCode = 1360;
 
-      logger.logWithMeta("error", "Invalid HospitalID, not found in MasterDB", {
-        errorCode,
-        executionTime,
-        hospitalId: req.hospitalName,
-        apiName: req.originalUrl,
-        city: locationData?.city,
-        country: locationData?.country,
-        method: req.method,
-        userAgent: req.headers["user-agent"],
-        createdBy: user?.userId,
-        updatedBy: user?.userId,
-      });
+      logger.logWithMeta(
+        "error",
+        "Invalid HospitalID, not found in MasterDB",
+        {
+          errorCode,
+          executionTime,
+          hospitalId: req.hospitalName,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: user?.userId,
+          updatedBy: user?.userId,
+        }
+      );
 
       return res.status(400).json({
         errorCode,
@@ -1050,7 +1049,7 @@ exports.bulkUpdateRoleFieldPermission = async (req, res) => {
           userAgent: req.headers["user-agent"],
           createdBy: user?.userId,
           updatedBy: user?.userId,
-        },
+        }
       );
 
       return res.status(400).json({
@@ -1060,10 +1059,10 @@ exports.bulkUpdateRoleFieldPermission = async (req, res) => {
     }
 
     // 🔹 Bulk Update DAO call
-    const updated = await bulkUpdateRoleFieldPermissionDAO(
+    const updated = await bulkUpdateUserFieldPermissionDAO(
       req.sequelize,
       req.body,
-      user?.userId,
+      user?.userId
     );
 
     const executionTime = `${Date.now() - start}ms`;
@@ -1071,55 +1070,63 @@ exports.bulkUpdateRoleFieldPermission = async (req, res) => {
     if (!updated || updated.length === 0) {
       const errorCode = 9365;
 
-      logger.logWithMeta("error", "No Role Field Permissions found to update", {
-        errorCode,
-        executionTime,
-        apiName: req.originalUrl,
-        city: locationData?.city,
-        country: locationData?.country,
-        method: req.method,
-        userAgent: req.headers["user-agent"],
-        createdBy: user?.userId,
-        updatedBy: user?.userId,
-      });
+      logger.logWithMeta(
+        "error",
+        "No User Field Permissions found to update",
+        {
+          errorCode,
+          executionTime,
+          apiName: req.originalUrl,
+          city: locationData?.city,
+          country: locationData?.country,
+          method: req.method,
+          userAgent: req.headers["user-agent"],
+          createdBy: user?.userId,
+          updatedBy: user?.userId,
+        }
+      );
 
       return res.status(400).json({
         errorCode,
-        message: "No Role Field Permissions found to update",
+        message: "No User Field Permissions found to update",
       });
     }
 
     // 🔹 Success Log
     logger.logWithMeta(
       "info",
-      "Role Field Permissions bulk updated successfully",
+      "User Field Permissions bulk updated successfully",
       {
         hospitalDatabase,
         executionTime,
         apiName: req.originalUrl,
-      },
+      }
     );
 
     res.status(200).json({
-      message: "Role Field Permissions Updated In Bulk Successfully",
+      message: "User Field Permissions Updated In Bulk Successfully",
       meta: {
         statusCode: 200,
         executionTime,
         hospitalDatabase,
       },
-      data: updated.map(roleFieldPermissionGET),
+      data: updated.map(userFieldPermissionGET),
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9369;
 
-    logger.logWithMeta("error", "Error Bulk Updating Role Field Permissions", {
-      errorCode,
-      executionTime,
-      hospitalDatabase,
-      apiName: req.originalUrl,
-      error: error.message,
-    });
+    logger.logWithMeta(
+      "error",
+      "Error Bulk Updating User Field Permissions",
+      {
+        errorCode,
+        executionTime,
+        hospitalDatabase,
+        apiName: req.originalUrl,
+        error: error.message,
+      }
+    );
 
     res.status(500).json({
       meta: {
@@ -1129,13 +1136,14 @@ exports.bulkUpdateRoleFieldPermission = async (req, res) => {
         hospitalDatabase,
       },
       error: {
-        message: "Error Bulk Updating Role Field Permissions: " + error.message,
+        message:
+          "Error Bulk Updating User Field Permissions: " + error.message,
       },
     });
   }
 };
 
-exports.deleteRoleFieldPermissionById = async (req, res) => {
+exports.deleteUserFieldPermissionById = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const locationData = await getLocationData(clientIp);
@@ -1143,15 +1151,15 @@ exports.deleteRoleFieldPermissionById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const deleted = await deleteRoleFieldPermissionDAO(req.sequelize, id);
+    const deleted = await deleteUserFieldPermissionDAO(req.sequelize, id);
 
     if (!deleted) {
       const executionTime = `${Date.now() - start}ms`;
-      const errorCode = 9345;
+      const errorCode = 9345; 
 
       logger.logWithMeta(
         "error",
-        "Invalid Role Field Permission id, not found in Database",
+        "Invalid User Field Permission id, not found in Database",
         {
           errorCode,
           executionTime,
@@ -1163,27 +1171,31 @@ exports.deleteRoleFieldPermissionById = async (req, res) => {
           userAgent: req.headers["user-agent"],
           createdBy: req.username,
           updatedBy: req.username,
-        },
+        }
       );
 
       return res.status(400).json({
         errorCode,
-        message: "Invalid Role Field Permission id, not found in DB",
+        message: "Invalid User Field Permission id, not found in DB",
       });
     }
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Role Field Permission deleted successfully", {
-      executionTime,
-      ID: id,
-      apiName: req.originalUrl,
-      city: locationData?.city,
-      country: locationData?.country,
-      method: req.method,
-      userAgent: req.headers["user-agent"],
-      createdBy: req.username,
-    });
+    logger.logWithMeta(
+      "info",
+      "User Field Permission deleted successfully",
+      {
+        executionTime,
+        ID: id,
+        apiName: req.originalUrl,
+        city: locationData?.city,
+        country: locationData?.country,
+        method: req.method,
+        userAgent: req.headers["user-agent"],
+        createdBy: req.username,
+      }
+    );
 
     res.status(200).json({
       meta: {
@@ -1191,19 +1203,23 @@ exports.deleteRoleFieldPermissionById = async (req, res) => {
         executionTime,
         hospitalDatabase,
       },
-      message: "Role Field Permission deleted successfully",
+      message: "User Field Permission deleted successfully",
     });
   } catch (error) {
     const executionTime = `${Date.now() - start}ms`;
-    const errorCode = 9349;
+    const errorCode = 9349; 
 
-    logger.logWithMeta("error", "Error Deleting Role Field Permission", {
-      errorCode,
-      executionTime,
-      hospitalDatabase,
-      apiName: req.originalUrl,
-      error: error.message,
-    });
+    logger.logWithMeta(
+      "error",
+      "Error Deleting User Field Permission",
+      {
+        errorCode,
+        executionTime,
+        hospitalDatabase,
+        apiName: req.originalUrl,
+        error: error.message,
+      }
+    );
 
     res.status(500).json({
       meta: {
@@ -1213,13 +1229,14 @@ exports.deleteRoleFieldPermissionById = async (req, res) => {
         hospitalDatabase,
       },
       error: {
-        message: "Error Deleting Role Field Permission: " + error.message,
+        message:
+          "Error Deleting User Field Permission: " + error.message,
       },
     });
   }
 };
 
-exports.getRoleFieldPermissionByQueryParams = async (req, res) => {
+exports.getUserFieldPermissionByQueryParams = async (req, res) => {
   const start = Date.now();
   const clientIp = await getClientIp(req);
   const hospitalDatabase = req.hospitalDatabase;
@@ -1252,13 +1269,13 @@ exports.getRoleFieldPermissionByQueryParams = async (req, res) => {
     }
 
     const { page, limit, ...queryFields } = req.query;
-    const fieldMap = roleFieldPermissionMap;
+    const fieldMap = userFieldPermissionMap;
 
-    const ID_DTO_FIELD = "roleFieldPermissionId"; // DTO ID field
+    const ID_DTO_FIELD = "userFieldPermissionId"; // DTO ID field
 
     // Extract valid DTO fields from query params
     let requestedDtoFields = Object.keys(queryFields).filter(
-      (field) => field in fieldMap,
+      (field) => field in fieldMap
     );
     if (requestedDtoFields.length === 0) {
       requestedDtoFields = Object.keys(fieldMap);
@@ -1295,14 +1312,14 @@ exports.getRoleFieldPermissionByQueryParams = async (req, res) => {
 
     // Fetch data from DAO
     const { count: totalRecords, rows } =
-      await getRoleFieldPermissionDataAsPerQueryParamDAO(req.sequelize, {
+      await getUserFieldPermissionDataAsPerQueryParamDAO(req.sequelize, {
         attributes,
         ...pagination,
       });
 
     const executionTime = `${Date.now() - start}ms`;
 
-    logger.logWithMeta("info", "Fetched Role Field Permission successfully", {
+    logger.logWithMeta("info", "Fetched User Field Permission successfully", {
       executionTime,
       hospitalId: req.hospitalName,
       apiName: req.originalUrl,
@@ -1317,7 +1334,7 @@ exports.getRoleFieldPermissionByQueryParams = async (req, res) => {
 
     // Filter DTO output based on requested fields
     const responseData = rows.map((record) => {
-      const fullDto = roleFieldPermissionGET(record);
+      const fullDto = userFieldPermissionGET(record);
       const filteredDto = {};
       for (const key of requestedDtoFields) {
         if (key in fullDto) {
@@ -1351,7 +1368,7 @@ exports.getRoleFieldPermissionByQueryParams = async (req, res) => {
     const executionTime = `${Date.now() - start}ms`;
     const errorCode = 9249; // same as RolePermission controller
 
-    logger.logWithMeta("error", "Error Fetching Role Field Permission", {
+    logger.logWithMeta("error", "Error Fetching User Field Permission", {
       errorCode,
       executionTime,
       hospitalDatabase,
@@ -1362,7 +1379,7 @@ exports.getRoleFieldPermissionByQueryParams = async (req, res) => {
     res.status(500).json({
       meta: { statusCode: 500, errorCode, executionTime, hospitalDatabase },
       error: {
-        message: "Error Fetching Role Field Permission: " + error.message,
+        message: "Error Fetching User Field Permission: " + error.message,
       },
     });
   }

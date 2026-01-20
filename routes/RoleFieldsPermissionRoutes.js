@@ -13,8 +13,6 @@ const {
   updateRoleFieldPermissionById, 
   deleteRoleFieldPermissionById,
   getRoleFieldPermissionByQueryParams,
-  checkFieldAccessForRole,
-  getRestrictedFieldsForRole,
   getRoleFieldPermissionsByFieldId,
   getRoleFieldPermissionsBySubModuleId,
   bulkUpdateRoleFieldPermission,
